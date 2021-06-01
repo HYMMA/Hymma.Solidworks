@@ -186,6 +186,7 @@ namespace Hymma.SolidTools.Extensions
                 result.Value = initilaValue;
                 result.SetRange(unit, min, max, increment, inclusive);
             }
+            var t = result as IPropertyManagerPageControl;
             return result;
         }
 

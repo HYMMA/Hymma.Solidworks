@@ -1,8 +1,6 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Hymma.SolidTools.Extensions

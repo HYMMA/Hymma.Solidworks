@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
 
 namespace Hymma.SolidTools.SolidAddins
 {
@@ -22,6 +20,17 @@ namespace Hymma.SolidTools.SolidAddins
                     return attr;
             }
             return null;
+        }
+
+        /// <summary>
+        /// get assembly locaiton
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static string GetAssemblyDir(this object self)
+        {
+            Assembly assembly = self.GetType().Assembly;
+            return assembly.Location;
         }
     }
 }

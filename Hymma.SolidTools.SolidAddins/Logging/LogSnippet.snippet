@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--https://docs.microsoft.com/en-us/visualstudio/ide/walkthrough-creating-a-code-snippet?view=vs-2019-->
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Log</Title>
+    <Author>HYMMA</Author>
+    <Description>Log("this");</Description>
+      <Shortcut>log</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="CSharp">
+        <![CDATA[Log("$Message$");]]>
+      </Code>
+      <Declarations>
+        <Literal>
+          <ID>Message</ID>
+          <ToolTip>Message to log into Event Viewer</ToolTip>
+          <Default>message</Default>
+        </Literal>
+      </Declarations>
+      <Imports>
+        <Import>
+          <Namespace>static Hymma.SolidTools.SolidAddins.Logger</Namespace>
+        </Import>
+      </Imports>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
+

@@ -28,25 +28,26 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 #endregion
-
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Reflection;
+using static Hymma.SolidTools.SolidAddins.Logger;
 
-namespace Hymma.SolidTools.SolidAddins.Tools
+namespace Hymma.SolidTools.SolidAddins
 {
-    public static class ToolbarIcons
+    /// <summary>
+    /// genrates solidworks ready icons
+    /// </summary>
+    public static class IconGenerator
     {
         /// <summary>
         /// generate 6-off SolidWorks toolbar sprites in 20, 32, 40, 64, 96, 128 pixels
         /// </summary>
-        /// <param name="icons">full file name of the icon file</param>
+        /// <param name="icons">bitmap files to combine together</param>
         /// <param name="filenamePrepend">Prepends this word to the new file, it's a suffix</param>
         /// <returns>address to the strip file</returns>
-        public static IEnumerable<string> GetIcons(string[] icons, string filenamePrepend)
+        public static string[] GetCommandGroupIconStrips(Bitmap[]
+            icons, string filenamePrepend)
         {
             // The filename to prepend to the output files
             // 
@@ -59,94 +60,75 @@ namespace Hymma.SolidTools.SolidAddins.Tools
             //
 
             // All output sizes
-            var possibleSizes = new List<int>(new[] { 20, 32, 40, 64, 96, 128 });
+            var possibleSizes = new[] { 20, 32, 40, 64, 96, 128 };
 
             // define an image list
-            var images = new List<string>();
-
-            //check iconfiles
-            foreach (var item in icons)
-            {
-                string icon = item;
-                // Make sure the file exists
-                if (!File.Exists(icon))
-                {
-                    // Try and find it with .png to the name
-                    if (!icon.Contains('.'))
-                        icon += ".png";
-
-                    //check file extension
-                    var fi = new FileInfo(icon);
-                    if (!fi.Extension.Equals("png", StringComparison.OrdinalIgnoreCase))
-                        throw new FormatException(icon);
-
-                    // Check if it exists again
-                    if (!File.Exists(icon))
-                    {
-                        // Let user know file not found
-                        throw new FileNotFoundException(icon);
-                    }
-                    else
-                        // Add this to the list and carry on
-                        images.Add(icon);
-                }
-                else
-                {
-                    // Add this to the list and carry on
-                    images.Add(icon);
-                }
-            }
+            Bitmap[] images = icons;
 
             // If we have no images then throw exception
-            if (images.Count < 1)
+            if (images.Length < 1)
             {
+
+                Log("Error! list of images were less than 1");
                 throw new ArgumentOutOfRangeException(images.ToString());
             }
             //variable to hold address to the strips files
-            var stripes = new List<string>();
+            var stripes = new string[possibleSizes.Length];
 
             // Now create an image from each of the images, for each file size
-            possibleSizes.ForEach(size =>
+            for (int i = 0; i < possibleSizes.Length; i++)
             {
-                var assyDir = GetAssemblyDirectory();
+                var size = possibleSizes[i];
+                var assyDir = AssemblyExtensions.GetAssemblyDirectory();
                 // Combine all bitmaps
-                using (var combinedImage = CombineBitmap(images, size))
-                {
-                    var stripe = $"{filenamePrepend}{size}.png";
-                    combinedImage.Save(stripe);
-                    stripes.Add(Path.Combine(assyDir, stripe));
-                }
-            });
-            return stripes;
-        }
 
-        /// <summary>
-        /// get the path to the current exe
-        /// </summary>
-        private static string GetAssemblyDirectory()
-        {
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
-            return Path.GetDirectoryName(path);
+                Log("combining all bitmaps");
+                var combinedImage = CombineBitmap(images, size);
+
+                Log("attempting to save combinedImage");
+                using (combinedImage)
+                {
+                    try
+                    {
+
+                        var stripe = $"{filenamePrepend}{size}.png";
+                        Log($"stripe file name is {stripe}");
+
+                        stripes[i] = (Path.Combine(assyDir, stripe));
+                        Log($"stripe path is {stripes[i]}");
+
+                        combinedImage.Save(stripes[i]);
+                        Log($"saved {stripe} which has index of {i}");
+                    }
+                    catch (Exception e)
+                    {
+                        Log($"Error! {e.Message}");
+                        throw;
+                    }
+                }
+            };
+
+            Log($"returning all stripes of qty {stripes.Length}");
+            return stripes;
         }
 
         /// <summary>
         /// Combines images into a sprite horizontally
         /// </summary>
-        /// <param name="files">The files to combine</param>
+        /// <param name="bitmaps">The bitmaps to combine</param>
         /// <param name="iconSize">The sprite size</param>
         /// <returns></returns>
-        private static Bitmap CombineBitmap(List<string> files, int iconSize)
+        private static Bitmap CombineBitmap(Bitmap[] bitmaps, int iconSize)
         {
             // Read all images into memory
             Bitmap finalImage = null;
-            var images = new List<Bitmap>();
-
+            Bitmap[] images = new Bitmap[bitmaps.Length];
             try
             {
+
+                Log("getting the bitmap sizes");
                 // Get size
-                int width = iconSize * files.Count;
+                int width = iconSize * bitmaps.Length;
                 int height = iconSize;
 
                 // Create a bitmap to hold the combined image
@@ -155,34 +137,44 @@ namespace Hymma.SolidTools.SolidAddins.Tools
                 // Get a graphics object from the image so we can draw on it
                 using (var g = Graphics.FromImage(finalImage))
                 {
+
+                    Log("setting bitmap background color to transparent");
                     // Set background color
                     g.Clear(Color.Transparent);
 
                     // Go through each image and draw it on the final image
+                    Log("going through each image and drawing it on the final image");
                     int offset = 0;
-                    files.ForEach(file =>
+                    for (int i = 0; i < bitmaps.Length; i++)
                     {
+                        var file = bitmaps[i];
+                        Log($"file is {file}");
                         // Read this image
                         var bitmap = new Bitmap(file);
-                        images.Add(bitmap);
+                        images[i] = bitmap;
 
                         // Scale it to the sprite size
                         var scaleFactor = (float)iconSize / Math.Max(bitmap.Width, bitmap.Height);
 
+
+                        Log("attempting to drawing it on canvas");
                         // Draw it onto the new image
                         g.DrawImage(bitmap, new Rectangle(offset, 0, (int)(scaleFactor * bitmap.Width), (int)(scaleFactor * bitmap.Height)));
 
                         // Move offset to next position
                         offset += iconSize;
 
-                    });
+                    };
                 }
 
+
+                Log($"returning final image {finalImage}");
                 // Return the final image
                 return finalImage;
             }
             catch (Exception)
             {
+                Log("Error! there was error in combining bitmaps");
                 // Cleanup
                 finalImage?.Dispose();
                 throw;
@@ -190,8 +182,44 @@ namespace Hymma.SolidTools.SolidAddins.Tools
             finally
             {
                 // Cleanup
-                images.ForEach(image => image?.Dispose());
+                for (int i = 0; i < images.Length; i++)
+                {
+                    if (images[i] != null)
+                        images[i].Dispose();
+                }
             }
+        }
+
+        /// <summary>
+        /// generates an addin icon (.png) forma and saves it on assembly folder
+        /// </summary>
+        /// <param name="icon">the icon to transform</param>
+        /// <param name="filename">name of file without extension</param>
+        /// <returns></returns>
+        public static string GetAddinIcon(Bitmap icon, string filename)
+        {
+            var addinIcon = new Bitmap(16, 16);
+            string addinIconAddress = Path.Combine(AssemblyExtensions.GetAssemblyDirectory(), filename + ".png");
+
+            try
+            {
+                using (var g = Graphics.FromImage(addinIcon))
+                {
+                    g.Clear(Color.Transparent);
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.DrawImage(icon, new Rectangle(0, 0, 16, 16));
+                }
+            }
+            catch (Exception e)
+            {
+                Log($"Error! Couldnt create addin icon {e}");
+                throw;
+            }
+            finally
+            {
+                addinIcon.Save(addinIconAddress);
+            }
+            return addinIconAddress;
         }
     }
 }

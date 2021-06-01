@@ -22,7 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Hymma.SolidTools.Extensions.xml</DocumentationFile>
-    <RegisterForComInterop>false</RegisterForComInterop>
+    <RegisterForComInterop>true</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
