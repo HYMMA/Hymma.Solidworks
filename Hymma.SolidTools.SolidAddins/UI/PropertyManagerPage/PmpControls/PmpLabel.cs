@@ -1,8 +1,8 @@
 ﻿namespace Hymma.SolidTools.SolidAddins
 {
-    public class SwLabel : SwPMPTextControl
+    public class PmpLabel : PmpTextControl
     {
-        public SwLabel():base(swPmpControlsWithText.Label)
+        public PmpLabel():base(swPmpControlsWithText.Label)
         {
 
         }

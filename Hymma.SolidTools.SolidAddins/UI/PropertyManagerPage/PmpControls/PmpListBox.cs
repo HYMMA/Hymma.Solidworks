@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Hymma.SolidTools.SolidAddins
 {
-    public class SwListBox : SwPMPConcreteControl
+    public class PmpListBox : PmpControl
     {
-        public SwListBox():base(swPropertyManagerPageControlType_e.swControlType_Listbox)
+        public PmpListBox():base(swPropertyManagerPageControlType_e.swControlType_Listbox)
         {
 
         }

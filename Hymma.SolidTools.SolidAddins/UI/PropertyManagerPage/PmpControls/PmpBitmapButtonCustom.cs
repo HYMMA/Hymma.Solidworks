@@ -3,13 +3,13 @@ using System.Drawing;
 
 namespace Hymma.SolidTools.SolidAddins
 {
-    public class SwBitmapButtonCustom : SwPMPConcreteControl
+    public class PmpBitmapButtonCustom : PmpControl
     {
 
         /// <summary>
         /// a customised bitmap button for property manager pages
         /// </summary>
-        public SwBitmapButtonCustom():base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_BitmapButton)
+        public PmpBitmapButtonCustom():base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_BitmapButton)
         {
         }
 

@@ -5,12 +5,12 @@ namespace Hymma.SolidTools.SolidAddins
     /// <summary>
     /// a checkable bitmap button
     /// </summary>
-    public class SwBitmapButtonCheckable : SwBitmapButtonCustom
+    public class PmpBitmapButtonCheckable : PmpBitmapButtonCustom
     {
         /// <summary>
         /// default constructor
         /// </summary>
-        public SwBitmapButtonCheckable()
+        public PmpBitmapButtonCheckable()
         {
             Type = swPropertyManagerPageControlType_e.swControlType_CheckableBitmapButton;
         }

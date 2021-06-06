@@ -26,12 +26,12 @@ namespace Hymma.SolidTools.SolidAddins
     /// <summary>
     /// a class that represents property manager page controls that contain texts
     /// </summary>
-    public abstract class SwPMPTextControl : SwPMPConcreteControl
+    public abstract class PmpTextControl : PmpControl
     {
         /// <summary>
         /// default constructor
         /// </summary>
-        public SwPMPTextControl(swPmpControlsWithText controlsWithText) : base((swPropertyManagerPageControlType_e)controlsWithText)
+        public PmpTextControl(swPmpControlsWithText controlsWithText) : base((swPropertyManagerPageControlType_e)controlsWithText)
         {
 
         }

@@ -1,7 +1,7 @@
 ﻿using SolidWorks.Interop.swconst;
+using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Windows.Controls;
+using System.Linq;
 
 namespace Hymma.SolidTools.SolidAddins
 {
@@ -18,12 +18,42 @@ namespace Hymma.SolidTools.SolidAddins
         /// <summary>
         /// solidworks group boxes that contain solidworks pmp controllers
         /// </summary>
-        public  List<SwGroupBox> SwBoxes { get; set; }
+        public List<PmpGroup> PmpGroups { get; set; } = new List<PmpGroup>();
 
         /// <summary>
         /// a title for this property manager page
         /// </summary>
         public string Title { get; set; }
-        
+
+        /// <summary>
+        /// return a specific control type based on its id
+        /// </summary>
+        /// <param name="id">id of control to return</param>
+        /// <returns></returns>
+        public IPmpControl GetControl(int id)
+        {
+            var control = PmpGroups?
+                .SelectMany(g => g.Controls)
+                .Where(ch => ch.Id == id).FirstOrDefault();
+            return control;
+        }
+
+        /// <summary>
+        /// get all controls of type T in this propery manger page
+        /// </summary>
+        /// <typeparam name="T">type of control to return</typeparam>
+        /// <returns></returns>
+        public IEnumerable<T> GetControls<T>() where T : IPmpControl 
+        {
+            var controls = PmpGroups?
+                .SelectMany(g => g.Controls)
+                .Where(c => c is T).Cast<T>();
+            return controls;
+        }
+
+        /// <summary>   
+        /// methode to invoke once user clicked on question mark button on property manager page
+        /// </summary>
+        public Func<bool> OnHelp { get; set; }
     }
 }

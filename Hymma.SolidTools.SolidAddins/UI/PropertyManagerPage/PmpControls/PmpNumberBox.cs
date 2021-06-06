@@ -2,9 +2,9 @@
 
 namespace Hymma.SolidTools.SolidAddins
 {
-    public class SwNumberBox : SwPMPTextControl
+    public class PmpNumberBox : PmpTextControl
     {
-        public SwNumberBox() : base(swPmpControlsWithText.Numberbox)
+        public PmpNumberBox() : base(swPmpControlsWithText.Numberbox)
         {
 
         }

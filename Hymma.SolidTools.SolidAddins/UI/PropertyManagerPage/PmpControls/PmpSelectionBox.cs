@@ -5,12 +5,12 @@ namespace Hymma.SolidTools.SolidAddins
     /// <summary>
     /// a solidworks selection box 
     /// </summary>
-    public class SwSelectionBox : SwPMPConcreteControl
+    public class PmpSelectionBox : PmpControl
     {
         /// <summary>
         /// default constructor
         /// </summary>
-        public SwSelectionBox() : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox)
+        public PmpSelectionBox() : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox)
         {
 
         }

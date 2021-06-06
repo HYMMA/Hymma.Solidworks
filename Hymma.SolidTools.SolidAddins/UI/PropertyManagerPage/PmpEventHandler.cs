@@ -3,8 +3,9 @@ using SolidWorks.Interop.swpublished;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using static Hymma.SolidTools.SolidAddins.Logger;
 
-namespace Hymma.SolidTools.SolidAddins.UI.PropertyManagerPage
+namespace Hymma.SolidTools.SolidAddins
 {
     /// <summary>
     /// handles property manager page events
@@ -20,30 +21,37 @@ namespace Hymma.SolidTools.SolidAddins.UI.PropertyManagerPage
         {
             this.UiModel = uiModel;
         }
-        
+
         /// <summary>
         /// wrapper for constrols in this property manager page
         /// </summary>
-        public PmpUiModel UiModel { get;private set; }
-        
+        public PmpUiModel UiModel { get; private set; }
+
         public void AfterActivation()
         {
-            throw new NotImplementedException();
+
+            Log("After activaiton event handler");
         }
 
         public void OnClose(int Reason)
         {
-            throw new NotImplementedException();
+
+            Log("onCLose event handler");
         }
 
         public void AfterClose()
         {
-            throw new NotImplementedException();
+            Log("After close event handler");
         }
-
+        
+        /// <summary>
+        /// fires once user clicks on help btn
+        /// </summary>
+        /// <returns></returns>
         public bool OnHelp()
         {
-            throw new NotImplementedException();
+            if (UiModel.OnHelp == null) return false;
+            return UiModel.OnHelp.Invoke();
         }
 
         public bool OnPreviousPage()
@@ -83,12 +91,12 @@ namespace Hymma.SolidTools.SolidAddins.UI.PropertyManagerPage
 
         public void OnGroupExpand(int Id, bool Expanded)
         {
-            throw new NotImplementedException();
+            Log("onGroupExpand event handling ...");
         }
 
         public void OnGroupCheck(int Id, bool Checked)
         {
-            throw new NotImplementedException();
+            Log($"onGroupCheck event handling int id={Id} int bool={Checked}");
         }
 
         /// <summary>
@@ -98,19 +106,45 @@ namespace Hymma.SolidTools.SolidAddins.UI.PropertyManagerPage
         /// <param name="Checked"></param>
         public void OnCheckboxCheck(int Id, bool Checked)
         {
-            var checkBoxes = UiModel.SwBoxes
-                .SelectMany(g => g.Controls)
-                .Where(c => c.Type == swPropertyManagerPageControlType_e.swControlType_Checkbox)
-                .Where(ch => ch.Id == Id).Cast<SwCheckBox>();
-            foreach (var checkBox in checkBoxes)
-            {
-                checkBox.OnClicked.Invoke(Checked);
-            }
+            Log($"onCheckboxCheck event handling int id ={Id} bool Checked={Checked}");
+
+            //get the check box with id from UiModel
+            var checkBox = UiModel.GetControl(Id) as PmpCheckBox;
+            if (checkBox == null) return;
+            checkBox.IsChecked = Checked;
+
+            //call on checked delegate on the check box
+            checkBox?.OnChecked?.Invoke(Checked);
         }
 
+        /// <summary>
+        /// fires when radio button is checked
+        /// </summary>
+        /// <param name="Id">id of the clicked on radio button in the property manager page</param>
         public void OnOptionCheck(int Id)
         {
-            throw new NotImplementedException();
+            Log($"onOptionCheck evnet handling int id ={Id}");
+
+            //get the radio button from ui model
+            var radioBtn = UiModel.GetControl(Id) as PmpRadioButton;
+
+            //null check
+            if (radioBtn == null) return;
+
+            //get group where this radio button is in
+            var group = UiModel.PmpGroups.Where(g => g.Controls.Contains(radioBtn)).FirstOrDefault();
+
+            //get all other radio buttons in this group ...
+            var groupOptions = group.Controls.Where(c => c is PmpRadioButton).Cast<PmpRadioButton>().ToList();
+
+            //set the IsChecked property of those radio button to false
+            groupOptions.ForEach(groupOption => groupOption.IsChecked = false);
+
+            //set the IsChecked property of clicked radio button to true
+            radioBtn.IsChecked = true;
+
+            //invoke any function assigned to it
+            radioBtn?.OnChecked?.Invoke();
         }
 
         public void OnButtonPress(int Id)

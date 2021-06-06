@@ -2,9 +2,9 @@
 
 namespace Hymma.SolidTools.SolidAddins
 {
-    public class SwBitmap : SwPMPConcreteControl
+    public class PmpBitmap : PmpControl
     {
-        public SwBitmap() : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap)
+        public PmpBitmap() : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap)
         {
 
         }
@@ -12,11 +12,11 @@ namespace Hymma.SolidTools.SolidAddins
         /// The typical image format for the two SOLIDWORKS bitmaps is 18 x 18 pixels x 256 colors. Using this method, you can specify a bigger bitmap, e.g., 24 x 24 pixels, to get extra detail.<br/>
         /// The pixels in MaskBitmap specify transparency through shades of grey with boundaries of black pixels = 100% opaque and white pixels = 100% transparent.
         /// </summary>
-        public override string ColorBitmap { get; set; }
+        public new string ColorBitmap { get; set; }
         /// <summary>
         /// The typical image format for the two SOLIDWORKS bitmaps is 18 x 18 pixels x 256 colors. Using this method, you can specify a bigger bitmap, e.g., 24 x 24 pixels, to get extra detail.<br/>
         /// The pixels in MaskBitmap specify transparency through shades of grey with boundaries of black pixels = 100% opaque and white pixels = 100% transparent.
         /// </summary>
-        public override string MaskBitmap { get; set; }
+        public new string MaskBitmap { get; set; }
     }
 }

@@ -99,9 +99,7 @@ namespace Hymma.SolidTools.Extensions
         public static IPropertyManagerPageOption AddRadioButton(this IPropertyManagerPage2 pmp, IPropertyManagerPageGroup group, int id, string caption, string tip, short leftIndent = 1, int options = 3)
         {
             short controlType = (int)swPropertyManagerPageControlType_e.swControlType_Option;
-            var result = group != null ?
-             (IPropertyManagerPageOption)group.AddControl2(id, controlType, caption, leftIndent, options, tip) :
-             (IPropertyManagerPageOption)pmp.AddControl2(id, controlType, caption, leftIndent, options, tip);
+            var result =(IPropertyManagerPageOption)group.AddControl2(id, controlType, caption, leftIndent, options, tip);
             return result;
         }
 

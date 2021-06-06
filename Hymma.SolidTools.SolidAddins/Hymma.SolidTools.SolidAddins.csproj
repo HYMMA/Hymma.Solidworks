@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Hymma.SolidTools.SolidAddins</RootNamespace>
     <AssemblyName>Hymma.SolidTools.SolidAddins</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -70,13 +71,13 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Addin\AddinModel.cs" />
-    <Compile Include="Addin\AddinAttribute.cs" />
+    <Compile Include="Core\AddinModel.cs" />
+    <Compile Include="Core\AddinAttribute.cs" />
     <Compile Include="UI\AddinCommand.cs" />
     <Compile Include="UI\CommandGroup\AddinCommandGroup.cs" />
     <Compile Include="UI\CommandGroup\AddinCommandGroupBase.cs" />
     <Compile Include="UI\AddinCommandTab.cs" />
-    <Compile Include="Addin\AddinMaker.cs" />
+    <Compile Include="Core\AddinMaker.cs" />
     <Compile Include="UI\CommandGroup\IAddinCommandGroup.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="Extensions\IPropertyManagerPageExtensions2.cs" />
@@ -85,26 +86,26 @@
     <Compile Include="UI\PropertyManagerPage\PmpBase.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpUiModel.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpBasex64.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwBitmap.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwBitmapButtonCustom.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwBitmapButtonStandard.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwBitmapButtonCheckable.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwComboBox.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwPMPConcreteControl.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwPMPTextControl.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwListBox.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwNumberBox.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwRadioButton.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwButton.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwSelectionBox.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwWindowHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PropertyManagerBuilderX64.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmap.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButtonCustom.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButtonStandard.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButtonCheckable.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpComboBox.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpControl.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpTextBase.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpListBox.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpNumberBox.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpRadioButton.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpButton.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpSelectionBox.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpWindowHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwPMPControl.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwGroupBox.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwCheckBox.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwLabel.cs" />
-    <Compile Include="UI\PropertyManagerPage\SwControls\SwTextBox.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\IPmpControl.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpGroup.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpCheckBox.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpLabel.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpTextBox.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -8,14 +8,14 @@ namespace Hymma.SolidTools.SolidAddins
     /// <summary>
     /// a windows form host that solidworks uses to show win forms or wpf
     /// </summary>
-    public class SwWindowHandler : SwPMPConcreteControl, IEquatable<SwWindowHandler>
+    public class PmpWindowHandler : PmpControl, IEquatable<PmpWindowHandler>
     {
         /// <summary>
         /// default constructor 
         /// </summary>
         /// <param name="ElementHost">solidworks uses this object to hook into a windows form</param>
         /// <param name="WinFormOrWpfControl">a windows form or wpf controller</param>
-        public SwWindowHandler(ElementHost ElementHost, UserControl WinFormOrWpfControl) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_WindowFromHandle)
+        public PmpWindowHandler(ElementHost ElementHost, UserControl WinFormOrWpfControl) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_WindowFromHandle)
         {
             this.ElementHost = ElementHost;
             this.WindowsControl = WinFormOrWpfControl;
@@ -40,7 +40,7 @@ namespace Hymma.SolidTools.SolidAddins
         public IPropertyManagerPageWindowFromHandle ProperptyManagerPageHandle { get; internal set; }
         
         //we have to make sure each SwWindowHandler has its unique ElementHost
-        public bool Equals(SwWindowHandler other)
+        public bool Equals(PmpWindowHandler other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;

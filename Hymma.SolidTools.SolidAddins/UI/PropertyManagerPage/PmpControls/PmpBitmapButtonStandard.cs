@@ -2,9 +2,9 @@
 
 namespace Hymma.SolidTools.SolidAddins
 {
-    public class SwBitmapButtonStandard : SwPMPConcreteControl
+    public class PmpBitmapButtonStandard : PmpControl
     {
-        public SwBitmapButtonStandard() : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton)
+        public PmpBitmapButtonStandard() : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton)
         {
 
         }

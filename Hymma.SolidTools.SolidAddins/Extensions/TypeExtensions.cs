@@ -32,5 +32,10 @@ namespace Hymma.SolidTools.SolidAddins
             Assembly assembly = self.GetType().Assembly;
             return assembly.Location;
         }
+
+        public static T CastTo<T>(this object self)
+        {
+            return (T)self;
+        }
     }
 }
