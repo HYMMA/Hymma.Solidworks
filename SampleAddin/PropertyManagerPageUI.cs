@@ -1,4 +1,4 @@
-﻿using Hymma.SolidTools.SolidAddins;
+﻿using Hymma.SolidTools.Addins;
 using SolidWorks.Interop.sldworks;
 using System.Collections.Generic;
 

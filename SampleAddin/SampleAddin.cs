@@ -1,14 +1,14 @@
-﻿using Hymma.SolidTools.SolidAddins;
+﻿using Hymma.SolidTools.Addins;
 using SolidWorks.Interop.swconst;
 using SolidWorks.Interop.swpublished;
 using System;
 using System.Runtime.InteropServices;
-using static Hymma.SolidTools.SolidAddins.Logger;
+using static Hymma.SolidTools.Addins.Logger;
 namespace SampleAddin
 {
     [ComVisible(true)]
-    [Guid("EC861A04-6441-4BD0-A658-E89A0B2A3CDF")]
-    [Addin(Title = "Sample_Addin", Description = "Sample Addin Description", LoadAtStartup = true, AddinIcon = "Save_05")]
+    [Guid("CC5AF69B-620F-442D-A8FB-FCF2DA1337E2")]
+    [Addin(Title = "Sample Addin From HYMMA", Description = "Description of Sample Addin goes here.", LoadAtStartup = true, AddinIcon = "Save_05")]
     public class SampleAddin : AddinMaker, ISwAddin
     {
         public SampleAddin() : base(typeof(SampleAddin))
