@@ -31,27 +31,20 @@ namespace Hymma.SolidTools.SolidAddins
         /// </summary>
         public Action OnFocusChanged { get; set; }
 
+        /// <summary>
+        /// SOLIDWORKS will invoke this once list changes <br/>
+        /// requires an input variable as the qty of list items
+        /// </summary>
         public Action<int> OnListChanged { get; set; }
+
+        /// <summary>
+        /// SOLIDWORKS will invoke this once a call-out is created for thsi selection box
+        /// </summary>
+        public Action OnCallOutCreated { get; set; }
+
+        /// <summary>
+        /// SOLIDWORKS will invoke this once a callout is destroyed
+        /// </summary>
+        public Action OnCallOutDestroyed { get; set; }
     }
-}
-
-
-public void OnSelectionboxFocusChanged(int Id)
-{
-    throw new NotImplementedException();
-}
-
-public void OnSelectionboxListChanged(int Id, int Count)
-{
-    throw new NotImplementedException();
-}
-
-public void OnSelectionboxCalloutCreated(int Id)
-{
-    throw new NotImplementedException();
-}
-
-public void OnSelectionboxCalloutDestroyed(int Id)
-{
-    throw new NotImplementedException();
 }

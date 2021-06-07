@@ -182,24 +182,40 @@ namespace Hymma.SolidTools.SolidAddins
             throw new NotImplementedException();
         }
 
+
         public void OnSelectionboxFocusChanged(int Id)
         {
-            throw new NotImplementedException();
+            //get selection box
+            PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
+
+            selectionBox?.OnFocusChanged?.Invoke();
         }
 
         public void OnSelectionboxListChanged(int Id, int Count)
         {
-            throw new NotImplementedException();
+            //get selection box
+            PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
+
+            //invoke delegate
+            selectionBox?.OnListChanged?.Invoke(Count);
         }
 
         public void OnSelectionboxCalloutCreated(int Id)
         {
-            throw new NotImplementedException();
+            //get selection box
+            PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
+            
+            //invoke delegate
+            selectionBox?.OnCallOutCreated?.Invoke();
         }
 
         public void OnSelectionboxCalloutDestroyed(int Id)
         {
-            throw new NotImplementedException();
+            //get selection box
+            PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
+
+            //invoke delegate
+            selectionBox?.OnCallOutDestroyed?.Invoke();
         }
 
         public bool OnSubmitSelection(int Id, object Selection, int SelType, ref string ItemText)
