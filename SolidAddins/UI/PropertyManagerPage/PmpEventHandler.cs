@@ -131,13 +131,18 @@ namespace Hymma.SolidTools.SolidAddins
             //null check
             if (radioBtn == null) return;
 
-            //get group where this radio button is in
-            var group = UiModel.PmpGroups.Where(g => g.Controls.Contains(radioBtn)).FirstOrDefault();
+            //get expanded groups
+            //solidworks will treat all radio buttons as memebers of the same group if different groups are expanded
+            //its only when a group is retracted that the radio buttons will behave differently
+            var groups = UiModel.PmpGroups.Where(g => g.Expanded/*Controls.Contains(radioBtn)*/);
 
-            //get all other radio buttons in this group ...
-            var groupOptions = group.Controls.Where(c => c is PmpRadioButton).Cast<PmpRadioButton>().ToList();
+            //get all radio buttons ...
+            var groupOptions = groups
+                .SelectMany(g=>g.Controls)
+                .Where(c => c is PmpRadioButton)
+                .Cast<PmpRadioButton>().ToList();
 
-            //set the IsChecked property of those radio button to false
+            //set the IsChecked property of radio buttons to false
             groupOptions.ForEach(groupOption => groupOption.IsChecked = false);
 
             //set the IsChecked property of clicked radio button to true
