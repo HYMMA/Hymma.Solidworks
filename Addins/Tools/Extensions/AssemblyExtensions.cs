@@ -4,6 +4,9 @@ using System.Reflection;
 
 namespace Hymma.SolidTools.Addins
 {
+    /// <summary>
+    /// Provides extensions for <see cref="Assembly"/> object
+    /// </summary>
     public static class AssemblyExtensions
     {
         /// <summary>

@@ -29,8 +29,7 @@ namespace Hymma.SolidTools.Addins
 
         public void AfterActivation()
         {
-
-            Log("After activaiton event handler");
+            Log("After activaiton event handler");]\
         }
 
         public void OnClose(int Reason)

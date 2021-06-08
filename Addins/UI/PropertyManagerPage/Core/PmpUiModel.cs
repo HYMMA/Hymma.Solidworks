@@ -55,5 +55,70 @@ namespace Hymma.SolidTools.Addins
         /// methode to invoke once user clicked on question mark button on property manager page
         /// </summary>
         public Func<bool> OnHelp { get; set; }
+
+        /// <summary>
+        /// methode to invoke after the propety manager page is actaved
+        /// </summary>
+        public Action OnAfterActivation { get; set; }
+
+        /// <summary>
+        /// methode to invoke after the propety manager page is closed
+        /// </summary>
+        public Action OnAfterClose { get; set; }
+
+        /// <summary>
+        /// methode to invoke while the property manager page is closing
+        /// </summary>
+        public Action OnClose { get; set; }
+
+        /// <summary>
+        /// methode to invoke when user goes to the previous page of a property manager page
+        /// </summary>
+        public Action OnPreviousPage { get; set; }
+
+
+        /// <summary>
+        /// methode to invoke when user goes to next page of a property manager page
+        /// </summary>
+        public Action OnNextPage { get; set; }
+
+        /// <summary>
+        /// methode to invoke when user previews the results 
+        /// </summary>
+        public Action OnPreview { get; set; }
+
+        /// <summary>
+        /// methode to invoke when user selects on Wahts new button
+        /// </summary>
+        public Action OnWhatsNew { get; set; }
+        
+        /// <summary>
+        /// methode to invoke when user calls undo (ctrl+z)
+        /// </summary>
+        public Action OnUndo { get; set; }
+        /// <summary>
+        /// methode to invoke when user Re-do something (ctrl+y)
+        /// </summary>
+        public Action OnRedo { get; set; }
+
+        /// <summary>
+        /// method to invoke when user clickes on a tab
+        /// </summary>
+        public Action OnTabClicked { get; set; }
+
+        /// <summary>
+        /// method to invoke when user expands a group <br/>
+        /// this delegate requires a bool variable to indicate the IsExpanded status of the group
+        /// </summary>
+        public Action<bool> OnGroupExpand { get; set; }
+
+        /// <summary>
+        /// method to invoke when user checks a group <br/>
+        /// this delegate requires a bool variable to indicate the IsChecked status of the group
+        /// </summary>
+        public Action<bool> OnGroupCheck { get; set; }
     }
 }
+
+
+
