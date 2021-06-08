@@ -19,7 +19,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="uiModel"></param>
         public PmpEventHandler(PmpUiModel uiModel)
         {
-            this.UiModel = uiModel;
+            this.UiModel = uiModel ?? throw new Exception();
         }
 
         /// <summary>
@@ -27,20 +27,34 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public PmpUiModel UiModel { get; private set; }
 
+
+        /// <summary>
+        /// fires after user opens a pmp
+        /// </summary>
         public void AfterActivation()
         {
-            Log("After activaiton event handler");]\
+            Log("After activaiton event handler");
+            UiModel?.OnAfterActivation?.Invoke();
         }
 
+        /// <summary>
+        /// fired when user closes the pmp
+        /// </summary>
+        /// <param name="Reason"></param>
         public void OnClose(int Reason)
         {
-
             Log("onCLose event handler");
+            UiModel?.OnClose?.Invoke((swPropertyManagerPageCloseReasons_e)Reason);
         }
 
+        /// <summary>
+        /// fires after users closes the pmp
+        /// </summary>
         public void AfterClose()
         {
             Log("After close event handler");
+            UiModel?.OnAfterClose?.Invoke();
+
         }
         
         /// <summary>
@@ -53,29 +67,56 @@ namespace Hymma.SolidTools.Addins
             return UiModel.OnHelp.Invoke();
         }
 
+        /// <summary>
+        /// fires when users selects on previous page button in pmp
+        /// </summary>
+        /// <returns></returns>
         public bool OnPreviousPage()
         {
-            throw new NotImplementedException();
+
+            Log("on previous page event handling...");
+            if (UiModel.OnPreviousPage == null) return false;
+            return UiModel.OnPreviousPage.Invoke();
         }
 
+        /// <summary>
+        /// fires when users selects on next page button in pmp
+        /// </summary>
+        /// <returns></returns>
         public bool OnNextPage()
         {
-            throw new NotImplementedException();
+            Log("on next page event handling ...");
+            if (UiModel.OnNextPage == null) return false;
+            return UiModel.OnNextPage.Invoke();
         }
 
+        /// <summary>
+        /// fires when users previews results
+        /// </summary>
+        /// <returns></returns>
         public bool OnPreview()
         {
-            throw new NotImplementedException();
+            Log("on preview event handling...");
+            if (UiModel.OnPreview == null) return false;
+            return UiModel.OnPreview.Invoke();
         }
 
+        /// <summary>
+        /// firest when users press on whats new button in pmp
+        /// </summary>
         public void OnWhatsNew()
         {
-            throw new NotImplementedException();
+            Log("on what's new event handling...");
+            UiModel?.OnWhatsNew?.Invoke();
         }
 
+        /// <summary>
+        /// fires when user presses undo in a pmp
+        /// </summary>
         public void OnUndo()
         {
-            throw new NotImplementedException();
+            Log("on undo event handling ... ");
+            UiModel.OnUndo?.Invoke();
         }
 
         public void OnRedo()

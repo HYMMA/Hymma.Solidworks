@@ -10,6 +10,8 @@ namespace Hymma.SolidTools.Addins
     {
         /// <summary>
         /// default constructor
+        /// <param name="Filter">defines out type of entity in solidworks user could select</param>
+        /// <param name="Height">height of selectionbox in the pmp</param>
         /// </summary>
         public PmpSelectionBox(swSelectType_e[] Filter,  short Height=50) : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox)
         {
