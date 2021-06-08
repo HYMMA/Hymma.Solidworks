@@ -69,23 +69,23 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// methode to invoke while the property manager page is closing
         /// </summary>
-        public Action OnClose { get; set; }
+        public Action<swPropertyManagerPageCloseReasons_e> OnClose { get; set; }
 
         /// <summary>
         /// methode to invoke when user goes to the previous page of a property manager page
         /// </summary>
-        public Action OnPreviousPage { get; set; }
+        public Func<bool> OnPreviousPage { get; set; }
 
 
         /// <summary>
         /// methode to invoke when user goes to next page of a property manager page
         /// </summary>
-        public Action OnNextPage { get; set; }
+        public Func<bool> OnNextPage { get; set; }
 
         /// <summary>
         /// methode to invoke when user previews the results 
         /// </summary>
-        public Action OnPreview { get; set; }
+        public Func<bool> OnPreview { get; set; }
 
         /// <summary>
         /// methode to invoke when user selects on Wahts new button
