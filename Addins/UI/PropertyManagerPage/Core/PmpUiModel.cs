@@ -104,19 +104,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// method to invoke when user clickes on a tab
         /// </summary>
-        public Action OnTabClicked { get; set; }
-
-        /// <summary>
-        /// method to invoke when user expands a group <br/>
-        /// this delegate requires a bool variable to indicate the IsExpanded status of the group
-        /// </summary>
-        public Action<bool> OnGroupExpand { get; set; }
-
-        /// <summary>
-        /// method to invoke when user checks a group <br/>
-        /// this delegate requires a bool variable to indicate the IsChecked status of the group
-        /// </summary>
-        public Action<bool> OnGroupCheck { get; set; }
+        public Func<int,bool> OnTabClicked { get; set; }
     }
 }
 

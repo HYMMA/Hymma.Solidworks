@@ -56,7 +56,7 @@ namespace Hymma.SolidTools.Addins
             UiModel?.OnAfterClose?.Invoke();
 
         }
-        
+
         /// <summary>
         /// fires once user clicks on help btn
         /// </summary>
@@ -119,24 +119,51 @@ namespace Hymma.SolidTools.Addins
             UiModel.OnUndo?.Invoke();
         }
 
+        /// <summary>
+        /// fires when user re does something
+        /// </summary>
         public void OnRedo()
         {
-            throw new NotImplementedException();
+            Log("on redo event handling ...");
+            UiModel.OnRedo?.Invoke();
         }
 
+        /// <summary>
+        /// fires when usrs clicks on a tab in pmp
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public bool OnTabClicked(int Id)
         {
-            throw new NotImplementedException();
+            Log("on tab clicked event handling");
+            if (UiModel.OnTabClicked == null) return false;
+            return UiModel.OnTabClicked.Invoke(Id);
         }
 
+        /// <summary>
+        /// fires when usres expands a group
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Expanded"></param>
         public void OnGroupExpand(int Id, bool Expanded)
         {
             Log("onGroupExpand event handling ...");
+            var group = UiModel.PmpGroups.Where(g => g.Id == Id).FirstOrDefault();
+            if (group == null || group.OnGroupExpand == null) return;
+            group.OnGroupExpand.Invoke(Expanded);
         }
 
+        /// <summary>
+        /// on checkable groups, this method responds to check event 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Checked"></param>
         public void OnGroupCheck(int Id, bool Checked)
         {
             Log($"onGroupCheck event handling int id={Id} int bool={Checked}");
+            var group = UiModel.PmpGroups.Where(g => g.Id == Id).FirstOrDefault();
+            if (group == null || group.OnGroupCheck == null) return;
+            group.OnGroupCheck.Invoke(Checked);
         }
 
         /// <summary>
@@ -178,7 +205,7 @@ namespace Hymma.SolidTools.Addins
 
             //get all radio buttons ...
             var groupOptions = groups
-                .SelectMany(g=>g.Controls)
+                .SelectMany(g => g.Controls)
                 .Where(c => c is PmpRadioButton)
                 .Cast<PmpRadioButton>().ToList();
 
@@ -222,7 +249,10 @@ namespace Hymma.SolidTools.Addins
             throw new NotImplementedException();
         }
 
-
+        /// <summary>
+        /// when focus of a seleciton box is changed this methode will fire
+        /// </summary>
+        /// <param name="Id"></param>
         public void OnSelectionboxFocusChanged(int Id)
         {
             //get selection box
@@ -231,6 +261,11 @@ namespace Hymma.SolidTools.Addins
             selectionBox?.OnFocusChanged?.Invoke();
         }
 
+        /// <summary>
+        /// when selection box list is changed this methode will fire
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Count"></param>
         public void OnSelectionboxListChanged(int Id, int Count)
         {
             //get selection box
@@ -240,15 +275,23 @@ namespace Hymma.SolidTools.Addins
             selectionBox?.OnListChanged?.Invoke(Count);
         }
 
+        /// <summary>
+        /// when selection box call out is created this method is called
+        /// </summary>
+        /// <param name="Id"></param>
         public void OnSelectionboxCalloutCreated(int Id)
         {
             //get selection box
             PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
-            
+
             //invoke delegate
             selectionBox?.OnCallOutCreated?.Invoke();
         }
 
+        /// <summary>
+        /// when slection box callout is destroyed this methode will get called
+        /// </summary>
+        /// <param name="Id"></param>
         public void OnSelectionboxCalloutDestroyed(int Id)
         {
             //get selection box
@@ -258,9 +301,28 @@ namespace Hymma.SolidTools.Addins
             selectionBox?.OnCallOutDestroyed?.Invoke();
         }
 
+        /// <summary>
+        /// Called when a selection is made, which allows the add-in to accept or reject the selection. 
+        /// </summary>
+        /// <param name="Id">ID of the active selection box, where this selection is being made</param>
+        /// <param name="Selection">Object being selected</param>
+        /// <param name="SelType">Entity type of the selection as defined in<see cref="swSelectType_e"/> </param>
+        /// <param name="ItemText">ItemText is returned to SOLIDWORKS and stored on the selected object and can be used by your PropertyManager page selection list boxes for the life of that selection.</param>
+        /// <remarks>This method is called by SOLIDWORKS when an add-in has a PropertyManager page displayed and a selection is made that passes the selection filter criteria set up for a selection list box. The add-in can then: 
+        /// Take the Dispatch pointer and the selection type.
+        ///        QueryInterface the Dispatch pointer to get the specific interface.
+        ///    Use methods or properties of that interface to determine if the selection should be allowed or not.If the selection is:
+        ///        accepted, return true, and processing continues normally.
+        ///        - or -
+        ///        rejected, return false, and SOLIDWORKS does not accept the selection, just as if the selection did not pass the selection filter criteria of the selection list box.  
+        ///The add-in should not release the Dispatch pointer. SOLIDWORKS will release the Dispatch pointer upon return from this method.
+        ///The method is called during the process of SOLIDWORKS selection.It is neither a pre-notification nor post-notification.The add-in should not be taking any action that might affect the model or the selection list.The add-in should only be querying information and then returning true/VARIANT_TRUE or false/VARIANT_FALSE.
+        ///</remarks>
+        /// <returns></returns>
         public bool OnSubmitSelection(int Id, object Selection, int SelType, ref string ItemText)
         {
-            throw new NotImplementedException();
+            // This method must return true for selections to occur
+            return true;
         }
 
         public int OnActiveXControlCreated(int Id, bool Status)
