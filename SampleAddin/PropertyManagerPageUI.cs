@@ -49,20 +49,7 @@ namespace SampleAddin
                 OnChecked = () => { Solidworks.SendMsgToUser("first radio button clicked on"); }
             });
 
-            controls.Add(
-                new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES })
-                {
-                    Tip = "a tip for this selection box",
-                    Caption = "Caption for this selectionbox",
-                    OnSubmitSelection = (selection,type,tag) => {
-                        if (type != (int)swSelectType_e.swSelEDGES)
-                        {
-                            Solidworks.SendMsgToUser( "only edges are allowed to select");
-                            return false;
-                        }
-
-                        return true; }
-                });
+            
 
             return controls;
         }
@@ -84,6 +71,21 @@ namespace SampleAddin
                 OnChecked = () => { Solidworks.SendMsgToUser($"radio button is checked"); }
             });
 
+            controls.Add(
+                new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES })
+                {
+                    Tip = "a tip for this selection box",
+                    Caption = "Caption for this selectionbox",
+                    OnSubmitSelection = (selection, type, tag) => {
+                        if (type != (int)swSelectType_e.swSelEDGES)
+                        {
+                            Solidworks.SendMsgToUser("only edges are allowed to select");
+                            return false;
+                        }
+
+                        return true;
+                    }
+                });
             return controls;
         }
     }

@@ -27,6 +27,7 @@ namespace Hymma.SolidTools.Addins
         /// height of this selection box in proerty manager page
         /// </summary>
         public short Height { get; set; }
+        #region even handlers
 
         /// <summary>
         /// SOLIDWORKS will invoke this once focus is changed from this selection box
@@ -76,6 +77,7 @@ namespace Hymma.SolidTools.Addins
         /// </remarks>
         /// <value><see cref="OnSubmitSelection_Handler"/></value>
         public OnSubmitSelection_Handler OnSubmitSelection { get; set; }
+        #endregion
     }
 
     /// <summary>

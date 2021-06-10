@@ -275,7 +275,7 @@ namespace Hymma.SolidTools.Addins
             PmpSelectionBox box)
         {
             var result = pmp.AddSelectionbox(group, box.Id, box.Caption, box.Tip, box.Height, box.Filter.Select(b => (int)b).ToArray(), box.LeftIndet, box.Options);
-            UpdateControlWithPicture(result as IPropertyManagerPageControl, box);
+            //UpdateControlWithPicture(result as IPropertyManagerPageControl, box);
             return result;
         }
 

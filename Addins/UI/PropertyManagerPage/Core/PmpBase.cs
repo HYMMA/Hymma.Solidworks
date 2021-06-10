@@ -52,7 +52,7 @@ namespace Hymma.SolidTools.Addins
 
 
         #region private methodes
-        private int id = 0;
+        private int id = 1;
         private int GetNextId()
         {
             return id++;
