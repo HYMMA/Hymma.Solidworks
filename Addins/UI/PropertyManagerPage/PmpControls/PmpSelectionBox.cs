@@ -50,12 +50,9 @@ namespace Hymma.SolidTools.Addins
         public Action OnCallOutDestroyed { get; set; }
 
         /// <summary>
-        /// Called when a selection is made, which allows the add-in to accept or reject the selection. <strong>it must return <c>true</c> for selections to occure</strong>
+        /// Called when a selection is made, which allows the add-in to accept or reject the selection. <strong>it must return <c>true</c> for selections to occure</strong><br/>
+        /// you should pass a delegate that accepts (object WhatIsSelected, int swSelectType_e, string tag)
         /// </summary>
-        /// <param name="int">ID of the active selection box, where this selection is being made</param>
-        /// <param name="Selection">Object being selected</param>
-        /// <param name="SelType">Entity type of the selection as defined in<see cref="swSelectType_e"/> </param>
-        /// <param name="ItemText">ItemText is returned to SOLIDWORKS and stored on the selected object and can be used by your PropertyManager page selection list boxes for the life of that selection.</param>
         /// <remarks> 
         /// <para>This method is called by SOLIDWORKS when an add-in 
         /// has a PropertyManager page displayed and a selection is made that passes the selection 
@@ -77,39 +74,16 @@ namespace Hymma.SolidTools.Addins
         ///The add-in should not be taking any action that might affect the model or the selection list.The add-in should only be querying information and then returning true/VARIANT_TRUE or false/VARIANT_FALSE.
         /// </para>
         /// </remarks>
-        /// <returns></returns>
-        internal Func<int, object, int, string, bool> OnSubmitSelection { get; set; }
-
-
-        /// <summary>
-        /// Called when a selection is made, which allows the add-in to accept or reject the selection. <strong>it must return <c>true</c> for selections to occure</strong>
-        /// </summary>
-        /// <param name="int">ID of the active selection box, where this selection is being made</param>
-        /// <param name="Selection">Object being selected</param>
-        /// <param name="SelType">Entity type of the selection as defined in<see cref="swSelectType_e"/> </param>
-        /// <param name="ItemText">ItemText is returned to SOLIDWORKS and stored on the selected object and can be used by your PropertyManager page selection list boxes for the life of that selection.</param>
-        /// <remarks> 
-        /// <para>This method is called by SOLIDWORKS when an add-in 
-        /// has a PropertyManager page displayed and a selection is made that passes the selection 
-        /// filter criteria set up for a selection list box. The add-in can then:<br/> 
-        /// </para>
-        /// <list type="number">
-        /// <item>Take the Dispatch pointer and the selection type.</item>
-        /// <item>QueryInterface the Dispatch pointer to get the specific interface.</item>
-        /// <item>Use methods or properties of that interface to determine if the selection should be allowed or not.If the selection is:
-        /// <list type="bullet">
-        /// <item>accepted, return true, and processing continues normally.</item>
-        /// <item>rejected, return false, and SOLIDWORKS does not accept the selection, just as if the selection did not pass the selection filter criteria of the selection list box.</item>
-        /// </list>
-        /// </item>
-        /// </list>
-        /// <para>
-        ///The add-in should not release the Dispatch pointer. SOLIDWORKS will release the Dispatch pointer upon return from this method.
-        ///The method is called during the process of SOLIDWORKS selection.It is neither a pre-notification nor post-notification. <br/>
-        ///The add-in should not be taking any action that might affect the model or the selection list.The add-in should only be querying information and then returning true/VARIANT_TRUE or false/VARIANT_FALSE.
-        /// </para>
-        /// </remarks>
-        /// <returns></returns>
-        public Func<object, swSelectType_e, string, bool> OnSeleciton { get; set; }
+        /// <value><see cref="OnSubmitSelection_Handler"/></value>
+        public OnSubmitSelection_Handler OnSubmitSelection { get; set; }
     }
+
+    /// <summary>
+    /// </summary>
+    /// <param name="Id">ID of the active selection box, where this selection is being made</param>
+    /// <param name="selection">Object being selected</param>
+    /// <param name="selectType">Entity type of the selection as defined in<see cref="swSelectType_e"/> </param>
+    /// <param name="tag">ItemText is returned to SOLIDWORKS and stored on the selected object and can be used by your PropertyManager page selection list boxes for the life of that selection.</param>
+    /// <returns></returns>
+    public delegate bool OnSubmitSelection_Handler(object selection, int selectType, string tag);
 }

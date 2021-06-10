@@ -219,9 +219,15 @@ namespace Hymma.SolidTools.Addins
             radioBtn?.OnChecked?.Invoke();
         }
 
+        /// <summary>
+        /// fires whena button is pressed
+        /// </summary>
+        /// <param name="Id">id of the button in pmp</param>
         public void OnButtonPress(int Id)
         {
-            throw new NotImplementedException();
+            Log("event handling button press...");
+            var button = UiModel.GetControl(Id) as PmpButton;
+            button?.OnPress?.Invoke();
         }
 
         public void OnTextboxChanged(int Id, string Text)
@@ -246,6 +252,7 @@ namespace Hymma.SolidTools.Addins
 
         public void OnListboxSelectionChanged(int Id, int Item)
         {
+
             throw new NotImplementedException();
         }
 
@@ -321,11 +328,11 @@ namespace Hymma.SolidTools.Addins
         /// <returns></returns>
         public bool OnSubmitSelection(int Id, object Selection, int SelType, ref string ItemText)
         {
-            var selectionBox=UiModel.PmpGroups.SelectMany(c => c.Controls).Where(c => c.Id == Id).FirstOrDefault() as PmpSelectionBox;
+            var selectionBox=UiModel.GetControl(Id) as PmpSelectionBox;
             if (selectionBox == null || selectionBox.OnSubmitSelection == null) return false;   
             
             // This method must return true for selections to occur
-            return selectionBox.OnSubmitSelection(Id, Selection, SelType, ItemText);
+            return selectionBox.OnSubmitSelection(Selection, SelType, ItemText);
         }
 
         public int OnActiveXControlCreated(int Id, bool Status)

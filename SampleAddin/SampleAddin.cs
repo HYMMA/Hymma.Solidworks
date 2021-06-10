@@ -44,10 +44,7 @@ namespace SampleAddin
         }
         #endregion
 
-        /// <summary>
         /// <inheritdoc/>
-        /// </summary>
-        /// <returns></returns>
         public override AddinModel GetAddinModel()
         {
             var addin = new AddinModel();

@@ -4,9 +4,9 @@ namespace Hymma.SolidTools.Addins
 {
     public class PmpNumberBox : PmpTextControl
     {
-        public PmpNumberBox() : base(swPmpControlsWithText.Numberbox)
+        public PmpNumberBox(double initialValue = 0) : base(swPmpControlsWithText.Numberbox)
         {
-
+            this.InitialValue = initialValue;
         }
         /// <summary>
         /// initial value of the number box when loaded firt time

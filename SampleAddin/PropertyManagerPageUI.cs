@@ -1,5 +1,6 @@
 ﻿using Hymma.SolidTools.Addins;
 using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 
 namespace SampleAddin
@@ -13,6 +14,7 @@ namespace SampleAddin
             PmpGroups.Add(new PmpGroup("group box caption") { Controls = GetControlSet1() });
             PmpGroups.Add(new PmpGroup("radio buttons", GetControlSet2()));
             OnHelp = () => { return false; };
+            OnAfterActivation = () => { Solidworks.SendMsgToUser("pmp activated"); };
         }
 
         public ISldWorks Solidworks { get; }
@@ -46,6 +48,21 @@ namespace SampleAddin
                 Caption = "caption for radio button on group 1",
                 OnChecked = () => { Solidworks.SendMsgToUser("first radio button clicked on"); }
             });
+
+            controls.Add(
+                new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES })
+                {
+                    Tip = "a tip for this selection box",
+                    Caption = "Caption for this selectionbox",
+                    OnSubmitSelection = (selection,type,tag) => {
+                        if (type != (int)swSelectType_e.swSelEDGES)
+                        {
+                            Solidworks.SendMsgToUser( "only edges are allowed to select");
+                            return false;
+                        }
+
+                        return true; }
+                });
 
             return controls;
         }

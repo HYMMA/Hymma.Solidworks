@@ -62,10 +62,10 @@ namespace Hymma.SolidTools.Addins
                     //label
                     case swPropertyManagerPageControlType_e.swControlType_Label:
                         //cast into propert ojbect
-                        var c = control as PmpLabel;
 
                         //add object to property manager page
-                        _ = pmp.AddLabel(group, c);
+                        var label = pmp.AddLabel(group, control as PmpLabel);
+                        controls.Add(control.Id, label);
                         break;
 
                     //checkboxes
@@ -76,8 +76,8 @@ namespace Hymma.SolidTools.Addins
 
                     //buttons
                     case swPropertyManagerPageControlType_e.swControlType_Button:
-                        var d = control as PmpButton;
-                        _ = pmp.AddButton(group, d);
+                        var button  = pmp.AddButton(group, control as PmpButton);
+                        controls.Add(control.Id, button);
                         break;
 
                     //radio buttons
@@ -110,8 +110,8 @@ namespace Hymma.SolidTools.Addins
                         _ = pmp.AddNumberbox(group, num);
                         break;
                     case swPropertyManagerPageControlType_e.swControlType_Selectionbox:
-                        var sel = control as PmpSelectionBox;
-                        _ = pmp.AddSelectionbox(group, sel);
+                        var selectionBox = pmp.AddSelectionbox(group, control as PmpSelectionBox);
+                        controls.Add(control.Id, selectionBox);
                         break;
                     case swPropertyManagerPageControlType_e.swControlType_ActiveX:
                         break;
