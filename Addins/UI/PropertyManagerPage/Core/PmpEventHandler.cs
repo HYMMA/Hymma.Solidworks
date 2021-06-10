@@ -321,8 +321,11 @@ namespace Hymma.SolidTools.Addins
         /// <returns></returns>
         public bool OnSubmitSelection(int Id, object Selection, int SelType, ref string ItemText)
         {
+            var selectionBox=UiModel.PmpGroups.SelectMany(c => c.Controls).Where(c => c.Id == Id).FirstOrDefault() as PmpSelectionBox;
+            if (selectionBox == null || selectionBox.OnSubmitSelection == null) return false;   
+            
             // This method must return true for selections to occur
-            return true;
+            return selectionBox.OnSubmitSelection(Id, Selection, SelType, ItemText);
         }
 
         public int OnActiveXControlCreated(int Id, bool Status)
