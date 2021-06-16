@@ -1,4 +1,5 @@
-﻿using SolidWorks.Interop.swconst;
+﻿using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -6,7 +7,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a SOLIDWORKS property manager page control
     /// </summary>
-    public class PmpControl : IPmpControl
+    public class PmpControl<T> : IPmpControl where T : IPropertyManagerPageControl
     {
         #region private fields
 
@@ -22,6 +23,7 @@ namespace Hymma.SolidTools.Addins
             LeftIndet = 1;
             Options = 3;
             Enabled = Visible = true;
+            
         }
 
         /// <inheritdoc/>

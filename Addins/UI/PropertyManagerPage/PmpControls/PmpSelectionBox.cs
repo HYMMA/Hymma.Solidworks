@@ -1,4 +1,5 @@
-﻿using SolidWorks.Interop.swconst;
+﻿using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System;
 
 namespace Hymma.SolidTools.Addins
@@ -6,7 +7,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a solidworks selection box 
     /// </summary>
-    public class PmpSelectionBox : PmpControl
+    public class PmpSelectionBox : PmpControl<T>
     {
         /// <summary>
         /// default constructor
@@ -18,6 +19,7 @@ namespace Hymma.SolidTools.Addins
             this.Height = Height;
             this.Filter = Filter;
         }
+
         /// <summary>
         /// array of <see cref="swSelectType_e"/> to allow selection of specific types only
         /// </summary>
@@ -27,6 +29,24 @@ namespace Hymma.SolidTools.Addins
         /// height of this selection box in proerty manager page
         /// </summary>
         public short Height { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the same entity can be selected multiple times in this selection box
+        /// </summary>
+        /// <value>True if the same entity can be selected multiple times in this selection box, false if not</value>
+        public bool AllowMultipleSelectOfSameEntity { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether an entity can be selected in this selection box if the entity is selected elsewhere. 
+        /// </summary>
+        /// <value><list type="bullet"><listheader>if--------------- then</listheader>
+        /// <item>true--------------- <description>When an entity is selected while this selection box is active and that entity is selected in a different selection box, then the entity is added to this selection box.</description> </item>
+        /// <item>true---------------  <description>If the entity is already selected in this selection box then the entity is removed from the selection box.</description> </item>
+        /// <item>false---------------   <description>When an entity is selected while this selection box is active and that entity is already selected,  then the entity is removed from the selection box. This is the default behavior of a selection box.</description> </item>
+        /// </list> </value>
+        public bool AllowSelectInMultipleBoxes { get; set; }
+
+
         #region even handlers
 
         /// <summary>

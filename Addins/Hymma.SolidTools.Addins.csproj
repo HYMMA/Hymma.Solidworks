@@ -73,6 +73,10 @@
   <ItemGroup>
     <Compile Include="Core\AddinModel.cs" />
     <Compile Include="Core\AddinAttribute.cs" />
+    <Compile Include="UI\Callout\CalloutRow.cs" />
+    <Compile Include="UI\Callout\EventHandlers.cs" />
+    <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
+    <Compile Include="UI\Callout\SwCallout.cs" />
     <Compile Include="UI\PropertyManagerPage\Extensions\IPropertyManagerPageButtonExtensions.cs" />
     <Compile Include="UI\PropertyManagerPage\Extensions\IPropertyManagerPageExtensions.cs" />
     <Compile Include="UI\PropertyManagerPage\Extensions\IPropertyManagerPageSelectionboxExtensions.cs" />
@@ -131,5 +135,6 @@
   <ItemGroup>
     <None Include="Tools\Logging\LogSnippet.snippet" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

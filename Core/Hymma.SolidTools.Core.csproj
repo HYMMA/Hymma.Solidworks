@@ -66,6 +66,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Geometry\Point.cs" />
+    <Compile Include="Geometry\Vector.cs" />
+    <Compile Include="Geometry\Vector2D.cs" />
+    <Compile Include="Geometry\VectorCalculator.cs" />
+    <Compile Include="Geometry\VectorXY.cs" />
+    <Compile Include="Geometry\VectorXYZ.cs" />
+    <Compile Include="Geometry\VectorXZ.cs" />
+    <Compile Include="Geometry\VectorZY.cs" />
     <Compile Include="SldWorks\ComponentEqualityComparer.cs" />
     <Compile Include="Extensions\AssemblyDocExtensions.cs" />
     <Compile Include="Extensions\Body2Extensions.cs" />
@@ -79,6 +87,7 @@
     <Compile Include="SldWorks\ModelDoc2EqualityComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SldWorks\SolidworksManager.cs" />
+    <Compile Include="SldWorks\SysColor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SolidToolsSigniture.snk" />
