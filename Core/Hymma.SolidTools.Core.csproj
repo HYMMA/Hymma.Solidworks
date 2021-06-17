@@ -40,9 +40,8 @@
     <AssemblyOriginatorKeyFile>SolidToolsSigniture.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hymma.Infrastructures.Math">
-      <HintPath>..\Refrences\Hymma.Infrastructures.Math.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+    <Reference Include="Hymma.Mathematics">
+      <HintPath>..\..\Hymma.Infrastructures\Hymma.Mathematics\bin\Debug\Hymma.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="SolidWorks.Interop.sldworks">
       <HintPath>..\Refrences\SolidWorks.Interop.sldworks.dll</HintPath>
@@ -66,14 +65,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Geometry\Point.cs" />
-    <Compile Include="Geometry\Vector.cs" />
-    <Compile Include="Geometry\Vector2D.cs" />
-    <Compile Include="Geometry\VectorCalculator.cs" />
-    <Compile Include="Geometry\VectorXY.cs" />
-    <Compile Include="Geometry\VectorXYZ.cs" />
-    <Compile Include="Geometry\VectorXZ.cs" />
-    <Compile Include="Geometry\VectorZY.cs" />
     <Compile Include="SldWorks\ComponentEqualityComparer.cs" />
     <Compile Include="Extensions\AssemblyDocExtensions.cs" />
     <Compile Include="Extensions\Body2Extensions.cs" />

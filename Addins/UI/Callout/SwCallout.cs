@@ -46,7 +46,6 @@ namespace Hymma.SolidTools.Addins
         {
             return Rows.Where(r => r.Value == value).Select(r => r.RowId).ToList();
         }
-
         
         #region properties
 

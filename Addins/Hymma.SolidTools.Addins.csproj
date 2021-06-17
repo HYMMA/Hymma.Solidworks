@@ -41,6 +41,9 @@
     <AssemblyOriginatorKeyFile>SolidTools.SolidAddins.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Hymma.Mathematics">
+      <HintPath>..\..\Hymma.Infrastructures\Hymma.Mathematics\bin\Debug\Hymma.Mathematics.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="SolidWorks.Interop.sldworks, Version=28.3.0.86, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
@@ -135,6 +138,11 @@
   <ItemGroup>
     <None Include="Tools\Logging\LogSnippet.snippet" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Hymma.SolidTools.Core.csproj">
+      <Project>{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}</Project>
+      <Name>Hymma.SolidTools.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
