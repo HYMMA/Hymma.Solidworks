@@ -41,8 +41,8 @@
     <AssemblyOriginatorKeyFile>SolidTools.SolidAddins.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hymma.Mathematics">
-      <HintPath>..\..\Hymma.Infrastructures\Hymma.Mathematics\bin\Debug\Hymma.Mathematics.dll</HintPath>
+    <Reference Include="Hymma.Mathematics, Version=1.0.4.0, Culture=neutral, PublicKeyToken=bce01e40c33895a2, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hymma.Mathematics.1.0.5\lib\net45\Hymma.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -76,8 +76,8 @@
   <ItemGroup>
     <Compile Include="Core\AddinModel.cs" />
     <Compile Include="Core\AddinAttribute.cs" />
+    <Compile Include="UI\Callout\CalloutExtensions.cs" />
     <Compile Include="UI\Callout\CalloutRow.cs" />
-    <Compile Include="UI\Callout\EventHandlers.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
     <Compile Include="UI\Callout\SwCallout.cs" />
     <Compile Include="UI\PropertyManagerPage\Extensions\IPropertyManagerPageButtonExtensions.cs" />
@@ -126,6 +126,7 @@
     <Compile Include="Tools\IconGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="SolidTools.SolidAddins.snk" />
   </ItemGroup>
   <ItemGroup>

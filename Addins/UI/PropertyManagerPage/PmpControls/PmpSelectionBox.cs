@@ -7,7 +7,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a solidworks selection box 
     /// </summary>
-    public class PmpSelectionBox : PmpControl<T>
+    public class PmpSelectionBox : PmpControl
     {
         /// <summary>
         /// default constructor
@@ -47,6 +47,13 @@ namespace Hymma.SolidTools.Addins
         public bool AllowSelectInMultipleBoxes { get; set; }
 
 
+        /// <summary>
+        /// create a clalout for this selectionbox
+        /// </summary>
+        /// <param name="callout">the callout object</param>
+        /// <param name="model">part doc or assembly or drawing document</param>
+        public SwCallout Callout { get; set; }
+        
         #region even handlers
 
         /// <summary>
@@ -102,7 +109,6 @@ namespace Hymma.SolidTools.Addins
 
     /// <summary>
     /// </summary>
-    /// <param name="Id">ID of the active selection box, where this selection is being made</param>
     /// <param name="selection">Object being selected</param>
     /// <param name="selectType">Entity type of the selection as defined in<see cref="swSelectType_e"/> </param>
     /// <param name="tag">ItemText is returned to SOLIDWORKS and stored on the selected object and can be used by your PropertyManager page selection list boxes for the life of that selection.</param>

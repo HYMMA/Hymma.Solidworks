@@ -7,7 +7,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a SOLIDWORKS property manager page control
     /// </summary>
-    public class PmpControl<T> : IPmpControl where T : IPropertyManagerPageControl
+    public class PmpControl:IPmpControl 
     {
         #region private fields
 
