@@ -1,4 +1,6 @@
-﻿using Hymma.SolidTools.Addins;
+﻿using Hymma.Mathematics;
+using Hymma.SolidTools.Addins;
+using Hymma.SolidTools.Core;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
@@ -16,7 +18,6 @@ namespace SampleAddin
             OnHelp = () => { return false; };
             OnAfterActivation = () => { Solidworks.SendMsgToUser("pmp activated"); };
         }
-
         public ISldWorks Solidworks { get; }
         private List<IPmpControl> GetControlSet1()
         {
@@ -53,7 +54,6 @@ namespace SampleAddin
 
             return controls;
         }
-
         private List<IPmpControl> GetControlSet2()
         {
             var controls = new List<IPmpControl>();
@@ -76,17 +76,28 @@ namespace SampleAddin
                 {
                     Tip = "a tip for this selection box",
                     Caption = "Caption for this selectionbox",
-                    OnSubmitSelection = (selection, type, tag) => {
+                    OnSubmitSelection = (selection, type, tag) => 
+                    {
                         if (type != (int)swSelectType_e.swSelEDGES)
                         {
                             Solidworks.SendMsgToUser("only edges are allowed to select");
                             return false;
                         }
-
                         return true;
                     }
+                    
                 });
             return controls;
+        }
+
+        private PmpSelectionBox GetSelectionBoxWithCallout(SldWorks solidworks)
+        {
+            var selBox = new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES });
+            selBox.Caption = "caption for selection box with callout";
+            var rows = new List<CalloutRow>();
+            rows.Add(new CalloutRow("value 1", "row 1") {Target=new Point(0.1,0.1,0.1), TextColor=SysColor.Highlight});
+            rows.Add(new CalloutRow("value 2", "row 2") {Target=new Point(0,0,0), TextColor=SysColor.AsmInterferenceVolume });
+            selBox.CalloutHelper = new CalloutHelper(rows, solidworks, (ModelDoc2)solidworks.ActiveDoc);
         }
     }
 }

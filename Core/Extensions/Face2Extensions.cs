@@ -1,4 +1,4 @@
-﻿using Hymma.Infrastructures.Math;
+﻿using Hymma.Mathematics;
 using SolidWorks.Interop.sldworks;
 using System.Collections.Generic;
 
@@ -72,8 +72,11 @@ namespace Hymma.SolidTools.Core
                     CoEdge partner = (CoEdge)coEdge.GetPartner();
                     var coEdgeNormal = GetFaceNormalAtMidCoEdge(coEdge);
                     var partnerNormal = GetFaceNormalAtMidCoEdge(partner);
+                    var v1 =new Vector(coEdgeNormal);
+                    var v2 = new Vector(partnerNormal);
+
                     //get faces whose normal at middle of coedge are equal
-                    if (MathUtils.VectorsAreEqual(coEdgeNormal, partnerNormal))
+                    if (v1.AlmostEquals(v2, 0.0005))
                     {
                         Loop2 partnerLoop = (Loop2)partner.GetLoop();
                         Face2 partnerFace = (Face2)partnerLoop.GetFace();

@@ -5,7 +5,7 @@ using Hymma.SolidTools.Core;
 namespace Hymma.SolidTools.Addins
 {
     /// <summary>
-    /// a row in a <see cref="SwCallout"/>
+    /// a row in a <see cref="CalloutHelper"/>
     /// </summary>
     public class CalloutRow
     {
@@ -32,7 +32,6 @@ namespace Hymma.SolidTools.Addins
         public string Value { get; set; }
 
         /// <summary>
-        /// /// <summary>
         /// Gets or sets the text for the label in the specified row of this callout1
         /// </summary>
         public string Label { get; set; }

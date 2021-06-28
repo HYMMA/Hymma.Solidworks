@@ -270,13 +270,22 @@ namespace Hymma.SolidTools.Addins
         /// <param name="group">the group this control gets added to</param>
         /// <param name="box"></param>
         /// <returns></returns>
-        public static IPropertyManagerPageSelectionbox AddSelectionbox(this IPropertyManagerPage2 pmp,
+        public static IPropertyManagerPageSelectionbox AddSelectionbox(
+            this IPropertyManagerPage2 pmp,
             IPropertyManagerPageGroup group,
             PmpSelectionBox box)
         {
-            var result = pmp.AddSelectionbox(group, box.Id, box.Caption, box.Tip, box.Height, box.Filter.Select(b => (int)b).ToArray(), box.LeftIndet, box.Options);
-            //UpdateControlWithPicture(result as IPropertyManagerPageControl, box);
-            return result;
+            //create a slectionbox from solidworks
+            var swSelectionBox = pmp.AddSelectionbox(group, box.Id, box.Caption, box.Tip, box.Height, box.Filter.Select(b => (int)b).ToArray(), box.LeftIndet, box.Options);
+
+            //assign it to the property of the PmpSelectionbox
+            box.SwSelectionBox = swSelectionBox;
+            
+            //update callout of solidworks model if one is defined in the PMpSelectionbox
+            swSelectionBox.Callout = box.CalloutHelper.SwCallout;
+
+            //return value
+            return swSelectionBox;
         }
 
 

@@ -11,7 +11,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// Allows add-in applications to manipulate single and multi-row callouts
     /// </summary>
-    public class SwCallout
+    public class CalloutHelper
     {
         private int rowID;
 
@@ -21,11 +21,8 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="rows"></param>
         /// <param name="solidworks"></param>
-        private SwCallout(List<CalloutRow> rows, SldWorks solidworks)
+        private CalloutHelper(List<CalloutRow> rows, SldWorks solidworks)
         {
-            rows.ForEach(row => AddRowToCallout(row));
-            this.Rows = rows;
-
             //assign event handler that solidworks will use upon creation of callout
             this.Handler = new SolidworksCalloutHandler(this);
             this.Solidworks = solidworks;
@@ -38,18 +35,20 @@ namespace Hymma.SolidTools.Addins
         /// <param name="solidworks">solidworks object</param>
         /// <param name="model">model to add selection </param>
         /// <param name="updateWithSelection">will make callout dependent on selection if set to true.</param>
-        public SwCallout(List<CalloutRow> rows, SldWorks solidworks, ModelDoc2 model, bool updateWithSelection = true):this(rows,solidworks)
+        public CalloutHelper(List<CalloutRow> rows, SldWorks solidworks, ModelDoc2 model, bool updateWithSelection = true):this(rows,solidworks)
         {
             if (updateWithSelection)
             {
                 var selectionMgr = model.SelectionManager as SelectionMgr;
-                Callout = selectionMgr.CreateCallout2(Rows.Count, Handler);
+                SwCallout = selectionMgr.CreateCallout2(Rows.Count, Handler);
             }
             else
             {
                 var modelExtension = model.Extension;
-                Callout=modelExtension.CreateCallout(Rows.Count, Handler);
+                SwCallout=modelExtension.CreateCallout(Rows.Count, Handler);
             }
+            rows.ForEach(row => AddRowToCallout(row));
+            this.Rows = rows;
         }
 
         /// <summary>
@@ -58,9 +57,11 @@ namespace Hymma.SolidTools.Addins
         /// <param name="rows">list of string in this callout. will be adde to the UI in the same order added to this list</param>
         /// <param name="solidworks">solidworks object</param>
         /// <param name="modelView">model view to creat the callout in</param>
-        public SwCallout(List<CalloutRow> rows, SldWorks solidworks, ModelView modelView) : this(rows,solidworks)
+        public CalloutHelper(List<CalloutRow> rows, SldWorks solidworks, ModelView modelView) : this(rows,solidworks)
         {
-            Callout = modelView.CreateCallout(Rows.Count, Handler);
+            SwCallout = modelView.CreateCallout(Rows.Count, Handler);
+            rows.ForEach(row => AddRowToCallout(row));
+            this.Rows = rows;
         }
         #endregion
 
@@ -71,7 +72,7 @@ namespace Hymma.SolidTools.Addins
         ///This property applies only to a callout that is independent of a selection or created with IModelDocExtension::CreateCallout
         public void IgnoreRow(CalloutRow calloutRow)
         {
-            _ = Callout.IgnoreValue[calloutRow.RowId];
+            _ = SwCallout.IgnoreValue[calloutRow.RowId];
         }
 
         /// <summary>
@@ -104,16 +105,16 @@ namespace Hymma.SolidTools.Addins
             calloutRow.RowId = rowID;
 
             //set callout object of the row 
-            calloutRow.Callout = Callout;
+            calloutRow.Callout = SwCallout;
 
             //map to solidworks
-            Callout.AddRow(calloutRow);
+            SwCallout.AddRow(calloutRow);
         }
 
         /// <summary>
         /// actual solidworks <see cref="ICallout"/> object assigned to by addin
         /// </summary>
-        public ICallout Callout { get; internal set; }
+        public Callout SwCallout { get; internal set; }
 
         /// <summary>
         /// solidworks event handler for a callout
@@ -128,52 +129,52 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Gets or sets the font size for this callout.
         /// </summary>
-        public int FontSize { get => Callout.FontSize; set => Callout.FontSize = value; }
+        public int FontSize { get => SwCallout.FontSize; set => SwCallout.FontSize = value; }
 
         /// <summary>
         /// Gets or sets the text format for this callout.
         /// </summary>
-        public TextFormat TextFormat { get => Callout.TextFormat; set => Callout.TextFormat = value; }
+        public TextFormat TextFormat { get => SwCallout.TextFormat; set => SwCallout.TextFormat = value; }
 
         /// <summary>
         /// Gets or sets whether to enable the pushpin for this callout. 
         /// </summary>
-        public bool EnablePushPin { get => Callout.EnablePushPin; set => Callout.EnablePushPin = value; }
+        public bool EnablePushPin { get => SwCallout.EnablePushPin; set => SwCallout.EnablePushPin = value; }
 
         /// <summary>
         /// Gets or sets whether the callout text is enclosed within a box
         /// </summary>
-        public bool HasTextBox { get => Callout.TextBox; set => Callout.TextBox = value; }
+        public bool HasTextBox { get => SwCallout.TextBox; set => SwCallout.TextBox = value; }
 
         /// <summary>
         /// Gets or sets the type of connection at the target point for this callout.
         /// </summary>
-        public swCalloutTargetStyle_e TargetStyle { get => (swCalloutTargetStyle_e)Callout.TargetStyle; set => Callout.TargetStyle = (int)value; }
+        public swCalloutTargetStyle_e TargetStyle { get => (swCalloutTargetStyle_e)SwCallout.TargetStyle; set => SwCallout.TargetStyle = (int)value; }
 
         /// <summary>
         /// Gets and sets whether to add a colon at the end of the callout label.
         /// </summary>
-        public bool SkipColon { get => Callout.SkipColon; set => Callout.SkipColon = value; }
+        public bool SkipColon { get => SwCallout.SkipColon; set => SwCallout.SkipColon = value; }
 
         /// <summary>
         /// Gets and sets the position of this callout.
         /// </summary>
         public Point Position
         {
-            get => new Point((double[])Callout.Position.ArrayData);
-            set => Callout.SetPosition(Solidworks, value);
+            get => new Point((double[])SwCallout.Position.ArrayData);
+            set => SwCallout.SetPosition(Solidworks, value);
         }
 
         /// <summary>
         /// Gets or sets the opaque (background) color for the labels for this callout.
         /// </summary>
         /// <remarks>You must use a <see cref="SysColor"/>; you cannot use any other RGB values. To see system colors, click <strong>Tools > Options > Colors.</strong>  in the SOLIDWORKS user interface</remarks>
-        public int OpaqueColor { get => Callout.OpaqueColor; set => Callout.OpaqueColor = value; }
+        public int OpaqueColor { get => SwCallout.OpaqueColor; set => SwCallout.OpaqueColor = value; }
 
         /// <summary>
         /// Gets or sets the display of multiple leaders for this callout.  
         /// </summary>
-        public bool MultipleLeaders { get => Callout.MultipleLeaders; set => Callout.MultipleLeaders = value; }
+        public bool MultipleLeaders { get => SwCallout.MultipleLeaders; set => SwCallout.MultipleLeaders = value; }
 
         /// <summary>
         /// Sets the leader properties of the callout. 
@@ -185,7 +186,7 @@ namespace Hymma.SolidTools.Addins
         ///If Visible is set to false, then ICallout::TargetStyle is automatically set to swCalloutTargetStyle_None.</remarks>
         public bool LeaderStatus(bool visible, bool multiple)
         {
-            return Callout.SetLeader(visible, multiple);
+            return SwCallout.SetLeader(visible, multiple);
         }
 
 

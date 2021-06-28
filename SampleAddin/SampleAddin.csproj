@@ -40,6 +40,9 @@
     <AssemblyOriginatorKeyFile>SampleAddinSigniture.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Hymma.Mathematics, Version=1.0.4.0, Culture=neutral, PublicKeyToken=bce01e40c33895a2, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hymma.Mathematics.1.0.5\lib\net45\Hymma.Mathematics.dll</HintPath>
+    </Reference>
     <Reference Include="Hymma.SolidTools.Addins">
       <HintPath>..\Addins\bin\Debug\Hymma.SolidTools.Addins.dll</HintPath>
     </Reference>
@@ -82,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

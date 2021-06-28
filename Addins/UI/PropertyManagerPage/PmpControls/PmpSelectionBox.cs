@@ -9,6 +9,13 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpSelectionBox : PmpControl
     {
+        private CalloutHelper _calloutHelper;
+
+        /// <summary>
+        /// provides access to solidworks object
+        /// </summary>
+        public IPropertyManagerPageSelectionbox SwSelectionBox { get; internal set; }
+
         /// <summary>
         /// default constructor
         /// <param name="Filter">defines out type of entity in solidworks user could select</param>
@@ -46,14 +53,33 @@ namespace Hymma.SolidTools.Addins
         /// </list> </value>
         public bool AllowSelectInMultipleBoxes { get; set; }
 
-
         /// <summary>
         /// create a clalout for this selectionbox
         /// </summary>
         /// <param name="callout">the callout object</param>
         /// <param name="model">part doc or assembly or drawing document</param>
-        public SwCallout Callout { get; set; }
-        
+        public CalloutHelper CalloutHelper
+        {
+            get
+            {
+                return _calloutHelper;
+            }
+            set
+            {
+                CalloutLabel = string.IsNullOrWhiteSpace(CalloutLabel) ? "Default" : CalloutLabel;
+                _calloutHelper = value;
+                SwSelectionBox.Callout = _calloutHelper.SwCallout;
+            }
+        }
+
+        /// <summary>
+        /// a lable for the callout, unless this property has a value the callout for this selection box will not be created
+        /// </summary>
+        public string CalloutLabel
+        { 
+            get => SwSelectionBox.;
+            set => SwSelectionBox.SetCalloutLabel(value);
+        }
         #region even handlers
 
         /// <summary>
