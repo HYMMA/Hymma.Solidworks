@@ -4,14 +4,15 @@ using SolidWorks.Interop.swpublished;
 using System;
 using System.Runtime.InteropServices;
 using static Hymma.SolidTools.Addins.Logger;
-namespace SampleAddin
+
+namespace ConsoleApp1
 {
     [ComVisible(true)]
-    [Guid("CC5AF69B-620F-442D-A8FB-FCF2DA1337E2")]
-    [Addin(Title = "Sample Addin From HYMMA", Description = "Description of Sample Addin goes here.", LoadAtStartup = true, AddinIcon = "Save_05")]
-    public class SampleAddin : AddinMaker, ISwAddin
+    [Guid("9AB2F702-35DC-4C1F-8D9F-5189798E6A2A")]
+    [Addin(Title = "Program", Description = "Smooth like butter2", LoadAtStartup = true, AddinIcon = "butter")]
+    public  class Program : AddinMaker, ISwAddin
     {
-        public SampleAddin() : base(typeof(SampleAddin))
+        public Program() : base(typeof(Program))
         {
         }
         private PropertyManagerBuilderX64 _pmp;
@@ -32,14 +33,12 @@ namespace SampleAddin
         [ComRegisterFunctionAttribute]
         public static void RegisterFunction(Type t)
         {
-            Log("registering the addin calling from SampleAdidn");
             BaseRegisterFunction(t);
         }
 
         [ComUnregisterFunctionAttribute]
         public static void UnregisterFunction(Type t)
         {
-            Log("unregistering the addin calling from SampleAddin");
             BaseUnregisterFunction(t);
         }
         #endregion
@@ -48,7 +47,7 @@ namespace SampleAddin
         public override AddinModel GetAddinModel()
         {
             var addin = new AddinModel();
-            
+
             #region commands
 
             #region command 1
@@ -56,7 +55,7 @@ namespace SampleAddin
             {
                 CallBackFunction = nameof(ShowMessage),
                 EnableMethode = nameof(EnableMethode),
-                IconBitmap = Properties.Resources.xtractBlue,
+                //IconBitmap = Properties.Resources.xtractBlue,
                 Name = "command1 Name",
                 ToolTip = "command1 tooltip",
                 CommandTabTextType = (int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow,
@@ -71,7 +70,7 @@ namespace SampleAddin
             {
                 CallBackFunction = nameof(ShowMessage2),
                 EnableMethode = nameof(EnableMethode),
-                IconBitmap = Properties.Resources.xtractOrange,
+                //IconBitmap = Properties.Resources.xtractOrange,
                 Name = "command2 Name",
                 ToolTip = "command 2 's tooltip",
                 CommandTabTextType = (int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow,
@@ -86,7 +85,7 @@ namespace SampleAddin
             AddinCommand command3 = new AddinCommand();
             command3.CallBackFunction = nameof(ShowPMP);
             command3.EnableMethode = nameof(EnableMethode);
-            command3.IconBitmap = Properties.Resources.xtractred;
+            //command3.IconBitmap = Properties.Resources.xtractred;
             command3.Name = "command 3 's Name";
             command3.ToolTip = "command 3 's tooltip";
             command3.CommandTabTextType = (int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow;
@@ -102,7 +101,9 @@ namespace SampleAddin
                 "description for command group",
                 "tooltip for thic command group",
                 "hint of this command gorup",
-                Properties.Resources.xtractred);
+                new System.Drawing.Bitmap(120,120)
+               //Properties.Resources.xtractred
+               );
             #endregion
 
             #region Command Tabs
@@ -137,12 +138,11 @@ namespace SampleAddin
 
         public void ShowMessage()
         {
-            Solidworks.SendMsgToUser2("message from SampleAddin", 0, 0);
+            Solidworks.SendMsgToUser2("message from Butter", 0, 0);
         }
         public void ShowMessage2()
         {
-            Solidworks.SendMsgToUser2("message 2 from SampleAddin", 0, 0);
+            Solidworks.SendMsgToUser2("message 2 from Butter", 0, 0);
         }
-
     }
 }

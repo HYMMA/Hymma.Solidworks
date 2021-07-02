@@ -8,7 +8,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a wrapper for solidworks property manager page UI
     /// </summary>
-    public class PmpUiModel 
+    public class PropertyManagerPageUIBase 
     {
         /// <summary>
         /// bitwise option as defined in <see cref="swPropertyManagerPageOptions_e"/> default is 35

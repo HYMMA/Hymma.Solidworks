@@ -14,7 +14,7 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="addin">the addin of type <see cref="AddinMaker"/> to add thie property manger page to</param>
         /// <param name="uiModel">an object that hosts differet inheritances of <see cref="IPmpControl"/> </param>
-        public PropertyManagerBuilderX64(AddinMaker addin, PmpUiModel uiModel)
+        public PropertyManagerBuilderX64(AddinMaker addin, PropertyManagerPageUIBase uiModel)
             : base(addin, new PmpEventHandler(uiModel), uiModel)
         {
         }

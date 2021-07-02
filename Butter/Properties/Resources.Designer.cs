@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SampleAddin.Properties {
+namespace Butter.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SampleAddin.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SampleAddin.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Butter.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace SampleAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Save_05 {
+        internal static System.Drawing.Bitmap butter {
             get {
-                object obj = ResourceManager.GetObject("Save_05", resourceCulture);
+                object obj = ResourceManager.GetObject("butter", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

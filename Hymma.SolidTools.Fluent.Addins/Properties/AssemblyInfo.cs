@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SampleAddin")]
+[assembly: AssemblyTitle("Hymma.SolidTools.Fluent.Addins")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SampleAddin")]
+[assembly: AssemblyProduct("Hymma.SolidTools.Fluent.Addins")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(true)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("396f3d5a-5c0d-475b-a0d3-fd0ce2d17304")]
+[assembly: Guid("6100467f-2c52-4dda-820c-40729b0c1529")]
 
 // Version information for an assembly consists of the following four values:
 //

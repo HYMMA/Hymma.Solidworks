@@ -10,6 +10,7 @@ namespace Hymma.SolidTools.Addins
     public class PmpSelectionBox : PmpControl
     {
         private CalloutHelper _calloutHelper;
+        private string _calloutLabel;
 
         /// <summary>
         /// provides access to solidworks object
@@ -56,8 +57,6 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// create a clalout for this selectionbox
         /// </summary>
-        /// <param name="callout">the callout object</param>
-        /// <param name="model">part doc or assembly or drawing document</param>
         public CalloutHelper CalloutHelper
         {
             get
@@ -66,9 +65,9 @@ namespace Hymma.SolidTools.Addins
             }
             set
             {
-                CalloutLabel = string.IsNullOrWhiteSpace(CalloutLabel) ? "Default" : CalloutLabel;
+                CalloutLabel = string.IsNullOrWhiteSpace(_calloutLabel) ? "Default" : _calloutLabel;
                 _calloutHelper = value;
-                SwSelectionBox.Callout = _calloutHelper.SwCallout;
+                SwSelectionBox.Callout = value.SwCallout;
             }
         }
 
@@ -76,9 +75,9 @@ namespace Hymma.SolidTools.Addins
         /// a lable for the callout, unless this property has a value the callout for this selection box will not be created
         /// </summary>
         public string CalloutLabel
-        { 
-            get => SwSelectionBox.;
-            set => SwSelectionBox.SetCalloutLabel(value);
+        {
+            get => _calloutLabel;
+            set { _calloutLabel = value; SwSelectionBox.SetCalloutLabel(value); }
         }
         #region even handlers
 

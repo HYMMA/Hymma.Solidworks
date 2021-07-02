@@ -17,7 +17,7 @@ namespace Hymma.SolidTools.Addins
         /// default constructor
         /// </summary>
         /// <param name="uiModel"></param>
-        public PmpEventHandler(PmpUiModel uiModel)
+        public PmpEventHandler(PropertyManagerPageUIBase uiModel)
         {
             this.UiModel = uiModel ?? throw new Exception();
         }
@@ -25,7 +25,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// wrapper for constrols in this property manager page
         /// </summary>
-        public PmpUiModel UiModel { get; private set; }
+        public PropertyManagerPageUIBase UiModel { get; private set; }
 
 
         /// <summary>

@@ -15,7 +15,7 @@ namespace Hymma.SolidTools.Addins
     /// registers an <see cref="AddinModel"/> into solidworks
     /// </summary>
     [ComVisible(true)]
-    public abstract class AddinMaker
+    public abstract class AddinMaker : ISwAddin
     {
 
         #region private fields & variables
@@ -54,8 +54,9 @@ namespace Hymma.SolidTools.Addins
         /// <param name="addin">type of class that inherits from <see cref="ISwAddin"/></param>
         public AddinMaker(Type addin)
         {
-            if (typeof(ISwAddin).IsAssignableFrom(addin)
-                && addin.TryGetAttribute<AddinAttribute>(false) is AddinAttribute addinAttr)
+            //typeof(ISwAddin).IsAssignableFrom(addin)
+            //    &&
+            if (addin.TryGetAttribute<AddinAttribute>(false) is AddinAttribute addinAttr)
             {
                 Logger.Source = addinAttr.Title;
             }
@@ -83,30 +84,37 @@ namespace Hymma.SolidTools.Addins
         /// registers <see cref="Type"/> provided to COM so solidworks can find it
         /// </summary>
         /// <param name="t">type of class that inherrits from  <see cref="AddinMaker"/></param>
+        [ComRegisterFunctionAttribute]
         public static void BaseRegisterFunction(Type t)
         {
             var addinAttribute = t.TryGetAttribute<AddinAttribute>(false) as AddinAttribute;
             if (addinAttribute == null)
-                //TODO: log this
-                Console.WriteLine("couldnet get the proper attribute from the child class");
+                return;
+            Log("Getting attributes from child class");
             try
             {
                 string keyname = "SOFTWARE\\SolidWorks\\Addins\\{" + t.GUID.ToString() + "}";
-                RegistryKey addinkey = Registry.LocalMachine.CreateSubKey(keyname);
-                addinkey.SetValue(null, 0);
+                RegistryKey addinKey = Registry.LocalMachine.CreateSubKey(keyname);
+                addinKey.SetValue(null, 0);
 
-                addinkey.SetValue("Description", addinAttribute.Description);
-                addinkey.SetValue("Title", addinAttribute.Title);
+                addinKey.SetValue("Description", addinAttribute.Description);
+                addinKey.SetValue("Title", addinAttribute.Title);
 
                 keyname = "Software\\SolidWorks\\AddInsStartup\\{" + t.GUID.ToString() + "}";
-                addinkey = Registry.CurrentUser.CreateSubKey(keyname);
-                addinkey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
+                RegistryKey addinStartUpKey = Registry.CurrentUser.CreateSubKey(keyname);
+                addinStartUpKey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
 
                 //save addin icon in the current assembly folder
                 var rm = new ResourceManager($"{t.Name}.Properties.Resources", t.Assembly);
                 var addinIcon = rm.GetObject(addinAttribute.AddinIcon) as Bitmap;
-                IconGenerator.GetAddinIcon(addinIcon, t.Name);
+                var iconPath = IconGenerator.GetAddinIcon(addinIcon, t.Name);
+                #region Extract icon during registration
+
+                addinKey.SetValue("Icon Path", iconPath);
+
                 RegisterLogger(addinAttribute.Title);
+                //Log($"registering icon location in registry {iconPath}");
+                #endregion
             }
             catch (System.NullReferenceException nl)
             {
@@ -123,6 +131,7 @@ namespace Hymma.SolidTools.Addins
         /// Un-registers <see cref="Type"/> from COM
         /// </summary>
         /// <param name="t">type of class that inherrits from  <see cref="AddinMaker"/></param>
+        [ComUnregisterFunctionAttribute]
         public static void BaseUnregisterFunction(Type t)
         {
             var swAttr = t.TryGetAttribute<AddinAttribute>(false) as AddinAttribute;
@@ -297,7 +306,7 @@ namespace Hymma.SolidTools.Addins
             Log("addin commands . . .");
             var result = AddCommands();
             Log($"finished addin commands successfull? {result}");
-            return true;
+
             #endregion
 
             #region Setup the Event Handlers
@@ -314,6 +323,8 @@ namespace Hymma.SolidTools.Addins
             //there are events that will attach event handlers to all documents but until those events are fired this call to the method will suffice
             //AttachEventsToAllDocuments();
             #endregion
+            return true;
+
         }
     }
 }

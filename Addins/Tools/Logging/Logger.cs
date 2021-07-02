@@ -25,7 +25,7 @@ namespace Hymma.SolidTools.Addins
                 //An event log source should not be created and immediately used.
                 //There is a latency time to enable the source, it should be created
                 //prior to executing the application that uses the source.
-                EventLog.CreateEventSource(source, "AddinLogs");
+                EventLog.CreateEventSource(source, "SOLIDWORKS_AddinLogs");
                 // once The source is created.  Exit the application to allow it to be registered.
                 return;
             }

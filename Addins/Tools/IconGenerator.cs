@@ -191,11 +191,11 @@ namespace Hymma.SolidTools.Addins
         }
 
         /// <summary>
-        /// generates an addin icon (.png) forma and saves it on assembly folder
+        /// generates an addin icon (.png) format and saves it on assembly folder
         /// </summary>
         /// <param name="icon">the icon to transform</param>
         /// <param name="filename">name of file without extension</param>
-        /// <returns></returns>
+        /// <returns>icon full file name</returns>
         public static string GetAddinIcon(Bitmap icon, string filename)
         {
             var addinIcon = new Bitmap(16, 16);

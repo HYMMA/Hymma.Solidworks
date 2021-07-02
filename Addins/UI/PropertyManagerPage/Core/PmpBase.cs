@@ -11,7 +11,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// an abstract class for making propety manager page
     /// </summary>
-    public abstract class PmpBase
+    public abstract class PmpBase : IFluent
     {
         #region protected fields
         /// <summary>
@@ -22,7 +22,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// wrapper for ui objects
         /// </summary>
-        protected readonly PmpUiModel uiModel;
+        protected readonly PropertyManagerPageUIBase uiModel;
 
         /// <summary>
         /// handles evetns based on their id
@@ -50,7 +50,6 @@ namespace Hymma.SolidTools.Addins
         protected Dictionary<int, object> Controls  = new Dictionary<int, object>();
         #endregion
 
-
         #region private methodes
         private int id = 1;
         private int GetNextId()
@@ -66,7 +65,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="eventHandler">object to handle events such as checkbox onclick etc...</param>
         /// <param name="uiModel">an object that hosts differet inheritances of <see cref="IPmpControl"/> </param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected PmpBase(AddinMaker addin, PropertyManagerPage2Handler9 eventHandler, PmpUiModel uiModel)
+        protected PmpBase(AddinMaker addin, PropertyManagerPage2Handler9 eventHandler, PropertyManagerPageUIBase uiModel)
         {
             if (addin == null || uiModel == null)
                 throw new ArgumentNullException();

@@ -1,11 +1,11 @@
-﻿using Hymma.Mathematics;
+﻿//using Hymma.Mathematics;
 using Hymma.SolidTools.Addins;
 using Hymma.SolidTools.Core;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 
-namespace SampleAddin
+namespace ConsoleApp1
 {
     public class PropertyManagerPageUI : PmpUiModel
     {
@@ -13,44 +13,41 @@ namespace SampleAddin
         {
             this.Solidworks = Solidworks;
             Title = "title of property manager page";
-            PmpGroups.Add(new PmpGroup("group box caption") { Controls = GetControlSet1() });
-            PmpGroups.Add(new PmpGroup("radio buttons", GetControlSet2()));
+            
+            var group1 = new PmpGroup("group box caption");
+            group1.AddControls(GetControlSet1());
+
+            var group2 = new PmpGroup("radio buttons");
+            group2.AddControls(GetControlSet2());
+            //group2.AddControl(GetSelectionBoxWithCallout((SldWorks)Solidworks));
+            //PmpGroups.Add(new PmpGroup("radio buttons", GetControlSet2()));
+
             OnHelp = () => { return false; };
             OnAfterActivation = () => { Solidworks.SendMsgToUser("pmp activated"); };
         }
         public ISldWorks Solidworks { get; }
         private List<IPmpControl> GetControlSet1()
         {
-            var controls = new List<IPmpControl>();
-
-            controls.Add(new PmpCheckBox(true) { Tip = "a tip for a checkbox", Caption = "caption for chckbox" });
-
-            controls.Add(new PmpCheckBox(Properties.Settings.Default.ChkBoxChkd)
+            var controls = new List<IPmpControl>
             {
-                Tip = "a tip for a checkbox 2 ",
-                Caption = "caption for chckbox 2",
-                OnChecked = (isChecked) =>
-                {
-                    Solidworks.SendMsgToUser($"you have clicked on check box  {isChecked}");
-                    Properties.Settings.Default.ChkBoxChkd = isChecked;
-                }
-            });
-
-            controls.Add(new PmpRadioButton(true)
-            {
-                Tip = "radio button on group 1",
-                Caption = "caption for radio button on group 1",
-                OnChecked = () => { Solidworks.SendMsgToUser("first radio button clicked on"); }
-
-            });
-            controls.Add(new PmpRadioButton(false)
-            {
-                Tip = "radio button on group 1",
-                Caption = "caption for radio button on group 1",
-                OnChecked = () => { Solidworks.SendMsgToUser("first radio button clicked on"); }
-            });
+                new PmpCheckBox(true) { Tip = "a tip for a checkbox", Caption = "caption for chckbox" },
 
             
+
+                new PmpRadioButton(true)
+                {
+                    Tip = "radio button on group 1",
+                    Caption = "caption for radio button on group 1",
+                    OnChecked = () => { Solidworks.SendMsgToUser("first radio button clicked on"); }
+
+                },
+                new PmpRadioButton(false)
+                {
+                    Tip = "radio button on group 1",
+                    Caption = "caption for radio button on group 1",
+                    OnChecked = () => { Solidworks.SendMsgToUser("first radio button clicked on"); }
+                }
+            };
 
             return controls;
         }
@@ -92,12 +89,17 @@ namespace SampleAddin
 
         private PmpSelectionBox GetSelectionBoxWithCallout(SldWorks solidworks)
         {
-            var selBox = new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES });
-            selBox.Caption = "caption for selection box with callout";
-            var rows = new List<CalloutRow>();
-            rows.Add(new CalloutRow("value 1", "row 1") {Target=new Point(0.1,0.1,0.1), TextColor=SysColor.Highlight});
-            rows.Add(new CalloutRow("value 2", "row 2") {Target=new Point(0,0,0), TextColor=SysColor.AsmInterferenceVolume });
+            var selBox = new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES })
+            {
+                Caption = "caption for selection box with callout"
+            };
+            var rows = new List<CalloutRow>
+            {
+               // new CalloutRow("value 1", "row 1") { Target = new Point(0.1, 0.1, 0.1), TextColor = SysColor.Highlight },
+                // new CalloutRow("value 2", "row 2") { Target = new Point(0, 0, 0), TextColor = SysColor.AsmInterferenceVolume }
+            };
             selBox.CalloutHelper = new CalloutHelper(rows, solidworks, (ModelDoc2)solidworks.ActiveDoc);
+            return selBox;
         }
     }
 }

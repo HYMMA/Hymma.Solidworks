@@ -1,5 +1,6 @@
 ﻿using Hymma.Mathematics;
 using SolidWorks.Interop.sldworks;
+using System;
 using System.Collections.Generic;
 
 namespace Hymma.SolidTools.Core
@@ -135,4 +136,5 @@ namespace Hymma.SolidTools.Core
             return dblNormal;
         }
     }
+    
 }

@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Core\AddinModel.cs" />
     <Compile Include="Core\AddinAttribute.cs" />
+    <Compile Include="Core\IFluent.cs" />
     <Compile Include="UI\Callout\CalloutExtensions.cs" />
     <Compile Include="UI\Callout\CalloutRow.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
@@ -95,7 +96,7 @@
     <Compile Include="Tools\Logging\Logger.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpBase.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpEventHandler.cs" />
-    <Compile Include="UI\PropertyManagerPage\Core\PmpUiModel.cs" />
+    <Compile Include="UI\PropertyManagerPage\Core\PropertyManagerPageUIBase.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PropertyManagerBuilderX64.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmap.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButtonCustom.cs" />

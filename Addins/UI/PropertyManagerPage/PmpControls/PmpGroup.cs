@@ -20,6 +20,7 @@ namespace Hymma.SolidTools.Addins
         {
             this.Caption = Caption;
             this.Expanded = Expanded;
+            this.Controls = new List<IPmpControl>();
         }
 
         /// <summary>
@@ -36,6 +37,23 @@ namespace Hymma.SolidTools.Addins
 
         #region Members/Properties
 
+        /// <summary>
+        /// adds a control to the <see cref="Controls"/>
+        /// </summary>
+        /// <param name="control"></param>
+        public void AddControl(IPmpControl control)
+        {
+            Controls.Add(control);
+        }
+
+        /// <summary>
+        /// adds a list of controls to the <see cref="Controls"/>
+        /// </summary>
+        /// <param name="controls"></param>
+        public void AddControls(IEnumerable<IPmpControl> controls)
+        {
+            Controls.AddRange(controls);
+        }
         /// <summary>
         /// identifier for this group box in Property manager page
         /// </summary>

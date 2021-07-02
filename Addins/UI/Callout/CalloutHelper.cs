@@ -197,4 +197,5 @@ namespace Hymma.SolidTools.Addins
         public Func<int, string, bool> OnValueChanged { get; set; }
         #endregion
     }
+    
 }
