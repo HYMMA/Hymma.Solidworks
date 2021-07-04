@@ -56,8 +56,12 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddinFactory.cs" />
+    <Compile Include="AddinPmpFactory.cs" />
     <Compile Include="Core\IFluent.cs" />
+    <Compile Include="Core\PMP\Enums\pmpEnums.cs" />
+    <Compile Include="Core\PMP\PmpGroupExtensions.cs" />
+    <Compile Include="Core\PMP\PmpUiExtensions.cs" />
+    <Compile Include="Core\PMP\PmpUi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,9 +7,9 @@ using System.Collections.Generic;
 
 namespace Butter
 {
-    public class PropertyManagerPageUI : PropertyManagerPageUIBase
+    public class PMPUi : PropertyManagerPageUIBase
     {
-        public PropertyManagerPageUI(ISldWorks Solidworks)
+        public PMPUi(ISldWorks Solidworks)
         {
             this.Solidworks = Solidworks;
             Title = "title of property manager page";

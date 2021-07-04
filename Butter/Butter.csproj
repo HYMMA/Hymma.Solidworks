@@ -76,7 +76,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="PropertyManagerPageUI.cs" />
+    <Compile Include="PMPUi.cs" />
     <Compile Include="Butter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

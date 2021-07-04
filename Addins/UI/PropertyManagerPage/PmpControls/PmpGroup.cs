@@ -36,7 +36,10 @@ namespace Hymma.SolidTools.Addins
         #endregion
 
         #region Members/Properties
-
+        /// <summary>
+        /// get the property manager page ui
+        /// </summary>
+        public PropertyManagerPageUIBase PropertyManagerPageUIBase { get; set; }
         /// <summary>
         /// adds a control to the <see cref="Controls"/>
         /// </summary>
@@ -67,7 +70,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// determines the expand state of this group box 
         /// </summary>
-        public bool Expanded { get; internal set; }
+        public bool Expanded { get; set; }
 
         /// <summary>
         /// bitwise options as defined by <see cref="swAddGroupBoxOptions_e"/> default values correspond to a group that is expanded and is set to be visible

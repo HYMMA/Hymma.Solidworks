@@ -11,35 +11,7 @@ namespace Butter
     {
         public Butter() : base(typeof(Butter))
         {
-       /*     var controls = new Factory()
-                                        .Make()
-                                        .Control(controlTypeEnum)
-                                        
-            PropertyManagerBuilderX64 _pmp = new Factory()
-                                                    .AddPmp()
-                                                        .AddGroup()
-                                                            .That()
-                                                            .IsClickable()
-                                                            .IsExpanded()
-                                                            .WhenExpanded(Action<bool>)
-                                                            .AndHasTheseControls(*//*list of IPMpControls*//*)
-                                                        .Apply()
-                                                        .AddGroup()
-                                                            .That()
-                                                            .IsClickable()
-                                                            .And()
-                                                            .IsExpanded()
-
-                                                            .WhenExpanded(Action<bool>)
-                                                                .AddControl(swPropertyManagerPageControlType_e type)
-                                                                .With
-                                                        .Apply()
-
-
-                                                            .With()//returns new PropertyManagerBuilderX64:IPmpBuilder
-                                                            .Controls(*//*list of IPMpControls*//*)*/
-                                                            
-                }
+        }
         private PropertyManagerBuilderX64 _pmp;
 
         #region On connect to Solidworks
@@ -129,7 +101,7 @@ namespace Butter
             #endregion
 
             #region property manager page
-            _pmp = new PropertyManagerBuilderX64(this, new PropertyManagerPageUI(Solidworks));
+            _pmp = new PropertyManagerBuilderX64(this, new PMPUi(Solidworks));
             addin.PropertyManagerPages = new PropertyManagerBuilderX64[] { _pmp };
             #endregion
 
