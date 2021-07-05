@@ -11,7 +11,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// an abstract class for making propety manager page
     /// </summary>
-    public abstract class PmpBase : IFluent
+    public abstract class PmpBase 
     {
         #region protected fields
         /// <summary>

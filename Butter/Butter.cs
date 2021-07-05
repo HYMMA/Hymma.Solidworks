@@ -1,6 +1,7 @@
 ﻿using Hymma.SolidTools.Addins;
 using SolidWorks.Interop.swconst;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 namespace Butter
 {
@@ -102,7 +103,7 @@ namespace Butter
 
             #region property manager page
             _pmp = new PropertyManagerBuilderX64(this, new PMPUi(Solidworks));
-            addin.PropertyManagerPages = new PropertyManagerBuilderX64[] { _pmp };
+            addin.PropertyManagerPages =new List<PropertyManagerBuilderX64>(new[] { _pmp} );
             #endregion
 
             return addin;
