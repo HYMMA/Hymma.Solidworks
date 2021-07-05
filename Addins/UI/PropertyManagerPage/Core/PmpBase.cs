@@ -15,11 +15,6 @@ namespace Hymma.SolidTools.Addins
     {
         #region protected fields
         /// <summary>
-        /// pointer to the addin this pmp belongs to
-        /// </summary>
-        protected readonly AddinMaker addin;
-
-        /// <summary>
         /// wrapper for ui objects
         /// </summary>
         protected readonly PropertyManagerPageUIBase uiModel;
@@ -61,20 +56,18 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// default constructor 
         /// </summary>
-        /// <param name="addin">the addin of type <see cref="AddinMaker"/> to add thie property manger page to</param>
         /// <param name="eventHandler">object to handle events such as checkbox onclick etc...</param>
         /// <param name="uiModel">an object that hosts differet inheritances of <see cref="IPmpControl"/> </param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected PmpBase(AddinMaker addin, PropertyManagerPage2Handler9 eventHandler, PropertyManagerPageUIBase uiModel)
+        protected PmpBase( PropertyManagerPage2Handler9 eventHandler, PropertyManagerPageUIBase uiModel)
         {
-            if (addin == null || uiModel == null)
+            if ( uiModel == null)
                 throw new ArgumentNullException();
 
             #region set up fields
-            this.addin = addin;
             this.uiModel = uiModel;
             this.eventHandler = eventHandler;
-            Solidworks = this.addin.Solidworks;
+            Solidworks = this.uiModel.Solidworks;
 
             //get element host wrappers
             var winFormHandlers = uiModel.PmpGroups

@@ -36,10 +36,7 @@ namespace Hymma.SolidTools.Addins
         #endregion
 
         #region Members/Properties
-        /// <summary>
-        /// get the property manager page ui
-        /// </summary>
-        public PropertyManagerPageUIBase PropertyManagerPageUIBase { get; set; }
+        
         /// <summary>
         /// adds a control to the <see cref="Controls"/>
         /// </summary>

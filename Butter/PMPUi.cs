@@ -9,7 +9,7 @@ namespace Butter
 {
     public class PMPUi : PropertyManagerPageUIBase
     {
-        public PMPUi(ISldWorks Solidworks)
+        public PMPUi(ISldWorks Solidworks) : base(Solidworks)
         {
             this.Solidworks = Solidworks;
             Title = "title of property manager page";

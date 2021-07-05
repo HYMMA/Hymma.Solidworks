@@ -1,6 +1,7 @@
 ﻿using Hymma.SolidTools.Addins;
 using SolidWorks.Interop.swconst;
 using System;
+using System.Collections.Generic;
 
 namespace Hymma.SolidTools.Fluent.Addins
 {
@@ -16,9 +17,9 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <param name="pmpUi"></param>
         /// <param name="caption">caption of the group as appears in solidworks</param>
         /// <returns></returns>
-        public static PmpGroup AddGroup(this PmpUi pmpUi, string caption)
+        public static PropertyManagerPageGroup AddGroup(this PmpUi pmpUi, string caption)
         {
-            var g = new PmpGroup(caption);
+            var g = new PropertyManagerPageGroup(caption,false);
 
             //update the group propety
             g.PropertyManagerPageUIBase = pmpUi;
@@ -27,7 +28,7 @@ namespace Hymma.SolidTools.Fluent.Addins
             pmpUi.PmpGroups.Add(g);
 
             //return the boject in the list
-            return pmpUi.PmpGroups[pmpUi.PmpGroups.Count - 1];
+            return pmpUi.PmpGroups[pmpUi.PmpGroups.Count - 1] as PropertyManagerPageGroup;
         }
 
         /// <summary>
@@ -84,10 +85,23 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <param name="pmp"></param>
         /// <param name="doThis"></param>
         /// <returns></returns>
-        public static PmpUi OnTabClicked (this PmpUi pmp, Func<int, bool> doThis)
+        public static PmpUi OnTabClicked(this PmpUi pmp, Func<int, bool> doThis)
         {
             pmp.OnTabClicked = doThis;
             return pmp;
+        }
+
+        /// <summary>
+        /// builds this property manager page and adds it to the <see cref="AddinModel"/>
+        /// </summary>
+        /// <param name="pmp"></param>
+        /// <param name="propertyManagerPage">property manager page</param>
+        /// <returns></returns>
+        public static AddinModel SavePropertyManagerPage(this PmpUi pmp, out PropertyManagerPageX64 propertyManagerPage)
+        {
+            propertyManagerPage = new PropertyManagerPageX64(pmp);
+            pmp.AddinModel.PropertyManagerPages.Add(propertyManagerPage);
+            return pmp.AddinModel;
         }
     }
 }

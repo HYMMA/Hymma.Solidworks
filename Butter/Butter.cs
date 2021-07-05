@@ -13,7 +13,7 @@ namespace Butter
         public Butter() : base(typeof(Butter))
         {
         }
-        private PropertyManagerBuilderX64 _pmp;
+        private PropertyManagerPageX64 _pmp;
 
         #region On connect to Solidworks
 
@@ -102,8 +102,8 @@ namespace Butter
             #endregion
 
             #region property manager page
-            _pmp = new PropertyManagerBuilderX64(this, new PMPUi(Solidworks));
-            addin.PropertyManagerPages =new List<PropertyManagerBuilderX64>(new[] { _pmp} );
+            _pmp = new PropertyManagerPageX64(new PMPUi(Solidworks)); 
+            addin.PropertyManagerPages =new List<PropertyManagerPageX64>(new[] { _pmp} );
             #endregion
 
             return addin;

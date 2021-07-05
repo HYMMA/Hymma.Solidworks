@@ -1,4 +1,5 @@
 ﻿using Hymma.SolidTools.Addins;
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swpublished;
 using System;
 using System.Collections.Generic;
@@ -10,29 +11,22 @@ namespace Hymma.SolidTools.Fluent.Addins
 {
     public class AddinPmpFactory : IFluent
     {
-
         public PmpUi AddPropertyManagerPage(string title)
         {
             var pmp = new PmpUi();
             pmp.Title = title;
             return pmp;
         }
-
-        public PmpUi OnHelp()
-        {
-            throw new NotImplementedException();
-        }
-
     }
+
     public class clientCode
     {
-        PmpUi _pmp;
+        AddinModel _addin;
         #region clinet code
-        public clientCode()
+        public clientCode(ISldWorks solidworks)
         {
-
-            _pmp = new AddinModel()
-                .AddPropertyManagerPage("title of the pmp UI")
+            _addin = new AddinModel()
+                .AddPropertyManagerPage("title of the pmp UI",solidworks)
                 .AfterClose(() => { })
                 .WhileClosing(PMPCloseReason =>
                 {
@@ -57,8 +51,7 @@ namespace Hymma.SolidTools.Fluent.Addins
                             throw new ArgumentException("group was un-checked");
                     })
                     .SaveGroup()
-                    .
-                                                        
+                .SavePropertyManagerPage(out PropertyManagerPageX64 propertyManagerPageX64);
             /*.AddGroup()
                 .That()
                 .IsClickable()
