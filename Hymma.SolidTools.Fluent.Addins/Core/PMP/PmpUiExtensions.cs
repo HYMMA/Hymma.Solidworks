@@ -77,5 +77,17 @@ namespace Hymma.SolidTools.Fluent.Addins
             pmp.OnAfterActivation = action;
             return pmp;
         }
+
+        /// <summary>
+        /// define a funciton to be invoke when user changes the tab in the property manager page
+        /// </summary>
+        /// <param name="pmp"></param>
+        /// <param name="doThis"></param>
+        /// <returns></returns>
+        public static PmpUi OnTabClicked (this PmpUi pmp, Func<int, bool> doThis)
+        {
+            pmp.OnTabClicked = doThis;
+            return pmp;
+        }
     }
 }

@@ -56,6 +56,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddinModelExtensions.cs" />
     <Compile Include="AddinPmpFactory.cs" />
     <Compile Include="Core\IFluent.cs" />
     <Compile Include="Core\PMP\Enums\pmpEnums.cs" />

@@ -31,7 +31,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         public clientCode()
         {
 
-            _pmp = new AddinPmpFactory()
+            _pmp = new AddinModel()
                 .AddPropertyManagerPage("title of the pmp UI")
                 .AfterClose(() => { })
                 .WhileClosing(PMPCloseReason =>
@@ -51,14 +51,12 @@ namespace Hymma.SolidTools.Fluent.Addins
                         controls.Add(new PmpCheckBox(true));
                         return controls;
                     })
-                    .And()
                     .AndOnExpansionChange(state =>
                     {
                         if (!state)
                             throw new ArgumentException("group was un-checked");
                     })
                     .SaveGroup()
-                    .AddGroup("second group")
                     .
                                                         
             /*.AddGroup()
