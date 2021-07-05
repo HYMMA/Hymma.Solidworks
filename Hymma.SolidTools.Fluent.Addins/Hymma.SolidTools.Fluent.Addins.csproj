@@ -58,7 +58,10 @@
   <ItemGroup>
     <Compile Include="AddinModelExtensions.cs" />
     <Compile Include="AddinPmpFactory.cs" />
+    <Compile Include="Core\AddinmodelBuilder.cs" />
     <Compile Include="Core\IFluent.cs" />
+    <Compile Include="Core\IAddinModelBuilder.cs" />
+    <Compile Include="Core\PMP\PropertyManagerPageGroup.cs" />
     <Compile Include="Core\PMP\PmpGroupExtensions.cs" />
     <Compile Include="Core\PMP\PmpUiExtensions.cs" />
     <Compile Include="Core\PMP\PmpUi.cs" />
