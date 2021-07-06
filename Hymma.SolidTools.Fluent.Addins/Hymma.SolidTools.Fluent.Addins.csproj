@@ -56,7 +56,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddinPmpFactory.cs" />
+    <Compile Include="AddinFactory.cs" />
     <Compile Include="Core\AddinmodelBuilder.cs" />
     <Compile Include="Core\IFluent.cs" />
     <Compile Include="Core\IAddinModelBuilder.cs" />

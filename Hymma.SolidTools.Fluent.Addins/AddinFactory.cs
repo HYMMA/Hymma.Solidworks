@@ -9,8 +9,15 @@ using System.Threading.Tasks;
 
 namespace Hymma.SolidTools.Fluent.Addins
 {
+    /// <summary>
+    /// Creates Multiple object required to make a solidworks addin using fluent pattern
+    /// </summary>
     public class AddinFactory : IFluent
     {
+        /// <summary>
+        /// Access main object to make a property manager page 
+        /// </summary>
+        /// <returns></returns>
         public IAddinModelBuilder GetPmpBuilder()
         {
             return new AddinModelBuilder();
