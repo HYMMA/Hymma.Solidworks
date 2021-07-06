@@ -11,22 +11,19 @@ namespace Hymma.SolidTools.Fluent.Addins
 {
     public class AddinPmpFactory : IFluent
     {
-        public PmpUi AddPropertyManagerPage(string title)
+        public IAddinModelBuilder GetPmpBuilder()
         {
-            var pmp = new PmpUi();
-            pmp.Title = title;
-            return pmp;
+            return new AddinModelBuilder();
         }
     }
 
     public class clientCode
     {
-        AddinModel _addin;
         #region clinet code
         public clientCode(ISldWorks solidworks)
         {
-            _addin = new AddinModel()
-                .AddPropertyManagerPage("title of the pmp UI",solidworks).
+          var  _addin = new AddinPmpFactory().GetPmpBuilder()
+                .AddPropertyManagerPage("title of the pmp UI",solidworks)
                 .AfterClose(() => { })
                 .WhileClosing(PMPCloseReason =>
                 {

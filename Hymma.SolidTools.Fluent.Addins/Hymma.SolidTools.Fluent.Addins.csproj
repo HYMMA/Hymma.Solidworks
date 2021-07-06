@@ -56,7 +56,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddinModelExtensions.cs" />
     <Compile Include="AddinPmpFactory.cs" />
     <Compile Include="Core\AddinmodelBuilder.cs" />
     <Compile Include="Core\IFluent.cs" />
@@ -64,8 +63,7 @@
     <Compile Include="PMP\AddinModelBuilder.cs" />
     <Compile Include="PMP\Core\IPmpGroup.cs" />
     <Compile Include="PMP\Core\IPmpUi.cs" />
-    <Compile Include="PMP\PmpGroupExtensions.cs" />
-    <Compile Include="PMP\PropertyManagerPageGroup.cs" />
+    <Compile Include="PMP\PMPGroup.cs" />
     <Compile Include="PMP\PmpUi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
