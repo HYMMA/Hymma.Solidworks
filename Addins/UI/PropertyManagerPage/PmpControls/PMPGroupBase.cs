@@ -7,7 +7,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a wrapper for solidworks property manager page groups
     /// </summary>
-    public class PmpGroup
+    public class PMPGroupBase
     {
         #region constructors
 
@@ -16,7 +16,7 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="Caption">text that appears next to a group box</param>
         /// <param name="Expanded">determines the expand state of this group box</param>
-        public PmpGroup(string Caption,bool Expanded=false)
+        public PMPGroupBase(string Caption,bool Expanded=false)
         {
             this.Caption = Caption;
             this.Expanded = Expanded;
@@ -29,7 +29,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="Caption">text that appears next to a group box</param>
         /// <param name="Controls">list of controls to add to this group</param>
         /// <param name="Expanded">determines the expand state of this group box</param>
-        public PmpGroup(string Caption, List<IPmpControl> Controls, bool Expanded= false) : this(Caption,Expanded)
+        public PMPGroupBase(string Caption, List<IPmpControl> Controls, bool Expanded= false) : this(Caption,Expanded)
         {
             this.Controls = Controls;
         }

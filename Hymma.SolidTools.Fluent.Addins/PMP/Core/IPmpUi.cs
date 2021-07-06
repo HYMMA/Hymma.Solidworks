@@ -57,6 +57,5 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <param name="propertyManagerPage">property manager page</param>
         /// <returns></returns>
         IAddinModelBuilder SavePropertyManagerPage(out PropertyManagerPageX64 propertyManagerPage);
-        
     }
 }

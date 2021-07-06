@@ -25,7 +25,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// solidworks group boxes that contain solidworks pmp controllers
         /// </summary>
-        public List<PmpGroup> PmpGroups { get; set; } = new List<PmpGroup>();
+        public List<PMPGroupBase> PmpGroups { get; set; } = new List<PMPGroupBase>();
 
         /// <summary>
         /// a title for this property manager page

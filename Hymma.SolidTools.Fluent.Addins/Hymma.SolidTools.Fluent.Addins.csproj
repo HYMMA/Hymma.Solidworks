@@ -61,10 +61,12 @@
     <Compile Include="Core\AddinmodelBuilder.cs" />
     <Compile Include="Core\IFluent.cs" />
     <Compile Include="Core\IAddinModelBuilder.cs" />
-    <Compile Include="Core\PMP\PropertyManagerPageGroup.cs" />
-    <Compile Include="Core\PMP\PmpGroupExtensions.cs" />
-    <Compile Include="Core\PMP\PmpUiExtensions.cs" />
-    <Compile Include="Core\PMP\PmpUi.cs" />
+    <Compile Include="PMP\AddinModelBuilder.cs" />
+    <Compile Include="PMP\Core\IPmpGroup.cs" />
+    <Compile Include="PMP\Core\IPmpUi.cs" />
+    <Compile Include="PMP\PmpGroupExtensions.cs" />
+    <Compile Include="PMP\PropertyManagerPageGroup.cs" />
+    <Compile Include="PMP\PmpUi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,72 @@
+﻿using Hymma.SolidTools.Addins;
+using System;
+using System.Collections.Generic;
+
+namespace Hymma.SolidTools.Fluent.Addins
+{
+    /// <summary>
+    /// a group in property manager page that host the <see cref="IPmpControl"/>
+    /// </summary>
+    public class PMPGroup : PMPGroupBase, IPmpGroup, IFluent
+    {
+        /// <summary>
+        /// default constructor
+        /// </summary>
+        /// <param name="caption">caption of thie control inside the pmp</param>
+        /// <param name="expanded">exapnsion state of the group upon load</param>
+        public PMPGroup(string caption, bool expanded) : base(caption, expanded)
+        {
+
+        }
+
+        /// <inheritdoc/>
+        internal IPmpUi PropertyManagerPageUIBase { get; set; }
+
+        /// <inheritdoc/>
+        public IPmpGroup That()
+        {
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public IPmpGroup And()
+        {
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public IPmpGroup IsExpanded(bool isExpanded = true)
+        {
+            Expanded = isExpanded;
+            return this;
+        }
+
+        ///<inheritdoc/>
+        public IPmpGroup AndOnExpansionChange(Action<bool> doThis)
+        {
+            OnGroupExpand = doThis;
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public IPmpGroup HasTheseControls(Func<IEnumerable<IPmpControl>> controlMaker)
+        {
+
+            AddControls(controlMaker.Invoke());
+            return this;
+        }
+        /// <inheritdoc/>
+        public IPmpGroup HasTheseControls(IEnumerable<IPmpControl> controls)
+        {
+
+            AddControls(controls);
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public IPmpUi SaveGroup()
+        {
+            return PropertyManagerPageUIBase as PmpUi;
+        }
+    }
+}

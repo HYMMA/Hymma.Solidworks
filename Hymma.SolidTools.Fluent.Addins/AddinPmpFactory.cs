@@ -26,7 +26,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         public clientCode(ISldWorks solidworks)
         {
             _addin = new AddinModel()
-                .AddPropertyManagerPage("title of the pmp UI",solidworks)
+                .AddPropertyManagerPage("title of the pmp UI",solidworks).
                 .AfterClose(() => { })
                 .WhileClosing(PMPCloseReason =>
                 {
