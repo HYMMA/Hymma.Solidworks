@@ -19,8 +19,9 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// </summary>
         /// <param name="addinModel"></param>
         /// <param name="title">title [caption] of the property manager page</param>
+        /// <param name="solidworks">solidworks object</param>
         /// <returns></returns>
-        public static PmpUi AddPropertyManagerPage(this AddinModel addinModel, string title, ISldWorks solidworks)
+        public static IPmpUi AddPropertyManagerPage(this AddinModel addinModel, string title, ISldWorks solidworks)
         {
             var pmp = new PmpUi(solidworks)
             {
@@ -29,7 +30,5 @@ namespace Hymma.SolidTools.Fluent.Addins
             };
             return pmp;
         }
-
-
     }
 }
