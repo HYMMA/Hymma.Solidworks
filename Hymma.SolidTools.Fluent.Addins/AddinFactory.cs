@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Hymma.SolidTools.Fluent.Addins
 {
-    public class AddinPmpFactory : IFluent
+    public class AddinFactory : IFluent
     {
         public IAddinModelBuilder GetPmpBuilder()
         {
@@ -22,7 +22,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         #region clinet code
         public clientCode(ISldWorks solidworks)
         {
-          var  _addin = new AddinPmpFactory().GetPmpBuilder()
+          var  _addin = new AddinFactory().GetPmpBuilder()
                 .AddPropertyManagerPage("title of the pmp UI",solidworks)
                 .AfterClose(() => { })
                 .WhileClosing(PMPCloseReason =>
