@@ -225,7 +225,7 @@ namespace Hymma.SolidTools.Addins
 
                     //make command tabs
                     Log("Adding commadn tab...");
-                    tab.AddCommandTab(_commandManager);
+                    tab.Register(_commandManager);
                     Log("finished adding command tab");
                 }
                 return true;

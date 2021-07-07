@@ -9,16 +9,15 @@ namespace Hymma.SolidTools.Fluent.Addins
     public interface IAddinModelBuilder : IFluent
     {
         /// <summary>
-        /// builds and adds a property manager page to solidworks
-        /// </summary>
-        /// <param name="pmp">use its .Show() method so users of your addin can actually see the property manger page once they clicked on a button</param>
-        /// <returns></returns>
-        IAddinModelBuilder BuildPropertyManagerPage(out PropertyManagerPageX64 pmp);
-        
-        /// <summary>
-        /// define a new property manger page
+        /// define a new property manger page. property manager pages open on the left hand side of the window (By default) when you run a command. 
         /// </summary>
         /// <returns></returns>
         IPmpUi AddPropertyManagerPage(string title, ISldWorks solidworks);
+
+        /// <summary>
+        /// Add a command tab to the solidworks ui for example 'Features' and 'Sketch' are command tabs
+        /// </summary>
+        /// <returns></returns>
+        IAddinCommnadTab AddCommandTab();
     }
 }

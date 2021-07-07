@@ -37,7 +37,7 @@ namespace Butter
             #region commands
 
             #region command 1
-            AddinCommand command1 = new AddinCommand
+            AddinCmdBase command1 = new AddinCmdBase
             {
                 CallBackFunction = nameof(ShowMessage),
                 EnableMethode = nameof(EnableMethode),
@@ -52,7 +52,7 @@ namespace Butter
             #endregion
 
             #region command2
-            AddinCommand command2 = new AddinCommand
+            AddinCmdBase command2 = new AddinCmdBase
             {
                 CallBackFunction = nameof(ShowMessage2),
                 EnableMethode = nameof(EnableMethode),
@@ -68,7 +68,7 @@ namespace Butter
             #endregion
 
             #region command3
-            AddinCommand command3 = new AddinCommand();
+            AddinCmdBase command3 = new AddinCmdBase();
             command3.CallBackFunction = nameof(ShowPMP);
             command3.EnableMethode = nameof(EnableMethode);
             command3.IconBitmap = Properties.Resources.xtractred;
@@ -98,6 +98,7 @@ namespace Butter
                 Types = new swDocumentTypes_e[] { swDocumentTypes_e.swDocASSEMBLY, swDocumentTypes_e.swDocDRAWING, swDocumentTypes_e.swDocPART },
                 CommandGroup = cmdGroup
             };
+
             addin.CommandTabs = new AddinCommandTab[] { tab1 };
             #endregion
 

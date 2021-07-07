@@ -21,7 +21,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public AddinCommand[] Commands { get; set; }
+        public AddinCmdBase[] Commands { get; set; }
         /// <summary>
         /// <inheritdoc/>
         /// </summary>

@@ -15,11 +15,19 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// default constructor
         /// </summary>
+        public AddinCommandGroup()
+        {
+
+        }
+
+        /// <summary>
+        /// default constructor
+        /// </summary>
         /// <param name="userId"> 
         /// If you change the definition of an existing CommandGroup (i.e., add or remove toolbar buttons), you must assign a new unique user-defined UserID to that CommandGroup. <br/>
         /// You must perform this action to avoid conflicts with any previously existing CommandGroupa and to allow for backward and forward compatibility of the CommandGroups in your application.<br/>
         /// The user ID and the GUID of the CoClass implementing ISwAddin are a unique pair.</param>
-        /// <param name="commands"> a list of <see cref="AddinCommand"/> this group presents</param>
+        /// <param name="commands"> a list of <see cref="AddinCmdBase"/> this group presents</param>
         /// <param name="title">To add a menu item for a CommandGroup to an existing SOLIDWORKS menu, specify the name of a parent menu here.<br/>
         /// <example><c>"&amp;Help\\MyApp Title"</c></example></param>
         /// <param name="description">Description of this AddinCommandGroup</param>
@@ -28,7 +36,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="icon"><see cref="Bitmap"/> object as icon for this command group inside the command manager</param>
         /// <param name="hasToolbar">does it have toolbar?</param>
         /// <param name="hasMenue">should it be presented in a menue?</param>
-        public AddinCommandGroup(int userId, AddinCommand[] commands, string title, string description, string tooltip, string hint, Bitmap icon, bool hasToolbar = true, bool hasMenue = true )
+        public AddinCommandGroup(int userId, AddinCmdBase[] commands, string title, string description, string tooltip, string hint, Bitmap icon, bool hasToolbar = true, bool hasMenue = true )
         {
             #region assing values to properties
             UserId = userId;

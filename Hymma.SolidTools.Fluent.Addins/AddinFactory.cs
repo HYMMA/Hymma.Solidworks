@@ -15,12 +15,25 @@ namespace Hymma.SolidTools.Fluent.Addins
     public class AddinFactory : IFluent
     {
         /// <summary>
-        /// Access main object to make a property manager page 
+        /// default constructor
+        /// </summary>
+        /// <remarks> a factory to make addin ui
+        /// </remarks>
+        public AddinFactory()
+        {
+            addinModelBuilder = new AddinModelBuilder();
+        }
+
+        private IAddinModelBuilder addinModelBuilder;
+        /// <summary>
+        /// Access main object to make a an addin ui 
         /// </summary>
         /// <returns></returns>
-        public IAddinModelBuilder GetPmpBuilder()
+        public IAddinModelBuilder GetUiBuilder()
         {
-            return new AddinModelBuilder();
+            if (addinModelBuilder == null)
+                return new AddinModelBuilder();
+            return addinModelBuilder;
         }
     }
 
@@ -29,47 +42,36 @@ namespace Hymma.SolidTools.Fluent.Addins
         #region clinet code
         public clientCode(ISldWorks solidworks)
         {
-          var  _addin = new AddinFactory().GetPmpBuilder()
-                .AddPropertyManagerPage("title of the pmp UI",solidworks)
-                .AfterClose(() => { })
-                .WhileClosing(PMPCloseReason =>
-                {
-                    if (PMPCloseReason == PMPCloseReason.UnknownReason)
-                    {
-                        throw new Exception();
-                    }
-                })
-                .AddGroup("Caption")
-                    .That()
-                    .IsExpanded()
-                    .And()
-                    .HasTheseControls(() =>
-                    {
-                        var controls = new List<IPmpControl>();
-                        controls.Add(new PmpCheckBox(true));
-                        return controls;
-                    })
-                    .AndOnExpansionChange(state =>
-                    {
-                        if (!state)
-                            throw new ArgumentException("group was un-checked");
-                    })
-                    .SaveGroup()
-                .SavePropertyManagerPage(out PropertyManagerPageX64 propertyManagerPageX64);
-            /*.AddGroup()
-                .That()
-                .IsClickable()
-                .And()
-                .IsExpanded()
-                .WhenExpanded(Action<bool>)
-                    .AddControl(swPropertyManagerPageControlType_e.swControlType_Selectionbox)
-                    .withHeight
-            .Apply()
-        .OnHelp(Action<bool>)
+            var builder = new AddinFactory().GetUiBuilder();
+            var addinUiModel = builder
+                  .AddPropertyManagerPage("title of the pmp UI", solidworks)
+                  .AfterClose(() => { })
+                  .WhileClosing(PMPCloseReason =>
+                  {
+                      if (PMPCloseReason == PMPCloseReason.UnknownReason)
+                      {
+                          throw new Exception();
+                      }
+                  })
+                  .AddGroup("Caption")
+                      .That()
+                      .IsExpanded()
+                      .And()
+                      .HasTheseControls(() =>
+                      {
+                          var controls = new List<IPmpControl>();
+                          controls.Add(new PmpCheckBox(true));
+                          return controls;
+                      })
+                      .AndOnExpansionChange(state =>
+                      {
+                          if (!state)
+                              throw new ArgumentException("group was un-checked");
+                      })
+                      .SaveGroup()
+                  .SavePropertyManagerPage(out PropertyManagerPageX64 propertyManagerPageX64);
 
-
-                .With()//returns new PropertyManagerBuilderX64:IPmpBuilder
-                .Controls(list of IPMpControls)*/
+            var tab = builder.AddCommandTab().
         }
         #endregion
     }
