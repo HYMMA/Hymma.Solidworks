@@ -6,8 +6,20 @@ using System.Threading.Tasks;
 
 namespace Hymma.SolidTools.Fluent.Addins
 {
-    public class AddinCommands
+    internal class AddinCommands
     {
-        
+        public AddinCommands()
+        {
+                
+        }
+        public void Commands(Action<IEnumerable<IAddinCommand>> action)
+        {
+            action.Invoke()
+        }
+
+        public void Commands(IEnumerable<IAddinCommand> commands)
+        {
+
+        }
     }
 }

@@ -85,7 +85,7 @@
     <Compile Include="UI\PropertyManagerPage\Extensions\IPropertyManagerPageButtonExtensions.cs" />
     <Compile Include="UI\PropertyManagerPage\Extensions\IPropertyManagerPageExtensions.cs" />
     <Compile Include="UI\PropertyManagerPage\Extensions\IPropertyManagerPageSelectionboxExtensions.cs" />
-    <Compile Include="UI\Tabs\CommandGroup\AddinCommand.cs" />
+    <Compile Include="UI\Tabs\CommandGroup\AddinCmdBase.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroup.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroupBase.cs" />
     <Compile Include="UI\Tabs\AddinCommandTab.cs" />
