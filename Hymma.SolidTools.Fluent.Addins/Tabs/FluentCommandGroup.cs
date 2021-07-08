@@ -1,6 +1,5 @@
 ﻿using Hymma.SolidTools.Addins;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 
 namespace Hymma.SolidTools.Fluent.Addins
@@ -8,12 +7,32 @@ namespace Hymma.SolidTools.Fluent.Addins
     /// <summary>
     /// adds a command group to solidworks ui
     /// </summary>
-    public class AddinCmdGrp : AddinCommandGroup, IAddinCmdGroup
+    public class FluentCommandGroup : AddinCommandGroup, IFluentCommandGroup
     {
-        ///<inheritdoc/>
+        private AddinCommandTab Tab { get; }
+
+        /// <summary>
+        /// default constructor
+        /// </summary>
+        public FluentCommandGroup(AddinCommandTab tab)
+        {
+            this.Tab = tab as FluentCommandTab;
+        }
+
+        /*///<inheritdoc/>
         public IAddinCommand AddCommand()
         {
             return new AddinCmd();
+        }*/
+        
+        /// <summary>
+        /// saves the command group and returns its command tab
+        /// </summary>
+        /// <returns></returns>
+        public IFluentCommandTab SaveCommnadGroup()
+        {
+            Tab.CommandGroup = this;
+            return Tab.CastTo<IFluentCommandTab>();
         }
 
         ///<inheritdoc/>
@@ -23,7 +42,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public IAddinCmdGroup And()
+        public IFluentCommandGroup And()
         {
             return this;
         }

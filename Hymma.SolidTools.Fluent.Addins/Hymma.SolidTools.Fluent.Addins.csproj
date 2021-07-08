@@ -67,13 +67,11 @@
     <Compile Include="PMP\PMPGroup.cs" />
     <Compile Include="PMP\PmpUi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tabs\AddinCmd.cs" />
-    <Compile Include="Tabs\AddinCmdGrp.cs" />
-    <Compile Include="Tabs\AddinCmdTab.cs" />
+    <Compile Include="Tabs\FluentCommandGroup.cs" />
+    <Compile Include="Tabs\FluentCommandTab.cs" />
     <Compile Include="Tabs\AddinCommands.cs" />
-    <Compile Include="Tabs\Core\IAddinCommand.cs" />
-    <Compile Include="Tabs\Core\IAddinCmdGroup.cs" />
-    <Compile Include="Tabs\Core\IAddinCommnadTab.cs" />
+    <Compile Include="Tabs\Core\IFluentCommandGroup.cs" />
+    <Compile Include="Tabs\Core\IFluentCommandTab.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FluentAddinsSolidTools.snk" />

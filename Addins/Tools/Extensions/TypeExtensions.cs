@@ -33,6 +33,12 @@ namespace Hymma.SolidTools.Addins
             return assembly.Location;
         }
 
+        /// <summary>
+        /// cast <see cref="object"/> to <typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="self"></param>
+        /// <returns></returns>
         public static T CastTo<T>(this object self)
         {
             return (T)self;

@@ -1,30 +1,47 @@
-﻿using Hymma.SolidTools.Addins;
+﻿/*I decided to define thic class as a test to see how it would affect the user experience with fluent design pattern. was not really needed */
+using Hymma.SolidTools.Addins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hymma.SolidTools.Fluent.Addins
 {
+    /// <summary>
+    /// this class adds commands to a command group
+    /// </summary>
     public class AddinCommands
     {
-        public AddinCommands(AddinCmdGrp group)
+        /// <summary>
+        /// default constructor
+        /// </summary>
+        /// <param name="group"></param>
+        public AddinCommands(FluentCommandGroup group)
         {
             this.Group = group;
         }
 
-        public AddinCmdGrp Group { get; }
+        private FluentCommandGroup Group { get; }
 
-        public IAddinCmdGroup Commands(Func<IEnumerable<AddinCmdBase>> action)
+        /// <summary>
+        /// define commands to add to the group
+        /// </summary>
+        /// <param name="comandGenerator">a function that returns <see cref="IEnumerable{T}"/></param>
+        /// <returns></returns>
+        public IFluentCommandGroup Commands(Func<IEnumerable<AddinCommandBase>> comandGenerator)
         {
-            Group.Commands.ToList().Add(action.Invoke());
-            return Group;
+            var commands = comandGenerator.Invoke();
+            return Commands(commands);
         }
 
-        public void Commands(IEnumerable<IAddinCommand> commands)
+        /// <summary>
+        /// add a list of commands to this group
+        /// </summary>
+        /// <param name="commands"></param>
+        public IFluentCommandGroup Commands(IEnumerable<AddinCommandBase> commands)
         {
-            Group.
+            commands.ToList().ForEach(c =>
+               Group.Commands.ToList().Add(c));
+            return Group;
         }
     }
 }

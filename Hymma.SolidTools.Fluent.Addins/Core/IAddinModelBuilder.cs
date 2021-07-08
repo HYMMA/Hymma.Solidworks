@@ -18,6 +18,6 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// Add a command tab to the solidworks ui for example 'Features' and 'Sketch' are command tabs
         /// </summary>
         /// <returns></returns>
-        IAddinCommnadTab AddCommandTab();
+        IFluentCommandTab AddCommandTab();
     }
 }

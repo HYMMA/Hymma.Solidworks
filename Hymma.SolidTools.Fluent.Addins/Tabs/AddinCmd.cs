@@ -2,7 +2,7 @@
 
 namespace Hymma.SolidTools.Fluent.Addins
 {
-    public class AddinCmd : AddinCmdBase, IAddinCommand
+    public class AddinCmd : AddinCommandBase, IAddinCmd
     {
 
     }

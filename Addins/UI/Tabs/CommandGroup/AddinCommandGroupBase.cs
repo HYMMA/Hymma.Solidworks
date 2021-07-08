@@ -17,7 +17,7 @@ namespace Hymma.SolidTools.Addins
         #region public properties
 
         /// <inheritdoc/>
-        public IEnumerable<AddinCmdBase> Commands { get; set; }
+        public IEnumerable<AddinCommandBase> Commands { get; set; }
         
         ///<inheritdoc/>
         public bool IgnorePrevious { get;set; }

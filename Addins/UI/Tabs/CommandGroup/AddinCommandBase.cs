@@ -1,5 +1,4 @@
 ﻿using SolidWorks.Interop.swconst;
-using System;
 using System.Drawing;
 
 namespace Hymma.SolidTools.Addins
@@ -7,13 +6,13 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a wrapper for a command in solidworks 
     /// </summary>
-    public class AddinCmdBase
+    public class AddinCommandBase
     {
         #region constructor
         /// <summary>
         /// default constructor
         /// </summary>
-        public AddinCmdBase()
+        public AddinCommandBase()
         {
 
         }
@@ -41,14 +40,14 @@ namespace Hymma.SolidTools.Addins
         /// <item>3<term></term><description>SOLIDWORKS Selects and enables the item</description></item>
         /// <item>4<term></term><description>Not supported</description></item>
         /// </list></param>
-        public AddinCmdBase(string name, string hint, string tooltipTitle, Bitmap icon, string nameofCallBackFunc, short userId=0, int menuOption=3, int tabTextStyle = 2, string enableMethode="")
+        public AddinCommandBase(string name, string hint, string tooltipTitle, Bitmap icon, string nameofCallBackFunc, short userId = 0, int menuOption = 3, int tabTextStyle = 2, string enableMethode = "")
         {
             #region assign values to properties
             Name = name;
             HintString = hint;
             ToolTip = tooltipTitle;
             IconBitmap = icon;
-            CallBackFunction = nameofCallBackFunc; 
+            CallBackFunction = nameofCallBackFunc;
             UserId = userId;
             MenueOptions = menuOption;
             CommandTabTextType = tabTextStyle;
@@ -56,6 +55,7 @@ namespace Hymma.SolidTools.Addins
             #endregion
         }
         #endregion
+
         /// <summary>
         /// commands that have the same box id will be grouped together and separated by a '|'
         /// </summary>

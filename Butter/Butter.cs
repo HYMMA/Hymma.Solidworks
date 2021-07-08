@@ -37,7 +37,7 @@ namespace Butter
             #region commands
 
             #region command 1
-            AddinCmdBase command1 = new AddinCmdBase
+            AddinCommandBase command1 = new AddinCommandBase
             {
                 CallBackFunction = nameof(ShowMessage),
                 EnableMethode = nameof(EnableMethode),
@@ -52,7 +52,7 @@ namespace Butter
             #endregion
 
             #region command2
-            AddinCmdBase command2 = new AddinCmdBase
+            AddinCommandBase command2 = new AddinCommandBase
             {
                 CallBackFunction = nameof(ShowMessage2),
                 EnableMethode = nameof(EnableMethode),
@@ -68,7 +68,7 @@ namespace Butter
             #endregion
 
             #region command3
-            AddinCmdBase command3 = new AddinCmdBase();
+            AddinCommandBase command3 = new AddinCommandBase();
             command3.CallBackFunction = nameof(ShowPMP);
             command3.EnableMethode = nameof(EnableMethode);
             command3.IconBitmap = Properties.Resources.xtractred;
