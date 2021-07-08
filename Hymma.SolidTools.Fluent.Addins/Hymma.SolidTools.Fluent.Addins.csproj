@@ -72,7 +72,7 @@
     <Compile Include="Tabs\AddinCmdTab.cs" />
     <Compile Include="Tabs\AddinCommands.cs" />
     <Compile Include="Tabs\Core\IAddinCommand.cs" />
-    <Compile Include="Tabs\Core\IAddinCommandGroup.cs" />
+    <Compile Include="Tabs\Core\IAddinCmdGroup.cs" />
     <Compile Include="Tabs\Core\IAddinCommnadTab.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,13 +7,13 @@ namespace Hymma.SolidTools.Fluent.Addins
     /// <summary>
     /// an interface to define a command group in solidworks
     /// </summary>
-    public interface IAddinCommandGroup
+    public interface IAddinCmdGroup
     {
         /// <summary>
         /// add more context
         /// </summary>
         /// <returns></returns>
-        IAddinCommandGroup And();
+        IAddinCmdGroup And();
         ///<summary>
         /// <param name="id"> 
         /// If you change the definition of an existing CommandGroup (i.e., add or remove toolbar buttons), you must assign a new unique user-defined UserID to that CommandGroup. <br/>
@@ -25,12 +25,12 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <summary>
         /// Adds commands to this command group
         /// </summary>
-        AddinCommands AddCommands();
+        AddinCommands Add();
 
         /// <summary>
         /// Add a single command to the command group
         /// </summary>
-        IAddinCommand AddCommand( );
+        IAddinCommand AddCommand();
 
         /// <summary>
         /// title for this command group

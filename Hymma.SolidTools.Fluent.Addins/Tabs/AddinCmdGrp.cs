@@ -8,7 +8,7 @@ namespace Hymma.SolidTools.Fluent.Addins
     /// <summary>
     /// adds a command group to solidworks ui
     /// </summary>
-    public class AddinCmdGrp : AddinCommandGroup, IAddinCommandGroup
+    public class AddinCmdGrp : AddinCommandGroup, IAddinCmdGroup
     {
         ///<inheritdoc/>
         public IAddinCommand AddCommand()
@@ -17,13 +17,13 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public IEnumerable<IAddinCommand> AddCommands()
+        public AddinCommands Add()
         {
-            return new AddinCommands();
+            return new AddinCommands(this);
         }
 
         ///<inheritdoc/>
-        public IAddinCommandGroup And()
+        public IAddinCmdGroup And()
         {
             return this;
         }

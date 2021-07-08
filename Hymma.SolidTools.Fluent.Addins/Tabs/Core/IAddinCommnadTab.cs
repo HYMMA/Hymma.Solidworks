@@ -31,6 +31,6 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// A command group can be listed in a command tab or be listed under 'Tools' drop down box where you can hover over and get the list of command in that command group
         /// </summary>
         /// <returns></returns>
-        IAddinCommandGroup AddGroup();
+        IAddinCmdGroup AddGroup();
     }
 }

@@ -28,7 +28,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public IAddinCommandGroup AddGroup()
+        public IAddinCmdGroup AddGroup()
         {
             return new AddinCmdGrp();
         }

@@ -6,9 +6,7 @@ using static Hymma.SolidTools.Addins.Logger;
 
 namespace Hymma.SolidTools.Addins
 {
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
+    ///<inheritdoc/>
     public abstract class AddinCommandGroupBase : IAddinCommandGroup
     {
         #region protected vars
@@ -18,53 +16,30 @@ namespace Hymma.SolidTools.Addins
 
         #region public properties
 
-        /// <summary>
         /// <inheritdoc/>
-        /// </summary>
-        public AddinCmdBase[] Commands { get; set; }
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
+        public IEnumerable<AddinCmdBase> Commands { get; set; }
+        
+        ///<inheritdoc/>
         public bool IgnorePrevious { get;set; }
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
+        ///<inheritdoc/>
         public bool IsRegistered { get; set; }
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
+        ///<inheritdoc/>
         public int UserId { get; set; }
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
+        ///<inheritdoc/>
         public string Title { get; set; } = "Title of this AddinCommandGroup";
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
+        ///<inheritdoc/>
         public string Description { get; set; }= "Description of this AddinCommandGroup";
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
+        ///<inheritdoc/>
         public string ToolTip { get; set; } = "Tooltip of this AddinCommandGroup";
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
+        ///<inheritdoc/>
         public string Hint { get; set; } = "Hint of this AddinCommandGroup";
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
+        ///<inheritdoc/>
         public int Position { get; set; } = 0;
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
+        ///<inheritdoc/>
         public bool HasToolbar { get; set; } = true;
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
+        ///<inheritdoc/>
         public bool HasMenue { get; set; } = true;
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
+        ///<inheritdoc/>
         public Bitmap MainIconBitmap { get; set; }
         
         /// <summary>
