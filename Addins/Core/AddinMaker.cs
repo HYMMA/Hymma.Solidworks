@@ -9,16 +9,18 @@ using System.Linq;
 using System.Resources;
 using System.Runtime.InteropServices;
 using static Hymma.SolidTools.Addins.Logger;
+
 namespace Hymma.SolidTools.Addins
 {
     /// <summary>
-    /// registers an <see cref="AddinModel"/> into solidworks
+    /// registers an <see cref="Addins.AddinModel"/> into solidworks
     /// </summary>
     [ComVisible(true)]
     public abstract class AddinMaker : ISwAddin
     {
 
         #region private fields & variables
+        
         /// <summary>
         /// identifier for this addin assigned by SOLIDWORKS    
         /// </summary>
@@ -33,17 +35,6 @@ namespace Hymma.SolidTools.Addins
         /// a collection of documents and their associated events
         /// </summary>
         protected Hashtable documentsEventsRepo;
-
-        /// <summary>
-        /// list of propertye manager pages
-        /// </summary>
-        protected List<PmpBase> propertyManagerPages;
-
-        /// <summary>
-        /// list of tabs
-        /// </summary>
-        protected List<AddinCommandTab> commandTabs;
-
         #endregion
 
         #region constructor
@@ -62,22 +53,18 @@ namespace Hymma.SolidTools.Addins
             }
         }
         #endregion
-
-        /// <summary>
-        /// a data model for thie addin
-        /// </summary>
-        private void GetAddinUI(AddinModel model)
-        {
-            propertyManagerPages = model.PropertyManagerPages;
-            commandTabs = model.CommandTabs.ToList();
-        }
-
+        
         #region Public Properties
-
         /// <summary>
         /// solidowrks object
         /// </summary>
         public ISldWorks Solidworks { get; set; }
+
+        /// <summary>
+        /// construct the data model for this addin here
+        /// </summary>
+        /// <returns></returns>
+        public abstract AddinModel AddinModel { get; set; }
         #endregion
 
         #region com register/un-register
@@ -166,16 +153,11 @@ namespace Hymma.SolidTools.Addins
         #endregion
 
         #region solidworks integration
-        /// <summary>
-        /// construct the data model for this addin here
-        /// </summary>
-        /// <returns></returns>
-        public abstract AddinModel GetAddinModel();
 
         /// <summary>
         /// set <see cref="PmpBase"/> object to null here
         /// </summary>
-        private void RemovePMP()
+        private void RemovePMPs(List<PmpBase> propertyManagerPages)
         {
             for (int i = 0; i < propertyManagerPages.Count(); i++)
             {
@@ -194,7 +176,7 @@ namespace Hymma.SolidTools.Addins
             throw new NotImplementedException();
         }
 
-        private void RemoveCommandMgr()
+        private void RemoveCmdTabs(IEnumerable<AddinCommandTab> commandTabs)
 
         {
             foreach (var tab in commandTabs)
@@ -210,7 +192,7 @@ namespace Hymma.SolidTools.Addins
         /// Adds commands to the addin
         /// </summary>
         /// <returns></returns>
-        public bool AddCommands()
+        public void AddCommands(IEnumerable<AddinCommandTab> commandTabs)
         {
             try
             {
@@ -226,17 +208,13 @@ namespace Hymma.SolidTools.Addins
                     tab.Register(_commandManager);
                     Log("finished adding command tab");
                 }
-                return true;
             }
-            catch (Exception)
-            {
-                return false;
-            }
+            catch (Exception) { throw; }
         }
         #endregion
 
         #region Events
-
+/*
         public bool AttachEventsToAllDocuments()
         {
             throw new NotImplementedException();
@@ -245,7 +223,7 @@ namespace Hymma.SolidTools.Addins
         public bool AttachSwEvents()
         {
             throw new NotImplementedException();
-        }
+        }*/
 
         #endregion
 
@@ -255,8 +233,8 @@ namespace Hymma.SolidTools.Addins
         /// <returns></returns>
         public virtual bool DisconnectFromSW()
         {
-            RemoveCommandMgr();
-            RemovePMP();
+            RemoveCmdTabs(AddinModel.CommandTabs);
+            RemovePMPs(AddinModel.PropertyManagerPages);
             //DetachSwEvents();
             //DetachEventsFromAllDocuments();
 
@@ -293,14 +271,13 @@ namespace Hymma.SolidTools.Addins
             Solidworks.SetAddinCallbackInfo2(0, this, addinCookie);
 
             Log("setting up Addin Model");
-            GetAddinUI(GetAddinModel());
 
             #region Setup the Command Manager
             _commandManager = Solidworks.GetCommandManager(Cookie);
 
             Log("addin commands . . .");
-            var result = AddCommands();
-            Log($"finished addin commands successfull? {result}");
+            AddCommands(AddinModel.CommandTabs);
+            Log($"finished addin commands");
 
             #endregion
 

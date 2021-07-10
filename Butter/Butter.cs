@@ -30,7 +30,7 @@ namespace Butter
                 #endregion*/
 
         /// <inheritdoc/>
-        public override AddinModel GetAddinModel()
+        public override AddinModel AddinModel()
         {
             var addin = new AddinModel();
 
