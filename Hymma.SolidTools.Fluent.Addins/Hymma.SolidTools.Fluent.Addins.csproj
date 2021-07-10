@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Hymma.SolidTools.Fluent.Addins.xml</DocumentationFile>
     <RegisterForComInterop>true</RegisterForComInterop>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,6 +40,10 @@
     <AssemblyOriginatorKeyFile>FluentAddinsSolidTools.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Hymma.SolidTools.Addins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ba0fa3dd4814f928, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Addins\bin\Debug\Hymma.SolidTools.Addins.dll</HintPath>
+    </Reference>
     <Reference Include="SolidWorks.Interop.sldworks">
       <HintPath>..\Core\bin\Debug\SolidWorks.Interop.sldworks.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -58,10 +63,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddinFactory.cs" />
-    <Compile Include="Core\AddinmodelBuilder.cs" />
     <Compile Include="Core\IFluent.cs" />
     <Compile Include="Core\IAddinModelBuilder.cs" />
-    <Compile Include="PMP\AddinModelBuilder.cs" />
+    <Compile Include="Core\AddinModelBuilder.cs" />
     <Compile Include="PMP\Core\IPmpGroup.cs" />
     <Compile Include="PMP\Core\IPmpUi.cs" />
     <Compile Include="PMP\PMPGroup.cs" />
@@ -77,10 +81,6 @@
     <None Include="FluentAddinsSolidTools.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Addins\Hymma.SolidTools.Addins.csproj">
-      <Project>{86b8e368-880d-4169-ba19-60a84d3f6fb3}</Project>
-      <Name>Hymma.SolidTools.Addins</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Core\Hymma.SolidTools.Core.csproj">
       <Project>{c11fc3f2-c2d0-4e62-9cf2-1a152b76ae03}</Project>
       <Name>Hymma.SolidTools.Core</Name>

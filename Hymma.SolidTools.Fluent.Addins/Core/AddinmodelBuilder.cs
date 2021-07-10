@@ -1,17 +1,32 @@
 ﻿using Hymma.SolidTools.Addins;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SolidWorks.Interop.sldworks;
 
-namespace Hymma.SolidTools.Fluent.Addins.Core
+namespace Hymma.SolidTools.Fluent.Addins
 {
-    public class AddinmodelBuilder : IAddinModelBuilder
+    ///<inheritdoc/>
+    public class AddinModelBuilder : AddinModel, IAddinModelBuilder
     {
-        public AddinModel BuildPropertyManagerPage(out PropertyManagerPageX64 pmp)
+        ///<inheritdoc/>
+        public IFluentCommandTab AddCommandTab()
         {
-            throw new NotImplementedException();
+            return new FluentCommandTab(this);
+        }
+
+        ///<inheritdoc/>
+        public IPmpUi AddPropertyManagerPage(string title, ISldWorks solidworks)
+        {
+            var pmp = new PmpUi(solidworks)
+            {
+                Title = title,
+                AddinModel = this
+            };
+            return pmp;
+        }
+
+        ///<inheritdoc/>
+        public IAddinModelBuilder BuildPropertyManagerPage(out PropertyManagerPageX64 pmp)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

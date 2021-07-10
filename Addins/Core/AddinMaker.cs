@@ -37,12 +37,12 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// list of propertye manager pages
         /// </summary>
-        protected List<PmpBase> _pmps;
+        protected List<PmpBase> propertyManagerPages;
 
         /// <summary>
         /// list of tabs
         /// </summary>
-        protected List<AddinCommandTab> _tabs;
+        protected List<AddinCommandTab> commandTabs;
 
         #endregion
 
@@ -69,8 +69,8 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         private void GetAddinUI(AddinModel model)
         {
-            _pmps = model.PropertyManagerPages.ToList();
-            _tabs = model.CommandTabs.ToList();
+            propertyManagerPages = model.PropertyManagerPages;
+            commandTabs = model.CommandTabs.ToList();
         }
 
         /// <summary>
@@ -179,9 +179,9 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         private void RemovePMP()
         {
-            for (int i = 0; i < _pmps.Count(); i++)
+            for (int i = 0; i < propertyManagerPages.Count(); i++)
             {
-                _pmps[i] = null;
+                propertyManagerPages[i] = null;
                 Log($"PMP {i} set to null");
             }
         }
@@ -199,7 +199,7 @@ namespace Hymma.SolidTools.Addins
         private void RemoveCommandMgr()
 
         {
-            foreach (var tab in _tabs)
+            foreach (var tab in commandTabs)
             {
                 _ = _commandManager.RemoveCommandGroup(tab.CommandGroup.UserId);
                 Log($"removed command group with id {tab.CommandGroup.UserId}");
@@ -216,7 +216,7 @@ namespace Hymma.SolidTools.Addins
         {
             try
             {
-                foreach (var tab in _tabs)
+                foreach (var tab in commandTabs)
                 {
                     //make command groups
                     Log("Adding command group...");
