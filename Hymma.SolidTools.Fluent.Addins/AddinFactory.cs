@@ -1,12 +1,8 @@
 ﻿using Hymma.SolidTools.Addins;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
-using SolidWorks.Interop.swpublished;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hymma.SolidTools.Fluent.Addins
 {
@@ -40,7 +36,7 @@ namespace Hymma.SolidTools.Fluent.Addins
 
     internal class clientCode
     {
-        #region clinet code
+        #region clinet code samples
         public clientCode(ISldWorks solidworks)
         {
             var builder = new AddinFactory().GetUiBuilder();
@@ -76,7 +72,7 @@ namespace Hymma.SolidTools.Fluent.Addins
                     .WithTitle("title of command tab")
                     .That()
                     .IsVisibleIn(new[] { swDocumentTypes_e.swDocASSEMBLY, swDocumentTypes_e.swDocDRAWING, swDocumentTypes_e.swDocIMPORTED_PART })
-                    .AddGroup()
+                    .AddCommandGroup("title of the group")
                         .Add()
                         .Commands(() =>
                         {

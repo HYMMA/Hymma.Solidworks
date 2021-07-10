@@ -32,11 +32,11 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// </summary>
         IAddinCommand AddCommand();
 */
-        /// <summary>
+       /* /// <summary>
         /// title for this command group
         /// </summary>
         /// <param name="title"></param>
-        IFluentCommandGroup WithTitle(string title);
+        IFluentCommandGroup WithTitle(string title);*/
 
         /// <summary>
         /// tooltip for this command group

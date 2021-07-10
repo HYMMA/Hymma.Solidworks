@@ -71,14 +71,6 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public IFluentCommandGroup WithTitle(string title)
-        {
-            Title = title;
-            return this;
-
-        }
-
-        ///<inheritdoc/>
         public IFluentCommandGroup WithToolTip(string toolTip)
         {
             ToolTip = toolTip;
