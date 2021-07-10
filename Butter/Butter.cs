@@ -14,20 +14,20 @@ namespace Butter
         {
         }
         private PropertyManagerPageX64 _pmp;
+        /*
+                #region On connect to Solidworks
 
-        #region On connect to Solidworks
+                public override bool ConnectToSW(object ThisSW, int Cookie)
+                {
+                    return base.ConnectToSW(ThisSW, Cookie);
+                }
 
-        public override bool ConnectToSW(object ThisSW, int Cookie)
-        {
-            return base.ConnectToSW(ThisSW, Cookie);
-        }
+                public override bool DisconnectFromSW()
+                {
+                    return base.DisconnectFromSW();
+                }
 
-        public override bool DisconnectFromSW()
-        {
-            return base.DisconnectFromSW();
-        }
-
-        #endregion
+                #endregion*/
 
         /// <inheritdoc/>
         public override AddinModel GetAddinModel()
@@ -103,8 +103,8 @@ namespace Butter
             #endregion
 
             #region property manager page
-            _pmp = new PropertyManagerPageX64(new PMPUi(Solidworks)); 
-            addin.PropertyManagerPages =new List<PropertyManagerPageX64>(new[] { _pmp} );
+            _pmp = new PropertyManagerPageX64(new PMPUi(Solidworks));
+            addin.PropertyManagerPages.Add(_pmp);
             #endregion
 
             return addin;

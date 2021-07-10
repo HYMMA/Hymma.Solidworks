@@ -12,6 +12,10 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PropertyManagerPageUIBase 
     {
+        /// <summary>
+        /// base class for making proeprty manager page UI models and controls
+        /// </summary>
+        /// <param name="solidworks"></param>
         public PropertyManagerPageUIBase(ISldWorks solidworks)
         {
             this.Solidworks = solidworks;

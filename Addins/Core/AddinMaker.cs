@@ -63,7 +63,6 @@ namespace Hymma.SolidTools.Addins
         }
         #endregion
 
-        #region Public Properties
         /// <summary>
         /// a data model for thie addin
         /// </summary>
@@ -72,6 +71,8 @@ namespace Hymma.SolidTools.Addins
             propertyManagerPages = model.PropertyManagerPages;
             commandTabs = model.CommandTabs.ToList();
         }
+
+        #region Public Properties
 
         /// <summary>
         /// solidowrks object
@@ -164,15 +165,12 @@ namespace Hymma.SolidTools.Addins
         }
         #endregion
 
+        #region solidworks integration
         /// <summary>
         /// construct the data model for this addin here
         /// </summary>
         /// <returns></returns>
         public abstract AddinModel GetAddinModel();
-
-        #region solidworks integration
-        //[EditorBrowsable(EditorBrowsableState.Never)]
-
 
         /// <summary>
         /// set <see cref="PmpBase"/> object to null here
@@ -294,14 +292,11 @@ namespace Hymma.SolidTools.Addins
             //Setup callbacks
             Solidworks.SetAddinCallbackInfo2(0, this, addinCookie);
 
-
             Log("setting up Addin Model");
             GetAddinUI(GetAddinModel());
 
             #region Setup the Command Manager
-
             _commandManager = Solidworks.GetCommandManager(Cookie);
-
 
             Log("addin commands . . .");
             var result = AddCommands();
@@ -323,8 +318,8 @@ namespace Hymma.SolidTools.Addins
             //there are events that will attach event handlers to all documents but until those events are fired this call to the method will suffice
             //AttachEventsToAllDocuments();
             #endregion
-            return true;
 
+            return true;
         }
     }
 }
