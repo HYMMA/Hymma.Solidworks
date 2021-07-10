@@ -104,6 +104,10 @@
       <Project>{c11fc3f2-c2d0-4e62-9cf2-1a152b76ae03}</Project>
       <Name>Hymma.SolidTools.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Hymma.SolidTools.Fluent.Addins\Hymma.SolidTools.Fluent.Addins.csproj">
+      <Project>{6100467f-2c52-4dda-820c-40729b0c1529}</Project>
+      <Name>Hymma.SolidTools.Fluent.Addins</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\butter.jpg" />

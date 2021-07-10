@@ -22,11 +22,5 @@ namespace Hymma.SolidTools.Fluent.Addins
             };
             return pmp;
         }
-
-        ///<inheritdoc/>
-        public IAddinModelBuilder BuildPropertyManagerPage(out PropertyManagerPageX64 pmp)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
