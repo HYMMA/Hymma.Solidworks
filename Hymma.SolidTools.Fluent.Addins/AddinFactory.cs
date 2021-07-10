@@ -1,5 +1,6 @@
 ﻿using Hymma.SolidTools.Addins;
 using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using SolidWorks.Interop.swpublished;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
     }
 
-    public class clientCode
+    internal class clientCode
     {
         #region clinet code
         public clientCode(ISldWorks solidworks)
@@ -71,7 +72,22 @@ namespace Hymma.SolidTools.Fluent.Addins
                       .SaveGroup()
                   .SavePropertyManagerPage(out PropertyManagerPageX64 propertyManagerPageX64);
 
-            var tab = builder.AddCommandTab().
+            var tab = builder.AddCommandTab()
+                    .WithTitle("title of command tab")
+                    .That()
+                    .IsVisibleIn(new[] { swDocumentTypes_e.swDocASSEMBLY, swDocumentTypes_e.swDocDRAWING, swDocumentTypes_e.swDocIMPORTED_PART })
+                    .AddGroup()
+                        .Add()
+                        .Commands(() =>
+                        {
+                            var c1 = new AddinCommandBase();
+                            var c2 = new AddinCommandBase("c2", "hint for c2", "tooltip for c2", new System.Drawing.Bitmap(128, 128), "callBackFunction");
+                            return new[] { c1, c2 };
+                        })
+                    .WithUserID(5)
+                    .WithHint("hint for group")
+                    .WithDescription("description")
+                    .SaveCommnadGroup();
         }
         #endregion
     }

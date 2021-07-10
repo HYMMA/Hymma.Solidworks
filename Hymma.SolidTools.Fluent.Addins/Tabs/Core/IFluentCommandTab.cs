@@ -13,13 +13,13 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// define a title for the command tab for exaple 'Features' is a title for it tab
         /// </summary>
         /// <param name="title"></param>
-        void WithTitle(string title);
+        IFluentCommandTab WithTitle(string title);
 
         /// <summary>
         /// the type of documents this tab should be visible in
         /// </summary>
         /// <param name="types"></param>
-        void IsVisibleIn(IEnumerable<swDocumentTypes_e> types);
+        IFluentCommandTab IsVisibleIn(IEnumerable<swDocumentTypes_e> types);
 
         /// <summary>
         /// add more context 

@@ -48,40 +48,48 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public void WithDescription(string description)
+        public IFluentCommandGroup WithDescription(string description)
         {
             Description = description;
+            return this;
+
         }
 
         ///<inheritdoc/>
-        public void WithHint(string hint)
+        public IFluentCommandGroup WithHint(string hint)
         {
             Hint = hint;
+            return this;
+
         }
 
         ///<inheritdoc/>
-        public void WithIcon(Bitmap bitmap)
+        public IFluentCommandGroup WithIcon(Bitmap bitmap)
         {
             MainIconBitmap = bitmap;
+            return this;
         }
 
         ///<inheritdoc/>
-        public void WithTitle(string title)
+        public IFluentCommandGroup WithTitle(string title)
         {
             Title = title;
+            return this;
+
         }
 
         ///<inheritdoc/>
-        public void WithToolTip(string toolTip)
+        public IFluentCommandGroup WithToolTip(string toolTip)
         {
             ToolTip = toolTip;
-            throw new NotImplementedException();
+            return this;
         }
 
         ///<inheritdoc/>
-        public void WithUserID(int id)
+        public IFluentCommandGroup WithUserID(int id)
         {
             UserId = id;
+            return this;
         }
     }
 }

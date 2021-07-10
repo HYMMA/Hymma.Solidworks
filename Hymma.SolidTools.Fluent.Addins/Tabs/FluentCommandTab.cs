@@ -20,15 +20,17 @@ namespace Hymma.SolidTools.Fluent.Addins
             this.builder = builder;
         }
         ///<inheritdoc/>
-        public void WithTitle(string title)
+        public IFluentCommandTab WithTitle(string title)
         {
             TabTitle = title;
+            return this;
         }
 
         ///<inheritdoc/>
-        public void IsVisibleIn(IEnumerable<swDocumentTypes_e> types)
+        public IFluentCommandTab IsVisibleIn(IEnumerable<swDocumentTypes_e> types)
         {
             Types = types;
+            return this;
         }
 
         ///<inheritdoc/>

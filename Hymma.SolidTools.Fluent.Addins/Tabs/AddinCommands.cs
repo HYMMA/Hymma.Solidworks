@@ -1,5 +1,4 @@
-﻿/*I decided to define thic class as a test to see how it would affect the user experience with fluent design pattern. was not really needed */
-using Hymma.SolidTools.Addins;
+﻿using Hymma.SolidTools.Addins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +8,7 @@ namespace Hymma.SolidTools.Fluent.Addins
     /// <summary>
     /// this class adds commands to a command group
     /// </summary>
+/*I decided to define thic class as a test to see how it would affect the user experience with fluent design pattern. was not really needed */
     public class AddinCommands
     {
         /// <summary>
