@@ -53,7 +53,7 @@ namespace Hymma.SolidTools.Fluent.Addins
 
         /// <summary>
         /// builds this property manager page and adds it to the <see cref="AddinModel"/> <br/>
-        /// use the <see cref="PropertyManagerPageX64"/>.Show() method in a <see cref="AddinCommandBase"/> callback function so users of your addin can actually see the property manger page once they clicked on a button
+        /// use the <see cref="PropertyManagerPageX64"/>.Show() method in a <see cref="AddinCommand"/> callback function so users of your addin can actually see the property manger page once they clicked on a button
         /// </summary>
         /// <returns></returns>
         IAddinModelBuilder SavePropertyManagerPage(out PropertyManagerPageX64 propertyManagerPage);

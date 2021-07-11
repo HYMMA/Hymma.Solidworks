@@ -44,6 +44,7 @@ namespace Hymma.SolidTools.Addins
         /// Redeclaration that hides the <see cref="object.GetType()"/> method from IntelliSense.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
         Type GetType();
 
         /// <summary>

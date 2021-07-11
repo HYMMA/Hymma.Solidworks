@@ -6,13 +6,13 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a wrapper for a command in solidworks 
     /// </summary>
-    public class AddinCommandBase
+    public class AddinCommand
     {
         #region constructor
         /// <summary>
         /// default constructor
         /// </summary>
-        public AddinCommandBase()
+        public AddinCommand()
         {
 
         }
@@ -40,7 +40,7 @@ namespace Hymma.SolidTools.Addins
         /// <item>3<term></term><description>SOLIDWORKS Selects and enables the item</description></item>
         /// <item>4<term></term><description>Not supported</description></item>
         /// </list></param>
-        public AddinCommandBase(string name, string hint, string tooltipTitle, Bitmap icon, string nameofCallBackFunc, short userId = 0, int menuOption = 3, int tabTextStyle = 2, string enableMethode = "")
+        public AddinCommand(string name, string hint, string tooltipTitle, Bitmap icon, string nameofCallBackFunc, short userId = 0, int menuOption = 3, int tabTextStyle = 2, string enableMethode = "")
         {
             #region assign values to properties
             Name = name;

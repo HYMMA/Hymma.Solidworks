@@ -1,5 +1,4 @@
 ﻿using Hymma.SolidTools.Addins;
-using System;
 using System.Drawing;
 
 namespace Hymma.SolidTools.Fluent.Addins
@@ -19,16 +18,7 @@ namespace Hymma.SolidTools.Fluent.Addins
             this.Tab = tab as FluentCommandTab;
         }
 
-        /*///<inheritdoc/>
-        public IAddinCommand AddCommand()
-        {
-            return new AddinCmd();
-        }*/
-        
-        /// <summary>
-        /// saves the command group and returns its command tab
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public IFluentCommandTab SaveCommnadGroup()
         {
             Tab.CommandGroup = this;
@@ -36,7 +26,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public AddinCommands Add()
+        public AddinCommands Has()
         {
             return new AddinCommands(this);
         }
@@ -78,9 +68,9 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public IFluentCommandGroup WithUserID(int id)
+        public IFluentCommandGroup WithTitle(string title)
         {
-            UserId = id;
+            Title = title;
             return this;
         }
     }

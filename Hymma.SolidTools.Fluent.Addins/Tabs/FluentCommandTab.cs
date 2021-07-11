@@ -18,6 +18,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         public FluentCommandTab(AddinModelBuilder builder)
         {
             this.builder = builder;
+            builder.CommandTabs = new List<AddinCommandTab>();
         }
         ///<inheritdoc/>
         public IFluentCommandTab WithTitle(string title)
@@ -40,10 +41,9 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public IFluentCommandGroup AddCommandGroup(string title)
+        public IFluentCommandGroup AddCommandGroup(int userId)
         {
-
-             return new FluentCommandGroup(this) { Title =title};
+             return new FluentCommandGroup(this) { UserId=userId};
         }
 
         ///<inheritdoc/>

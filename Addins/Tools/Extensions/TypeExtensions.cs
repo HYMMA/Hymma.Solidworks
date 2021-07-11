@@ -4,12 +4,16 @@ using System.Reflection;
 
 namespace Hymma.SolidTools.Addins
 {
+    /// <summary>
+    /// provides extenison methodes for a <see cref="Type"/>
+    /// </summary>
     public static class TypeExtensions
     {
         /// <summary>
         /// returns the attribute in a type
         /// </summary>
         /// <typeparam name="A">the attriubte required</typeparam>
+        /// <param name="type"></param>
         /// <param name="searchChildren"></param>
         /// <returns></returns>
         public static Attribute TryGetAttribute<A>(this Type type,bool searchChildren) where A:Attribute

@@ -14,29 +14,17 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// </summary>
         /// <returns></returns>
         IFluentCommandGroup And();
-        ///<summary>
-        /// <param name="id"> 
-        /// If you change the definition of an existing CommandGroup (i.e., add or remove toolbar buttons), you must assign a new unique user-defined UserID to that CommandGroup. <br/>
-        /// You must perform this action to aIFluentCommandGroup conflicts with any previously existing CommandGroupa and to allow for backward and forward compatibility of the CommandGroups in your application.<br/>
-        /// The user id and the GUID of the CoClass implementing <see cref="ISwAddin"/> are a unique pair.</param>
-        ///</summary>
-        IFluentCommandGroup WithUserID(int id);
 
         /// <summary>
         /// Adds commands to this command group
         /// </summary>
-        AddinCommands Add();
+        AddinCommands Has();
 
-/*        /// <summary>
-        /// Add a single command to the command group
+        /// <summary>
+        /// To add a CommandGroup to an existing SOLIDWORKS menu, specify the name of the parent menu here.<br/>
+        /// <example><c>"&amp;Help\\MyApp Title"</c></example>
         /// </summary>
-        IAddinCommand AddCommand();
-*/
-       /* /// <summary>
-        /// title for this command group
-        /// </summary>
-        /// <param name="title"></param>
-        IFluentCommandGroup WithTitle(string title);*/
+        IFluentCommandGroup WithTitle(string title);
 
         /// <summary>
         /// tooltip for this command group
@@ -62,7 +50,10 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <param name="bitmap"></param>
         IFluentCommandGroup WithIcon(Bitmap bitmap);
 
-
+/// <summary>
+/// registers this command group into solidworks UI
+/// </summary>
+/// <returns></returns>
         IFluentCommandTab SaveCommnadGroup();
     }
 }

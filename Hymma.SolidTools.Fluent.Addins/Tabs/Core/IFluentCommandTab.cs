@@ -30,9 +30,12 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <summary>
         /// A command group can be listed in a command tab or be listed under 'Tools' drop down box where you can hover over and get the list of command in that command group
         /// </summary>
-        /// <param name="title">title of the group in the tab</param>
+        /// <param name="userId"> 
+        /// If you change the definition of an existing CommandGroup (i.e., add or remove toolbar buttons), you must assign a new unique user-defined UserID to that CommandGroup. <br/>
+        /// You must perform this action to avoid conflicts with any previously existing CommandGroupa and to allow for backward and forward compatibility of the CommandGroups in your application.<br/>
+        /// The user ID and the GUID of the CoClass implementing ISwAddin are a unique pair.</param>
         /// <returns></returns>
-        IFluentCommandGroup AddCommandGroup(string title);
+        IFluentCommandGroup AddCommandGroup(int userId);
 
         /// <summary>
         /// saves this command tab and returns the command builder

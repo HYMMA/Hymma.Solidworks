@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -11,9 +10,9 @@ namespace Hymma.SolidTools.Addins
         #region  properties
 
         /// <summary>
-        /// an array of <see cref="AddinCommandBase"/> this group presents
+        /// an array of <see cref="AddinCommand"/> this group presents
         /// </summary>
-        IEnumerable<AddinCommandBase> Commands { get; set; }
+        AddinCommand[] Commands { get; set; }
 
         /// <summary>
         /// Set this to true to prevent SOLIDWORKS from saving the current toolbar setting to the registry, even if there is no previous version.

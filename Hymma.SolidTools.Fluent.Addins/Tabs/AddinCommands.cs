@@ -27,7 +27,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// </summary>
         /// <param name="comandGenerator">a function that returns <see cref="IEnumerable{T}"/></param>
         /// <returns></returns>
-        public IFluentCommandGroup Commands(Func<IEnumerable<AddinCommandBase>> comandGenerator)
+        public IFluentCommandGroup Commands(Func<IEnumerable<AddinCommand>> comandGenerator)
         {
             var commands = comandGenerator.Invoke();
             return Commands(commands);
@@ -37,10 +37,9 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// add a list of commands to this group
         /// </summary>
         /// <param name="commands"></param>
-        public IFluentCommandGroup Commands(IEnumerable<AddinCommandBase> commands)
+        public IFluentCommandGroup Commands(IEnumerable<AddinCommand> commands)
         {
-            commands.ToList().ForEach(c =>
-               Group.Commands.ToList().Add(c));
+            Group.Commands = (AddinCommand[])commands;
             return Group;
         }
     }

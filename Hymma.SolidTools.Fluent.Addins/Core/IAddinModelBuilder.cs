@@ -1,5 +1,4 @@
-﻿using Hymma.SolidTools.Addins;
-using SolidWorks.Interop.sldworks;
+﻿using SolidWorks.Interop.sldworks;
 
 namespace Hymma.SolidTools.Fluent.Addins
 {

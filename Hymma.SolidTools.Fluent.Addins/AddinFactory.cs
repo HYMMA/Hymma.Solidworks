@@ -72,15 +72,14 @@ namespace Hymma.SolidTools.Fluent.Addins
                     .WithTitle("title of command tab")
                     .That()
                     .IsVisibleIn(new[] { swDocumentTypes_e.swDocASSEMBLY, swDocumentTypes_e.swDocDRAWING, swDocumentTypes_e.swDocIMPORTED_PART })
-                    .AddCommandGroup("title of the group")
-                        .Add()
+                    .AddCommandGroup(1)
+                        .Has()
                         .Commands(() =>
                         {
-                            var c1 = new AddinCommandBase();
-                            var c2 = new AddinCommandBase("c2", "hint for c2", "tooltip for c2", new System.Drawing.Bitmap(128, 128), "callBackFunction");
+                            var c1 = new AddinCommand();
+                            var c2 = new AddinCommand("c2", "hint for c2", "tooltip for c2", new System.Drawing.Bitmap(128, 128), "callBackFunction");
                             return new[] { c1, c2 };
                         })
-                    .WithUserID(5)
                     .WithHint("hint for group")
                     .WithDescription("description")
                     .SaveCommnadGroup();

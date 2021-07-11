@@ -64,7 +64,7 @@ namespace Hymma.SolidTools.Addins
         /// construct the data model for this addin here
         /// </summary>
         /// <returns></returns>
-        public abstract AddinModel AddinModel { get; set; }
+        public abstract AddinModel AddinModel { get; }
         #endregion
 
         #region com register/un-register

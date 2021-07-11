@@ -40,7 +40,7 @@ namespace Hymma.SolidTools.Addins
                 //assign separators
                 commandGroup = value;
                 var groups = commandGroup.Commands.GroupBy(c => c.BoxId);
-                var commandsWithSpacers = new List<AddinCommandBase>();
+                var commandsWithSpacers = new List<AddinCommand>();
                 for (int i = 0; i < groups.Count(); i++)
                 {
                     var group = groups.ElementAt(i);
@@ -50,7 +50,7 @@ namespace Hymma.SolidTools.Addins
                     if (i + 1 < groups.Count())
 
                         //add a dummy command to indicate spacer
-                        commandsWithSpacers.Add(new AddinCommandBase() { UserId = -1, IconBitmap = new Bitmap(128, 128), Index = -1, SolidworksId = -1 });
+                        commandsWithSpacers.Add(new AddinCommand() { UserId = -1, IconBitmap = new Bitmap(128, 128), Index = -1, SolidworksId = -1 });
                 }
 
                 //update commads

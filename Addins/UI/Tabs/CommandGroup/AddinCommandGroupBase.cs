@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 using System.Linq;
 using static Hymma.SolidTools.Addins.Logger;
@@ -17,10 +16,10 @@ namespace Hymma.SolidTools.Addins
         #region public properties
 
         /// <inheritdoc/>
-        public IEnumerable<AddinCommandBase> Commands { get; set; }
-        
+        public AddinCommand[] Commands { get; set; }
+
         ///<inheritdoc/>
-        public bool IgnorePrevious { get;set; }
+        public bool IgnorePrevious { get; set; }
         ///<inheritdoc/>
         public bool IsRegistered { get; set; }
         ///<inheritdoc/>
@@ -28,7 +27,7 @@ namespace Hymma.SolidTools.Addins
         ///<inheritdoc/>
         public string Title { get; set; } = "Title of this AddinCommandGroup";
         ///<inheritdoc/>
-        public string Description { get; set; }= "Description of this AddinCommandGroup";
+        public string Description { get; set; } = "Description of this AddinCommandGroup";
         ///<inheritdoc/>
         public string ToolTip { get; set; } = "Tooltip of this AddinCommandGroup";
         ///<inheritdoc/>
@@ -41,7 +40,7 @@ namespace Hymma.SolidTools.Addins
         public bool HasMenue { get; set; } = true;
         ///<inheritdoc/>
         public Bitmap MainIconBitmap { get; set; }
-        
+
         /// <summary>
         /// returns list of command strips for this command group
         /// </summary>
@@ -79,13 +78,13 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public string[] GroupIcon
         {
-          
+
             get
             {
                 Log("getting Group icons");
                 if (_groupIcons == null)
                 {
-                    Log("Creating new group icons");    
+                    Log("Creating new group icons");
                     //Get main icon in all sizes
                     //NOTE: because main icon is actually one image we will end up just resizing it
                     _groupIcons = IconGenerator.GetCommandGroupIconStrips(new[] { MainIconBitmap }, "mainGroupIcon").ToArray();
@@ -97,7 +96,7 @@ namespace Hymma.SolidTools.Addins
             set { _groupIcons = value; }
         }
 
-       
+
         #endregion
 
         private void CheckIconsExist(string[] fileList)

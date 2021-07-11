@@ -21,11 +21,11 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="rows"></param>
         /// <param name="solidworks"></param>
-        private CalloutHelper(List<CalloutRow> rows, SldWorks solidworks)
+        private CalloutHelper(List<CalloutRow> rows, ISldWorks solidworks)
         {
             //assign event handler that solidworks will use upon creation of callout
             this.Handler = new SolidworksCalloutHandler(this);
-            this.Solidworks = solidworks;
+            this.Solidworks = (SldWorks)solidworks;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="solidworks">solidworks object</param>
         /// <param name="model">model to add selection </param>
         /// <param name="updateWithSelection">will make callout dependent on selection if set to true.</param>
-        public CalloutHelper(List<CalloutRow> rows, SldWorks solidworks, ModelDoc2 model, bool updateWithSelection = true):this(rows,solidworks)
+        public CalloutHelper(List<CalloutRow> rows, ISldWorks solidworks, ModelDoc2 model, bool updateWithSelection = true):this(rows,solidworks)
         {
             if (updateWithSelection)
             {
@@ -57,7 +57,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="rows">list of string in this callout. will be adde to the UI in the same order added to this list</param>
         /// <param name="solidworks">solidworks object</param>
         /// <param name="modelView">model view to creat the callout in</param>
-        public CalloutHelper(List<CalloutRow> rows, SldWorks solidworks, ModelView modelView) : this(rows,solidworks)
+        public CalloutHelper(List<CalloutRow> rows, ISldWorks solidworks, ModelView modelView) : this(rows,solidworks)
         {
             SwCallout = modelView.CreateCallout(Rows.Count, Handler);
             rows.ForEach(row => AddRowToCallout(row));
