@@ -92,11 +92,11 @@ namespace Hymma.SolidTools.Addins
                 RegistryKey addinStartUpKey = Registry.CurrentUser.CreateSubKey(keyname);
                 addinStartUpKey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
 
+                #region Extract icon during registration
                 //save addin icon in the current assembly folder
                 var rm = new ResourceManager($"{t.Name}.Properties.Resources", t.Assembly);
                 var addinIcon = rm.GetObject(addinAttribute.AddinIcon) as Bitmap;
                 var iconPath = IconGenerator.GetAddinIcon(addinIcon, t.Name);
-                #region Extract icon during registration
 
                 addinKey.SetValue("Icon Path", iconPath);
 

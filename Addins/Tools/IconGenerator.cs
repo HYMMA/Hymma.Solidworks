@@ -28,6 +28,7 @@
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
 #endregion
+
 using System;
 using System.Drawing;
 using System.IO;
@@ -79,9 +80,8 @@ namespace Hymma.SolidTools.Addins
             for (int i = 0; i < possibleSizes.Length; i++)
             {
                 var size = possibleSizes[i];
-                var assyDir = AssemblyExtensions.GetAssemblyDirectory();
-                // Combine all bitmaps
 
+                // Combine all bitmaps
                 Log("combining all bitmaps");
                 var combinedImage = CombineBitmap(images, size);
 
@@ -94,7 +94,7 @@ namespace Hymma.SolidTools.Addins
                         var stripe = $"{filenamePrepend}{size}.png";
                         Log($"stripe file name is {stripe}");
 
-                        stripes[i] = (Path.Combine(assyDir, stripe));
+                        stripes[i] = (Path.Combine(GetIconFolder(), stripe));
                         Log($"stripe path is {stripes[i]}");
 
                         combinedImage.Save(stripes[i]);
@@ -199,7 +199,7 @@ namespace Hymma.SolidTools.Addins
         public static string GetAddinIcon(Bitmap icon, string filename)
         {
             var addinIcon = new Bitmap(16, 16);
-            string addinIconAddress = Path.Combine(AssemblyExtensions.GetAssemblyDirectory(), filename + ".png");
+            string addinIconAddress = Path.Combine(GetIconFolder(), filename + ".png");
 
             try
             {
@@ -220,6 +220,21 @@ namespace Hymma.SolidTools.Addins
                 addinIcon.Save(addinIconAddress);
             }
             return addinIconAddress;
+        }
+
+        /// <summary>
+        /// this is a folder where the icons will get saved to
+        /// </summary>
+        /// <returns></returns>
+        private static string GetIconFolder()
+        {
+            //directory should be a folder where user has access to at all times
+            //because we make icons for commands everytime solidworks starts
+            var directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            directory = Path.Combine(directory, "HYMMA.SolidTools.Addins");
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+            return directory;
         }
     }
 }

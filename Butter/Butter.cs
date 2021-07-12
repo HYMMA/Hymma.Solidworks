@@ -90,7 +90,7 @@ namespace Butter
                 CommandGroup = cmdGroup
             };
 
-            addin.CommandTabs = new AddinCommandTab[] { tab1 };
+            addin.CommandTabs.Add(tab1);
             #endregion
 
             #region property manager page
@@ -101,11 +101,11 @@ namespace Butter
         }
         public AddinModel GetAddinModel()
         {
-            var builder = new AddinFactory().GetUiBuilder()
+            var builder = new AddinFactory().GetUiBuilder();
 
             #region Command Tab
 
-            .AddCommandTab()
+            builder.AddCommandTab()
                 .WithTitle("Butter")
                 .That()
                 .IsVisibleIn(new[] { swDocumentTypes_e.swDocASSEMBLY, swDocumentTypes_e.swDocDRAWING, swDocumentTypes_e.swDocPART })
@@ -122,11 +122,11 @@ namespace Butter
                         return new[] { command1 };
                     })
                     .SaveCommnadGroup().
-                SaveCommandTab()
+                SaveCommandTab();
             #endregion
 
             #region Butter PMP
-                .AddPropertyManagerPage("Butter", Solidworks)
+                builder.AddPropertyManagerPage("Butter", Solidworks)
             #region Group 1
 
                     .AddGroup("Group Caption")

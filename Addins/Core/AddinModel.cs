@@ -21,7 +21,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// list of command tabs that this addin will add to solidworks
         /// </summary>
-        public IEnumerable<AddinCommandTab> CommandTabs { get; set; }
+        public List<AddinCommandTab> CommandTabs { get; set; } = new List<AddinCommandTab>();
 
     }
 }

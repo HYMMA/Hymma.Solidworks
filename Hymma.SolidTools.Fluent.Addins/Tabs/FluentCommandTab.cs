@@ -18,7 +18,6 @@ namespace Hymma.SolidTools.Fluent.Addins
         public FluentCommandTab(AddinModelBuilder builder)
         {
             this.builder = builder;
-            builder.CommandTabs = new List<AddinCommandTab>();
         }
         ///<inheritdoc/>
         public IFluentCommandTab WithTitle(string title)
@@ -49,7 +48,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         ///<inheritdoc/>
         public IAddinModelBuilder SaveCommandTab()
         {
-            builder.CommandTabs.ToList().Add(this);
+            builder.CommandTabs.Add(this);
             return builder;
         }
     }

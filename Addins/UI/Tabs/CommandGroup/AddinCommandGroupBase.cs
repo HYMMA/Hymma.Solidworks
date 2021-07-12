@@ -78,7 +78,6 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public string[] GroupIcon
         {
-
             get
             {
                 Log("getting Group icons");
