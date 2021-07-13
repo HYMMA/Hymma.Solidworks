@@ -285,7 +285,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// when selection box call out is created this method is called
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="Id">id of the selectionbox</param>
         public void OnSelectionboxCalloutCreated(int Id)
         {
             //get selection box

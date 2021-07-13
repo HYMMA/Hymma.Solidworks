@@ -1,4 +1,5 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿using Hymma.SolidTools.Core;
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 
@@ -11,7 +12,7 @@ namespace Hymma.SolidTools.Addins
     {
         #region private methods
 
-        private CalloutModel _calloutHelper;
+        private CalloutModel _callout;
         private string _calloutLabel;
         #endregion
 
@@ -60,16 +61,17 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// create a clalout for this selectionbox
         /// </summary>
+        /// <remarks>you should use this property in the context of a part or assembly or drawing environment i.e you cannot use it when solidworks starts</remarks>
         public CalloutModel CalloutModel
         {
             get
             {
-                return _calloutHelper;
+                return _callout;
             }
             set
             {
                 CalloutLabel = string.IsNullOrWhiteSpace(_calloutLabel) ? "Default" : _calloutLabel;
-                _calloutHelper = value;
+                _callout = value;
                 SwSelectionBox.Callout = value.SwCallout;
             }
         }
@@ -82,8 +84,18 @@ namespace Hymma.SolidTools.Addins
             get => _calloutLabel;
             set { _calloutLabel = value; SwSelectionBox.SetCalloutLabel(value); }
         }
-        
-        #region even handlers
+
+        /// <summary>
+        /// Sets the color for selections made in this selection box on the PropertyManager page. 
+        /// </summary>
+        /// <param name="color">Color to use for selections as defined by the <see cref="SysColor"/></param>
+        /// <remarks>You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed</remarks>
+        public void SelectionColor(SysColor color)
+        {
+            SwSelectionBox.SetSelectionColor(true, (int)color);
+        }
+
+        #region event handlers
 
         /// <summary>
         /// SOLIDWORKS will invoke this once focus is changed from this selection box
@@ -97,7 +109,9 @@ namespace Hymma.SolidTools.Addins
         public Action<int> OnListChanged { get; set; }
 
         /// <summary>
-        /// SOLIDWORKS will invoke this once a call-out is created for thsi selection box
+        /// SOLIDWORKS will invoke this once a call-out is created for this selection box<br/>
+        /// allows you to collect information such as the selection type from the last selection. Next, use the <see cref="CalloutModel"/> property to get the Callout object. <br/>
+        /// Then, use that object's various properties to control the callout text and display characteristics based on that selection information.
         /// </summary>
         public Action OnCallOutCreated { get; set; }
 

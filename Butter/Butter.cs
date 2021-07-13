@@ -181,7 +181,6 @@ namespace Butter
                     .AddGroup("Radio Buttons")
                 .HasTheseControls(() =>
                 {
-
                     var controls = new List<IPmpControl>();
                     controls.Add(new PmpRadioButton(true)
                     {
@@ -217,20 +216,21 @@ namespace Butter
                 }).SaveGroup()
             #endregion
 
-            #region Group 3
+            #region selection box and callout
                     .AddGroup("Selection Boxe")
+                    .IsExpanded(true)
                     .HasTheseControls(() =>
                     {
                         var selBox = new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES })
                         {
                             Caption = "caption for selection box with callout"
                         };
-                        var rows = new List<CalloutRow>
+                        /*var rows = new List<CalloutRow>
                          {
                             new CalloutRow("value 1", "row 1") { Target = new Point(0.1, 0.1, 0.1), TextColor = SysColor.Highlight },
                             new CalloutRow("value 2", "row 2") { Target = new Point(0, 0, 0), TextColor = SysColor.AsmInterferenceVolume }
                         };
-                        selBox.CalloutModel = new CalloutModel(rows, Solidworks, (ModelDoc2)Solidworks.ActiveDoc);
+                        selBox.CalloutModel = new CalloutModel(rows, Solidworks, (ModelDoc2)Solidworks.ActiveDoc);*/
                         return new[] { selBox };
                     }).SaveGroup()
             #endregion
