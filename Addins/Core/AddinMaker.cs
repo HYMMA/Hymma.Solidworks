@@ -13,7 +13,7 @@ using static Hymma.SolidTools.Addins.Logger;
 namespace Hymma.SolidTools.Addins
 {
     /// <summary>
-    /// registers an <see cref="Addins.AddinModel"/> into solidworks
+    /// registers an <see cref="Addins.AddinUserInterface"/> into solidworks
     /// </summary>
     [ComVisible(true)]
     public abstract class AddinMaker : ISwAddin
@@ -64,7 +64,7 @@ namespace Hymma.SolidTools.Addins
         /// construct the data model for this addin here
         /// </summary>
         /// <returns></returns>
-        public abstract AddinModel AddinModel { get; }
+        public abstract AddinUserInterface AddinUI { get; }
         #endregion
 
         #region com register/un-register
@@ -231,10 +231,10 @@ namespace Hymma.SolidTools.Addins
         /// SOLIDWORKS calls these command once addin is unloaded.
         /// </summary>
         /// <returns></returns>
-        public virtual bool DisconnectFromSW()
+        public bool DisconnectFromSW()
         {
-            RemoveCmdTabs(AddinModel.CommandTabs);
-            RemovePMPs(AddinModel.PropertyManagerPages);
+            RemoveCmdTabs(AddinUI.CommandTabs);
+            RemovePMPs(AddinUI.PropertyManagerPages);
             //DetachSwEvents();
             //DetachEventsFromAllDocuments();
 
@@ -243,6 +243,9 @@ namespace Hymma.SolidTools.Addins
 
             Marshal.ReleaseComObject(Solidworks);
             Solidworks = null;
+
+            //fire event
+            OnExit(this, new OnConnectToSwEventArgs { solidworks = Solidworks, cookie = addinCookie });
 
             //The addin _must_ call GC.Collect() here in order to retrieve all managed code pointers 
             GC.Collect();
@@ -260,7 +263,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="ThisSW"></param>
         /// <param name="Cookie"></param>
         /// <returns></returns>
-        public virtual bool ConnectToSW(object ThisSW, int Cookie)
+        public bool ConnectToSW(object ThisSW, int Cookie)
         {
             Log("connecting to solidworks from Addin maker base class");
             Solidworks = (ISldWorks)ThisSW;
@@ -272,11 +275,11 @@ namespace Hymma.SolidTools.Addins
 
             Log("setting up Addin Model");
 
-            #region Setup the Command Manager
+            #region Setup the Command Manager and add commands
             _commandManager = Solidworks.GetCommandManager(Cookie);
 
             Log("addin commands . . .");
-            AddCommands(AddinModel.CommandTabs);
+            AddCommands(AddinUI.CommandTabs);
             Log($"finished addin commands");
 
             #endregion
@@ -296,7 +299,34 @@ namespace Hymma.SolidTools.Addins
             //AttachEventsToAllDocuments();
             #endregion
 
+            //fire event
+            OnStart(this, new OnConnectToSwEventArgs { solidworks = (ISldWorks)ThisSW, cookie = Cookie });
             return true;
         }
+        /// <summary>
+        /// Events that fires when your add-in connects to solidworks
+        /// </summary>
+        public event EventHandler<OnConnectToSwEventArgs> OnStart;
+
+        /// <summary>
+        /// event that fires when user un-loads the addin (example when user un-checks the addin from the list of addins)
+        /// </summary>
+        public event EventHandler<OnConnectToSwEventArgs> OnExit;
+    }
+
+    /// <summary>
+    /// event arguments for when solidworks connects or disconnects from your add-in
+    /// </summary>
+    public class OnConnectToSwEventArgs : EventArgs
+    {
+        /// <summary>
+        /// solidowrks object
+        /// </summary>
+        public ISldWorks solidworks { get; set; }
+
+        /// <summary>
+        /// the identifier for this addin
+        /// </summary>
+        public int cookie { get; set; }
     }
 }

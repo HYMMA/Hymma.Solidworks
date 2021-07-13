@@ -7,7 +7,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a wrapper class for a typical addin for solidworks
     /// </summary>
-    public class AddinModel
+    public class AddinUserInterface
     {
         /// <summary>
         /// unique identifier for this addin, gets assigned to by solidworks 

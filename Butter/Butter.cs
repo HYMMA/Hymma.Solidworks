@@ -1,8 +1,5 @@
-﻿using Hymma.Mathematics;
-using Hymma.SolidTools.Addins;
-using Hymma.SolidTools.Core;
+﻿using Hymma.SolidTools.Addins;
 using Hymma.SolidTools.Fluent.Addins;
-using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
@@ -14,16 +11,28 @@ namespace Butter
     [Addin(Title = "Butter", Description = "Smooth like butter", LoadAtStartup = true, AddinIcon = "butter")]
     public class Butter : AddinMaker
     {
+        private PropertyManagerPageX64 _pmp;
         public Butter() : base(typeof(Butter))
         {
+            OnStart += Butter_OnStart;
+            OnExit += Butter_OnExit;
         }
-        private PropertyManagerPageX64 _pmp;
 
-        public override AddinModel AddinModel => GetAddinModel();
-
-        public AddinModel GetAddinModel2()
+        private void Butter_OnExit(object sender, OnConnectToSwEventArgs e)
         {
-            var addin = new AddinModel();
+        }
+
+        private void Butter_OnStart(object sender, OnConnectToSwEventArgs e)
+        {
+            Solidworks = e.solidworks;
+            Solidworks.SendMsgToUser("weldome to butter");
+        }
+
+        public override AddinUserInterface AddinUI => GetAddinUi();
+
+        public AddinUserInterface GetAddinUi2()
+        {
+            var addin = new AddinUserInterface();
 
             #region commands
 
@@ -99,7 +108,8 @@ namespace Butter
             #endregion
             return addin;
         }
-        public AddinModel GetAddinModel()
+
+        public AddinUserInterface GetAddinUi()
         {
             var builder = new AddinFactory().GetUiBuilder();
 
@@ -126,14 +136,14 @@ namespace Butter
             #endregion
 
             #region Butter PMP
-                builder.AddPropertyManagerPage("Butter", Solidworks)
+            builder.AddPropertyManagerPage("Butter", Solidworks)
             #region Group 1
 
-                    .AddGroup("Group Caption")
-                        .HasTheseControls(() =>
+                .AddGroup("Group Caption")
+                    .HasTheseControls(() =>
+                    {
+                        var controls = new List<IPmpControl>
                         {
-                            var controls = new List<IPmpControl>
-                            {
                             new PmpCheckBox(true) { Tip = "a tip for a checkbox", Caption = "caption for chckbox" },
                             new PmpCheckBox(Properties.Settings.Default.ChkBoxChkd)
                             {
@@ -159,49 +169,49 @@ namespace Butter
                                 Caption = "caption for radio button on group 1",
                                 OnChecked = () => { Solidworks.SendMsgToUser("first radio button clicked on"); }
                             }
-                            };
-                            return controls;
-                        })
-                    .SaveGroup()
+                        };
+                        return controls;
+                    })
+                .SaveGroup()
             #endregion
             #region Group 2
                     .AddGroup("Radio Buttons")
-                    .HasTheseControls(() =>
+                .HasTheseControls(() =>
+                {
+
+                    var controls = new List<IPmpControl>();
+                    controls.Add(new PmpRadioButton(true)
                     {
+                        Tip = "a tip for this radio button",
+                        Caption = "caption for this radio button",
+                        OnChecked = () => { Solidworks.SendMsgToUser($"radio button is checked"); }
+                    });
 
-                        var controls = new List<IPmpControl>();
-                        controls.Add(new PmpRadioButton(true)
+                    controls.Add(new PmpRadioButton()
+                    {
+                        Tip = "another tip for this radio button",
+                        Caption = "yet another caption for a radio button",
+                        OnChecked = () => { Solidworks.SendMsgToUser($"radio button is checked"); }
+                    });
+
+                    controls.Add(
+                        new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES })
                         {
-                            Tip = "a tip for this radio button",
-                            Caption = "caption for this radio button",
-                            OnChecked = () => { Solidworks.SendMsgToUser($"radio button is checked"); }
-                        });
-
-                        controls.Add(new PmpRadioButton()
-                        {
-                            Tip = "another tip for this radio button",
-                            Caption = "yet another caption for a radio button",
-                            OnChecked = () => { Solidworks.SendMsgToUser($"radio button is checked"); }
-                        });
-
-                        controls.Add(
-                            new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES })
+                            Tip = "a tip for this selection box",
+                            Caption = "Caption for this selectionbox",
+                            OnSubmitSelection = (selection, type, tag) =>
                             {
-                                Tip = "a tip for this selection box",
-                                Caption = "Caption for this selectionbox",
-                                OnSubmitSelection = (selection, type, tag) =>
+                                if (type != (int)swSelectType_e.swSelEDGES)
                                 {
-                                    if (type != (int)swSelectType_e.swSelEDGES)
-                                    {
-                                        Solidworks.SendMsgToUser("only edges are allowed to select");
-                                        return false;
-                                    }
-                                    return true;
+                                    Solidworks.SendMsgToUser("only edges are allowed to select");
+                                    return false;
                                 }
+                                return true;
+                            }
 
-                            });
-                        return controls;
-                    }).SaveGroup()
+                        });
+                    return controls;
+                }).SaveGroup()
             #endregion
 
             #region Group 3
@@ -223,29 +233,32 @@ namespace Butter
             #endregion
                     .SavePropertyManagerPage(out PropertyManagerPageX64 pmp);
             _pmp = pmp;
-            
+
             #endregion
 
-            return (AddinModel)builder;
+            return (AddinUserInterface)builder;
         }
+        
         public void ShowPMP()
         {
             _pmp.Show();
         }
+        
         public int EnableMethode()
         {
             if (Solidworks.ActiveDoc != null)
                 return 1;
             return 0;
         }
+        
         public void ShowMessage()
         {
             Solidworks.SendMsgToUser2("message from Butter", 0, 0);
         }
+     
         public void ShowMessage2()
         {
             Solidworks.SendMsgToUser2("message 2 from Butter", 0, 0);
         }
-
     }
 }

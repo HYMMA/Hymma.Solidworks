@@ -52,7 +52,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         IPmpUi On_TabClicked(Func<int, bool> doThis);
 
         /// <summary>
-        /// builds this property manager page and adds it to the <see cref="AddinModel"/> <br/>
+        /// builds this property manager page and adds it to the <see cref="AddinUserInterface"/> <br/>
         /// use the <see cref="PropertyManagerPageX64"/>.Show() method in a <see cref="AddinCommand"/> callback function so users of your addin can actually see the property manger page once they clicked on a button
         /// </summary>
         /// <returns></returns>

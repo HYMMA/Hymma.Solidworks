@@ -4,7 +4,7 @@ using SolidWorks.Interop.sldworks;
 namespace Hymma.SolidTools.Fluent.Addins
 {
     ///<inheritdoc/>
-    public class AddinModelBuilder : AddinModel, IAddinModelBuilder
+    public class AddinModelBuilder : AddinUserInterface, IAddinModelBuilder
     {
         ///<inheritdoc/>
         public IFluentCommandTab AddCommandTab()
