@@ -13,12 +13,12 @@ namespace Hymma.SolidTools.Addins
         /// solidworks uses this to handle changes in the callout
         /// </summary>
         /// <param name="callout"></param>
-        public SolidworksCalloutHandler(CalloutHelper callout)
+        public SolidworksCalloutHandler(CalloutModel callout)
         {
             this.Callout = callout;
         }
 
-        public CalloutHelper Callout { get; }
+        public CalloutModel Callout { get; }
 
         #region ISwCalloutHandler Members
         /// <summary>

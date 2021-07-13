@@ -5,7 +5,7 @@ using Hymma.SolidTools.Core;
 namespace Hymma.SolidTools.Addins
 {
     /// <summary>
-    /// a row in a <see cref="CalloutHelper"/>
+    /// a row in a <see cref="CalloutModel"/>
     /// </summary>
     public class CalloutRow
     {

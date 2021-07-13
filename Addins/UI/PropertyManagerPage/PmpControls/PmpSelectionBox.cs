@@ -9,8 +9,11 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpSelectionBox : PmpControl
     {
-        private CalloutHelper _calloutHelper;
+        #region private methods
+
+        private CalloutModel _calloutHelper;
         private string _calloutLabel;
+        #endregion
 
         /// <summary>
         /// provides access to solidworks object
@@ -57,7 +60,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// create a clalout for this selectionbox
         /// </summary>
-        public CalloutHelper CalloutHelper
+        public CalloutModel CalloutModel
         {
             get
             {
@@ -79,6 +82,7 @@ namespace Hymma.SolidTools.Addins
             get => _calloutLabel;
             set { _calloutLabel = value; SwSelectionBox.SetCalloutLabel(value); }
         }
+        
         #region even handlers
 
         /// <summary>
@@ -133,10 +137,10 @@ namespace Hymma.SolidTools.Addins
     }
 
     /// <summary>
-    /// </summary>
     /// <param name="selection">Object being selected</param>
     /// <param name="selectType">Entity type of the selection as defined in<see cref="swSelectType_e"/> </param>
     /// <param name="tag">ItemText is returned to SOLIDWORKS and stored on the selected object and can be used by your PropertyManager page selection list boxes for the life of that selection.</param>
+    /// </summary>
     /// <returns></returns>
     public delegate bool OnSubmitSelection_Handler(object selection, int selectType, string tag);
 }

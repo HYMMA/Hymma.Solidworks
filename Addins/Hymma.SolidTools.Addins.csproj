@@ -79,7 +79,7 @@
     <Compile Include="UI\Callout\CalloutExtensions.cs" />
     <Compile Include="UI\Callout\CalloutRow.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
-    <Compile Include="UI\Callout\CalloutHelper.cs" />
+    <Compile Include="UI\Callout\CalloutModel.cs" />
     <Compile Include="UI\PropertyManagerPage\Enums\pmpEnums.cs" />
     <Compile Include="UI\PropertyManagerPage\Extensions\IPropertyManagerPageButtonExtensions.cs" />
     <Compile Include="UI\PropertyManagerPage\Extensions\IPropertyManagerPageExtensions.cs" />

@@ -106,7 +106,7 @@ namespace Butter
                 new CalloutRow("value 1", "row 1") { Target = new Point(0.1, 0.1, 0.1), TextColor = SysColor.Highlight },
                 new CalloutRow("value 2", "row 2") { Target = new Point(0, 0, 0), TextColor = SysColor.AsmInterferenceVolume }
             };
-            selBox.CalloutHelper = new CalloutHelper(rows, solidworks, (ModelDoc2)solidworks.ActiveDoc);
+            selBox.CalloutModel = new CalloutModel(rows, solidworks, (ModelDoc2)solidworks.ActiveDoc);
             return selBox;
         }
     }

@@ -1,5 +1,8 @@
-﻿using Hymma.SolidTools.Addins;
+﻿using Hymma.Mathematics;
+using Hymma.SolidTools.Addins;
+using Hymma.SolidTools.Core;
 using Hymma.SolidTools.Fluent.Addins;
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
@@ -215,7 +218,7 @@ namespace Butter
             #endregion
 
             #region Group 3
-                    /*.AddGroup("Selection Boxe")
+                    .AddGroup("Selection Boxe")
                     .HasTheseControls(() =>
                     {
                         var selBox = new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES })
@@ -227,9 +230,9 @@ namespace Butter
                             new CalloutRow("value 1", "row 1") { Target = new Point(0.1, 0.1, 0.1), TextColor = SysColor.Highlight },
                             new CalloutRow("value 2", "row 2") { Target = new Point(0, 0, 0), TextColor = SysColor.AsmInterferenceVolume }
                         };
-                        selBox.CalloutHelper = new CalloutHelper(rows, Solidworks, (ModelDoc2)Solidworks.ActiveDoc);
+                        selBox.CalloutModel = new CalloutModel(rows, Solidworks, (ModelDoc2)Solidworks.ActiveDoc);
                         return new[] { selBox };
-                    }).SaveGroup()*/
+                    }).SaveGroup()
             #endregion
                     .SavePropertyManagerPage(out PropertyManagerPageX64 pmp);
             _pmp = pmp;
