@@ -2,6 +2,7 @@
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
+using System.Collections.Generic;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -53,8 +54,8 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <value><list type="bullet"><listheader>if--------------- then</listheader>
         /// <item>true--------------- <description>When an entity is selected while this selection box is active and that entity is selected in a different selection box, then the entity is added to this selection box.</description> </item>
-        /// <item>true---------------  <description>If the entity is already selected in this selection box then the entity is removed from the selection box.</description> </item>
-        /// <item>false---------------   <description>When an entity is selected while this selection box is active and that entity is already selected,  then the entity is removed from the selection box. This is the default behavior of a selection box.</description> </item>
+        /// <item>true--------------- <description>If the entity is already selected in this selection box then the entity is removed from the selection box.</description> </item>
+        /// <item>false-------------- <description>When an entity is selected while this selection box is active and that entity is already selected,  then the entity is removed from the selection box. This is the default behavior of a selection box.</description> </item>
         /// </list> </value>
         public bool AllowSelectInMultipleBoxes { get; set; }
 
@@ -93,6 +94,62 @@ namespace Hymma.SolidTools.Addins
         public void SelectionColor(SysColor color)
         {
             SwSelectionBox.SetSelectionColor(true, (int)color);
+        }
+
+        /// <summary>
+        /// Gets the mark used on selected items in this selection box. 
+        /// </summary>
+        public int Mark { get => SwSelectionBox.Mark; }
+
+        /// <summary>
+        /// If the application must rely on specific mark values for specific selection boxes, then set the Mark value before the PropertyManager page is shown. <br/>
+        /// In this case, ensure that each selection box contains a different value. Otherwise, the users selection will be displayed in the selection boxes that have the same Mark value.
+        /// Mark values(whether set by the SolidWorks application or by your application) must be powers of two(for example, 1, 2, 4, 8)
+        /// </summary>
+        /// <param name="mark"></param>
+        public void SetMark(uint mark)
+        {
+            var isPowerOfTwo = (mark != 0) && ((mark & (mark - 1)) == 0);
+
+            if (isPowerOfTwo)
+                SwSelectionBox.Mark = (int)mark;
+            else
+                throw new ArgumentOutOfRangeException($"you assigned {mark} to a selection box mark value. But {mark} is not a power of 2");
+        }
+        
+        /// <summary>
+        /// adds the selections to a selectionBox
+        /// </summary>
+        /// <param name="model">the document as ModelDoc2 object</param>
+        /// <param name="selections">array of objects that needs to be added to the selection box</param>
+        /// <remarks>
+        ///set selection box's IPropertyManagerPageSelectionbox::Mark to a different power of two; for example, 1, 2, 4, 8, etc.
+        ///(Setting a selection box's mark to 0 causes all selections to appear in that selection box and the active selection box.)
+        ///</remarks>
+        public void Append(ModelDoc2 model, object[] selections)
+        {
+            var swModelDocExt = model.Extension;
+            SelectionMgr swSelectionMgr = model.SelectionManager as SelectionMgr;
+            var swSelectData = (SelectData)swSelectionMgr.CreateSelectData();
+            swSelectData.Mark = Mark;
+            swModelDocExt.MultiSelect2(selections, true, swSelectData);
+        }
+
+        /// <summary>
+        /// gets a list of items in a selection box whether they are selected or not
+        /// </summary>
+        /// <param name="model">the document where selections happen</param>
+        /// <returns></returns>
+        public IList<object> GetItems(ModelDoc2 model)
+        {
+            var selMgr = (SelectionMgr)model.SelectionManager;
+            var items = new List<object>();
+            var count = selMgr.GetSelectedObjectCount2(Mark);
+            for (int i = 1; i <= count; i++)
+            {
+                items.Add(selMgr.GetSelectedObject6(i, Mark));
+            }
+            return items;
         }
 
         #region event handlers

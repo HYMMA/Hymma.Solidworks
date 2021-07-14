@@ -1,8 +1,5 @@
-﻿using Hymma.Mathematics;
-using Hymma.SolidTools.Addins;
-using Hymma.SolidTools.Core;
+﻿using Hymma.SolidTools.Addins;
 using Hymma.SolidTools.Fluent.Addins;
-using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
@@ -223,7 +220,8 @@ namespace Butter
                     {
                         var selBox = new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES })
                         {
-                            Caption = "caption for selection box with callout"
+                            Caption = "caption for selection box with callout",
+                            Enabled = false
                         };
                         /*var rows = new List<CalloutRow>
                          {
@@ -241,24 +239,24 @@ namespace Butter
 
             return (AddinUserInterface)builder;
         }
-        
+
         public void ShowPMP()
         {
             _pmp.Show();
         }
-        
+
         public int EnableMethode()
         {
             if (Solidworks.ActiveDoc != null)
                 return 1;
             return 0;
         }
-        
+
         public void ShowMessage()
         {
             Solidworks.SendMsgToUser2("message from Butter", 0, 0);
         }
-     
+
         public void ShowMessage2()
         {
             Solidworks.SendMsgToUser2("message 2 from Butter", 0, 0);
