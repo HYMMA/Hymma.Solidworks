@@ -37,7 +37,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Property manager page object
         /// </summary>
-        protected IPropertyManagerPage2 PMP;
+        protected IPropertyManagerPage2 propertyManagerPage;
 
         /// <summary>
         /// a dictionary of controls and their id where key is the id of control
@@ -88,16 +88,16 @@ namespace Hymma.SolidTools.Addins
             int errors = -1;
 
             Log($"Makin property manager page {nameof(PmpBase)}");
-            PMP = Solidworks.CreatePropertyManagerPage(uiModel.Title, uiModel.Options, eventHandler, ref errors) as IPropertyManagerPage2;
+            propertyManagerPage = Solidworks.CreatePropertyManagerPage(uiModel.Title, uiModel.Options, eventHandler, ref errors) as IPropertyManagerPage2;
 
             //error is passed to object by reference
-            if (PMP != null && errors == (int)swPropertyManagerPageStatus_e.swPropertyManagerPage_Okay)
+            if (propertyManagerPage != null && errors == (int)swPropertyManagerPageStatus_e.swPropertyManagerPage_Okay)
             {
                 //update Ids
-                foreach (var box in uiModel.PmpGroups)
+                foreach (var group in uiModel.PmpGroups)
                 {
-                    box.Id = GetNextId();
-                    foreach (var controller in box.Controls)
+                    group.Id = GetNextId();
+                    foreach (var controller in group.Controls)
                     {
                         controller.Id = (short)GetNextId();
                     }
@@ -106,7 +106,8 @@ namespace Hymma.SolidTools.Addins
                 //add controls
                 try
                 {
-                    uiModel.PmpGroups.ForEach(box => PMP.AddGroup(box, Controls));
+                    //uiModel.PmpGroups.ForEach(group => propertyManagerPage.AddGroup(group, Controls));
+                    uiModel.PmpGroups.ForEach(group => group.Register(propertyManagerPage));
                 }
                 catch (Exception e)
                 {

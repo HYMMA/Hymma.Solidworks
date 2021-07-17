@@ -76,12 +76,12 @@
   <ItemGroup>
     <Compile Include="Core\AddinUserInterface.cs" />
     <Compile Include="Core\AddinAttribute.cs" />
+    <Compile Include="Core\IWrapSolidworksObject.cs" />
     <Compile Include="UI\Callout\CalloutExtensions.cs" />
     <Compile Include="UI\Callout\CalloutRow.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
     <Compile Include="UI\Callout\CalloutModel.cs" />
     <Compile Include="UI\PropertyManagerPage\Enums\pmpEnums.cs" />
-    <Compile Include="UI\PropertyManagerPage\Extensions\IPropertyManagerPageButtonExtensions.cs" />
     <Compile Include="UI\PropertyManagerPage\Extensions\IPropertyManagerPageExtensions.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommand.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroup.cs" />
@@ -112,7 +112,7 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpWindowHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\IPmpControl.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\PMPGroupBase.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PMPGroup.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpCheckBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpLabel.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpTextBox.cs" />

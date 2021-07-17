@@ -7,7 +7,7 @@ namespace Hymma.SolidTools.Fluent.Addins
     /// <summary>
     /// a group in property manager page that host the <see cref="IPmpControl"/>
     /// </summary>
-    public class PMPGroup : PMPGroupBase, IPmpGroup, IFluent
+    public class PMPGroup : SolidTools.Addins.PMPGroup, IPmpGroup, IFluent
     {
         /// <summary>
         /// default constructor

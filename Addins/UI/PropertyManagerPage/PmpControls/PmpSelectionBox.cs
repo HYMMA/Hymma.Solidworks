@@ -9,18 +9,13 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a solidworks selection box 
     /// </summary>
-    public class PmpSelectionBox : PmpControl
+    public class PmpSelectionBox : PmpControl<IPropertyManagerPageSelectionbox>
     {
         #region private methods
 
         private CalloutModel _callout;
         private string _calloutLabel;
         #endregion
-
-        /// <summary>
-        /// provides access to solidworks object
-        /// </summary>
-        public IPropertyManagerPageSelectionbox SwSelectionBox { get; internal set; }
 
         /// <summary>
         /// default constructor
@@ -73,7 +68,7 @@ namespace Hymma.SolidTools.Addins
             {
                 CalloutLabel = string.IsNullOrWhiteSpace(_calloutLabel) ? "Default" : _calloutLabel;
                 _callout = value;
-                SwSelectionBox.Callout = value.SwCallout;
+                SolidworksObject.Callout = value.SwCallout;
             }
         }
 
@@ -83,7 +78,7 @@ namespace Hymma.SolidTools.Addins
         public string CalloutLabel
         {
             get => _calloutLabel;
-            set { _calloutLabel = value; SwSelectionBox.SetCalloutLabel(value); }
+            set { _calloutLabel = value; SolidworksObject.SetCalloutLabel(value); }
         }
 
         /// <summary>
@@ -93,13 +88,13 @@ namespace Hymma.SolidTools.Addins
         /// <remarks>You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed</remarks>
         public void SelectionColor(SysColor color)
         {
-            SwSelectionBox.SetSelectionColor(true, (int)color);
+            SolidworksObject.SetSelectionColor(true, (int)color);
         }
 
         /// <summary>
         /// Gets the mark used on selected items in this selection box. 
         /// </summary>
-        public int Mark { get => SwSelectionBox.Mark; }
+        public int Mark { get => SolidworksObject.Mark; }
 
         /// <summary>
         /// If the application must rely on specific mark values for specific selection boxes, then set the Mark value before the PropertyManager page is shown. <br/>
@@ -112,7 +107,7 @@ namespace Hymma.SolidTools.Addins
             var isPowerOfTwo = (mark != 0) && ((mark & (mark - 1)) == 0);
 
             if (isPowerOfTwo)
-                SwSelectionBox.Mark = (int)mark;
+                SolidworksObject.Mark = (int)mark;
             else
                 throw new ArgumentOutOfRangeException($"you assigned {mark} to a selection box mark value. But {mark} is not a power of 2");
         }

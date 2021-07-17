@@ -1,4 +1,5 @@
-﻿using SolidWorks.Interop.swconst;
+﻿using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 
@@ -7,7 +8,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a wrapper for solidworks property manager page groups
     /// </summary>
-    public class PMPGroupBase
+    public class PMPGroup : IWrapSolidworksObject<IPropertyManagerPageGroup>
     {
         #region constructors
 
@@ -16,7 +17,7 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="Caption">text that appears next to a group box</param>
         /// <param name="Expanded">determines the expand state of this group box</param>
-        public PMPGroupBase(string Caption,bool Expanded=false)
+        public PMPGroup(string Caption, bool Expanded = false)
         {
             this.Caption = Caption;
             this.Expanded = Expanded;
@@ -29,14 +30,14 @@ namespace Hymma.SolidTools.Addins
         /// <param name="Caption">text that appears next to a group box</param>
         /// <param name="Controls">list of controls to add to this group</param>
         /// <param name="Expanded">determines the expand state of this group box</param>
-        public PMPGroupBase(string Caption, List<IPmpControl> Controls, bool Expanded= false) : this(Caption,Expanded)
+        public PMPGroup(string Caption, List<IPmpControl> Controls, bool Expanded = false) : this(Caption, Expanded)
         {
             this.Controls = Controls;
         }
         #endregion
 
         #region Members/Properties
-        
+
         /// <summary>
         /// adds a control to the <see cref="Controls"/>
         /// </summary>
@@ -93,5 +94,18 @@ namespace Hymma.SolidTools.Addins
         /// this delegate requires a bool variable to indicate the IsChecked status of the group
         /// </summary>
         public Action<bool> OnGroupCheck { get; set; }
+
+        ///<inheritdoc/>
+        public IPropertyManagerPageGroup SolidworksObject { get; private set; }
+
+        /// <summary>
+        /// registers this group into a property manager page
+        /// </summary>
+        /// <param name="propertyManagerPage"></param>
+        internal void Register(IPropertyManagerPage2 propertyManagerPage)
+        {
+            SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(Id, Caption, (int)Options);
+            Controls.ForEach(c => c.Register(SolidworksObject));
+        }
     }
 }

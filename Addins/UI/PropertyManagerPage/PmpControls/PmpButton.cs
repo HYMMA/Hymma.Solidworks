@@ -1,13 +1,13 @@
-﻿using SolidWorks.Interop.swconst;
+﻿using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System;
-using System.Drawing;
 
 namespace Hymma.SolidTools.Addins
 {
-        /// <summary>
-        /// a button in property manager page
-        /// </summary>
-    public class PmpButton : PmpControl
+    /// <summary>
+    /// a button in property manager page
+    /// </summary>
+    public class PmpButton : PmpControl<IPropertyManagerPageButton>
     {
         /// <summary>
         /// default constructor

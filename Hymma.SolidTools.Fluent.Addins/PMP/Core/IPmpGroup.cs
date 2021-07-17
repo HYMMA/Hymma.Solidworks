@@ -11,20 +11,20 @@ namespace Hymma.SolidTools.Fluent.Addins
     {
 
         /// <summary>
-        /// add extra context to this <see cref="PMPGroupBase"/>
+        /// add extra context to this <see cref="SolidTools.Addins.PMPGroup"/>
         /// </summary>
         /// <returns></returns>
         IPmpGroup That();
 
         /// <summary>
-        /// add extra context to this <see cref="PMPGroupBase"/>
+        /// add extra context to this <see cref="SolidTools.Addins.PMPGroup"/>
         /// </summary>
         /// <returns></returns>
         IPmpGroup And();
 
 
         /// <summary>
-        /// determines if this <see cref="PMPGroupBase"/> is expanded or not
+        /// determines if this <see cref="SolidTools.Addins.PMPGroup"/> is expanded or not
         /// </summary>
         /// <param name="isExpanded"></param>
         /// <returns></returns>
@@ -39,13 +39,13 @@ namespace Hymma.SolidTools.Fluent.Addins
         IPmpGroup AndOnExpansionChange(Action<bool> doThis);
 
         /// <summary>
-        /// add these controls to the <see cref="PMPGroupBase"/>
+        /// add these controls to the <see cref="SolidTools.Addins.PMPGroup"/>
         /// </summary>
         /// <param name="controlMaker">function that returns an <see cref="IEnumerable{T}"/> where T : <see cref="IPmpControl"/></param>
         /// <returns></returns>
         IPmpGroup HasTheseControls(Func<IEnumerable<IPmpControl>> controlMaker);
         /// <summary>
-        /// add these controls to the <see cref="PMPGroupBase"/>
+        /// add these controls to the <see cref="SolidTools.Addins.PMPGroup"/>
         /// </summary>
         /// <param name="controls">an <see cref="IEnumerable{T}"/> where T : <see cref="IPmpControl"/></param>
         /// <returns></returns>

@@ -23,7 +23,7 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public override void Show()
         {
-            if (PMP == null)
+            if (propertyManagerPage == null)
             {
                 Solidworks.SendMsgToUser("Could not create this property manager page");
                 return;
@@ -41,7 +41,7 @@ namespace Hymma.SolidTools.Addins
                     handler.ProperptyManagerPageHandle.SetWindowHandlex64(handler.ElementHost.Handle.ToInt64());
                 }
             }
-            PMP.Show();
+            propertyManagerPage.Show();
             #endregion
             
             #region update checkboxes state

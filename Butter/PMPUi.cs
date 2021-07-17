@@ -14,10 +14,10 @@ namespace Butter
             this.Solidworks = Solidworks;
             Title = "title of property manager page";
             
-            var group1 = new PMPGroupBase("group box caption");
+            var group1 = new PMPGroup("group box caption");
             group1.AddControls(GetControlSet1());
 
-            var group2 = new PMPGroupBase("radio buttons");
+            var group2 = new PMPGroup("radio buttons");
             group2.AddControls(GetControlSet2());
             //group2.AddControl(GetSelectionBoxWithCallout((SldWorks)Solidworks));
             PmpGroups.AddRange(new[] { group1, group2 });
