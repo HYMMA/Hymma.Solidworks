@@ -1,4 +1,5 @@
-﻿using SolidWorks.Interop.swconst;
+﻿using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System;
 using System.ComponentModel;
 
@@ -7,7 +8,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a check box in a property manger page
     /// </summary>
-    public class PmpCheckBox : PmpControl
+    public class PmpCheckBox : PmpControl<PropertyManagerPageCheckbox>
     {
 
         /// <summary>

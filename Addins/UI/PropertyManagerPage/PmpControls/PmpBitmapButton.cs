@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
+using SolidWorks.Interop.sldworks;
 using System.Drawing;
 
 namespace Hymma.SolidTools.Addins
 {
-    public class PmpBitmapButtonCustom : PmpControl
+    public class PmpBitmapButton : PmpControl<PropertyManagerPageButton>
     {
 
         /// <summary>
         /// a customised bitmap button for property manager pages
         /// </summary>
-        public PmpBitmapButtonCustom():base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_BitmapButton)
+        public PmpBitmapButton():base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_BitmapButton)
         {
         }
 

@@ -5,7 +5,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a checkable bitmap button
     /// </summary>
-    public class PmpBitmapButtonCheckable : PmpBitmapButtonCustom
+    public class PmpBitmapButtonCheckable : PmpBitmapButton
     {
         /// <summary>
         /// default constructor

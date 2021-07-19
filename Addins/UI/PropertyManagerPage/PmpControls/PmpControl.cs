@@ -45,7 +45,7 @@ namespace Hymma.SolidTools.Addins
         /// You can only use this method on a PropertyManager page before the page is displayed, while it is displayed, or when it is closed. <br/>
         /// The image format for the two bitmaps is 18 x 18 pixels x 256 colors. The pixels in MaskBitmap specify transparency through shades of grey with boundaries of black pixels = 100% opaque and white pixels = 100% transparent.
         /// </remarks>
-        public void SetPictureLabelByName(string colorBitmap, string maskBitmap)
+        public virtual void SetPictureLabelByName(string colorBitmap, string maskBitmap)
         {
             Control.SetPictureLabelByName(colorBitmap, maskBitmap);
         }

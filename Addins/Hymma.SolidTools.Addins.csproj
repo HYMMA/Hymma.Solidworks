@@ -82,7 +82,6 @@
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
     <Compile Include="UI\Callout\CalloutModel.cs" />
     <Compile Include="UI\PropertyManagerPage\Enums\pmpEnums.cs" />
-    <Compile Include="UI\PropertyManagerPage\Extensions\IPropertyManagerPageExtensions.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommand.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroup.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroupBase.cs" />
@@ -90,7 +89,6 @@
     <Compile Include="Core\AddinMaker.cs" />
     <Compile Include="UI\Tabs\CommandGroup\IAddinCommandGroup.cs" />
     <Compile Include="Tools\Extensions\AssemblyExtensions.cs" />
-    <Compile Include="UI\PropertyManagerPage\Extensions\IPropertyManagerPageExtensions2.cs" />
     <Compile Include="Tools\Extensions\TypeExtensions.cs" />
     <Compile Include="Tools\Logging\Logger.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpBase.cs" />
@@ -103,7 +101,6 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButtonCheckable.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpComboBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpControl.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpTextBase.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpListBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpNumberBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpRadioButton.cs" />
