@@ -15,7 +15,7 @@ namespace Hymma.SolidTools.Addins
             SolidworksObject.SetBitmapsByName3()
         }
 
-        public void SetBitmaps(Bitmap image, Bitmap bitmap)
+        public void SetBitmaps(Bitmap image)
         {
 
         }
