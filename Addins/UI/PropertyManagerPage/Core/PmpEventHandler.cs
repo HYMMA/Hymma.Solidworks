@@ -226,8 +226,13 @@ namespace Hymma.SolidTools.Addins
         public void OnButtonPress(int Id)
         {
             Log("event handling button press...");
-            var button = UiModel.GetControl(Id) as PmpButton;
-            button?.OnPress?.Invoke();
+            var button = UiModel.GetControl(Id);
+         
+            if (button.Type== swPropertyManagerPageControlType_e.swControlType_Button)
+                button.CastTo<PmpButton>()?.OnPress?.Invoke();
+
+            if (button.Type== swPropertyManagerPageControlType_e.swControlType_BitmapButton)
+                button.CastTo<PmpBitmapButton>()?.OnPress?.Invoke();
         }
 
         public void OnTextboxChanged(int Id, string Text)
@@ -328,9 +333,9 @@ namespace Hymma.SolidTools.Addins
         /// <returns></returns>
         public bool OnSubmitSelection(int Id, object Selection, int SelType, ref string ItemText)
         {
-            var selectionBox=UiModel.GetControl(Id) as PmpSelectionBox;
-            if (selectionBox == null || selectionBox.OnSubmitSelection == null) return false;   
-            
+            var selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
+            if (selectionBox == null || selectionBox.OnSubmitSelection == null) return false;
+
             // This method must return true for selections to occur
             return selectionBox.OnSubmitSelection(Selection, SelType, ItemText);
         }
