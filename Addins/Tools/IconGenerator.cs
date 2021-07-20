@@ -246,5 +246,7 @@ namespace Hymma.SolidTools.Addins
                 Directory.CreateDirectory(directory);
             return directory;
         }
+
+        private string string GetBtnBitmaps
     }
 }
