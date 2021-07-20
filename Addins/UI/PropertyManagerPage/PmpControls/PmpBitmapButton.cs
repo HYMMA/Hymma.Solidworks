@@ -37,7 +37,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="bitmap"></param>
         public void SetBitmap(Bitmap bitmap)
         {
-            IconGenerator.GetBtnBitmaps(bitmap, out string[] images, out string[] masked);
+            IconGenerator.GetBitmapButtonIcons(bitmap, out string[] images, out string[] masked);
             SolidworksObject.SetBitmapsByName3(images, masked);
         }
 

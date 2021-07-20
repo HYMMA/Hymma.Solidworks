@@ -28,7 +28,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// gets or sets if this button is checked
         /// </summary>
-        bool Checked { get => SolidworksObject.Checked; set => SolidworksObject.Checked = value; }
+        public bool Checked { get => SolidworksObject.Checked; set => SolidworksObject.Checked = value; }
 
         /// <summary>
         /// gets or sets if this button is clickable

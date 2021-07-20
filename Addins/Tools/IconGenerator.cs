@@ -128,47 +128,72 @@ namespace Hymma.SolidTools.Addins
         }
 
         /// <summary>
-        /// edits and saves a bitmap for use in button bitmaps in a property manager page 
+        /// edits and saves a bitmap for use in <see cref="PmpBitmapButton"/> 
         /// </summary>
         /// <param name="bitmap"></param>
         /// <param name="images">an array of files of resized images</param>
         /// <param name="maskedImages">an array of masked images</param>
         /// <returns>An array of arrays where first array is the resized images and the second array is their masked images </returns>
-        public static void GetBtnBitmaps(Bitmap bitmap, out string[] images, out string[] maskedImages)
+        public static void GetBitmapButtonIcons(Bitmap bitmap, out string[] images, out string[] maskedImages)
         {
             //possible sizes for a button bitmap in solidworks
             var possibleSizes = new[] { 20, 32, 40, 64, 96, 128 };
 
             //empty array to hold address of final bitmaps
             maskedImages = images = new string[6];
-
-            //get image format
-            ImageFormat imageFormat = bitmap.RawFormat;
-
+            
             //iterate through possible sizes and process bitmap against that size
             for (int i = 0; i < possibleSizes.Length; i++)
             {
                 var size = possibleSizes[i];
                 var resized = Resize(bitmap, size, size);
-
-                //png files dont support bitmask
-                if (bitmap.RawFormat.Equals(ImageFormat.Png))
-                {
-                    images[i] = Path.Combine(GetIconFolder(), Guid.NewGuid().ToString(), ".png");
-
-                    //accroding to solidworks api for png files we should return empty string as masked images
-                    maskedImages[i] = "";
-                }
-                else
-                {
-                    images[i] = Path.Combine(GetIconFolder(), Guid.NewGuid().ToString(), ".bmp");
-                    maskedImages[i] = ImageMask.GetImageMask(resized, GetIconFolder(), Guid.NewGuid().ToString());
-                }
-                
-                resized.Save(images[i]);
+                SaveMaskedImage(resized, GetIconFolder(), Guid.NewGuid().ToString(), out images[i], out maskedImages[i]);
             }
         }
 
+        /// <summary>
+        /// coverts and saves a bitmap for use in a <see cref="PmpBitmap"/>
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <param name="image">full file name of the image on disk</param>
+        /// <param name="maskeImage">full file name of the masked image on disk</param>
+        public static void GetBitmapIcon(Bitmap bitmap, out string image, out string maskeImage)
+        {
+            //get bitmap size
+            Bitmap resized = bitmap;
+            if (bitmap.Width != bitmap.Height)
+            {
+                var size = Math.Min(bitmap.Width, bitmap.Height);
+                resized = Resize(bitmap, size, size);
+            }
+            SaveMaskedImage(resized, GetIconFolder(), Guid.NewGuid().ToString(), out image, out maskeImage);
+        }
+
+        /// <summary>
+        /// coverts and saves a bitmap to specified location
+        /// </summary>
+        /// <param name="bitmap">file to get bitmask for</param>
+        /// <param name="directory">directory address</param>
+        /// <param name="filename">without extension</param>
+        /// <param name="image"></param>
+        /// <param name="mask"></param>
+        /// <returns>mask image file or "" if bitmap provided is of type png</returns>
+        private static void SaveMaskedImage(Bitmap bitmap, string directory, string filename, out string image, out string mask)
+        {
+            //png files dont support bitmask
+            if (bitmap.RawFormat.Equals(ImageFormat.Png))
+            {
+                image = Path.Combine(directory, filename, ".png");
+                //accroding to solidworks api for png files we should return empty string as masked images
+                mask = "";
+            }
+            else
+            {
+                image = Path.Combine(directory, filename, ".bmp");
+                mask= ImageMask.GetImageMask(bitmap, directory, filename);
+            }
+            bitmap.Save(image);
+        }
 
         /// <summary>
         /// Combines images into a sprite horizontally
