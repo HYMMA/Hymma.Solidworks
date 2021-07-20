@@ -96,7 +96,7 @@
     <Compile Include="UI\PropertyManagerPage\Core\PropertyManagerPageUIBase.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PropertyManagerPageX64.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmap.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButtonCustom.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButton.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButtonStandard.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButtonCheckable.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpComboBox.cs" />

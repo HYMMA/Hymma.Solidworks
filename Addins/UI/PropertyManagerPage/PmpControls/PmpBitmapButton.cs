@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace Hymma.SolidTools.Addins
 {
-    public class PmpBitmapButton : PmpControl<PropertyManagerPageButton>
+    public class PmpBitmapButton : PmpControl<PropertyManagerPageBitmapButton>
     {
 
         /// <summary>
@@ -14,6 +14,16 @@ namespace Hymma.SolidTools.Addins
         {
         }
 
+        public void SetBitmapsByName(string[] colorBitmap, string[] maskBitmap)
+        {
+            SolidworksObject.SetBitmapsByName3()
+
+        }
+
+        public override void SetPictureLabelByName(string colorBitmap, string maskBitmap)
+        {
+            base.SetPictureLabelByName(colorBitmap, maskBitmap);
+        }
         /// <summary>
         /// <list type="bullet">
         /// <listheader> images should be</listheader>
