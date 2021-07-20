@@ -77,10 +77,6 @@
     <None Include="FluentAddinsSolidTools.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Addins\Hymma.SolidTools.Addins.csproj">
-      <Project>{86b8e368-880d-4169-ba19-60a84d3f6fb3}</Project>
-      <Name>Hymma.SolidTools.Addins</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Core\Hymma.SolidTools.Core.csproj">
       <Project>{c11fc3f2-c2d0-4e62-9cf2-1a152b76ae03}</Project>
       <Name>Hymma.SolidTools.Core</Name>

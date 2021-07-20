@@ -46,15 +46,16 @@ namespace Hymma.SolidTools.Addins
         }
 
         /// <summary>
-        /// creates a masked bitmap from original bitmap provided
+        /// creates a masked bitmap (.bmp) from original bitmap provided
         /// </summary>
         /// <param name="image">original bitmap</param>
-        /// <param name="fileName">name (without extension) of the new file that this funciton will create on executing assembly directory</param>
+        /// <param name="directory">directory to save the image in</param>
+        /// <param name="fileName">name (without extension) of the new file that this funciton will create on directory</param>
         /// <param name="opaque">allows a semi opaq (grey) masked iamge. </param>
         /// <param name="OpacityThreshold">this parameter determines the opacity of the masked image. max is 255</param>
         /// <param name="invertedMask">inverts the colors of masked image </param>
         /// <returns>full file name of masked bitmap image</returns>
-        public static string GetImageMask(Bitmap image, string fileName, bool opaque = false, int OpacityThreshold = 128, bool invertedMask = false)
+        public static string GetImageMask(Bitmap image,string directory, string fileName, bool opaque = false, int OpacityThreshold = 128, bool invertedMask = false)
         {
             Bitmap maskImage = Create32bppImageAndClearAlpha(image);
 
@@ -92,9 +93,6 @@ namespace Hymma.SolidTools.Addins
             Marshal.Copy(maskImageRGBData, 0, bmpData.Scan0, maskImageRGBData.Length);
             maskImage.UnlockBits(bmpData);
 
-            //get current assymbly folder
-            var assyDir = AssemblyExtensions.GetAssemblyDirectory();
-            
             string fullFileName = "";
             
             //get maskImage
@@ -102,7 +100,7 @@ namespace Hymma.SolidTools.Addins
             {
                 var name = $"{fileName}.bmp";
                 maskImage.Save(name);
-                fullFileName = Path.Combine(assyDir, name);
+                fullFileName = Path.Combine(directory, name);
             }
 
             //retur result

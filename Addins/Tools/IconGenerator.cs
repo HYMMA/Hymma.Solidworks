@@ -31,6 +31,7 @@
 
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using static Hymma.SolidTools.Addins.Logger;
 
@@ -113,6 +114,63 @@ namespace Hymma.SolidTools.Addins
         }
 
         /// <summary>
+        /// generates an addin icon (.png) format and saves it on assembly folder
+        /// </summary>
+        /// <param name="icon">the icon to transform</param>
+        /// <param name="filename">name of file without extension</param>
+        /// <returns></returns>
+        public static string GetAddinIcon(Bitmap icon, string filename)
+        {
+            var addinIcon = Resize(icon, 16, 16);
+            string addinIconAddress = Path.Combine(GetIconFolder(), filename + ".png");
+            addinIcon.Save(addinIconAddress);
+            return addinIconAddress;
+        }
+
+        /// <summary>
+        /// edits and saves a bitmap for use in button bitmaps in a property manager page 
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <param name="images">an array of files of resized images</param>
+        /// <param name="maskedImages">an array of masked images</param>
+        /// <returns>An array of arrays where first array is the resized images and the second array is their masked images </returns>
+        public static void GetBtnBitmaps(Bitmap bitmap, out string[] images, out string[] maskedImages)
+        {
+            //possible sizes for a button bitmap in solidworks
+            var possibleSizes = new[] { 20, 32, 40, 64, 96, 128 };
+
+            //empty array to hold address of final bitmaps
+            maskedImages = images = new string[6];
+
+            //get image format
+            ImageFormat imageFormat = bitmap.RawFormat;
+
+            //iterate through possible sizes and process bitmap against that size
+            for (int i = 0; i < possibleSizes.Length; i++)
+            {
+                var size = possibleSizes[i];
+                var resized = Resize(bitmap, size, size);
+
+                //png files dont support bitmask
+                if (bitmap.RawFormat.Equals(ImageFormat.Png))
+                {
+                    images[i] = Path.Combine(GetIconFolder(), Guid.NewGuid().ToString(), ".png");
+
+                    //accroding to solidworks api for png files we should return empty string as masked images
+                    maskedImages[i] = "";
+                }
+                else
+                {
+                    images[i] = Path.Combine(GetIconFolder(), Guid.NewGuid().ToString(), ".bmp");
+                    maskedImages[i] = ImageMask.GetImageMask(resized, GetIconFolder(), Guid.NewGuid().ToString());
+                }
+                
+                resized.Save(images[i]);
+            }
+        }
+
+
+        /// <summary>
         /// Combines images into a sprite horizontally
         /// </summary>
         /// <param name="bitmaps">The bitmaps to combine</param>
@@ -191,38 +249,6 @@ namespace Hymma.SolidTools.Addins
         }
 
         /// <summary>
-        /// generates an addin icon (.png) format and saves it on assembly folder
-        /// </summary>
-        /// <param name="icon">the icon to transform</param>
-        /// <param name="filename">name of file without extension</param>
-        /// <returns>icon full file name</returns>
-        public static string GetAddinIcon(Bitmap icon, string filename)
-        {
-            var addinIcon = new Bitmap(16, 16);
-            string addinIconAddress = Path.Combine(GetIconFolder(), filename + ".png");
-
-            try
-            {
-                using (var g = Graphics.FromImage(addinIcon))
-                {
-                    g.Clear(Color.Transparent);
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    g.DrawImage(icon, new Rectangle(0, 0, 16, 16));
-                }
-            }
-            catch (Exception e)
-            {
-                Log($"Error! Couldnt create addin icon {e}");
-                throw;
-            }
-            finally
-            {
-                addinIcon.Save(addinIconAddress);
-            }
-            return addinIconAddress;
-        }
-
-        /// <summary>
         /// this is a folder where the icons will get saved to
         /// </summary>
         /// <returns></returns>
@@ -235,6 +261,33 @@ namespace Hymma.SolidTools.Addins
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
             return directory;
+        }
+
+        /// <summary>
+        /// resizes a bitmap and returns it with the new size
+        /// </summary>
+        /// <param name="bitmap">the bitmap to resize</param>
+        /// <param name="width">new width in pixles</param>
+        /// <param name="height">new height in pixles</param>
+        /// <returns>new <see cref="Bitmap"/> with sizes specified</returns>
+        private static Bitmap Resize(Bitmap bitmap, int width, int height)
+        {
+            var newIcon = new Bitmap(width, height);
+            try
+            {
+                using (var g = Graphics.FromImage(newIcon))
+                {
+                    g.Clear(Color.Transparent);
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.DrawImage(bitmap, new Rectangle(0, 0, width, height));
+                }
+            }
+            catch (Exception)
+            {
+                Log("Couldnt resize bitmap");
+                throw;
+            }
+            return newIcon;
         }
     }
 }
