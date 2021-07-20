@@ -31,6 +31,7 @@
 
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using static Hymma.SolidTools.Addins.Logger;
 
@@ -113,6 +114,47 @@ namespace Hymma.SolidTools.Addins
         }
 
         /// <summary>
+        /// generates an addin icon (.png) format and saves it on assembly folder
+        /// </summary>
+        /// <param name="icon">the icon to transform</param>
+        /// <param name="filename">name of file without extension</param>
+        /// <returns>icon full file name</returns>
+        public static string GetAddinIcon(Bitmap icon, string filename)
+        {
+            var addinIcon = new Bitmap(16, 16);
+            string addinIconAddress = Path.Combine(GetIconFolder(), filename + ".png");
+
+            try
+            {
+                using (var g = Graphics.FromImage(addinIcon))
+                {
+                    g.Clear(Color.Transparent);
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.DrawImage(icon, new Rectangle(0, 0, 16, 16));
+                }
+            }
+            catch (Exception e)
+            {
+                Log($"Error! Couldnt create addin icon {e}");
+                throw;
+            }
+            finally
+            {
+                addinIcon.Save(addinIconAddress);
+            }
+            return addinIconAddress;
+        }
+
+        public static string GetBtnBitmaps(Bitmap bitmap)
+        {
+            ImageFormat imageFormat = bitmap.RawFormat;
+            if (bitmap.RawFormat.Equals(ImageFormat.Png))
+            {
+
+            }
+        }
+
+        /// <summary>
         /// Combines images into a sprite horizontally
         /// </summary>
         /// <param name="bitmaps">The bitmaps to combine</param>
@@ -188,38 +230,6 @@ namespace Hymma.SolidTools.Addins
                         images[i].Dispose();
                 }
             }
-        }
-
-        /// <summary>
-        /// generates an addin icon (.png) format and saves it on assembly folder
-        /// </summary>
-        /// <param name="icon">the icon to transform</param>
-        /// <param name="filename">name of file without extension</param>
-        /// <returns>icon full file name</returns>
-        public static string GetAddinIcon(Bitmap icon, string filename)
-        {
-            var addinIcon = new Bitmap(16, 16);
-            string addinIconAddress = Path.Combine(GetIconFolder(), filename + ".png");
-
-            try
-            {
-                using (var g = Graphics.FromImage(addinIcon))
-                {
-                    g.Clear(Color.Transparent);
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    g.DrawImage(icon, new Rectangle(0, 0, 16, 16));
-                }
-            }
-            catch (Exception e)
-            {
-                Log($"Error! Couldnt create addin icon {e}");
-                throw;
-            }
-            finally
-            {
-                addinIcon.Save(addinIconAddress);
-            }
-            return addinIconAddress;
         }
 
         /// <summary>
