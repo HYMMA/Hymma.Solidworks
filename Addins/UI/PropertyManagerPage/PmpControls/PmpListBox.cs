@@ -22,7 +22,24 @@ namespace Hymma.SolidTools.Addins
         public int GetSelectedItemsCount();
         public object GetSelectedItems();
         public short IGetSelectedItems(int Count);
-        public bool SetSelectedItem(short Item, bool Selected);
+
+        /// <summary>
+        /// Sets whether an item is selected or cleared in a list box enabled for multiple selection. 
+        /// </summary>
+        /// <param name="Item">Index of the item to select or clear</param>
+        /// <param name="Selected">True to select the item, false to not</param>
+        /// <returns>True if the item was selected or cleared, false if not</returns>
+        /// <remarks>The value specified for Item must be a valid index number. If it is not, then this method returns false. Thus, set up your list item index before using this method.<br/>
+        /// <para>
+        ///If you use this method to set a selected item in a single-selection style list box and another item in the list box is already selected, then that item is automatically cleared. <br/>
+        ///You can use this method to clear a selection in a single-selection style list box, which results in no current selection in that list box.
+        /// </para>
+        ///</remarks>
+        public bool SetSelectedItem(short Item, bool Selected)
+        {
+            return SolidworksObject.SetSelectedItem(Item, Selected);
+        }
+
 
         /// <summary>
         /// Gets and sets the item that is currently selected in this list box. 
