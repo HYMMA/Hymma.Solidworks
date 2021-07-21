@@ -49,20 +49,18 @@ namespace Hymma.SolidTools.Addins
         /// creates a masked bitmap (.bmp) from original bitmap provided
         /// </summary>
         /// <param name="image">original bitmap</param>
-        /// <param name="directory">directory to save the image in</param>
-        /// <param name="fileName">name (without extension) of the new file that this funciton will create on directory</param>
         /// <param name="opaque">allows a semi opaq (grey) masked iamge. </param>
         /// <param name="OpacityThreshold">this parameter determines the opacity of the masked image. max is 255</param>
         /// <param name="invertedMask">inverts the colors of masked image </param>
         /// <returns>full file name of masked bitmap image</returns>
-        public static string GetImageMask(Bitmap image,string directory, string fileName, bool opaque = false, int OpacityThreshold = 128, bool invertedMask = false)
+        public static Bitmap GetMask(Bitmap image, bool opaque = false, int OpacityThreshold = 128, bool invertedMask = false)
         {
             Bitmap maskImage = Create32bppImageAndClearAlpha(image);
 
             BitmapData bmpData = maskImage.LockBits(new Rectangle(0, 0, maskImage.Width, maskImage.Height), ImageLockMode.ReadWrite, maskImage.PixelFormat);
 
             // Declare an array to hold the bytes of the bitmap.
-            byte[] maskImageRGBData = new byte[Math.Abs(bmpData.Stride)* bmpData.Height];
+            byte[] maskImageRGBData = new byte[Math.Abs(bmpData.Stride) * bmpData.Height];
 
             // Get the address of the first line. and copy into array
             Marshal.Copy(bmpData.Scan0, maskImageRGBData, 0, maskImageRGBData.Length);
@@ -93,18 +91,7 @@ namespace Hymma.SolidTools.Addins
             Marshal.Copy(maskImageRGBData, 0, bmpData.Scan0, maskImageRGBData.Length);
             maskImage.UnlockBits(bmpData);
 
-            string fullFileName = "";
-            
-            //get maskImage
-            using (maskImage)
-            {
-                var name = $"{fileName}.bmp";
-                maskImage.Save(name);
-                fullFileName = Path.Combine(directory, name);
-            }
-
-            //retur result
-            return fullFileName;
+            return maskImage;
         }
     }
 }

@@ -11,29 +11,30 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// generates a bitmap in the property manager page
         /// </summary>
-        /// <param name="colorBitmap">Full path and filename of the bitmap on disk</param>
-        /// <param name="maskBitmap">Full path and filename of the alpha mask bitmap on disk</param>
+        /// <param name="bitmap">bitmap to edit and set in the property manager page</param>
+        /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
         /// <remarks>The typical image format for the two SOLIDWORKS bitmaps is 18 x 18 pixels x 256 colors. <br/>
         /// </remarks>
-        public PmpBitmap(string colorBitmap, string maskBitmap) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap)
+        public PmpBitmap(Bitmap bitmap, string fileName) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap)
         {
-            this.SetPictureLabelByName(colorBitmap, maskBitmap);
+            SetBitmap(bitmap, fileName);
         }
 
         /// <summary>
         /// Sets the bitmap for this control. 
         /// </summary>
-        /// <param name="colorBitmap">Full path and filename of the bitmap on disk</param>
-        /// <param name="maskBitmap">Full path and filename of the alpha mask bitmap on disk</param>
+        /// <param name="bitmap">bitmap to edit and set in the property manager page</param>
+        /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
         /// <remarks>The typical image format for the two SOLIDWORKS bitmaps is 18 x 18 pixels x 256 colors. <br/>
-        /// Using this method, you can specify a bigger bitmap, e.g., 24 x 24 pixels, to get extra detail. The pixels in MaskBitmap specify transparency through shades of grey with boundaries of black pixels = 100% opaque and white pixels = 100% transparent.
+        /// Using this method, you can specify different sizes e.g. 24 x 90. If bitmap size is not square e.g (24 x 24 or 18 x 18) this method will resize it to suit
         /// <para>
         /// You can use this method before, during, or after the PropertyManager page is displayed or closed. If you use this method when the PropertyManager page is displayed, use bitmaps that are the same size.
         /// </para>
         /// </remarks>
-        public override void SetPictureLabelByName(string colorBitmap, string maskBitmap)
+        public override void SetBitmap(Bitmap bitmap, string fileName)
         {
-            SolidworksObject.SetBitmapByName(colorBitmap, maskBitmap);
+            IconGenerator.GetPmpBitmapIcon(bitmap,fileName, out string image, out string maskImage);
+            SolidworksObject.SetBitmapByName(image, maskImage);
         }
     }
 }

@@ -95,7 +95,7 @@ namespace Hymma.SolidTools.Addins
                         var stripe = $"{filenamePrepend}{size}.png";
                         Log($"stripe file name is {stripe}");
 
-                        stripes[i] = (Path.Combine(GetIconFolder(), stripe));
+                        stripes[i] = (Path.Combine(GetDefaultIconFolder(), stripe));
                         Log($"stripe path is {stripes[i]}");
 
                         combinedImage.Save(stripes[i]);
@@ -122,8 +122,11 @@ namespace Hymma.SolidTools.Addins
         public static string GetAddinIcon(Bitmap icon, string filename)
         {
             var addinIcon = Resize(icon, 16, 16);
-            string addinIconAddress = Path.Combine(GetIconFolder(), filename + ".png");
-            addinIcon.Save(addinIconAddress);
+            string addinIconAddress = Path.Combine(GetDefaultIconFolder(), filename + ".png");
+            using (addinIcon)
+            {
+                addinIcon.Save(addinIconAddress);
+            }
             return addinIconAddress;
         }
 
@@ -131,23 +134,24 @@ namespace Hymma.SolidTools.Addins
         /// edits and saves a bitmap for use in <see cref="PmpBitmapButton"/> 
         /// </summary>
         /// <param name="bitmap"></param>
+        /// <param name="fileName">file name to store the results on the disk</param>
         /// <param name="images">an array of files of resized images</param>
         /// <param name="maskedImages">an array of masked images</param>
         /// <returns>An array of arrays where first array is the resized images and the second array is their masked images </returns>
-        public static void GetBitmapButtonIcons(Bitmap bitmap, out string[] images, out string[] maskedImages)
+        public static void GetBitmapButtonIcons(Bitmap bitmap, string fileName, out string[] images, out string[] maskedImages)
         {
             //possible sizes for a button bitmap in solidworks
             var possibleSizes = new[] { 20, 32, 40, 64, 96, 128 };
 
             //empty array to hold address of final bitmaps
             maskedImages = images = new string[6];
-            
+
             //iterate through possible sizes and process bitmap against that size
             for (int i = 0; i < possibleSizes.Length; i++)
             {
                 var size = possibleSizes[i];
                 var resized = Resize(bitmap, size, size);
-                SaveMaskedImage(resized, GetIconFolder(), Guid.NewGuid().ToString(), out images[i], out maskedImages[i]);
+                SaveMaskedImage(resized, GetDefaultIconFolder(), fileName, out images[i], out maskedImages[i]);
             }
         }
 
@@ -155,44 +159,72 @@ namespace Hymma.SolidTools.Addins
         /// coverts and saves a bitmap for use in a <see cref="PmpBitmap"/>
         /// </summary>
         /// <param name="bitmap"></param>
+        /// <param name="fileName">file name to store the results on the disk</param>
         /// <param name="image">full file name of the image on disk</param>
-        /// <param name="maskeImage">full file name of the masked image on disk</param>
-        public static void GetBitmapIcon(Bitmap bitmap, out string image, out string maskeImage)
+        /// <param name="maskedImage">full file name of the masked image on disk</param>
+        public static void GetPmpBitmapIcon(Bitmap bitmap, string fileName, out string image, out string maskedImage)
         {
             //get bitmap size
-            Bitmap resized = bitmap;
+            Bitmap resized = new Bitmap(bitmap);
             if (bitmap.Width != bitmap.Height)
             {
                 var size = Math.Min(bitmap.Width, bitmap.Height);
                 resized = Resize(bitmap, size, size);
             }
-            SaveMaskedImage(resized, GetIconFolder(), Guid.NewGuid().ToString(), out image, out maskeImage);
+            SaveMaskedImage(resized, GetDefaultIconFolder(), fileName, out image, out maskedImage);
+        }
+
+        /// <summary>
+        /// convert and save a bitmpa for use a <see cref="PmpControl{T}"/>
+        /// </summary>
+        /// <param name="bitmap">the bitmap to convert and save</param>
+        /// <param name="fileName">file name to store the results on the disk</param>
+        /// <param name="image">color image full file name on disk</param>
+        /// <param name="maskedImage">masked image full file name on disk</param>
+        public static void GetPmpControlIcon(Bitmap bitmap, string fileName, out string image, out string maskedImage)
+        {
+            var resized = new Bitmap(bitmap);
+            if (bitmap.Width != 18 || bitmap.Height != 18)
+                resized = Resize(bitmap, 18, 18);
+            SaveMaskedImage(resized, GetDefaultIconFolder(), fileName, out image, out maskedImage);
         }
 
         /// <summary>
         /// coverts and saves a bitmap to specified location
         /// </summary>
-        /// <param name="bitmap">file to get bitmask for</param>
+        /// <param name="image">file to get bitmask for</param>
         /// <param name="directory">directory address</param>
         /// <param name="filename">without extension</param>
-        /// <param name="image"></param>
-        /// <param name="mask"></param>
+        /// <param name="imageFile"></param>
+        /// <param name="maskFile"></param>
         /// <returns>mask image file or "" if bitmap provided is of type png</returns>
-        private static void SaveMaskedImage(Bitmap bitmap, string directory, string filename, out string image, out string mask)
+        private static void SaveMaskedImage(Bitmap image, string directory, string filename, out string imageFile, out string maskFile)
         {
             //png files dont support bitmask
-            if (bitmap.RawFormat.Equals(ImageFormat.Png))
+            if (image.RawFormat.Equals(ImageFormat.Png))
             {
-                image = Path.Combine(directory, filename, ".png");
+                imageFile = Path.Combine(directory, filename, ".png");
                 //accroding to solidworks api for png files we should return empty string as masked images
-                mask = "";
+                maskFile = "";
             }
             else
             {
-                image = Path.Combine(directory, filename, ".bmp");
-                mask= ImageMask.GetImageMask(bitmap, directory, filename);
+                imageFile = Path.Combine(directory, $"{filename}.bmp");
+                maskFile = Path.Combine(directory, $"{filename}_mask.bmp");
             }
-            bitmap.Save(image);
+
+            //get maskImage
+            if (!File.Exists(maskFile) && maskFile!="")
+                using (var maskImage = ImageMask.GetMask(image))
+                {
+                    maskImage.Save(maskFile);
+                }
+
+            if (!File.Exists(imageFile))
+                using (image)
+                {
+                    image.Save(imageFile);
+                }
         }
 
         /// <summary>
@@ -277,7 +309,7 @@ namespace Hymma.SolidTools.Addins
         /// this is a folder where the icons will get saved to
         /// </summary>
         /// <returns></returns>
-        private static string GetIconFolder()
+        public static string GetDefaultIconFolder()
         {
             //directory should be a folder where user has access to at all times
             //because we make icons for commands everytime solidworks starts

@@ -1,5 +1,7 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System.Drawing;
+using System.IO;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -39,15 +41,16 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Sets the bitmap label for this control on a PropertyManager page.
         /// </summary>
-        /// <param name="maskBitmap">Fully qualified path to the location of the bitmap (i.e., the graphic to use) on disk</param>
-        /// <param name="colorBitmap">Fully qualified path to the location of the alpha mask bitmap on disk</param>
+        /// <param name="bitmap"></param>
+        /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
         /// <remarks>
         /// You can only use this method on a PropertyManager page before the page is displayed, while it is displayed, or when it is closed. <br/>
-        /// The image format for the two bitmaps is 18 x 18 pixels x 256 colors. The pixels in MaskBitmap specify transparency through shades of grey with boundaries of black pixels = 100% opaque and white pixels = 100% transparent.
+        /// The image will be resized to 18 x 18
         /// </remarks>
-        public virtual void SetPictureLabelByName(string colorBitmap, string maskBitmap)
+        public virtual void SetBitmap(Bitmap bitmap, string fileName)
         {
-            Control.SetPictureLabelByName(colorBitmap, maskBitmap);
+            IconGenerator.GetPmpControlIcon(bitmap, fileName, out string image, out string maskedImage);
+            Control.SetPictureLabelByName(image, maskedImage);
         }
 
         /// <summary>
@@ -55,10 +58,12 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="title">Title to display in bubble ToolTip</param>
         /// <param name="message">Message to display in bubble ToolTip</param>
-        /// <param name="icon">Path and filename of bitmap to display in bubble ToolTip</param>
-        public void ShowBubleTooltip(string title, string message, string icon)
+        /// <param name="bitmap">bitmap object to use as icon in the tooltip</param>
+        /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
+        public void ShowBubleTooltip(string title, string message, Bitmap bitmap, string fileName)
         {
-            Control.ShowBubbleTooltip(title, message, icon);
+            IconGenerator.GetPmpControlIcon(bitmap, fileName, out string image, out string maskedImage);
+            Control.ShowBubbleTooltip(title, message, image);
         }
 
         ///<inheritdoc/>
@@ -119,7 +124,7 @@ namespace Hymma.SolidTools.Addins
         /// gets or sets the visibility of thei control
         /// </summary>
         public bool Visible { get => Control.Visible; set => Control.Visible = value; }
-        
+
         ///<inheritdoc/>
         public T SolidworksObject
         {
