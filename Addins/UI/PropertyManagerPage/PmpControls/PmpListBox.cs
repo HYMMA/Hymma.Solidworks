@@ -2,26 +2,69 @@
 using SolidWorks.Interop.sldworks;
 using System.Collections.Generic;
 using System;
+using Hymma.Mathematics;
 
 namespace Hymma.SolidTools.Addins
 {
+    /// <summary>
+    /// Allows you to access a PropertyManager page list box control.
+    /// </summary>
     public class PmpListBox : PmpControl<PropertyManagerPageListbox>
     {
+        /// <summary>
+        /// make a list box in a property manager page
+        /// </summary>
         public PmpListBox() : base(swPropertyManagerPageControlType_e.swControlType_Listbox)
         {
 
         }
-        public IEnumerable<string> Items { get; set; }
+        /// <summary>
+        /// Adds items to the attached drop-down list for this list box.
+        /// </summary>
+        /// <param name="items"></param>
+        public void AddItems(string[] items)
+        {
+            SolidworksObject.AddItems(items);
+        }
 
-        public void AddItems(object Texts);
-        public void IAddItems(short TextCount, ref string Texts);
-        public void Clear();
-        public string get_ItemText(short Item);
-        public short InsertItem(short Item, string Text);
-        public short DeleteItem(short Item);
-        public int GetSelectedItemsCount();
-        public object GetSelectedItems();
-        public short IGetSelectedItems(int Count);
+        /// <summary>
+        /// Clears all items from attached drop-down list for this list box.
+        /// </summary>
+        public void Clear() => SolidworksObject.Clear();
+
+        /// <summary>
+        /// Gets the text for the specified item in this list box.
+        /// </summary>
+        /// <param name="Item">Position of the item where to get the text in the 0-based list or -1 to get the text of the currently selected item</param>
+        /// <returns></returns>
+        public string ItemText(short Item) => SolidworksObject.ItemText[Item];
+
+        /// <summary>
+        /// Inserts an item in the attached drop-down list of this list box.
+        /// </summary>
+        /// <param name="Item">Position where to add the item in the 0-based list or -1 to put the item at the end of the list</param>
+        /// <param name="Text">Text for item</param>
+        /// <returns>Position in the 0-based list where the item is added or -1 if the item is not added to the list</returns>
+        public short InsertItem(short Item, string Text) => SolidworksObject.InsertItem(Item, Text);
+
+        /// <summary>
+        /// Removes the specified item from the attached drop-down list for this list box.  
+        /// </summary>
+        /// <param name="item">Index number of the item to delete from the 0-based list of items</param>
+        /// <returns>Number of items remaining in the list or -1 if the item is not deleted</returns>
+        public short DeleteItem(short item) => SolidworksObject.DeleteItem(item);
+
+        /// <summary>
+        /// Gets the number of items currently selected in a list box enabled for multiple selection.
+        /// </summary>
+        /// <returns>Number of items currently selected in this list box</returns>
+        public int GetSelectedItemsCount() => SolidworksObject.GetSelectedItemsCount();
+
+        /// <summary>
+        /// Gets the items selected in a list box enabled for multiple selections.
+        /// </summary>
+        /// <returns>Array of  0-based index shorts of the currently selected items in this list box</returns>
+        public object GetSelectedItems() => SolidworksObject.GetSelectedItems();
 
         /// <summary>
         /// Sets whether an item is selected or cleared in a list box enabled for multiple selection. 
@@ -69,6 +112,12 @@ namespace Hymma.SolidTools.Addins
         /// Gets the number of items in the attached drop-down list for this list box. 
         /// </summary>
         public int ItemCount => SolidworksObject.ItemCount;
+
+        /// <summary>
+        /// Called when the right-mouse button is released in a list box on this PropertyManager page.<br/>
+        /// <see cref="Point"/> is the coordinate of the right-mouse button menu
+        /// </summary>
+        public Action<Point> OnRightMouseBtnUp { get; set; }
     }
 
     /// <summary>
