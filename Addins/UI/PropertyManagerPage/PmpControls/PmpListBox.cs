@@ -1,8 +1,7 @@
-﻿using SolidWorks.Interop.swconst;
+﻿using Hymma.Mathematics;
 using SolidWorks.Interop.sldworks;
-using System.Collections.Generic;
+using SolidWorks.Interop.swconst;
 using System;
-using Hymma.Mathematics;
 
 namespace Hymma.SolidTools.Addins
 {
