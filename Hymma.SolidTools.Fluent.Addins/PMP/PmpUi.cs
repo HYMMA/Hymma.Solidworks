@@ -19,7 +19,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <inheritdoc/>
         public IPmpGroup AddGroup(string caption)
         {
-            var group = new PMPGroup(caption, false)
+            var group = new PMP_Group(caption, false)
             {
 
                 //update the group propety
@@ -30,7 +30,7 @@ namespace Hymma.SolidTools.Fluent.Addins
             this.PmpGroups.Add(group);
 
             //return the boject in the list
-            return this.PmpGroups[this.PmpGroups.Count - 1] as PMPGroup;
+            return this.PmpGroups[this.PmpGroups.Count - 1] as PMP_Group;
         }
 
         /// <inheritdoc/>

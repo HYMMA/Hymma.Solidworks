@@ -7,8 +7,8 @@ using System.Runtime.InteropServices;
 namespace Butter
 {
     [ComVisible(true)]
-    [Guid("B3F2E34D-6205-4FCE-96C1-9C805994E7FB")]
-    [Addin(Title = "Butter", Description = "Smooth like butter", LoadAtStartup = true, AddinIcon = "butter")]
+    [Guid("7EF4A3B3-534A-4E20-BF10-F41B9D722E05")]
+    [Addin(Title = "Butter", Description = "Smooth As butter", LoadAtStartup = true, AddinIcon = "butter")]
     public class Butter : AddinMaker
     {
         private PropertyManagerPageX64 _pmp;
@@ -121,7 +121,7 @@ namespace Butter
                 .IsVisibleIn(new[] { swDocumentTypes_e.swDocASSEMBLY, swDocumentTypes_e.swDocDRAWING, swDocumentTypes_e.swDocPART })
                 .AddCommandGroup(1)
                     .WithTitle("Butter")
-                    .WithDescription("Sweet as butter")
+                    .WithDescription("smooth as butter")
                     .WithToolTip("Melt a butter")
                     .WithHint("Melt a butter")
                     .WithIcon(Properties.Resources.xtractred)

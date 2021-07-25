@@ -107,13 +107,14 @@ namespace Hymma.SolidTools.Addins
         {
             SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(Id, Caption, (int)Options);
 
+            Controls.ForEach(c => c.Register(SolidworksObject));
+
             //a special rule should apply for options (radio buttons) as they require a style value of 1 to indicate the beginning of a group of options
             //any following optio without this value set are considered part of the group; the next option with this value set indicates the start of a new option group
             //we assume all the radio buttons in a PMPGroup are members of a group so we assing a value of 1 to the first one
             var firstOption = Controls.FirstOrDefault(c => c.Type == swPropertyManagerPageControlType_e.swControlType_Option)?.CastTo<PmpRadioButton>();
             if (firstOption != null)
                 firstOption.SolidworksObject.Style = 1;
-            Controls.ForEach(c => c.Register(SolidworksObject));
         }
     }
 }

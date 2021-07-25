@@ -1,7 +1,6 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
-using System.ComponentModel;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -15,7 +14,7 @@ namespace Hymma.SolidTools.Addins
         /// default constructor
         /// </summary>
         /// <param name="isChecked">initial state</param>
-        public PmpCheckBox(bool isChecked=false) : base(swPropertyManagerPageControlType_e.swControlType_Checkbox)
+        public PmpCheckBox(bool isChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Checkbox)
         {
             IsChecked = isChecked;
         }
@@ -23,7 +22,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// status of this checkbox
         /// </summary>
-        public bool IsChecked { get => SolidworksObject.Checked; set => SolidworksObject.Checked = value; }
+        public bool IsChecked { get; set; }
 
         /// <summary>
         /// SOLIDWORKS will call this once the checkbox is clicked on

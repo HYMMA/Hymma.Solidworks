@@ -33,7 +33,7 @@ namespace Hymma.SolidTools.Addins
         /// </remarks>
         public override void SetBitmap(Bitmap bitmap, string fileName)
         {
-            IconGenerator.GetPmpBitmapIcon(bitmap,fileName, out string image, out string maskImage);
+            IconGenerator.GetPmpBitmapIcon(bitmap, fileName, out string image, out string maskImage);
             SolidworksObject.SetBitmapByName(image, maskImage);
         }
     }

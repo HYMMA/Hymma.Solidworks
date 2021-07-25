@@ -29,7 +29,7 @@ namespace Hymma.SolidTools.Addins
                 return;
             }
 
-            #region show window forms
+            #region set window forms
             //this needs to be called every time pmp is shown
             if (winFormHandlers != null)
             {
@@ -41,7 +41,6 @@ namespace Hymma.SolidTools.Addins
                     handler.ProperptyManagerPageHandle.SetWindowHandlex64(handler.ElementHost.Handle.ToInt64());
                 }
             }
-            propertyManagerPage.Show();
             #endregion
             
             #region update checkboxes state
@@ -71,6 +70,8 @@ namespace Hymma.SolidTools.Addins
                 Controls[group.Id].CastTo<IPropertyManagerPageGroup>()
                     .Expanded = group.Expanded);
             #endregion
+
+            propertyManagerPage.Show();
         }
     }
 }

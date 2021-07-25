@@ -79,7 +79,13 @@ namespace Hymma.SolidTools.Addins
         /// The value is in dialog units relative to the group box that the control is in. The left edge of the group box is 0; the right edge of the group box is 100
         /// </summary>
         /// <remarks>By default, the left edge of a control is either the left edge of its group box or indented a certain distance. This is determined by the <see cref="LeftAlignment"/></remarks>
-        public short LeftEdge { get => Control.Left; set => Control.Left = value; }
+        public short LeftEdge
+        {
+            get => Control.Left; set
+            {
+                if (Control != null) Control.Left = value;
+            }
+        }
 
         /// <summary>
         /// By default, the width of the control is usually set so that it extends to the right edge of its group box (not for buttons). Using this API overrides that default.<br/>
@@ -90,7 +96,14 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Gets or sets the top edge of the control on a PropertyManager page
         /// </summary>
-        public short Top { get => Control.Top; set => Control.Top = value; }
+        public short Top
+        {
+            get => Control.Top;
+            set
+            {
+                if (Control != null) Control.Top = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets how to override the SOLIDWORKS default behavior when changing the width of a PropertyManager page. <br/>
@@ -118,12 +131,22 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// enables or disables this property control on
         /// </summary>
-        public bool Enabled { get => Control.Enabled; set => Control.Enabled = value; }
+        public bool Enabled
+        {
+            get => Control.Enabled;
+            set
+            {
+                if (Control != null) Control.Enabled = value;
+            }
+        }
 
         /// <summary>
         /// gets or sets the visibility of thei control
         /// </summary>
-        public bool Visible { get => Control.Visible; set => Control.Visible = value; }
+        public bool Visible { get => Control.Visible; set {
+                if (Control != null)
+                    Control.Visible = value;
+            } }
 
         ///<inheritdoc/>
         public T SolidworksObject
