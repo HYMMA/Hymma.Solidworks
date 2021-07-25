@@ -50,10 +50,12 @@ namespace Hymma.SolidTools.Addins
             var checkBoxes = uiModel
               .GetControls<PmpCheckBox>()
               .ToList();
-            checkBoxes
-                .ForEach(ch => Controls[ch.Id]
-                    .CastTo<IPropertyManagerPageCheckbox>()
-                    .Checked = ch.IsChecked);
+            //checkBoxes
+            //    .ForEach(ch => Controls[ch.Id]
+            //        .CastTo<IPropertyManagerPageCheckbox>()
+            //        .Checked = ch.IsChecked);
+
+            checkBoxes.ForEach(ch => ch.IsChecked);
 
             #endregion
 
