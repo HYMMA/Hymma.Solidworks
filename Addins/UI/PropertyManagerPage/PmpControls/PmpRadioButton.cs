@@ -1,18 +1,18 @@
-﻿using SolidWorks.Interop.swconst;
+﻿using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System;
-using System.Drawing;
 
 namespace Hymma.SolidTools.Addins
 {
     /// <summary>
     /// a solidworks radio button in property managers
     /// </summary>
-    public class PmpRadioButton : PmpControl
+    public class PmpRadioButton : PmpControl<IPropertyManagerPageOption>
     {
         /// <summary>
         /// make a new radio button for solidworks property manager pages
         /// </summary>
-        public PmpRadioButton(bool IsChecked=false):base(swPropertyManagerPageControlType_e.swControlType_Option)
+        public PmpRadioButton(bool IsChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Option)
         {
             this.IsChecked = IsChecked;
         }
