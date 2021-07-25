@@ -235,14 +235,33 @@ namespace Hymma.SolidTools.Addins
                 button.CastTo<PmpBitmapButton>()?.OnPress?.Invoke();
         }
 
+        /// <summary>
+        /// fires when user changes the text in a text box or a numberbox
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Text"></param>
         public void OnTextboxChanged(int Id, string Text)
         {
-            throw new NotImplementedException();
+            var control = UiModel.GetControl(Id);
+
+            //if control is a number box
+            if (control.Type == swPropertyManagerPageControlType_e.swControlType_Numberbox)
+                control.CastTo<PmpNumberBox>()?.OnTextChanged?.Invoke();
+
+            //if control is a text box
+            if (control.Type == swPropertyManagerPageControlType_e.swControlType_Textbox)
+                control.CastTo<PmpTextBox>()?.OnChange?.Invoke(Text);
         }
 
+        /// <summary>
+        /// when value of a number box is changed by user
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Value">new value</param>
         public void OnNumberboxChanged(int Id, double Value)
         {
-            throw new NotImplementedException();
+            var numberBox = UiModel.GetControl(Id);
+            numberBox.CastTo<PmpNumberBox>()?.OnChange?.Invoke(Value);
         }
 
         public void OnComboboxEditChanged(int Id, string Text)

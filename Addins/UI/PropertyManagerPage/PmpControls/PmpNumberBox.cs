@@ -4,40 +4,24 @@ using System;
 
 namespace Hymma.SolidTools.Addins
 {
+    /// <summary>
+    /// creates and allows you to access a number box in a property manager page
+    /// </summary>
     public class PmpNumberBox : PmpControl<IPropertyManagerPageNumberbox>
     {
-        public PmpNumberBox(double initialValue = 0) : base(swPmpControlsWithText.Numberbox)
+        #region constructors
+        /// <summary>
+        /// creates a number box in a property manager page
+        /// </summary>
+        /// <param name="style">style for this numberBox as defined by <see cref="NumberBoxStyle"/></param>
+        public PmpNumberBox(NumberBoxStyle style) : base(swPropertyManagerPageControlType_e.swControlType_Numberbox)
         {
-            this.InitialValue = initialValue;
+            Style = (int)style;
         }
 
-        /// <summary>
-        /// style for this numberBox as defined by <see cref="NumberBoxStyle"/>
-        /// </summary>
-        public int Style { get => SolidworksObject.Style; set => SolidworksObject.Style = value; }
+        #endregion
 
-        /// <summary>
-        /// initial value of the number box when loaded firt time
-        /// </summary>
-        public double InitialValue { get; set; }
-
-        /// <summary>
-        /// unit or type of number as defined by <see cref="swNumberboxUnitType_e"/> input
-        /// </summary>
-        public swNumberboxUnitType_e Unit { get; set; }
-
-        public double Min { get; set; }
-
-        public double Max { get; set; }
-
-        /// <summary>
-        /// whether the max should be inclusive in the range or not
-        /// </summary>
-        public bool Inclusive { get; set; } = true;
-        public double Increment { get; set; }
-
-
-
+        #region methods
 
         /// <summary>
         /// Sets the range and increment for the slider. 
@@ -53,49 +37,129 @@ namespace Hymma.SolidTools.Addins
         /// You cannot change Units once the page is displayed.The Units parameter is ignored if specified while the page is displayed. <br/>
         ///If the range is changed to an invalid value by this method, then you must immediately call <see cref="Value"/> and set a valid value to prevent displaying the dialog that requests the user to enter a valid value.
         ///</remarks>
-        void SetRange(NumberBoxStyle Units, double Minimum, double Maximum, double Increment, double fastIncrement, double slowIncrement, bool Inclusive = true)
+        public void SetRange(NumberBoxUnit Units, double Minimum, double Maximum, double Increment, double fastIncrement, double slowIncrement, bool Inclusive = true)
         {
             SolidworksObject.SetRange2((int)Units, Minimum, Maximum, Inclusive, Increment, fastIncrement, slowIncrement);
         }
-        [DispId(196612)]
-        void AddItems(object Texts);
-        [DispId(196613)]
-        void IAddItems(short TextCount, ref string Texts);
-        [DispId(196614)]
-        void Clear();
-        [DispId(196617)]
-        string get_ItemText(short Item);
-        [DispId(196618)]
-        short InsertItem(short Item, string Text);
-        [DispId(196619)]
-        short DeleteItem(short Item);
-        [DispId(196621)]
-        void SetRange2(int Units, double Minimum, double Maximum, bool Inclusive, double Increment, double FastIncr, double SlowIncr);
-        [DispId(196622)]
-        void SetSliderParameters(int PositionCount, int DivisionCount);
 
-        [DispId(196609)]
-        double Value { get; set; }
-        [DispId(196611)]
-        int Style { get; set; }
-        [DispId(196615)]
-        short CurrentSelection { get; set; }
-        [DispId(196616)]
-        short Height { get; set; }
-        [DispId(196620)]
-        string Text { get; }
-        [DispId(196623)]
-        int DisplayedUnit { get; set; }
+        /// <summary>
+        /// Adds items to the attached drop-down list of a number box. 
+        /// </summary>
+        /// <param name="items"></param>
+        public void AddItems(string[] items)
+        {
+            SolidworksObject.AddItems(items);
+        }
+        /// <summary>
+        /// Clears all items from the attached drop-down list for this the number box. 
+        /// </summary>
+        public void Clear() => SolidworksObject.Clear();
 
+        /// <summary>
+        /// Gets the text for an item in the attached drop-down list for this number box. 
+        /// </summary>
+        /// <param name="item">Position of the item where to get the text in the 0-based list or -1 to get the text of the currently selected item</param>
+        /// <returns>Text for this item</returns>
+        public string ItemText(short item)
+        {
+            return SolidworksObject.ItemText[item];
+        }
 
+        /// <summary>
+        /// Deletes an item from the attached drop-down list for this number box. 
+        /// </summary>
+        /// <param name="item">Index number of the item to delete from the 0-based list of items</param>
+        /// <returns>Number of items remaining in the list or -1 if the item is not deleted</returns>
+        public short DeleteItem(short item)
+        {
+            return SolidworksObject.DeleteItem(item);
+        }
 
+        /// <summary>
+        /// Inserts an item in the attached drop-down list for this number box. 
+        /// </summary>
+        /// <param name="item">Position where to add the item in the 0-based list or -1 to put the item at the end of the list</param>
+        /// <param name="text">Text for item</param>
+        /// <returns>Position in the 0-based list where the item is added or -1 if the item is not added to the list</returns>
+        public short InsertItem(short item, string text)
+        {
+            return SolidworksObject.InsertItem(item, text);
+        }
 
+        /// <summary>
+        /// Sets the parameters for the slider. 
+        /// </summary>
+        /// <param name="positionCount">Number of discreet positions on the slider</param>
+        /// <param name="divisionCount">Number of regions separated by tick marks on the slider</param>
+        /// <remarks>
+        /// When a user drags the slider, PositionCount defines how sensitive the slider is. Not all of the specified discreet points are displayed if the PropertyManager page is not wide enough to show them. However, if the user widens the PropertyManager page, then more points are displayed.
+        ///When a user drags the slider, the user-interface tends to snap to the nearest tick mark when the drag is nearby, making it easier for the user to set whole values.
+        ///</remarks>
+        public void SetSliderParameters(int positionCount, int divisionCount) => SolidworksObject.SetSliderParameters(positionCount, divisionCount);
+        
 
+        #endregion
 
+        #region public properties
+        /// <summary>
+        /// Gets and sets the value that appears in the number box. 
+        /// </summary>
+        public double Value { get => SolidworksObject.Value; set => SolidworksObject.Value = value; }
 
+        /// <summary>
+        /// gets or sets the current selection in the number box
+        /// </summary>
+        /// <value>0-based index of the selection</value>
+        public short CurrentSelection { get => SolidworksObject.CurrentSelection; set => SolidworksObject.CurrentSelection = value; }
 
+        /// <summary>
+        /// 	Gets or sets the maximum height of the attached drop-down list for this number box.  
+        /// </summary>
+        public short Height
+        {
+            get => SolidworksObject.Height;
+            set => SolidworksObject.Height = value;
+        }
 
+        /// <summary>
+        /// style for this numberBox as defined by <see cref="NumberBoxStyle"/>
+        /// </summary>
+        public int Style { get => SolidworksObject.Style; set => SolidworksObject.Style = value; }
 
+        /// <summary>
+        /// Gets the text that appears in the number box. 
+        /// </summary>
+        /// <remarks>If a user changes the value in an number box by typing in a new value, the <see cref="OnTextChanged"/> is called with the current text string.</remarks>
+        public string Text => SolidworksObject.Text;
+
+        /// <summary>
+        /// Gets or sets the unit type to display in this PropertyManager page number box. 
+        /// </summary>
+        /// <remarks> <see cref="DisplayedUnit "/>allows an add-in to have a number box that shows length values in inches, even though the system default units are meters.<br/>
+        /// Remember that the values specified for both <see cref="Value"/> and <see cref="SetRange(NumberBoxUnit, double, double, double, double, double, bool)"/> are in system units; <br/>
+        /// <see cref="DisplayedUnit "/> simply controls how that value is displayed in the PropertyManager page number box.
+        ///You can call <see cref="DisplayedUnit "/> and change the units displayed in a number box while a Propertymanager page is displayed.</remarks>
+        public NumberBoxUnit DisplayedUnit
+        {
+            get => Enum.ToObject(typeof(NumberBoxUnit), SolidworksObject.DisplayedUnit).CastTo<NumberBoxUnit>();
+            set => SolidworksObject.DisplayedUnit = (int)value;
+        }
+        #endregion
+
+        #region events
+
+        /// <summary>
+        /// called when user changes the value in an number box by typing in a new value
+        /// </summary>
+        /// <remarks>You can then use <see cref="Text"/> to show the text elsewhere, such as in a callout.</remarks>
+        public Action OnTextChanged { get; set; }
+
+        /// <summary>
+        /// fired when user changes the value via typing or clicking the up-arrow or down-arrow buttons to increment or decrement the value
+        /// </summary>
+        /// <remarks>solidworks will pass in the double vlue upon change</remarks>
+        public Action<double> OnChange { get; set; }
+        #endregion
 
     }
 
@@ -164,7 +228,7 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     /// <remarks>When the user selects an item in the attached drop-down list, SOLIDWORKS attempts to use that item as a value in the number box.<br/>
     /// Thus, the items in the attached drop-down list should be numeric values and optionally include their units. <br/>
-    /// The add-in then gets a callback via IPropertyManagerPage2Handler9::OnNumberboxChanged as if the user had typed a value in the number box or clicked the up-arrow or down-arrow buttons to increment or decrement the value.<br/>
+    /// The add-in then gets a callback via <see cref="PmpNumberBox.OnChange"/> as if the user had typed a value in the number box or clicked the up-arrow or down-arrow buttons to increment or decrement the value.<br/>
     ///If you do not want your add-in to directly use items in the attached drop-down list in the number box, but instead want it to react to the user selecting a computed or linked value in the number box,<br/>
     ///then use <see cref="AvoidSelectionText"/></remarks>
     [Flags]

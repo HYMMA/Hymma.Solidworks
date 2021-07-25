@@ -36,6 +36,11 @@ namespace Hymma.SolidTools.Addins
             base.Register(group);
             SolidworksObject.Text = initialValue;
         }
+
+        /// <summary>
+        /// fires when user changes the text in the text box
+        /// </summary>
+        public Action<string> OnChange { get; set; }
     }
 
     /// <summary>
