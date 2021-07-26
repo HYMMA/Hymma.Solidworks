@@ -16,13 +16,14 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// construct a property manage page group to host numerous <see cref="IPmpControl"/>
         /// </summary>
-        /// <param name="Caption">text that appears next to a group box</param>
-        /// <param name="Expanded">determines the expand state of this group box</param>
-        public PMPGroup(string Caption, bool Expanded = false)
+        /// <param name="caption">text that appears next to a group box</param>
+        /// <param name="expanded">determines the expand state of this group box</param>
+        public PMPGroup(string caption="Group", bool expanded = false)
         {
-            this.Caption = Caption;
-            this.Expanded = Expanded;
-            this.Controls = new List<IPmpControl>();
+            //assign properties
+            Caption = caption;
+            Expanded = expanded;
+            Controls = new List<IPmpControl>();
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace Hymma.SolidTools.Addins
         #region Members/Properties
 
         /// <summary>
-        /// adds a control to the <see cref="Controls"/>
+        /// Registers a control to the <see cref="Controls"/> and solidworks UI
         /// </summary>
         /// <param name="control"></param>
         public void AddControl(IPmpControl control)
@@ -74,13 +75,13 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// bitwise options as defined by <see cref="swAddGroupBoxOptions_e"/> default values correspond to a group that is expanded and is set to be visible
         /// </summary>
-        public swAddGroupBoxOptions_e Options { get; set; }
-            = swAddGroupBoxOptions_e.swGroupBoxOptions_Expanded | swAddGroupBoxOptions_e.swGroupBoxOptions_Visible;
+        public int Options { get; set; }
+            = (int)swAddGroupBoxOptions_e.swGroupBoxOptions_Expanded | (int)swAddGroupBoxOptions_e.swGroupBoxOptions_Visible;
 
         /// <summary>
         /// a list of solidworks controllers
         /// </summary>
-        public List<IPmpControl> Controls { get; set; }
+        public List<IPmpControl> Controls { get;internal set; }
         #endregion
 
 

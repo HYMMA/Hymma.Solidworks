@@ -22,7 +22,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// status of this checkbox
         /// </summary>
-        public bool IsChecked { get; set; }
+        public bool IsChecked { get => SolidworksObject.Checked; set => SolidworksObject.Checked = value; }
 
         /// <summary>
         /// SOLIDWORKS will call this once the checkbox is clicked on
