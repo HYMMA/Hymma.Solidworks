@@ -18,6 +18,7 @@ namespace Hymma.SolidTools.Addins
         {
             Type = type;
             Options = 3;
+            Register()
         }
 
         ///<inheritdoc/>

@@ -174,6 +174,7 @@ namespace Butter
                     })
                 .SaveGroup()
             #endregion
+
             #region Group 2
                     .AddGroup("Radio Buttons")
                 .HasTheseControls(() =>
