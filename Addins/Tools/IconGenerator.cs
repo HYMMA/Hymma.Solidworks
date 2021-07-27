@@ -200,6 +200,13 @@ namespace Hymma.SolidTools.Addins
         /// <returns>mask image file or "" if bitmap provided is of type png</returns>
         private static void SaveMaskedImage(Bitmap image, string directory, string filename, out string imageFile, out string maskFile)
         {
+            //check for valid file name . . .
+            if (string.IsNullOrEmpty(filename))
+                throw new ArgumentNullException("filename assigned to icon was empty");
+
+            //remove invalid file name chars
+            filename = string.Concat(filename.Split(Path.GetInvalidFileNameChars()));
+
             //png files dont support bitmask
             if (image.RawFormat.Equals(ImageFormat.Png))
             {
@@ -214,7 +221,7 @@ namespace Hymma.SolidTools.Addins
             }
 
             //get maskImage
-            if (!File.Exists(maskFile) && maskFile!="")
+            if (!File.Exists(maskFile) && maskFile != "")
                 using (var maskImage = ImageMask.GetMask(image))
                 {
                     maskImage.Save(maskFile);

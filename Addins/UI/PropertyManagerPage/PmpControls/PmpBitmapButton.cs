@@ -1,6 +1,7 @@
 ﻿using SolidWorks.Interop.sldworks;
 using System;
 using System.Drawing;
+using System.IO;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -9,6 +10,9 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpBitmapButton : PmpControl<PropertyManagerPageBitmapButton>
     {
+        private Bitmap _bitmap;
+        private string _fileName;
+        private BitmapButtons _standardIcon;
 
         /// <summary>
         /// generate a button with specified <see cref="Bitmap"/>
@@ -17,7 +21,21 @@ namespace Hymma.SolidTools.Addins
         /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
         public PmpBitmapButton(Bitmap bitmap, string fileName) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_BitmapButton)
         {
-            SetBitmap(bitmap, fileName);
+            OnRegister += PmpBitmapButton_OnRegister;
+            _bitmap = bitmap;
+            _fileName = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
+        }
+
+        private void PmpBitmapButton_OnRegister()
+        {
+            if (_bitmap != null && _fileName != "")
+            {
+                SetBitmap(_bitmap, _fileName);
+            }
+            else if (_standardIcon != 0)
+            {
+                SetBitmap(_standardIcon);
+            }
         }
 
         /// <summary>
@@ -26,8 +44,10 @@ namespace Hymma.SolidTools.Addins
         /// <param name="standardIcon"></param>
         public PmpBitmapButton(BitmapButtons standardIcon) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_BitmapButton)
         {
-            SetBitmap(standardIcon);
+            OnRegister += PmpBitmapButton_OnRegister;
+            _standardIcon = standardIcon;
         }
+
 
         /// <summary>
         /// assign a bitmap to this bitmap button
@@ -41,7 +61,8 @@ namespace Hymma.SolidTools.Addins
         public override void SetBitmap(Bitmap bitmap, string fileName)
         {
             IconGenerator.GetBitmapButtonIcons(bitmap, fileName, out string[] images, out string[] masked);
-            SolidworksObject.SetBitmapsByName3(images, masked);
+            if (SolidworksObject != null)
+                SolidworksObject.SetBitmapsByName3(images, masked);
         }
 
         /// <summary>
@@ -51,7 +72,8 @@ namespace Hymma.SolidTools.Addins
         /// <param name="standardIcon">standard icon as defined by <see cref="BitmapButtons"/></param>
         public void SetBitmap(BitmapButtons standardIcon)
         {
-            SolidworksObject.SetStandardBitmaps((int)standardIcon);
+            if (SolidworksObject != null)
+                SolidworksObject.SetStandardBitmaps((int)standardIcon);
         }
 
         /// <summary>
