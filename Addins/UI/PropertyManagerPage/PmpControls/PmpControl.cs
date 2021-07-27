@@ -1,7 +1,6 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System.Drawing;
-using System.IO;
 
 namespace Hymma.SolidTools.Addins
 {
