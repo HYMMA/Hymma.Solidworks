@@ -9,6 +9,18 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpControl<T> : IPmpControl, IWrapSolidworksObject<T>
     {
+        #region privatre fields
+        /// <summary>
+        /// property manager page control that can be cast to all the property manager page members
+        /// </summary>
+        private IPropertyManagerPageControl _control;
+        private bool _visible;
+        private bool _enabled;
+        private int _optionForResize;
+        private short _top;
+        private short _leftEdge;
+        #endregion
+
         /// <summary>
         /// default constructor
         /// </summary>
@@ -17,7 +29,6 @@ namespace Hymma.SolidTools.Addins
         {
             Type = type;
             Options = 3;
-            Register()
         }
 
         ///<inheritdoc/>
@@ -50,7 +61,7 @@ namespace Hymma.SolidTools.Addins
         public virtual void SetBitmap(Bitmap bitmap, string fileName)
         {
             IconGenerator.GetPmpControlIcon(bitmap, fileName, out string image, out string maskedImage);
-            Control.SetPictureLabelByName(image, maskedImage);
+            _control.SetPictureLabelByName(image, maskedImage);
         }
 
         /// <summary>
@@ -63,7 +74,7 @@ namespace Hymma.SolidTools.Addins
         public void ShowBubleTooltip(string title, string message, Bitmap bitmap, string fileName)
         {
             IconGenerator.GetPmpControlIcon(bitmap, fileName, out string image, out string maskedImage);
-            Control.ShowBubbleTooltip(title, message, image);
+            _control.ShowBubbleTooltip(title, message, image);
         }
 
         ///<inheritdoc/>
@@ -81,9 +92,12 @@ namespace Hymma.SolidTools.Addins
         /// <remarks>By default, the left edge of a control is either the left edge of its group box or indented a certain distance. This is determined by the <see cref="LeftAlignment"/></remarks>
         public short LeftEdge
         {
-            get => Control.Left; set
+            get => _leftEdge;
+            set
             {
-                if (Control != null) Control.Left = value;
+                _leftEdge = value;
+                if (_control != null) 
+                    _control.Left = value;
             }
         }
 
@@ -91,17 +105,19 @@ namespace Hymma.SolidTools.Addins
         /// By default, the width of the control is usually set so that it extends to the right edge of its group box (not for buttons). Using this API overrides that default.<br/>
         /// The value is in dialog units relative to the group box that the control is in. The width of the group box is 100
         /// </summary>
-        public short Width { get => Control.Width; set => Control.Width = value; }
+        public short Width { get => _control.Width; set => _control.Width = value; }
 
         /// <summary>
         /// Gets or sets the top edge of the control on a PropertyManager page
         /// </summary>
         public short Top
         {
-            get => Control.Top;
+            get => _top;
             set
             {
-                if (Control != null) Control.Top = value;
+                _top = value;
+                if (_control != null) 
+                    _control.Top = value;
             }
         }
 
@@ -126,44 +142,50 @@ namespace Hymma.SolidTools.Addins
         /// </item>
         /// </list>
         /// </summary>
-        public int OptionsForResize { get => Control.OptionsForResize; set => Control.OptionsForResize = value; }
+        public int OptionsForResize
+        {
+            get => _optionForResize;
+            set
+            {
+                _optionForResize = value;
+                if (_control != null)
+                    _control.OptionsForResize = value;
+            }
+        }
 
         /// <summary>
         /// enables or disables this property control on
         /// </summary>
         public bool Enabled
         {
-            get => Control.Enabled;
+            get => _enabled;
             set
             {
-                if (Control != null) Control.Enabled = value;
+                _enabled = value;
+                if (_control != null) 
+                    _control.Enabled = value;
             }
         }
 
         /// <summary>
         /// gets or sets the visibility of thei control
         /// </summary>
-        public bool Visible { get => Control.Visible; set {
-                if (Control != null)
-                    Control.Visible = value;
-            } }
+        public bool Visible
+        {
+            get => _visible;
+            set
+            {
+                _visible = value;
+                if (_control != null)
+                    _control.Visible = value;
+            }
+        }
 
         ///<inheritdoc/>
         public T SolidworksObject
         {
-            get
-            {
-                return (T)Control;
-            }
-            internal set
-            {
-                Control = value as IPropertyManagerPageControl;
-            }
+            get => (T)_control;
+            internal set => _control = value as IPropertyManagerPageControl;
         }
-
-        /// <summary>
-        /// property manager page control that can be cast to all the property manager page members
-        /// </summary>
-        private IPropertyManagerPageControl Control;
     }
 }

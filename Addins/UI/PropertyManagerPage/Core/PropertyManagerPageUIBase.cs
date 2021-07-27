@@ -2,7 +2,6 @@
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 
 namespace Hymma.SolidTools.Addins
@@ -29,7 +28,17 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// solidworks group boxes that contain solidworks pmp controllers
         /// </summary>
-        public List<PMPGroup> PmpGroups { get; set; } = new List<PMPGroup>();
+        public List<PMPGroup> PmpGroups { get; internal set; } = new List<PMPGroup>();
+
+        /// <summary>
+        /// add groups where different property manager page contros are grouped together
+        /// </summary>
+        /// <param name="caption">caption for this expandable group that appears to the users</param>
+        /// <param name="expanded">define expanded status of this group when property manager page is displayed</param>
+        public void AddGroup(string caption,bool expanded=false)
+        {
+            var gr = new PMPGroup(caption, expanded);
+        }
 
         /// <summary>
         /// a title for this property manager page
