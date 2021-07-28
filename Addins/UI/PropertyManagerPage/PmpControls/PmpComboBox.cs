@@ -30,7 +30,6 @@ namespace Hymma.SolidTools.Addins
             AddItems(_items);
             Style = (int)_style;
             Height = _height;
-            throw new NotImplementedException();
         }
 
         /// <summary>
