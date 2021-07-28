@@ -9,12 +9,20 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpLabel : PmpControl<PropertyManagerPageLabel>
     {
+        private LabelStyles _style;
+
         /// <summary>
         /// default constructor
         /// </summary>
-        public PmpLabel() : base(swPropertyManagerPageControlType_e.swControlType_Label)
+        public PmpLabel(LabelStyles style=LabelStyles.LeftText) : base(swPropertyManagerPageControlType_e.swControlType_Label)
         {
+            _style = style;
+            OnRegister += PmpLabel_OnRegister;
+        }
 
+        private void PmpLabel_OnRegister()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
