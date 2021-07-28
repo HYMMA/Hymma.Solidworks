@@ -46,7 +46,7 @@ namespace Hymma.SolidTools.Addins.UI.PropertyManagerPage.PmpControls
         ///<inheritdoc/>
         public virtual void Register()
         {
-            SolidworksObject = (v)Group.SolidworksObject.AddControl2(PmpId.GetNext(), (short)Type, Caption, LeftAlignment, Options, Tip);
+            SolidworksObject = (PropertyManagerPageControl)Group.SolidworksObject.AddControl2(PmpId.GetNext(), (short)Type, Caption, LeftAlignment, Options, Tip);
             Enabled = Visible = true;
         }
 

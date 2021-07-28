@@ -84,6 +84,7 @@
     <Compile Include="UI\PropertyManagerPage\Core\PmpId.cs" />
     <Compile Include="UI\PropertyManagerPage\Enums\pmpEnums.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButton.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpController.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommand.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroup.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroupBase.cs" />
