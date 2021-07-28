@@ -91,8 +91,8 @@
     <Compile Include="UI\Tabs\AddinCommandTab.cs" />
     <Compile Include="Core\AddinMaker.cs" />
     <Compile Include="UI\Tabs\CommandGroup\IAddinCommandGroup.cs" />
-    <Compile Include="Tools\Extensions\AssemblyExtensions.cs" />
-    <Compile Include="Tools\Extensions\TypeExtensions.cs" />
+    <Compile Include="Tools\DotNet\Extensions\AssemblyExtensions.cs" />
+    <Compile Include="Tools\DotNet\Extensions\TypeExtensions.cs" />
     <Compile Include="Tools\Logging\Logger.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpBase.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpEventHandler.cs" />

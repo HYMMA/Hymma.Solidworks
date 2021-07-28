@@ -9,6 +9,7 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpButton : PmpControl<IPropertyManagerPageButton>
     {
+
         /// <summary>
         /// default constructor
         /// </summary>
@@ -16,6 +17,11 @@ namespace Hymma.SolidTools.Addins
         public PmpButton(string caption) : base(swPropertyManagerPageControlType_e.swControlType_Button)
         {
             Caption = caption;
+            OnRegister += PmpButton_OnRegister;
+        }
+
+        private void PmpButton_OnRegister()
+        {
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System;
 using System.Drawing;
 
 namespace Hymma.SolidTools.Addins
@@ -81,6 +82,9 @@ namespace Hymma.SolidTools.Addins
         public virtual void Register(IPropertyManagerPageGroup group)
         {
             SolidworksObject = (T)group.AddControl2(Id, (short)Type, Caption, LeftAlignment, Options, Tip);
+
+            //we raise this event here to give multiple controls set-up their initial state. some of the proeprties of a controller has to be set prior a property manager page is displayed or after it's closed
+            OnRegister();
             Enabled = Visible = true;
         }
 
@@ -187,5 +191,10 @@ namespace Hymma.SolidTools.Addins
             get => (T)_control;
             internal set => _control = value as IPropertyManagerPageControl;
         }
+
+        /// <summary>
+        /// fired when this controller is registerd in a property manager page
+        /// </summary>
+        public event Action OnRegister;
     }
 }

@@ -9,6 +9,7 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpCheckBox : PmpControl<PropertyManagerPageCheckbox>
     {
+        private readonly bool _isChecked;
 
         /// <summary>
         /// default constructor
@@ -16,7 +17,13 @@ namespace Hymma.SolidTools.Addins
         /// <param name="isChecked">initial state</param>
         public PmpCheckBox(bool isChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Checkbox)
         {
-            IsChecked = isChecked;
+            _isChecked = isChecked;
+            OnRegister += PmpCheckBox_OnRegister;
+        }
+
+        private void PmpCheckBox_OnRegister()
+        {
+            IsChecked = _isChecked;
         }
 
         /// <summary>

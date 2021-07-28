@@ -1,5 +1,6 @@
 ﻿using SolidWorks.Interop.sldworks;
 using System.Drawing;
+using System.IO;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -8,8 +9,9 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpBitmap : PmpControl<PropertyManagerPageBitmap>
     {
-        private string image;
-        private string maskImage;
+        private Bitmap _bitmap;
+        private string _filename;
+
         /// <summary>
         /// generates a bitmap in the property manager page
         /// </summary>
@@ -19,7 +21,14 @@ namespace Hymma.SolidTools.Addins
         /// </remarks>
         public PmpBitmap(Bitmap bitmap, string fileName) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap)
         {
-            IconGenerator.GetPmpBitmapIcon(bitmap, fileName, out image, out maskImage);
+            OnRegister += PmpBitmap_OnRegister;
+            _bitmap = bitmap;
+            _filename = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
+        }
+
+        private void PmpBitmap_OnRegister()
+        {
+            SetBitmap(_bitmap, _filename);
         }
 
         /// <summary>
@@ -35,7 +44,7 @@ namespace Hymma.SolidTools.Addins
         /// </remarks>
         public override void SetBitmap(Bitmap bitmap, string fileName)
         {
-            IconGenerator.GetPmpBitmapIcon(bitmap, fileName, out image, out maskImage);
+            IconGenerator.GetPmpBitmapIcon(bitmap, fileName, out string image, out string maskImage);
             if (SolidworksObject != null)
                 SolidworksObject.SetBitmapByName(image, maskImage);
         }
