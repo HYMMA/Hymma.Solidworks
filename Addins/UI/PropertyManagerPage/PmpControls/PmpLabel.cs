@@ -4,6 +4,34 @@ using System;
 
 namespace Hymma.SolidTools.Addins
 {
+
+    /// <summary>
+    /// itallic indexer
+    /// </summary>
+    public class UnderLineStyle
+    {
+        /// <summary>
+        /// default constructor
+        /// </summary>
+        /// <param name="lalbel"></param>
+        internal UnderLineStyle(PropertyManagerPageLabel lalbel)
+        {
+            this._label = lalbel;
+        }
+        private PropertyManagerPageLabel _label;
+        /// <summary>
+        /// assign a range characters where they would be set to italic 
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
+        /// <returns></returns>
+        public under this[short i, short j]   // indexer declaration
+        {
+            get => _label.Italic[i, j];
+            set => _label.Italic[i, j] = value;
+        }
+    }
+
     /// <summary>
     /// a lable inside a property manager page
     /// </summary>
@@ -11,14 +39,19 @@ namespace Hymma.SolidTools.Addins
     {
         private LabelStyles _style;
         private string _caption;
+        private short _height;
 
         /// <summary>
         /// default constructor
         /// </summary>
-        public PmpLabel(string caption, LabelStyles style = LabelStyles.LeftText) : base(swPropertyManagerPageControlType_e.swControlType_Label)
+        /// <param name="caption">caption for this lable</param>
+        /// <param name="style">style of the lable as defined by bitwie <see cref="LabelStyles"/></param>
+        /// <param name="height">Because SOLIDWORKS sizes the label appropriately based on the text it contains, you should not have to use this parameter. However, if the label does not contain text, then using this property might be useful.</param>
+        public PmpLabel(string caption, LabelStyles style = LabelStyles.LeftText, short height = 8) : base(swPropertyManagerPageControlType_e.swControlType_Label)
         {
             _style = style;
             _caption = caption;
+            _height = height;
             OnRegister += PmpLabel_OnRegister;
         }
 
@@ -26,19 +59,117 @@ namespace Hymma.SolidTools.Addins
         {
             Caption = _caption;
             Style = (int)_style;
+            Italic = new Italic(SolidworksObject);
+            SolidworksObject.Height = _height;
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// sets whether to italicize the specified range of characters in this PropertyManager label.
+        /// </summary>
+        /// <param name="StartChar">0-based index value of start character</param>
+        /// <param name="EndChar">0-based index value of end character</param>
+        /// <param name="status"></param>
+        public void SetItalic(short StartChar, short EndChar, bool status)
+        {
+            if (SolidworksObject != null)
+                SolidworksObject.Italic[StartChar, EndChar] = status;
+        }
+
+        /// <summary>
+        /// gets whether a pecified range of characters in this property manager label are italic or not
+        /// </summary>
+        /// <param name="StartChar">0-based index value of start character</param>
+        /// <param name="EndChar">0-based index value of end character</param>
+        public bool GetItalic(short StartChar, short EndChar)
+        {
+            if (SolidworksObject != null)
+                return SolidworksObject.Italic[StartChar, EndChar];
+            return Italic[StartChar, EndChar];
+        }
+ 
+        /// <summary>
+        /// sets or gets itallic status of a range of 0-based indexed characters
+        /// </summary>
+        /// <remarks>you should be able to assign a range using [start,end]</remarks>
+        public Italic Italic { get; set; }
+
+        /// <summary>
+        /// Sets whether to raise or lower the specified characters above or below their baselines, relative to their heights, in this PropertyManager label.
+        /// </summary>
+        /// <param name="StartChar">0-based index value of start character</param>
+        /// <param name="EndChar">0-based index value of end character</param>
+        /// <param name="offset">
+        /// Specify:<br/>
+        ///0.0 to show the character on its baseline<br/>
+        ///-1.0 to show the character 1 character below its baseline<br/>
+        ///+1.0 to show the character 1 character above its baseline
+        ///</param>
+        /// <remarks>allows you to show that character as a subscript or exponent in an equation.</remarks>
+        public void SetLineOffset(short StartChar, short EndChar, double offset)
+        {
+            if (SolidworksObject != null)
+            {
+                SolidworksObject.LineOffset[StartChar, EndChar] = offset;
+            }
+        }
+
+        /// <summary>
+        /// Gets the size of the specified characters in this PropertyManager label.
+        /// </summary>
+        /// <param name="StartChar">0-based index value of start character</param>
+        /// <param name="EndChar">0-based index value of end character</param>
+        /// <returns>Ratio for the height of the characters relative to their expected heights &gt;0 increases their heights and &lt;0 decreases their height<br/>
+        /// 0 for errors</returns>
+        public double GetSizeRatio(short StartChar, short EndChar)
+        {
+            if (SolidworksObject != null)
+            {
+                return SolidworksObject.SizeRatio[StartChar, EndChar];
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Gets or sets the size of the specified characters in this PropertyManager label.
+        /// </summary>
+        /// <param name="StartChar">0-based index value of start character</param>
+        /// <param name="EndChar">0-based index value of end character</param>
+        /// <param name="ratio">Ratio for the height of the characters relative to their expected heights &gt;0 increases their heights and &lt;0 decreases their height</param>
+        public void SetSizeRatio(short StartChar, short EndChar, double ratio)
+        {
+            if (SolidworksObject != null)
+            {
+                SolidworksObject.SizeRatio[StartChar, EndChar] = ratio;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether to raise or lower the specified characters above or below their baselines, relative to their heights, in this PropertyManager label.
+        /// </summary>
+        /// <param name="StartChar">0-based index value of start character</param>
+        /// <param name="EndChar">0-based index value of end character</param>
+        /// <returns>offset of this character or -1000 for error</returns>
+        public double GetLineOffset(short StartChar, short EndChar)
+        {
+            if (SolidworksObject != null)
+            {
+                return SolidworksObject.LineOffset[StartChar, EndChar];
+            }
+            return -1000;
+        }
+
         /// <summary>
         /// sets the background color for the specified range of characters in this PropertyManager label. 
         /// </summary>
         /// <param name="StartChar">0-based index value of start character</param>
-        /// <param name="EndCharnd">0-based index value of end character</param>
+        /// <param name="EndChar">0-based index value of end character</param>
         /// <param name="RGB">RGB value for the text background color for the specified characters; if not specified, then the background color for this control is used</param>
-        public void SetBackgroundColor(short StartChar, short EndCharnd, int RGB)
+        public void SetBackgroundColor(short StartChar, short EndChar, int RGB)
         {
             if (SolidworksObject != null)
             {
-                SolidworksObject.CharacterBackgroundColor[StartChar, EndCharnd] = RGB;
+                SolidworksObject.CharacterBackgroundColor[StartChar, EndChar] = RGB;
             }
         }
 
@@ -62,7 +193,7 @@ namespace Hymma.SolidTools.Addins
         /// <returns>RGB value for the text color for the specified characters or -1 for error</returns>
         public int GetCharacterColor(short StartChar, short EndChar)
         {
-            if (SolidworksObject!=null)
+            if (SolidworksObject != null)
             {
                 return SolidworksObject.CharacterColor[StartChar, EndChar];
             }
@@ -78,7 +209,7 @@ namespace Hymma.SolidTools.Addins
         public void SetCharacterColor(short StartChar, short EndChar, int RGB)
         {
             if (SolidworksObject != null)
-                 SolidworksObject.CharacterColor[StartChar, EndChar]=RGB;
+                SolidworksObject.CharacterColor[StartChar, EndChar] = RGB;
         }
 
         /// <summary>
@@ -89,7 +220,7 @@ namespace Hymma.SolidTools.Addins
         /// <returns>Name of the font to use for the specified characters or empty string for error</returns>
         public string GetFont(short StartChar, short EndChar)
         {
-            if (SolidworksObject!=null)
+            if (SolidworksObject != null)
             {
                 return SolidworksObject.Font[StartChar, EndChar];
             }
@@ -106,6 +237,17 @@ namespace Hymma.SolidTools.Addins
         {
             if (SolidworksObject != null)
                 SolidworksObject.Font[StartChar, EndChar] = font;
+        }
+
+        public void SetUnderLineStyle(short StartChar, short EndChar, UnderLineStyle style)
+        {
+
+        }
+
+
+        public UnderLineStyle GetUnderLineStyle(short StartChar, short EndChar)
+        {
+
         }
 
         /// <summary>
@@ -161,10 +303,23 @@ namespace Hymma.SolidTools.Addins
         }
     }
 
+    public class test
+    {
+        public test()
+        {
+            var lbl = new PmpLabel("caption");
+            var t = lbl.Italic[3,4];
+            lbl.Italic[]
+            lbl.Italic[45, 234]=true;
+            lbl.Italic[]
+            var i = lbl.Italic;
+            i[434,]
+        }
+    }
+
     /// <summary>
     /// styles for a label in property manager pages
     /// </summary>
-
     [Flags]
     public enum LabelStyles
     {
@@ -187,5 +342,26 @@ namespace Hymma.SolidTools.Addins
         /// with shadow
         /// </summary>
         Sunken = 8,
+    }
+
+    /// <summary>
+    /// Underline style of PropertyManager page label
+    /// </summary>
+    public enum UnderLineStyle
+    {
+        /// <summary>
+        /// dashed under line
+        /// </summary>
+        DashedUnderline = 2,
+
+        /// <summary>
+        /// remove under line
+        /// </summary>
+        NoUnderline = 0,
+
+        /// <summary>
+        /// solid under line
+        /// </summary>
+        SolidUnderline = 1
     }
 }
