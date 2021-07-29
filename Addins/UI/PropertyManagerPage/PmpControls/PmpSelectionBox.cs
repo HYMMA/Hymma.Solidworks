@@ -15,6 +15,8 @@ namespace Hymma.SolidTools.Addins
 
         private CalloutModel _callout;
         private string _calloutLabel;
+        private short _height;
+        private swSelectType_e[] _filter;
         #endregion
 
         /// <summary>
@@ -24,25 +26,49 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public PmpSelectionBox(swSelectType_e[] Filter, short Height = 50) : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox)
         {
-            this.Height = Height;
-            this.Filter = Filter;
+            this._height = Height;
+            this._filter = Filter;
+            OnRegister += PmpSelectionBox_OnRegister;
+        }
+
+        private void PmpSelectionBox_OnRegister()
+        {
+            Height = _height;
+            Filter = _filter;
         }
 
         /// <summary>
-        /// array of <see cref="swSelectType_e"/> to allow selection of specific types only
+        /// array of <see cref="swSelectType_e"/> to allow selection of specific types only.You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed. 
         /// </summary>
-        public swSelectType_e[] Filter { get; set; }
+        /// <remarks>
+        /// <list type="table"><strong><listheader>FILTER ---- RESULTS</listheader></strong>
+        /// <item>swSelFACES,  swSelSOLIDBODIES<description> ----- Face<br/>If you want a body to appear in the selection box, then use swSelSOLIDBODIESFIRST.</description></item>
+        /// <item>swSelFACES, swSelCOMPONENTS<description> ----- Component<br/>If you want a face to appear in the selection box, then use swSELCOMPSDONTOVERRIDE.</description></item>
+        /// <item>swSelSOLIDBODIES, swSelCOMPONENTS<description> ----- Component<br/>If you want a body to appear in the selection box, then use swSelSOLIDBODIESFIRST.</description></item>
+        /// <item>swSelFACES, swSelSOLIDBODIES, swSelCOMPONENTS<description> ----- Component<br/>If you want a face to appear in the selection box, then use swSelCOMPSDONTOVERRIDE.<br/>If you want a body to appear in the selection box, then use swSelSOLIDBODIESFIRST.</description></item>
+        /// </list>
+        /// swSelSURFACEBODIES and swSelSURFBODIESFIRST behave simliar to swSelSOLIDBODIES and swSelSOLIDBODIESFIRST. swSelEDGES and swSelVERTICES behave similar to swSelFACES. If the Filters is set to swSelNOTHING or swSelUNSUPPORTED, this the call to this method fails.
+        /// </remarks>
+        public swSelectType_e[] Filter
+        {
+            get => _filter;
+            set
+            {
+                _filter = value;
+                SolidworksObject?.SetSelectionFilters(value);
+            }
+        }
 
         /// <summary>
         /// height of this selection box in proerty manager page
         /// </summary>
-        public short Height { get; set; }
+        public short? Height { get => SolidworksObject?.Height; set => SolidworksObject.Height = (short)value; }
 
         /// <summary>
         /// Gets or sets whether the same entity can be selected multiple times in this selection box
         /// </summary>
         /// <value>True if the same entity can be selected multiple times in this selection box, false if not</value>
-        public bool AllowMultipleSelectOfSameEntity { get; set; }
+        public bool? AllowMultipleSelectOfSameEntity { get => SolidworksObject?.AllowMultipleSelectOfSameEntity; set => SolidworksObject.AllowMultipleSelectOfSameEntity = (bool)value; }
 
         /// <summary>
         /// Gets or sets whether an entity can be selected in this selection box if the entity is selected elsewhere. 
@@ -111,7 +137,7 @@ namespace Hymma.SolidTools.Addins
             else
                 throw new ArgumentOutOfRangeException($"you assigned {mark} to a selection box mark value. But {mark} is not a power of 2");
         }
-        
+
         /// <summary>
         /// adds the selections to a selectionBox
         /// </summary>
