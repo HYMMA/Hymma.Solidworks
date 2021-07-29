@@ -6,33 +6,6 @@ namespace Hymma.SolidTools.Addins
 {
 
     /// <summary>
-    /// itallic indexer
-    /// </summary>
-    public class UnderLineStyle
-    {
-        /// <summary>
-        /// default constructor
-        /// </summary>
-        /// <param name="lalbel"></param>
-        internal UnderLineStyle(PropertyManagerPageLabel lalbel)
-        {
-            this._label = lalbel;
-        }
-        private PropertyManagerPageLabel _label;
-        /// <summary>
-        /// assign a range characters where they would be set to italic 
-        /// </summary>
-        /// <param name="i"></param>
-        /// <param name="j"></param>
-        /// <returns></returns>
-        public under this[short i, short j]   // indexer declaration
-        {
-            get => _label.Italic[i, j];
-            set => _label.Italic[i, j] = value;
-        }
-    }
-
-    /// <summary>
     /// a lable inside a property manager page
     /// </summary>
     public class PmpLabel : PmpControl<PropertyManagerPageLabel>
@@ -59,7 +32,6 @@ namespace Hymma.SolidTools.Addins
         {
             Caption = _caption;
             Style = (int)_style;
-            Italic = new Italic(SolidworksObject);
             SolidworksObject.Height = _height;
             throw new NotImplementedException();
         }
@@ -85,14 +57,8 @@ namespace Hymma.SolidTools.Addins
         {
             if (SolidworksObject != null)
                 return SolidworksObject.Italic[StartChar, EndChar];
-            return Italic[StartChar, EndChar];
+            return false;
         }
- 
-        /// <summary>
-        /// sets or gets itallic status of a range of 0-based indexed characters
-        /// </summary>
-        /// <remarks>you should be able to assign a range using [start,end]</remarks>
-        public Italic Italic { get; set; }
 
         /// <summary>
         /// Sets whether to raise or lower the specified characters above or below their baselines, relative to their heights, in this PropertyManager label.
@@ -239,15 +205,31 @@ namespace Hymma.SolidTools.Addins
                 SolidworksObject.Font[StartChar, EndChar] = font;
         }
 
+        /// <summary>
+        /// Sets whether to apply the specified underline style to the specified range of characters in this PropertyManager label. 
+        /// </summary>
+        /// <param name="StartChar"></param>
+        /// <param name="EndChar"></param>
+        /// <param name="style"></param>
         public void SetUnderLineStyle(short StartChar, short EndChar, UnderLineStyle style)
         {
-
+            if (SolidworksObject!=null)
+            {
+                SolidworksObject.Underline[StartChar, EndChar] = (int)style;
+            }
         }
 
-
-        public UnderLineStyle GetUnderLineStyle(short StartChar, short EndChar)
+        /// <summary>
+        /// Gets underline style to the specified range of characters in this PropertyManager label. 
+        /// </summary>
+        /// <param name="StartChar">0-based index value of start character</param>
+        /// <param name="EndChar">0-based index value of end character</param>
+        /// <returns>int value as defined by <see cref="UnderLineStyle"/> or -1 for errors</returns>
+        public int GetUnderLineStyle(short StartChar, short EndChar)
         {
-
+            if (SolidworksObject!=null)
+                return SolidworksObject.Underline[StartChar, EndChar];
+            return -1;
         }
 
         /// <summary>
@@ -271,7 +253,6 @@ namespace Hymma.SolidTools.Addins
                 }
             }
         }
-
 
         /// <summary>
         /// sets the range of specified characters to bold. 
@@ -300,20 +281,6 @@ namespace Hymma.SolidTools.Addins
                 return SolidworksObject.Bold[start, end];
             }
             return false;
-        }
-    }
-
-    public class test
-    {
-        public test()
-        {
-            var lbl = new PmpLabel("caption");
-            var t = lbl.Italic[3,4];
-            lbl.Italic[]
-            lbl.Italic[45, 234]=true;
-            lbl.Italic[]
-            var i = lbl.Italic;
-            i[434,]
         }
     }
 
