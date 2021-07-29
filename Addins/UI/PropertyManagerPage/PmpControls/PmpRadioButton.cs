@@ -9,18 +9,26 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpRadioButton : PmpControl<IPropertyManagerPageOption>
     {
+        private bool _IsChecked;
+
         /// <summary>
         /// make a new radio button for solidworks property manager pages
         /// </summary>
         public PmpRadioButton(bool IsChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Option)
         {
-            this.IsChecked = IsChecked;
+            this._IsChecked = IsChecked;
+            OnRegister += PmpRadioButton_OnRegister;
+        }
+
+        private void PmpRadioButton_OnRegister()
+        {
+            IsChecked = _IsChecked;
         }
 
         /// <summary>
         /// whether or not this radio button is checked
         /// </summary>
-        public bool IsChecked { get; internal set; }
+        public bool? IsChecked { get => SolidworksObject?.Checked; set => SolidworksObject.Checked = (bool)value; }
 
         /// <summary>
         /// SOLIDWORKS will invoke this delegate once the user checks this radio button
