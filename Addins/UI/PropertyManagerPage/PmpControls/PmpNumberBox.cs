@@ -9,6 +9,7 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpNumberBox : PmpControl<IPropertyManagerPageNumberbox>
     {
+        private int _style;
         #region constructors
         /// <summary>
         /// creates a number box in a property manager page
@@ -16,7 +17,13 @@ namespace Hymma.SolidTools.Addins
         /// <param name="style">style for this numberBox as defined by <see cref="NumberBoxStyle"/></param>
         public PmpNumberBox(NumberBoxStyle style) : base(swPropertyManagerPageControlType_e.swControlType_Numberbox)
         {
-            Style = (int)style;
+            _style = (int)style;
+            OnRegister += PmpNumberBox_OnRegister;
+        }
+
+        private void PmpNumberBox_OnRegister()
+        {
+            Style = _style;
         }
 
         #endregion
@@ -39,7 +46,7 @@ namespace Hymma.SolidTools.Addins
         ///</remarks>
         public void SetRange(NumberBoxUnit Units, double Minimum, double Maximum, double Increment, double fastIncrement, double slowIncrement, bool Inclusive = true)
         {
-            SolidworksObject.SetRange2((int)Units, Minimum, Maximum, Inclusive, Increment, fastIncrement, slowIncrement);
+            SolidworksObject?.SetRange2((int)Units, Minimum, Maximum, Inclusive, Increment, fastIncrement, slowIncrement);
         }
 
         /// <summary>
@@ -48,12 +55,12 @@ namespace Hymma.SolidTools.Addins
         /// <param name="items"></param>
         public void AddItems(string[] items)
         {
-            SolidworksObject.AddItems(items);
+            SolidworksObject?.AddItems(items);
         }
         /// <summary>
         /// Clears all items from the attached drop-down list for this the number box. 
         /// </summary>
-        public void Clear() => SolidworksObject.Clear();
+        public void Clear() => SolidworksObject?.Clear();
 
         /// <summary>
         /// Gets the text for an item in the attached drop-down list for this number box. 
@@ -62,7 +69,7 @@ namespace Hymma.SolidTools.Addins
         /// <returns>Text for this item</returns>
         public string ItemText(short item)
         {
-            return SolidworksObject.ItemText[item];
+            return SolidworksObject?.ItemText[item];
         }
 
         /// <summary>
@@ -70,9 +77,9 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="item">Index number of the item to delete from the 0-based list of items</param>
         /// <returns>Number of items remaining in the list or -1 if the item is not deleted</returns>
-        public short DeleteItem(short item)
+        public short? DeleteItem(short item)
         {
-            return SolidworksObject.DeleteItem(item);
+            return SolidworksObject?.DeleteItem(item);
         }
 
         /// <summary>
@@ -81,9 +88,9 @@ namespace Hymma.SolidTools.Addins
         /// <param name="item">Position where to add the item in the 0-based list or -1 to put the item at the end of the list</param>
         /// <param name="text">Text for item</param>
         /// <returns>Position in the 0-based list where the item is added or -1 if the item is not added to the list</returns>
-        public short InsertItem(short item, string text)
+        public short? InsertItem(short item, string text)
         {
-            return SolidworksObject.InsertItem(item, text);
+            return SolidworksObject?.InsertItem(item, text);
         }
 
         /// <summary>
@@ -95,8 +102,7 @@ namespace Hymma.SolidTools.Addins
         /// When a user drags the slider, PositionCount defines how sensitive the slider is. Not all of the specified discreet points are displayed if the PropertyManager page is not wide enough to show them. However, if the user widens the PropertyManager page, then more points are displayed.
         ///When a user drags the slider, the user-interface tends to snap to the nearest tick mark when the drag is nearby, making it easier for the user to set whole values.
         ///</remarks>
-        public void SetSliderParameters(int positionCount, int divisionCount) => SolidworksObject.SetSliderParameters(positionCount, divisionCount);
-        
+        public void SetSliderParameters(int positionCount, int divisionCount) => SolidworksObject?.SetSliderParameters(positionCount, divisionCount);
 
         #endregion
 
@@ -104,33 +110,29 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Gets and sets the value that appears in the number box. 
         /// </summary>
-        public double Value { get => SolidworksObject.Value; set => SolidworksObject.Value = value; }
+        public double? Value { get => SolidworksObject?.Value; set => SolidworksObject.Value = (double)value; }
 
         /// <summary>
         /// gets or sets the current selection in the number box
         /// </summary>
         /// <value>0-based index of the selection</value>
-        public short CurrentSelection { get => SolidworksObject.CurrentSelection; set => SolidworksObject.CurrentSelection = value; }
+        public short? CurrentSelection { get => SolidworksObject?.CurrentSelection; set => SolidworksObject.CurrentSelection = (short)value; }
 
         /// <summary>
         /// 	Gets or sets the maximum height of the attached drop-down list for this number box.  
         /// </summary>
-        public short Height
-        {
-            get => SolidworksObject.Height;
-            set => SolidworksObject.Height = value;
-        }
+        public short? Height{get => SolidworksObject?.Height; set => SolidworksObject.Height = (short)value;}
 
         /// <summary>
         /// style for this numberBox as defined by <see cref="NumberBoxStyle"/>
         /// </summary>
-        public int Style { get => SolidworksObject.Style; set => SolidworksObject.Style = value; }
+        public int? Style { get => SolidworksObject?.Style; set => SolidworksObject.Style = (int)value; }
 
         /// <summary>
         /// Gets the text that appears in the number box. 
         /// </summary>
         /// <remarks>If a user changes the value in an number box by typing in a new value, the <see cref="OnTextChanged"/> is called with the current text string.</remarks>
-        public string Text => SolidworksObject.Text;
+        public string Text => SolidworksObject?.Text;
 
         /// <summary>
         /// Gets or sets the unit type to display in this PropertyManager page number box. 
@@ -139,9 +141,9 @@ namespace Hymma.SolidTools.Addins
         /// Remember that the values specified for both <see cref="Value"/> and <see cref="SetRange(NumberBoxUnit, double, double, double, double, double, bool)"/> are in system units; <br/>
         /// <see cref="DisplayedUnit "/> simply controls how that value is displayed in the PropertyManager page number box.
         ///You can call <see cref="DisplayedUnit "/> and change the units displayed in a number box while a Propertymanager page is displayed.</remarks>
-        public NumberBoxUnit DisplayedUnit
+        public int? DisplayedUnit
         {
-            get => Enum.ToObject(typeof(NumberBoxUnit), SolidworksObject.DisplayedUnit).CastTo<NumberBoxUnit>();
+            get => SolidworksObject?.DisplayedUnit;
             set => SolidworksObject.DisplayedUnit = (int)value;
         }
         #endregion
