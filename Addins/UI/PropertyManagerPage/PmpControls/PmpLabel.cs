@@ -33,7 +33,6 @@ namespace Hymma.SolidTools.Addins
             Caption = _caption;
             Style = (int)_style;
             SolidworksObject.Height = _height;
-            throw new NotImplementedException();
         }
 
         /// <summary>

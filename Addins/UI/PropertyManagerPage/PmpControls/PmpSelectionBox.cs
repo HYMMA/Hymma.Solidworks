@@ -17,17 +17,26 @@ namespace Hymma.SolidTools.Addins
         private string _calloutLabel;
         private short _height;
         private swSelectType_e[] _filter;
+        private bool _allowMultiSelect;
         #endregion
 
         /// <summary>
         /// default constructor
-        /// <param name="Filter">defines out type of entity in solidworks user could select</param>
+        /// <param name="Filter">/// <list type="table"><strong><listheader>FILTER ---- RESULTS</listheader></strong>
+        /// <item>swSelFACES,  swSelSOLIDBODIES<description> ----- Face<br/>If you want a body to appear in the selection box, then use swSelSOLIDBODIESFIRST.</description></item>
+        /// <item>swSelFACES, swSelCOMPONENTS<description> ----- Component<br/>If you want a face to appear in the selection box, then use swSELCOMPSDONTOVERRIDE.</description></item>
+        /// <item>swSelSOLIDBODIES, swSelCOMPONENTS<description> ----- Component<br/>If you want a body to appear in the selection box, then use swSelSOLIDBODIESFIRST.</description></item>
+        /// <item>swSelFACES, swSelSOLIDBODIES, swSelCOMPONENTS<description> ----- Component<br/>If you want a face to appear in the selection box, then use swSelCOMPSDONTOVERRIDE.<br/>If you want a body to appear in the selection box, then use swSelSOLIDBODIESFIRST.</description></item>
+        /// </list>
+        /// swSelSURFACEBODIES and swSelSURFBODIESFIRST behave simliar to swSelSOLIDBODIES and swSelSOLIDBODIESFIRST. swSelEDGES and swSelVERTICES behave similar to swSelFACES. If the Filters is set to swSelNOTHING or swSelUNSUPPORTED, this the call to this method fails.</param>
+        ///<param name="AllowMultiSelect">True if the same entity can be selected multiple times in this selection box, false if not</param>
         /// <param name="Height">height of selectionbox in the pmp</param>
         /// </summary>
-        public PmpSelectionBox(swSelectType_e[] Filter, short Height = 50) : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox)
+        public PmpSelectionBox(swSelectType_e[] Filter,bool AllowMultiSelect, short Height = 50) : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox)
         {
             this._height = Height;
             this._filter = Filter;
+            this._allowMultiSelect = AllowMultiSelect;
             OnRegister += PmpSelectionBox_OnRegister;
         }
 
@@ -35,6 +44,7 @@ namespace Hymma.SolidTools.Addins
         {
             Height = _height;
             Filter = _filter;
+            AllowMultipleSelectOfSameEntity = _allowMultiSelect;
         }
 
         /// <summary>
@@ -68,17 +78,19 @@ namespace Hymma.SolidTools.Addins
         /// Gets or sets whether the same entity can be selected multiple times in this selection box
         /// </summary>
         /// <value>True if the same entity can be selected multiple times in this selection box, false if not</value>
+        /// <remarks>You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed</remarks>
         public bool? AllowMultipleSelectOfSameEntity { get => SolidworksObject?.AllowMultipleSelectOfSameEntity; set => SolidworksObject.AllowMultipleSelectOfSameEntity = (bool)value; }
 
         /// <summary>
         /// Gets or sets whether an entity can be selected in this selection box if the entity is selected elsewhere. 
         /// </summary>
-        /// <value><list type="bullet"><listheader>if--------------- then</listheader>
-        /// <item>true--------------- <description>When an entity is selected while this selection box is active and that entity is selected in a different selection box, then the entity is added to this selection box.</description> </item>
-        /// <item>true--------------- <description>If the entity is already selected in this selection box then the entity is removed from the selection box.</description> </item>
-        /// <item>false-------------- <description>When an entity is selected while this selection box is active and that entity is already selected,  then the entity is removed from the selection box. This is the default behavior of a selection box.</description> </item>
-        /// </list> </value>
-        public bool AllowSelectInMultipleBoxes { get; set; }
+        /// <value><list type="table"><listheader>IF--------------- THEN</listheader>
+        /// <item>true------------ <description>When an entity is selected while this selection box is active and that entity is selected in a different selection box, then the entity is added to this selection box.</description> </item>
+        /// <item>true------------ <description>If the entity is already selected in this selection box then the entity is removed from the selection box.</description> </item>
+        /// <item>false----------- <description>When an entity is selected while this selection box is active and that entity is already selected,  then the entity is removed from the selection box. This is the default behavior of a selection box.</description> </item>
+        /// </list> 
+        /// </value>
+        public bool? AllowSelectInMultipleBoxes { get => SolidworksObject?.AllowSelectInMultipleBoxes; set => SolidworksObject.AllowMultipleSelectOfSameEntity = (bool)value; }
 
         /// <summary>
         /// create a clalout for this selectionbox
@@ -104,7 +116,7 @@ namespace Hymma.SolidTools.Addins
         public string CalloutLabel
         {
             get => _calloutLabel;
-            set { _calloutLabel = value; SolidworksObject.SetCalloutLabel(value); }
+            set { _calloutLabel = value; SolidworksObject?.SetCalloutLabel(value); }
         }
 
         /// <summary>
