@@ -10,7 +10,7 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpListBox : PmpControl<PropertyManagerPageListbox>
     {
-        private string[] _items;
+        private readonly string[] _items;
 
         /// <summary>
         /// make a list box in a property manager page
@@ -31,10 +31,7 @@ namespace Hymma.SolidTools.Addins
         /// Adds items to the attached drop-down list for this list box.
         /// </summary>
         /// <param name="items"></param>
-        public void AddItems(string[] items)
-        {
-            SolidworksObject?.AddItems(items);
-        }
+        public void AddItems(string[] items)=>SolidworksObject?.AddItems(items);
 
         /// <summary>
         /// Clears all items from attached drop-down list for this list box.
@@ -87,31 +84,14 @@ namespace Hymma.SolidTools.Addins
         ///You can use this method to clear a selection in a single-selection style list box, which results in no current selection in that list box.
         /// </para>
         ///</remarks>
-        public bool? SetSelectedItem(short Item, bool Selected)
-        {
-            return SolidworksObject?.SetSelectedItem(Item, Selected);
-        }
-
+        public bool? SetSelectedItem(short Item, bool Selected)=>SolidworksObject?.SetSelectedItem(Item, Selected);
 
         /// <summary>
         /// Gets and sets the item that is currently selected in this list box. 
         /// </summary>
         /// <value>Index number of the item in the 0-based list</value>
         /// <remarks>If you use this property with a list box enabled for multiple selections, then this method returns -1 and does not affect the list box.</remarks>
-        public short CurrentSelection
-        {
-            get
-            {
-                if (SolidworksObject != null)
-                    return SolidworksObject.CurrentSelection;
-                return -1;
-            }
-            set
-            {
-                if (SolidworksObject != null)
-                    SolidworksObject.CurrentSelection = value;
-            }
-        }
+        public short? CurrentSelection { get => SolidworksObject?.CurrentSelection; set => SolidworksObject.CurrentSelection = value.GetValueOrDefault(); }
 
         /// <summary>
         /// gets and sets the attached drop down list in this list box
@@ -122,46 +102,14 @@ namespace Hymma.SolidTools.Addins
         ///&gt;30  	    Specified height and scrolling, but no auto sizing<br/>
         ///</value>
         ///<remarks>The height is in dialog-box units. You can convert these values to screen units (pixels) by using the Windows MapDialogRect function.</remarks>
-        public short Height
-        {
-            get
-            {
-                if (SolidworksObject != null)
-                {
-                    return SolidworksObject.Height;
-                }
-                return 0;
-            }
-            set
-            {
-                if (SolidworksObject != null)
-                {
-                    SolidworksObject.Height = value;
-                }
-            }
-        }
+        public short? Height { get => SolidworksObject?.Height; set => SolidworksObject.Height = value.GetValueOrDefault(); }
 
         /// <summary>
         /// get or set style as defined in <see cref="ListBoxStyle"/>
         /// </summary>
         /// <remarks>By default, only one list item can be selected at a time. When another list item is selected, that item becomes the active item and the previously selected item is cleared. </remarks>
-        public int Style
-        {
-            get
-            {
-                if (SolidworksObject != null)
-                {
-                    return SolidworksObject.Style;
-                }
-                return -1;
-            }
-            set
-            {
-                if (SolidworksObject != null)
-                    SolidworksObject.Style = value;
-            }
-        }
-
+        public int? Style { get => SolidworksObject?.Style; set => SolidworksObject.Style = value.GetValueOrDefault(); }
+        
         /// <summary>
         /// Gets the number of items in the attached drop-down list for this list box. 
         /// </summary>

@@ -18,6 +18,12 @@ namespace Hymma.SolidTools.Addins
         public PmpTextBox(string initialValue = "") : base(swPropertyManagerPageControlType_e.swControlType_Textbox)
         {
             this.initialValue = initialValue;
+            OnRegister += PmpTextBox_OnRegister;
+        }
+
+        private void PmpTextBox_OnRegister()
+        {
+            Text = initialValue;
         }
 
         /// <summary>
@@ -28,14 +34,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Styles as defined by bitmask <see cref="TexTBoxStyles"/>
         /// </summary>
-        public int Style { get =>SolidworksObject.Style; set => SolidworksObject.Style = value; }
-
-        ///<inheritdoc/>
-        public override void Register(IPropertyManagerPageGroup group)
-        {
-            base.Register(group);
-            SolidworksObject.Text = initialValue;
-        }
+        public int? Style { get =>SolidworksObject?.Style; set => SolidworksObject.Style = value.GetValueOrDefault(); }
 
         /// <summary>
         /// fires when user changes the text in the text box
@@ -63,6 +62,7 @@ namespace Hymma.SolidTools.Addins
         /// remove borders
         /// </summary>
         NoBorder = 4,
+
 
         /// <summary>
         /// multiple lines

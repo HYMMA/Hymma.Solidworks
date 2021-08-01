@@ -1,5 +1,6 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -45,5 +46,15 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="group">the group that this contorl should be registerd to</param>
         void Register(IPropertyManagerPageGroup group);
+
+        /// <summary>
+        /// the solidworks document where the property manager page is displayed in. you can use this proeprty before the property manager page is displayed
+        /// </summary>
+        ModelDoc2 ActiveDoc { get; set; }
+
+        /// <summary>
+        /// a methode that will be invoked a moment before this property manager page is displayed
+        /// </summary>
+        Action BeforeDisplay { get; set; }
     }
 }

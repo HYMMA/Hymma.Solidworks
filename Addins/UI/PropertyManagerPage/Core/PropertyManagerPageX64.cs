@@ -31,16 +31,16 @@ namespace Hymma.SolidTools.Addins
 
             #region set window forms
             //this needs to be called every time pmp is shown
-            if (winFormHandlers != null)
-            {
-                foreach (var handler in winFormHandlers)
-                {
-                    if (handler.ElementHost == null || !handler.WindowsControl.HasContent)
-                        continue;
-                    handler.ElementHost.Child = handler.WindowsControl;
-                    handler.ProperptyManagerPageHandle.SetWindowHandlex64(handler.ElementHost.Handle.ToInt64());
-                }
-            }
+            //if (winFormHandlers != null)
+            //{
+            //    foreach (var handler in winFormHandlers)
+            //    {
+            //        if (handler.ElementHost == null || !handler.WindowsControl.HasContent)
+            //            continue;
+            //        handler.ElementHost.Child = handler.WindowsControl;
+            //        handler.SolidworksObject.SetWindowHandlex64(handler.ElementHost.Handle.ToInt64());
+            //    }
+            //}
             #endregion
             
             #region update checkboxes state
@@ -55,24 +55,29 @@ namespace Hymma.SolidTools.Addins
             //        .CastTo<IPropertyManagerPageCheckbox>()
             //        .Checked = ch.IsChecked);
 
-            checkBoxes.ForEach(ch => ch.IsChecked);
-
             #endregion
 
             #region update radio button state
             //whenever property manager page is shown the state of radio buttons should reflect that of 
             //previous run of the pmp
-            var radioButtons = uiModel.GetControls<PmpRadioButton>().ToList();
-            radioButtons.ForEach(rb => Controls[rb.Id]
-                .CastTo<IPropertyManagerPageOption>().Checked = rb.IsChecked);
+            //var radioButtons = uiModel.GetControls<PmpRadioButton>().ToList();
+            //radioButtons.ForEach(rb => Controls[rb.Id]
+            //    .CastTo<IPropertyManagerPageOption>().Checked = rb.IsChecked);
             #endregion
 
             #region Update group box expanded status
-            uiModel.PmpGroups.ForEach(group => 
-                Controls[group.Id].CastTo<IPropertyManagerPageGroup>()
-                    .Expanded = group.Expanded);
+            //uiModel.PmpGroups.ForEach(group => 
+            //    Controls[group.Id].CastTo<IPropertyManagerPageGroup>()
+            //        .Expanded = group.Expanded);
             #endregion
 
+            //assign active document to each property manager page control
+            var controls = uiModel.PmpGroups.SelectMany(p => p.Controls).ToList();
+            foreach (var item in controls)
+            {
+                item.ActiveDoc = (ModelDoc2)uiModel.Solidworks.ActiveDoc;
+                item.BeforeDisplay?.Invoke();
+            }
             propertyManagerPage.Show();
         }
     }

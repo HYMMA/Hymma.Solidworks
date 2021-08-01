@@ -19,6 +19,13 @@ namespace Hymma.SolidTools.Addins
         {
             _isChecked = isChecked;
             OnRegister += PmpCheckBox_OnRegister;
+            //whenever propety manager page is shown the checkbox state should reflect
+            //the previous setup. previous setup is the last time property manager page was shown
+            //this way users will get a consistent experience
+            BeforeDisplay = () =>
+            {
+                SolidworksObject.Checked = IsChecked.GetValueOrDefault();
+            };
         }
 
         private void PmpCheckBox_OnRegister()
@@ -29,12 +36,15 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// status of this checkbox
         /// </summary>
-        public bool IsChecked { get => SolidworksObject.Checked; set => SolidworksObject.Checked = value; }
+        public bool? IsChecked
+        {
+            get => SolidworksObject?.Checked;
+            set => SolidworksObject.Checked = value.GetValueOrDefault();
+        }
 
         /// <summary>
         /// SOLIDWORKS will call this once the checkbox is clicked on
         /// </summary>
         public Action<bool> OnChecked { get; set; }
-
     }
 }

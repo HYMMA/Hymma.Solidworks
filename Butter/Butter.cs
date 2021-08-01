@@ -1,5 +1,8 @@
-﻿using Hymma.SolidTools.Addins;
+﻿using Hymma.Mathematics;
+using Hymma.SolidTools.Addins;
+using Hymma.SolidTools.Core;
 using Hymma.SolidTools.Fluent.Addins;
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
@@ -106,6 +109,7 @@ namespace Butter
             _pmp = new PropertyManagerPageX64(new PMPUi(Solidworks));
             addin.PropertyManagerPages.Add(_pmp);
             #endregion
+
             return addin;
         }
 
@@ -137,14 +141,14 @@ namespace Butter
 
             #region Butter PMP
             builder.AddPropertyManagerPage("Butter", Solidworks)
-            #region Group 1
 
+            #region Group 1
                 .AddGroup("Group Caption")
                     .HasTheseControls(() =>
                     {
                         var controls = new List<IPmpControl>
                         {
-                            new PmpCheckBox(true) { Tip = "a tip for a checkbox", Caption = "caption for chckbox" },
+                            new PmpCheckBox(true) { Tip = "a tip for a checkbox", Caption = "checkbox with settings assigned" },
                             new PmpCheckBox(Properties.Settings.Default.ChkBoxChkd)
                             {
                                 Tip = "a tip for a checkbox 2 ",
@@ -195,7 +199,7 @@ namespace Butter
                     });
 
                     controls.Add(
-                        new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES })
+                        new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES }, SelectionBoxStyles.MultipleItemSelect)
                         {
                             Tip = "a tip for this selection box",
                             Caption = "Caption for this selectionbox",
@@ -208,7 +212,6 @@ namespace Butter
                                 }
                                 return true;
                             }
-
                         });
                     return controls;
                 }).SaveGroup()
@@ -219,11 +222,12 @@ namespace Butter
                     .IsExpanded(true)
                     .HasTheseControls(() =>
                     {
-                        var selBox = new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES })
+                        var selBox = new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES }, SelectionBoxStyles.UpAndDownButtons)
                         {
                             Caption = "caption for selection box with callout",
                             Enabled = false
                         };
+
                         /*var rows = new List<CalloutRow>
                          {
                             new CalloutRow("value 1", "row 1") { Target = new Point(0.1, 0.1, 0.1), TextColor = SysColor.Highlight },
@@ -233,7 +237,7 @@ namespace Butter
                         return new[] { selBox };
                     }).SaveGroup()
             #endregion
-                    .SavePropertyManagerPage(out PropertyManagerPageX64 pmp);
+            .SavePropertyManagerPage(out PropertyManagerPageX64 pmp);
             _pmp = pmp;
 
             #endregion
@@ -261,6 +265,92 @@ namespace Butter
         public void ShowMessage2()
         {
             Solidworks.SendMsgToUser2("message 2 from Butter", 0, 0);
+        }
+
+        private List<IPmpControl> GetControlSet1()
+        {
+            var controls = new List<IPmpControl>
+            {
+                new PmpCheckBox(true) { Tip = "a tip for a checkbox", Caption = "caption for chckbox" },
+
+                new PmpCheckBox(Properties.Settings.Default.ChkBoxChkd)
+                {
+                    Tip = "a tip for a checkbox 2 ",
+                    Caption = "caption for chckbox 2",
+                    OnChecked = (isChecked) =>
+                    {
+                        Solidworks.SendMsgToUser($"you have clicked on check box  {isChecked}");
+                        Properties.Settings.Default.ChkBoxChkd = isChecked;
+                    }
+                },
+
+                new PmpRadioButton(true)
+                {
+                    Tip = "radio button on group 1",
+                    Caption = "caption for radio button on group 1",
+                    OnChecked = () => { Solidworks.SendMsgToUser("first radio button clicked on"); }
+
+                },
+                new PmpRadioButton(false)
+                {
+                    Tip = "radio button on group 1",
+                    Caption = "caption for radio button on group 1",
+                    OnChecked = () => { Solidworks.SendMsgToUser("first radio button clicked on"); }
+                }
+            };
+
+            return controls;
+        }
+
+        private List<IPmpControl> GetControlSet2()
+        {
+            var controls = new List<IPmpControl>();
+            controls.Add(new PmpRadioButton(true)
+            {
+                Tip = "a tip for this radio button",
+                Caption = "caption for this radio button",
+                OnChecked = () => { Solidworks.SendMsgToUser($"radio button is checked"); }
+            });
+
+            controls.Add(new PmpRadioButton()
+            {
+                Tip = "another tip for this radio button",
+                Caption = "yet another caption for a radio button",
+                OnChecked = () => { Solidworks.SendMsgToUser($"radio button is checked"); }
+            });
+
+            controls.Add(
+                new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES }, SelectionBoxStyles.UpAndDownButtons)
+                {
+                    Tip = "a tip for this selection box",
+                    Caption = "Caption for this selectionbox",
+                    OnSubmitSelection = (selection, type, tag) =>
+                    {
+                        if (type != (int)swSelectType_e.swSelEDGES)
+                        {
+                            Solidworks.SendMsgToUser("only edges are allowed to select");
+                            return false;
+                        }
+                        return true;
+                    }
+
+                });
+            return controls;
+        }
+
+        private PmpSelectionBox GetSelectionBoxWithCallout(SldWorks solidworks)
+        {
+            var selBox = new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES }, SelectionBoxStyles.UpAndDownButtons)
+            {
+                Caption = "caption for selection box with callout"
+            };
+            var rows = new List<CalloutRow>
+            {
+                new CalloutRow("value 1", "row 1") { Target = new Point(0.1, 0.1, 0.1), TextColor = SysColor.Highlight },
+                new CalloutRow("value 2", "row 2") { Target = new Point(0, 0, 0), TextColor = SysColor.AsmInterferenceVolume }
+            };
+            selBox.CalloutModel = new CalloutModel(rows, solidworks, (ModelDoc2)solidworks.ActiveDoc);
+            return selBox;
         }
     }
 }

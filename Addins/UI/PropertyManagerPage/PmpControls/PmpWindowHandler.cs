@@ -9,7 +9,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a windows form host that solidworks uses to show win forms or wpf
     /// </summary>
-    public class PmpWindowHandler : PmpControl<IPropertyManagerPageWindowFromHandle> , IEquatable<PmpWindowHandler>
+    public class PmpWindowHandler : PmpControl<IPropertyManagerPageWindowFromHandle>, IEquatable<PmpWindowHandler>
     {
         /// <summary>
         /// default constructor 
@@ -21,24 +21,24 @@ namespace Hymma.SolidTools.Addins
             this.ElementHost = ElementHost;
             this.WindowsControl = WinFormOrWpfControl;
 
-            //although we set it up here we should call this every time a property manager page is displayed
-            ElementHost.Child = WindowsControl;
+            BeforeDisplay = () =>
+            {
+                if (ElementHost == null || !WindowsControl.HasContent)
+                    return;
+                ElementHost.Child = WindowsControl;
+                SolidworksObject?.SetWindowHandlex64(ElementHost.Handle.ToInt64());
+            };
         }
 
         /// <summary>
         /// A host for <see cref="WindowsControl"/>
         /// </summary>
         public ElementHost ElementHost { get; }
-        
+
         /// <summary>
         /// a windows form or wpf controller
         /// </summary>
-        public UserControl WindowsControl { get;  }
-        
-        /// <summary>
-        /// a handle to connect <see cref="WindowsControl"/> to solidworks property manager page
-        /// </summary>
-        public IPropertyManagerPageWindowFromHandle ProperptyManagerPageHandle { get; internal set; }
+        public UserControl WindowsControl { get; }
 
         /// <summary>
         /// makes sure each SwWindowHandler has its unique ElementHost
@@ -51,7 +51,7 @@ namespace Hymma.SolidTools.Addins
             if (ReferenceEquals(this, other)) return true;
             if (this.ElementHost == other.ElementHost)
                 return true;
-            return false;   
+            return false;
         }
     }
 }

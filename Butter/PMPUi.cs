@@ -19,12 +19,14 @@ namespace Butter
 
             var group2 = new PMPGroup("radio buttons");
             group2.AddControls(GetControlSet2());
+            
             //group2.AddControl(GetSelectionBoxWithCallout((SldWorks)Solidworks));
             PmpGroups.AddRange(new[] { group1, group2 });
 
             OnHelp = () => { return false; };
             OnAfterActivation = () => { Solidworks.SendMsgToUser("pmp activated"); };
         }
+
         public ISldWorks Solidworks { get; }
         private List<IPmpControl> GetControlSet1()
         {
@@ -60,6 +62,7 @@ namespace Butter
 
             return controls;
         }
+
         private List<IPmpControl> GetControlSet2()
         {
             var controls = new List<IPmpControl>();
@@ -78,7 +81,7 @@ namespace Butter
             });
 
             controls.Add(
-                new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES })
+                new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES }, SelectionBoxStyles.UpAndDownButtons)
                 {
                     Tip = "a tip for this selection box",
                     Caption = "Caption for this selectionbox",
@@ -95,9 +98,10 @@ namespace Butter
                 });
             return controls;
         }
+
         private PmpSelectionBox GetSelectionBoxWithCallout(SldWorks solidworks)
         {
-            var selBox = new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES })
+            var selBox = new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES },SelectionBoxStyles.UpAndDownButtons)
             {
                 Caption = "caption for selection box with callout"
             };

@@ -9,7 +9,7 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpNumberBox : PmpControl<IPropertyManagerPageNumberbox>
     {
-        private int _style;
+        private readonly int _style;
         #region constructors
         /// <summary>
         /// creates a number box in a property manager page
@@ -110,23 +110,23 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Gets and sets the value that appears in the number box. 
         /// </summary>
-        public double? Value { get => SolidworksObject?.Value; set => SolidworksObject.Value = (double)value; }
+        public double? Value { get => SolidworksObject?.Value; set => SolidworksObject.Value = value.GetValueOrDefault(); }
 
         /// <summary>
         /// gets or sets the current selection in the number box
         /// </summary>
         /// <value>0-based index of the selection</value>
-        public short? CurrentSelection { get => SolidworksObject?.CurrentSelection; set => SolidworksObject.CurrentSelection = (short)value; }
+        public short? CurrentSelection { get => SolidworksObject?.CurrentSelection; set => SolidworksObject.CurrentSelection = value.GetValueOrDefault(); }
 
         /// <summary>
         /// 	Gets or sets the maximum height of the attached drop-down list for this number box.  
         /// </summary>
-        public short? Height{get => SolidworksObject?.Height; set => SolidworksObject.Height = (short)value;}
+        public short? Height{get => SolidworksObject?.Height; set => SolidworksObject.Height = value.GetValueOrDefault();}
 
         /// <summary>
         /// style for this numberBox as defined by <see cref="NumberBoxStyle"/>
         /// </summary>
-        public int? Style { get => SolidworksObject?.Style; set => SolidworksObject.Style = (int)value; }
+        public int? Style { get => SolidworksObject?.Style; set => SolidworksObject.Style = value.GetValueOrDefault(); }
 
         /// <summary>
         /// Gets the text that appears in the number box. 
@@ -144,7 +144,7 @@ namespace Hymma.SolidTools.Addins
         public int? DisplayedUnit
         {
             get => SolidworksObject?.DisplayedUnit;
-            set => SolidworksObject.DisplayedUnit = (int)value;
+            set => SolidworksObject.DisplayedUnit = value.GetValueOrDefault();
         }
         #endregion
 
