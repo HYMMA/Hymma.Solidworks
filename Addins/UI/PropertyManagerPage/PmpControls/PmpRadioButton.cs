@@ -18,17 +18,29 @@ namespace Hymma.SolidTools.Addins
         {
             this._IsChecked = IsChecked;
             OnRegister += PmpRadioButton_OnRegister;
+            BeforeDisplay = () =>
+            {
+                SolidworksObject.Checked = _IsChecked;
+            };
         }
 
         private void PmpRadioButton_OnRegister()
         {
-            IsChecked = _IsChecked;
+            SolidworksObject.Checked = _IsChecked;
         }
 
         /// <summary>
         /// whether or not this radio button is checked
         /// </summary>
-        public bool? IsChecked { get => SolidworksObject?.Checked; set => SolidworksObject.Checked = (bool)value; }
+        public bool? IsChecked
+        {
+            get => _IsChecked;
+            set
+            {
+                _IsChecked = value.GetValueOrDefault();
+                //SolidworksObject.Checked = (bool)value;
+            }
+        }
 
         /// <summary>
         /// SOLIDWORKS will invoke this delegate once the user checks this radio button

@@ -9,7 +9,7 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpCheckBox : PmpControl<PropertyManagerPageCheckbox>
     {
-        private readonly bool _isChecked;
+        private  bool _isChecked;
 
         /// <summary>
         /// default constructor
@@ -24,13 +24,13 @@ namespace Hymma.SolidTools.Addins
             //this way users will get a consistent experience
             BeforeDisplay = () =>
             {
-                SolidworksObject.Checked = IsChecked.GetValueOrDefault();
+                SolidworksObject.Checked = _isChecked;
             };
         }
 
         private void PmpCheckBox_OnRegister()
         {
-            IsChecked = _isChecked;
+            SolidworksObject.Checked = _isChecked;
         }
 
         /// <summary>
@@ -38,8 +38,8 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public bool? IsChecked
         {
-            get => SolidworksObject?.Checked;
-            set => SolidworksObject.Checked = value.GetValueOrDefault();
+            get => _isChecked;
+            set=>_isChecked = value.GetValueOrDefault();
         }
 
         /// <summary>

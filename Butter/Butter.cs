@@ -148,11 +148,11 @@ namespace Butter
                     {
                         var controls = new List<IPmpControl>
                         {
-                            new PmpCheckBox(true) { Tip = "a tip for a checkbox", Caption = "checkbox with settings assigned" },
+                            new PmpCheckBox(true) { Tip = "a tip for a checkbox", Caption = "default checkbox" },
                             new PmpCheckBox(Properties.Settings.Default.ChkBoxChkd)
                             {
                                 Tip = "a tip for a checkbox 2 ",
-                                Caption = "caption for chckbox 2",
+                                Caption = "checkbox with settings assigned",
                                 OnChecked = (isChecked) =>
                                 {
                                     Solidworks.SendMsgToUser($"you have clicked on check box  {isChecked}");
@@ -167,6 +167,7 @@ namespace Butter
                                 OnChecked = () => { Solidworks.SendMsgToUser("first radio button clicked on"); }
 
                             },
+
                             new PmpRadioButton(false)
                             {
                                 Tip = "radio button on group 1",

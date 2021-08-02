@@ -176,8 +176,7 @@ namespace Hymma.SolidTools.Addins
             Log($"onCheckboxCheck event handling int id ={Id} bool Checked={Checked}");
 
             //get the check box with id from UiModel
-            var checkBox = UiModel.GetControl(Id) as PmpCheckBox;
-            if (checkBox == null) return;
+            if (!(UiModel.GetControl(Id) is PmpCheckBox checkBox)) return;
             checkBox.IsChecked = Checked;
 
             //call on checked delegate on the check box
@@ -198,19 +197,14 @@ namespace Hymma.SolidTools.Addins
             //null check
             if (radioBtn == null) return;
 
-            //get expanded groups
-            //solidworks will treat all radio buttons as memebers of the same group if different groups are expanded
-            //its only when a group is retracted that the radio buttons will behave differently
-            var groups = UiModel.PmpGroups.Where(g => g.Expanded/*Controls.Contains(radioBtn)*/);
+            //get the group of radio button
+            var group = UiModel.PmpGroups.FirstOrDefault(g => g.Controls.Contains(radioBtn));
 
             //get all radio buttons ...
-            var groupOptions = groups
-                .SelectMany(g => g.Controls)
-                .Where(c => c is PmpRadioButton)
-                .Cast<PmpRadioButton>().ToList();
+            var groupOptions = group.Controls.Where(c=>c.Type==swPropertyManagerPageControlType_e.swControlType_Option).Cast<PmpRadioButton>().ToList();
 
             //set the IsChecked property of radio buttons to false
-            groupOptions.ForEach(groupOption => groupOption.IsChecked = false);
+             groupOptions.ForEach(groupOption => groupOption.IsChecked = false);
 
             //set the IsChecked property of clicked radio button to true
             radioBtn.IsChecked = true;
@@ -227,11 +221,11 @@ namespace Hymma.SolidTools.Addins
         {
             Log("event handling button press...");
             var button = UiModel.GetControl(Id);
-         
-            if (button.Type== swPropertyManagerPageControlType_e.swControlType_Button)
+
+            if (button.Type == swPropertyManagerPageControlType_e.swControlType_Button)
                 button.CastTo<PmpButton>()?.OnPress?.Invoke();
 
-            if (button.Type== swPropertyManagerPageControlType_e.swControlType_BitmapButton)
+            if (button.Type == swPropertyManagerPageControlType_e.swControlType_BitmapButton)
                 button.CastTo<PmpBitmapButton>()?.OnPress?.Invoke();
         }
 

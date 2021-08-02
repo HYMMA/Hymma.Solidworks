@@ -164,6 +164,7 @@ namespace Hymma.SolidTools.Addins
                 propertyManagerPages[i] = null;
                 Log($"PMP {i} set to null");
             }
+            propertyManagerPages = null;
         }
 
         private void DetachEventsFromAllDocuments()
@@ -184,6 +185,7 @@ namespace Hymma.SolidTools.Addins
                 _ = _commandManager.RemoveCommandGroup(tab.CommandGroup.UserId);
                 Log($"removed command group with id {tab.CommandGroup.UserId}");
             }
+            commandTabs = null;
         }
         #endregion
 
