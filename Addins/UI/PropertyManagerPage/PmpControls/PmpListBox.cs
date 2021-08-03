@@ -120,6 +120,12 @@ namespace Hymma.SolidTools.Addins
         /// <see cref="Point"/> is the coordinate of the right-mouse button menu
         /// </summary>
         public Action<Point> OnRightMouseBtnUp { get; set; }
+
+        /// <summary>
+        /// Called when a user changes the selected item in a list box or selection list box on this PropertyManager page. <br/>
+        /// solidowrks will pass in the id of item
+        /// </summary>
+        public Action<int> OnSelectionChange { get; set; }
     }
 
     /// <summary>

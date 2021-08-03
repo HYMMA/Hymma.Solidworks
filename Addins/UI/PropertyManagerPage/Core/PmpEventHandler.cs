@@ -255,7 +255,7 @@ namespace Hymma.SolidTools.Addins
         }
 
         /// <summary>
-        /// 
+        /// solidworks calls this everytim combox text is edited 
         /// </summary>
         /// <param name="Id"></param>
         /// <param name="Text"></param>
@@ -265,15 +265,26 @@ namespace Hymma.SolidTools.Addins
             pmpComboBox?.OnSelectionEdit(Text);
         }
 
+        /// <summary>
+        /// solidworks calls this evertime combo box selection is changed
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Item"></param>
         public void OnComboboxSelectionChanged(int Id, int Item)
         {
-            throw new NotImplementedException();
+            PmpComboBox pmpComboBox = UiModel.GetControl(Id) as PmpComboBox;
+            pmpComboBox?.OnSelectionChanged(Item);
         }
 
+        /// <summary>
+        /// Called when a user changes the selected item in a list box or selection list box on this PropertyManager page. 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Item"></param>
         public void OnListboxSelectionChanged(int Id, int Item)
         {
-
-            throw new NotImplementedException();
+            PmpListBox pmpList= UiModel.GetControl(Id) as PmpListBox;
+            pmpList?.OnSelectionChange(Id);
         }
 
         /// <summary>
