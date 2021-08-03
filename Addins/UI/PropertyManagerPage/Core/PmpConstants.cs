@@ -5,7 +5,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// generate a new id
     /// </summary>
-    internal static class PmpId
+    internal static class PmpConstants
     {
         private static int i = 0;
         private static int m = -1;
@@ -13,7 +13,7 @@ namespace Hymma.SolidTools.Addins
         /// get next id
         /// </summary>
         /// <returns></returns>
-        internal static int GetNext()
+        internal static int GetNextId()
         {
             return i++;
         }

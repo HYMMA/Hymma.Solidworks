@@ -42,42 +42,17 @@ namespace Hymma.SolidTools.Addins
             //    }
             //}
             #endregion
-            
-            #region update checkboxes state
-            //whenever propety manager page is shown the checkbox state should reflect
-            //the previous setup. previous setup is the last time property manager page was shown
-            //this way users will get a consistent experience
-            var checkBoxes = uiModel
-              .GetControls<PmpCheckBox>()
-              .ToList();
-            //checkBoxes
-            //    .ForEach(ch => Controls[ch.Id]
-            //        .CastTo<IPropertyManagerPageCheckbox>()
-            //        .Checked = ch.IsChecked);
-
-            #endregion
-
-            #region update radio button state
-            //whenever property manager page is shown the state of radio buttons should reflect that of 
-            //previous run of the pmp
-            //var radioButtons = uiModel.GetControls<PmpRadioButton>().ToList();
-            //radioButtons.ForEach(rb => Controls[rb.Id]
-            //    .CastTo<IPropertyManagerPageOption>().Checked = rb.IsChecked);
-            #endregion
-
-            #region Update group box expanded status
-            //uiModel.PmpGroups.ForEach(group => 
-            //    Controls[group.Id].CastTo<IPropertyManagerPageGroup>()
-            //        .Expanded = group.Expanded);
-            #endregion
 
             //assign active document to each property manager page control
             var controls = uiModel.PmpGroups.SelectMany(p => p.Controls).ToList();
-            foreach (var item in controls)
+
+            uiModel.PmpGroups.ForEach(g => g.Display());
+            foreach (var control in controls)
             {
-                item.ActiveDoc = (ModelDoc2)uiModel.Solidworks.ActiveDoc;
-                item.BeforeDisplay?.Invoke();
+                control.ActiveDoc = (ModelDoc2)uiModel.Solidworks.ActiveDoc;
+                control.Display();
             }
+
             propertyManagerPage.Show();
         }
     }

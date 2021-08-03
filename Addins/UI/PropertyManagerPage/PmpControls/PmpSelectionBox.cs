@@ -56,7 +56,7 @@ namespace Hymma.SolidTools.Addins
             AllowMultipleSelectOfSameEntity = _allowMultiSelect;
             SingleItemOnly = _singleItemOnly;
             Style = _style;
-            Mark = PmpId.GetNextMark();
+            Mark = PmpConstants.GetNextMark();
         }
 
         /// <summary>

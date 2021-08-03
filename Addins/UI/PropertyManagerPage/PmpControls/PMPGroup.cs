@@ -18,7 +18,7 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="caption">text that appears next to a group box</param>
         /// <param name="expanded">determines the expand state of this group box</param>
-        public PMPGroup(string caption="Group", bool expanded = false)
+        public PMPGroup(string caption = "Group", bool expanded = false)
         {
             //assign properties
             Caption = caption;
@@ -81,9 +81,20 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// a list of solidworks controllers
         /// </summary>
-        public List<IPmpControl> Controls { get;internal set; }
+        public List<IPmpControl> Controls { get; internal set; }
+
+        internal void Display()
+        {
+            SolidworksObject.Expanded = Expanded;
+            OnDisplay();
+        }
+
         #endregion
 
+        /// <summary>
+        /// an event that gets called right before this pmpGroup is displayed
+        /// </summary>
+        public event Action OnDisplay;
 
         /// <summary>
         /// method to invoke when user expands a group <br/>
@@ -106,7 +117,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="propertyManagerPage"></param>
         internal void Register(IPropertyManagerPage2 propertyManagerPage)
         {
-            SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(Id, Caption, (int)Options);
+            SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(PmpConstants.GetNextId(), Caption, (int)Options);
 
             Controls.ForEach(c => c.Register(SolidworksObject));
 

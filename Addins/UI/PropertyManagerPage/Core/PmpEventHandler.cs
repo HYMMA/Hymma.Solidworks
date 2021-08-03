@@ -148,9 +148,9 @@ namespace Hymma.SolidTools.Addins
         public void OnGroupExpand(int Id, bool Expanded)
         {
             Log("onGroupExpand event handling ...");
-            var group = UiModel.PmpGroups.Where(g => g.Id == Id).FirstOrDefault();
-            if (group == null || group.OnGroupExpand == null) return;
-            group.OnGroupExpand.Invoke(Expanded);
+            var group = UiModel.PmpGroups.FirstOrDefault(g => g.Id == Id);
+            group.Expanded = Expanded;
+            group?.OnGroupExpand?.Invoke(Expanded);
         }
 
         /// <summary>
@@ -162,8 +162,7 @@ namespace Hymma.SolidTools.Addins
         {
             Log($"onGroupCheck event handling int id={Id} int bool={Checked}");
             var group = UiModel.PmpGroups.Where(g => g.Id == Id).FirstOrDefault();
-            if (group == null || group.OnGroupCheck == null) return;
-            group.OnGroupCheck.Invoke(Checked);
+            group?.OnGroupCheck?.Invoke(Checked);
         }
 
         /// <summary>
@@ -192,10 +191,7 @@ namespace Hymma.SolidTools.Addins
             Log($"onOptionCheck evnet handling int id ={Id}");
 
             //get the radio button from ui model
-            var radioBtn = UiModel.GetControl(Id) as PmpRadioButton;
-
-            //null check
-            if (radioBtn == null) return;
+            if (!(UiModel.GetControl(Id) is PmpRadioButton radioBtn)) return;
 
             //get the group of radio button
             var group = UiModel.PmpGroups.FirstOrDefault(g => g.Controls.Contains(radioBtn));
@@ -258,9 +254,15 @@ namespace Hymma.SolidTools.Addins
             numberBox.CastTo<PmpNumberBox>()?.OnChange?.Invoke(Value);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Text"></param>
         public void OnComboboxEditChanged(int Id, string Text)
         {
-            throw new NotImplementedException();
+            PmpComboBox pmpComboBox = UiModel.GetControl(Id) as PmpComboBox;
+            pmpComboBox?.OnSelectionEdit(Text);
         }
 
         public void OnComboboxSelectionChanged(int Id, int Item)

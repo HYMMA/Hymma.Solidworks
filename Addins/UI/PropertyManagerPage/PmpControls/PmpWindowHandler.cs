@@ -20,14 +20,22 @@ namespace Hymma.SolidTools.Addins
         {
             this.ElementHost = ElementHost;
             this.WindowsControl = WinFormOrWpfControl;
+            OnDisplay += PmpWindowHandler_OnDisplay;
+            OnRegister += PmpWindowHandler_OnRegister;
+        }
 
-            BeforeDisplay = () =>
-            {
-                if (ElementHost == null || !WindowsControl.HasContent)
-                    return;
-                ElementHost.Child = WindowsControl;
-                SolidworksObject?.SetWindowHandlex64(ElementHost.Handle.ToInt64());
-            };
+        private void PmpWindowHandler_OnRegister()
+        {
+            if (ElementHost == null || !WindowsControl.HasContent)
+                return;
+            ElementHost.Child = WindowsControl;
+            SolidworksObject?.SetWindowHandlex64(ElementHost.Handle.ToInt64());
+        }
+
+        private void PmpWindowHandler_OnDisplay()
+        {
+            //this should be callled everytime pmp is displayed and on the pmp registration
+            PmpWindowHandler_OnRegister();
         }
 
         /// <summary>

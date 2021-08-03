@@ -81,11 +81,17 @@ namespace Hymma.SolidTools.Addins
         ///<inheritdoc/>
         public virtual void Register(IPropertyManagerPageGroup group)
         {
-            SolidworksObject = (T)group.AddControl2(Id, (short)Type, Caption, LeftAlignment, Options, Tip);
+            SolidworksObject = (T)group.AddControl2(PmpConstants.GetNextId(), (short)Type, Caption, LeftAlignment, Options, Tip);
             Enabled = Visible = true;
 
             //we raise this event here to give multiple controls set-up their initial state. some of the proeprties of a controller has to be set prior a property manager page is displayed or after it's closed
             OnRegister();
+        }
+
+        ///<inheritdoc/>
+        public void Display()
+        {
+            OnDisplay();
         }
 
         /// <summary>
@@ -197,11 +203,14 @@ namespace Hymma.SolidTools.Addins
         public ModelDoc2 ActiveDoc { get; set; }
 
         /// <summary>
-        /// fired when this controller is registerd in a property manager page
+        /// fired when this controller is registerd in a property manager page which is when the add-in is loaded. Either when solidworks starts or when user re-loads the addin
         /// </summary>
+        /// <remarks>Almost all of registration tasks are handled by the framework <br/>Use <see cref="OnDisplay"/> to invoke methods right before property manager is displayed</remarks>
         public event Action OnRegister;
 
-        ///<inheritdoc/>
-        public Action BeforeDisplay { get; set; }
+        /// <summary>
+        /// fired a moment before property manager page is displayed
+        /// </summary>
+        public event Action OnDisplay;
     }
 }

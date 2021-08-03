@@ -39,10 +39,6 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         protected IPropertyManagerPage2 propertyManagerPage;
 
-        /// <summary>
-        /// a dictionary of controls and their id where key is the id of control
-        /// </summary>
-        protected Dictionary<int, object> Controls  = new Dictionary<int, object>();
         #endregion
 
         #region private methodes
@@ -93,16 +89,6 @@ namespace Hymma.SolidTools.Addins
             //error is passed to object by reference
             if (propertyManagerPage != null && errors == (int)swPropertyManagerPageStatus_e.swPropertyManagerPage_Okay)
             {
-                //update Ids
-                foreach (var group in uiModel.PmpGroups)
-                {
-                    group.Id = GetNextId();
-                    foreach (var controller in group.Controls)
-                    {
-                        controller.Id = (short)GetNextId();
-                    }
-                }
-
                 //add controls
                 try
                 {
