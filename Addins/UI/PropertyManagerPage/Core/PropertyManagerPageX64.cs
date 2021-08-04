@@ -44,15 +44,16 @@ namespace Hymma.SolidTools.Addins
             #endregion
 
             //assign active document to each property manager page control
-            var controls = uiModel.PmpGroups.SelectMany(p => p.Controls).ToList();
+            uiModel.PmpGroups
+                .SelectMany(p => p.Controls)
+                .ToList()
+                .ForEach(c=>c.ActiveDoc= (ModelDoc2)uiModel.Solidworks.ActiveDoc);
+            
+            //call display method on groups which in turn calls the display on all the controls it hosts
+            uiModel.PmpGroups
+                .ForEach(g => g.Display());
 
-            uiModel.PmpGroups.ForEach(g => g.Display());
-            foreach (var control in controls)
-            {
-                control.ActiveDoc = (ModelDoc2)uiModel.Solidworks.ActiveDoc;
-                control.Display();
-            }
-
+            //display solidowrks object
             propertyManagerPage.Show();
         }
     }

@@ -86,6 +86,7 @@ namespace Hymma.SolidTools.Addins
         internal void Display()
         {
             SolidworksObject.Expanded = Expanded;
+            Controls.ForEach(c => c.Display());
             OnDisplay();
         }
 
