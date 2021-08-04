@@ -142,102 +142,12 @@ namespace Butter
             #region Butter PMP
             builder.AddPropertyManagerPage("Butter", Solidworks)
 
-            #region Group 1
+                #region Group 1
                 .AddGroup("Group Caption")
-                    .HasTheseControls(() =>
-                    {
-                        var controls = new List<IPmpControl>
-                        {
-                            new PmpCheckBox(true) { Tip = "a tip for a checkbox", Caption = "default checkbox" },
-                            new PmpCheckBox(Properties.Settings.Default.ChkBoxChkd)
-                            {
-                                Tip = "a tip for a checkbox 2 ",
-                                Caption = "checkbox with settings assigned",
-                                OnChecked = (isChecked) =>
-                                {
-                                    Solidworks.SendMsgToUser($"you have clicked on check box  {isChecked}");
-                                    Properties.Settings.Default.ChkBoxChkd = isChecked;
-                                }
-                            },
-
-                            new PmpRadioButton(true)
-                            {
-                                Tip = "radio button on group 1",
-                                Caption = "caption for radio button on group 1",
-                                OnChecked = () => { Solidworks.SendMsgToUser("first radio button clicked on"); }
-
-                            },
-
-                            new PmpRadioButton(false)
-                            {
-                                Tip = "radio button on group 1",
-                                Caption = "caption for radio button on group 1",
-                                OnChecked = () => { Solidworks.SendMsgToUser("first radio button clicked on"); }
-                            }
-                        };
-                        return controls;
-                    })
+                    .HasTheseControls(GetControlSet2())
                 .SaveGroup()
-            #endregion
+                #endregion
 
-            #region Group 2
-                    .AddGroup("Radio Buttons")
-                .HasTheseControls(() =>
-                {
-                    var controls = new List<IPmpControl>();
-                    controls.Add(new PmpRadioButton(true)
-                    {
-                        Tip = "a tip for this radio button",
-                        Caption = "caption for this radio button",
-                        OnChecked = () => { Solidworks.SendMsgToUser($"radio button is checked"); }
-                    });
-
-                    controls.Add(new PmpRadioButton()
-                    {
-                        Tip = "another tip for this radio button",
-                        Caption = "yet another caption for a radio button",
-                        OnChecked = () => { Solidworks.SendMsgToUser($"radio button is checked"); }
-                    });
-
-                    controls.Add(
-                        new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES }, SelectionBoxStyles.MultipleItemSelect)
-                        {
-                            Tip = "a tip for this selection box",
-                            Caption = "Caption for this selectionbox",
-                            OnSubmitSelection = (selection, type, tag) =>
-                            {
-                                if (type != (int)swSelectType_e.swSelEDGES)
-                                {
-                                    Solidworks.SendMsgToUser("only edges are allowed to select");
-                                    return false;
-                                }
-                                return true;
-                            }
-                        });
-                    return controls;
-                }).SaveGroup()
-            #endregion
-
-            #region selection box and callout
-                    .AddGroup("Selection Boxe")
-                    .IsExpanded(true)
-                    .HasTheseControls(() =>
-                    {
-                        var selBox = new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES }, SelectionBoxStyles.UpAndDownButtons)
-                        {
-                            Caption = "caption for selection box with callout",
-                            Enabled = false
-                        };
-
-                        /*var rows = new List<CalloutRow>
-                         {
-                            new CalloutRow("value 1", "row 1") { Target = new Point(0.1, 0.1, 0.1), TextColor = SysColor.Highlight },
-                            new CalloutRow("value 2", "row 2") { Target = new Point(0, 0, 0), TextColor = SysColor.AsmInterferenceVolume }
-                        };
-                        selBox.CalloutModel = new CalloutModel(rows, Solidworks, (ModelDoc2)Solidworks.ActiveDoc);*/
-                        return new[] { selBox };
-                    }).SaveGroup()
-            #endregion
             .SavePropertyManagerPage(out PropertyManagerPageX64 pmp);
             _pmp = pmp;
 
@@ -268,90 +178,16 @@ namespace Butter
             Solidworks.SendMsgToUser2("message 2 from Butter", 0, 0);
         }
 
-        private List<IPmpControl> GetControlSet1()
-        {
-            var controls = new List<IPmpControl>
-            {
-                new PmpCheckBox(true) { Tip = "a tip for a checkbox", Caption = "caption for chckbox" },
 
-                new PmpCheckBox(Properties.Settings.Default.ChkBoxChkd)
-                {
-                    Tip = "a tip for a checkbox 2 ",
-                    Caption = "caption for chckbox 2",
-                    OnChecked = (isChecked) =>
-                    {
-                        Solidworks.SendMsgToUser($"you have clicked on check box  {isChecked}");
-                        Properties.Settings.Default.ChkBoxChkd = isChecked;
-                    }
-                },
-
-                new PmpRadioButton(true)
-                {
-                    Tip = "radio button on group 1",
-                    Caption = "caption for radio button on group 1",
-                    OnChecked = () => { Solidworks.SendMsgToUser("first radio button clicked on"); }
-
-                },
-                new PmpRadioButton(false)
-                {
-                    Tip = "radio button on group 1",
-                    Caption = "caption for radio button on group 1",
-                    OnChecked = () => { Solidworks.SendMsgToUser("first radio button clicked on"); }
-                }
-            };
-
-            return controls;
-        }
 
         private List<IPmpControl> GetControlSet2()
         {
             var controls = new List<IPmpControl>();
-            controls.Add(new PmpRadioButton(true)
-            {
-                Tip = "a tip for this radio button",
-                Caption = "caption for this radio button",
-                OnChecked = () => { Solidworks.SendMsgToUser($"radio button is checked"); }
-            });
+            var wpfControl = new UserControl1();
+            var pmpWpfControl = new PmpWindowHandler(new System.Windows.Forms.Integration.ElementHost(), wpfControl);
+            controls.Add(pmpWpfControl);
 
-            controls.Add(new PmpRadioButton()
-            {
-                Tip = "another tip for this radio button",
-                Caption = "yet another caption for a radio button",
-                OnChecked = () => { Solidworks.SendMsgToUser($"radio button is checked"); }
-            });
-
-            controls.Add(
-                new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES }, SelectionBoxStyles.UpAndDownButtons)
-                {
-                    Tip = "a tip for this selection box",
-                    Caption = "Caption for this selectionbox",
-                    OnSubmitSelection = (selection, type, tag) =>
-                    {
-                        if (type != (int)swSelectType_e.swSelEDGES)
-                        {
-                            Solidworks.SendMsgToUser("only edges are allowed to select");
-                            return false;
-                        }
-                        return true;
-                    }
-
-                });
             return controls;
-        }
-
-        private PmpSelectionBox GetSelectionBoxWithCallout(SldWorks solidworks)
-        {
-            var selBox = new PmpSelectionBox(new swSelectType_e[] { swSelectType_e.swSelEDGES }, SelectionBoxStyles.UpAndDownButtons)
-            {
-                Caption = "caption for selection box with callout"
-            };
-            var rows = new List<CalloutRow>
-            {
-                new CalloutRow("value 1", "row 1") { Target = new Point(0.1, 0.1, 0.1), TextColor = SysColor.Highlight },
-                new CalloutRow("value 2", "row 2") { Target = new Point(0, 0, 0), TextColor = SysColor.AsmInterferenceVolume }
-            };
-            selBox.CalloutModel = new CalloutModel(rows, solidworks, (ModelDoc2)solidworks.ActiveDoc);
-            return selBox;
         }
     }
 }

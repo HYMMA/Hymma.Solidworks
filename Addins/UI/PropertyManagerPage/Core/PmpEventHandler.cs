@@ -197,10 +197,10 @@ namespace Hymma.SolidTools.Addins
             var group = UiModel.PmpGroups.FirstOrDefault(g => g.Controls.Contains(radioBtn));
 
             //get all radio buttons ...
-            var groupOptions = group.Controls.Where(c=>c.Type==swPropertyManagerPageControlType_e.swControlType_Option).Cast<PmpRadioButton>().ToList();
+            var groupOptions = group.Controls.Where(c => c.Type == swPropertyManagerPageControlType_e.swControlType_Option).Cast<PmpRadioButton>().ToList();
 
             //set the IsChecked property of radio buttons to false
-             groupOptions.ForEach(groupOption => groupOption.IsChecked = false);
+            groupOptions.ForEach(groupOption => groupOption.IsChecked = false);
 
             //set the IsChecked property of clicked radio button to true
             radioBtn.IsChecked = true;
@@ -283,7 +283,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="Item"></param>
         public void OnListboxSelectionChanged(int Id, int Item)
         {
-            PmpListBox pmpList= UiModel.GetControl(Id) as PmpListBox;
+            PmpListBox pmpList = UiModel.GetControl(Id) as PmpListBox;
             pmpList?.OnSelectionChange(Id);
         }
 
@@ -406,9 +406,18 @@ namespace Hymma.SolidTools.Addins
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// fired after a window form handler control is displayed in the property manager page 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Status"></param>
+        /// <returns></returns>
         public int OnWindowFromHandleControlCreated(int Id, bool Status)
         {
-            throw new NotImplementedException();
+            Log("on window form handler control created fired from solidworks event handler");
+            if (Status == false)
+                return (int)swHandleWindowFromHandleCreationFailure_e.swHandleWindowFromHandleCreationFailure_Cancel;
+            return 0;
         }
 
         public void OnListboxRMBUp(int Id, int PosX, int PosY)

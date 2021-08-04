@@ -81,7 +81,8 @@ namespace Hymma.SolidTools.Addins
         ///<inheritdoc/>
         public virtual void Register(IPropertyManagerPageGroup group)
         {
-            SolidworksObject = (T)group.AddControl2(PmpConstants.GetNextId(), (short)Type, Caption, LeftAlignment, Options, Tip);
+            Id = (short)PmpConstants.GetNextId();
+            SolidworksObject = (T)group.AddControl2(Id, (short)Type, Caption, LeftAlignment, Options, Tip);
             Enabled = Visible = true;
 
             //we raise this event here to give multiple controls set-up their initial state. some of the proeprties of a controller has to be set prior a property manager page is displayed or after it's closed
@@ -91,7 +92,7 @@ namespace Hymma.SolidTools.Addins
         ///<inheritdoc/>
         public void Display()
         {
-            OnDisplay();
+            OnDisplay?.Invoke();
         }
 
         /// <summary>

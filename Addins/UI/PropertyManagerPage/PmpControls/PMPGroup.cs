@@ -87,7 +87,7 @@ namespace Hymma.SolidTools.Addins
         {
             SolidworksObject.Expanded = Expanded;
             Controls.ForEach(c => c.Display());
-            OnDisplay();
+            OnDisplay?.Invoke();
         }
 
         #endregion
@@ -118,7 +118,8 @@ namespace Hymma.SolidTools.Addins
         /// <param name="propertyManagerPage"></param>
         internal void Register(IPropertyManagerPage2 propertyManagerPage)
         {
-            SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(PmpConstants.GetNextId(), Caption, (int)Options);
+            Id = PmpConstants.GetNextId();
+            SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(Id, Caption, (int)Options);
 
             Controls.ForEach(c => c.Register(SolidworksObject));
 

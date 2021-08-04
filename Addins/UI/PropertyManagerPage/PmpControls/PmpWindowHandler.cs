@@ -7,14 +7,15 @@ using System.Windows.Forms.Integration;
 namespace Hymma.SolidTools.Addins
 {
     /// <summary>
-    /// a windows form host that solidworks uses to show win forms or wpf
+    /// a windows form host that solidworks uses to show win forms or wpf.
     /// </summary>
+    /// <remarks>your addin must ad a reference to WindowsFormsIntegration</remarks>
     public class PmpWindowHandler : PmpControl<IPropertyManagerPageWindowFromHandle>, IEquatable<PmpWindowHandler>
     {
         /// <summary>
         /// default constructor 
         /// </summary>
-        /// <param name="ElementHost">solidworks uses this object to hook into a windows form</param>
+        /// <param name="ElementHost">solidworks uses <see cref="System.Windows.Forms.Integration.ElementHost"/> to hook into a windows form</param>
         /// <param name="WinFormOrWpfControl">a windows form or wpf controller</param>
         public PmpWindowHandler(ElementHost ElementHost, UserControl WinFormOrWpfControl) : base(swPropertyManagerPageControlType_e.swControlType_WindowFromHandle)
         {
