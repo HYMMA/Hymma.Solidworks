@@ -17,26 +17,28 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="ElementHost">solidworks uses <see cref="System.Windows.Forms.Integration.ElementHost"/> to hook into a windows form</param>
         /// <param name="WinFormOrWpfControl">a windows form or wpf controller</param>
-        public PmpWindowHandler(ElementHost ElementHost, UserControl WinFormOrWpfControl) : base(swPropertyManagerPageControlType_e.swControlType_WindowFromHandle)
+        /// <param name="height">height of this control in property manager page if set to zero the control will not appear</param>
+        public PmpWindowHandler(ElementHost ElementHost, UserControl WinFormOrWpfControl, int height) : base(swPropertyManagerPageControlType_e.swControlType_WindowFromHandle)
         {
             this.ElementHost = ElementHost;
             this.WindowsControl = WinFormOrWpfControl;
+            _height = height;
             OnDisplay += PmpWindowHandler_OnDisplay;
             OnRegister += PmpWindowHandler_OnRegister;
         }
 
         private void PmpWindowHandler_OnRegister()
         {
-            if (ElementHost == null || !WindowsControl.HasContent)
-                return;
-            ElementHost.Child = WindowsControl;
-            SolidworksObject?.SetWindowHandlex64(ElementHost.Handle.ToInt64());
+            SolidworksObject.Height = _height;
         }
 
         private void PmpWindowHandler_OnDisplay()
         {
             //this should be callled everytime pmp is displayed and on the pmp registration
-            PmpWindowHandler_OnRegister();
+            if (ElementHost == null || !WindowsControl.HasContent)
+                return;
+            ElementHost.Child = WindowsControl;
+            SolidworksObject?.SetWindowHandlex64(ElementHost.Handle.ToInt64());
         }
 
         /// <summary>
@@ -48,6 +50,8 @@ namespace Hymma.SolidTools.Addins
         /// a windows form or wpf controller
         /// </summary>
         public UserControl WindowsControl { get; }
+
+        private int _height;
 
         /// <summary>
         /// makes sure each SwWindowHandler has its unique ElementHost

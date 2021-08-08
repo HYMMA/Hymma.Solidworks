@@ -17,11 +17,11 @@ namespace Hymma.SolidTools.Fluent.Addins
         IPmpGroup AddGroup(string caption);
 
         /// <summary>
-        /// bitwise option as defined in <see cref="swPropertyManagerPageOptions_e"/> default is 35
+        /// bitwise option as defined in <see cref="PmpOptions"/> default is 35
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        IPmpUi WithOptions(swPropertyManagerPageOptions_e options);
+        IPmpUi WithOptions(PmpOptions options);
 
         /// <summary>
         /// define void() to invoke after the propety manager page is closed

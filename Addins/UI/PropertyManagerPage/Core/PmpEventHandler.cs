@@ -396,14 +396,25 @@ namespace Hymma.SolidTools.Addins
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// fired when user start interacting with a control
+        /// </summary>
+        /// <param name="Id"></param>
         public void OnGainedFocus(int Id)
         {
-            throw new NotImplementedException();
+            var control = UiModel.GetControl(Id);
+            control.GainedFocus();
         }
 
+
+        /// <summary>
+        /// fired when user browses away from a control
+        /// </summary>
+        /// <param name="Id"></param>
         public void OnLostFocus(int Id)
         {
-            throw new NotImplementedException();
+            var control = UiModel.GetControl(Id);
+            control.LostFocus();
         }
 
         /// <summary>

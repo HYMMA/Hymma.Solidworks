@@ -15,11 +15,6 @@ namespace Hymma.SolidTools.Addins
         /// property manager page control that can be cast to all the property manager page members
         /// </summary>
         private IPropertyManagerPageControl _control;
-        private bool _visible;
-        private bool _enabled;
-        private int _optionForResize;
-        private short _top;
-        private short _leftEdge;
         #endregion
 
         /// <summary>
@@ -29,26 +24,25 @@ namespace Hymma.SolidTools.Addins
         public PmpControl(swPropertyManagerPageControlType_e type)
         {
             Type = type;
-            Options = 3;
+            OnRegister += PmpControl_OnRegister;
+            OnDisplay += PmpControl_OnDisplay;
         }
 
-        ///<inheritdoc/>
-        public swPropertyManagerPageControlType_e Type { get; set; }
+        private void PmpControl_OnDisplay()
+        {
+            _control.Visible = Visible;
+            _control.Enabled = Enabled;
+            _control.Width = Width;
+            _control.Left = LeftEdge;
+            _control.OptionsForResize = OptionsForResize;
+        }
 
-        /// <inheritdoc/>
-        public short LeftAlignment { get; set; }
-
-        /// <inheritdoc/>
-        public int Options { get; set; }
-
-        /// <inheritdoc/>
-        public string Caption { get; set; }
-
-        /// <inheritdoc/>
-        public string Tip { get; set; }
-
-        /// <inheritdoc/>
-        public short Id { get; set; }
+        private void PmpControl_OnRegister()
+        {
+            SolidworksObject = (T)ControlObject;
+            _control = SolidworksObject as IPropertyManagerPageControl;
+            PmpControl_OnDisplay();
+        }
 
         /// <summary>
         /// Sets the bitmap label for this control on a PropertyManager page.
@@ -78,22 +72,6 @@ namespace Hymma.SolidTools.Addins
             _control.ShowBubbleTooltip(title, message, image);
         }
 
-        ///<inheritdoc/>
-        public virtual void Register(IPropertyManagerPageGroup group)
-        {
-            Id = (short)PmpConstants.GetNextId();
-            SolidworksObject = (T)group.AddControl2(Id, (short)Type, Caption, LeftAlignment, Options, Tip);
-            Enabled = Visible = true;
-
-            //we raise this event here to give multiple controls set-up their initial state. some of the proeprties of a controller has to be set prior a property manager page is displayed or after it's closed
-            OnRegister();
-        }
-
-        ///<inheritdoc/>
-        public void Display()
-        {
-            OnDisplay?.Invoke();
-        }
 
         /// <summary>
         /// Left edge of the control <br/>
@@ -101,117 +79,72 @@ namespace Hymma.SolidTools.Addins
         /// The value is in dialog units relative to the group box that the control is in. The left edge of the group box is 0; the right edge of the group box is 100
         /// </summary>
         /// <remarks>By default, the left edge of a control is either the left edge of its group box or indented a certain distance. This is determined by the <see cref="LeftAlignment"/></remarks>
-        public short LeftEdge
-        {
-            get => _leftEdge;
-            set
-            {
-                _leftEdge = value;
-                if (_control != null) 
-                    _control.Left = value;
-            }
-        }
+        public short LeftEdge { get; set; }
 
         /// <summary>
         /// By default, the width of the control is usually set so that it extends to the right edge of its group box (not for buttons). Using this API overrides that default.<br/>
         /// The value is in dialog units relative to the group box that the control is in. The width of the group box is 100
         /// </summary>
-        public short Width { get => _control.Width; set => _control.Width = value; }
+        public short Width { get; set; } = 100;
 
         /// <summary>
         /// Gets or sets the top edge of the control on a PropertyManager page
         /// </summary>
-        public short Top
-        {
-            get => _top;
-            set
-            {
-                _top = value;
-                if (_control != null) 
-                    _control.Top = value;
-            }
-        }
+        public short? Top { get => _control?.Top; set => _control.Top = value.GetValueOrDefault(); } 
 
         /// <summary>
         /// Gets or sets how to override the SOLIDWORKS default behavior when changing the width of a PropertyManager page. <br/>
-        /// Resize the PropertyManager page as defined in <see cref="swPropMgrPageControlOnResizeOptions_e"/>
-        /// <list type="bullet">
-        /// <item>
-        /// <term>swControlOptionsOnResize_LockLeft </term>
-        /// <description>the control is locked in place relative to the left edge of the PropertyManager page. <br/>
-        /// When the page width is changed, the control stays in place and its width does not change.</description>
-        /// </item>
-        /// <item>
-        /// <term>swControlOptionsOnResize_LockRight</term>
-        /// <description>the control is locked in place relative to the right edge of the PropertyManager page.<br/>
-        /// When the page width is changed, the control shifts to the right, but its width does not change.</description>
-        /// </item>
-        /// <item>
-        /// <term>swControlOptionsOnResize_LockLeft and swControlOptionsOnResize_LockRight specified</term>
-        /// <description>the left edge of the control stays in place relative to the left edge and the right edge of the control stays in place relative to the right edge of the PropertyManager page,<br/>
-        /// giving the effect that the control grows and shrinks with the PropertyManager page.</description>
-        /// </item>
-        /// </list>
+        /// Resize the PropertyManager page as defined in <see cref="PmpResizeStyles"/>
         /// </summary>
-        public int OptionsForResize
-        {
-            get => _optionForResize;
-            set
-            {
-                _optionForResize = value;
-                if (_control != null)
-                    _control.OptionsForResize = value;
-            }
-        }
+        public int OptionsForResize { get; set; } = (int)PmpResizeStyles.LockLeft | (int)PmpResizeStyles.LockRight;
 
         /// <summary>
         /// enables or disables this property control on
         /// </summary>
-        public bool Enabled
-        {
-            get => _enabled;
-            set
-            {
-                _enabled = value;
-                if (_control != null) 
-                    _control.Enabled = value;
-            }
-        }
-
+        public bool Enabled { get; set; } = true;
 
         /// <summary>
-        /// gets or sets the visibility of thei control
+        /// gets or sets the visibility of this control
         /// </summary>
-        public bool Visible
-        {
-            get => _visible;
-            set
-            {
-                _visible = value;
-                if (_control != null)
-                    _control.Visible = value;
-            }
-        }
+        public bool Visible { get; set; } = true;
 
         ///<inheritdoc/>
-        public T SolidworksObject
-        {
-            get => (T)_control;
-            internal set => _control = value as IPropertyManagerPageControl;
-        }
+        public T SolidworksObject { get; set; }
+    }
 
-        ///<inheritdoc/>
-        public ModelDoc2 ActiveDoc { get; set; }
+    /// <summary>
+    /// PropertyManager page control resize options. Bitmask. 
+    /// </summary>
+    /// <remarks>
+    /// <list type="bullet">
+    /// <item>
+    /// <term>LockLeft </term>
+    /// <description>the control is locked in place relative to the left edge of the PropertyManager page. <br/>
+    /// When the page width is changed, the control stays in place and its width does not change.</description>
+    /// </item>
+    /// <item>
+    /// <term>LockRight</term>
+    /// <description>the control is locked in place relative to the right edge of the PropertyManager page.<br/>
+    /// When the page width is changed, the control shifts to the right, but its width does not change.</description>
+    /// </item>
+    /// <item>
+    /// <term>LockLeft and LockRight specified</term>
+    /// <description>the left edge of the control stays in place relative to the left edge and the right edge of the control stays in place relative to the right edge of the PropertyManager page,<br/>
+    /// giving the effect that the control grows and shrinks with the PropertyManager page.</description>
+    /// </item>
+    /// </list></remarks>
+    public enum PmpResizeStyles
+    {
+        /// <summary>
+        /// the control is locked in place relative to the left edge of the PropertyManager page. <br/>
+        /// When the page width is changed, the control stays in place and its width does not change.
+        /// </summary>
+        LockLeft = 1,
 
         /// <summary>
-        /// fired when this controller is registerd in a property manager page which is when the add-in is loaded. Either when solidworks starts or when user re-loads the addin
+        /// the control is locked in place relative to the right edge of the PropertyManager page.<br/>
+        /// When the page width is changed, the control shifts to the right, but its width does not change.
         /// </summary>
-        /// <remarks>Almost all of registration tasks are handled by the framework <br/>Use <see cref="OnDisplay"/> to invoke methods right before property manager is displayed</remarks>
-        public event Action OnRegister;
-
-        /// <summary>
-        /// fired a moment before property manager page is displayed
-        /// </summary>
-        public event Action OnDisplay;
+        LockRight = 2
     }
 }

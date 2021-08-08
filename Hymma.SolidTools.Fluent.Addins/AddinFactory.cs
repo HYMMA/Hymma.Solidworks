@@ -57,7 +57,7 @@ namespace Hymma.SolidTools.Fluent.Addins
                       .HasTheseControls(() =>
                       {
                           var controls = new List<IPmpControl>();
-                          controls.Add(new PmpCheckBox(true));
+                          controls.Add(new PmpCheckBox("checkbox"));
                           return controls;
                       })
                       .AndOnExpansionChange(state =>

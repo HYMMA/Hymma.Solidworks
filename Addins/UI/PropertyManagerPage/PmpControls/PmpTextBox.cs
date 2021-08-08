@@ -19,11 +19,18 @@ namespace Hymma.SolidTools.Addins
         {
             this.initialValue = initialValue;
             OnRegister += PmpTextBox_OnRegister;
+            OnDisplay += PmpTextBox_OnDisplay;
+        }
+
+        private void PmpTextBox_OnDisplay()
+        {
+            Text = initialValue;
+            SolidworksObject.Style = Style;
         }
 
         private void PmpTextBox_OnRegister()
         {
-            Text = initialValue;
+            PmpTextBox_OnDisplay();
         }
 
         /// <summary>
@@ -34,7 +41,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Styles as defined by bitmask <see cref="TexTBoxStyles"/>
         /// </summary>
-        public int? Style { get =>SolidworksObject?.Style; set => SolidworksObject.Style = value.GetValueOrDefault(); }
+        public int Style { get; set; }
 
         /// <summary>
         /// fires when user changes the text in the text box

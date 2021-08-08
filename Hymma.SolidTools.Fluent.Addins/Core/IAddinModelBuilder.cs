@@ -13,6 +13,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <returns></returns>
         IPmpUi AddPropertyManagerPage(string title, ISldWorks solidworks);
 
+
         /// <summary>
         /// Add a command tab to the solidworks ui for example 'Features' and 'Sketch' are command tabs
         /// </summary>

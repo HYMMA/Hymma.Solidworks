@@ -15,7 +15,7 @@ namespace Hymma.SolidTools.Addins
         /// <returns></returns>
         internal static int GetNextId()
         {
-            return i++;
+            return ++i;
         }
 
         /// <summary>
@@ -23,8 +23,7 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         internal static int GetNextMark()
         {
-            m++;
-            return (int)Math.Pow(2, m);
+            return (int)Math.Pow(2, ++m);
         }
     }
 }

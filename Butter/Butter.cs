@@ -17,103 +17,9 @@ namespace Butter
         private PropertyManagerPageX64 _pmp;
         public Butter() : base(typeof(Butter))
         {
-            OnStart += Butter_OnStart;
-            OnExit += Butter_OnExit;
         }
 
-        private void Butter_OnExit(object sender, OnConnectToSwEventArgs e)
-        {
-        }
-
-        private void Butter_OnStart(object sender, OnConnectToSwEventArgs e)
-        {
-            Solidworks = e.solidworks;
-            Solidworks.SendMsgToUser("weldome to butter");
-        }
-
-        public override AddinUserInterface AddinUI => GetAddinUi();
-
-        public AddinUserInterface GetAddinUi2()
-        {
-            var addin = new AddinUserInterface();
-
-            #region commands
-
-            #region command 1
-            AddinCommand command1 = new AddinCommand
-            {
-                CallBackFunction = nameof(ShowMessage),
-                EnableMethode = nameof(EnableMethode),
-                IconBitmap = Properties.Resources.xtractBlue,
-                Name = "command1 Name",
-                ToolTip = "command1 tooltip",
-                CommandTabTextType = (int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow,
-                UserId = 0,
-                BoxId = 1,
-                HintString = "hint for this command"
-            };
-            #endregion
-
-            #region command2
-            AddinCommand command2 = new AddinCommand
-            {
-                CallBackFunction = nameof(ShowMessage2),
-                EnableMethode = nameof(EnableMethode),
-                IconBitmap = Properties.Resources.xtractOrange,
-                Name = "command2 Name",
-                ToolTip = "command 2 's tooltip",
-                CommandTabTextType = (int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow,
-                UserId = 1,
-                BoxId = 0,
-                HintString = "hint for this command"
-            };
-
-            #endregion
-
-            #region command3
-            AddinCommand command3 = new AddinCommand();
-            command3.CallBackFunction = nameof(ShowPMP);
-            command3.EnableMethode = nameof(EnableMethode);
-            command3.IconBitmap = Properties.Resources.xtractred;
-            command3.Name = "command 3 's Name";
-            command3.ToolTip = "command 3 's tooltip";
-            command3.CommandTabTextType = (int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow;
-            command3.UserId = 2;
-            command3.BoxId = 1;
-            command3.HintString = "hint for this command";
-            #endregion
-
-            #endregion
-
-            #region command Group
-            var cmdGroup = new AddinCommandGroup(7, new[] { command1, command2, command3 },
-                "A title for command group",
-                "description for command group",
-                "tooltip for thic command group",
-                "hint of this command gorup",
-                Properties.Resources.xtractred);
-            #endregion
-
-            #region Command Tabs
-            AddinCommandTab tab1 = new AddinCommandTab()
-            {
-                TabTitle = "tab title",
-                Types = new swDocumentTypes_e[] { swDocumentTypes_e.swDocASSEMBLY, swDocumentTypes_e.swDocDRAWING, swDocumentTypes_e.swDocPART },
-                CommandGroup = cmdGroup
-            };
-
-            addin.CommandTabs.Add(tab1);
-            #endregion
-
-            #region property manager page
-            _pmp = new PropertyManagerPageX64(new PMPUi(Solidworks));
-            addin.PropertyManagerPages.Add(_pmp);
-            #endregion
-
-            return addin;
-        }
-
-        public AddinUserInterface GetAddinUi()
+        public override AddinUserInterface GetUserInterFace()
         {
             var builder = new AddinFactory().GetUiBuilder();
 
@@ -141,12 +47,41 @@ namespace Butter
 
             #region Butter PMP
             builder.AddPropertyManagerPage("Butter", Solidworks)
+            .WithOptions(PmpOptions.OkayButton | PmpOptions.LockedPage | PmpOptions.DisablePageBuildDuringHandlers | PmpOptions.CancelButton | PmpOptions.PushpinButton)
+            .WhileClosing((reason) =>
+            {
+                if (reason != PMPCloseReason.Okay)
+                    return;
+                ModelDoc2 Part = (ModelDoc2)this.Solidworks.ActiveDoc;
 
-                #region Group 1
+                var boolstatus = Part.Extension.SelectByID2("Front Plane", "PLANE", 0, 0, 0, true, 0, null, 0);
+                var myRefPlane = (RefPlane)Part.FeatureManager.InsertRefPlane(8, 0.01, 0, 0, 0, 0);
+                boolstatus = Part.Extension.SelectByID2("Front Plane", "PLANE", 0, 0, 0, true, 0, null, 0);
+                myRefPlane = (RefPlane)Part.FeatureManager.InsertRefPlane(8, 0.02, 0, 0, 0, 0);
+
+                boolstatus = Part.Extension.SelectByID2("Plane2", "PLANE", 0, 0, 0, false, 0, null, 0);
+                object vSkLines = null;
+                vSkLines = Part.SketchManager.CreateCornerRectangle(-0.0250462141853123, 0.0157487558892494, 0, 0.0275128867944718, -0.015559011842391, 0);
+
+                Part.SketchManager.InsertSketch(true);
+
+                // Sketch to extrude
+                boolstatus = Part.Extension.SelectByID2("Sketch1", "SKETCH", 0, 0, 0, false, 0, null, 0);
+                // Start condition reference
+                boolstatus = Part.Extension.SelectByID2("Plane2", "PLANE", 0.00105020593408751, -0.00195369982668282, 0.0248175428318827, true, 32, null, 0);
+                // End condition reference
+                boolstatus = Part.Extension.SelectByID2("Plane1", "PLANE", 0.0068370744701368, -0.004419862088339, 0.018892268568016, true, 1, null, 0);
+
+                // Boss extrusion start condition reference is Plane2, and the extrusion end is offset 3 mm from the end condition reference, Plane1
+                var myFeature = (Feature)Part.FeatureManager.FeatureExtrusion3(true, false, true, (int)swEndConditions_e.swEndCondOffsetFromSurface, 0, 0.003, 0.003, false, false, false,
+                    false, 0.0174532925199433, 0.0174532925199433, false, false, false, false, true, true, true,
+                    (int)swStartConditions_e.swStartSurface, 0, false);
+            })
+            #region Group 1
                 .AddGroup("Group Caption")
                     .HasTheseControls(GetControlSet2())
                 .SaveGroup()
-                #endregion
+            #endregion
 
             .SavePropertyManagerPage(out PropertyManagerPageX64 pmp);
             _pmp = pmp;
@@ -168,26 +103,25 @@ namespace Butter
             return 0;
         }
 
-        public void ShowMessage()
-        {
-            Solidworks.SendMsgToUser2("message from Butter", 0, 0);
-        }
-
-        public void ShowMessage2()
-        {
-            Solidworks.SendMsgToUser2("message 2 from Butter", 0, 0);
-        }
-
-
-
         private List<IPmpControl> GetControlSet2()
         {
             var controls = new List<IPmpControl>();
             var wpfControl = new UserControl1();
-            var pmpWpfControl = new PmpWindowHandler(new System.Windows.Forms.Integration.ElementHost(), wpfControl);
+            var pmpWpfControl = new PmpWindowHandler(new System.Windows.Forms.Integration.ElementHost(), wpfControl, 15);
             controls.Add(pmpWpfControl);
+
+            var chkBx = new PmpCheckBox("checkbox");
+            controls.Add(chkBx);
+
+            var radio = new PmpRadioButton("radio button", false);
+            controls.Add(radio);
+            
+            var txtBox = new PmpTextBox("text box");
+            txtBox.Style = (int)TexTBoxStyles.NoBorder;
+            controls.Add(txtBox);
 
             return controls;
         }
+
     }
 }

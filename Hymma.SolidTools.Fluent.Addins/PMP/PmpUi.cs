@@ -34,7 +34,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         /// <inheritdoc/>
-        public IPmpUi WithOptions(swPropertyManagerPageOptions_e options)
+        public IPmpUi WithOptions(PmpOptions options)
         {
             this.Options = (int)options;
             return this;

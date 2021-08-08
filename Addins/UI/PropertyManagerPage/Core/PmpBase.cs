@@ -11,7 +11,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// an abstract class for making propety manager page
     /// </summary>
-    public abstract class PmpBase 
+    public abstract class PmpBase
     {
         #region protected fields
         /// <summary>
@@ -55,9 +55,9 @@ namespace Hymma.SolidTools.Addins
         /// <param name="eventHandler">object to handle events such as checkbox onclick etc...</param>
         /// <param name="uiModel">an object that hosts differet inheritances of <see cref="IPmpControl"/> </param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected PmpBase( PropertyManagerPage2Handler9 eventHandler, PropertyManagerPageUIBase uiModel)
+        protected PmpBase(PropertyManagerPage2Handler9 eventHandler, PropertyManagerPageUIBase uiModel)
         {
-            if ( uiModel == null)
+            if (uiModel == null)
                 throw new ArgumentNullException();
 
             #region set up fields
@@ -106,5 +106,20 @@ namespace Hymma.SolidTools.Addins
         /// displays this property manager page inside solidworks
         /// </summary>
         public abstract void Show();
+
+        /// <summary>
+        /// closes the properyt manager page 
+        /// </summary>
+        /// <param name="Okay"></param>
+        public void Close(bool Okay)
+        {
+            try
+            {
+                propertyManagerPage.Close(Okay);
+            }
+            catch (Exception)
+            {
+            }
+        }
     }
 }

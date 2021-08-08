@@ -20,7 +20,7 @@ namespace Hymma.SolidTools.Addins
     {
 
         #region private fields & variables
-        
+
         /// <summary>
         /// identifier for this addin assigned by SOLIDWORKS    
         /// </summary>
@@ -35,6 +35,11 @@ namespace Hymma.SolidTools.Addins
         /// a collection of documents and their associated events
         /// </summary>
         protected Hashtable documentsEventsRepo;
+
+        /// <summary>
+        /// construct the data model for this addin here
+        /// </summary>
+        private AddinUserInterface _addinUi;
         #endregion
 
         #region constructor
@@ -45,26 +50,17 @@ namespace Hymma.SolidTools.Addins
         /// <param name="addin">type of class that inherits from <see cref="ISwAddin"/></param>
         public AddinMaker(Type addin)
         {
-            //typeof(ISwAddin).IsAssignableFrom(addin)
-            //    &&
             if (addin.TryGetAttribute<AddinAttribute>(false) is AddinAttribute addinAttr)
-            {
                 Logger.Source = addinAttr.Title;
-            }
         }
         #endregion
-        
+
         #region Public Properties
         /// <summary>
         /// solidowrks object
         /// </summary>
         public ISldWorks Solidworks { get; set; }
 
-        /// <summary>
-        /// construct the data model for this addin here
-        /// </summary>
-        /// <returns></returns>
-        public abstract AddinUserInterface AddinUI { get; }
         #endregion
 
         #region com register/un-register
@@ -161,6 +157,7 @@ namespace Hymma.SolidTools.Addins
         {
             for (int i = 0; i < propertyManagerPages.Count(); i++)
             {
+                propertyManagerPages[i].Close(false);
                 propertyManagerPages[i] = null;
                 Log($"PMP {i} set to null");
             }
@@ -216,16 +213,16 @@ namespace Hymma.SolidTools.Addins
         #endregion
 
         #region Events
-/*
-        public bool AttachEventsToAllDocuments()
-        {
-            throw new NotImplementedException();
-        }
+        /*
+                public bool AttachEventsToAllDocuments()
+                {
+                    throw new NotImplementedException();
+                }
 
-        public bool AttachSwEvents()
-        {
-            throw new NotImplementedException();
-        }*/
+                public bool AttachSwEvents()
+                {
+                    throw new NotImplementedException();
+                }*/
 
         #endregion
 
@@ -235,8 +232,8 @@ namespace Hymma.SolidTools.Addins
         /// <returns></returns>
         public bool DisconnectFromSW()
         {
-            RemoveCmdTabs(AddinUI.CommandTabs);
-            RemovePMPs(AddinUI.PropertyManagerPages);
+            RemoveCmdTabs(_addinUi.CommandTabs);
+            RemovePMPs(_addinUi.PropertyManagerPages);
             //DetachSwEvents();
             //DetachEventsFromAllDocuments();
 
@@ -247,7 +244,7 @@ namespace Hymma.SolidTools.Addins
             Solidworks = null;
 
             //fire event
-            OnExit(this, new OnConnectToSwEventArgs { solidworks = Solidworks, cookie = addinCookie });
+            OnExit?.Invoke(this, new OnConnectToSwEventArgs { solidworks = Solidworks, cookie = addinCookie });
 
             //The addin _must_ call GC.Collect() here in order to retrieve all managed code pointers 
             GC.Collect();
@@ -269,6 +266,7 @@ namespace Hymma.SolidTools.Addins
         {
             Log("connecting to solidworks from Addin maker base class");
             Solidworks = (ISldWorks)ThisSW;
+            _addinUi = GetUserInterFace();
             addinCookie = Cookie;
 
             Log($"addin cookie is  {addinCookie} ");
@@ -281,7 +279,7 @@ namespace Hymma.SolidTools.Addins
             _commandManager = Solidworks.GetCommandManager(Cookie);
 
             Log("addin commands . . .");
-            AddCommands(AddinUI.CommandTabs);
+            AddCommands(_addinUi.CommandTabs);
             Log($"finished addin commands");
 
             #endregion
@@ -302,9 +300,16 @@ namespace Hymma.SolidTools.Addins
             #endregion
 
             //fire event
-            OnStart(this, new OnConnectToSwEventArgs { solidworks = (ISldWorks)ThisSW, cookie = Cookie });
+            OnStart?.Invoke(this, new OnConnectToSwEventArgs { solidworks = (ISldWorks)ThisSW, cookie = Cookie });
             return true;
         }
+
+        /// <summary>
+        /// define a the user interface,ex: property manager page, command tabs, etc
+        /// </summary>
+        /// <returns></returns>
+        public abstract AddinUserInterface GetUserInterFace();
+
         /// <summary>
         /// Events that fires when your add-in connects to solidworks
         /// </summary>
