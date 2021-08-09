@@ -84,6 +84,7 @@
     <Compile Include="UI\PropertyManagerPage\Core\PmpConstants.cs" />
     <Compile Include="UI\PropertyManagerPage\Enums\pmpEnums.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButton.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpTextBase.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommand.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroup.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroupBase.cs" />
@@ -141,6 +142,9 @@
       <Project>{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}</Project>
       <Name>Hymma.SolidTools.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\PropertyManagerPage\PmpControls\BaseClasses\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

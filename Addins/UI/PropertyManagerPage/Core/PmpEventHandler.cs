@@ -235,12 +235,20 @@ namespace Hymma.SolidTools.Addins
             var control = UiModel.GetControl(Id);
 
             //if control is a number box
-            if (control.Type == swPropertyManagerPageControlType_e.swControlType_Numberbox)
-                control.CastTo<PmpNumberBox>()?.OnTextChanged?.Invoke();
+            if (control.Type == swPropertyManagerPageControlType_e.swControlType_Numberbox
+                && control is PmpNumberBox numberBox)
+            {
+                numberBox.OnTextChanged?.Invoke(Text);
+            }
 
             //if control is a text box
-            if (control.Type == swPropertyManagerPageControlType_e.swControlType_Textbox)
-                control.CastTo<PmpTextBox>()?.OnChange?.Invoke(Text);
+            if (control.Type == swPropertyManagerPageControlType_e.swControlType_Textbox 
+                && control is PmpTextBox txtBox)
+            {
+
+               txtBox.Text = Text;
+                txtBox.OnChange?.Invoke(Text);
+            }
         }
 
         /// <summary>

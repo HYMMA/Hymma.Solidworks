@@ -6,6 +6,7 @@ using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Runtime.InteropServices;
 namespace Butter
 {
@@ -115,13 +116,19 @@ namespace Butter
 
             var radio = new PmpRadioButton("radio button", false);
             controls.Add(radio);
-            
             var txtBox = new PmpTextBox("text box");
             txtBox.Style = (int)TexTBoxStyles.NoBorder;
+            txtBox.OnChange = (text) =>
+            {
+                if (text.StartsWith("t"))
+                {
+                    txtBox.BackGroundColor = Color.Aqua;
+                    txtBox.TextColor = Color.IndianRed;
+                    txtBox.Style = (int)TexTBoxStyles.ReadOnly;
+                }
+            };
             controls.Add(txtBox);
-
             return controls;
         }
-
     }
 }

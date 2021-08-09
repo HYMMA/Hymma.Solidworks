@@ -8,7 +8,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a lable inside a property manager page
     /// </summary>
-    public class PmpLabel : PmpControl<PropertyManagerPageLabel>
+    public class PmpLabel : PmpTextBase<PropertyManagerPageLabel>
     {
         private LabelStyles _style;
         private string _caption;

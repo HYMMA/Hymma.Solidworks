@@ -7,9 +7,9 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a class to represent a text box inside a property manager page in solidworks
     /// </summary>
-    public class PmpTextBox : PmpControl<PropertyManagerPageTextbox>
+    public class PmpTextBox : PmpTextBase<PropertyManagerPageTextbox>
     {
-        private string initialValue;
+        private int _style;
 
         /// <summary>
         /// make a text box for a property manager page in soldiworks
@@ -17,31 +17,43 @@ namespace Hymma.SolidTools.Addins
         /// <param name="initialValue">initial value for this text box once generated in a porperty manager page</param>
         public PmpTextBox(string initialValue = "") : base(swPropertyManagerPageControlType_e.swControlType_Textbox)
         {
-            this.initialValue = initialValue;
+            Text = initialValue;
             OnRegister += PmpTextBox_OnRegister;
             OnDisplay += PmpTextBox_OnDisplay;
         }
 
         private void PmpTextBox_OnDisplay()
         {
-            Text = initialValue;
-            SolidworksObject.Style = Style;
+            //update the text to what it was before user closed the property manager page
+            SolidworksObject.Text = Text;
         }
 
         private void PmpTextBox_OnRegister()
         {
-            PmpTextBox_OnDisplay();
+            Style = _style;
+            SolidworksObject.Text = Text;
         }
 
         /// <summary>
         /// value for this text box
         /// </summary>
-        public string Text { get => SolidworksObject?.Text; set => SolidworksObject.Text = value; }
+        public string Text { get; set; }
 
         /// <summary>
         /// Styles as defined by bitmask <see cref="TexTBoxStyles"/>
         /// </summary>
-        public int Style { get; set; }
+        public int Style
+        {
+            get => _style;
+            set
+            {
+                _style = value;
+
+                //this is important. So when framework client changes the style while the pmp is displaying the state of the style in the pmp updates properly
+                if (SolidworksObject != null)
+                    SolidworksObject.Style = value;
+            }
+        }
 
         /// <summary>
         /// fires when user changes the text in the text box

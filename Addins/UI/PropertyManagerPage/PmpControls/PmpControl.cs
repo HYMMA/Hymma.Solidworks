@@ -90,7 +90,15 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Gets or sets the top edge of the control on a PropertyManager page
         /// </summary>
-        public short? Top { get => _control?.Top; set => _control.Top = value.GetValueOrDefault(); } 
+        public short? Top
+        {
+            get => _control?.Top;
+            set
+            {
+                if (_control != null)
+                    _control.Top = value.GetValueOrDefault();
+            }
+        }
 
         /// <summary>
         /// Gets or sets how to override the SOLIDWORKS default behavior when changing the width of a PropertyManager page. <br/>

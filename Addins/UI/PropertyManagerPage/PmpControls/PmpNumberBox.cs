@@ -7,9 +7,8 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// creates and allows you to access a number box in a property manager page
     /// </summary>
-    public class PmpNumberBox : PmpControl<IPropertyManagerPageNumberbox>
+    public class PmpNumberBox : PmpTextBase<IPropertyManagerPageNumberbox>
     {
-        private readonly int _style;
         #region constructors
         /// <summary>
         /// creates a number box in a property manager page
@@ -17,18 +16,25 @@ namespace Hymma.SolidTools.Addins
         /// <param name="style">style for this numberBox as defined by <see cref="NumberBoxStyle"/></param>
         public PmpNumberBox(NumberBoxStyle style) : base(swPropertyManagerPageControlType_e.swControlType_Numberbox)
         {
-            _style = (int)style;
+            Style = (int)style;
             OnRegister += PmpNumberBox_OnRegister;
+            OnDisplay += PmpNumberBox_OnDisplay;
         }
 
-        private void PmpNumberBox_OnRegister()
-        {
-            Style = _style;
-        }
 
         #endregion
 
         #region methods
+
+        private void PmpNumberBox_OnDisplay()
+        {
+            PmpNumberBox_OnRegister();
+        }
+
+        private void PmpNumberBox_OnRegister()
+        {
+           SolidworksObject.Style = Style;
+        }
 
         /// <summary>
         /// Sets the range and increment for the slider. 
@@ -57,6 +63,7 @@ namespace Hymma.SolidTools.Addins
         {
             SolidworksObject?.AddItems(items);
         }
+        
         /// <summary>
         /// Clears all items from the attached drop-down list for this the number box. 
         /// </summary>
@@ -126,7 +133,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// style for this numberBox as defined by <see cref="NumberBoxStyle"/>
         /// </summary>
-        public int? Style { get => SolidworksObject?.Style; set => SolidworksObject.Style = value.GetValueOrDefault(); }
+        public int Style { get; set; }
 
         /// <summary>
         /// Gets the text that appears in the number box. 
@@ -154,7 +161,7 @@ namespace Hymma.SolidTools.Addins
         /// called when user changes the value in an number box by typing in a new value
         /// </summary>
         /// <remarks>You can then use <see cref="Text"/> to show the text elsewhere, such as in a callout.</remarks>
-        public Action OnTextChanged { get; set; }
+        public Action<string> OnTextChanged { get; set; }
 
         /// <summary>
         /// fired when user changes the value via typing or clicking the up-arrow or down-arrow buttons to increment or decrement the value

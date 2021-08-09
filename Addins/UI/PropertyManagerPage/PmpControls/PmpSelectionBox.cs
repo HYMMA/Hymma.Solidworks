@@ -36,7 +36,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="Height">height of selectionbox in the pmp</param> 
         public PmpSelectionBox(swSelectType_e[] Filter, SelectionBoxStyles style, bool AllowMultipleSelectOfSameEntity = true, bool singleItemOnly = false, short Height = 50) : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox)
         {
-            this.Height= Height;
+            this.Height = Height;
             this.Filter = Filter;
             this.AllowMultipleSelectOfSameEntity = AllowMultipleSelectOfSameEntity;
             this.SingleItemOnly = singleItemOnly;
@@ -44,7 +44,6 @@ namespace Hymma.SolidTools.Addins
             OnRegister += PmpSelectionBox_OnRegister;
             OnDisplay += PmpSelectionBox_OnDisplay;
         }
-
         private void PmpSelectionBox_OnDisplay()
         {
             SolidworksObject.Height = Height;
@@ -53,7 +52,6 @@ namespace Hymma.SolidTools.Addins
             SolidworksObject.SingleEntityOnly = SingleItemOnly;
             SolidworksObject.Style = Style;
         }
-
         private void PmpSelectionBox_OnRegister()
         {
             PmpSelectionBox_OnDisplay();
@@ -105,7 +103,15 @@ namespace Hymma.SolidTools.Addins
         /// <item>false----------- <description>When an entity is selected while this selection box is active and that entity is already selected,  then the entity is removed from the selection box. This is the default behavior of a selection box.</description> </item>
         /// </list> 
         /// </value>
-        public bool? AllowSelectInMultipleBoxes { get => SolidworksObject?.AllowSelectInMultipleBoxes; set => SolidworksObject.AllowMultipleSelectOfSameEntity = value.GetValueOrDefault(false); }
+        public bool? AllowSelectInMultipleBoxes
+        {
+            get => SolidworksObject?.AllowSelectInMultipleBoxes;
+            set
+            {
+                if (SolidworksObject != null)
+                    SolidworksObject.AllowMultipleSelectOfSameEntity = value.GetValueOrDefault(false);
+            }
+        }
 
         /// <summary>
         /// create a clalout for this selectionbox
@@ -138,7 +144,15 @@ namespace Hymma.SolidTools.Addins
         /// Gets or sets the index number of the currently selected item in this selection box. 
         /// </summary>
         /// <remarks>The return value Item is the item in the selection box that is selected. Only the active selection box can have a current selection. If you use this property with an inactive selection box, -1 is returned.<see cref="IsActive"/>  to determine if a selection box is active or not.</remarks>
-        public int? CurrentSelection { get => SolidworksObject?.CurrentSelection; set => SolidworksObject.CurrentSelection = value.GetValueOrDefault(0); }
+        public int? CurrentSelection
+        {
+            get => SolidworksObject?.CurrentSelection;
+            set
+            {
+                if (SolidworksObject != null)
+                    SolidworksObject.CurrentSelection = value.GetValueOrDefault(0);
+            }
+        }
 
         /// <summary>
         /// Gets whether this is the active selection box.  
@@ -149,7 +163,15 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Gets or sets whether to enable Select Identical Components in the context menu of this PropertyManager page selection box. 
         /// </summary>
-        public bool? EnableSelectIdenticalComponents { get => SolidworksObject.EnableSelectIdenticalComponents; set => SolidworksObject.EnableSelectIdenticalComponents = value.GetValueOrDefault(false); }
+        public bool? EnableSelectIdenticalComponents
+        {
+            get => SolidworksObject.EnableSelectIdenticalComponents; 
+            set
+            {
+                if (SolidworksObject != null)
+                    SolidworksObject.EnableSelectIdenticalComponents = value.GetValueOrDefault(false);
+            }
+        }
 
         /// <summary>
         /// Gets the number of items currently in this selection box. 

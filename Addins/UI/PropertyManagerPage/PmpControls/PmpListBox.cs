@@ -8,7 +8,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// Allows you to access a PropertyManager page list box control.
     /// </summary>
-    public class PmpListBox : PmpControl<PropertyManagerPageListbox>
+    public class PmpListBox : PmpTextBase<PropertyManagerPageListbox>
     {
         private readonly string[] _items;
 
