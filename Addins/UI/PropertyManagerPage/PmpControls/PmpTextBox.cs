@@ -10,7 +10,8 @@ namespace Hymma.SolidTools.Addins
     public class PmpTextBox : PmpTextBase<PropertyManagerPageTextbox>
     {
         private int _style;
-
+        private string _text;
+        internal string _eventText;
         /// <summary>
         /// make a text box for a property manager page in soldiworks
         /// </summary>
@@ -25,19 +26,30 @@ namespace Hymma.SolidTools.Addins
         private void PmpTextBox_OnDisplay()
         {
             //update the text to what it was before user closed the property manager page
-            SolidworksObject.Text = Text;
+            Text = _eventText;
         }
 
         private void PmpTextBox_OnRegister()
         {
             Style = _style;
-            SolidworksObject.Text = Text;
+            SolidworksObject.Text = _text;
         }
 
         /// <summary>
         /// value for this text box
         /// </summary>
-        public string Text { get; set; }
+        public string Text
+        {
+            get => _text;
+            set
+            {
+                _text = value;
+
+                //this is important. So when framework client changes the style while the pmp is displaying the state of the style in the pmp updates properly
+                if (SolidworksObject != null)
+                    SolidworksObject.Text = value;
+            }
+        }
 
         /// <summary>
         /// Styles as defined by bitmask <see cref="TexTBoxStyles"/>

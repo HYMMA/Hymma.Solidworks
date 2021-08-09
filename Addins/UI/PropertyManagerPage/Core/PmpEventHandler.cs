@@ -246,7 +246,7 @@ namespace Hymma.SolidTools.Addins
                 && control is PmpTextBox txtBox)
             {
 
-               txtBox.Text = Text;
+               txtBox._eventText = Text;
                 txtBox.OnChange?.Invoke(Text);
             }
         }
