@@ -19,9 +19,11 @@ namespace Hymma.SolidTools.Addins
         /// make a text box for a property manager page in soldiworks
         /// </summary>
         /// <param name="initialValue">initial value for this text box once generated in a porperty manager page</param>
-        public PmpTextBox(string initialValue = "") : base(swPropertyManagerPageControlType_e.swControlType_Textbox)
+        /// <param name="binding">if set true, binds the value of the controller to the <see cref="Text"/></param>
+        public PmpTextBox(string initialValue = "", bool binding=true) : base(swPropertyManagerPageControlType_e.swControlType_Textbox)
         {
             Text = initialValue;
+            Binding = binding;
             OnRegister += PmpTextBox_OnRegister;
             OnDisplay += PmpTextBox_OnDisplay;
         }
@@ -53,6 +55,11 @@ namespace Hymma.SolidTools.Addins
                     SolidworksObject.Text = value;
             }
         }
+
+        /// <summary>
+        /// gets whether this controller is bound to the value of the <see cref="Text"/>
+        /// </summary>
+        public bool Binding { get; }
 
         /// <summary>
         /// Styles as defined by bitmask <see cref="TexTBoxStyles"/>

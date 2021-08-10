@@ -9,6 +9,8 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpCheckBox : PmpControl<PropertyManagerPageCheckbox>
     {
+        internal bool checkedByUser;
+
         /// <summary>
         /// default constructor
         /// </summary>
@@ -16,7 +18,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="caption">caption for this check box</param>
         public PmpCheckBox(string caption, bool isChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Checkbox)
         {
-            IsChecked = isChecked;
+            checkedByUser = isChecked;
             Caption = caption;
             OnRegister += PmpCheckBox_OnRegister;
             OnDisplay += PmpCheckBox_OnDisplay;
@@ -27,18 +29,27 @@ namespace Hymma.SolidTools.Addins
         //this way users will get a consistent experience
         private void PmpCheckBox_OnDisplay()
         {
-            SolidworksObject.Checked = IsChecked.GetValueOrDefault();
+            SolidworksObject.Checked = IsChecked;
         }
 
         private void PmpCheckBox_OnRegister()
         {
-            SolidworksObject.Checked = IsChecked.GetValueOrDefault();
+            SolidworksObject.Checked = IsChecked;
         }
 
         /// <summary>
         /// status of this checkbox
         /// </summary>
-        public bool? IsChecked { get; set; }
+        public bool IsChecked
+        {
+            get => checkedByUser;
+            set
+            {
+                checkedByUser = value;
+                if (SolidworksObject != null)
+                    SolidworksObject.Checked = value;
+            }
+        }
 
         /// <summary>
         /// SOLIDWORKS will call this once the checkbox is clicked on

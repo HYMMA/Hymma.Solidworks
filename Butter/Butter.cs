@@ -116,7 +116,7 @@ namespace Butter
 
             var radio = new PmpRadioButton("radio button", false);
             controls.Add(radio);
-            var txtBox = new PmpTextBox("text box");
+            var txtBox = new PmpTextBox("text box", true);
             txtBox.Style = (int)TexTBoxStyles.NoBorder;
             txtBox.OnChange = (text) =>
             {
@@ -124,7 +124,8 @@ namespace Butter
                 {
                     txtBox.BackGroundColor = Color.Aqua;
                     txtBox.TextColor = Color.IndianRed;
-                    txtBox.Style = (int)TexTBoxStyles.ReadOnly;
+                    chkBx.IsChecked = false;
+                    //txtBox.Style = (int)TexTBoxStyles.ReadOnly;
                 }
             };
             controls.Add(txtBox);

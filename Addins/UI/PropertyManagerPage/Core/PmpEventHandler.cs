@@ -175,8 +175,9 @@ namespace Hymma.SolidTools.Addins
             Log($"onCheckboxCheck event handling int id ={Id} bool Checked={Checked}");
 
             //get the check box with id from UiModel
-            if (!(UiModel.GetControl(Id) is PmpCheckBox checkBox)) return;
-            checkBox.IsChecked = Checked;
+            if (!(UiModel.GetControl(Id) is PmpCheckBox checkBox))
+                return;
+            checkBox.checkedByUser = Checked;
 
             //call on checked delegate on the check box
             checkBox?.OnChecked?.Invoke(Checked);
@@ -245,8 +246,8 @@ namespace Hymma.SolidTools.Addins
             if (control.Type == swPropertyManagerPageControlType_e.swControlType_Textbox
                 && control is PmpTextBox txtBox)
             {
-
-                txtBox.textTypedByUser = Text;
+                if (txtBox.Binding)
+                    txtBox.textTypedByUser = Text;
                 txtBox.OnChange?.Invoke(Text);
             }
         }
