@@ -242,11 +242,11 @@ namespace Hymma.SolidTools.Addins
             }
 
             //if control is a text box
-            if (control.Type == swPropertyManagerPageControlType_e.swControlType_Textbox 
+            if (control.Type == swPropertyManagerPageControlType_e.swControlType_Textbox
                 && control is PmpTextBox txtBox)
             {
 
-               txtBox._eventText = Text;
+                txtBox.textTypedByUser = Text;
                 txtBox.OnChange?.Invoke(Text);
             }
         }

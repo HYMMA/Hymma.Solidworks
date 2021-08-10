@@ -10,8 +10,11 @@ namespace Hymma.SolidTools.Addins
     public class PmpTextBox : PmpTextBase<PropertyManagerPageTextbox>
     {
         private int _style;
-        private string _text;
-        internal string _eventText;
+
+        //this field will be used in event handler to update the state of the Text in this object
+        //hence it is internal
+        internal string textTypedByUser;
+
         /// <summary>
         /// make a text box for a property manager page in soldiworks
         /// </summary>
@@ -26,13 +29,13 @@ namespace Hymma.SolidTools.Addins
         private void PmpTextBox_OnDisplay()
         {
             //update the text to what it was before user closed the property manager page
-            Text = _eventText;
+            SolidworksObject.Text = textTypedByUser;
         }
 
         private void PmpTextBox_OnRegister()
         {
             Style = _style;
-            SolidworksObject.Text = _text;
+            SolidworksObject.Text = Text;
         }
 
         /// <summary>
@@ -40,10 +43,10 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public string Text
         {
-            get => _text;
+            get => textTypedByUser;
             set
             {
-                _text = value;
+                textTypedByUser = value;
 
                 //this is important. So when framework client changes the style while the pmp is displaying the state of the style in the pmp updates properly
                 if (SolidworksObject != null)
