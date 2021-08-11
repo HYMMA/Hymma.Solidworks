@@ -20,14 +20,14 @@ namespace Hymma.SolidTools.Addins
         /// <param name="items">items to add to this list box</param>
         /// <param name="height">        
         /// 0 	Default height with no scrolling<br/>
-        ///1 &lt; 30 	Specified height and no scrolling<br/>
+        /// &lt; 30 	Specified height and no scrolling<br/>
         ///&gt;30  	    Specified height and scrolling, but no auto sizing<br/>
         ///</param>
         /// <param name="style">style of this list box as defined in bitwise <see cref="ListBoxStyle"/></param>
         public PmpListBox(string[] items, short height = 0, ListBoxStyle style = ListBoxStyle.SortAlphabetically) : base(swPropertyManagerPageControlType_e.swControlType_Listbox)
         {
             _items = items;
-            _height = height==0 ? (short)(30+items.Length*15) : height;
+            _height = height==0 ? (short)(3+items.Length*15) : height;
             _style = (int)style;
             OnRegister += PmpListBox_OnRegister;
             OnDisplay += PmpListBox_OnDisplay;

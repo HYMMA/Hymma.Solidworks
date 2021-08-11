@@ -109,7 +109,7 @@ namespace Butter
         {
             var controls = new List<IPmpControl>();
            
-            var listBox = new PmpListBox(new[] { "listbox_1", "listbox_2" });
+            var listBox = new PmpListBox(new[] { "listbox_1" });
             
             //listBox.Style = (int)ListBoxStyle.AllowMultiSelect | (int)ListBoxStyle.NoIntegralHeight;
             listBox.Caption = "caption for listbox";
