@@ -11,15 +11,28 @@ namespace Hymma.SolidTools.Addins
     public class PmpListBox : PmpTextBase<PropertyManagerPageListbox>
     {
         private readonly string[] _items;
+        private short _height;
+        private int _style;
 
         /// <summary>
         /// make a list box in a property manager page
         /// </summary>
         /// <param name="items">items to add to this list box</param>
-        public PmpListBox(string[] items) : base(swPropertyManagerPageControlType_e.swControlType_Listbox)
+        /// <param name="height">height of this controller, will be assigned to automatically if set at zero</param>
+        /// <param name="style">style of this list box as defined in bitwise <see cref="ListBoxStyle"/></param>
+        public PmpListBox(string[] items, short height = 0, ListBoxStyle style = ListBoxStyle.SortAlphabetically) : base(swPropertyManagerPageControlType_e.swControlType_Listbox)
         {
             _items = items;
+            _height = height == 0 ? (short)(items.Length * 8) : height;
+            _style = (int)style;
             OnRegister += PmpListBox_OnRegister;
+            OnDisplay += PmpListBox_OnDisplay;
+        }
+
+        private void PmpListBox_OnDisplay()
+        {
+            SolidworksObject.Style = Style;
+            SolidworksObject.Height = Height;
         }
 
         private void PmpListBox_OnRegister()
@@ -31,7 +44,7 @@ namespace Hymma.SolidTools.Addins
         /// Adds items to the attached drop-down list for this list box.
         /// </summary>
         /// <param name="items"></param>
-        public void AddItems(string[] items)=>SolidworksObject?.AddItems(items);
+        public void AddItems(string[] items) => SolidworksObject?.AddItems(items);
 
         /// <summary>
         /// Clears all items from attached drop-down list for this list box.
@@ -84,14 +97,22 @@ namespace Hymma.SolidTools.Addins
         ///You can use this method to clear a selection in a single-selection style list box, which results in no current selection in that list box.
         /// </para>
         ///</remarks>
-        public bool? SetSelectedItem(short Item, bool Selected)=>SolidworksObject?.SetSelectedItem(Item, Selected);
+        public bool? SetSelectedItem(short Item, bool Selected) => SolidworksObject?.SetSelectedItem(Item, Selected);
 
         /// <summary>
         /// Gets and sets the item that is currently selected in this list box. 
         /// </summary>
         /// <value>Index number of the item in the 0-based list</value>
         /// <remarks>If you use this property with a list box enabled for multiple selections, then this method returns -1 and does not affect the list box.</remarks>
-        public short? CurrentSelection { get => SolidworksObject?.CurrentSelection; set => SolidworksObject.CurrentSelection = value.GetValueOrDefault(); }
+        public short? CurrentSelection
+        {
+            get => SolidworksObject?.CurrentSelection;
+            set
+            {
+                if (SolidworksObject != null)
+                    SolidworksObject.CurrentSelection = value.GetValueOrDefault();
+            }
+        }
 
         /// <summary>
         /// gets and sets the attached drop down list in this list box
@@ -102,14 +123,32 @@ namespace Hymma.SolidTools.Addins
         ///&gt;30  	    Specified height and scrolling, but no auto sizing<br/>
         ///</value>
         ///<remarks>The height is in dialog-box units. You can convert these values to screen units (pixels) by using the Windows MapDialogRect function.</remarks>
-        public short? Height { get => SolidworksObject?.Height; set => SolidworksObject.Height = value.GetValueOrDefault(); }
+        public short Height
+        {
+            get => _height;
+            set
+            {
+                _height = value;
+                if (SolidworksObject != null)
+                    SolidworksObject.Height = value;
+            }
+        }
 
         /// <summary>
         /// get or set style as defined in <see cref="ListBoxStyle"/>
         /// </summary>
         /// <remarks>By default, only one list item can be selected at a time. When another list item is selected, that item becomes the active item and the previously selected item is cleared. </remarks>
-        public int? Style { get => SolidworksObject?.Style; set => SolidworksObject.Style = value.GetValueOrDefault(); }
-        
+        public int Style
+        {
+            get => _style;
+            set
+            {
+                _style = value;
+                if (SolidworksObject != null)
+                    SolidworksObject.Style = value;
+            }
+        }
+
         /// <summary>
         /// Gets the number of items in the attached drop-down list for this list box. 
         /// </summary>

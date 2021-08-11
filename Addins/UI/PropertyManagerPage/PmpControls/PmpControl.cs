@@ -56,7 +56,7 @@ namespace Hymma.SolidTools.Addins
         public virtual void SetBitmap(Bitmap bitmap, string fileName)
         {
             IconGenerator.GetPmpControlIcon(bitmap, fileName, out string image, out string maskedImage);
-            _control.SetPictureLabelByName(image, maskedImage);
+            _control?.SetPictureLabelByName(image, maskedImage);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Hymma.SolidTools.Addins
         public void ShowBubleTooltip(string title, string message, Bitmap bitmap, string fileName)
         {
             IconGenerator.GetPmpControlIcon(bitmap, fileName, out string image, out string maskedImage);
-            _control.ShowBubbleTooltip(title, message, image);
+            _control?.ShowBubbleTooltip(title, message, image);
         }
 
 

@@ -118,6 +118,10 @@ namespace Butter
             controls.Add(radio);
             var txtBox = new PmpTextBox("text box", true);
             txtBox.Style = (int)TexTBoxStyles.NoBorder;
+            var listBox = new PmpListBox(new[] { "listbox_1", "listbox_2" });
+            listBox.Style = (int)ListBoxStyle.AllowMultiSelect | (int)ListBoxStyle.NoIntegralHeight;
+            listBox.Caption = "caption for listbox";
+            listBox.CurrentSelection = 2;
             txtBox.OnChange = (text) =>
             {
                 if (text.StartsWith("t"))
@@ -125,9 +129,12 @@ namespace Butter
                     txtBox.BackGroundColor = Color.Aqua;
                     txtBox.TextColor = Color.IndianRed;
                     chkBx.IsChecked = false;
+                    listBox.ShowBubleTooltip("bubble tooltip", "message of the bubble tooltip for list box", Properties.Resources.butter, "listBox_bubbleTooltip%");
+                    listBox.Caption = "second capiton for listbox";
                     //txtBox.Style = (int)TexTBoxStyles.ReadOnly;
                 }
             };
+
             controls.Add(txtBox);
             return controls;
         }
