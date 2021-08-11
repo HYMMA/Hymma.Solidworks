@@ -137,7 +137,6 @@ namespace Butter
                     //txtBox.Style = (int)TexTBoxStyles.ReadOnly;
                 }
             };
-            
             controls.Add(radio);
             controls.Add(chkBx);
             controls.Add(txtBox);

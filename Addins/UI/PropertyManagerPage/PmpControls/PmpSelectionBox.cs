@@ -15,6 +15,8 @@ namespace Hymma.SolidTools.Addins
 
         private CalloutModel _callout;
         private string _calloutLabel;
+        private bool _enableSelectIdenticalComponents;
+        private SysColor _selectionColor;
         #endregion
 
         /// <summary>
@@ -51,6 +53,8 @@ namespace Hymma.SolidTools.Addins
             SolidworksObject.AllowMultipleSelectOfSameEntity = AllowMultipleSelectOfSameEntity;
             SolidworksObject.SingleEntityOnly = SingleItemOnly;
             SolidworksObject.Style = Style;
+            SolidworksObject.EnableSelectIdenticalComponents = EnableSelectIdenticalComponents;
+            SolidworksObject.SetSelectionColor(true, (int)_selectionColor);
         }
         private void PmpSelectionBox_OnRegister()
         {
@@ -61,6 +65,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// style of this selection box as defined by bitwise <see cref="SelectionBoxStyles"/>
         /// </summary>
+        /// <remarks>this property must be set before property manager page is displayed. As a result setting this property will update the <see cref="PmpSelectionBox"/> on the next session of displaying the property manager page</remarks>
         public int Style { get; set; }
 
         ///<summary>
@@ -80,6 +85,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// height of this selection box in proerty manager page
         /// </summary>
+        /// <remarks>You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed</remarks>
         public short Height { get; set; }
 
         /// <summary>
@@ -92,6 +98,8 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         ///  Gets or sets whether this selection box is for single or multiple items. 
         /// </summary>
+        /// <remarks>You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed</remarks>
+
         public bool SingleItemOnly { get; set; }
 
         /// <summary>
@@ -103,13 +111,13 @@ namespace Hymma.SolidTools.Addins
         /// <item>false----------- <description>When an entity is selected while this selection box is active and that entity is already selected,  then the entity is removed from the selection box. This is the default behavior of a selection box.</description> </item>
         /// </list> 
         /// </value>
-        public bool? AllowSelectInMultipleBoxes
+        public bool AllowSelectInMultipleBoxes
         {
-            get => SolidworksObject?.AllowSelectInMultipleBoxes;
+            get => SolidworksObject != null && SolidworksObject.AllowSelectInMultipleBoxes;
             set
             {
                 if (SolidworksObject != null)
-                    SolidworksObject.AllowMultipleSelectOfSameEntity = value.GetValueOrDefault(false);
+                    SolidworksObject.AllowMultipleSelectOfSameEntity = value;
             }
         }
 
@@ -158,18 +166,19 @@ namespace Hymma.SolidTools.Addins
         /// Gets whether this is the active selection box.  
         /// </summary>
         /// <value>True if the selection box is active, false if not</value>
-        public bool? IsActive => SolidworksObject?.GetSelectionFocus();
+        public bool IsActive => SolidworksObject != null && SolidworksObject.GetSelectionFocus();
 
         /// <summary>
         /// Gets or sets whether to enable Select Identical Components in the context menu of this PropertyManager page selection box. 
         /// </summary>
-        public bool? EnableSelectIdenticalComponents
+        public bool EnableSelectIdenticalComponents
         {
-            get => SolidworksObject.EnableSelectIdenticalComponents; 
+            get => _enableSelectIdenticalComponents;
             set
             {
+                _enableSelectIdenticalComponents = value;
                 if (SolidworksObject != null)
-                    SolidworksObject.EnableSelectIdenticalComponents = value.GetValueOrDefault(false);
+                    SolidworksObject.EnableSelectIdenticalComponents = value;
             }
         }
 
@@ -188,12 +197,13 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Sets the color for selections made in this selection box on the PropertyManager page. 
         /// </summary>
-        /// <param name="color">Color to use for selections as defined by the <see cref="SysColor"/></param>
-        /// <remarks>You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed</remarks>
+        /// <remarks>You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed. Setting a value for this property will take effect on the next session when property manage page is displayed</remarks>
         public SysColor SelectionColor
         {
+            get => _selectionColor;
             set
             {
+                _selectionColor = value;
                 SolidworksObject?.SetSelectionColor(true, (int)value);
             }
         }

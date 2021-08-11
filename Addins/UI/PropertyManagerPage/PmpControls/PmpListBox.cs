@@ -27,7 +27,7 @@ namespace Hymma.SolidTools.Addins
         public PmpListBox(string[] items, short height = 0, ListBoxStyle style = ListBoxStyle.SortAlphabetically) : base(swPropertyManagerPageControlType_e.swControlType_Listbox)
         {
             _items = items;
-            _height = height==0 ? (short)(3+items.Length*15) : height;
+            _height = height==0 ? (short)(5+items.Length*15) : height;
             _style = (int)style;
             OnRegister += PmpListBox_OnRegister;
             OnDisplay += PmpListBox_OnDisplay;
