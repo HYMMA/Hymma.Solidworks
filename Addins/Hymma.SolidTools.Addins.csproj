@@ -81,7 +81,6 @@
     <Compile Include="UI\Callout\CalloutRow.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
     <Compile Include="UI\Callout\CalloutModel.cs" />
-    <Compile Include="UI\PropertyManagerPage\Core\CheckNullAttribute.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpConstants.cs" />
     <Compile Include="UI\PropertyManagerPage\Enums\pmpEnums.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButton.cs" />

@@ -29,19 +29,6 @@ namespace Hymma.SolidTools.Addins
                 return;
             }
 
-            #region set window forms
-            //this needs to be called every time pmp is shown
-            //if (winFormHandlers != null)
-            //{
-            //    foreach (var handler in winFormHandlers)
-            //    {
-            //        if (handler.ElementHost == null || !handler.WindowsControl.HasContent)
-            //            continue;
-            //        handler.ElementHost.Child = handler.WindowsControl;
-            //        handler.SolidworksObject.SetWindowHandlex64(handler.ElementHost.Handle.ToInt64());
-            //    }
-            //}
-            #endregion
 
             //assign active document to each property manager page control
             uiModel.PmpGroups

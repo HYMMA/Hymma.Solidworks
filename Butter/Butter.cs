@@ -118,10 +118,11 @@ namespace Butter
             controls.Add(radio);
             var txtBox = new PmpTextBox("text box", true);
             txtBox.Style = (int)TexTBoxStyles.NoBorder;
+            
             var listBox = new PmpListBox(new[] { "listbox_1", "listbox_2" });
-            listBox.Style = (int)ListBoxStyle.AllowMultiSelect | (int)ListBoxStyle.NoIntegralHeight;
+            //listBox.Style = (int)ListBoxStyle.AllowMultiSelect | (int)ListBoxStyle.NoIntegralHeight;
             listBox.Caption = "caption for listbox";
-            listBox.CurrentSelection = 2;
+
             txtBox.OnChange = (text) =>
             {
                 if (text.StartsWith("t"))

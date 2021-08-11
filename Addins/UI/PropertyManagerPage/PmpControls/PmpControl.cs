@@ -15,6 +15,10 @@ namespace Hymma.SolidTools.Addins
         /// property manager page control that can be cast to all the property manager page members
         /// </summary>
         private IPropertyManagerPageControl _control;
+        private short _leftEdge;
+        private short _width;
+        private short _top;
+        private int _optionForResize;
         #endregion
 
         /// <summary>
@@ -24,24 +28,20 @@ namespace Hymma.SolidTools.Addins
         public PmpControl(swPropertyManagerPageControlType_e type)
         {
             Type = type;
+            Visible = true;
+            Enabled = true;
+            Width = 100;
+            OptionsForResize=(int)PmpResizeStyles.LockLeft | (int)PmpResizeStyles.LockRight;
             OnRegister += PmpControl_OnRegister;
-            OnDisplay += PmpControl_OnDisplay;
-        }
-
-        private void PmpControl_OnDisplay()
-        {
-            _control.Visible = Visible;
-            _control.Enabled = Enabled;
-            _control.Width = Width;
-            _control.Left = LeftEdge;
-            _control.OptionsForResize = OptionsForResize;
         }
 
         private void PmpControl_OnRegister()
         {
             SolidworksObject = (T)ControlObject;
             _control = SolidworksObject as IPropertyManagerPageControl;
-            PmpControl_OnDisplay();
+            _control.Width = Width;
+            _control.Left = LeftEdge;
+            _control.OptionsForResize = OptionsForResize;
         }
 
         /// <summary>
@@ -55,8 +55,9 @@ namespace Hymma.SolidTools.Addins
         /// </remarks>
         public virtual void SetBitmap(Bitmap bitmap, string fileName)
         {
+            if (_control == null) return;
             IconGenerator.GetPmpControlIcon(bitmap, fileName, out string image, out string maskedImage);
-            _control?.SetPictureLabelByName(image, maskedImage);
+            _control.SetPictureLabelByName(image, maskedImage);
         }
 
         /// <summary>
@@ -68,8 +69,9 @@ namespace Hymma.SolidTools.Addins
         /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
         public void ShowBubleTooltip(string title, string message, Bitmap bitmap, string fileName)
         {
+            if (_control == null) return;
             IconGenerator.GetPmpControlIcon(bitmap, fileName, out string image, out string maskedImage);
-            _control?.ShowBubbleTooltip(title, message, image);
+            _control.ShowBubbleTooltip(title, message, image);
         }
 
 
@@ -78,25 +80,45 @@ namespace Hymma.SolidTools.Addins
         /// This property must be set before the control is displayed.<br/>
         /// The value is in dialog units relative to the group box that the control is in. The left edge of the group box is 0; the right edge of the group box is 100
         /// </summary>
-        /// <remarks>By default, the left edge of a control is either the left edge of its group box or indented a certain distance. This is determined by the <see cref="LeftAlignment"/></remarks>
-        public short LeftEdge { get; set; }
+        /// <remarks>By default, the left edge of a control is either the left edge of its group box or indented a certain distance. Which is determined by the <see cref="LeftAlignment"/></remarks>
+        public short LeftEdge
+        {
+            get =>_leftEdge;
+            set
+            {
+                _leftEdge = value;
+                if (_control != null)
+                    _control.Left = value;
+            }
+        }
 
         /// <summary>
         /// By default, the width of the control is usually set so that it extends to the right edge of its group box (not for buttons). Using this API overrides that default.<br/>
         /// The value is in dialog units relative to the group box that the control is in. The width of the group box is 100
         /// </summary>
-        public short Width { get; set; } = 100;
+        public short Width
+        {
+            get => _width;
+            set
+            {
+                _width = value;
+                if (_control != null)
+                    _control.Width = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the top edge of the control on a PropertyManager page
         /// </summary>
-        public short? Top
+        /// <remarks>returns -1 on error</remarks>
+        public short Top
         {
-            get => _control?.Top;
+            get => _top;
             set
             {
+                _top = value;
                 if (_control != null)
-                    _control.Top = value.GetValueOrDefault();
+                    _control.Top = value;
             }
         }
 
@@ -104,17 +126,42 @@ namespace Hymma.SolidTools.Addins
         /// Gets or sets how to override the SOLIDWORKS default behavior when changing the width of a PropertyManager page. <br/>
         /// Resize the PropertyManager page as defined in <see cref="PmpResizeStyles"/>
         /// </summary>
-        public int OptionsForResize { get; set; } = (int)PmpResizeStyles.LockLeft | (int)PmpResizeStyles.LockRight;
+        public int OptionsForResize
+        {
+            get => _optionForResize;
+            set
+            {
+                _optionForResize = value;
+                if (_control != null)
+                    _control.OptionsForResize = value;
+            }
+        }
 
         /// <summary>
         /// enables or disables this property control on
         /// </summary>
-        public bool Enabled { get; set; } = true;
+        public bool Enabled
+        {
+            get => _control != null && _control.Enabled;
+            set
+            {
+                if (_control != null)
+                    _control.Enabled = value;
+            }
+        }
 
         /// <summary>
         /// gets or sets the visibility of this control
         /// </summary>
-        public bool Visible { get; set; } = true;
+        public bool Visible
+        {
+            get => _control != null && _control.Visible;
+            set
+            {
+                if (_control != null)
+                    _control.Visible = value;
+            }
+        }
 
         ///<inheritdoc/>
         public T SolidworksObject { get; set; }
