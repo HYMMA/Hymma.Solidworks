@@ -80,6 +80,7 @@ namespace Butter
             })
             #region Group 1
                 .AddGroup("Group Caption")
+                    .IsExpanded()
                     .HasTheseControls(GetControlSet2())
                 .SaveGroup()
             #endregion
@@ -107,21 +108,22 @@ namespace Butter
         private List<IPmpControl> GetControlSet2()
         {
             var controls = new List<IPmpControl>();
+           
+            var listBox = new PmpListBox(new[] { "listbox_1", "listbox_2" });
+            
+            //listBox.Style = (int)ListBoxStyle.AllowMultiSelect | (int)ListBoxStyle.NoIntegralHeight;
+            listBox.Caption = "caption for listbox";
+
             var wpfControl = new UserControl1();
             var pmpWpfControl = new PmpWindowHandler(new System.Windows.Forms.Integration.ElementHost(), wpfControl, 15);
-            controls.Add(pmpWpfControl);
 
             var chkBx = new PmpCheckBox("checkbox");
-            controls.Add(chkBx);
 
             var radio = new PmpRadioButton("radio button", false);
-            controls.Add(radio);
+            
             var txtBox = new PmpTextBox("text box", true);
             txtBox.Style = (int)TexTBoxStyles.NoBorder;
             
-            var listBox = new PmpListBox(new[] { "listbox_1", "listbox_2" });
-            //listBox.Style = (int)ListBoxStyle.AllowMultiSelect | (int)ListBoxStyle.NoIntegralHeight;
-            listBox.Caption = "caption for listbox";
 
             txtBox.OnChange = (text) =>
             {
@@ -135,8 +137,12 @@ namespace Butter
                     //txtBox.Style = (int)TexTBoxStyles.ReadOnly;
                 }
             };
-
+            
+            controls.Add(radio);
+            controls.Add(chkBx);
             controls.Add(txtBox);
+            controls.Add(pmpWpfControl);
+            controls.Add(listBox);
             return controls;
         }
     }

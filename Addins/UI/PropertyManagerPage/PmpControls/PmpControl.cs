@@ -80,7 +80,7 @@ namespace Hymma.SolidTools.Addins
         /// This property must be set before the control is displayed.<br/>
         /// The value is in dialog units relative to the group box that the control is in. The left edge of the group box is 0; the right edge of the group box is 100
         /// </summary>
-        /// <remarks>By default, the left edge of a control is either the left edge of its group box or indented a certain distance. Which is determined by the <see cref="LeftAlignment"/></remarks>
+        /// <remarks>By default, the left edge of a control is either the left edge of its group box or indented a certain distance. Which is determined by the LeftAlignment</remarks>
         public short LeftEdge
         {
             get =>_leftEdge;

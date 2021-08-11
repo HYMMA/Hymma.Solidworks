@@ -27,7 +27,6 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public PropertyManagerPageUIBase UiModel { get; private set; }
 
-
         /// <summary>
         /// fires after user opens a pmp
         /// </summary>
@@ -271,7 +270,7 @@ namespace Hymma.SolidTools.Addins
         public void OnComboboxEditChanged(int Id, string Text)
         {
             PmpComboBox pmpComboBox = UiModel.GetControl(Id) as PmpComboBox;
-            pmpComboBox?.OnSelectionEdit(Text);
+            pmpComboBox?.OnSelectionEdit?.Invoke(Text);
         }
 
         /// <summary>
@@ -282,7 +281,7 @@ namespace Hymma.SolidTools.Addins
         public void OnComboboxSelectionChanged(int Id, int Item)
         {
             PmpComboBox pmpComboBox = UiModel.GetControl(Id) as PmpComboBox;
-            pmpComboBox?.OnSelectionChanged(Item);
+            pmpComboBox?.OnSelectionChanged?.Invoke(Item);
         }
 
         /// <summary>
@@ -293,7 +292,7 @@ namespace Hymma.SolidTools.Addins
         public void OnListboxSelectionChanged(int Id, int Item)
         {
             PmpListBox pmpList = UiModel.GetControl(Id) as PmpListBox;
-            pmpList?.OnSelectionChange(Id);
+            pmpList?.OnSelectionChange?.Invoke(Id);
         }
 
         /// <summary>
@@ -347,7 +346,7 @@ namespace Hymma.SolidTools.Addins
             //invoke delegate
             selectionBox?.OnCallOutDestroyed?.Invoke();
         }
-
+        
         /// <summary>
         /// Called when a selection is made, which allows the add-in to accept or reject the selection. 
         /// </summary>
@@ -368,8 +367,8 @@ namespace Hymma.SolidTools.Addins
         /// <returns></returns>
         public bool OnSubmitSelection(int Id, object Selection, int SelType, ref string ItemText)
         {
-            var selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
-            if (selectionBox == null || selectionBox.OnSubmitSelection == null) return false;
+            if (!(UiModel.GetControl(Id) is PmpSelectionBox selectionBox) || selectionBox.OnSubmitSelection == null) 
+                return false;
 
             // This method must return true for selections to occur
             return selectionBox.OnSubmitSelection(Selection, SelType, ItemText);
@@ -414,7 +413,6 @@ namespace Hymma.SolidTools.Addins
             var control = UiModel.GetControl(Id);
             control.GainedFocus();
         }
-
 
         /// <summary>
         /// fired when user browses away from a control
