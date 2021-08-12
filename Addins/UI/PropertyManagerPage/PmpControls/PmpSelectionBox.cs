@@ -211,16 +211,24 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Gets the mark used on selected items in this selection box. 
         /// </summary>
-        public int? Mark
+        /// <value> mark value for this selectin box </value>
+        /// <remarks>if called before selection box is registered returns -1</remarks>
+        public int Mark
         {
-            get => SolidworksObject?.Mark;
+            get
+            {
+                if (SolidworksObject == null)
+                    return -1;
+                return SolidworksObject.Mark;
+            }
+
             private set
             {
                 // Mark values(whether set by the SolidWorks application or by your application) must be powers of two(for example, 1, 2, 4, 8)
                 var isPowerOfTwo = (value != 0) && ((value & (value - 1)) == 0);
 
                 if (isPowerOfTwo)
-                    SolidworksObject.Mark = value.GetValueOrDefault();
+                    SolidworksObject.Mark = value;
                 else
                     throw new ArgumentOutOfRangeException($"you assigned {value} to a selection box mark value. But {value} is not a power of 2");
             }
@@ -239,7 +247,7 @@ namespace Hymma.SolidTools.Addins
             var swModelDocExt = ActiveDoc.Extension;
             SelectionMgr swSelectionMgr = ActiveDoc.SelectionManager as SelectionMgr;
             var swSelectData = (SelectData)swSelectionMgr.CreateSelectData();
-            swSelectData.Mark = Mark.GetValueOrDefault();
+            swSelectData.Mark = Mark;
             swModelDocExt.MultiSelect2(selections, true, swSelectData);
         }
 
@@ -272,10 +280,10 @@ namespace Hymma.SolidTools.Addins
                 var selIndex = SolidworksObject.SelectionIndex[i];
 
                 //get item via selection manager
-                item = selMgr.GetSelectedObject6(selIndex, Mark.GetValueOrDefault());
+                item = selMgr.GetSelectedObject6(selIndex, Mark);
 
                 //get type of object
-                type = (swSelectType_e)selMgr.GetSelectedObjectType3(selIndex, Mark.GetValueOrDefault());
+                type = (swSelectType_e)selMgr.GetSelectedObjectType3(selIndex, Mark);
                 itemsTypes.Add(item, type);
             }
             return itemsTypes;
@@ -305,8 +313,10 @@ namespace Hymma.SolidTools.Addins
         /// <returns>Selected object as defined in <see cref="swSelectType_e"/> Nothing or null might be returned if the type is not supported or if nothing is selected</returns>
         public object GetItem(uint index, out swSelectType_e type, int mark = -1)
         {
-            if (ActiveDoc == null || SolidworksObject == null) throw new ArgumentNullException("A Call to Selection manager::GetItem failed becuase ActiveDoc or Selection manager was null");
-            if (index > ItemCount - 1) throw new ArgumentOutOfRangeException("the index provided to selection manager::GetItem was more than items in the selection box");
+            if (ActiveDoc == null || SolidworksObject == null) 
+                throw new ArgumentNullException("A Call to Selection manager::GetItem failed becuase ActiveDoc or Selection manager was null");
+            if (index > ItemCount - 1)
+                throw new ArgumentOutOfRangeException("the index provided to selection manager::GetItem was more than items in the selection box");
 
             SelectionMgr selMgr = (SelectionMgr)ActiveDoc.SelectionManager;
 
