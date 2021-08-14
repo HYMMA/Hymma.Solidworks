@@ -26,7 +26,7 @@ namespace Hymma.SolidTools.Addins
 
         #region methods
 
-        private void PmpNumberBox_OnDisplay()
+        private void PmpNumberBox_OnDisplay(object sender, OnDisplay_EventArgs e)
         {
             PmpNumberBox_OnRegister();
         }

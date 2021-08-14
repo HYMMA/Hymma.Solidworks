@@ -32,7 +32,7 @@ namespace Hymma.SolidTools.Addins
             SolidworksObject.Height = _height;
         }
 
-        private void PmpWindowHandler_OnDisplay()
+        private void PmpWindowHandler_OnDisplay(object sender, OnDisplay_EventArgs e)
         {
             //this should be callled everytime pmp is displayed and on the pmp registration
             if (ElementHost == null || !WindowsControl.HasContent)

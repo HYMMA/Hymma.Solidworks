@@ -28,14 +28,14 @@ namespace Hymma.SolidTools.Addins
             OnDisplay += PmpRadioButton_OnDisplay;
         }
 
-        private void PmpRadioButton_OnDisplay()
+        private void PmpRadioButton_OnDisplay(object sender, OnDisplay_EventArgs e)
         {
             SolidworksObject.Checked = IsChecked;
         }
 
         private void PmpRadioButton_OnRegister()
         {
-            PmpRadioButton_OnDisplay();
+            PmpRadioButton_OnDisplay(null,null);
             SolidworksObject.Caption = Caption;
         }
 

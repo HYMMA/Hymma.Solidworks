@@ -28,7 +28,7 @@ namespace Hymma.SolidTools.Addins
             OnDisplay += PmpTextBox_OnDisplay;
         }
 
-        private void PmpTextBox_OnDisplay()
+        private void PmpTextBox_OnDisplay(object sender, OnDisplay_EventArgs e)
         {
             //update the text to what it was before user closed the property manager page
             SolidworksObject.Text = textTypedByUser;

@@ -81,8 +81,9 @@
     <Compile Include="UI\Callout\CalloutRow.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
     <Compile Include="UI\Callout\CalloutModel.cs" />
+    <Compile Include="UI\PropertyManagerPage\Core\Events\OnDisplay_EventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\Core\Events\SubmitSelection_EventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpConstants.cs" />
-    <Compile Include="UI\PropertyManagerPage\Enums\pmpEnums.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButton.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpTextBase.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommand.cs" />
@@ -143,8 +144,6 @@
       <Name>Hymma.SolidTools.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\PropertyManagerPage\PmpControls\BaseClasses\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

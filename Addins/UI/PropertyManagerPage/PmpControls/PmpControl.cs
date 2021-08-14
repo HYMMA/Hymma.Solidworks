@@ -15,10 +15,13 @@ namespace Hymma.SolidTools.Addins
         /// property manager page control that can be cast to all the property manager page members
         /// </summary>
         private IPropertyManagerPageControl _control;
+        private bool _leftEdgeChanged;
         private short _leftEdge;
-        private short _width;
+        private short _width = 100;
         private short _top;
-        private int _optionForResize;
+        private int _optionForResize = (int)PmpResizeStyles.LockLeft | (int)PmpResizeStyles.LockRight;
+        private bool _enabled = true;
+        private bool _visible = true;
         #endregion
 
         /// <summary>
@@ -28,10 +31,6 @@ namespace Hymma.SolidTools.Addins
         public PmpControl(swPropertyManagerPageControlType_e type)
         {
             Type = type;
-            Visible = true;
-            Enabled = true;
-            Width = 100;
-            OptionsForResize=(int)PmpResizeStyles.LockLeft | (int)PmpResizeStyles.LockRight;
             OnRegister += PmpControl_OnRegister;
         }
 
@@ -40,8 +39,15 @@ namespace Hymma.SolidTools.Addins
             SolidworksObject = (T)ControlObject;
             _control = SolidworksObject as IPropertyManagerPageControl;
             _control.Width = Width;
-            _control.Left = LeftEdge;
+
+            //Solidworks automatically adjusts the leftedge in some controls like selection boxes whit up and down arrows
+            //so we set this property only when user has specifically changed it
+            if (_leftEdgeChanged)
+                _control.Left = LeftEdge;
+
             _control.OptionsForResize = OptionsForResize;
+            _control.Enabled = Enabled;
+            _control.Visible = Visible;
         }
 
         /// <summary>
@@ -77,15 +83,17 @@ namespace Hymma.SolidTools.Addins
 
         /// <summary>
         /// Left edge of the control <br/>
-        /// This property must be set before the control is displayed.<br/>
+        /// This property will be set the next time the control is displayed.<br/>
+        /// Use this proeprty and <see cref="Top"/> to palce controls side by side<br/>
         /// The value is in dialog units relative to the group box that the control is in. The left edge of the group box is 0; the right edge of the group box is 100
         /// </summary>
-        /// <remarks>By default, the left edge of a control is either the left edge of its group box or indented a certain distance. Which is determined by the LeftAlignment</remarks>
+        /// <remarks>By default, the left edge of a control is either the left edge of its group box or indented a certain distance. this property overrides that default value</remarks>
         public short LeftEdge
         {
-            get =>_leftEdge;
+            get => _leftEdge;
             set
             {
+                _leftEdgeChanged = true;
                 _leftEdge = value;
                 if (_control != null)
                     _control.Left = value;
@@ -142,9 +150,10 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public bool Enabled
         {
-            get => _control != null && _control.Enabled;
+            get => _enabled;
             set
             {
+                _enabled = value;
                 if (_control != null)
                     _control.Enabled = value;
             }
@@ -155,9 +164,10 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public bool Visible
         {
-            get => _control != null && _control.Visible;
+            get => _visible;
             set
             {
+                _visible = value;
                 if (_control != null)
                     _control.Visible = value;
             }
@@ -165,6 +175,7 @@ namespace Hymma.SolidTools.Addins
 
         ///<inheritdoc/>
         public T SolidworksObject { get; set; }
+        
     }
 
     /// <summary>

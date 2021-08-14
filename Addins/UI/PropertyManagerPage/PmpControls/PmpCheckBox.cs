@@ -27,7 +27,7 @@ namespace Hymma.SolidTools.Addins
         //whenever propety manager page is shown the checkbox state should reflect
         //the previous setup. previous setup is the last time property manager page was shown
         //this way users will get a consistent experience
-        private void PmpCheckBox_OnDisplay()
+        private void PmpCheckBox_OnDisplay(object sender, OnDisplay_EventArgs e)
         {
             SolidworksObject.Checked = IsChecked;
         }

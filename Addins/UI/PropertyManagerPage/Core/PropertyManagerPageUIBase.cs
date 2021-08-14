@@ -168,7 +168,7 @@ namespace Hymma.SolidTools.Addins
         /// Specify the Locked option in the Options parameter when you create your PropertyManager page. It is important that when a handler (such as IPropertyManagerPage2Handler5::OnButtonPress or IPropertyManagerPage2Handler5::OnClose) is finished and control returns to SOLIDWORKS that the PropertyManager page is still there. If the PropertyManager page is not there, SOLIDWORKS might crash. Some methods try to close the PropertyManager page, but you can avoid this scenario by creating the PropertyManager page as Locked.
         /// </summary>
         LockedPage = 4,
-        
+
         /// <summary>
         /// supports multiple tabs, will show arrows on top of property manager page
         /// </summary>
@@ -192,7 +192,7 @@ namespace Hymma.SolidTools.Addins
         /// redo button
         /// </summary>
         RedoButton = 16384,
-        
+
         /// <summary>
         /// If set, then show Select Chain:<br/>
         ///on the shortcut menu if a sketch entity is currently selected.<br/>
@@ -216,6 +216,54 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         WhatsNew = 512
     }
+
+
+    /// <summary>
+    /// defines the reason a property manager page was closed
+    /// </summary>
+    public enum PMPCloseReason
+    {
+        /// <summary>
+        /// unknown
+        /// </summary>
+        UnknownReason = 0,
+
+        /// <summary>
+        /// user selected on the green check mark
+        /// </summary>
+        Okay = 1,
+
+        /// <summary>
+        /// user canceled by selecting the red cross mark
+        /// </summary>
+        Cancel = 2,
+
+        /// <summary>
+        /// main window closed first
+        /// </summary>
+        ParentClosed = 3,
+
+        /// <summary>
+        /// user closed
+        /// </summary>
+        Closed = 4,
+
+        /// <summary>
+        /// user pressed the escape button
+        /// </summary>
+        UserEscape = 5,
+
+        /// <summary>
+        /// user applied the changes
+        /// </summary>
+        Apply = 6,
+
+        /// <summary>
+        /// user selected the preview
+        /// </summary>
+        Preview = 7
+    }
+
 }
 
 

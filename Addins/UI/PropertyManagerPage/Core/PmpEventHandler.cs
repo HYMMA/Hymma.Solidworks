@@ -346,7 +346,7 @@ namespace Hymma.SolidTools.Addins
             //invoke delegate
             selectionBox?.OnCallOutDestroyed?.Invoke();
         }
-        
+
         /// <summary>
         /// Called when a selection is made, which allows the add-in to accept or reject the selection. 
         /// </summary>
@@ -367,11 +367,12 @@ namespace Hymma.SolidTools.Addins
         /// <returns></returns>
         public bool OnSubmitSelection(int Id, object Selection, int SelType, ref string ItemText)
         {
-            if (!(UiModel.GetControl(Id) is PmpSelectionBox selectionBox) || selectionBox.OnSubmitSelection == null) 
-                return false;
-
-            // This method must return true for selections to occur
-            return selectionBox.OnSubmitSelection(Selection, SelType, ItemText);
+            if (UiModel.GetControl(Id) is PmpSelectionBox selectionBox)
+            {
+                // otherwise return what user ahs defined
+                return selectionBox.SubmitSelection(Selection, SelType, ItemText);
+            }
+            return true;
         }
 
         public int OnActiveXControlCreated(int Id, bool Status)
@@ -438,9 +439,16 @@ namespace Hymma.SolidTools.Addins
             return 0;
         }
 
+        /// <summary>
+        /// fired when user right clicks on one of list box items
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="PosX"></param>
+        /// <param name="PosY"></param>
         public void OnListboxRMBUp(int Id, int PosX, int PosY)
         {
-            throw new NotImplementedException();
+            var listbox = UiModel.GetControl(Id) as PmpListBox;
+            listbox?.OnRightMouseBtnUp?.Invoke(new Mathematics.Point(PosX, PosY, 0));
         }
 
         public void OnNumberBoxTrackingCompleted(int Id, double Value)

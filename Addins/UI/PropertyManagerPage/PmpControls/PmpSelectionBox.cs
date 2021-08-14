@@ -3,6 +3,8 @@ using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -17,13 +19,19 @@ namespace Hymma.SolidTools.Addins
         private string _calloutLabel;
         private bool _enableSelectIdenticalComponents;
         private SysColor _selectionColor;
+        private short _height;
+        private IEnumerable<swSelectType_e> _filters;
+        private int _style;
+        private bool _allowMultipleSelectOfSameEntity;
+        private bool _singleItemOnly;
+        private int _currentSelection;
         #endregion
 
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="Filter">
-        /// <list type="table"><strong><listheader>FILTER ---- RESULTS</listheader></strong>
+        /// <param name="filters">
+        /// <list type="bullet"><strong><listheader>FILTER ---- RESULTS</listheader></strong>
         /// <item>swSelFACES,  swSelSOLIDBODIES<description> ----- Face<br/>If you want a body to appear in the selection box, then use swSelSOLIDBODIESFIRST.</description></item>
         /// <item>swSelFACES, swSelCOMPONENTS<description> ----- Component<br/>If you want a face to appear in the selection box, then use swSELCOMPSDONTOVERRIDE.</description></item>
         /// <item>swSelSOLIDBODIES, swSelCOMPONENTS<description> ----- Component<br/>If you want a body to appear in the selection box, then use swSelSOLIDBODIESFIRST.</description></item>
@@ -32,75 +40,66 @@ namespace Hymma.SolidTools.Addins
         /// swSelSURFACEBODIES and swSelSURFBODIESFIRST behave simliar to swSelSOLIDBODIES and swSelSOLIDBODIESFIRST. swSelEDGES and swSelVERTICES behave similar to swSelFACES. If the Filters is set to swSelNOTHING or swSelUNSUPPORTED, this the call to this method fails.
         /// </list>
         /// </param>
-        /// <param name="AllowMultipleSelectOfSameEntity">True if the same entity can be selected multiple times in this selection box, false if not</param>
+        /// <param name="allowMultipleSelectOfSameEntity">True if the same entity can be selected multiple times in this selection box, false if not</param>
         /// <param name="style">style of this selection box as defined by bitwise <see cref="SelectionBoxStyles"/></param>
         /// <param name="singleItemOnly">Gets or sets whether this selection box is for single or multiple items. </param>
-        /// <param name="Height">height of selectionbox in the pmp</param> 
-        public PmpSelectionBox(swSelectType_e[] Filter, SelectionBoxStyles style, bool AllowMultipleSelectOfSameEntity = true, bool singleItemOnly = false, short Height = 50) : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox)
+        /// <param name="height">height of selectionbox in the pmp</param> 
+        public PmpSelectionBox(IEnumerable<swSelectType_e> filters, int style = (int)SelectionBoxStyles.Default, bool allowMultipleSelectOfSameEntity = true, bool singleItemOnly = false, short height = 50) : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox)
         {
-            this.Height = Height;
-            this.Filter = Filter;
-            this.AllowMultipleSelectOfSameEntity = AllowMultipleSelectOfSameEntity;
+            _height = height;
+            _filters = filters;
+            _style = (int)style;
+            this.AllowMultipleSelectOfSameEntity = allowMultipleSelectOfSameEntity;
             this.SingleItemOnly = singleItemOnly;
-            this.Style = (int)style;
             OnRegister += PmpSelectionBox_OnRegister;
-            OnDisplay += PmpSelectionBox_OnDisplay;
         }
-        private void PmpSelectionBox_OnDisplay()
-        {
-            SolidworksObject.Height = Height;
-            SolidworksObject.SetSelectionFilters(Filter);
-            SolidworksObject.AllowMultipleSelectOfSameEntity = AllowMultipleSelectOfSameEntity;
-            SolidworksObject.SingleEntityOnly = SingleItemOnly;
-            SolidworksObject.Style = Style;
-            SolidworksObject.EnableSelectIdenticalComponents = EnableSelectIdenticalComponents;
-            SolidworksObject.SetSelectionColor(true, (int)_selectionColor);
-        }
+
         private void PmpSelectionBox_OnRegister()
         {
-            PmpSelectionBox_OnDisplay();
+            SolidworksObject.AllowMultipleSelectOfSameEntity = AllowMultipleSelectOfSameEntity;
+            SolidworksObject.SingleEntityOnly = SingleItemOnly;
+            SolidworksObject.Style = _style;
+            SolidworksObject.SetSelectionColor(true, (int)_selectionColor);
+            SolidworksObject.EnableSelectIdenticalComponents = EnableSelectIdenticalComponents;
+
+            SolidworksObject.Height = _height;
+            SolidworksObject.SetSelectionFilters(_filters.Cast<int>().ToArray());
             Mark = PmpConstants.GetNextMark();
         }
 
-        /// <summary>
-        /// style of this selection box as defined by bitwise <see cref="SelectionBoxStyles"/>
-        /// </summary>
-        /// <remarks>this property must be set before property manager page is displayed. As a result setting this property will update the <see cref="PmpSelectionBox"/> on the next session of displaying the property manager page</remarks>
-        public int Style { get; set; }
 
-        ///<summary>
-        /// array of <see cref="swSelectType_e"/> to allow selection of specific types only.You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed. 
-        /// </summary>
-        /// <remarks>
-        /// <list type="table"><strong><listheader>FILTER ---- RESULTS</listheader></strong>
-        /// <item>swSelFACES,  swSelSOLIDBODIES<description> ----- Face<br/>If you want a body to appear in the selection box, then use swSelSOLIDBODIESFIRST.</description></item>
-        /// <item>swSelFACES, swSelCOMPONENTS<description> ----- Component<br/>If you want a face to appear in the selection box, then use swSELCOMPSDONTOVERRIDE.</description></item>
-        /// <item>swSelSOLIDBODIES, swSelCOMPONENTS<description> ----- Component<br/>If you want a body to appear in the selection box, then use swSelSOLIDBODIESFIRST.</description></item>
-        /// <item>swSelFACES, swSelSOLIDBODIES, swSelCOMPONENTS<description> ----- Component<br/>If you want a face to appear in the selection box, then use swSelCOMPSDONTOVERRIDE.<br/>If you want a body to appear in the selection box, then use swSelSOLIDBODIESFIRST.</description></item>
-        /// </list>
-        /// swSelSURFACEBODIES and swSelSURFBODIESFIRST behave simliar to swSelSOLIDBODIES and swSelSOLIDBODIESFIRST. swSelEDGES and swSelVERTICES behave similar to swSelFACES. If the Filters is set to swSelNOTHING or swSelUNSUPPORTED, this the call to this method fails.
-        /// </remarks>
-        public swSelectType_e[] Filter { get; set; }
-
-        /// <summary>
-        /// height of this selection box in proerty manager page
-        /// </summary>
-        /// <remarks>You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed</remarks>
-        public short Height { get; set; }
 
         /// <summary>
         /// Gets or sets whether the same entity can be selected multiple times in this selection box
         /// </summary>
         /// <value>True if the same entity can be selected multiple times in this selection box, false if not</value>
         /// <remarks>You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed</remarks>
-        public bool AllowMultipleSelectOfSameEntity { get; set; }
+        public bool AllowMultipleSelectOfSameEntity
+        {
+            get => _allowMultipleSelectOfSameEntity;
+
+            set
+            {
+                _allowMultipleSelectOfSameEntity = value;
+                if (SolidworksObject != null)
+                    SolidworksObject.AllowMultipleSelectOfSameEntity = value;
+            }
+        }
 
         /// <summary>
         ///  Gets or sets whether this selection box is for single or multiple items. 
         /// </summary>
         /// <remarks>You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed</remarks>
-
-        public bool SingleItemOnly { get; set; }
+        public bool SingleItemOnly
+        {
+            get => _singleItemOnly;
+            set
+            {
+                _singleItemOnly = value;
+                if (SolidworksObject != null)
+                    SolidworksObject.SingleEntityOnly = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets whether an entity can be selected in this selection box if the entity is selected elsewhere. 
@@ -127,10 +126,7 @@ namespace Hymma.SolidTools.Addins
         /// <remarks>you should use this property in the context of a part or assembly or drawing environment i.e you cannot use it when solidworks starts</remarks>
         public CalloutModel CalloutModel
         {
-            get
-            {
-                return _callout;
-            }
+            get => _callout;
             set
             {
                 CalloutLabel = string.IsNullOrWhiteSpace(_calloutLabel) ? "Default" : _calloutLabel;
@@ -152,13 +148,14 @@ namespace Hymma.SolidTools.Addins
         /// Gets or sets the index number of the currently selected item in this selection box. 
         /// </summary>
         /// <remarks>The return value Item is the item in the selection box that is selected. Only the active selection box can have a current selection. If you use this property with an inactive selection box, -1 is returned.<see cref="IsActive"/>  to determine if a selection box is active or not.</remarks>
-        public int? CurrentSelection
+        public int CurrentSelection
         {
-            get => SolidworksObject?.CurrentSelection;
+            get => _currentSelection;
             set
             {
+                _currentSelection = value;
                 if (SolidworksObject != null)
-                    SolidworksObject.CurrentSelection = value.GetValueOrDefault(0);
+                    SolidworksObject.CurrentSelection = value;
             }
         }
 
@@ -185,7 +182,15 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Gets the number of items currently in this selection box. 
         /// </summary>
-        public int? ItemCount => SolidworksObject?.ItemCount;
+        public int ItemCount
+        {
+            get
+            {
+                if (SolidworksObject != null)
+                    return SolidworksObject.ItemCount;
+                return 0;
+            }
+        }
 
         /// <summary>
         /// Gets the text of the specified item in this selection box. 
@@ -313,7 +318,7 @@ namespace Hymma.SolidTools.Addins
         /// <returns>Selected object as defined in <see cref="swSelectType_e"/> Nothing or null might be returned if the type is not supported or if nothing is selected</returns>
         public object GetItem(uint index, out swSelectType_e type, int mark = -1)
         {
-            if (ActiveDoc == null || SolidworksObject == null) 
+            if (ActiveDoc == null || SolidworksObject == null)
                 throw new ArgumentNullException("A Call to Selection manager::GetItem failed becuase ActiveDoc or Selection manager was null");
             if (index > ItemCount - 1)
                 throw new ArgumentOutOfRangeException("the index provided to selection manager::GetItem was more than items in the selection box");
@@ -327,6 +332,7 @@ namespace Hymma.SolidTools.Addins
         }
 
         #region event handlers
+        
         /// <summary>
         /// SOLIDWORKS will invoke this once focus is changed from this selection box
         /// </summary>
@@ -375,8 +381,31 @@ namespace Hymma.SolidTools.Addins
         ///The add-in should not be taking any action that might affect the model or the selection list.The add-in should only be querying information and then returning true/VARIANT_TRUE or false/VARIANT_FALSE.
         /// </para>
         /// </remarks>
-        /// <value><see cref="OnSubmitSelection_Handler"/></value>
-        public OnSubmitSelection_Handler OnSubmitSelection { get; set; }
+        public event OnSubmitSelection_Handler<SubmitSelection_EventArgs> OnSubmitSelection;
+
+        internal bool SubmitSelection(object selection, int selectType, string tag)
+        {
+
+            //since this must return true for selection to happen
+            //if user didnt set it up we return true to make sure 
+            //addin works as expected
+            if (OnSubmitSelection == null)
+                return true;
+
+            //otherwise return whatever user has set up for it
+            return OnSubmitSelection.Invoke(this, new SubmitSelection_EventArgs(selection, selectType, tag));
+        }
+
+
+        /// <summary>
+        /// fired just a moment before the property manager page and its controls are displayed
+        /// </summary>
+        public new event EventHandler<SelectionBox_OnDisplay_EventArgs> OnDisplay;
+        
+        internal override void Display()
+        {
+            OnDisplay?.Invoke(this, new SelectionBox_OnDisplay_EventArgs(this, ActiveDoc, _filters, _height,_style));
+        }
         #endregion
     }
 
@@ -387,6 +416,10 @@ namespace Hymma.SolidTools.Addins
     [Flags]
     public enum SelectionBoxStyles
     {
+        /// <summary>
+        /// default selection box taht matches most soldiworks commands (recommended so your users dont feel alienated)
+        /// </summary>
+        Default = 0,
         /// <summary>
         /// Specifies that the selection box has a scroll bar so that interactive users can scroll through the list of items
         /// </summary>
@@ -408,11 +441,5 @@ namespace Hymma.SolidTools.Addins
         WantListboxSelectionChanged = 8
     }
 
-    /// <summary>
-    /// <param name="selection">Object being selected</param>
-    /// <param name="selectType">Entity type of the selection as defined in<see cref="swSelectType_e"/> </param>
-    /// <param name="tag">ItemText is returned to SOLIDWORKS and stored on the selected object and can be used by your PropertyManager page selection list boxes for the life of that selection.</param>
-    /// </summary>
-    /// <returns></returns>
-    public delegate bool OnSubmitSelection_Handler(object selection, int selectType, string tag);
+
 }

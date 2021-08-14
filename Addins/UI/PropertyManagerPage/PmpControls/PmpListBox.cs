@@ -33,7 +33,7 @@ namespace Hymma.SolidTools.Addins
             OnDisplay += PmpListBox_OnDisplay;
         }
 
-        private void PmpListBox_OnDisplay()
+        private void PmpListBox_OnDisplay(object sender, OnDisplay_EventArgs e)
         {
             SolidworksObject.Style = Style;
             SolidworksObject.Height = Height;

@@ -79,9 +79,13 @@ namespace Butter
                     (int)swStartConditions_e.swStartSurface, 0, false);
             })
             #region Group 1
-                .AddGroup("Group Caption")
+                    //.AddGroup("Group Caption")
+                    //    .IsExpanded()
+                    //    .HasTheseControls(GetControlSet2())
+                    //.SaveGroup()
+                    .AddGroup("selectionbox 2")
                     .IsExpanded()
-                    .HasTheseControls(GetControlSet2())
+                    .HasTheseControls(GetControlSet3())
                 .SaveGroup()
             #endregion
 
@@ -91,6 +95,26 @@ namespace Butter
             #endregion
 
             return (AddinUserInterface)builder;
+        }
+
+        private IEnumerable<IPmpControl> GetControlSet3()
+        {
+            var controls = new List<IPmpControl>();
+            var selBox = new PmpSelectionBox(new[] { swSelectType_e.swSelSOLIDBODIES });
+            selBox.Caption = "caption";
+            selBox.Tip = "tip";
+            selBox.SelectionColor = SysColor.SelectedItem3;
+            selBox.Style = (int)SelectionBoxStyles.UpAndDownButtons;
+            selBox.OnDisplay += SelBox_OnDisplay;
+            
+            controls.Add(selBox);
+            return controls;
+        }
+
+        private void SelBox_OnDisplay(object sender, SelectionBox_OnDisplay_EventArgs e)
+        {
+            e.Height = 100;
+            e.Filters = new[] { swSelectType_e.swSelFACES };
         }
 
         public void ShowPMP()
@@ -108,9 +132,9 @@ namespace Butter
         private List<IPmpControl> GetControlSet2()
         {
             var controls = new List<IPmpControl>();
-           
+
             var listBox = new PmpListBox(new[] { "listbox_1" });
-            
+
             //listBox.Style = (int)ListBoxStyle.AllowMultiSelect | (int)ListBoxStyle.NoIntegralHeight;
             listBox.Caption = "caption for listbox";
 
@@ -120,10 +144,9 @@ namespace Butter
             var chkBx = new PmpCheckBox("checkbox");
 
             var radio = new PmpRadioButton("radio button", false);
-            
+
             var txtBox = new PmpTextBox("text box", true);
             txtBox.Style = (int)TexTBoxStyles.NoBorder;
-            
 
             txtBox.OnChange = (text) =>
             {
@@ -137,6 +160,8 @@ namespace Butter
                     //txtBox.Style = (int)TexTBoxStyles.ReadOnly;
                 }
             };
+
+
             controls.Add(radio);
             controls.Add(chkBx);
             controls.Add(txtBox);

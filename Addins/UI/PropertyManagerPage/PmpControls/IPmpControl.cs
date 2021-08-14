@@ -38,8 +38,7 @@ namespace Hymma.SolidTools.Addins
         /// Left alignment of this control as defined in <see cref="swPropertyManagerPageControlLeftAlign_e"/>
         /// </summary>
         /// <remarks>this property will be used when the page is displayed or while it is closed <br/>
-        /// By default, the left edge of a control is either the left edge of its group box or indented a certain distance. this property overrides that default value</remarks>
-        public short LeftAlignment { get; set; } = (int)swPropertyManagerPageControlLeftAlign_e.swControlAlign_LeftEdge;
+        private short LeftAlignment { get; set; }
 
         /// <summary>
         /// bitwise options as defined in <see cref="swAddControlOptions_e"/>, default value coresponds to a visible and enabled control
@@ -63,9 +62,9 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// will be called just before this property manager page is displayed inside solidworks 
         /// </summary>
-        internal void Display()
+        internal virtual void Display()
         {
-            OnDisplay?.Invoke();
+            OnDisplay?.Invoke(this, new OnDisplay_EventArgs(ActiveDoc));
         }
 
         internal void GainedFocus()
@@ -86,12 +85,12 @@ namespace Hymma.SolidTools.Addins
         /// fired when this controller is registerd in a property manager page which is when the add-in is loaded. Either when solidworks starts or when user re-loads the addin
         /// </summary>
         /// <remarks>Almost all of registration tasks are handled by the framework <br/>Use <see cref="OnDisplay"/> to invoke methods right before property manager is displayed</remarks>
-        public event Action OnRegister;
+        internal event Action OnRegister;
 
         /// <summary>
         /// fired a moment before property manager page is displayed
         /// </summary>
-        public event Action OnDisplay;
+        public virtual event EventHandler<OnDisplay_EventArgs> OnDisplay;
 
         /// <summary>
         /// fired when user starts interacting with this control, such as start of typing in a text box
