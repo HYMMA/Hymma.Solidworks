@@ -83,10 +83,10 @@
     <Compile Include="UI\Callout\CalloutModel.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\Events\OnDisplay_EventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Enums\SelectionBoxStyles.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_EventHandlerWithoutEventArgs.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_EventHandlerWithEventArgs.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnDisplay_EventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_EventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_EventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnListChanged_EventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnSubmitSelectionEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnSubmitSelection_EventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpConstants.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButton.cs" />

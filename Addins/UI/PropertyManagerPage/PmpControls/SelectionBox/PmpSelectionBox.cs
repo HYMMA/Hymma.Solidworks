@@ -72,7 +72,6 @@ namespace Hymma.SolidTools.Addins
         {
             OnFocusChanged?.Invoke(this);
         }
-
         internal void CallOutCreated()
         {
             OnCallOutCreated?.Invoke(this);
@@ -84,7 +83,7 @@ namespace Hymma.SolidTools.Addins
 
         internal void ListChanged(int count)
         {
-            OnListChanged?.Invoke(this, new SelectionBox_OnListChanged_EventArgs() { ItemsCount = count });
+            OnListChanged?.Invoke(this, new SelectionBox_OnListChanged_EventArgs(count));
         }
 
         internal bool SubmitSelection(object selection, int selectType, string tag)
@@ -102,7 +101,7 @@ namespace Hymma.SolidTools.Addins
 
         internal override void Display()
         {
-            OnDisplay?.Invoke(this, new SelectionBox_OnDisplay_EventArgs(this, ActiveDoc, _filters, _style, _allowMultipleSelectOfSameEntity, _singleItemOnly, _height));
+            OnDisplay?.Invoke(this, new SelectionBox_EventArgs(this, ActiveDoc, _filters, _style, _allowMultipleSelectOfSameEntity, _singleItemOnly, _height));
         }
         #endregion
 
@@ -343,24 +342,24 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// SOLIDWORKS will invoke this once focus is changed from this selection box
         /// </summary>
-        public event SelectionBox_EventHandlerWithoutEventArgs OnFocusChanged;
+        public event SelectionBox_EventHandler OnFocusChanged;
 
         /// <summary>
         /// SOLIDWORKS will invoke this once a call-out is created for this selection box<br/>
         /// allows you to collect information such as the selection type from the last selection. Next, use the <see cref="CalloutModel"/> property to get the Callout object. <br/>
         /// Then, use that object's various properties to control the callout text and display characteristics based on that selection information.
         /// </summary>
-        public event SelectionBox_EventHandlerWithoutEventArgs OnCallOutCreated;
+        public event SelectionBox_EventHandler OnCallOutCreated;
 
         /// <summary>
         /// SOLIDWORKS will invoke this once a callout is destroyed
         /// </summary>
-        public event SelectionBox_EventHandlerWithoutEventArgs OnCallOutDestroyed;
+        public event SelectionBox_EventHandler OnCallOutDestroyed;
 
         /// <summary>
         /// Regardless of how many items the user selects, this event is called only once per interactive box selection. In other words, if the user selects six faces using a box selection, this method is called only once. <br/>
         /// </summary>
-        public event SelectionBox_EventHandlerWithEventArgs<SelectionBox_OnListChanged_EventArgs> OnListChanged;
+        public event SelectionBox_EventHandler<SelectionBox_OnListChanged_EventArgs> OnListChanged;
 
         /// <summary>
         /// Called when a selection is made, which allows the add-in to accept or reject the selection. <strong>it must return <c>true</c> for selections to occure</strong><br/>
@@ -387,12 +386,12 @@ namespace Hymma.SolidTools.Addins
         ///The add-in should not be taking any action that might affect the model or the selection list.The add-in should only be querying information and then returning true/VARIANT_TRUE or false/VARIANT_FALSE.
         /// </para>
         /// </remarks>
-        public event SelectionBox_EventHandlerWithEventArgs<SelectionBox_OnSubmitSelection_EventArgs> OnSubmitSelection;
+        public event SelectionBox_OnSubmitSelectionEventHandler OnSubmitSelection;
 
         /// <summary>
         /// fired just a moment before the property manager page and its controls are displayed
         /// </summary>
-        public new event SelectionBox_EventHandlerWithEventArgs<SelectionBox_OnDisplay_EventArgs> OnDisplay;
+        public new event SelectionBox_EventHandler<SelectionBox_EventArgs> OnDisplay;
         #endregion
     }
 }

@@ -22,12 +22,12 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// a caption or title for this controller
         /// </summary>
-        public string Caption { get; set; }
+        public string Caption { get; internal set; }
 
         /// <summary>
         /// tip for this controller
         /// </summary>
-        public string Tip { get; set; }
+        public string Tip { get; internal set; }
 
         /// <summary>
         /// id of this controller which gets used in command box
@@ -43,7 +43,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// bitwise options as defined in <see cref="swAddControlOptions_e"/>, default value coresponds to a visible and enabled control
         /// </summary>
-        public int Options { get; set; } = (int)swAddControlOptions_e.swControlOptions_Enabled | (int)swAddControlOptions_e.swControlOptions_Visible;
+        private int Options { get; set; } = (int)swAddControlOptions_e.swControlOptions_Enabled | (int)swAddControlOptions_e.swControlOptions_Visible;
 
         /// <summary>
         /// Add this control to a group in a property manager page 

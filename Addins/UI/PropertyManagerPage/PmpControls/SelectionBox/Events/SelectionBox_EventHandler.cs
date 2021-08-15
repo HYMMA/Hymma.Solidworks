@@ -10,5 +10,13 @@ namespace Hymma.SolidTools.Addins
     /// <param name="eventArgs">event arguments provided to you by SOLIDWORKS when this event happens</param>
     /// <returns></returns>
     [ComVisible(true)]
-    public delegate bool SelectionBox_EventHandlerWithEventArgs<EventArgs>(PmpSelectionBox sender, EventArgs eventArgs);
+    public delegate void SelectionBox_EventHandler<EventArgs>(PmpSelectionBox sender, EventArgs eventArgs);
+
+    /// <summary>
+    /// handles events for a <see cref="PmpSelectionBox"/> event that does not have any event argument
+    /// </summary>
+    /// <param name="sender">is the selection box that fired the event</param>
+    [ComVisible(true)]
+    public delegate void SelectionBox_EventHandler(PmpSelectionBox sender);
+
 }

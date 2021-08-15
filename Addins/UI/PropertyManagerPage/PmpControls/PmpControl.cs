@@ -1,6 +1,5 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
-using System;
 using System.Drawing;
 
 namespace Hymma.SolidTools.Addins
@@ -28,9 +27,13 @@ namespace Hymma.SolidTools.Addins
         /// default constructor
         /// </summary>
         /// <param name="type">type of this controller as per <see cref="swPropertyManagerPageControlType_e"/></param>
-        public PmpControl(swPropertyManagerPageControlType_e type)
+        /// <param name="caption">caption for this control</param>
+        /// <param name="tip">tip for this control</param>
+        public PmpControl(swPropertyManagerPageControlType_e type, string caption = "", string tip = "")
         {
             Type = type;
+            Caption = caption;
+            Tip = tip;
             OnRegister += PmpControl_OnRegister;
         }
 
@@ -175,7 +178,7 @@ namespace Hymma.SolidTools.Addins
 
         ///<inheritdoc/>
         public T SolidworksObject { get; set; }
-        
+
     }
 
     /// <summary>
