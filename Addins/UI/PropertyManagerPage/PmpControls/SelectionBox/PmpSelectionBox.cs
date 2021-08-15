@@ -4,7 +4,6 @@ using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -27,6 +26,8 @@ namespace Hymma.SolidTools.Addins
         private int _currentSelection;
         #endregion
 
+        #region constructor
+
         /// <summary>
         /// constructor
         /// </summary>
@@ -48,58 +49,64 @@ namespace Hymma.SolidTools.Addins
         {
             _height = height;
             _filters = filters;
-            _style = (int)style;
-            this.AllowMultipleSelectOfSameEntity = allowMultipleSelectOfSameEntity;
-            this.SingleItemOnly = singleItemOnly;
+            _style = style;
+            _allowMultipleSelectOfSameEntity = allowMultipleSelectOfSameEntity;
+            _singleItemOnly = singleItemOnly;
             OnRegister += PmpSelectionBox_OnRegister;
         }
+        #endregion
 
+        #region Call Backs
         private void PmpSelectionBox_OnRegister()
         {
-            SolidworksObject.AllowMultipleSelectOfSameEntity = AllowMultipleSelectOfSameEntity;
-            SolidworksObject.SingleEntityOnly = SingleItemOnly;
+            SolidworksObject.AllowMultipleSelectOfSameEntity = _allowMultipleSelectOfSameEntity;
+            SolidworksObject.SingleEntityOnly = _singleItemOnly;
             SolidworksObject.Style = _style;
             SolidworksObject.SetSelectionColor(true, (int)_selectionColor);
-            SolidworksObject.EnableSelectIdenticalComponents = EnableSelectIdenticalComponents;
-
+            SolidworksObject.EnableSelectIdenticalComponents = _enableSelectIdenticalComponents;
             SolidworksObject.Height = _height;
             SolidworksObject.SetSelectionFilters(_filters.Cast<int>().ToArray());
             Mark = PmpConstants.GetNextMark();
         }
-
-
-
-        /// <summary>
-        /// Gets or sets whether the same entity can be selected multiple times in this selection box
-        /// </summary>
-        /// <value>True if the same entity can be selected multiple times in this selection box, false if not</value>
-        /// <remarks>You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed</remarks>
-        public bool AllowMultipleSelectOfSameEntity
+        internal void FocusChanged()
         {
-            get => _allowMultipleSelectOfSameEntity;
-
-            set
-            {
-                _allowMultipleSelectOfSameEntity = value;
-                if (SolidworksObject != null)
-                    SolidworksObject.AllowMultipleSelectOfSameEntity = value;
-            }
+            OnFocusChanged?.Invoke(this);
         }
 
-        /// <summary>
-        ///  Gets or sets whether this selection box is for single or multiple items. 
-        /// </summary>
-        /// <remarks>You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed</remarks>
-        public bool SingleItemOnly
+        internal void CallOutCreated()
         {
-            get => _singleItemOnly;
-            set
-            {
-                _singleItemOnly = value;
-                if (SolidworksObject != null)
-                    SolidworksObject.SingleEntityOnly = value;
-            }
+            OnCallOutCreated?.Invoke(this);
         }
+        internal void CallOutDestroyed()
+        {
+            OnCallOutDestroyed?.Invoke(this);
+        }
+
+        internal void ListChanged(int count)
+        {
+            OnListChanged?.Invoke(this, new SelectionBox_OnListChanged_EventArgs() { ItemsCount = count });
+        }
+
+        internal bool SubmitSelection(object selection, int selectType, string tag)
+        {
+
+            //since this must return true for selection to happen
+            //if user didnt set it up we return true to make sure 
+            //addin works as expected
+            if (OnSubmitSelection == null)
+                return true;
+
+            //otherwise return whatever user has set up for it
+            return OnSubmitSelection.Invoke(this, new SelectionBox_OnSubmitSelection_EventArgs(selection, selectType, tag));
+        }
+
+        internal override void Display()
+        {
+            OnDisplay?.Invoke(this, new SelectionBox_OnDisplay_EventArgs(this, ActiveDoc, _filters, _style, _allowMultipleSelectOfSameEntity, _singleItemOnly, _height));
+        }
+        #endregion
+
+        #region public properties
 
         /// <summary>
         /// Gets or sets whether an entity can be selected in this selection box if the entity is selected elsewhere. 
@@ -147,7 +154,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Gets or sets the index number of the currently selected item in this selection box. 
         /// </summary>
-        /// <remarks>The return value Item is the item in the selection box that is selected. Only the active selection box can have a current selection. If you use this property with an inactive selection box, -1 is returned.<see cref="IsActive"/>  to determine if a selection box is active or not.</remarks>
+        /// <remarks>The return value Item is the item in the selection box that is selected. Only the active selection box can have a current selection. If you use this property with an inactive selection box, -1 is returned.<see cref="IsFocused"/>  to determine if a selection box is active or not.</remarks>
         public int CurrentSelection
         {
             get => _currentSelection;
@@ -163,7 +170,7 @@ namespace Hymma.SolidTools.Addins
         /// Gets whether this is the active selection box.  
         /// </summary>
         /// <value>True if the selection box is active, false if not</value>
-        public bool IsActive => SolidworksObject != null && SolidworksObject.GetSelectionFocus();
+        public bool IsFocused => SolidworksObject != null && SolidworksObject.GetSelectionFocus();
 
         /// <summary>
         /// Gets or sets whether to enable Select Identical Components in the context menu of this PropertyManager page selection box. 
@@ -330,31 +337,30 @@ namespace Hymma.SolidTools.Addins
             type = (swSelectType_e)selMgr.GetSelectedObjectType3((int)index, mark);
             return selMgr.GetSelectedObject6(selIndex, mark);
         }
+        #endregion
 
-        #region event handlers
-        
+        #region events
         /// <summary>
         /// SOLIDWORKS will invoke this once focus is changed from this selection box
         /// </summary>
-        public Action OnFocusChanged { get; set; }
-
-        /// <summary>
-        /// SOLIDWORKS will invoke this once list changes <br/>
-        /// requires an input variable as the qty of list items
-        /// </summary>
-        public Action<int> OnListChanged { get; set; }
+        public event SelectionBox_EventHandlerWithoutEventArgs OnFocusChanged;
 
         /// <summary>
         /// SOLIDWORKS will invoke this once a call-out is created for this selection box<br/>
         /// allows you to collect information such as the selection type from the last selection. Next, use the <see cref="CalloutModel"/> property to get the Callout object. <br/>
         /// Then, use that object's various properties to control the callout text and display characteristics based on that selection information.
         /// </summary>
-        public Action OnCallOutCreated { get; set; }
+        public event SelectionBox_EventHandlerWithoutEventArgs OnCallOutCreated;
 
         /// <summary>
         /// SOLIDWORKS will invoke this once a callout is destroyed
         /// </summary>
-        public Action OnCallOutDestroyed { get; set; }
+        public event SelectionBox_EventHandlerWithoutEventArgs OnCallOutDestroyed;
+
+        /// <summary>
+        /// Regardless of how many items the user selects, this event is called only once per interactive box selection. In other words, if the user selects six faces using a box selection, this method is called only once. <br/>
+        /// </summary>
+        public event SelectionBox_EventHandlerWithEventArgs<SelectionBox_OnListChanged_EventArgs> OnListChanged;
 
         /// <summary>
         /// Called when a selection is made, which allows the add-in to accept or reject the selection. <strong>it must return <c>true</c> for selections to occure</strong><br/>
@@ -381,65 +387,12 @@ namespace Hymma.SolidTools.Addins
         ///The add-in should not be taking any action that might affect the model or the selection list.The add-in should only be querying information and then returning true/VARIANT_TRUE or false/VARIANT_FALSE.
         /// </para>
         /// </remarks>
-        public event OnSubmitSelection_Handler<SubmitSelection_EventArgs> OnSubmitSelection;
-
-        internal bool SubmitSelection(object selection, int selectType, string tag)
-        {
-
-            //since this must return true for selection to happen
-            //if user didnt set it up we return true to make sure 
-            //addin works as expected
-            if (OnSubmitSelection == null)
-                return true;
-
-            //otherwise return whatever user has set up for it
-            return OnSubmitSelection.Invoke(this, new SubmitSelection_EventArgs(selection, selectType, tag));
-        }
-
+        public event SelectionBox_EventHandlerWithEventArgs<SelectionBox_OnSubmitSelection_EventArgs> OnSubmitSelection;
 
         /// <summary>
         /// fired just a moment before the property manager page and its controls are displayed
         /// </summary>
-        public new event EventHandler<SelectionBox_OnDisplay_EventArgs> OnDisplay;
-        
-        internal override void Display()
-        {
-            OnDisplay?.Invoke(this, new SelectionBox_OnDisplay_EventArgs(this, ActiveDoc, _filters, _height,_style));
-        }
+        public new event SelectionBox_EventHandlerWithEventArgs<SelectionBox_OnDisplay_EventArgs> OnDisplay;
         #endregion
     }
-
-
-    /// <summary>
-    /// styles for selection box in a property manager page
-    /// </summary>
-    [Flags]
-    public enum SelectionBoxStyles
-    {
-        /// <summary>
-        /// default selection box taht matches most soldiworks commands (recommended so your users dont feel alienated)
-        /// </summary>
-        Default = 0,
-        /// <summary>
-        /// Specifies that the selection box has a scroll bar so that interactive users can scroll through the list of items
-        /// </summary>
-        HScroll = 1,
-
-        /// <summary>
-        /// Specifies that you can select multiple items in the selection box
-        /// </summary>
-        MultipleItemSelect = 4,
-
-        /// <summary>
-        /// Specifies that selection listbox has up and down arrows so that interactive users can move items in the list up or down
-        /// </summary>
-        UpAndDownButtons = 2,
-
-        /// <summary>
-        /// Specifies that you want a notification sent when a user changes the selected item in a listbox or selection listbox
-        /// </summary>
-        WantListboxSelectionChanged = 8
-    }
-
-
 }

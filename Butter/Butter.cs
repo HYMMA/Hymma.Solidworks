@@ -104,17 +104,58 @@ namespace Butter
             selBox.Caption = "caption";
             selBox.Tip = "tip";
             selBox.SelectionColor = SysColor.SelectedItem3;
-            selBox.Style = (int)SelectionBoxStyles.UpAndDownButtons;
+            selBox.OnCallOutCreated += SelBox_OnCallOutCreated;
+            selBox.OnCallOutDestroyed += SelBox_OnCallOutDestroyed;
             selBox.OnDisplay += SelBox_OnDisplay;
-            
+            selBox.OnFocusChanged += SelBox_OnFocusChanged;
+            selBox.OnGainedFocus += SelBox_OnGainedFocus;
+            selBox.OnListChanged += SelBox_OnListChanged;
+            selBox.OnLostFocus += SelBox_OnLostFocus;
+            selBox.OnSubmitSelection += SelBox_OnSubmitSelection;
             controls.Add(selBox);
             return controls;
         }
 
-        private void SelBox_OnDisplay(object sender, SelectionBox_OnDisplay_EventArgs e)
+        private bool SelBox_OnDisplay(PmpSelectionBox sender, SelectionBox_OnDisplay_EventArgs eventArgs)
         {
-            e.Height = 100;
-            e.Filters = new[] { swSelectType_e.swSelFACES };
+            throw new NotImplementedException();
+        }
+
+        private bool SelBox_OnSubmitSelection(PmpSelectionBox sender, SelectionBox_OnSubmitSelection_EventArgs eventArgs)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SelBox_OnLostFocus()
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool SelBox_OnListChanged(PmpSelectionBox sender, SelectionBox_OnListChanged_EventArgs eventArgs)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SelBox_OnGainedFocus()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SelBox_OnFocusChanged(PmpSelectionBox sender)
+        {
+            throw new NotImplementedException();
+        }
+
+  
+
+        private void SelBox_OnCallOutDestroyed(PmpSelectionBox sender)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SelBox_OnCallOutCreated(PmpSelectionBox sender)
+        {
+            throw new NotImplementedException();
         }
 
         public void ShowPMP()

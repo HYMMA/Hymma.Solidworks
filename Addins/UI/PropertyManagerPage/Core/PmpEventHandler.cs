@@ -304,7 +304,7 @@ namespace Hymma.SolidTools.Addins
             //get selection box
             PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
 
-            selectionBox?.OnFocusChanged?.Invoke();
+            selectionBox?.FocusChanged();
         }
 
         /// <summary>
@@ -318,7 +318,7 @@ namespace Hymma.SolidTools.Addins
             PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
 
             //invoke delegate
-            selectionBox?.OnListChanged?.Invoke(Count);
+            selectionBox?.ListChanged(Count);
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace Hymma.SolidTools.Addins
             PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
 
             //invoke delegate
-            selectionBox?.OnCallOutCreated?.Invoke();
+            selectionBox?.CallOutCreated();
         }
 
         /// <summary>
@@ -344,7 +344,7 @@ namespace Hymma.SolidTools.Addins
             PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
 
             //invoke delegate
-            selectionBox?.OnCallOutDestroyed?.Invoke();
+            selectionBox?.CallOutDestroyed();
         }
 
         /// <summary>
