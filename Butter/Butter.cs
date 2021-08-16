@@ -100,10 +100,12 @@ namespace Butter
         private IEnumerable<IPmpControl> GetControlSet3()
         {
             var controls = new List<IPmpControl>();
-            var selBox = new PmpSelectionBox(new[] { swSelectType_e.swSelSOLIDBODIES });
-            selBox.Caption = "caption";
-            selBox.Tip = "tip";
-            selBox.SelectionColor = SysColor.SelectedItem3;
+            var selBox = new PmpSelectionBox(new[] { swSelectType_e.swSelSOLIDBODIES }, 0, true, false, 50, "caption", "tip for selection box")
+            {
+                SelectionColor = SysColor.SelectedItem3,
+                Top = 100
+            };
+
             //   selBox.OnCallOutCreated += SelBox_OnCallOutCreated;
             //   selBox.OnCallOutDestroyed += SelBox_OnCallOutDestroyed;
             selBox.OnDisplay += SelBox_OnDisplay;
@@ -112,8 +114,27 @@ namespace Butter
             selBox.OnListChanged += SelBox_OnListChanged;
             //selBox.OnLostFocus += SelBox_OnLostFocus;
             //selBox.OnSubmitSelection += SelBox_OnSubmitSelection;
+
+            var checkbox = new PmpCheckBox("caption", false, true)
+            {
+                Top = 0
+            };
+
+            checkbox.OnChecked += (sender, e) =>
+            {
+                if (e)
+                {
+                    selBox.Top = 80;
+                }
+            };
             controls.Add(selBox);
+            controls.Add(checkbox);
             return controls;
+        }
+
+        private void Checkbox_OnChecked(PmpCheckBox pmpCheckBox, bool isChecked)
+        {
+
         }
 
         private void SelBox_OnDisplay(PmpSelectionBox sender, SelectionBox_EventArgs eventArgs)
@@ -122,7 +143,7 @@ namespace Butter
 
         private void SelBox_OnListChanged(PmpSelectionBox sender, SelectionBox_OnListChanged_EventArgs eventArgs)
         {
-            sender.Tip = $"items qty = {sender.ItemCount}";
+
         }
 
         public void ShowPMP()
@@ -135,53 +156,6 @@ namespace Butter
             if (Solidworks.ActiveDoc != null)
                 return 1;
             return 0;
-        }
-
-        private List<IPmpControl> GetControlSet2()
-        {
-            var controls = new List<IPmpControl>();
-
-            var listBox = new PmpListBox(new[] { "listbox_1" });
-
-            //listBox.Style = (int)ListBoxStyle.AllowMultiSelect | (int)ListBoxStyle.NoIntegralHeight;
-            listBox.Caption = "caption for listbox";
-
-            var wpfControl = new UserControl1();
-            var pmpWpfControl = new PmpWindowHandler(new System.Windows.Forms.Integration.ElementHost(), wpfControl, 15);
-
-            var chkBx = new PmpCheckBox("checkbox");
-            chkBx.OnChecked += ChkBx_OnChecked;
-
-            var radio = new PmpRadioButton("radio button", false);
-
-            var txtBox = new PmpTextBox("text box", true);
-            txtBox.Style = (int)TexTBoxStyles.NoBorder;
-
-            txtBox.OnChange = (text) =>
-            {
-                if (text.StartsWith("t"))
-                {
-                    txtBox.BackGroundColor = Color.Aqua;
-                    txtBox.TextColor = Color.IndianRed;
-                    chkBx.IsChecked = false;
-                    listBox.ShowBubleTooltip("bubble tooltip", "message of the bubble tooltip for list box", Properties.Resources.butter, "listBox_bubbleTooltip%");
-                    listBox.Caption = "second capiton for listbox";
-                    //txtBox.Style = (int)TexTBoxStyles.ReadOnly;
-                }
-            };
-
-
-            controls.Add(radio);
-            controls.Add(chkBx);
-            controls.Add(txtBox);
-            controls.Add(pmpWpfControl);
-            controls.Add(listBox);
-            return controls;
-        }
-
-        private void ChkBx_OnChecked(PmpCheckBox pmpCheckBox, bool isChecked)
-        {
-            Solidworks.SendMsgToUser($"you changed the check box state to {isChecked}");
         }
     }
 }

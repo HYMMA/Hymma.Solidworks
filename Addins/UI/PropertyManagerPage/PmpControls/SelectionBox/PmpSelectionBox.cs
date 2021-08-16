@@ -46,8 +46,8 @@ namespace Hymma.SolidTools.Addins
         /// <param name="singleItemOnly">Gets or sets whether this selection box is for single or multiple items. </param>
         /// <param name="height">height of selectionbox in the pmp</param> 
         /// <param name="tip">tip for the selectionbox</param>
-        public PmpSelectionBox(IEnumerable<swSelectType_e> filters, int style = (int)SelectionBoxStyles.Default, bool allowMultipleSelectOfSameEntity = true, bool singleItemOnly = false, short height = 50,string tip="")
-            : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox,"",tip)
+        public PmpSelectionBox(IEnumerable<swSelectType_e> filters, int style = (int)SelectionBoxStyles.Default, bool allowMultipleSelectOfSameEntity = true, bool singleItemOnly = false, short height = 50,string caption="",string tip="")
+            : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox,caption,tip)
         {
             _height = height;
             _filters = filters;
@@ -103,7 +103,7 @@ namespace Hymma.SolidTools.Addins
 
         internal override void Display()
         {
-            OnDisplay?.Invoke(this, new SelectionBox_EventArgs(this, ActiveDoc, _filters, _style, _allowMultipleSelectOfSameEntity, _singleItemOnly, _height));
+            OnDisplay?.Invoke(this, new SelectionBox_EventArgs(this, _filters, _style, _allowMultipleSelectOfSameEntity, _singleItemOnly, _height));
         }
         #endregion
 

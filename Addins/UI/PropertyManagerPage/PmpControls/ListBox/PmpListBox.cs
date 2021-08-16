@@ -10,21 +10,28 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpListBox : PmpTextBase<PropertyManagerPageListbox>
     {
+        #region private fields
+
         private readonly string[] _items;
         private short _height;
         private int _style;
+        #endregion
+
+        #region constructor
 
         /// <summary>
         /// make a list box in a property manager page
         /// </summary>
         /// <param name="items">items to add to this list box</param>
+        /// <param name="caption">caption for this list box</param>
+        /// <param name="tip">tooltip text for this list box</param>
         /// <param name="height">        
         /// 0 	Default height with no scrolling<br/>
         /// &lt; 30 	Specified height and no scrolling<br/>
         ///&gt;30  	    Specified height and scrolling, but no auto sizing<br/>
         ///</param>
         /// <param name="style">style of this list box as defined in bitwise <see cref="ListboxStyles"/></param>
-        public PmpListBox(string[] items, short height = 0, ListboxStyles style = ListboxStyles.SortAlphabetically) : base(swPropertyManagerPageControlType_e.swControlType_Listbox)
+        public PmpListBox(string[] items,string caption, string tip, short height = 0, ListboxStyles style = ListboxStyles.SortAlphabetically) : base(swPropertyManagerPageControlType_e.swControlType_Listbox,caption,tip)
         {
             _items = items;
             _height = height==0 ? (short)(5+items.Length*15) : height;
@@ -32,12 +39,14 @@ namespace Hymma.SolidTools.Addins
             OnRegister += PmpListBox_OnRegister;
             OnDisplay += PmpListBox_OnDisplay;
         }
+        #endregion
+
         #region Call backs
 
         private void PmpListBox_OnDisplay(object sender, OnDisplay_EventArgs e)
         {
             SolidworksObject.Style = Style;
-            SolidworksObject.Height = Height;
+            SolidworksObject.Height = _height;
         }
 
         private void PmpListBox_OnRegister()
@@ -54,7 +63,15 @@ namespace Hymma.SolidTools.Addins
         {
             OnSelectionChange?.Invoke(this, count);
         }
+
+        internal override void Display()
+        {
+            OnDisplay?.Invoke(this, new Listbox_OnDisplay_EventArgs(this, _height));
+        }
         #endregion
+
+        #region public methods
+
 
         /// <summary>
         /// Adds items to the attached drop-down list for this list box.
@@ -120,6 +137,10 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <value>Index number of the item in the 0-based list</value>
         /// <remarks>If you use this property with a list box enabled for multiple selections, then this method returns -1 and does not affect the list box.</remarks>
+        #endregion
+        
+        #region public properties
+
         public short? CurrentSelection
         {
             get => SolidworksObject?.CurrentSelection;
@@ -127,26 +148,6 @@ namespace Hymma.SolidTools.Addins
             {
                 if (SolidworksObject != null)
                     SolidworksObject.CurrentSelection = value.GetValueOrDefault();
-            }
-        }
-
-        /// <summary>
-        /// gets and sets the attached drop down list in this list box
-        /// </summary>
-        /// <value>
-        /// 0 	Default height with no scrolling<br/>
-        ///1 &lt; 30 	Specified height and no scrolling<br/>
-        ///&gt;30  	    Specified height and scrolling, but no auto sizing<br/>
-        ///</value>
-        ///<remarks>The height is in dialog-box units. You can convert these values to screen units (pixels) by using the Windows MapDialogRect function.</remarks>
-        public short Height
-        {
-            get => _height;
-            set
-            {
-                _height = value;
-                if (SolidworksObject != null)
-                    SolidworksObject.Height = value;
             }
         }
 
@@ -170,19 +171,25 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public int? ItemCount => SolidworksObject?.ItemCount;
         
+        #endregion
+
         #region events
         /// <summary>
         /// Called when the right-mouse button is released in a list box on this PropertyManager page.<br/>
         /// <see cref="Point"/> is the coordinate of the right-mouse button menu
         /// </summary>
-        public event Listbox_EventHandler<Point> OnRightMouseBtnUp;
+        public event Listbox_EventHandler_OnRMB OnRightMouseBtnUp;
 
         /// <summary>
         /// Called when a user changes the selected item in a list box or selection list box on this PropertyManager page. <br/>
         /// solidowrks will pass in the id of item
         /// </summary>
-        public event Listbox_EventHandler<int> OnSelectionChange;
+        public event Listbox_EventHandler_SelectionChanged OnSelectionChange;
 
+        /// <summary>
+        /// will be fired a moment before this Lisbox is displayed in a property manager page. 
+        /// </summary>
+        public new event Listbox_EventHandler_Display OnDisplay;
         #endregion
     }
 }

@@ -16,13 +16,13 @@ namespace Hymma.SolidTools.Addins
         /// default ocnstructor
         /// </summary>
         /// <param name="pmpSelectionBox"></param>
-        /// <param name="activeDocument"></param>
         /// <param name="filters"></param>
         /// <param name="style"></param>
         /// <param name="allowMultipleSelectOfSameEntity"></param>
         /// <param name="singleItemOnly"></param>
         /// <param name="height"></param>
-        internal SelectionBox_EventArgs(PmpSelectionBox pmpSelectionBox, ModelDoc2 activeDocument, IEnumerable<swSelectType_e> filters, int style, bool allowMultipleSelectOfSameEntity, bool singleItemOnly, short height) : base(activeDocument)
+        internal SelectionBox_EventArgs(PmpSelectionBox pmpSelectionBox, IEnumerable<swSelectType_e> filters, int style, bool allowMultipleSelectOfSameEntity, bool singleItemOnly, short height) 
+            : base((IPropertyManagerPageControl )pmpSelectionBox.SolidworksObject)
         {
             SolidworksObject = pmpSelectionBox.SolidworksObject;
             _filters = filters;

@@ -14,7 +14,7 @@ namespace Hymma.SolidTools.Addins
         /// default constructor
         /// </summary>
         /// <param name="type"></param>
-        public PmpTextBase(swPropertyManagerPageControlType_e type) : base(type)
+        public PmpTextBase(swPropertyManagerPageControlType_e type,string caption="", string tip="") : base(type,caption,tip)
         {
 
         }

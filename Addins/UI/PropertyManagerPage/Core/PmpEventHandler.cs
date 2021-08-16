@@ -291,7 +291,7 @@ namespace Hymma.SolidTools.Addins
         public void OnListboxSelectionChanged(int Id, int Item)
         {
             PmpListBox pmpList = UiModel.GetControl(Id) as PmpListBox;
-            pmpList?.OnSelectionChange?.Invoke(Id);
+            pmpList?.SelectionChange(Item);
         }
 
         /// <summary>
@@ -447,7 +447,7 @@ namespace Hymma.SolidTools.Addins
         public void OnListboxRMBUp(int Id, int PosX, int PosY)
         {
             var listbox = UiModel.GetControl(Id) as PmpListBox;
-            listbox?.OnRightMouseBtnUp?.Invoke(new Mathematics.Point(PosX, PosY, 0));
+            listbox?.RightMouseBtnUp(new Mathematics.Point(PosX, PosY, 0));
         }
 
         public void OnNumberBoxTrackingCompleted(int Id, double Value)
