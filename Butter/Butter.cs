@@ -150,6 +150,7 @@ namespace Butter
             var pmpWpfControl = new PmpWindowHandler(new System.Windows.Forms.Integration.ElementHost(), wpfControl, 15);
 
             var chkBx = new PmpCheckBox("checkbox");
+            chkBx.OnChecked += ChkBx_OnChecked;
 
             var radio = new PmpRadioButton("radio button", false);
 
@@ -176,6 +177,11 @@ namespace Butter
             controls.Add(pmpWpfControl);
             controls.Add(listBox);
             return controls;
+        }
+
+        private void ChkBx_OnChecked(PmpCheckBox pmpCheckBox, bool isChecked)
+        {
+            Solidworks.SendMsgToUser($"you changed the check box state to {isChecked}");
         }
     }
 }

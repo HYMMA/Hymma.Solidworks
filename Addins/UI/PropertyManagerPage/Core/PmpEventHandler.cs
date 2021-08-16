@@ -176,10 +176,9 @@ namespace Hymma.SolidTools.Addins
             //get the check box with id from UiModel
             if (!(UiModel.GetControl(Id) is PmpCheckBox checkBox))
                 return;
-            checkBox.checkedByUser = Checked;
 
             //call on checked delegate on the check box
-            checkBox?.OnChecked?.Invoke(Checked);
+            checkBox?.Checked(Checked);
         }
 
         /// <summary>

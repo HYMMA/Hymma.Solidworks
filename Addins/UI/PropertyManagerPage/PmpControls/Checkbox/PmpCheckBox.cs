@@ -9,20 +9,25 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpCheckBox : PmpControl<PropertyManagerPageCheckbox>
     {
-        internal bool checkedByUser;
+        private bool _ischecked;
+        private bool _wantConsistantUserExperience;
 
         /// <summary>
         /// default constructor
         /// </summary>
         /// <param name="isChecked">initial state</param>
         /// <param name="caption">caption for this check box</param>
-        public PmpCheckBox(string caption, bool isChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Checkbox)
+        /// <param name="wantConsistantUserExperience">if set to true checkbox state will update automatically to reflect that of previous time the property manager page was used</param>
+        public PmpCheckBox(string caption, bool isChecked = false, bool wantConsistantUserExperience=true) : base(swPropertyManagerPageControlType_e.swControlType_Checkbox)
         {
-            checkedByUser = isChecked;
+            _wantConsistantUserExperience = wantConsistantUserExperience;
+            _ischecked = isChecked;
             Caption = caption;
             OnRegister += PmpCheckBox_OnRegister;
             OnDisplay += PmpCheckBox_OnDisplay;
         }
+
+        #region call backs
 
         //whenever propety manager page is shown the checkbox state should reflect
         //the previous setup. previous setup is the last time property manager page was shown
@@ -37,15 +42,24 @@ namespace Hymma.SolidTools.Addins
             SolidworksObject.Checked = IsChecked;
         }
 
+        internal void Checked(bool status)
+        {
+            if (_wantConsistantUserExperience)
+                _ischecked = status;
+            OnChecked?.Invoke(this, status);
+        }
+
+        #endregion
+
         /// <summary>
         /// status of this checkbox
         /// </summary>
         public bool IsChecked
         {
-            get => checkedByUser;
+            get => _ischecked;
             set
             {
-                checkedByUser = value;
+                _ischecked = value;
                 if (SolidworksObject != null)
                     SolidworksObject.Checked = value;
             }
@@ -54,6 +68,6 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// SOLIDWORKS will call this once the checkbox is clicked on
         /// </summary>
-        public Action<bool> OnChecked { get; set; }
+        public event CheckBox_EventHandler OnChecked;
     }
 }

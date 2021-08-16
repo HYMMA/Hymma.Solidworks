@@ -23,8 +23,8 @@ namespace Hymma.SolidTools.Addins
         /// &lt; 30 	Specified height and no scrolling<br/>
         ///&gt;30  	    Specified height and scrolling, but no auto sizing<br/>
         ///</param>
-        /// <param name="style">style of this list box as defined in bitwise <see cref="ListBoxStyle"/></param>
-        public PmpListBox(string[] items, short height = 0, ListBoxStyle style = ListBoxStyle.SortAlphabetically) : base(swPropertyManagerPageControlType_e.swControlType_Listbox)
+        /// <param name="style">style of this list box as defined in bitwise <see cref="ListboxStyles"/></param>
+        public PmpListBox(string[] items, short height = 0, ListboxStyles style = ListboxStyles.SortAlphabetically) : base(swPropertyManagerPageControlType_e.swControlType_Listbox)
         {
             _items = items;
             _height = height==0 ? (short)(5+items.Length*15) : height;
@@ -32,6 +32,7 @@ namespace Hymma.SolidTools.Addins
             OnRegister += PmpListBox_OnRegister;
             OnDisplay += PmpListBox_OnDisplay;
         }
+        #region Call backs
 
         private void PmpListBox_OnDisplay(object sender, OnDisplay_EventArgs e)
         {
@@ -43,6 +44,17 @@ namespace Hymma.SolidTools.Addins
         {
             AddItems(_items);
         }
+
+        internal void RightMouseBtnUp(Point point)
+        {
+            OnRightMouseBtnUp?.Invoke(this, point);
+        }
+
+        internal void SelectionChange(int count)
+        {
+            OnSelectionChange?.Invoke(this, count);
+        }
+        #endregion
 
         /// <summary>
         /// Adds items to the attached drop-down list for this list box.
@@ -139,7 +151,7 @@ namespace Hymma.SolidTools.Addins
         }
 
         /// <summary>
-        /// get or set style as defined in <see cref="ListBoxStyle"/>
+        /// get or set style as defined in <see cref="ListboxStyles"/>
         /// </summary>
         /// <remarks>By default, only one list item can be selected at a time. When another list item is selected, that item becomes the active item and the previously selected item is cleared. </remarks>
         public int Style
@@ -157,39 +169,20 @@ namespace Hymma.SolidTools.Addins
         /// Gets the number of items in the attached drop-down list for this list box. 
         /// </summary>
         public int? ItemCount => SolidworksObject?.ItemCount;
-
+        
+        #region events
         /// <summary>
         /// Called when the right-mouse button is released in a list box on this PropertyManager page.<br/>
         /// <see cref="Point"/> is the coordinate of the right-mouse button menu
         /// </summary>
-        public Action<Point> OnRightMouseBtnUp { get; set; }
+        public event Listbox_EventHandler<Point> OnRightMouseBtnUp;
 
         /// <summary>
         /// Called when a user changes the selected item in a list box or selection list box on this PropertyManager page. <br/>
         /// solidowrks will pass in the id of item
         /// </summary>
-        public Action<int> OnSelectionChange { get; set; }
-    }
+        public event Listbox_EventHandler<int> OnSelectionChange;
 
-    /// <summary>
-    /// PropertyManager page list box styles. Bitmask. 
-    /// </summary>
-    [Flags]
-    public enum ListBoxStyle
-    {
-        /// <summary>
-        /// allow multiple selection in the list box
-        /// </summary>
-        AllowMultiSelect = 4,
-
-        /// <summary>
-        /// no integral height
-        /// </summary>
-        NoIntegralHeight = 2,
-
-        /// <summary>
-        /// Sort the list in alphabetically
-        /// </summary>
-        SortAlphabetically = 1
+        #endregion
     }
 }
