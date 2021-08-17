@@ -2,6 +2,7 @@
 using SolidWorks.Interop.swconst;
 using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -31,10 +32,8 @@ namespace Hymma.SolidTools.Addins
         /// <param name="caption">caption for this control</param>
         /// <param name="tip">tip for this control</param>
         public PmpControl(swPropertyManagerPageControlType_e type, string caption = "", string tip = "")
+            : base(type, caption, tip)
         {
-            Type = type;
-            Caption = caption;
-            Tip = tip;
             OnRegister += PmpControl_OnRegister;
         }
         #endregion
@@ -55,17 +54,17 @@ namespace Hymma.SolidTools.Addins
         ///<inheritdoc/>
         internal override void Display()
         {
-            OnDisplay?.Invoke(this,new OnDisplay_EventArgs(_control));
+            OnDisplay?.Invoke(this, new OnDisplay_EventArgs(_control));
         }
 
         internal override void GainedFocus()
         {
-            OnGainedFocus?.Invoke(this,EventArgs.Empty);
+            OnGainedFocus?.Invoke(this, EventArgs.Empty);
         }
 
         internal override void LostFocus()
         {
-            OnLostFocus?.Invoke(this,EventArgs.Empty);
+            OnLostFocus?.Invoke(this, EventArgs.Empty);
         }
         #endregion
 
@@ -133,7 +132,7 @@ namespace Hymma.SolidTools.Addins
         public T SolidworksObject { get; internal set; }
 
         #endregion
-        
+
         #region methods
 
         /// <summary>
@@ -166,7 +165,7 @@ namespace Hymma.SolidTools.Addins
             _control.ShowBubbleTooltip(title, message, image);
         }
         #endregion
-     
+
         #region events
 
         /// <summary>
@@ -174,6 +173,7 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="sender">the </param>
         /// <param name="eventArgs"></param>
+        [ComVisible(true)]
         public delegate void Pmpcontrol_EventHandler_OnDisplay(IPmpControl sender, OnDisplay_EventArgs eventArgs);
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace Hymma.SolidTools.Addins
         /// fires when user browses away from this control
         /// </summary>
         public event EventHandler OnLostFocus;
-        
+
         #endregion
     }
 }

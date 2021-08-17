@@ -9,17 +9,24 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public abstract class IPmpControl
     {
+        internal IPmpControl(swPropertyManagerPageControlType_e type, string caption, string tip)
+        {
+            Id = (short)PmpConstants.GetNextId();
+            Type = type;
+            Caption = caption;
+            Tip = tip;
+        }
 
         /// <summary>
         /// a caption or title for this controller
         /// </summary>
-        public string Caption { get; internal set; }
+        public string Caption { get; }
 
         /// <summary>
         /// tip for this controller
         /// </summary>
-        public string Tip { get; internal set; }
-        
+        public string Tip { get; }
+
         /// <summary>
         /// property manager page control as an object
         /// </summary>
@@ -28,12 +35,12 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// type of this controller as defined in <see cref="swPropertyManagerPageControlType_e"/>
         /// </summary>
-        internal swPropertyManagerPageControlType_e Type { get; set; }
+        public swPropertyManagerPageControlType_e Type { get; }
 
         /// <summary>
-        /// id of this controller which gets used in command box
+        /// id of this controller which is used by SOLIDWORKS to identify it
         /// </summary>
-        internal short Id { get; set; }
+        public short Id { get;}
 
         /// <summary>
         /// Left alignment of this control as defined in <see cref="swPropertyManagerPageControlLeftAlign_e"/>
@@ -52,7 +59,6 @@ namespace Hymma.SolidTools.Addins
         /// <param name="group">the group that this contorl should be registerd to</param>
         internal void Register(IPropertyManagerPageGroup group)
         {
-            Id = (short)PmpConstants.GetNextId();
 
             ControlObject = group.AddControl2(Id, (short)Type, Caption, LeftAlignment, Options, Tip);
 

@@ -81,6 +81,8 @@
     <Compile Include="UI\Callout\CalloutRow.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
     <Compile Include="UI\Callout\CalloutModel.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BitmapButtons.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpButtonBase.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\_Base\EventsArgs\OnDisplay_EventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Enums\ListboxStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_Display.cs" />
@@ -97,7 +99,7 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnSubmitSelectionEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnSubmitSelection_EventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpConstants.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButton.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButton.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpTextBase.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommand.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroup.cs" />
@@ -113,13 +115,13 @@
     <Compile Include="UI\PropertyManagerPage\Core\PropertyManagerPageUIBase.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PropertyManagerPageX64.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmap.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmapButtonCheckable.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButtonCheckable.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpComboBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\_Base\PmpControl.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\PmpListBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpNumberBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpRadioButton.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpButton.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpButton.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\PmpSelectionBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpWindowHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
