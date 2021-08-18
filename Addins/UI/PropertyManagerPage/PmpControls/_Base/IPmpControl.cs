@@ -35,7 +35,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// type of this controller as defined in <see cref="swPropertyManagerPageControlType_e"/>
         /// </summary>
-        public swPropertyManagerPageControlType_e Type { get; }
+        public swPropertyManagerPageControlType_e Type { get; internal set; }
 
         /// <summary>
         /// id of this controller which is used by SOLIDWORKS to identify it

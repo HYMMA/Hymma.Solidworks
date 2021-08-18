@@ -13,6 +13,7 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public PmpBitmapButtonCheckable(BitmapButtons standardBitmap,string tip) : base(standardBitmap,tip)
         {
+            Type = swPropertyManagerPageControlType_e.swControlType_CheckableBitmapButton;
         }
 
         /// <summary>
@@ -22,6 +23,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
         public PmpBitmapButtonCheckable(Bitmap bitmap, string fileName, string tip) : base(bitmap, fileName,tip)
         {
+            Type = swPropertyManagerPageControlType_e.swControlType_CheckableBitmapButton;
         }
 
         /// <summary>

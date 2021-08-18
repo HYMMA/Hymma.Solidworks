@@ -1,4 +1,5 @@
-﻿using SolidWorks.Interop.swconst;
+﻿using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using SolidWorks.Interop.swpublished;
 using System;
 using System.Linq;
@@ -216,12 +217,20 @@ namespace Hymma.SolidTools.Addins
         {
             Log("event handling button press...");
             var button = UiModel.GetControl(Id);
-
-            if (button.Type == swPropertyManagerPageControlType_e.swControlType_Button)
-                button.CastTo<PmpButton>()?.OnPress?.Invoke();
-
-            if (button.Type == swPropertyManagerPageControlType_e.swControlType_BitmapButton)
-                button.CastTo<PmpBitmapButton>()?.OnPress?.Invoke();
+            switch (button.Type)
+            {
+                case swPropertyManagerPageControlType_e.swControlType_Button:
+                    button.CastTo<PmpButton>()?.Press();
+                    break;
+                case swPropertyManagerPageControlType_e.swControlType_BitmapButton:
+                    button.CastTo<PmpBitmapButton>()?.Press();
+                    break;
+                case swPropertyManagerPageControlType_e.swControlType_CheckableBitmapButton:
+                    button.CastTo<PmpBitmapButtonCheckable>()?.Press();
+                    break;
+                default:
+                    break;
+            }
         }
 
         /// <summary>

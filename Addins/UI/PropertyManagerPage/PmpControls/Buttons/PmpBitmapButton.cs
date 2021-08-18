@@ -10,22 +10,41 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpBitmapButton : PmpButtonBase<PropertyManagerPageBitmapButton>
     {
+        #region private fields
+
         private Bitmap _bitmap;
         private string _fileName;
         private BitmapButtons _standardIcon;
+        #endregion
+
+        #region constructors
 
         /// <summary>
         /// generate a button with specified <see cref="Bitmap"/>
         /// </summary>
         /// <param name="bitmap">bitmap to edit and set in the property manager page</param>
         /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
-        public PmpBitmapButton(Bitmap bitmap, string fileName, string tip) : base(swPropertyManagerPageControlType_e.swControlType_CheckableBitmapButton, "", tip)
+        /// <param name="tip">text for this button tooltip</param>
+        public PmpBitmapButton(Bitmap bitmap, string fileName, string tip) : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton, "", tip)
         {
             OnRegister += PmpBitmapButton_OnRegister;
             _bitmap = bitmap;
             _fileName = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
         }
 
+        /// <summary>
+        /// generate a button with standard icons
+        /// </summary>
+        /// <param name="standardIcon"></param>
+        /// <param name="tip">text for this button tooltip</param>
+        public PmpBitmapButton(BitmapButtons standardIcon, string tip) : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton, "", tip)
+        {
+            OnRegister += PmpBitmapButton_OnRegister;
+            _standardIcon = standardIcon;
+        }
+        #endregion
+
+        #region call backs
         private void PmpBitmapButton_OnRegister()
         {
             if (_bitmap != null && _fileName != "")
@@ -37,17 +56,9 @@ namespace Hymma.SolidTools.Addins
                 SetBitmap(_standardIcon);
             }
         }
+        #endregion
 
-        /// <summary>
-        /// generate a button with standard icons
-        /// </summary>
-        /// <param name="standardIcon"></param>
-        public PmpBitmapButton(BitmapButtons standardIcon, string tip) : base(swPropertyManagerPageControlType_e.swControlType_CheckableBitmapButton, "", tip)
-        {
-            OnRegister += PmpBitmapButton_OnRegister;
-            _standardIcon = standardIcon;
-        }
-
+        #region methods
 
         /// <summary>
         /// assign a bitmap to this bitmap button
@@ -75,5 +86,6 @@ namespace Hymma.SolidTools.Addins
             if (SolidworksObject != null)
                 SolidworksObject.SetStandardBitmaps((int)standardIcon);
         }
+        #endregion
     }
 }
