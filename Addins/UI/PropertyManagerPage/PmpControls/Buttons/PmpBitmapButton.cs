@@ -2,6 +2,7 @@
 using SolidWorks.Interop.swconst;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -27,9 +28,9 @@ namespace Hymma.SolidTools.Addins
         /// <param name="tip">text for this button tooltip</param>
         public PmpBitmapButton(Bitmap bitmap, string fileName, string tip) : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton, "", tip)
         {
-            OnRegister += PmpBitmapButton_OnRegister;
             _bitmap = bitmap;
             _fileName = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
+            OnRegister += PmpBitmapButton_OnRegister;
         }
 
         /// <summary>
@@ -39,8 +40,8 @@ namespace Hymma.SolidTools.Addins
         /// <param name="tip">text for this button tooltip</param>
         public PmpBitmapButton(BitmapButtons standardIcon, string tip) : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton, "", tip)
         {
-            OnRegister += PmpBitmapButton_OnRegister;
             _standardIcon = standardIcon;
+            OnRegister += PmpBitmapButton_OnRegister;
         }
         #endregion
 
@@ -71,9 +72,11 @@ namespace Hymma.SolidTools.Addins
         /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
         public override void SetBitmap(Bitmap bitmap, string fileName)
         {
-            IconGenerator.GetBitmapButtonIcons(bitmap, fileName, out string[] images, out string[] masked);
+            var maskedImages=IconGenerator.GetBitmapButtonIcons(bitmap, fileName);
+            var images = maskedImages.Select(c => c.Image).ToArray();
+            var masks = maskedImages.Select(c => c.ImageMask).ToArray();
             if (SolidworksObject != null)
-                SolidworksObject.SetBitmapsByName3(images, masked);
+                SolidworksObject.SetBitmapsByName3(images, masks);
         }
 
         /// <summary>

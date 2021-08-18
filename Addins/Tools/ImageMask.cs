@@ -50,11 +50,14 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="image">original bitmap</param>
         /// <param name="opaque">allows a semi opaq (grey) masked iamge. </param>
-        /// <param name="OpacityThreshold">this parameter determines the opacity of the masked image. max is 255</param>
+        /// <param name="OpacityThreshold">parameter determines the opacity of the masked image. max is 255</param>
         /// <param name="invertedMask">inverts the colors of masked image </param>
-        /// <returns>full file name of masked bitmap image</returns>
+        /// <returns>returns masked png format of the image or the image itself if the image parameter was of type png</returns>
         public static Bitmap GetMask(Bitmap image, bool opaque = false, int OpacityThreshold = 128, bool invertedMask = false)
         {
+            if (image.RawFormat.Equals(ImageFormat.Png))
+                return image;
+
             Bitmap maskImage = Create32bppImageAndClearAlpha(image);
 
             BitmapData bmpData = maskImage.LockBits(new Rectangle(0, 0, maskImage.Width, maskImage.Height), ImageLockMode.ReadWrite, maskImage.PixelFormat);
@@ -90,8 +93,36 @@ namespace Hymma.SolidTools.Addins
             }
             Marshal.Copy(maskImageRGBData, 0, bmpData.Scan0, maskImageRGBData.Length);
             maskImage.UnlockBits(bmpData);
+            return GetMaskedImage(image, maskImage);
+            //return maskImage;
+        }
 
-            return maskImage;
+        private static Bitmap GetMaskedImage(Bitmap loadedImage, Bitmap maskImage)
+        {
+            if (loadedImage == null && maskImage == null)
+                return null;
+         
+            //allocate the Masked image in ARGB format
+            var maskedImage = Create32bppImageAndClearAlpha(loadedImage);
+
+            BitmapData bmpData1 = maskedImage.LockBits(new Rectangle(0, 0, maskedImage.Width, maskedImage.Height), ImageLockMode.ReadWrite, maskedImage.PixelFormat);
+            byte[] maskedImageRGBAData = new byte[bmpData1.Stride * bmpData1.Height];
+            Marshal.Copy(bmpData1.Scan0, maskedImageRGBAData, 0, maskedImageRGBAData.Length);
+
+            BitmapData bmpData2 = maskImage.LockBits(new Rectangle(0, 0, maskImage.Width, maskImage.Height), ImageLockMode.ReadOnly, maskImage.PixelFormat);
+            byte[] maskImageRGBAData = new byte[bmpData2.Stride * bmpData2.Height];
+            Marshal.Copy(bmpData2.Scan0, maskImageRGBAData, 0, maskImageRGBAData.Length);
+
+            //copy the mask to the Alpha layer
+            for (int i = 0; i + 2 < maskedImageRGBAData.Length; i += 4)
+            {
+                maskedImageRGBAData[i + 3] = maskImageRGBAData[i];
+            }
+            Marshal.Copy(maskedImageRGBAData, 0, bmpData1.Scan0, maskedImageRGBAData.Length);
+            maskedImage.UnlockBits(bmpData1);
+            maskImage.UnlockBits(bmpData2);
+
+            return maskedImage;
         }
     }
 }

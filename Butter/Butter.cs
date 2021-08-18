@@ -103,7 +103,6 @@ namespace Butter
             var selBox = new PmpSelectionBox(new[] { swSelectType_e.swSelSOLIDBODIES }, 0, true, false, 50, "caption", "tip for selection box")
             {
                 SelectionColor = SysColor.SelectedItem3,
-                Top = 100
             };
 
             //   selBox.OnCallOutCreated += SelBox_OnCallOutCreated;
@@ -117,18 +116,27 @@ namespace Butter
 
             var checkbox = new PmpCheckBox("caption", false, true)
             {
-                Top = 0
             };
 
             checkbox.OnChecked += (sender, e) =>
             {
                 if (e)
                 {
-                    selBox.Top = 80;
                 }
             };
+
+            var checkableBtnBtimap = new PmpBitmapButtonCheckable(Properties.Resources.xtractBlue, "xtractBlue", "tip for checkable with bitmap");
+            var button = new PmpButton("pmp button", "tip");
+            var bitmapBtn = new PmpBitmapButton(Properties.Resources.butter, "bitmapBtn", "tip");
+            var standardBtn = new PmpBitmapButton(BitmapButtons.diameter, "standard button tip");
+            var checkableBtn = new PmpBitmapButtonCheckable(BitmapButtons.favorite_load, "checkable standard");
             controls.Add(selBox);
             controls.Add(checkbox);
+            controls.Add(button);
+            controls.Add(bitmapBtn);
+            controls.Add(standardBtn);
+            controls.Add(checkableBtn);
+            controls.Add(checkableBtnBtimap);
             return controls;
         }
 

@@ -17,7 +17,7 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         private IPropertyManagerPageControl _control;
         private short _top;
-        private int _optionForResize = (int)PmpResizeStyles.LockLeft | (int)PmpResizeStyles.LockRight;
+        private int _optionForResize;
         private bool _enabled = true;
         private bool _visible = true;
         private bool _topIsChanged;
@@ -147,8 +147,8 @@ namespace Hymma.SolidTools.Addins
         public virtual void SetBitmap(Bitmap bitmap, string fileName)
         {
             if (_control == null) return;
-            IconGenerator.GetPmpControlIcon(bitmap, fileName, out string image, out string maskedImage);
-            _control.SetPictureLabelByName(image, maskedImage);
+           var masked= IconGenerator.GetPmpControlIcon(bitmap, fileName);
+            _control.SetPictureLabelByName(masked.Image, masked.ImageMask);
         }
 
         /// <summary>
@@ -161,8 +161,8 @@ namespace Hymma.SolidTools.Addins
         public void ShowBubleTooltip(string title, string message, Bitmap bitmap, string fileName)
         {
             if (_control == null) return;
-            IconGenerator.GetPmpControlIcon(bitmap, fileName, out string image, out string maskedImage);
-            _control.ShowBubbleTooltip(title, message, image);
+            var masked = IconGenerator.GetPmpControlIcon(bitmap, fileName);
+            _control.ShowBubbleTooltip(title, message, masked.Image);
         }
         #endregion
 

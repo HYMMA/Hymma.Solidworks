@@ -16,10 +16,9 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="caption">caption for this radio button</param>
         /// <param name="isChecked">whether it is going to be the checked or not</param>
-        public PmpRadioButton(string caption, bool isChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Option)
+        public PmpRadioButton(string caption, bool isChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Option,caption)
         {
             checkedByUser = isChecked;
-            Caption = caption;
             //solidworks requires us to regiter the control once the addin is loaded.
             //then everytime the property manage rpage is displayed the status of controls would reflect the registered state
             //to provide a consitant experience between sessions of calling a property manager 

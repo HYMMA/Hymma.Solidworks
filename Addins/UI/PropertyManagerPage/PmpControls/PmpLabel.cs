@@ -20,7 +20,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="caption">caption for this lable</param>
         /// <param name="style">style of the lable as defined by bitwie <see cref="LabelStyles"/></param>
         /// <param name="height">Because SOLIDWORKS sizes the label appropriately based on the text it contains, you should not have to use this parameter. However, if the label does not contain text, then using this property might be useful.</param>
-        public PmpLabel(string caption, LabelStyles style = LabelStyles.LeftText, short height = 8) : base(swPropertyManagerPageControlType_e.swControlType_Label)
+        public PmpLabel(string caption, LabelStyles style = LabelStyles.LeftText, short height = 8) : base(swPropertyManagerPageControlType_e.swControlType_Label,caption)
         {
             _style = style;
             _caption = caption;
@@ -30,7 +30,6 @@ namespace Hymma.SolidTools.Addins
 
         private void PmpLabel_OnRegister()
         {
-            Caption = _caption;
             Style = (int)_style;
             SolidworksObject.Height = _height;
         }
