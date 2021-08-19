@@ -34,6 +34,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Text;
 using static Hymma.SolidTools.Addins.Logger;
 
 namespace Hymma.SolidTools.Addins
@@ -141,14 +142,26 @@ namespace Hymma.SolidTools.Addins
         {
             //possible sizes for a button bitmap in solidworks
             var possibleSizes = new[] { 20, 32, 40, 64, 96, 128 };
-
             var maskedImages = new List<MaskedImage>();
             //iterate through possible sizes and process bitmap against that size
             for (int i = 0; i < possibleSizes.Length; i++)
             {
+                //var resized = Resize(bitmap, size, size);
+                //maskedImages.Add(SaveMaskedImage(resized, GetDefaultIconFolder(), fileName + size));
                 var size = possibleSizes[i];
-                var resized = Resize(bitmap, size, size);
-                maskedImages.Add(SaveMaskedImage(resized, GetDefaultIconFolder(), fileName+size));
+                var resized = new Bitmap(bitmap, size, size);
+
+                var resizedPng = resized.Clone(new Rectangle(0, 0, size, size), PixelFormat.Format32bppArgb);
+                var image = Path.Combine(GetDefaultIconFolder(), 
+                    new StringBuilder().Append(fileName).Append(size).Append(".png").ToString());
+
+                resizedPng.MakeTransparent(Color.White);
+
+                resizedPng.Save(image, ImageFormat.Png);
+
+                maskedImages.Add(new MaskedImage() { Image = image, ImageMask = "" });
+                resized.Dispose();
+                resizedPng.Dispose();
             }
             return maskedImages;
         }
@@ -217,7 +230,7 @@ namespace Hymma.SolidTools.Addins
 
             //get maskImage
             if (!File.Exists(maskedImage.ImageMask) && maskedImage.ImageMask != "")
-                using (var maskImage = ImageMask.GetMask(image,false,255,false))
+                using (var maskImage = ImageMask.GetMask(image, false, 255, false))
                 {
                     maskImage.Save(maskedImage.ImageMask);
                 }

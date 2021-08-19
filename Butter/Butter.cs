@@ -126,16 +126,16 @@ namespace Butter
             };
 
             var checkableBtnBtimap = new PmpBitmapButtonCheckable(Properties.Resources.xtractBlue, "xtractBlue", "tip for checkable with bitmap");
-            var button = new PmpButton("pmp button", "tip");
-            var bitmapBtn = new PmpBitmapButton(Properties.Resources.butter, "bitmapBtn", "tip");
-            var standardBtn = new PmpBitmapButton(BitmapButtons.diameter, "standard button tip");
-            var checkableBtn = new PmpBitmapButtonCheckable(BitmapButtons.favorite_load, "checkable standard");
+            //var button = new PmpButton("pmp button", "tip");
+            //var bitmapBtn = new PmpBitmapButton(Properties.Resources.butter, "bitmapBtn", "tip");
+            //var standardBtn = new PmpBitmapButton(BitmapButtons.diameter, "standard button tip");
+            //var checkableBtn = new PmpBitmapButtonCheckable(BitmapButtons.favorite_load, "checkable standard");
             controls.Add(selBox);
             controls.Add(checkbox);
-            controls.Add(button);
-            controls.Add(bitmapBtn);
-            controls.Add(standardBtn);
-            controls.Add(checkableBtn);
+            //controls.Add(button);
+            //controls.Add(bitmapBtn);
+            //controls.Add(standardBtn);
+            //controls.Add(checkableBtn);
             controls.Add(checkableBtnBtimap);
             return controls;
         }
