@@ -82,7 +82,7 @@
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
     <Compile Include="UI\Callout\CalloutModel.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BitmapButtons.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\IconSizes.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BtnSize.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpButtonBase.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\_Base\EventsArgs\OnDisplay_EventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Enums\ListboxStyles.cs" />
