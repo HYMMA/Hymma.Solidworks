@@ -1,4 +1,5 @@
 ﻿using SolidWorks.Interop.sldworks;
+using System;
 using System.Drawing;
 using System.IO;
 
@@ -28,7 +29,7 @@ namespace Hymma.SolidTools.Addins
 
         private void PmpBitmap_OnRegister()
         {
-            SetBitmap(_bitmap, _filename);
+            SetPictureLabel(_bitmap, _filename);
         }
 
         /// <summary>
@@ -42,11 +43,23 @@ namespace Hymma.SolidTools.Addins
         /// You can use this method before, during, or after the PropertyManager page is displayed or closed. If you use this method when the PropertyManager page is displayed, use bitmaps that are the same size.
         /// </para>
         /// </remarks>
-        public override void SetBitmap(Bitmap bitmap, string fileName)
+        public override void SetPictureLabel(Bitmap bitmap, string fileName)
         {
-            var masked =IconGenerator.GetPmpBitmapIcon(bitmap, fileName);
+            var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), fileName);
+
+            if (bitmap.Width != bitmap.Height)
+            {
+                var size = Math.Min(bitmap.Width, bitmap.Height);
+                MaskedBitmap.Save(new Bitmap(bitmap, size, size),ref fullFileName);
+            }
+            else
+            {
+                MaskedBitmap.Save(bitmap,ref fullFileName);
+            }
+
             if (SolidworksObject != null)
-                SolidworksObject.SetBitmapByName(masked.Image, masked.ImageMask);
+                SolidworksObject.SetBitmapByName(fullFileName,"");
         }
+        
     }
 }

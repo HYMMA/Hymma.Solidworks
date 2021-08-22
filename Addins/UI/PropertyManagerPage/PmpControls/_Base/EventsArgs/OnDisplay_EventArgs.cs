@@ -1,5 +1,7 @@
 ﻿using SolidWorks.Interop.sldworks;
 using System;
+using System.Drawing;
+using System.IO;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -15,6 +17,25 @@ namespace Hymma.SolidTools.Addins
         public OnDisplay_EventArgs(IPropertyManagerPageControl control)
         {
             _control = control;
+        }
+
+        /// <summary>
+        /// Sets the bitmap label for this control that appears next to it on the left hand side.
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
+        /// <remarks>
+        /// You can only use this method on a PropertyManager page before the page is displayed, while it is displayed, or when it is closed. <br/>
+        /// The image will be resized to 18 x 18
+        /// </remarks>
+        public virtual void SetPictureLabel(Bitmap bitmap, string fileName)
+        {
+            if (_control == null) return;
+            if (string.IsNullOrEmpty(fileName))
+                return;
+            var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), fileName);
+            MaskedBitmap.Save(new Bitmap(bitmap, 18, 18), ref fullFileName);
+            _control.SetPictureLabelByName(fullFileName, "");
         }
 
         /// <summary>

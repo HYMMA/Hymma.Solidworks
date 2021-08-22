@@ -2,6 +2,7 @@
 using SolidWorks.Interop.swconst;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Hymma.SolidTools.Addins
@@ -136,22 +137,6 @@ namespace Hymma.SolidTools.Addins
         #region methods
 
         /// <summary>
-        /// Sets the bitmap label for this control on a PropertyManager page.
-        /// </summary>
-        /// <param name="bitmap"></param>
-        /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
-        /// <remarks>
-        /// You can only use this method on a PropertyManager page before the page is displayed, while it is displayed, or when it is closed. <br/>
-        /// The image will be resized to 18 x 18
-        /// </remarks>
-        public virtual void SetBitmap(Bitmap bitmap, string fileName)
-        {
-            if (_control == null) return;
-           var masked= IconGenerator.GetPmpControlIcon(bitmap, fileName);
-            _control.SetPictureLabelByName(masked.Image, masked.ImageMask);
-        }
-
-        /// <summary>
         /// Displays a bubble ToolTip containing the specified title, message, and bitmap. A bubble ToolTip is useful for validating data typed or selected by users in controls on a PropertyManager page.
         /// </summary>
         /// <param name="title">Title to display in bubble ToolTip</param>
@@ -161,9 +146,11 @@ namespace Hymma.SolidTools.Addins
         public void ShowBubleTooltip(string title, string message, Bitmap bitmap, string fileName)
         {
             if (_control == null) return;
-            var masked = IconGenerator.GetPmpControlIcon(bitmap, fileName);
-            _control.ShowBubbleTooltip(title, message, masked.Image);
+            var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), fileName);
+            MaskedBitmap.Save(new Bitmap(bitmap, 18, 18),ref fullFileName);
+            _control.ShowBubbleTooltip(title, message, fullFileName);
         }
+
         #endregion
 
         #region events

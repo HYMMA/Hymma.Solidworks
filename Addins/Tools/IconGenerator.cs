@@ -1,40 +1,6 @@
-﻿#region lincese
-//this is forked from AngleSix.SolidWorksApi.IconGenerator
-//https://github.com/angelsix/solidworks-api/tree/develop/Tools/CommandManager%20Icon%20Generator
-
-//MIT License
-
-//Copyright (c) 2017
-
-//Permission is hereby granted, free of charge, to any person obtaining a copy
-//of this software and associated documentation files (the "Software"), to deal
-//in the Software without restriction, including without limitation the rights
-//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//copies of the Software, and to permit persons to whom the Software is
-//furnished to do so, subject to the following conditions:
-
-//The above copyright notice and this permission notice shall be included in all
-//copies or substantial portions of the Software.
-
-//All files inside the References folder are property of Dassault Systemes 
-//SolidWorks Corp and may only be used in unmodified form in conjunction with 
-//SolidDNA.
-
-//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//SOFTWARE.
-#endregion
-
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Text;
 using static Hymma.SolidTools.Addins.Logger;
 
 namespace Hymma.SolidTools.Addins
@@ -53,6 +19,37 @@ namespace Hymma.SolidTools.Addins
         public static string[] GetCommandGroupIconStrips(Bitmap[]
             icons, string filenamePrepend)
         {
+            #region lincese
+            //this is forked from AngleSix.SolidWorksApi.IconGenerator
+            //https://github.com/angelsix/solidworks-api/tree/develop/Tools/CommandManager%20Icon%20Generator
+
+            //MIT License
+
+            //Copyright (c) 2017
+
+            //Permission is hereby granted, free of charge, to any person obtaining a copy
+            //of this software and associated documentation files (the "Software"), to deal
+            //in the Software without restriction, including without limitation the rights
+            //to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+            //copies of the Software, and to permit persons to whom the Software is
+            //furnished to do so, subject to the following conditions:
+
+            //The above copyright notice and this permission notice shall be included in all
+            //copies or substantial portions of the Software.
+
+            //All files inside the References folder are property of Dassault Systemes 
+            //SolidWorks Corp and may only be used in unmodified form in conjunction with 
+            //SolidDNA.
+
+            //THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+            //IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+            //FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+            //AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+            //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+            //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+            //SOFTWARE.
+            #endregion
+
             // The filename to prepend to the output files
             // 
             //   NOTE: 
@@ -123,124 +120,12 @@ namespace Hymma.SolidTools.Addins
         /// <returns></returns>
         public static string GetAddinIcon(Bitmap icon, string filename)
         {
-            var addinIcon = Resize(icon, 16, 16);
             string addinIconAddress = Path.Combine(GetDefaultIconFolder(), filename + ".png");
-            using (addinIcon)
+            using (var addinIcon = new Bitmap(icon, 16, 16))
             {
                 addinIcon.Save(addinIconAddress);
             }
             return addinIconAddress;
-        }
-
-        /// <summary>
-        /// edits and saves a bitmap for use in <see cref="PmpBitmapButton"/> 
-        /// </summary>
-        /// <param name="bitmap"></param>
-        /// <param name="fileName">file name to store the results on the disk</param>
-        /// <returns>a <see cref="MaskedImage"/></returns>
-        public static List<MaskedImage> GetBitmapButtonIcons(Bitmap bitmap, string fileName)
-        {
-            //possible sizes for a button bitmap in solidworks
-            var possibleSizes = new[] { 20, 32, 40, 64, 96, 128 };
-            var maskedImages = new List<MaskedImage>();
-            //iterate through possible sizes and process bitmap against that size
-            for (int i = 0; i < possibleSizes.Length; i++)
-            {
-                //var resized = Resize(bitmap, size, size);
-                //maskedImages.Add(SaveMaskedImage(resized, GetDefaultIconFolder(), fileName + size));
-                var size = possibleSizes[i];
-                var resized = new Bitmap(bitmap, size, size);
-
-                var resizedPng = resized.Clone(new Rectangle(0, 0, size, size), PixelFormat.Format32bppArgb);
-                var image = Path.Combine(GetDefaultIconFolder(), 
-                    new StringBuilder().Append(fileName).Append(size).Append(".png").ToString());
-
-                resizedPng.MakeTransparent(Color.White);
-
-                resizedPng.Save(image, ImageFormat.Png);
-
-                maskedImages.Add(new MaskedImage() { Image = image, ImageMask = "" });
-                resized.Dispose();
-                resizedPng.Dispose();
-            }
-            return maskedImages;
-        }
-
-        /// <summary>
-        /// coverts and saves a bitmap for use in a <see cref="PmpBitmap"/>
-        /// </summary>
-        /// <param name="bitmap"></param>
-        /// <param name="fileName">file name to store the results on the disk</param>
-        /// <returns>a <see cref="MaskedImage"/></returns>
-        public static MaskedImage GetPmpBitmapIcon(Bitmap bitmap, string fileName)
-        {
-            //get bitmap size
-            Bitmap resized = new Bitmap(bitmap);
-            if (bitmap.Width != bitmap.Height)
-            {
-                var size = Math.Min(bitmap.Width, bitmap.Height);
-                resized = Resize(bitmap, size, size);
-            }
-            return SaveMaskedImage(resized, GetDefaultIconFolder(), fileName);
-        }
-
-        /// <summary>
-        /// convert and save a bitmpa for use a <see cref="PmpControl{T}"/>
-        /// </summary>
-        /// <param name="bitmap">the bitmap to convert and save</param>
-        /// <param name="fileName">file name to store the results on the disk</param>
-        /// <returns>a <see cref="MaskedImage"/></returns>
-        public static MaskedImage GetPmpControlIcon(Bitmap bitmap, string fileName)
-        {
-            var resized = new Bitmap(bitmap);
-            if (bitmap.Width != 18 || bitmap.Height != 18)
-                resized = Resize(bitmap, 18, 18);
-            return SaveMaskedImage(resized, GetDefaultIconFolder(), fileName);
-        }
-
-        /// <summary>
-        /// coverts and saves a bitmap to specified location
-        /// </summary>
-        /// <param name="image">file to get bitmask for</param>
-        /// <param name="directory">directory address</param>
-        /// <param name="filename">without extension</param>
-        /// <returns>a <see cref="MaskedImage"/></returns>
-        private static MaskedImage SaveMaskedImage(Bitmap image, string directory, string filename)
-        {
-            //check for valid file name . . .
-            if (string.IsNullOrEmpty(filename))
-                throw new ArgumentNullException("filename assigned to icon was empty");
-
-            //remove invalid file name chars
-            filename = string.Concat(filename.Split(Path.GetInvalidFileNameChars()));
-            var maskedImage = new MaskedImage();
-
-            //png files dont support bitmask
-            if (image.RawFormat.Equals(ImageFormat.Png))
-            {
-                maskedImage.Image = Path.Combine(directory, filename, ".png");
-                //accroding to solidworks api for png files we should return empty string as masked images
-                maskedImage.ImageMask = "";
-            }
-            else
-            {
-                maskedImage.Image = Path.Combine(directory, $"{filename}.png");
-                maskedImage.ImageMask = Path.Combine(directory, $"{filename}_mask.png");
-            }
-
-            //get maskImage
-            if (!File.Exists(maskedImage.ImageMask) && maskedImage.ImageMask != "")
-                using (var maskImage = ImageMask.GetMask(image, false, 255, false))
-                {
-                    maskImage.Save(maskedImage.ImageMask);
-                }
-
-            if (!File.Exists(maskedImage.Image))
-                using (image)
-                {
-                    image.Save(maskedImage.Image);
-                }
-            return maskedImage;
         }
 
         /// <summary>
@@ -336,47 +221,5 @@ namespace Hymma.SolidTools.Addins
             return directory;
         }
 
-        /// <summary>
-        /// resizes a bitmap and returns it with the new size
-        /// </summary>
-        /// <param name="bitmap">the bitmap to resize</param>
-        /// <param name="width">new width in pixles</param>
-        /// <param name="height">new height in pixles</param>
-        /// <returns>new <see cref="Bitmap"/> with sizes specified</returns>
-        private static Bitmap Resize(Bitmap bitmap, int width, int height)
-        {
-            var newIcon = new Bitmap(width, height);
-            try
-            {
-                using (var g = Graphics.FromImage(newIcon))
-                {
-                    g.Clear(Color.Transparent);
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                    g.DrawImage(bitmap, new Rectangle(0, 0, width, height));
-                }
-            }
-            catch (Exception)
-            {
-                Log("Couldnt resize bitmap");
-                throw;
-            }
-            return newIcon;
-        }
-    }
-
-    /// <summary>
-    /// an image and its masked image
-    /// </summary>
-    public struct MaskedImage
-    {
-        /// <summary>
-        /// full file name of the resized image
-        /// </summary>
-        public string Image { get; set; }
-
-        /// <summary>
-        /// full file name of the image mask
-        /// </summary>
-        public string ImageMask { get; set; }
     }
 }

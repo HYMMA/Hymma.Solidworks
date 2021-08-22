@@ -118,14 +118,15 @@ namespace Butter
             {
             };
 
+
+            var checkableBtnBtimap = new PmpBitmapButtonCheckable(Properties.Resources.xtractOrange, "xtractOrange2/|?", "tip for checkable with bitmap", new[] {  BtnSize.nintySix,BtnSize.hundredTwentyEight });
             checkbox.OnChecked += (sender, e) =>
             {
                 if (e)
                 {
+                    checkableBtnBtimap.SetButtonIcon(Properties.Resources.xtractBlue, "xtractB",new[] { BtnSize.sixteen});
                 }
             };
-
-            var checkableBtnBtimap = new PmpBitmapButtonCheckable(Properties.Resources.xtractBlue, "xtractBlue", "tip for checkable with bitmap");
             //var button = new PmpButton("pmp button", "tip");
             //var bitmapBtn = new PmpBitmapButton(Properties.Resources.butter, "bitmapBtn", "tip");
             //var standardBtn = new PmpBitmapButton(BitmapButtons.diameter, "standard button tip");

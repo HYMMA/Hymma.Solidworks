@@ -77,12 +77,12 @@
     <Compile Include="Core\AddinUserInterface.cs" />
     <Compile Include="Core\AddinAttribute.cs" />
     <Compile Include="Core\IWrapSolidworksObject.cs" />
-    <Compile Include="Tools\BitmapFormat.cs" />
     <Compile Include="UI\Callout\CalloutExtensions.cs" />
     <Compile Include="UI\Callout\CalloutRow.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
     <Compile Include="UI\Callout\CalloutModel.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BitmapButtons.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\IconSizes.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpButtonBase.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\_Base\EventsArgs\OnDisplay_EventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Enums\ListboxStyles.cs" />
@@ -137,7 +137,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Tools\ImageMask.cs" />
+    <Compile Include="Tools\MaskedBitmap.cs" />
     <Compile Include="Tools\IconGenerator.cs" />
   </ItemGroup>
   <ItemGroup>

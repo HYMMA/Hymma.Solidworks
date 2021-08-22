@@ -21,7 +21,9 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="bitmap">bitmap to edit and set in the property manager page</param>
         /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
-        public PmpBitmapButtonCheckable(Bitmap bitmap, string fileName, string tip) : base(bitmap, fileName,tip)
+        /// <param name="tip"></param>
+        /// <param name="iconSizes">possible sizes for this checkable button</param>
+        public PmpBitmapButtonCheckable(Bitmap bitmap, string fileName, string tip, BtnSize[] iconSizes) : base(bitmap, fileName,tip,iconSizes)
         {
             Type = swPropertyManagerPageControlType_e.swControlType_CheckableBitmapButton;
         }
