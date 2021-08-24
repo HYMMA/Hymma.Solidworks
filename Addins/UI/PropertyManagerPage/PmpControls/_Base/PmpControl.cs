@@ -18,7 +18,6 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         private IPropertyManagerPageControl _control;
         private short _top;
-        private int _optionForResize;
         private bool _enabled = true;
         private bool _visible = true;
         private bool _topIsChanged;
@@ -44,7 +43,6 @@ namespace Hymma.SolidTools.Addins
         {
             SolidworksObject = (T)ControlObject;
             _control = SolidworksObject as IPropertyManagerPageControl;
-            _control.OptionsForResize = OptionsForResize;
             _control.Enabled = Enabled;
             _control.Visible = Visible;
 
@@ -86,20 +84,7 @@ namespace Hymma.SolidTools.Addins
             }
         }
 
-        /// <summary>
-        /// Gets or sets how to override the SOLIDWORKS default behavior when changing the width of a PropertyManager page. <br/>
-        /// Resize the PropertyManager page as defined in <see cref="PmpResizeStyles"/>
-        /// </summary>
-        public int OptionsForResize
-        {
-            get => _optionForResize;
-            set
-            {
-                _optionForResize = value;
-                if (_control != null)
-                    _control.OptionsForResize = value;
-            }
-        }
+
 
         /// <summary>
         /// enables or disables this property control on

@@ -11,25 +11,37 @@ namespace Hymma.SolidTools.Addins
     public class PmpBitmap : PmpControl<PropertyManagerPageBitmap>
     {
         private Bitmap _bitmap;
+        private byte _opacity;
         private string _filename;
+        private PmpResizeStyles _resizeStyles;
 
         /// <summary>
         /// generates a bitmap in the property manager page
         /// </summary>
         /// <param name="bitmap">bitmap to edit and set in the property manager page</param>
         /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
+        /// <param name="resizeStyles">resize option as defined in <see cref="PmpResizeStyles"/></param>
+        /// <param name="opacity">define opacity of the image. 255 is th emax possible value</param>
         /// <remarks>The typical image format for the two SOLIDWORKS bitmaps is 18 x 18 pixels x 256 colors. <br/>
         /// </remarks>
-        public PmpBitmap(Bitmap bitmap, string fileName) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap)
+        public PmpBitmap(Bitmap bitmap, string fileName, PmpResizeStyles resizeStyles=PmpResizeStyles.LockLeft, byte opacity = 255) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap)
         {
             OnRegister += PmpBitmap_OnRegister;
             _bitmap = bitmap;
+            _opacity = opacity;
             _filename = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
+            _resizeStyles = resizeStyles;
+            OnDisplay += PmpBitmap_OnDisplay;
+        }
+
+        private void PmpBitmap_OnDisplay(IPmpControl sender, OnDisplay_EventArgs eventArgs)
+        {
+            eventArgs.OptionsForResize = (int)_resizeStyles;
         }
 
         private void PmpBitmap_OnRegister()
         {
-            SetPictureLabel(_bitmap, _filename);
+            SetPictureByName(_bitmap, _filename);
         }
 
         /// <summary>
@@ -38,28 +50,19 @@ namespace Hymma.SolidTools.Addins
         /// <param name="bitmap">bitmap to edit and set in the property manager page</param>
         /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
         /// <remarks>The typical image format for the two SOLIDWORKS bitmaps is 18 x 18 pixels x 256 colors. <br/>
-        /// Using this method, you can specify different sizes e.g. 24 x 90. If bitmap size is not square e.g (24 x 24 or 18 x 18) this method will resize it to suit
+        /// Using this method, you can specify different sizes e.g. 24 x 90. 
         /// <para>
         /// You can use this method before, during, or after the PropertyManager page is displayed or closed. If you use this method when the PropertyManager page is displayed, use bitmaps that are the same size.
         /// </para>
         /// </remarks>
-        public override void SetPictureLabel(Bitmap bitmap, string fileName)
+        public void SetPictureByName(Bitmap bitmap, string fileName)
         {
+            if (SolidworksObject == null || string.IsNullOrEmpty(fileName))
+                return;
+
             var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), fileName);
-
-            if (bitmap.Width != bitmap.Height)
-            {
-                var size = Math.Min(bitmap.Width, bitmap.Height);
-                MaskedBitmap.Save(new Bitmap(bitmap, size, size),ref fullFileName);
-            }
-            else
-            {
-                MaskedBitmap.Save(bitmap,ref fullFileName);
-            }
-
-            if (SolidworksObject != null)
-                SolidworksObject.SetBitmapByName(fullFileName,"");
+            MaskedBitmap.Save(bitmap, ref fullFileName, true, _opacity);
+            SolidworksObject.SetBitmapByName(fullFileName, "");
         }
-        
     }
 }

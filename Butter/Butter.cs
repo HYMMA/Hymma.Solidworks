@@ -108,6 +108,7 @@ namespace Butter
             //   selBox.OnCallOutCreated += SelBox_OnCallOutCreated;
             //   selBox.OnCallOutDestroyed += SelBox_OnCallOutDestroyed;
             selBox.OnDisplay += SelBox_OnDisplay;
+
             // selBox.OnFocusChanged += SelBox_OnFocusChanged;
             // selBox.OnGainedFocus += SelBox_OnGainedFocus;
             selBox.OnListChanged += SelBox_OnListChanged;
@@ -119,15 +120,21 @@ namespace Butter
             };
 
 
-            var checkableBtnBtimap = new PmpBitmapButtonCheckable(Properties.Resources.xtractOrange, "xtractOrange2/|?", "tip for checkable with bitmap", new[] {  BtnSize.nintySix,BtnSize.hundredTwentyEight });
+            var checkableBtnBtimap = new PmpBitmapButtonCheckable(Properties.Resources.xtractOrange, "xtractOrange23", "tip for checkable with bitmap", new[] { BtnSize.nintySix, BtnSize.hundredTwentyEight },50);
+            var pmpBitmap = new PmpBitmap(Properties.Resources.hymma_logo_small, "hymma", opacity: 2);
+            pmpBitmap.Top = checkbox.Top = 60;
+            //var button = new PmpButton("pmp button", "tip");
             checkbox.OnChecked += (sender, e) =>
             {
                 if (e)
                 {
-                    checkableBtnBtimap.SetButtonIcon(Properties.Resources.xtractBlue, "xtractB",new[] { BtnSize.sixteen});
+                    selBox.Enabled = false;
+                }
+                else
+                {
                 }
             };
-            //var button = new PmpButton("pmp button", "tip");
+
             //var bitmapBtn = new PmpBitmapButton(Properties.Resources.butter, "bitmapBtn", "tip");
             //var standardBtn = new PmpBitmapButton(BitmapButtons.diameter, "standard button tip");
             //var checkableBtn = new PmpBitmapButtonCheckable(BitmapButtons.favorite_load, "checkable standard");
@@ -138,6 +145,7 @@ namespace Butter
             //controls.Add(standardBtn);
             //controls.Add(checkableBtn);
             controls.Add(checkableBtnBtimap);
+            controls.Add(pmpBitmap);
             return controls;
         }
 

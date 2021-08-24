@@ -39,6 +39,17 @@ namespace Hymma.SolidTools.Addins
         }
 
         /// <summary>
+        /// Gets or sets how to override the SOLIDWORKS default behavior when changing the width of a PropertyManager page. <br/>
+        /// Resize the PropertyManager page as defined in <see cref="PmpResizeStyles"/>
+        /// you can use ths porperty only before the control is displayed or while it is closed
+        /// </summary>
+        public int OptionsForResize
+        {
+            get => _optionForResize;
+            set => _optionForResize = _control.OptionsForResize = value;
+        }
+
+        /// <summary>
         /// Left edge of the control <br/>
         /// Use this proeprty and <see cref="PmpControl{T}.Top"/> to palce controls side by side<br/>
         /// The value is in dialog units relative to the group box that the control is in. The left edge of the group box is 0; the right edge of the group box is 100
@@ -63,6 +74,7 @@ namespace Hymma.SolidTools.Addins
         private short _width;
         private short _left;
         private IPropertyManagerPageControl _control;
+        private int _optionForResize;
     }
 
 }

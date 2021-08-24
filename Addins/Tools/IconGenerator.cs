@@ -1,4 +1,34 @@
-﻿using System;
+﻿#region lincese
+//this is forked from AngleSix.SolidWorksApi.IconGenerator
+//https://github.com/angelsix/solidworks-api/tree/develop/Tools/CommandManager%20Icon%20Generator
+
+//MIT License
+
+//Copyright (c) 2017
+
+//Permission is hereby granted, free of charge, to any person obtaining a copy
+//of this software and associated documentation files (the "Software"), to deal
+//in the Software without restriction, including without limitation the rights
+//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//copies of the Software, and to permit persons to whom the Software is
+//furnished to do so, subject to the following conditions:
+
+//The above copyright notice and this permission notice shall be included in all
+//copies or substantial portions of the Software.
+
+//All files inside the References folder are property of Dassault Systemes 
+//SolidWorks Corp and may only be used in unmodified form in conjunction with 
+//SolidDNA.
+
+//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//SOFTWARE.
+#endregion
+using System;
 using System.Drawing;
 using System.IO;
 using static Hymma.SolidTools.Addins.Logger;
@@ -19,36 +49,6 @@ namespace Hymma.SolidTools.Addins
         public static string[] GetCommandGroupIconStrips(Bitmap[]
             icons, string filenamePrepend)
         {
-            #region lincese
-            //this is forked from AngleSix.SolidWorksApi.IconGenerator
-            //https://github.com/angelsix/solidworks-api/tree/develop/Tools/CommandManager%20Icon%20Generator
-
-            //MIT License
-
-            //Copyright (c) 2017
-
-            //Permission is hereby granted, free of charge, to any person obtaining a copy
-            //of this software and associated documentation files (the "Software"), to deal
-            //in the Software without restriction, including without limitation the rights
-            //to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-            //copies of the Software, and to permit persons to whom the Software is
-            //furnished to do so, subject to the following conditions:
-
-            //The above copyright notice and this permission notice shall be included in all
-            //copies or substantial portions of the Software.
-
-            //All files inside the References folder are property of Dassault Systemes 
-            //SolidWorks Corp and may only be used in unmodified form in conjunction with 
-            //SolidDNA.
-
-            //THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-            //IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-            //FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-            //AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-            //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-            //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-            //SOFTWARE.
-            #endregion
 
             // The filename to prepend to the output files
             // 

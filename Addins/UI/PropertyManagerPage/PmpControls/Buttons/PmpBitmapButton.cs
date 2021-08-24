@@ -18,6 +18,7 @@ namespace Hymma.SolidTools.Addins
         private Bitmap _bitmap;
         private string _fileName;
         private BtnSize[] _iconSizes;
+        private byte _opacity;
         private BitmapButtons _standardIcon;
         #endregion
 
@@ -30,11 +31,13 @@ namespace Hymma.SolidTools.Addins
         /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
         /// <param name="tip">text for this button tooltip</param>
         /// <param name="iconSizes">possible icons sizes for this button</param>
-        public PmpBitmapButton(Bitmap bitmap, string fileName, string tip, BtnSize[] iconSizes) : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton, "", tip)
+        /// <param name="opacity">define opacity of the bitmap on the button, less values result in more transparent pictures</param>
+        public PmpBitmapButton(Bitmap bitmap, string fileName, string tip, BtnSize[] iconSizes, byte opacity) : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton, "", tip)
         {
             _bitmap = bitmap;
             _fileName = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
             _iconSizes = iconSizes;
+            _opacity = opacity;
             OnRegister += PmpBitmapButton_OnRegister;
         }
 
@@ -55,7 +58,7 @@ namespace Hymma.SolidTools.Addins
         {
             if (_bitmap != null && _fileName != "")
             {
-                SetButtonIcon(_bitmap, _fileName,_iconSizes);
+                SetButtonIcon(_bitmap, _fileName, _iconSizes);
             }
             else if (_standardIcon != 0)
             {
@@ -86,7 +89,7 @@ namespace Hymma.SolidTools.Addins
             foreach (int size in possibleSizes)
             {
                 var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), new StringBuilder().Append(fileName).Append(size).Append(".png").ToString());
-                MaskedBitmap.Save(new Bitmap(bitmap, size, size), ref fullFileName, opacityThreshold: 255);
+                MaskedBitmap.Save(new Bitmap(bitmap, size, size), ref fullFileName, true, _opacity);
                 maskedImages.Add(new MaskedBitmap() { FileName = fullFileName, Mask = "" });
             }
 
