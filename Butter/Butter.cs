@@ -1,12 +1,10 @@
-﻿using Hymma.Mathematics;
-using Hymma.SolidTools.Addins;
+﻿using Hymma.SolidTools.Addins;
 using Hymma.SolidTools.Core;
 using Hymma.SolidTools.Fluent.Addins;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Runtime.InteropServices;
 namespace Butter
 {
@@ -108,7 +106,6 @@ namespace Butter
             //   selBox.OnCallOutCreated += SelBox_OnCallOutCreated;
             //   selBox.OnCallOutDestroyed += SelBox_OnCallOutDestroyed;
             selBox.OnDisplay += SelBox_OnDisplay;
-
             // selBox.OnFocusChanged += SelBox_OnFocusChanged;
             // selBox.OnGainedFocus += SelBox_OnGainedFocus;
             selBox.OnListChanged += SelBox_OnListChanged;
@@ -120,33 +117,46 @@ namespace Butter
             };
 
 
-            var checkableBtnBtimap = new PmpBitmapButtonCheckable(Properties.Resources.xtractOrange, "xtractOrange23", "tip for checkable with bitmap", new[] { BtnSize.nintySix, BtnSize.hundredTwentyEight },50);
+            var checkableBtnBtimap = new PmpBitmapButtonCheckable(Properties.Resources.xtractOrange,
+                                                                  "xtractOrange23",
+                                                                  "tip for checkable with bitmap",
+                                                                  new[] { BtnSize.nintySix, BtnSize.hundredTwentyEight },
+                                                                  50);
             var pmpBitmap = new PmpBitmap(Properties.Resources.hymma_logo_small, "hymma", opacity: 2);
-            pmpBitmap.Top = checkbox.Top = 60;
-            //var button = new PmpButton("pmp button", "tip");
             checkbox.OnChecked += (sender, e) =>
             {
                 if (e)
                 {
-                    selBox.Enabled = false;
                 }
                 else
                 {
                 }
             };
 
-            //var bitmapBtn = new PmpBitmapButton(Properties.Resources.butter, "bitmapBtn", "tip");
+            var bitmapBtn = new PmpBitmapButton(Properties.Resources.butter,
+                                                "bitmapBtn2",
+                                                "tip"
+                                                ,new[] { BtnSize.forty, BtnSize.sixtyFour}
+                                                ,50);
+            bitmapBtn.OnPress += BitmapBtn_OnPress;
             //var standardBtn = new PmpBitmapButton(BitmapButtons.diameter, "standard button tip");
             //var checkableBtn = new PmpBitmapButtonCheckable(BitmapButtons.favorite_load, "checkable standard");
             controls.Add(selBox);
             controls.Add(checkbox);
             //controls.Add(button);
-            //controls.Add(bitmapBtn);
+            controls.Add(bitmapBtn);
             //controls.Add(standardBtn);
             //controls.Add(checkableBtn);
             controls.Add(checkableBtnBtimap);
             controls.Add(pmpBitmap);
             return controls;
+        }
+
+        private void BitmapBtn_OnPress(object sender, EventArgs e)
+        {
+            var btn = sender as PmpBitmapButton;
+            btn.SetButtonIcon(Properties.Resources.xtractBlue, "xtractBlueForBtn", new[] {  BtnSize.sixtyFour },50);
+            btn.ShowBubleTooltip("title of bubble tooltip", "messabe body goes here ...", Properties.Resources.butter, "butterTooltip.jpeg");
         }
 
         private void Checkbox_OnChecked(PmpCheckBox pmpCheckBox, bool isChecked)

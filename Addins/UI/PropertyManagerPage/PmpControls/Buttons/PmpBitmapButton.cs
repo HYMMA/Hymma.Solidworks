@@ -58,7 +58,7 @@ namespace Hymma.SolidTools.Addins
         {
             if (_bitmap != null && _fileName != "")
             {
-                SetButtonIcon(_bitmap, _fileName, _iconSizes);
+                SetButtonIcon(_bitmap, _fileName, _iconSizes,_opacity);
             }
             else if (_standardIcon != 0)
             {
@@ -79,7 +79,8 @@ namespace Hymma.SolidTools.Addins
         /// <param name="bitmap">bitmap to edit and set in the property manager page</param>
         /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
         /// <param name="possibleSizes"></param>
-        public void SetButtonIcon(Bitmap bitmap, string fileName, BtnSize[] possibleSizes)
+        /// <param name="opacity">define opacity of the bitmap on the button, less values result in more transparent pictures</param>
+        public void SetButtonIcon(Bitmap bitmap, string fileName, BtnSize[] possibleSizes, byte opacity)
         {
             if (SolidworksObject == null)
                 return;
@@ -89,7 +90,7 @@ namespace Hymma.SolidTools.Addins
             foreach (int size in possibleSizes)
             {
                 var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), new StringBuilder().Append(fileName).Append(size).Append(".png").ToString());
-                MaskedBitmap.Save(new Bitmap(bitmap, size, size), ref fullFileName, true, _opacity);
+                MaskedBitmap.Save(new Bitmap(bitmap, size, size), ref fullFileName, true, opacity);
                 maskedImages.Add(new MaskedBitmap() { FileName = fullFileName, Mask = "" });
             }
 

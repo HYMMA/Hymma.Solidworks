@@ -21,7 +21,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="bitmap">bitmap to edit and set in the property manager page</param>
         /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
         /// <param name="resizeStyles">resize option as defined in <see cref="PmpResizeStyles"/></param>
-        /// <param name="opacity">define opacity of the image. 255 is th emax possible value</param>
+        /// <param name="opacity">define opacity of the image. 255 is th emax possible value, less values result in more transparent pictures</param>
         /// <remarks>The typical image format for the two SOLIDWORKS bitmaps is 18 x 18 pixels x 256 colors. <br/>
         /// </remarks>
         public PmpBitmap(Bitmap bitmap, string fileName, PmpResizeStyles resizeStyles=PmpResizeStyles.LockLeft, byte opacity = 255) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap)
@@ -41,7 +41,7 @@ namespace Hymma.SolidTools.Addins
 
         private void PmpBitmap_OnRegister()
         {
-            SetPictureByName(_bitmap, _filename);
+            UpdatePicture(_bitmap, _filename,_opacity);
         }
 
         /// <summary>
@@ -49,20 +49,23 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="bitmap">bitmap to edit and set in the property manager page</param>
         /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
+        /// <param name="opacity">define opacity of the image. less values result in more transparent pictures</param>
         /// <remarks>The typical image format for the two SOLIDWORKS bitmaps is 18 x 18 pixels x 256 colors. <br/>
         /// Using this method, you can specify different sizes e.g. 24 x 90. 
         /// <para>
-        /// You can use this method before, during, or after the PropertyManager page is displayed or closed. If you use this method when the PropertyManager page is displayed, use bitmaps that are the same size.
+        /// You can use this method during the PropertyManager page is displayed or closed. If you use this method when the PropertyManager page is displayed, use bitmaps that are the same size.
         /// </para>
         /// </remarks>
-        public void SetPictureByName(Bitmap bitmap, string fileName)
+        public void UpdatePicture(Bitmap bitmap, string fileName, byte opacity)
         {
             if (SolidworksObject == null || string.IsNullOrEmpty(fileName))
                 return;
 
             var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), fileName);
-            MaskedBitmap.Save(bitmap, ref fullFileName, true, _opacity);
+            MaskedBitmap.Save(bitmap, ref fullFileName, true, opacity);
             SolidworksObject.SetBitmapByName(fullFileName, "");
         }
+
+
     }
 }

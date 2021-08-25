@@ -84,14 +84,14 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BitmapButtons.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BtnSize.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpButtonBase.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\_Base\EventsArgs\OnDisplay_EventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\_Base\OnDisplay_EventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Enums\ListboxStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_Display.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_OnDisplay.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_OnRMB.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_SelectionChanged.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_OnDisplay_EventArgs.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Checkbox\Events\CheckBox_EventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Checkbox\CheckBox_EventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpResizeStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Enums\SelectionBoxStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_EventHandler.cs" />
