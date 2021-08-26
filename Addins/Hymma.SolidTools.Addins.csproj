@@ -95,7 +95,7 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpResizeStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Enums\SelectionBoxStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_EventHandler.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_EventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelBox_OnDisplay_EventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnListChanged_EventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnSubmitSelectionEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnSubmitSelection_EventArgs.cs" />
@@ -115,7 +115,7 @@
     <Compile Include="UI\PropertyManagerPage\Core\PmpEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PropertyManagerPageUIBase.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PropertyManagerPageX64.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpBitmap.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Image\PmpBitmap.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButtonCheckable.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpComboBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\_Base\PmpControl.cs" />

@@ -17,13 +17,11 @@ namespace Hymma.SolidTools.Addins
         private CalloutModel _callout;
         private string _calloutLabel;
         private bool _enableSelectIdenticalComponents;
-        private SysColor _selectionColor;
         private short _height;
         private IEnumerable<swSelectType_e> _filters;
         private int _style;
         private bool _allowMultipleSelectOfSameEntity;
         private bool _singleItemOnly;
-        private int _currentSelection;
         #endregion
 
         #region constructor
@@ -44,17 +42,23 @@ namespace Hymma.SolidTools.Addins
         /// <param name="allowMultipleSelectOfSameEntity">True if the same entity can be selected multiple times in this selection box, false if not</param>
         /// <param name="style">style of this selection box as defined by bitwise <see cref="SelectionBoxStyles"/></param>
         /// <param name="singleItemOnly">Gets or sets whether this selection box is for single or multiple items. </param>
-        /// <param name="height">height of selectionbox in the pmp</param> 
+        /// <param name="height">height of selectionbox in the pmp</param>
         /// <param name="tip">tip for the selectionbox</param>
-        public PmpSelectionBox(IEnumerable<swSelectType_e> filters, int style = (int)SelectionBoxStyles.Default, bool allowMultipleSelectOfSameEntity = true, bool singleItemOnly = false, short height = 50,string caption="",string tip="")
-            : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox,caption,tip)
+        public PmpSelectionBox(IEnumerable<swSelectType_e> filters, SelectionBoxStyles style = SelectionBoxStyles.Default, bool allowMultipleSelectOfSameEntity = true, bool singleItemOnly = false, short height = 50, string tip = "")
+            : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox, "", tip)
         {
             _height = height;
             _filters = filters;
-            _style = style;
+            _style = (int)style;
             _allowMultipleSelectOfSameEntity = allowMultipleSelectOfSameEntity;
             _singleItemOnly = singleItemOnly;
             OnRegister += PmpSelectionBox_OnRegister;
+            OnDisplay += PmpSelectionBox_OnDisplay;
+        }
+
+        private void PmpSelectionBox_OnDisplay(PmpSelectionBox sender, SelBox_OnDisplay_EventArgs eventArgs)
+        {
+            eventArgs.Style = _style;
         }
         #endregion
 
@@ -63,8 +67,6 @@ namespace Hymma.SolidTools.Addins
         {
             SolidworksObject.AllowMultipleSelectOfSameEntity = _allowMultipleSelectOfSameEntity;
             SolidworksObject.SingleEntityOnly = _singleItemOnly;
-            SolidworksObject.Style = _style;
-            SolidworksObject.SetSelectionColor(true, (int)_selectionColor);
             SolidworksObject.EnableSelectIdenticalComponents = _enableSelectIdenticalComponents;
             SolidworksObject.Height = _height;
             SolidworksObject.SetSelectionFilters(_filters.Cast<int>().ToArray());
@@ -103,7 +105,7 @@ namespace Hymma.SolidTools.Addins
 
         internal override void Display()
         {
-            OnDisplay?.Invoke(this, new SelectionBox_EventArgs(this, _filters, _style, _allowMultipleSelectOfSameEntity, _singleItemOnly, _height));
+            OnDisplay?.Invoke(this, new SelBox_OnDisplay_EventArgs(this, _filters, _style, _allowMultipleSelectOfSameEntity, _singleItemOnly, _height));
         }
         #endregion
 
@@ -158,10 +160,14 @@ namespace Hymma.SolidTools.Addins
         /// <remarks>The return value Item is the item in the selection box that is selected. Only the active selection box can have a current selection. If you use this property with an inactive selection box, -1 is returned.<see cref="IsFocused"/>  to determine if a selection box is active or not.</remarks>
         public int CurrentSelection
         {
-            get => _currentSelection;
+            get
+            {
+                if (SolidworksObject!=null)
+                    return SolidworksObject.CurrentSelection;
+                return -1;
+            }
             set
             {
-                _currentSelection = value;
                 if (SolidworksObject != null)
                     SolidworksObject.CurrentSelection = value;
             }
@@ -200,33 +206,14 @@ namespace Hymma.SolidTools.Addins
             }
         }
 
-        /// <summary>
-        /// Gets the text of the specified item in this selection box. 
-        /// </summary>
-        /// <param name="index">Position of the item in the 0-based list; -1 to get the currently selected item</param>
-        /// <returns></returns>
-        public string ItemText(short index) => SolidworksObject?.ItemText[index];
 
-        /// <summary>
-        /// Sets the color for selections made in this selection box on the PropertyManager page. 
-        /// </summary>
-        /// <remarks>You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed. Setting a value for this property will take effect on the next session when property manage page is displayed</remarks>
-        public SysColor SelectionColor
-        {
-            get => _selectionColor;
-            set
-            {
-                _selectionColor = value;
-                SolidworksObject?.SetSelectionColor(true, (int)value);
-            }
-        }
 
         /// <summary>
         /// Gets the mark used on selected items in this selection box. 
         /// </summary>
         /// <value> mark value for this selectin box </value>
         /// <remarks>if called before selection box is registered returns -1</remarks>
-        public int Mark
+        private int Mark
         {
             get
             {
@@ -235,7 +222,7 @@ namespace Hymma.SolidTools.Addins
                 return SolidworksObject.Mark;
             }
 
-            private set
+            set
             {
                 // Mark values(whether set by the SolidWorks application or by your application) must be powers of two(for example, 1, 2, 4, 8)
                 var isPowerOfTwo = (value != 0) && ((value & (value - 1)) == 0);
@@ -250,18 +237,17 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// adds the selections to a selectionBox
         /// </summary>
-        /// <param name="selections">array of objects that needs to be added to the selection box</param>
+        /// <param name="items">array of selected objects to add to the selection box</param>
         /// <remarks>
-        ///set selection box's IPropertyManagerPageSelectionbox::Mark to a different power of two; for example, 1, 2, 4, 8, etc.
-        ///(Setting a selection box's mark to 0 causes all selections to appear in that selection box and the active selection box.)
+        ///use this method to add items to the selection box when selection box is not focused. for example you can add all solid bodies of an assembly to a selection box once user clicked on a button.
         ///</remarks>
-        public void Append(object[] selections)
+        public void Append(object[] items)
         {
             var swModelDocExt = ActiveDoc.Extension;
             SelectionMgr swSelectionMgr = ActiveDoc.SelectionManager as SelectionMgr;
             var swSelectData = (SelectData)swSelectionMgr.CreateSelectData();
             swSelectData.Mark = Mark;
-            swModelDocExt.MultiSelect2(selections, true, swSelectData);
+            swModelDocExt.MultiSelect2(items, true, swSelectData);
         }
 
         /// <summary>
@@ -393,7 +379,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// fired just a moment before the property manager page and its controls are displayed
         /// </summary>
-        public new event SelectionBox_EventHandler<SelectionBox_EventArgs> OnDisplay;
+        public new event SelectionBox_EventHandler<SelBox_OnDisplay_EventArgs> OnDisplay;
         #endregion
     }
 }

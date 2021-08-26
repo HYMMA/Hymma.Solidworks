@@ -5,6 +5,7 @@ using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 namespace Butter
 {
@@ -81,7 +82,7 @@ namespace Butter
                     //    .IsExpanded()
                     //    .HasTheseControls(GetControlSet2())
                     //.SaveGroup()
-                    .AddGroup("selectionbox 2")
+                    .AddGroup("Group 1")
                     .IsExpanded()
                     .HasTheseControls(GetControlSet3())
                 .SaveGroup()
@@ -98,25 +99,23 @@ namespace Butter
         private IEnumerable<IPmpControl> GetControlSet3()
         {
             var controls = new List<IPmpControl>();
-            var selBox = new PmpSelectionBox(new[] { swSelectType_e.swSelSOLIDBODIES }, 0, true, false, 50, "caption", "tip for selection box")
+            var selBox = new PmpSelectionBox(new[] { swSelectType_e.swSelCOMPONENTS },
+                                             0,
+                                             true,
+                                             false,
+                                             50,
+                                             "tip for selection box")
             {
-                SelectionColor = SysColor.SelectedItem3,
+                AllowSelectInMultipleBoxes = true,
+                EnableSelectIdenticalComponents = true
             };
-
-            //   selBox.OnCallOutCreated += SelBox_OnCallOutCreated;
-            //   selBox.OnCallOutDestroyed += SelBox_OnCallOutDestroyed;
-            selBox.OnDisplay += SelBox_OnDisplay;
-            // selBox.OnFocusChanged += SelBox_OnFocusChanged;
-            // selBox.OnGainedFocus += SelBox_OnGainedFocus;
-            selBox.OnListChanged += SelBox_OnListChanged;
-            //selBox.OnLostFocus += SelBox_OnLostFocus;
-            //selBox.OnSubmitSelection += SelBox_OnSubmitSelection;
-
+            var selBox2 = new PmpSelectionBox(
+                new[] { swSelectType_e.swSelEVERYTHING },
+                SelectionBoxStyles.HScroll | SelectionBoxStyles.MultipleItemSelect | SelectionBoxStyles.UpAndDownButtons);
+            selBox2.OnDisplay += SelBox2_OnDisplay;
             var checkbox = new PmpCheckBox("caption", false, true)
             {
             };
-
-
             var checkableBtnBtimap = new PmpBitmapButtonCheckable(Properties.Resources.xtractOrange,
                                                                   "xtractOrange23",
                                                                   "tip for checkable with bitmap",
@@ -127,6 +126,8 @@ namespace Butter
             {
                 if (e)
                 {
+                    var assembly = selBox2.ActiveDoc as AssemblyDoc;
+                    selBox.Append(assembly.GetDistictParts().ToList().Where(c => c.GetModelDoc2() is PartDoc).ToArray());
                 }
                 else
                 {
@@ -142,14 +143,19 @@ namespace Butter
             //var standardBtn = new PmpBitmapButton(BitmapButtons.diameter, "standard button tip");
             //var checkableBtn = new PmpBitmapButtonCheckable(BitmapButtons.favorite_load, "checkable standard");
             controls.Add(selBox);
+            controls.Add(selBox2);
             controls.Add(checkbox);
-            //controls.Add(button);
             controls.Add(bitmapBtn);
-            //controls.Add(standardBtn);
-            //controls.Add(checkableBtn);
             controls.Add(checkableBtnBtimap);
             controls.Add(pmpBitmap);
             return controls;
+        }
+
+        private void SelBox2_OnDisplay(PmpSelectionBox sender, SelBox_OnDisplay_EventArgs eventArgs)
+        {
+            eventArgs.SetPictureLabel(Properties.Resources.xtractred, "xtractedForSelBox2");
+            eventArgs.Style = ((int)SelectionBoxStyles.UpAndDownButtons);
+            eventArgs.SelectionColor = SysColor.ActiveSelectionListBox;
         }
 
         private void BitmapBtn_OnPress(object sender, EventArgs e)
@@ -159,19 +165,6 @@ namespace Butter
             btn.ShowBubleTooltip("title of bubble tooltip", "messabe body goes here ...", Properties.Resources.butter, "butterTooltip.jpeg");
         }
 
-        private void Checkbox_OnChecked(PmpCheckBox pmpCheckBox, bool isChecked)
-        {
-
-        }
-
-        private void SelBox_OnDisplay(PmpSelectionBox sender, SelectionBox_EventArgs eventArgs)
-        {
-        }
-
-        private void SelBox_OnListChanged(PmpSelectionBox sender, SelectionBox_OnListChanged_EventArgs eventArgs)
-        {
-
-        }
 
         public void ShowPMP()
         {

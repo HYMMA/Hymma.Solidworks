@@ -1,4 +1,5 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿using Hymma.SolidTools.Core;
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// event argument for <see cref="PmpSelectionBox.OnDisplay"/> event
     /// </summary>
-    public class SelectionBox_EventArgs : OnDisplay_EventArgs
+    public class SelBox_OnDisplay_EventArgs : OnDisplay_EventArgs
     {
         #region Constructor
         /// <summary>
@@ -21,7 +22,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="allowMultipleSelectOfSameEntity"></param>
         /// <param name="singleItemOnly"></param>
         /// <param name="height"></param>
-        internal SelectionBox_EventArgs(PmpSelectionBox pmpSelectionBox, IEnumerable<swSelectType_e> filters, int style, bool allowMultipleSelectOfSameEntity, bool singleItemOnly, short height) 
+        internal SelBox_OnDisplay_EventArgs(PmpSelectionBox pmpSelectionBox, IEnumerable<swSelectType_e> filters, int style, bool allowMultipleSelectOfSameEntity, bool singleItemOnly, short height) 
             : base((IPropertyManagerPageControl )pmpSelectionBox.SolidworksObject)
         {
             SolidworksObject = pmpSelectionBox.SolidworksObject;
@@ -31,6 +32,30 @@ namespace Hymma.SolidTools.Addins
             _singleItemOnly = singleItemOnly;
             _height = height;
 
+        }
+        #endregion
+
+        #region methods
+
+        /// <summary>
+        /// Gets the text of the specified item in this selection box. 
+        /// </summary>
+        /// <param name="index">Position of the item in the 0-based list; -1 to get the currently selected item</param>
+        /// <returns></returns>
+        public string ItemText(short index) => SolidworksObject?.ItemText[index];
+
+        /// <summary>
+        /// Sets the color for selections made in this selection box on the PropertyManager page. 
+        /// </summary>
+        /// <remarks>You can only use this method to set properties on the PropertyManager page before it is displayed or while it is closed.</remarks>
+        public SysColor SelectionColor
+        {
+            get => _selectionColor;
+            set
+            {
+                _selectionColor = value;
+                SolidworksObject?.SetSelectionColor(true, (int)value);
+            }
         }
         #endregion
 
@@ -83,6 +108,10 @@ namespace Hymma.SolidTools.Addins
             {
                 SolidworksObject.Style = value;
                 _style = value;
+                if ((_style & (int)SelectionBoxStyles.UpAndDownButtons)!=0)
+                {
+                    Left = 20;
+                }
             }
         }
 
@@ -123,6 +152,7 @@ namespace Hymma.SolidTools.Addins
         private bool _allowMultipleSelectOfSameEntity;
         private bool _singleItemOnly;
         private short _height;
+        private SysColor _selectionColor;
         #endregion
     }
 }
