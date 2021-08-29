@@ -1,4 +1,5 @@
-﻿using Hymma.SolidTools.Addins;
+﻿using Hymma.Mathematics;
+using Hymma.SolidTools.Addins;
 using Hymma.SolidTools.Core;
 using Hymma.SolidTools.Fluent.Addins;
 using SolidWorks.Interop.sldworks;
@@ -110,7 +111,7 @@ namespace Butter
                 EnableSelectIdenticalComponents = true
             };
             var selBox2 = new PmpSelectionBox(
-                new[] { swSelectType_e.swSelEVERYTHING },
+                new[] { swSelectType_e.swSelSOLIDBODIES},
                 SelectionBoxStyles.HScroll | SelectionBoxStyles.MultipleItemSelect | SelectionBoxStyles.UpAndDownButtons);
             selBox2.OnDisplay += SelBox2_OnDisplay;
             var checkbox = new PmpCheckBox("caption", false, true)
@@ -137,9 +138,18 @@ namespace Butter
             var bitmapBtn = new PmpBitmapButton(Properties.Resources.butter,
                                                 "bitmapBtn2",
                                                 "tip"
-                                                ,new[] { BtnSize.forty, BtnSize.sixtyFour}
-                                                ,50);
-            bitmapBtn.OnPress += BitmapBtn_OnPress;
+                                                , new[] { BtnSize.forty, BtnSize.sixtyFour }
+                                                , 50);
+            bitmapBtn.OnPress += (sender, e) =>
+            {
+                var btn = sender as PmpBitmapButton;
+                var selboxItems = selBox.GetItems();
+                var rows = new List<CalloutRow>();
+                rows.Add(new CalloutRow("row 1 value", "label 1"));
+                rows.Add(new CalloutRow("row 2 value", "label 2"));
+                rows.Add(new CalloutRow("row 3 value", "label 3") { Target=new Point(0,0,0), TextColor=SysColor.Highlight});
+                selBox.AddCallout(Solidworks, rows, false);
+            };
             //var standardBtn = new PmpBitmapButton(BitmapButtons.diameter, "standard button tip");
             //var checkableBtn = new PmpBitmapButtonCheckable(BitmapButtons.favorite_load, "checkable standard");
             controls.Add(selBox);
@@ -153,18 +163,9 @@ namespace Butter
 
         private void SelBox2_OnDisplay(PmpSelectionBox sender, SelBox_OnDisplay_EventArgs eventArgs)
         {
-            eventArgs.SetPictureLabel(Properties.Resources.xtractred, "xtractedForSelBox2");
             eventArgs.Style = ((int)SelectionBoxStyles.UpAndDownButtons);
             eventArgs.SelectionColor = SysColor.ActiveSelectionListBox;
         }
-
-        private void BitmapBtn_OnPress(object sender, EventArgs e)
-        {
-            var btn = sender as PmpBitmapButton;
-            btn.SetButtonIcon(Properties.Resources.xtractBlue, "xtractBlueForBtn", new[] {  BtnSize.sixtyFour },50);
-            btn.ShowBubleTooltip("title of bubble tooltip", "messabe body goes here ...", Properties.Resources.butter, "butterTooltip.jpeg");
-        }
-
 
         public void ShowPMP()
         {

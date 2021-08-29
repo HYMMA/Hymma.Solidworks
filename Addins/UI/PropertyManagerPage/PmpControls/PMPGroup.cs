@@ -118,7 +118,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="propertyManagerPage"></param>
         internal void Register(IPropertyManagerPage2 propertyManagerPage)
         {
-            Id = PmpConstants.GetNextId();
+            Id = Counter.GetNextPmpId();
             SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(Id, Caption, (int)Options);
 
             Controls.ForEach(c => c.Register(SolidworksObject));

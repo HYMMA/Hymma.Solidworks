@@ -13,8 +13,6 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class CalloutModel : IWrapSolidworksObject<Callout>
     {
-        private int rowID;
-
         #region constructors
         /// <summary>
         /// private constructor
@@ -40,14 +38,14 @@ namespace Hymma.SolidTools.Addins
             if (updateWithSelection)
             {
                 var selectionMgr = model.SelectionManager as SelectionMgr;
-                SolidworksObject = selectionMgr.CreateCallout2(Rows.Count, Handler);
+                SolidworksObject = selectionMgr.CreateCallout2(rows.Count, Handler);
             }
             else
             {
                 var modelExtension = model.Extension;
-                SolidworksObject = modelExtension.CreateCallout(Rows.Count, Handler);
+                SolidworksObject = modelExtension.CreateCallout(rows.Count, Handler);
             }
-            rows.ForEach(row => AddRowToCallout(row));
+            rows.ForEach(row => AddRow(row));
             this.Rows = rows;
         }
 
@@ -59,9 +57,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="modelView">model view to creat the callout in</param>
         public CalloutModel(List<CalloutRow> rows, ISldWorks solidworks, ModelView modelView) : this(rows, solidworks)
         {
-            SolidworksObject = modelView.CreateCallout(Rows.Count, Handler);
-            rows.ForEach(row => AddRowToCallout(row));
-            this.Rows = rows;
+            SolidworksObject = modelView.CreateCallout(rows.Count, Handler);
         }
         #endregion
 
@@ -72,7 +68,7 @@ namespace Hymma.SolidTools.Addins
         ///This property applies only to a callout that is independent of a selection or created with IModelDocExtension::CreateCallout
         public void IgnoreRow(CalloutRow calloutRow)
         {
-            _ = SolidworksObject.IgnoreValue[calloutRow.RowId];
+            _ = SolidworksObject.IgnoreValue[calloutRow.Id];
         }
 
         /// <summary>
@@ -81,7 +77,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="value"></param>
         public List<int> GetRowIds(string value)
         {
-            return Rows.Where(r => r.Value == value).Select(r => r.RowId).ToList();
+            return Rows.Where(r => r.Value == value).Select(r => r.Id).ToList();
         }
 
         #region properties
@@ -95,20 +91,14 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// adds a new row to this callout
         /// </summary>
-        /// <param name="calloutRow"></param>
-        public void AddRowToCallout(CalloutRow calloutRow)
+        /// <param name="row"></param>
+        public void AddRow(CalloutRow row)
         {
-            //increase row id registration
-            rowID++;
-
-            //update proeprty of the row
-            calloutRow.RowId = rowID;
-
-            //set callout object of the row 
-            calloutRow.Callout = SolidworksObject;
-
-            //map to solidworks
-            SolidworksObject.AddRow(calloutRow);
+            //map to solidworks callout
+            SolidworksObject.Value[row.Id] = row.Value;
+            SolidworksObject.ValueInactive[row.Id] = row.ValueInactive;
+            SolidworksObject.Label2[row.Id] = row.Label;
+            SolidworksObject.TextColor[row.Id] = (int)row.TextColor;
         }
 
         /// <summary>

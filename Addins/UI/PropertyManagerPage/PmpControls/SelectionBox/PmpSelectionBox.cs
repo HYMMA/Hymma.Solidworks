@@ -70,7 +70,7 @@ namespace Hymma.SolidTools.Addins
             SolidworksObject.EnableSelectIdenticalComponents = _enableSelectIdenticalComponents;
             SolidworksObject.Height = _height;
             SolidworksObject.SetSelectionFilters(_filters.Cast<int>().ToArray());
-            Mark = PmpConstants.GetNextMark();
+            Mark = Counter.GetNextSelBoxMark();
         }
         internal void FocusChanged()
         {
@@ -131,10 +131,24 @@ namespace Hymma.SolidTools.Addins
         }
 
         /// <summary>
+        /// adds a callout to the current document
+        /// </summary>
+        /// <param name="solidworks"></param>
+        /// <param name="rows"></param>
+        /// <param name="updateWithSelection"></param>
+        /// <returns></returns>
+        public CalloutModel AddCallout(ISldWorks solidworks, List<CalloutRow> rows, bool updateWithSelection)
+        {
+            var callout = new CalloutModel(rows, solidworks, ActiveDoc, updateWithSelection);
+            CalloutLabel = string.IsNullOrWhiteSpace(_calloutLabel) ? "Default" : _calloutLabel;
+            SolidworksObject.Callout = callout.SolidworksObject;
+            return callout;
+        }
+        /// <summary>
         /// create a clalout for this selectionbox
         /// </summary>
         /// <remarks>you should use this property in the context of a part or assembly or drawing environment i.e you cannot use it when solidworks starts</remarks>
-        public CalloutModel CalloutModel
+        public CalloutModel Callout
         {
             get => _callout;
             set
@@ -162,7 +176,7 @@ namespace Hymma.SolidTools.Addins
         {
             get
             {
-                if (SolidworksObject!=null)
+                if (SolidworksObject != null)
                     return SolidworksObject.CurrentSelection;
                 return -1;
             }
@@ -265,40 +279,21 @@ namespace Hymma.SolidTools.Addins
         ///<item>Called in a part or assembly document . . . . . .<description> <see cref="IComponent2"/> object. </description></item>
         /// </list></remarks> 
         /// <returns> a dicitonary of items and their type as defined in <see cref="swSelectType_e"/> Nothing or null might be returned if the type is not supported or if nothing is selected</returns>
-        public IDictionary<object, swSelectType_e> GetItems()
+        public IEnumerable<KeyValuePair<object, swSelectType_e>> GetItems()
         {
-            var selMgr = (SelectionMgr)ActiveDoc.SelectionManager;
-            var itemsTypes = new Dictionary<object, swSelectType_e>();
-            //var count = selMgr.GetSelectedObjectCount2(Mark);
-            swSelectType_e type;
-            object item;
-
+            var itemsTypes = new List<KeyValuePair<object, swSelectType_e>>();
             for (int i = 0; i < ItemCount; i++)
             {
-                //index to use in selection manager
-                var selIndex = SolidworksObject.SelectionIndex[i];
-
-                //get item via selection manager
-                item = selMgr.GetSelectedObject6(selIndex, Mark);
-
-                //get type of object
-                type = (swSelectType_e)selMgr.GetSelectedObjectType3(selIndex, Mark);
-                itemsTypes.Add(item, type);
+                itemsTypes.Add(GetItem((uint)i));
             }
             return itemsTypes;
         }
 
         /// <summary>
-        /// get the item in the selection manager <br/>
+        /// get the specified item in the selection box <br/>
         /// folow instructions in the link below to get the actual object of the selected item 
         /// </summary>
         /// <param name="index">0-based index of the item in the selection manager</param>
-        /// <param name="mark">
-        /// -1 = All selections regardless of marks<br/>
-        ///0 = only the selections without marks<br/>
-        ///Any other value = Value that was used to mark and select an object
-        /// </param>
-        /// <param name="type">type of selection</param>
         ///<remarks> <a href="http://help.solidworks.com/2019/english/api/swconst/SOLIDWORKS.Interop.swconst~SOLIDWORKS.Interop.swconst.swSelectType_e.html">solidworks website</a>
         ///<list type="bullet">
         ///<item>IF . . . . . . . . . . . . . . .<description> . . .THEN THIS METHOD RETURNS</description></item>
@@ -310,7 +305,7 @@ namespace Hymma.SolidTools.Addins
         ///<item>Called in a part or assembly document . . . . . .<description> <see cref="IComponent2"/> object. </description></item>
         /// </list></remarks> 
         /// <returns>Selected object as defined in <see cref="swSelectType_e"/> Nothing or null might be returned if the type is not supported or if nothing is selected</returns>
-        public object GetItem(uint index, out swSelectType_e type, int mark = -1)
+        public KeyValuePair<object, swSelectType_e> GetItem(uint index)
         {
             if (ActiveDoc == null || SolidworksObject == null)
                 throw new ArgumentNullException("A Call to Selection manager::GetItem failed becuase ActiveDoc or Selection manager was null");
@@ -319,10 +314,16 @@ namespace Hymma.SolidTools.Addins
 
             SelectionMgr selMgr = (SelectionMgr)ActiveDoc.SelectionManager;
 
+            //index to use in selection manager
             //selection manager index is 1-based
             var selIndex = SolidworksObject.SelectionIndex[(int)index];
-            type = (swSelectType_e)selMgr.GetSelectedObjectType3((int)index, mark);
-            return selMgr.GetSelectedObject6(selIndex, mark);
+
+            //get item via selection manager
+            var type = (swSelectType_e)selMgr.GetSelectedObjectType3((int)selIndex, Mark);
+
+            //get type of object
+            object item = selMgr.GetSelectedObject6(selIndex, Mark);
+            return new KeyValuePair<object, swSelectType_e>(item, type);
         }
         #endregion
 
@@ -334,7 +335,7 @@ namespace Hymma.SolidTools.Addins
 
         /// <summary>
         /// SOLIDWORKS will invoke this once a call-out is created for this selection box<br/>
-        /// allows you to collect information such as the selection type from the last selection. Next, use the <see cref="CalloutModel"/> property to get the Callout object. <br/>
+        /// allows you to collect information such as the selection type from the last selection. Next, use the <see cref="Callout"/> property to get the Callout object. <br/>
         /// Then, use that object's various properties to control the callout text and display characteristics based on that selection information.
         /// </summary>
         public event SelectionBox_EventHandler OnCallOutCreated;

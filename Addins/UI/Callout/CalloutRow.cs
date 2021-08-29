@@ -1,6 +1,7 @@
 ﻿using SolidWorks.Interop.sldworks;
 using Hymma.Mathematics;
 using Hymma.SolidTools.Core;
+using System;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -14,17 +15,18 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="value"> the value of the row</param>
         /// <param name="label"> assign a label for this row</param>
-        public CalloutRow(string value, string label="")
+        public CalloutRow( string value, string label = "")
         {
             Value = value;
             Label = label;
             ValueInactive = false;
+            Id = Counter.GetNextCalloutRowId();
         }
 
         /// <summary>
-        /// solidworks <see cref="ICallout"/> object that hosts this <see cref="CalloutRow"/>
+        /// <see cref="CalloutModel"/> that this row belongs to
         /// </summary>
-        public ICallout Callout { get; internal set; }
+        internal ICallout Callout { get; set; }
 
         /// <summary>
         /// Gets or sets the value in for the specified row in this callout.
@@ -39,7 +41,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// id of this row in the callout
         /// </summary>
-        public int RowId { get;internal set; }
+        public int Id { get; }
 
         /// <summary>
         /// Gets or sets the color of the text in the specified row in this callout.
@@ -54,24 +56,25 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// sets or gets the target <see cref="Point"/> for this row
         /// </summary>
-        public Point Target {
+        public Point Target
+        {
             get
             {
                 //cannot run this if callout is not set
-                if (Callout==null)
-                    return new Point(0,0,0);
+                if (Callout == null )
+                    return new Point(0, 0, 0);
 
                 //update the Callout
-                Callout.GetTargetPoint(RowId, out double x, out double y, out double z);
+                Callout.GetTargetPoint(Id, out double x, out double y, out double z);
                 return new Point(x, y, z);
             }
             set
             {
                 //cannot set this if callout is not set yet
-                if (Callout == null)
+                if (Callout == null )
                     return;
-                Callout.SetTargetPoint(RowId, value.X, value.Y, value.Z);
-            } 
+                Callout.SetTargetPoint(Id, value.X, value.Y, value.Z);
+            }
         }
     }
 }

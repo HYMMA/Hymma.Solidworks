@@ -23,21 +23,5 @@ namespace Hymma.SolidTools
             //update the callout
             callout.Position = mathpoint;
         }
-
-        /// <summary>
-        /// Add a row to this <see cref="ICallout"/>
-        /// </summary>
-        /// <param name="callout">the callout object</param>
-        /// <param name="row"></param>
-        public static void AddRow(this ICallout callout, CalloutRow row)
-        {
-            var rowID = row.RowId;
-            
-            //map to solidwork callout
-            callout.Value[rowID] = row.Value;
-            callout.ValueInactive[rowID] = row.ValueInactive;
-            callout.Label2[rowID] = row.Label;
-            callout.TextColor[rowID] = (int)row.TextColor;
-        }
     }
 }
