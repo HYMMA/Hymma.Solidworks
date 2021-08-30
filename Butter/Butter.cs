@@ -111,7 +111,7 @@ namespace Butter
                 EnableSelectIdenticalComponents = true
             };
             var selBox2 = new PmpSelectionBox(
-                new[] { swSelectType_e.swSelSOLIDBODIES},
+                new[] { swSelectType_e.swSelSOLIDBODIES },
                 SelectionBoxStyles.HScroll | SelectionBoxStyles.MultipleItemSelect | SelectionBoxStyles.UpAndDownButtons);
             selBox2.OnDisplay += SelBox2_OnDisplay;
             var checkbox = new PmpCheckBox("caption", false, true)
@@ -140,15 +140,27 @@ namespace Butter
                                                 "tip"
                                                 , new[] { BtnSize.forty, BtnSize.sixtyFour }
                                                 , 50);
+
             bitmapBtn.OnPress += (sender, e) =>
             {
                 var btn = sender as PmpBitmapButton;
-                var selboxItems = selBox.GetItems();
-                var rows = new List<CalloutRow>();
-                rows.Add(new CalloutRow("row 1 value", "label 1"));
-                rows.Add(new CalloutRow("row 2 value", "label 2"));
-                rows.Add(new CalloutRow("row 3 value", "label 3") { Target=new Point(0,0,0), TextColor=SysColor.Highlight, Value="value of label3s"});
-                selBox.AddCallout(Solidworks, rows, false);
+                var rows = new List<CalloutRow>
+                {
+                    new CalloutRow("label 1", "row 1 value"),
+                    new CalloutRow("label 2", "row 2 value") { TextColor = SysColor.SelectedItem2 },
+                    new CalloutRow("label 3", "row 3 value") { TextColor = SysColor.Highlight, Target = new Point(0, 0, 0) }
+                };
+                var callout = new CalloutModel(rows, Solidworks, selBox.ActiveDoc)
+                {
+                    //HasTextBox = true,
+                    SkipColon = true,
+                    TargetStyle = swCalloutTargetStyle_e.swCalloutTargetStyle_Arrow,
+                    //Position = new Point(1, 2, 3),
+                    EnablePushPin = true,
+                    //MultipleLeaders = true
+                };
+                selBox.CalloutLabel = "my callout label";
+                selBox.Callout = callout;
             };
             //var standardBtn = new PmpBitmapButton(BitmapButtons.diameter, "standard button tip");
             //var checkableBtn = new PmpBitmapButtonCheckable(BitmapButtons.favorite_load, "checkable standard");

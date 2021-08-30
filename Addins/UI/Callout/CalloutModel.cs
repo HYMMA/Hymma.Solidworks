@@ -13,6 +13,11 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class CalloutModel : IWrapSolidworksObject<Callout>
     {
+        #region private fields
+        private List<CalloutRow> _rows = new List<CalloutRow>();
+        private int _rowId=-1;
+        #endregion
+
         #region constructors
         /// <summary>
         /// private constructor
@@ -46,7 +51,6 @@ namespace Hymma.SolidTools.Addins
                 SolidworksObject = modelExtension.CreateCallout(rows.Count, Handler);
             }
             rows.ForEach(row => AddRow(row));
-            this.Rows = rows;
         }
 
         /// <summary>
@@ -58,24 +62,20 @@ namespace Hymma.SolidTools.Addins
         public CalloutModel(List<CalloutRow> rows, ISldWorks solidworks, ModelView modelView) : this(rows, solidworks)
         {
             SolidworksObject = modelView.CreateCallout(rows.Count, Handler);
-
+            rows.ForEach(row => AddRow(row));
         }
         #endregion
 
         #region Methods
-
-        
-
         /// <summary>
         /// get the row id for the value provided
         /// </summary>
         /// <param name="value"></param>
         public List<int> GetRowIds(string value)
         {
-            return Rows.Where(r => r.Value == value).Select(r => r.Id).ToList();
+            return _rows.Where(r => r.Value == value).Select(r => r.Id).ToList();
         }
         #endregion
-
 
         #region properties
 
@@ -83,7 +83,10 @@ namespace Hymma.SolidTools.Addins
         /// each row in a callout has an id and a text value
         /// </summary>
         /// <value>list of rows in a callout </value>
-        public List<CalloutRow> Rows { get; }
+        public List<CalloutRow> GetRows()
+        {
+            return _rows;
+        }
 
         /// <summary>
         /// adds a new row to this callout
@@ -91,13 +94,17 @@ namespace Hymma.SolidTools.Addins
         /// <param name="row"></param>
         public void AddRow(CalloutRow row)
         {
+            row.Id = ++_rowId;
+
             //map to solidworks callout
             SolidworksObject.Value[row.Id] = row.Value;
             SolidworksObject.ValueInactive[row.Id] = row.ValueInactive;
             SolidworksObject.Label2[row.Id] = row.Label;
             SolidworksObject.TextColor[row.Id] = (int)row.TextColor;
             SolidworksObject.IgnoreValue[row.Id] = row.Ignore;
+            _rows.Add(row);
         }
+
 
         /// <summary>
         /// actual solidworks <see cref="ICallout"/> object assigned to by addin

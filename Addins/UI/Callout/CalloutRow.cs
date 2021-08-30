@@ -21,12 +21,11 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="value"> the value of the row</param>
         /// <param name="label"> assign a label for this row</param>
-        public CalloutRow(string value, string label = "")
+        public CalloutRow(string label, string value)
         {
             Value = value;
             Label = label;
             ValueInactive = false;
-            Id = Counter.GetNextCalloutRowId();
         }
 
         /// <summary>
@@ -71,7 +70,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// id of this row in the callout
         /// </summary>
-        public int Id { get; }
+        public int Id { get; internal set; }
 
         /// <summary>
         /// Gets or sets the color of the text in the specified row in this callout.

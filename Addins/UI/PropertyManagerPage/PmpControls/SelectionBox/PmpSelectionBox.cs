@@ -131,20 +131,6 @@ namespace Hymma.SolidTools.Addins
         }
 
         /// <summary>
-        /// adds a callout to the current document
-        /// </summary>
-        /// <param name="solidworks"></param>
-        /// <param name="rows"></param>
-        /// <param name="updateWithSelection"></param>
-        /// <returns></returns>
-        public CalloutModel AddCallout(ISldWorks solidworks, List<CalloutRow> rows, bool updateWithSelection)
-        {
-            var callout = new CalloutModel(rows, solidworks, ActiveDoc, updateWithSelection);
-            CalloutLabel = string.IsNullOrWhiteSpace(_calloutLabel) ? "Default" : _calloutLabel;
-            SolidworksObject.Callout = callout.SolidworksObject;
-            return callout;
-        }
-        /// <summary>
         /// create a clalout for this selectionbox
         /// </summary>
         /// <remarks>you should use this property in the context of a part or assembly or drawing environment i.e you cannot use it when solidworks starts</remarks>

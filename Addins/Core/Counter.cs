@@ -9,7 +9,7 @@ namespace Hymma.SolidTools.Addins
     {
         private static int i = 0;
         private static int m = -1;
-        private static int rowId = 0;
+        private static int rowId = -1;
         /// <summary>
         /// get next id
         /// </summary>
