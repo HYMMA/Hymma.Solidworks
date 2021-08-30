@@ -58,18 +58,13 @@ namespace Hymma.SolidTools.Addins
         public CalloutModel(List<CalloutRow> rows, ISldWorks solidworks, ModelView modelView) : this(rows, solidworks)
         {
             SolidworksObject = modelView.CreateCallout(rows.Count, Handler);
+
         }
         #endregion
 
-        /// <summary>
-        /// Gets or sets whether to ignore the callout value in the given row.
-        /// </summary>
-        /// Use this API to remove the white space that remains in the callout when ICallout::Value is set to an empty string.<br/>
-        ///This property applies only to a callout that is independent of a selection or created with IModelDocExtension::CreateCallout
-        public void IgnoreRow(CalloutRow calloutRow)
-        {
-            _ = SolidworksObject.IgnoreValue[calloutRow.Id];
-        }
+        #region Methods
+
+        
 
         /// <summary>
         /// get the row id for the value provided
@@ -79,6 +74,8 @@ namespace Hymma.SolidTools.Addins
         {
             return Rows.Where(r => r.Value == value).Select(r => r.Id).ToList();
         }
+        #endregion
+
 
         #region properties
 
@@ -99,6 +96,7 @@ namespace Hymma.SolidTools.Addins
             SolidworksObject.ValueInactive[row.Id] = row.ValueInactive;
             SolidworksObject.Label2[row.Id] = row.Label;
             SolidworksObject.TextColor[row.Id] = (int)row.TextColor;
+            SolidworksObject.IgnoreValue[row.Id] = row.Ignore;
         }
 
         /// <summary>
@@ -178,7 +176,9 @@ namespace Hymma.SolidTools.Addins
         {
             return SolidworksObject.SetLeader(visible, multiple);
         }
+        #endregion
 
+        #region Events
         /// <summary>
         /// int is the rowId and string is the value of that row
         /// </summary>

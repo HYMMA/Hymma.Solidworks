@@ -147,7 +147,7 @@ namespace Butter
                 var rows = new List<CalloutRow>();
                 rows.Add(new CalloutRow("row 1 value", "label 1"));
                 rows.Add(new CalloutRow("row 2 value", "label 2"));
-                rows.Add(new CalloutRow("row 3 value", "label 3") { Target=new Point(0,0,0), TextColor=SysColor.Highlight});
+                rows.Add(new CalloutRow("row 3 value", "label 3") { Target=new Point(0,0,0), TextColor=SysColor.Highlight, Value="value of label3s"});
                 selBox.AddCallout(Solidworks, rows, false);
             };
             //var standardBtn = new PmpBitmapButton(BitmapButtons.diameter, "standard button tip");

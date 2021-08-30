@@ -79,6 +79,7 @@
     <Compile Include="Core\IWrapSolidworksObject.cs" />
     <Compile Include="UI\Callout\CalloutExtensions.cs" />
     <Compile Include="UI\Callout\CalloutRow.cs" />
+    <Compile Include="UI\Callout\OnRowValueChangedEventArgs.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
     <Compile Include="UI\Callout\CalloutModel.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BitmapButtons.cs" />
