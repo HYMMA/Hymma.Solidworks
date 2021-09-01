@@ -278,7 +278,7 @@ namespace Hymma.SolidTools.Addins
         public void OnComboboxEditChanged(int Id, string Text)
         {
             PmpComboBox pmpComboBox = UiModel.GetControl(Id) as PmpComboBox;
-            pmpComboBox?.OnSelectionEdit?.Invoke(Text);
+            pmpComboBox?.SelectionEdit(Text);
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace Hymma.SolidTools.Addins
         public void OnComboboxSelectionChanged(int Id, int Item)
         {
             PmpComboBox pmpComboBox = UiModel.GetControl(Id) as PmpComboBox;
-            pmpComboBox?.OnSelectionChanged?.Invoke(Item);
+            pmpComboBox?.SelectionChanged(Item);
         }
 
         /// <summary>

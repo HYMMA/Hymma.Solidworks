@@ -85,6 +85,7 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BitmapButtons.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BtnSize.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpButtonBase.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Combobox\ComboBoxStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\_Base\OnDisplay_EventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Enums\ListboxStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_Display.cs" />
@@ -118,7 +119,7 @@
     <Compile Include="UI\PropertyManagerPage\Core\PropertyManagerPageX64.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Image\PmpBitmap.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButtonCheckable.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpComboBox.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Combobox\PmpComboBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\_Base\PmpControl.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\PmpListBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpNumberBox.cs" />

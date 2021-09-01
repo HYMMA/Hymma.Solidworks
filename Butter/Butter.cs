@@ -166,14 +166,15 @@ namespace Butter
                 {
                 }
             };
-            //var standardBtn = new PmpBitmapButton(BitmapButtons.diameter, "standard button tip");
-            //var checkableBtn = new PmpBitmapButtonCheckable(BitmapButtons.favorite_load, "checkable standard");
+
+            var comboBox = new PmpComboBox(new[] { "item 1", "item 2", "item 3" }, ComboBoxStyles.EditableText, 90);
+            controls.Add(pmpBitmap);
             controls.Add(selBox);
             controls.Add(selBox2);
             controls.Add(checkbox);
             controls.Add(bitmapBtn);
             controls.Add(checkableBtnBtimap);
-            controls.Add(pmpBitmap);
+            controls.Add(comboBox);
             return controls;
         }
 

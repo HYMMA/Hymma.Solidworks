@@ -10,13 +10,22 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpComboBox : PmpControl<PropertyManagerPageCombobox>
     {
-        private readonly string[] _items;
-        private readonly ComboBoxStyles _style;
-        private readonly short _height;
+        #region private fields
+
+        private string[] _items;
+        private ComboBoxStyles _style;
+        private short _height;
+
+        #endregion
+
+        #region construtor
 
         /// <summary>
-        /// default constructor
+        /// create combo box for property manager page
         /// </summary>
+        /// <param name="items">list of items in the combox box</param>
+        /// <param name="style">style of the combo box as defined by <see cref="ComboBoxStyles"/></param>
+        /// <param name="height">height of the combo box</param>
         public PmpComboBox(string[] items, ComboBoxStyles style, short height = 50) : base(swPropertyManagerPageControlType_e.swControlType_Combobox)
         {
             _items = items;
@@ -24,13 +33,9 @@ namespace Hymma.SolidTools.Addins
             _height = height;
             OnRegister += PmpComboBox_OnRegister;
         }
+        #endregion
 
-        private void PmpComboBox_OnRegister()
-        {
-            AddItems(_items);
-            Style = (int)_style;
-            Height = _height;
-        }
+        #region mehods
 
         /// <summary>
         /// Adds items to the attached drop-down list for this combo box. 
@@ -48,7 +53,7 @@ namespace Hymma.SolidTools.Addins
         /// <returns>text of the specified item</returns>
         public string GetItem(short index)
         {
-            if (SolidworksObject!=null)
+            if (SolidworksObject != null)
                 return SolidworksObject.ItemText[index];
             return "";
         }
@@ -63,14 +68,14 @@ namespace Hymma.SolidTools.Addins
                 SolidworksObject.Clear();
             }
         }
-        
+
         /// <summary>
         /// deletes an item from the attached drop-down list for this combo box
         /// </summary>
         /// <param name="index"></param>
         public void Delete(short index)
         {
-            if (SolidworksObject!=null)
+            if (SolidworksObject != null)
             {
                 SolidworksObject.DeleteItem(index);
             }
@@ -82,25 +87,25 @@ namespace Hymma.SolidTools.Addins
         /// <param name="item">item to add</param>
         public void InsertItem(short index, string item)
         {
-            if (SolidworksObject!=null)
+            if (SolidworksObject != null)
             {
                 SolidworksObject.InsertItem(index, item);
             }
         }
+        #endregion
+
+        #region public properties
+
         /// <summary>
         /// height of the combo box
         /// </summary>
         public short Height
         {
-            get
-            {
-                if (SolidworksObject != null)
-                    return SolidworksObject.Height;
-                return -1;
-            }
+            get => _height;
             set
             {
-                if (SolidworksObject!=null)
+                _height = value;
+                if (SolidworksObject != null)
                 {
                     SolidworksObject.Height = value;
                 }
@@ -117,18 +122,15 @@ namespace Hymma.SolidTools.Addins
         ///</remarks>
         ///<value>
         ///Combo-box style as defined in <see cref="ComboBoxStyles"/></value>
-        public int Style
+        public ComboBoxStyles Style
         {
-            get
-            {
-                if (SolidworksObject != null)
-                    return SolidworksObject.Style;
-                return 0;
-            }
+            get => _style;
+
             set
             {
+                _style = value;
                 if (SolidworksObject != null)
-                    SolidworksObject.Style = value;
+                    SolidworksObject.Style = (int)value;
             }
         }
 
@@ -166,17 +168,38 @@ namespace Hymma.SolidTools.Addins
             {
                 if (SolidworksObject != null)
                 {
-                    Style = (int)ComboBoxStyles.EditableText;
+                    Style = ComboBoxStyles.EditableText;
                     SolidworksObject.EditText = value;
                 }
             }
         }
+        #endregion
+
+        #region call backs
+        internal void SelectionChanged(int id)
+        {
+            OnSelectionChanged?.Invoke(this, id);
+        }
+
+        internal void SelectionEdit(string val)
+        {
+            OnSelectionEdit?.Invoke(this, val);
+        }
+        private void PmpComboBox_OnRegister()
+        {
+            AddItems(_items);
+            Style = _style;
+            Height = _height;
+        }
+        #endregion
+
+        #region events
 
         /// <summary>
         /// Called when a user changes the selected item in a combo box on this PropertyManager page. 
         /// </summary>
         /// <remarks>solidworks will passs int the id of the selected item</remarks>
-        public Action<int> OnSelectionChanged { get; set; }
+        public event EventHandler<int> OnSelectionChanged;
 
         /// <summary>
         /// Called when a user changes the text string in the text box of a combo box on this PropertyManager page. solidworsk will pass in the text string
@@ -191,34 +214,9 @@ namespace Hymma.SolidTools.Addins
         ///When this method is called, the control may not yet be updated with the current selection, so the <see cref="CurrentSelection"/> property is not reliable. The text passed into this method is the up-to-date text.
         ///</para>
         /// </para></remarks>
-        public Action<string> OnSelectionEdit { get; set; }
+        public event EventHandler<string> OnSelectionEdit;
+        #endregion
     }
 
-    /// <summary>
-    /// styles that can be used on a combobox
-    /// </summary>
-    public enum ComboBoxStyles
-    {
-        /// <summary>
-        /// Sort the items in the attached drop-down list of the combo box in alphabetical order
-        /// </summary>
-        Sorted = 1,
 
-        /// <summary>
-        /// Allows editing of the text in the combo box
-        /// </summary>
-        EditableText = 2,
-
-        /// <summary>
-        /// User can only select a value from the attached drop-down list for the combo box
-        /// </summary>
-        /// <remarks>You can set EditBoxReadOnly either before or after the PropertyManager page is displayed. If set after the PropertyManager page is displayed and the box contains editable text, then that text cannot be edited by the user.<br/>
-        /// However, you can use <see cref="PmpComboBox.EditText"/> to edit the text in the combo box.</remarks>
-        EditBoxReadOnly = 4,
-
-        /// <summary>
-        /// The item the user selects in the attached drop-down list does not appear in the combo box. Instead, the user's selection causes the add-in to get a callback via <see cref="PmpComboBox.OnSelectionChanged"/>
-        /// </summary>
-        AvoidSelectionText = 8
-    }
 }
