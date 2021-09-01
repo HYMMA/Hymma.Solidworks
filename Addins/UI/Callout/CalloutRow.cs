@@ -15,6 +15,7 @@ namespace Hymma.SolidTools.Addins
         private SysColor _rolColor;
         private bool _rowIsInactive;
         private bool _ignored;
+        private Point _target;
 
         /// <summary>
         /// constructor
@@ -38,16 +39,8 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public string Value
         {
-            get
-            {
-                return _rowVal;
-            }
-            set
-            {
-                _rowVal = value;
-                if (Callout != null)
-                    Callout.Value[Id] = value;
-            }
+            get => _rowVal;
+            set => ValueChanged(value);
         }
 
         /// <summary>
@@ -110,33 +103,23 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// sets or gets the target <see cref="Point"/> for this row
         /// </summary>
+        /// <remarks>soldiworks internal unit is meter</remarks>
         public Point Target
         {
-            get
-            {
-                //cannot run this if callout is not set
-                if (Callout == null)
-                    return new Point(0, 0, 0);
-
-                //update the Callout
-                Callout.GetTargetPoint(Id, out double x, out double y, out double z);
-                return new Point(x, y, z);
-            }
+            get => _target;
             set
             {
-                //cannot set this if callout is not set yet
-                if (Callout == null)
-                    return;
-                Callout.SetTargetPoint(Id, value.X, value.Y, value.Z);
+                _target = value;
+                OnTargetChanged?.Invoke(Id, _target);
             }
         }
 
         /// <summary>
         /// Gets or sets whether to ignore the callout value in the given row.
         /// </summary>
-        /// Use this API to remove the white space that remains in the callout when ICallout::Value is set to an empty string.<br/>
+        /// Use this API to remove the white space that remains in the callout when <see cref="Value"/> is set to an empty string.<br/>
         ///This property applies only to a callout that is independent of a selection 
-        public bool Ignore
+        public bool IgnoreValue
         {
             get
             {
@@ -149,5 +132,34 @@ namespace Hymma.SolidTools.Addins
                     Callout.IgnoreValue[Id] = value;
             }
         }
+
+        //this will get called by solidowrks when user changes the value
+        private void ValueChanged(string text)
+        {
+            //update the field that holds the text 
+            _rowVal = text;
+
+            //implemet event subscribers instruction otherwise
+            OnValueChanged?.Invoke(this, text);
+        }
+
+        /// <summary>
+        /// fired when <see cref="Target"/> of this row changes
+        /// </summary>
+        public event Action<int, Point> OnTargetChanged;
+
+        /// <summary>
+        /// invoked by solidworks when user changes the value of this row
+        /// </summary>
+        /// <remarks>true to update the callout and false to not. this event is useful for input validation</remarks>
+        public event CalloutEventHandler OnValueChanged;
     }
+
+    /// <summary>
+    /// evnet handler for when a row's value is changed by the user
+    /// </summary>
+    /// <param name="sender">is the callout row</param>
+    /// <param name="newValue">new value</param>
+    /// <returns>true to update the callout and false to not</returns>
+    public delegate void CalloutEventHandler(CalloutRow sender, string newValue);
 }

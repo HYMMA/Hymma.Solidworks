@@ -2,7 +2,6 @@
 using Hymma.SolidTools.Core;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +14,7 @@ namespace Hymma.SolidTools.Addins
     {
         #region private fields
         private List<CalloutRow> _rows = new List<CalloutRow>();
-        private int _rowId=-1;
+        private int _rowId;
         #endregion
 
         #region constructors
@@ -29,6 +28,7 @@ namespace Hymma.SolidTools.Addins
             //assign event handler that solidworks will use upon creation of callout
             this.Handler = new SolidworksCalloutHandler(this);
             this.Solidworks = (SldWorks)solidworks;
+            _rowId = -1;
         }
 
         /// <summary>
@@ -95,16 +95,28 @@ namespace Hymma.SolidTools.Addins
         public void AddRow(CalloutRow row)
         {
             row.Id = ++_rowId;
-
+            row.Callout = SolidworksObject;
             //map to solidworks callout
             SolidworksObject.Value[row.Id] = row.Value;
             SolidworksObject.ValueInactive[row.Id] = row.ValueInactive;
             SolidworksObject.Label2[row.Id] = row.Label;
             SolidworksObject.TextColor[row.Id] = (int)row.TextColor;
-            SolidworksObject.IgnoreValue[row.Id] = row.Ignore;
+            SolidworksObject.IgnoreValue[row.Id] = row.IgnoreValue;
+            SolidworksObject.SetTargetPoint(row.Id, row.Target.X, row.Target.Y, row.Target.Z);
+
+            row.OnTargetChanged += (id, target) =>
+            {
+                SolidworksObject.SetTargetPoint(id, target.X, target.Y, target.Z);
+            };
+
+            //when Value property of the row is changed this gets called
+            row.OnValueChanged += (sender, newValue) =>
+            {
+                //assign the value to solidworks callout object
+                SolidworksObject.Value[sender.Id] = newValue;
+            };
             _rows.Add(row);
         }
-
 
         /// <summary>
         /// actual solidworks <see cref="ICallout"/> object assigned to by addin
@@ -147,7 +159,7 @@ namespace Hymma.SolidTools.Addins
         public swCalloutTargetStyle_e TargetStyle { get => (swCalloutTargetStyle_e)SolidworksObject.TargetStyle; set => SolidworksObject.TargetStyle = (int)value; }
 
         /// <summary>
-        /// Gets and sets whether to add a colon at the end of the callout label.
+        /// Gets and sets whether to add a colon<strong> : </strong> at the end of the callout label.
         /// </summary>
         public bool SkipColon { get => SolidworksObject.SkipColon; set => SolidworksObject.SkipColon = value; }
 
@@ -164,7 +176,7 @@ namespace Hymma.SolidTools.Addins
         /// Gets or sets the opaque (background) color for the labels for this callout.
         /// </summary>
         /// <remarks>You must use a <see cref="SysColor"/>; you cannot use any other RGB values. To see system colors, click <strong>Tools > Options > Colors.</strong>  in the SOLIDWORKS user interface</remarks>
-        public int OpaqueColor { get => SolidworksObject.OpaqueColor; set => SolidworksObject.OpaqueColor = value; }
+        public SysColor OpaqueColor { get => (SysColor)SolidworksObject.OpaqueColor; set => SolidworksObject.OpaqueColor = (int)value; }
 
         /// <summary>
         /// Gets or sets the display of multiple leaders for this callout.  
@@ -184,14 +196,5 @@ namespace Hymma.SolidTools.Addins
             return SolidworksObject.SetLeader(visible, multiple);
         }
         #endregion
-
-        #region Events
-        /// <summary>
-        /// int is the rowId and string is the value of that row
-        /// </summary>
-        /// <value>True to use updated text in RowID, false to use original text in RowID</value>
-        public Func<int, string, bool> OnValueChanged { get; set; }
-        #endregion
     }
-
 }

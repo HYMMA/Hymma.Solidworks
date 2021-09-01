@@ -123,17 +123,6 @@ namespace Butter
                                                                   new[] { BtnSize.nintySix, BtnSize.hundredTwentyEight },
                                                                   50);
             var pmpBitmap = new PmpBitmap(Properties.Resources.hymma_logo_small, "hymma", opacity: 2);
-            checkbox.OnChecked += (sender, e) =>
-            {
-                if (e)
-                {
-                    var assembly = selBox2.ActiveDoc as AssemblyDoc;
-                    selBox.Append(assembly.GetDistictParts().ToList().Where(c => c.GetModelDoc2() is PartDoc).ToArray());
-                }
-                else
-                {
-                }
-            };
 
             var bitmapBtn = new PmpBitmapButton(Properties.Resources.butter,
                                                 "bitmapBtn2",
@@ -146,21 +135,36 @@ namespace Butter
                 var btn = sender as PmpBitmapButton;
                 var rows = new List<CalloutRow>
                 {
-                    new CalloutRow("label 1", "row 1 value"),
-                    new CalloutRow("label 2", "row 2 value") { TextColor = SysColor.SelectedItem2 },
-                    new CalloutRow("label 3", "row 3 value") { TextColor = SysColor.Highlight, Target = new Point(0, 0, 0) }
+                    new CalloutRow("label 1", "lael 1 value"){ IgnoreValue=true },
+                    new CalloutRow("label 2", "row 2 value") { TextColor = SysColor.SelectedItem2 , ValueInactive=true, Target=new Point(0.2,0.2,0.2)},
+                    new CalloutRow("label 3", "row 3 value") { TextColor = SysColor.Highlight, Target = new Point(0.1, 0.1, 0.1) },
+                    new CalloutRow("label 4", "row 4 value") { TextColor = SysColor.Highlight, Target = new Point(0.1, 0, 0) }
                 };
                 var callout = new CalloutModel(rows, Solidworks, selBox.ActiveDoc)
                 {
-                    //HasTextBox = true,
-                    SkipColon = true,
+                    HasTextBox = false,
+                    SkipColon = false,
                     TargetStyle = swCalloutTargetStyle_e.swCalloutTargetStyle_Arrow,
-                    //Position = new Point(1, 2, 3),
-                    EnablePushPin = true,
-                    //MultipleLeaders = true
+                    Position = new Point(0.1, 0.2, 0.3),
+                    EnablePushPin = false,
+                    MultipleLeaders = false,
+                    OpaqueColor = SysColor.Background
                 };
-                selBox.CalloutLabel = "my callout label";
+                //selBox.CalloutLabel = "my callout label";
                 selBox.Callout = callout;
+            };
+            checkbox.OnChecked += (sender, e) =>
+            {
+                if (e)
+                {
+                    var assembly = selBox2.ActiveDoc as AssemblyDoc;
+                    selBox.Append(assembly.GetDistictParts().ToList().Where(c => c.GetModelDoc2() is PartDoc).ToArray());
+                    var testRow=selBox.Callout.GetRows().FirstOrDefault(row => row.Label == "label 1");
+                    testRow.Value = "row 1 value";
+                }
+                else
+                {
+                }
             };
             //var standardBtn = new PmpBitmapButton(BitmapButtons.diameter, "standard button tip");
             //var checkableBtn = new PmpBitmapButtonCheckable(BitmapButtons.favorite_load, "checkable standard");

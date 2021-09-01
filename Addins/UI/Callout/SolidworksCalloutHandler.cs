@@ -1,4 +1,5 @@
 ﻿using SolidWorks.Interop.swpublished;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace Hymma.SolidTools.Addins
@@ -15,10 +16,10 @@ namespace Hymma.SolidTools.Addins
         /// <param name="callout"></param>
         public SolidworksCalloutHandler(CalloutModel callout)
         {
-            this.Callout = callout;
+            this._callout = callout;
         }
 
-        public CalloutModel Callout { get; }
+        private CalloutModel _callout;
 
         #region ISwCalloutHandler Members
         /// <summary>
@@ -30,12 +31,12 @@ namespace Hymma.SolidTools.Addins
         /// <returns>True to use updated text in RowID, false to use original text in RowID</returns>
         bool ISwCalloutHandler.OnStringValueChanged(object pManipulator, int RowID, string Text)
         {
-            //default is to update the callout in each change
-            if (Callout.OnValueChanged == null) return true;
-
-            //implemet user instruction otherwise
-            return Callout.OnValueChanged.Invoke(RowID, Text);
+            var row = _callout.GetRows().FirstOrDefault(r => r.Id == RowID);
+            row.Value=Text;
+            return true;
         }
         #endregion
     }
+
+
 }
