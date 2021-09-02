@@ -12,9 +12,10 @@ namespace Hymma.SolidTools.Addins
     {
         #region private fields
 
-        private string[] _items;
+        private List<string> _items;
         private ComboBoxStyles _style;
         private short _height;
+        private short _currentSelection;
 
         #endregion
 
@@ -26,12 +27,14 @@ namespace Hymma.SolidTools.Addins
         /// <param name="items">list of items in the combox box</param>
         /// <param name="style">style of the combo box as defined by <see cref="ComboBoxStyles"/></param>
         /// <param name="height">height of the combo box</param>
-        public PmpComboBox(string[] items, ComboBoxStyles style, short height = 50) : base(swPropertyManagerPageControlType_e.swControlType_Combobox)
+        public PmpComboBox(List<string> items, ComboBoxStyles style, short height = 50) : base(swPropertyManagerPageControlType_e.swControlType_Combobox)
         {
-            _items = items;
             _style = style;
             _height = height;
-            OnRegister += PmpComboBox_OnRegister;
+            _items = new List<string>();
+            AddItems(items);
+            Style = _style;
+            Height = _height;
         }
         #endregion
 
@@ -40,10 +43,21 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Adds items to the attached drop-down list for this combo box. 
         /// </summary>
-        public void AddItems(string[] items)
+        public void AddItems(List<string> items)
         {
+            //update the backing field
+            _items.AddRange(items);
+
+            //if add in is loaded update the solidworks object
+            //otherwise update the property after display
             if (SolidworksObject != null)
-                SolidworksObject.AddItems(items);
+                SolidworksObject.AddItems(items.ToArray());
+            else
+                OnDisplay += (sender, e) =>
+                {
+                    var combo = sender as PmpComboBox;
+                    combo.SolidworksObject.AddItems(items.ToArray());
+                };
         }
 
         /// <summary>
@@ -59,14 +73,21 @@ namespace Hymma.SolidTools.Addins
         }
 
         /// <summary>
+        /// indicates if an item is in the list
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool Contains(string item)
+        {
+            return _items.Contains(item);
+        }
+        /// <summary>
         /// Clears all items from the attached drop-down list for this combo box.  
         /// </summary>
         public void Clear()
         {
-            if (SolidworksObject != null)
-            {
-                SolidworksObject.Clear();
-            }
+            _items.Clear();
+            AddItems(_items);
         }
 
         /// <summary>
@@ -75,10 +96,19 @@ namespace Hymma.SolidTools.Addins
         /// <param name="index"></param>
         public void Delete(short index)
         {
+            //update the backing field
+            _items.RemoveAt(index);
+
+            //if add in is loaded update the solidworks object
+            //otherwise update the property after display
             if (SolidworksObject != null)
-            {
                 SolidworksObject.DeleteItem(index);
-            }
+            else
+                OnDisplay += (sender, e) =>
+                {
+                    var combo = sender as PmpComboBox;
+                    combo.SolidworksObject.DeleteItem(index);
+                };
         }
         /// <summary>
         /// Inserts an item in the attached drop-down list of this combo box. 
@@ -87,10 +117,19 @@ namespace Hymma.SolidTools.Addins
         /// <param name="item">item to add</param>
         public void InsertItem(short index, string item)
         {
+            //update the backing field
+            _items.Insert(index, item);
+
+            //if add in is loaded update the solidworks object
+            //otherwise update the property after display
             if (SolidworksObject != null)
-            {
                 SolidworksObject.InsertItem(index, item);
-            }
+            else
+                OnDisplay += (sender, e) =>
+                {
+                    var combo = sender as PmpComboBox;
+                    combo.SolidworksObject.InsertItem(index, item);
+                };
         }
         #endregion
 
@@ -104,11 +143,19 @@ namespace Hymma.SolidTools.Addins
             get => _height;
             set
             {
+                //assign value to the backing field
                 _height = value;
+
+                //if add in is loaded update the solidworks object
+                //otherwise update the property after display
                 if (SolidworksObject != null)
-                {
                     SolidworksObject.Height = value;
-                }
+                else
+                    OnDisplay += (sender, e) =>
+                    {
+                        var combo = sender as PmpComboBox;
+                        combo.SolidworksObject.Height = value;
+                    };
             }
         }
 
@@ -128,9 +175,19 @@ namespace Hymma.SolidTools.Addins
 
             set
             {
+                //assign value to the backign field
                 _style = value;
+
+                //if add in is loaded update the solidworks object
+                //otherwise update the property after display
                 if (SolidworksObject != null)
                     SolidworksObject.Style = (int)value;
+                else
+                    OnDisplay += (sender, e) =>
+                    {
+                        var combo = sender as PmpComboBox;
+                        combo.SolidworksObject.Style = (int)value;
+                    };
             }
         }
 
@@ -140,16 +197,22 @@ namespace Hymma.SolidTools.Addins
         /// <remarks>0-based index</remarks>
         public short CurrentSelection
         {
-            get
-            {
-                if (SolidworksObject != null)
-                    return SolidworksObject.CurrentSelection;
-                return -1;
-            }
+            get => _currentSelection;
             set
             {
+                //assign value to the backign field
+                _currentSelection = value;
+
+                //if add in is loaded update the solidworks object
+                //otherwise update the property after display
                 if (SolidworksObject != null)
                     SolidworksObject.CurrentSelection = value;
+                else
+                    OnDisplay += (sender, e) =>
+                    {
+                        var combo = sender as PmpComboBox;
+                        SolidworksObject.CurrentSelection = value;
+                    };
             }
         }
 
@@ -166,10 +229,21 @@ namespace Hymma.SolidTools.Addins
             }
             set
             {
+                //unless style is editable no effect will take place
+                Style = ComboBoxStyles.EditableText;
+
                 if (SolidworksObject != null)
                 {
-                    Style = ComboBoxStyles.EditableText;
                     SolidworksObject.EditText = value;
+                }
+                else
+                {
+                    //if this property is assigned prior to registration 
+                    OnDisplay += (sender, eventArgs) =>
+                    {
+                        var combo = sender as PmpComboBox;
+                        combo.SolidworksObject.EditText = value;
+                    };
                 }
             }
         }
@@ -183,14 +257,9 @@ namespace Hymma.SolidTools.Addins
 
         internal void SelectionEdit(string val)
         {
-            OnSelectionEdit?.Invoke(this, val);
+            OnEditChanged?.Invoke(this, val);
         }
-        private void PmpComboBox_OnRegister()
-        {
-            AddItems(_items);
-            Style = _style;
-            Height = _height;
-        }
+
         #endregion
 
         #region events
@@ -214,7 +283,7 @@ namespace Hymma.SolidTools.Addins
         ///When this method is called, the control may not yet be updated with the current selection, so the <see cref="CurrentSelection"/> property is not reliable. The text passed into this method is the up-to-date text.
         ///</para>
         /// </para></remarks>
-        public event EventHandler<string> OnSelectionEdit;
+        public event EventHandler<string> OnEditChanged;
         #endregion
     }
 

@@ -159,15 +159,18 @@ namespace Butter
                 {
                     var assembly = selBox2.ActiveDoc as AssemblyDoc;
                     selBox.Append(assembly.GetDistictParts().ToList().Where(c => c.GetModelDoc2() is PartDoc).ToArray());
-                    var testRow=selBox.Callout.GetRows().FirstOrDefault(row => row.Label == "label 1");
+                    var testRow = selBox.Callout.GetRows().FirstOrDefault(row => row.Label == "label 1");
                     testRow.Value = "row 1 value";
                 }
                 else
                 {
                 }
             };
-
-            var comboBox = new PmpComboBox(new[] { "item 1", "item 2", "item 3" }, ComboBoxStyles.EditableText, 90);
+            var comboBox = new PmpComboBox(new List<string> { "item 1", "item 2", "item 3" }, ComboBoxStyles.EditableText, 90)
+            {
+                EditText = "please enter..."
+            };
+            comboBox.OnLostFocus += ComboBox_OnLostFocus;
             controls.Add(pmpBitmap);
             controls.Add(selBox);
             controls.Add(selBox2);
@@ -176,6 +179,13 @@ namespace Butter
             controls.Add(checkableBtnBtimap);
             controls.Add(comboBox);
             return controls;
+        }
+
+        private void ComboBox_OnLostFocus(object sender, EventArgs e)
+        {
+            var combo = sender as PmpComboBox;
+            if (!combo.Contains(combo.EditText))
+                combo.InsertItem(2, combo.EditText);
         }
 
         private void SelBox2_OnDisplay(PmpSelectionBox sender, SelBox_OnDisplay_EventArgs eventArgs)
