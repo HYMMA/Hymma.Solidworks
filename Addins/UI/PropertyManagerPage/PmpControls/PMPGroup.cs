@@ -24,6 +24,7 @@ namespace Hymma.SolidTools.Addins
             Caption = caption;
             Expanded = expanded;
             Controls = new List<IPmpControl>();
+            Options = (int)swAddGroupBoxOptions_e.swGroupBoxOptions_Expanded | (int)swAddGroupBoxOptions_e.swGroupBoxOptions_Visible;
         }
 
         /// <summary>
@@ -38,25 +39,8 @@ namespace Hymma.SolidTools.Addins
         }
         #endregion
 
-        #region Members/Properties
+        #region Properties
 
-        /// <summary>
-        /// Registers a control to the <see cref="Controls"/> and solidworks UI
-        /// </summary>
-        /// <param name="control"></param>
-        public void AddControl(IPmpControl control)
-        {
-            Controls.Add(control);
-        }
-
-        /// <summary>
-        /// adds a list of controls to the <see cref="Controls"/>
-        /// </summary>
-        /// <param name="controls"></param>
-        public void AddControls(IEnumerable<IPmpControl> controls)
-        {
-            Controls.AddRange(controls);
-        }
         /// <summary>
         /// identifier for this group box in Property manager page
         /// </summary>
@@ -76,41 +60,34 @@ namespace Hymma.SolidTools.Addins
         /// bitwise options as defined by <see cref="swAddGroupBoxOptions_e"/> default values correspond to a group that is expanded and is set to be visible
         /// </summary>
         public int Options { get; set; }
-            = (int)swAddGroupBoxOptions_e.swGroupBoxOptions_Expanded | (int)swAddGroupBoxOptions_e.swGroupBoxOptions_Visible;
 
         /// <summary>
         /// a list of solidworks controllers
         /// </summary>
         public List<IPmpControl> Controls { get; internal set; }
 
-        internal void Display()
-        {
-            SolidworksObject.Expanded = Expanded;
-            Controls.ForEach(c => c.Display());
-            OnDisplay?.Invoke();
-        }
-
-        #endregion
-
-        /// <summary>
-        /// an event that gets called right before this pmpGroup is displayed
-        /// </summary>
-        public event Action OnDisplay;
-
-        /// <summary>
-        /// method to invoke when user expands a group <br/>
-        /// this delegate requires a bool variable to indicate the IsExpanded status of the group
-        /// </summary>
-        public Action<bool> OnGroupExpand { get; set; }
-
-        /// <summary>
-        /// method to invoke when user checks a group <br/>
-        /// this delegate requires a bool variable to indicate the IsChecked status of the group
-        /// </summary>
-        public Action<bool> OnGroupCheck { get; set; }
-
         ///<inheritdoc/>
         public IPropertyManagerPageGroup SolidworksObject { get; private set; }
+        #endregion
+        
+        #region methods
+        /// <summary>
+        /// Registers a control to the <see cref="Controls"/> and solidworks UI
+        /// </summary>
+        /// <param name="control"></param>
+        public void AddControl(IPmpControl control)
+        {
+            Controls.Add(control);
+        }
+
+        /// <summary>
+        /// adds a list of controls to the <see cref="Controls"/>
+        /// </summary>
+        /// <param name="controls"></param>
+        public void AddControls(IEnumerable<IPmpControl> controls)
+        {
+            Controls.AddRange(controls);
+        }
 
         /// <summary>
         /// registers this group into a property manager page
@@ -130,5 +107,43 @@ namespace Hymma.SolidTools.Addins
             if (firstOption != null)
                 firstOption.SolidworksObject.Style = 1;
         }
+        #endregion
+
+        #region events
+
+        /// <summary>
+        /// an event that gets called right before this pmpGroup is displayed
+        /// </summary>
+        public event EventHandler OnDisplay;
+
+        /// <summary>
+        /// method to invoke when user expands a group <br/>
+        /// this delegate requires a bool variable to indicate the IsExpanded status of the group
+        /// </summary>
+        public event EventHandler<bool> OnGroupExpand;
+
+        /// <summary>
+        /// method to invoke when user checks a group <br/>
+        /// this delegate requires a bool variable to indicate the IsChecked status of the group
+        /// </summary>
+        public event EventHandler<bool> OnGroupCheck;
+        #endregion
+
+        #region call backs
+        internal void GroupChecked(bool e)
+        {
+            OnGroupCheck?.Invoke(this,e);
+        }
+        internal void GroupExpand(bool e)
+        {
+            OnGroupExpand?.Invoke(this, e);
+        }
+        internal void Display()
+        {
+            SolidworksObject.Expanded = Expanded;
+            Controls.ForEach(c => c.Display());
+            OnDisplay?.Invoke(this,EventArgs.Empty);
+        }
+        #endregion
     }
 }

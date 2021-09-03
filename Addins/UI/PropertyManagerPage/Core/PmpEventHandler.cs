@@ -150,7 +150,7 @@ namespace Hymma.SolidTools.Addins
             Log("onGroupExpand event handling ...");
             var group = UiModel.PmpGroups.FirstOrDefault(g => g.Id == Id);
             group.Expanded = Expanded;
-            group?.OnGroupExpand?.Invoke(Expanded);
+            group?.GroupExpand(Expanded);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Hymma.SolidTools.Addins
         {
             Log($"onGroupCheck event handling int id={Id} int bool={Checked}");
             var group = UiModel.PmpGroups.Where(g => g.Id == Id).FirstOrDefault();
-            group?.OnGroupCheck?.Invoke(Checked);
+            group.GroupChecked(Checked);
         }
 
         /// <summary>
