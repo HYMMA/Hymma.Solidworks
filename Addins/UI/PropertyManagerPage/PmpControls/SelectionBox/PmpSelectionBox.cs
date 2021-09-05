@@ -127,8 +127,12 @@ namespace Hymma.SolidTools.Addins
             {
                 if (SolidworksObject != null)
                     SolidworksObject.AllowMultipleSelectOfSameEntity = value;
+                else
+                    OnRegister += () => { SolidworksObject.AllowMultipleSelectOfSameEntity = value; };
             }
         }
+
+        
 
         /// <summary>
         /// create a clalout for this selectionbox
@@ -190,6 +194,8 @@ namespace Hymma.SolidTools.Addins
                 _enableSelectIdenticalComponents = value;
                 if (SolidworksObject != null)
                     SolidworksObject.EnableSelectIdenticalComponents = value;
+                else
+                    OnRegister += () => { SolidworksObject.EnableSelectIdenticalComponents = value; };
             }
         }
 

@@ -42,9 +42,9 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public IPmpGroup AndOnExpansionChange(Action<bool> doThis)
+        public IPmpGroup AndOnExpansionChange(Action<PMPGroup, bool> doThis)
         {
-            OnGroupExpand = doThis;
+            OnGroupExpand += (sender, e) => { doThis?.Invoke((PMPGroup)sender, e); };
             return this;
         }
 

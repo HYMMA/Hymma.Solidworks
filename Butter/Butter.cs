@@ -153,6 +153,10 @@ namespace Butter
                 //selBox.CalloutLabel = "my callout label";
                 selBox.Callout = callout;
             };
+            var comboBox = new PmpComboBox(new List<string> { "item 1", "item 2", "item 3" }, ComboBoxStyles.EditableText, 90)
+            {
+                EditText = "please enter..."
+            };
             checkbox.OnChecked += (sender, e) =>
             {
                 if (e)
@@ -164,11 +168,8 @@ namespace Butter
                 }
                 else
                 {
+                    comboBox.Clear();
                 }
-            };
-            var comboBox = new PmpComboBox(new List<string> { "item 1", "item 2", "item 3" }, ComboBoxStyles.EditableText, 90)
-            {
-                EditText = "please enter..."
             };
             comboBox.OnLostFocus += ComboBox_OnLostFocus;
             controls.Add(pmpBitmap);

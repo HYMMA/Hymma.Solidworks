@@ -53,10 +53,9 @@ namespace Hymma.SolidTools.Addins
             if (SolidworksObject != null)
                 SolidworksObject.AddItems(items.ToArray());
             else
-                OnDisplay += (sender, e) =>
+                OnRegister += () =>
                 {
-                    var combo = sender as PmpComboBox;
-                    combo.SolidworksObject.AddItems(items.ToArray());
+                    SolidworksObject.AddItems(items.ToArray());
                 };
         }
 
@@ -104,11 +103,7 @@ namespace Hymma.SolidTools.Addins
             if (SolidworksObject != null)
                 SolidworksObject.DeleteItem(index);
             else
-                OnDisplay += (sender, e) =>
-                {
-                    var combo = sender as PmpComboBox;
-                    combo.SolidworksObject.DeleteItem(index);
-                };
+                OnRegister += () => { SolidworksObject.DeleteItem(index); };
         }
         /// <summary>
         /// Inserts an item in the attached drop-down list of this combo box. 
@@ -125,11 +120,7 @@ namespace Hymma.SolidTools.Addins
             if (SolidworksObject != null)
                 SolidworksObject.InsertItem(index, item);
             else
-                OnDisplay += (sender, e) =>
-                {
-                    var combo = sender as PmpComboBox;
-                    combo.SolidworksObject.InsertItem(index, item);
-                };
+                OnRegister += () => { SolidworksObject.InsertItem(index, item); };
         }
         #endregion
 
@@ -151,11 +142,7 @@ namespace Hymma.SolidTools.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Height = value;
                 else
-                    OnDisplay += (sender, e) =>
-                    {
-                        var combo = sender as PmpComboBox;
-                        combo.SolidworksObject.Height = value;
-                    };
+                    OnRegister += () => { SolidworksObject.Height = value; };
             }
         }
 
@@ -183,11 +170,8 @@ namespace Hymma.SolidTools.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Style = (int)value;
                 else
-                    OnDisplay += (sender, e) =>
-                    {
-                        var combo = sender as PmpComboBox;
-                        combo.SolidworksObject.Style = (int)value;
-                    };
+                    OnRegister += () => { SolidworksObject.Style = (int)value; };
+
             }
         }
 
@@ -208,11 +192,8 @@ namespace Hymma.SolidTools.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.CurrentSelection = value;
                 else
-                    OnDisplay += (sender, e) =>
-                    {
-                        var combo = sender as PmpComboBox;
-                        SolidworksObject.CurrentSelection = value;
-                    };
+                    OnRegister += () => { SolidworksObject.CurrentSelection = value; };
+
             }
         }
 
@@ -233,18 +214,10 @@ namespace Hymma.SolidTools.Addins
                 Style = ComboBoxStyles.EditableText;
 
                 if (SolidworksObject != null)
-                {
                     SolidworksObject.EditText = value;
-                }
                 else
-                {
                     //if this property is assigned prior to registration 
-                    OnDisplay += (sender, eventArgs) =>
-                    {
-                        var combo = sender as PmpComboBox;
-                        combo.SolidworksObject.EditText = value;
-                    };
-                }
+                    OnRegister += () => { SolidworksObject.EditText = value; };
             }
         }
         #endregion
@@ -286,6 +259,4 @@ namespace Hymma.SolidTools.Addins
         public event EventHandler<string> OnEditChanged;
         #endregion
     }
-
-
 }

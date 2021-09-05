@@ -60,7 +60,7 @@ namespace Hymma.SolidTools.Fluent.Addins
                           controls.Add(new PmpCheckBox("checkbox"));
                           return controls;
                       })
-                      .AndOnExpansionChange(state =>
+                      .AndOnExpansionChange((pmp,state) =>
                       {
                           if (!state)
                               throw new ArgumentException("group was un-checked");
