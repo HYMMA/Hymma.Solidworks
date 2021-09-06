@@ -20,7 +20,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="caption">caption for this lable</param>
         /// <param name="style">style of the lable as defined by bitwie <see cref="LabelStyles"/></param>
         /// <param name="height">Because SOLIDWORKS sizes the label appropriately based on the text it contains, you should not have to use this parameter. However, if the label does not contain text, then using this property might be useful.</param>
-        public PmpLabel(string caption, LabelStyles style = LabelStyles.LeftText, short height = 8) : base(swPropertyManagerPageControlType_e.swControlType_Label,caption)
+        public PmpLabel(string caption, LabelStyles style = LabelStyles.LeftText, short height = 8) : base(swPropertyManagerPageControlType_e.swControlType_Label, caption)
         {
             _style = style;
             _caption = caption;
@@ -209,9 +209,9 @@ namespace Hymma.SolidTools.Addins
         /// <param name="StartChar"></param>
         /// <param name="EndChar"></param>
         /// <param name="style"></param>
-        public void SetUnderLineStyle(short StartChar, short EndChar, UnderLineStyle style)
+        public void SetUnderLineStyle(short StartChar, short EndChar, UnderLineStyles style)
         {
-            if (SolidworksObject!=null)
+            if (SolidworksObject != null)
             {
                 SolidworksObject.Underline[StartChar, EndChar] = (int)style;
             }
@@ -222,10 +222,10 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="StartChar">0-based index value of start character</param>
         /// <param name="EndChar">0-based index value of end character</param>
-        /// <returns>int value as defined by <see cref="UnderLineStyle"/> or -1 for errors</returns>
+        /// <returns>int value as defined by <see cref="UnderLineStyles"/> or -1 for errors</returns>
         public int GetUnderLineStyle(short StartChar, short EndChar)
         {
-            if (SolidworksObject!=null)
+            if (SolidworksObject != null)
                 return SolidworksObject.Underline[StartChar, EndChar];
             return -1;
         }
@@ -260,73 +260,28 @@ namespace Hymma.SolidTools.Addins
         /// <param name="status">bold status</param>
         public void SetBold(short start, short end, bool status)
         {
+            //if addin is loaded
             if (SolidworksObject != null)
-            {
                 SolidworksObject.Bold[start, end] = status;
-            }
+
+            //otherwise do it when addin loaded (started)
+            else
+                OnRegister += () => { SolidworksObject.Bold[start, end] = status; };
         }
 
+        #region Callbacks
         /// <summary>
-        /// get the bold status of specifid characteres 
+        /// called <see cref="OnDisplay"/>
         /// </summary>
-        /// <param name="start">0-based start index</param>
-        /// <param name="end">0-based end index</param>
-        /// <returns></returns>
-        public bool GetBold(short start, short end)
+        internal override void Display()
         {
-            if (SolidworksObject != null)
-            {
-                return SolidworksObject.Bold[start, end];
-            }
-            return false;
+            OnDisplay?.Invoke(this, new Label_OnDisplayEventArgs(this));
         }
-    }
-
-    /// <summary>
-    /// styles for a label in property manager pages
-    /// </summary>
-    [Flags]
-    public enum LabelStyles
-    {
-        /// <summary>
-        /// align to center
-        /// </summary>
-        CenterText = 2,
+        #endregion
 
         /// <summary>
-        /// aling to the left (the defual value)
+        /// raised a moment before this label is displayed in the property manager page
         /// </summary>
-        LeftText = 1,
-
-        /// <summary>
-        /// align to the right
-        /// </summary>
-        RightText = 4,
-
-        /// <summary>
-        /// with shadow
-        /// </summary>
-        Sunken = 8,
-    }
-
-    /// <summary>
-    /// Underline style of PropertyManager page label
-    /// </summary>
-    public enum UnderLineStyle
-    {
-        /// <summary>
-        /// dashed under line
-        /// </summary>
-        DashedUnderline = 2,
-
-        /// <summary>
-        /// remove under line
-        /// </summary>
-        NoUnderline = 0,
-
-        /// <summary>
-        /// solid under line
-        /// </summary>
-        SolidUnderline = 1
+        public new event Label_OnDisplayEventHandler OnDisplay;
     }
 }

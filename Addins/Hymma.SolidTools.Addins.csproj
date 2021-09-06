@@ -86,6 +86,10 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BtnSize.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpButtonBase.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Combobox\ComboBoxStyles.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\Label_OnDisplayEventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\Label_OnDisplayEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Label\LabelStyles.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Label\UnderLineStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\_Base\OnDisplay_EventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Enums\ListboxStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_Display.cs" />
@@ -131,7 +135,7 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\_Base\IPmpControl.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PMPGroup.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Checkbox\PmpCheckBox.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpLabel.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Label\PmpLabel.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\PmpTextBox.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
