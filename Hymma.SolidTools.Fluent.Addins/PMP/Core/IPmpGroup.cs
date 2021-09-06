@@ -36,7 +36,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// </summary>
         /// <param name="doThis">delegate that accepts a bool as the parameter and returns void. bool parameter will be assigned by solidworks and indicates the expansion state of the group.</param>
         /// <returns></returns>
-        IPmpGroup AndOnExpansionChange(Action<bool> doThis);
+        IPmpGroup AndOnExpansionChange(Action<PMPGroup, bool> doThis);
 
         /// <summary>
         /// add these controls to the <see cref="SolidTools.Addins.PMPGroup"/>
