@@ -14,13 +14,19 @@ namespace Hymma.SolidTools.Addins
         /// default constructor
         /// </summary>
         /// <param name="type"></param>
-        public PmpTextBase(swPropertyManagerPageControlType_e type,string caption="", string tip="") : base(type,caption,tip)
+        /// <param name="caption"></param>
+        /// <param name="tip"></param>
+        public PmpTextBase(swPropertyManagerPageControlType_e type, string caption = "", string tip = "") : base(type, caption, tip)
         {
-
+            OnRegister += () =>
+            {
+                this.control = SolidworksObject as PropertyManagerPageControl;
+            };
         }
 
         private Color bgColor;
         private Color txtColor;
+        private PropertyManagerPageControl control;
 
         /// <summary>
         ///  Gets or sets the background color of an edit box or label on the PropertyManager page. 
@@ -28,13 +34,12 @@ namespace Hymma.SolidTools.Addins
         /// <value><see cref="Color"/> value for the color of an edit box, a list box, or a label on the PropertyManager page</value>
         public Color BackGroundColor
         {
-            get { return bgColor; }
+            get => bgColor;
             set
             {
                 bgColor = value;
-                if (SolidworksObject != null)
+                if (control != null)
                 {
-                    var control = SolidworksObject as PropertyManagerPageControl;
                     try
                     {
                         //convert color to int 
@@ -47,6 +52,14 @@ namespace Hymma.SolidTools.Addins
 #endif
                     }
                 }
+                else
+                {
+                    OnRegister += () =>
+                    {
+                        //convert color to int 
+                        control.BackgroundColor = ColorTranslator.ToWin32(value);
+                    };
+                }
             }
         }
 
@@ -57,21 +70,32 @@ namespace Hymma.SolidTools.Addins
         /// <value><see cref="Color"/> color value for the text in a PropertyManager page</value>
         public Color TextColor
         {
-            get { return txtColor; }
+            get => txtColor;
             set
             {
                 txtColor = value;
-                var control = SolidworksObject as PropertyManagerPageControl;
-                try
+                if (control != null)
                 {
-                    //convert color to int 
-                    control.TextColor = ColorTranslator.ToWin32(value);
-                }
-                catch (System.Exception)
-                {
+
+                    try
+                    {
+                        //convert color to int 
+                        control.TextColor = ColorTranslator.ToWin32(value);
+                    }
+                    catch (System.Exception)
+                    {
 #if DEBUG
-                    throw;
+                        throw;
 #endif
+                    }
+                }
+                else
+                {
+                    OnRegister += () =>
+                    {
+                        //convert color to int 
+                        control.TextColor = ColorTranslator.ToWin32(value);
+                    };
                 }
             }
         }

@@ -107,7 +107,7 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnSubmitSelection_EventArgs.cs" />
     <Compile Include="Core\Counter.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButton.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpTextBase.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\_Base\PmpTextBase.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommand.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroup.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroupBase.cs" />

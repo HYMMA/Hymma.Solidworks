@@ -1,6 +1,6 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
-using System;
+using System.Drawing;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -11,27 +11,15 @@ namespace Hymma.SolidTools.Addins
     public class PmpLabel : PmpTextBase<PropertyManagerPageLabel>
     {
         private LabelStyles _style;
-        private string _caption;
-        private short _height;
 
         /// <summary>
         /// default constructor
         /// </summary>
-        /// <param name="caption">caption for this lable</param>
+        /// <param name="text">text of this lable</param>
         /// <param name="style">style of the lable as defined by bitwie <see cref="LabelStyles"/></param>
-        /// <param name="height">Because SOLIDWORKS sizes the label appropriately based on the text it contains, you should not have to use this parameter. However, if the label does not contain text, then using this property might be useful.</param>
-        public PmpLabel(string caption, LabelStyles style = LabelStyles.LeftText, short height = 8) : base(swPropertyManagerPageControlType_e.swControlType_Label, caption)
+        public PmpLabel(string text, LabelStyles style = LabelStyles.LeftText) : base(swPropertyManagerPageControlType_e.swControlType_Label, text)
         {
-            _style = style;
-            _caption = caption;
-            _height = height;
-            OnRegister += PmpLabel_OnRegister;
-        }
-
-        private void PmpLabel_OnRegister()
-        {
-            Style = (int)_style;
-            SolidworksObject.Height = _height;
+            Style = style;
         }
 
         /// <summary>
@@ -42,8 +30,13 @@ namespace Hymma.SolidTools.Addins
         /// <param name="status"></param>
         public void SetItalic(short StartChar, short EndChar, bool status)
         {
+            //if add in was loaded
             if (SolidworksObject != null)
                 SolidworksObject.Italic[StartChar, EndChar] = status;
+
+            //otherwise assign value upon addin startup
+            else
+                OnRegister += () => { SolidworksObject.Italic[StartChar, EndChar] = status; };
         }
 
         /// <summary>
@@ -72,28 +65,14 @@ namespace Hymma.SolidTools.Addins
         /// <remarks>allows you to show that character as a subscript or exponent in an equation.</remarks>
         public void SetLineOffset(short StartChar, short EndChar, double offset)
         {
+            //if add-in was loaded
             if (SolidworksObject != null)
-            {
                 SolidworksObject.LineOffset[StartChar, EndChar] = offset;
-            }
+            else
+                OnRegister += () => { SolidworksObject.LineOffset[StartChar, EndChar] = offset; };
         }
 
-        /// <summary>
-        /// Gets the size of the specified characters in this PropertyManager label.
-        /// </summary>
-        /// <param name="StartChar">0-based index value of start character</param>
-        /// <param name="EndChar">0-based index value of end character</param>
-        /// <returns>Ratio for the height of the characters relative to their expected heights &gt;0 increases their heights and &lt;0 decreases their height<br/>
-        /// 0 for errors</returns>
-        public double GetSizeRatio(short StartChar, short EndChar)
-        {
-            if (SolidworksObject != null)
-            {
-                return SolidworksObject.SizeRatio[StartChar, EndChar];
-            }
-            return 0;
-        }
-
+        
         /// <summary>
         /// Gets or sets the size of the specified characters in this PropertyManager label.
         /// </summary>
@@ -103,24 +82,9 @@ namespace Hymma.SolidTools.Addins
         public void SetSizeRatio(short StartChar, short EndChar, double ratio)
         {
             if (SolidworksObject != null)
-            {
                 SolidworksObject.SizeRatio[StartChar, EndChar] = ratio;
-            }
-        }
-
-        /// <summary>
-        /// Gets whether to raise or lower the specified characters above or below their baselines, relative to their heights, in this PropertyManager label.
-        /// </summary>
-        /// <param name="StartChar">0-based index value of start character</param>
-        /// <param name="EndChar">0-based index value of end character</param>
-        /// <returns>offset of this character or -1000 for error</returns>
-        public double GetLineOffset(short StartChar, short EndChar)
-        {
-            if (SolidworksObject != null)
-            {
-                return SolidworksObject.LineOffset[StartChar, EndChar];
-            }
-            return -1000;
+            else
+                OnRegister += () => { SolidworksObject.SizeRatio[StartChar, EndChar] = ratio; };
         }
 
         /// <summary>
@@ -128,40 +92,14 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="StartChar">0-based index value of start character</param>
         /// <param name="EndChar">0-based index value of end character</param>
-        /// <param name="RGB">RGB value for the text background color for the specified characters; if not specified, then the background color for this control is used</param>
-        public void SetBackgroundColor(short StartChar, short EndChar, int RGB)
+        /// <param name="color">value for the text background color for the specified characters; if not specified, then the background color for this control is used</param>
+        public void SetBackgroundColor(short StartChar, short EndChar, Color color)
         {
+            var RGB = ColorTranslator.ToWin32(color);
             if (SolidworksObject != null)
-            {
                 SolidworksObject.CharacterBackgroundColor[StartChar, EndChar] = RGB;
-            }
-        }
-
-        /// <summary>
-        /// gets the background color for the specified range of characters in this PropertyManager label. 
-        /// </summary>
-        /// <param name="StartChar">0-based index value of start character</param>
-        /// <param name="EndChar">0-based index value of end character</param>
-        /// <returns>integer representation of the rgb color or -1 for error</returns>
-        public int GetBackgroundColor(short StartChar, short EndChar)
-        {
-            if (SolidworksObject != null)
-                return SolidworksObject.CharacterBackgroundColor[StartChar, EndChar];
-            return -1;
-        }
-        /// <summary>
-        /// gets the color of the specified characters in this PropertyManager label. 
-        /// </summary>
-        /// <param name="StartChar">0-based index value of start character</param>
-        /// <param name="EndChar">0-based index value of end character</param>
-        /// <returns>RGB value for the text color for the specified characters or -1 for error</returns>
-        public int GetCharacterColor(short StartChar, short EndChar)
-        {
-            if (SolidworksObject != null)
-            {
-                return SolidworksObject.CharacterColor[StartChar, EndChar];
-            }
-            return -1;
+            else
+                OnRegister += () => { SolidworksObject.CharacterBackgroundColor[StartChar, EndChar] = RGB; };
         }
 
         /// <summary>
@@ -169,26 +107,14 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="StartChar">0-based index value of start character</param>
         /// <param name="EndChar">0-based index value of end character</param>
-        /// <param name="RGB">RGB value for the text color for the specified characters; </param>
-        public void SetCharacterColor(short StartChar, short EndChar, int RGB)
+        /// <param name="color">value for the text color for the specified characters; </param>
+        public void SetCharacterColor(short StartChar, short EndChar, Color color)
         {
+            var RGB = ColorTranslator.ToWin32(color);
             if (SolidworksObject != null)
                 SolidworksObject.CharacterColor[StartChar, EndChar] = RGB;
-        }
-
-        /// <summary>
-        ///Gets the font for the specified characters in this PropertyManager label.
-        /// </summary>
-        /// <param name="StartChar">0-based index value of start character</param>
-        /// <param name="EndChar">0-based index value of end character</param>
-        /// <returns>Name of the font to use for the specified characters or empty string for error</returns>
-        public string GetFont(short StartChar, short EndChar)
-        {
-            if (SolidworksObject != null)
-            {
-                return SolidworksObject.Font[StartChar, EndChar];
-            }
-            return "";
+            else
+                OnRegister += () => { SolidworksObject.CharacterColor[StartChar, EndChar] = RGB; };
         }
 
         /// <summary>
@@ -201,6 +127,8 @@ namespace Hymma.SolidTools.Addins
         {
             if (SolidworksObject != null)
                 SolidworksObject.Font[StartChar, EndChar] = font;
+            else
+                OnRegister += () => { SolidworksObject.Font[StartChar, EndChar] = font; };
         }
 
         /// <summary>
@@ -212,43 +140,29 @@ namespace Hymma.SolidTools.Addins
         public void SetUnderLineStyle(short StartChar, short EndChar, UnderLineStyles style)
         {
             if (SolidworksObject != null)
-            {
                 SolidworksObject.Underline[StartChar, EndChar] = (int)style;
-            }
-        }
-
-        /// <summary>
-        /// Gets underline style to the specified range of characters in this PropertyManager label. 
-        /// </summary>
-        /// <param name="StartChar">0-based index value of start character</param>
-        /// <param name="EndChar">0-based index value of end character</param>
-        /// <returns>int value as defined by <see cref="UnderLineStyles"/> or -1 for errors</returns>
-        public int GetUnderLineStyle(short StartChar, short EndChar)
-        {
-            if (SolidworksObject != null)
-                return SolidworksObject.Underline[StartChar, EndChar];
-            return -1;
+            else
+                OnRegister += () => { SolidworksObject.Underline[StartChar, EndChar] = (int)style; };
         }
 
         /// <summary>
         /// style as defined by <see cref="LabelStyles"/>
         /// </summary>
-        public int Style
+        public LabelStyles Style
         {
-            get
-            {
-                if (SolidworksObject != null)
-                {
-                    return SolidworksObject.Style;
-                }
-                return 0;
-            }
+            get => _style;
             set
             {
+                //update backing field
+                _style = value;
+
+                //if called after addin started
                 if (SolidworksObject != null)
-                {
-                    SolidworksObject.Style = value;
-                }
+                    SolidworksObject.Style = (int)value;
+
+                //otherwise register the value once addin is loaded
+                else
+                    OnRegister += () => { SolidworksObject.Style = (int)value; };
             }
         }
 

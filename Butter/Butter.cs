@@ -171,7 +171,14 @@ namespace Butter
                     comboBox.Clear();
                 }
             };
+            var label = new PmpLabel("caption of the label as it appears in the property manager page", LabelStyles.LeftText);
+            label.SetBold(0, 10,true);
+            label.SetBackgroundColor(0, 8, System.Drawing.Color.Red);
+            label.SetCharacterColor(0, 8, System.Drawing.Color.Blue);
+            label.BackGroundColor = System.Drawing.Color.Transparent;
+            label.OnDisplay += Label_OnDisplay;
             comboBox.OnLostFocus += ComboBox_OnLostFocus;
+            controls.Add(label);
             controls.Add(pmpBitmap);
             controls.Add(selBox);
             controls.Add(selBox2);
@@ -180,6 +187,11 @@ namespace Butter
             controls.Add(checkableBtnBtimap);
             controls.Add(comboBox);
             return controls;
+        }
+
+        private void Label_OnDisplay(PmpLabel sender, Label_OnDisplayEventArgs eventArgs)
+        {
+            var bold=eventArgs.GetBold(0, 5);
         }
 
         private void ComboBox_OnLostFocus(object sender, EventArgs e)
