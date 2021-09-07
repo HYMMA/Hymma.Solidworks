@@ -114,9 +114,7 @@ namespace Butter
                 new[] { swSelectType_e.swSelSOLIDBODIES },
                 SelectionBoxStyles.HScroll | SelectionBoxStyles.MultipleItemSelect | SelectionBoxStyles.UpAndDownButtons);
             selBox2.OnDisplay += SelBox2_OnDisplay;
-            var checkbox = new PmpCheckBox("caption", false, true)
-            {
-            };
+           
             var checkableBtnBtimap = new PmpBitmapButtonCheckable(Properties.Resources.xtractOrange,
                                                                   "xtractOrange23",
                                                                   "tip for checkable with bitmap",
@@ -157,35 +155,45 @@ namespace Butter
             {
                 EditText = "please enter..."
             };
-            checkbox.OnChecked += (sender, e) =>
-            {
-                if (e)
-                {
-                    var assembly = selBox2.ActiveDoc as AssemblyDoc;
-                    selBox.Append(assembly.GetDistictParts().ToList().Where(c => c.GetModelDoc2() is PartDoc).ToArray());
-                    var testRow = selBox.Callout.GetRows().FirstOrDefault(row => row.Label == "label 1");
-                    testRow.Value = "row 1 value";
-                }
-                else
-                {
-                    comboBox.Clear();
-                }
-            };
             var label = new PmpLabel("caption of the label as it appears in the property manager page", LabelStyles.LeftText);
+
             label.SetBold(0, 10,true);
             label.SetBackgroundColor(0, 8, System.Drawing.Color.Red);
             label.SetCharacterColor(0, 8, System.Drawing.Color.Blue);
             label.BackGroundColor = System.Drawing.Color.Transparent;
             label.OnDisplay += Label_OnDisplay;
+
+            var radio = new PmpRadioButton("radio button caption") { MaintainState = true };
+            var radio2 = new PmpRadioButton("radio button caption number 2");
+            var checkbox = new PmpCheckBox("caption", false) { MaintainState = true };
+            var checkbox2 = new PmpCheckBox("caption2", false);
+            //checkbox.OnChecked += (sender, e) =>
+            //{
+            //    if (e)
+            //    {
+            //        var assembly = selBox2.ActiveDoc as AssemblyDoc;
+            //        selBox.Append(assembly.GetDistictParts().ToList().Where(c => c.GetModelDoc2() is PartDoc).ToArray());
+            //        var testRow = selBox.Callout.GetRows().FirstOrDefault(row => row.Label == "label 1");
+            //        testRow.Value = "row 1 value";
+            //    }
+            //    else
+            //    {
+            //        comboBox.Clear();
+            //    }
+            //};
             comboBox.OnLostFocus += ComboBox_OnLostFocus;
-            controls.Add(label);
-            controls.Add(pmpBitmap);
-            controls.Add(selBox);
-            controls.Add(selBox2);
+            //controls.Add(label);
+            //controls.Add(pmpBitmap);
+            //controls.Add(selBox);
+            //controls.Add(selBox2);
+            //controls.Add(checkbox);
+            //controls.Add(bitmapBtn);
+            //controls.Add(checkableBtnBtimap);
+            //controls.Add(comboBox);
+            controls.Add(radio);
+            controls.Add(radio2);
             controls.Add(checkbox);
-            controls.Add(bitmapBtn);
-            controls.Add(checkableBtnBtimap);
-            controls.Add(comboBox);
+            controls.Add(checkbox2);
             return controls;
         }
 

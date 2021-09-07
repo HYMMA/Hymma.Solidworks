@@ -12,6 +12,8 @@ namespace Hymma.SolidTools.Addins
         #region fields
         private NumberBoxStyles _style;
         private NumberBoxUnit _displayUnit;
+        private double _value;
+        private short _height;
         #endregion
 
         #region constructors
@@ -56,43 +58,14 @@ namespace Hymma.SolidTools.Addins
         /// <param name="items"></param>
         public void AddItems(string[] items)
         {
-            SolidworksObject?.AddItems(items);
-        }
-
-        /// <summary>
-        /// Clears all items from the attached drop-down list for this the number box. 
-        /// </summary>
-        public void Clear() => SolidworksObject?.Clear();
-
-        /// <summary>
-        /// Gets the text for an item in the attached drop-down list for this number box. 
-        /// </summary>
-        /// <param name="item">Position of the item where to get the text in the 0-based list or -1 to get the text of the currently selected item</param>
-        /// <returns>Text for this item</returns>
-        public string ItemText(short item)
-        {
-            return SolidworksObject?.ItemText[item];
-        }
-
-        /// <summary>
-        /// Deletes an item from the attached drop-down list for this number box. 
-        /// </summary>
-        /// <param name="item">Index number of the item to delete from the 0-based list of items</param>
-        /// <returns>Number of items remaining in the list or -1 if the item is not deleted</returns>
-        public short? DeleteItem(short item)
-        {
-            return SolidworksObject?.DeleteItem(item);
-        }
-
-        /// <summary>
-        /// Inserts an item in the attached drop-down list for this number box. 
-        /// </summary>
-        /// <param name="item">Position where to add the item in the 0-based list or -1 to put the item at the end of the list</param>
-        /// <param name="text">Text for item</param>
-        /// <returns>Position in the 0-based list where the item is added or -1 if the item is not added to the list</returns>
-        public short? InsertItem(short item, string text)
-        {
-            return SolidworksObject?.InsertItem(item, text);
+            if (SolidworksObject != null)
+            {
+                SolidworksObject.AddItems(items);
+            }
+            else
+            {
+                OnRegister += () => { SolidworksObject.AddItems(items); };
+            }
         }
 
         /// <summary>
@@ -104,25 +77,58 @@ namespace Hymma.SolidTools.Addins
         /// When a user drags the slider, PositionCount defines how sensitive the slider is. Not all of the specified discreet points are displayed if the PropertyManager page is not wide enough to show them. However, if the user widens the PropertyManager page, then more points are displayed.
         ///When a user drags the slider, the user-interface tends to snap to the nearest tick mark when the drag is nearby, making it easier for the user to set whole values.
         ///</remarks>
-        public void SetSliderParameters(int positionCount, int divisionCount) => SolidworksObject?.SetSliderParameters(positionCount, divisionCount);
+        public void SetSliderParameters(int positionCount, int divisionCount)
+        {
+            if (SolidworksObject != null)
+            {
+                SolidworksObject?.SetSliderParameters(positionCount, divisionCount);
+            }
+            else
+            {
+                OnRegister += () => { SolidworksObject.SetSliderParameters(positionCount, divisionCount); };
+            }
+        }
         #endregion
 
         #region public properties
         /// <summary>
         /// Gets and sets the value that appears in the number box. 
         /// </summary>
-        public double? Value { get => SolidworksObject?.Value; set => SolidworksObject.Value = value.GetValueOrDefault(); }
+        public double Value
+        {
+            get => _value;
+            set
+            {
+                _value = value;
+                if (SolidworksObject != null)
+                {
+                    SolidworksObject.Value = value;
+                }
+                else
+                {
+                    OnRegister += () => { SolidworksObject.Value = value; };
+                }
+            }
+        }
 
-        /// <summary>
-        /// gets or sets the current selection in the number box
-        /// </summary>
-        /// <value>0-based index of the selection</value>
-        public short? CurrentSelection { get => SolidworksObject?.CurrentSelection; set => SolidworksObject.CurrentSelection = value.GetValueOrDefault(); }
 
         /// <summary>
         /// 	Gets or sets the maximum height of the attached drop-down list for this number box.  
         /// </summary>
-        public short? Height { get => SolidworksObject?.Height; set => SolidworksObject.Height = value.GetValueOrDefault(); }
+        public short Height
+        {
+            get => _height;
+            set
+            {
+                _height = value;
+
+                //if addin is loaded
+                if (SolidworksObject != null)
+                    SolidworksObject.Height = value;
+                else
+                    OnRegister += () => { SolidworksObject.Height = value; };
+            }
+        }
 
         /// <summary>
         /// style for this numberBox as defined by <see cref="NumberBoxStyles"/>
@@ -154,6 +160,7 @@ namespace Hymma.SolidTools.Addins
             set
             {
                 _displayUnit = value;
+
                 //if add-in is loaded already
                 if (SolidworksObject != null)
                     SolidworksObject.DisplayedUnit = (int)value;

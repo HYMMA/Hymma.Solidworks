@@ -10,6 +10,15 @@ namespace Hymma.SolidTools.Addins
     /// <typeparam name="T"></typeparam>
     public class PmpTextBase<T> : PmpControl<T>
     {
+        #region fields
+
+        private Color bgColor;
+        private Color txtColor;
+        private PropertyManagerPageControl control;
+        #endregion
+
+        #region constructor
+
         /// <summary>
         /// default constructor
         /// </summary>
@@ -23,10 +32,9 @@ namespace Hymma.SolidTools.Addins
                 this.control = SolidworksObject as PropertyManagerPageControl;
             };
         }
+        #endregion
 
-        private Color bgColor;
-        private Color txtColor;
-        private PropertyManagerPageControl control;
+        #region properties
 
         /// <summary>
         ///  Gets or sets the background color of an edit box or label on the PropertyManager page. 
@@ -99,6 +107,6 @@ namespace Hymma.SolidTools.Addins
                 }
             }
         }
-
+        #endregion
     }
 }

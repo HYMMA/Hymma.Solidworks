@@ -7,17 +7,22 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class NumberBox_Ondisplay_EventArgs : OnDisplay_EventArgs
     {
+        #region fields
         private IPropertyManagerPageNumberbox SolidworksObject;
+        #endregion
 
+        #region constructors
         /// <summary>
-        /// 
+        /// event arguments for <see cref="PmpNumberBox.OnDisplay"/>
         /// </summary>
         /// <param name="pmpNumberBox"></param>
         public NumberBox_Ondisplay_EventArgs(PmpNumberBox pmpNumberBox) : base((IPropertyManagerPageControl)pmpNumberBox.SolidworksObject)
         {
             SolidworksObject = pmpNumberBox.SolidworksObject;
         }
+        #endregion
 
+        #region methods
         /// <summary>
         /// changes the range and increment for the slider. 
         /// </summary>
@@ -38,9 +43,58 @@ namespace Hymma.SolidTools.Addins
         }
 
         /// <summary>
+        /// Clears all items from the attached drop-down list for this the number box. 
+        /// </summary>
+        public void Clear() => SolidworksObject?.Clear();
+
+        /// <summary>
+        /// Gets the text for an item in the attached drop-down list for this number box. 
+        /// </summary>
+        /// <param name="item">Position of the item where to get the text in the 0-based list or -1 to get the text of the currently selected item</param>
+        /// <returns>Text for this item</returns>
+        public string ItemText(short item)
+        {
+            return SolidworksObject?.ItemText[item];
+        }
+
+        /// <summary>
+        /// Deletes an item from the attached drop-down list for this number box. 
+        /// </summary>
+        /// <param name="item">Index number of the item to delete from the 0-based list of items</param>
+        /// <returns>Number of items remaining in the list or -1 if the item is not deleted</returns>
+        public short DeleteItem(short item)
+        {
+            return SolidworksObject.DeleteItem(item);
+        }
+
+        /// <summary>
+        /// Inserts an item in the attached drop-down list for this number box. 
+        /// </summary>
+        /// <param name="item">Position where to add the item in the 0-based list or -1 to put the item at the end of the list</param>
+        /// <param name="text">Text for item</param>
+        /// <returns>Position in the 0-based list where the item is added or -1 if the item is not added to the list</returns>
+        public short InsertItem(short item, string text)
+        {
+            return SolidworksObject.InsertItem(item, text);
+        }
+        #endregion
+
+        #region properties
+        /// <summary>
         /// Gets the text that appears in the number box. 
         /// </summary>
         /// <remarks>If a user changes the value in an number box by typing in a new value, the <see cref="PmpNumberBox.OnTypeIn"/> is called with the current text string.</remarks>
         public string Text => SolidworksObject?.Text;
+
+        /// <summary>
+        /// gets or sets the current selection in the number box
+        /// </summary>
+        /// <value>0-based index of the selection</value>
+        public short CurrentSelection
+        {
+            get => SolidworksObject.CurrentSelection;
+            set => SolidworksObject.CurrentSelection = value;
+        }
+        #endregion
     }
 }

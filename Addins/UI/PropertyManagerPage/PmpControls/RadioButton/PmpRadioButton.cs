@@ -1,48 +1,30 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System;
 
 namespace Hymma.SolidTools.Addins
 {
     /// <summary>
-    /// a check box in a property manger page
+    /// a solidworks radio button in property managers
     /// </summary>
-    public class PmpCheckBox : PmpControl<PropertyManagerPageCheckbox>
+    public class PmpRadioButton : PmpControl<IPropertyManagerPageOption>
     {
-        #region private fields
-
         private bool _isChecked;
-        private bool _maintain;
-        #endregion
-
-        #region constructor
 
         /// <summary>
-        /// default constructor
+        /// make a new radio button for solidworks property manager pages
         /// </summary>
-        /// <param name="isChecked">initial state</param>
-        /// <param name="caption">caption for this check box</param>
-        /// <param name="tip">a tip for this checkbox</param>
-        public PmpCheckBox(string caption, bool isChecked = false, string tip ="") : base(swPropertyManagerPageControlType_e.swControlType_Checkbox,caption,tip)
+        /// <param name="caption">caption for this radio button</param>
+        /// <param name="isChecked">whether it is going to be the checked or not</param>
+        public PmpRadioButton(string caption, bool isChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Option, caption)
         {
             IsChecked = isChecked;
         }
-
-
-        #endregion
-
-        #region call backs
-
-        internal void Checked(bool status)
-        {
-            OnChecked?.Invoke(this, status);
-        }
-
-        #endregion
-
-        #region public properties
+        
+        #region properties
 
         /// <summary>
-        /// status of this checkbox
+        /// whether or not this radio button is checked
         /// </summary>
         public bool IsChecked
         {
@@ -50,8 +32,7 @@ namespace Hymma.SolidTools.Addins
             set
             {
                 _isChecked = value;
-
-                //if addin is loaded
+                //if addin was loaded
                 if (SolidworksObject != null)
                     SolidworksObject.Checked = value;
                 else
@@ -77,19 +58,27 @@ namespace Hymma.SolidTools.Addins
                 {
                     OnDisplay += (sender, e) =>
                     {
-                        var checkBox = sender as PmpCheckBox;
-                        checkBox.IsChecked = _isChecked;
+                        var radioButton = sender as PmpRadioButton;
+                        radioButton.IsChecked = _isChecked;
                     };
                 }
             }
         }
         #endregion
 
+        #region call backs
+        internal void Checked()
+        {
+            OnChecked?.Invoke(this, EventArgs.Empty);
+        }
+        #endregion
+
         #region events
         /// <summary>
-        /// SOLIDWORKS will call this once the checkbox is clicked on
+        /// SOLIDWORKS will invoke this delegate once the user checks this radio button
         /// </summary>
-        public event CheckBox_EventHandler OnChecked;
+        public EventHandler OnChecked;
+        private bool _maintain;
         #endregion
     }
 }

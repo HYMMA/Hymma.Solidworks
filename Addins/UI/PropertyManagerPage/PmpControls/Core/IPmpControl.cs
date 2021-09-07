@@ -9,6 +9,7 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public abstract class IPmpControl
     {
+        #region constructor
         internal IPmpControl(swPropertyManagerPageControlType_e type, string caption, string tip)
         {
             Id = (short)Counter.GetNextPmpId();
@@ -16,7 +17,9 @@ namespace Hymma.SolidTools.Addins
             Caption = caption;
             Tip = tip;
         }
+        #endregion
 
+        #region properties
         /// <summary>
         /// a caption or title for this controller
         /// </summary>
@@ -40,7 +43,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// id of this controller which is used by SOLIDWORKS to identify it
         /// </summary>
-        public short Id { get;}
+        public short Id { get; }
 
         /// <summary>
         /// Left alignment of this control as defined in <see cref="swPropertyManagerPageControlLeftAlign_e"/>
@@ -54,6 +57,14 @@ namespace Hymma.SolidTools.Addins
         private int Options { get; set; } = (int)swAddControlOptions_e.swControlOptions_Enabled | (int)swAddControlOptions_e.swControlOptions_Visible;
 
         /// <summary>
+        /// the solidworks document where the property manager page is displayed in. you can use this proeprty before the property manager page is displayed
+        /// </summary>
+        public ModelDoc2 ActiveDoc { get; internal set; }
+        #endregion
+
+        #region methods
+
+        /// <summary>
         /// Add this control to a group in a property manager page 
         /// </summary>
         /// <param name="group">the group that this contorl should be registerd to</param>
@@ -65,7 +76,9 @@ namespace Hymma.SolidTools.Addins
             //we raise this event here to give multiple controls set-up their initial state. some of the proeprties of a controller has to be set prior a property manager page is displayed or after it's closed
             OnRegister?.Invoke();
         }
+        #endregion
 
+        #region call backs
         /// <summary>
         /// will be called just before this property manager page is displayed inside solidworks 
         /// </summary>
@@ -74,15 +87,13 @@ namespace Hymma.SolidTools.Addins
         internal abstract void GainedFocus();
 
         internal abstract void LostFocus();
+        #endregion
 
-        /// <summary>
-        /// the solidworks document where the property manager page is displayed in. you can use this proeprty before the property manager page is displayed
-        /// </summary>
-        public ModelDoc2 ActiveDoc { get; internal set; }
-
+        #region events
         /// <summary>
         /// fired when this controller is registerd in a property manager page which is when the add-in is loaded. Either when solidworks starts or when user re-loads the addin
         /// </summary>
         internal event Action OnRegister;
+        #endregion
     }
 }

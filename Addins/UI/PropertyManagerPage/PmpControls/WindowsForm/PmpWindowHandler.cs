@@ -12,6 +12,11 @@ namespace Hymma.SolidTools.Addins
     /// <remarks>your addin must ad a reference to WindowsFormsIntegration</remarks>
     public class PmpWindowHandler : PmpControl<IPropertyManagerPageWindowFromHandle>, IEquatable<PmpWindowHandler>
     {
+        #region fields
+        private int _height;
+        #endregion
+
+        #region constructors
         /// <summary>
         /// default constructor 
         /// </summary>
@@ -26,6 +31,18 @@ namespace Hymma.SolidTools.Addins
             OnDisplay += PmpWindowHandler_OnDisplay;
             OnRegister += PmpWindowHandler_OnRegister;
         }
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="WinFormOrWpfControl">a windows form or wpf controller</param>
+        /// <param name="height">height of this control in property manager page if set to zero the control will not appear</param>
+        public PmpWindowHandler(UserControl WinFormOrWpfControl, int height) : this(new ElementHost(), WinFormOrWpfControl, height)
+        {
+
+        }
+        #endregion
+
+        #region call backs
 
         private void PmpWindowHandler_OnRegister()
         {
@@ -41,6 +58,10 @@ namespace Hymma.SolidTools.Addins
             SolidworksObject?.SetWindowHandlex64(ElementHost.Handle.ToInt64());
         }
 
+        #endregion
+
+        #region public properties
+
         /// <summary>
         /// A host for <see cref="WindowsControl"/>
         /// </summary>
@@ -50,9 +71,9 @@ namespace Hymma.SolidTools.Addins
         /// a windows form or wpf controller
         /// </summary>
         public UserControl WindowsControl { get; }
+        #endregion
 
-        private int _height;
-
+        #region methods
         /// <summary>
         /// makes sure each SwWindowHandler has its unique ElementHost
         /// </summary>
@@ -66,5 +87,6 @@ namespace Hymma.SolidTools.Addins
                 return true;
             return false;
         }
+        #endregion
     }
 }

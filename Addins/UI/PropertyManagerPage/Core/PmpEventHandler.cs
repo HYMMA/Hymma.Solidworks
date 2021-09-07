@@ -179,7 +179,8 @@ namespace Hymma.SolidTools.Addins
                 return;
 
             //call on checked delegate on the check box
-            checkBox?.Checked(Checked);
+            checkBox.IsChecked = Checked;
+            checkBox.Checked(Checked);
         }
 
         /// <summary>
@@ -200,13 +201,13 @@ namespace Hymma.SolidTools.Addins
             var groupOptions = group.Controls.Where(c => c.Type == swPropertyManagerPageControlType_e.swControlType_Option).Cast<PmpRadioButton>().ToList();
 
             //set the IsChecked property of radio buttons to false
-            groupOptions.ForEach(groupOption => groupOption.IsChecked = false);
+            groupOptions.ForEach(option => option.IsChecked = false);
 
             //set the IsChecked property of clicked radio button to true
             radioBtn.IsChecked = true;
 
             //invoke any function assigned to it
-            radioBtn?.OnChecked?.Invoke();
+            radioBtn?.Checked();
         }
 
         /// <summary>
@@ -253,9 +254,7 @@ namespace Hymma.SolidTools.Addins
             if (control.Type == swPropertyManagerPageControlType_e.swControlType_Textbox
                 && control is PmpTextBox txtBox)
             {
-                if (txtBox.Binding)
-                    txtBox.textTypedByUser = Text;
-                txtBox.OnChange?.Invoke(Text);
+                txtBox?.TextChanged(Text);
             }
         }
 

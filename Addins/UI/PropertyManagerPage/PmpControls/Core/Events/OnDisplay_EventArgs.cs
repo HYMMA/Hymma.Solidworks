@@ -10,6 +10,15 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class OnDisplay_EventArgs : EventArgs
     {
+        #region fields
+        private short _width;
+        private short _left;
+        private IPropertyManagerPageControl _control;
+        private int _optionForResize;
+        #endregion
+
+        #region constructor
+
         /// <summary>
         /// default constructor
         /// </summary>
@@ -18,6 +27,9 @@ namespace Hymma.SolidTools.Addins
         {
             _control = control;
         }
+        #endregion
+
+        #region methods
 
         /// <summary>
         /// Sets the bitmap label for this control that appears next to it on the left hand side.
@@ -37,6 +49,9 @@ namespace Hymma.SolidTools.Addins
             MaskedBitmap.Save(new Bitmap(bitmap, 18, 18), ref fullFileName);
             _control.SetPictureLabelByName(fullFileName, "");
         }
+        #endregion
+
+        #region properties
 
         /// <summary>
         /// Gets or sets how to override the SOLIDWORKS default behavior when changing the width of a PropertyManager page. <br/>
@@ -70,11 +85,6 @@ namespace Hymma.SolidTools.Addins
             get => _width;
             set => _width = _control.Width = value;
         }
-
-        private short _width;
-        private short _left;
-        private IPropertyManagerPageControl _control;
-        private int _optionForResize;
+        #endregion
     }
-
 }

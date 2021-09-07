@@ -100,12 +100,33 @@ namespace Hymma.SolidTools.Addins
 
             Controls.ForEach(c => c.Register(SolidworksObject));
 
-            //a special rule should apply for options (radio buttons) as they require a style value of 1 to indicate the beginning of a group of options
-            //any following optio without this value set are considered part of the group; the next option with this value set indicates the start of a new option group
-            //we assume all the radio buttons in a PMPGroup are members of a group so we assing a value of 1 to the first one
             var firstOption = Controls.FirstOrDefault(c => c.Type == swPropertyManagerPageControlType_e.swControlType_Option)?.CastTo<PmpRadioButton>();
             if (firstOption != null)
                 firstOption.SolidworksObject.Style = 1;
+
+            //a special rule should apply for options (radio buttons) as they require a style value of 1 to indicate the beginning of a group of options
+            //any following optio without this value set are considered part of the group; the next option with this value set indicates the start of a new option group
+            //we assume all the radio buttons in a PMPGroup are members of a group so we assing a value of 1 to the first one
+            //get all radio buttons ...
+            var groupOptions = Controls.Where(c => c.Type == swPropertyManagerPageControlType_e.swControlType_Option)?.Cast<PmpRadioButton>()?.ToList();
+            if (groupOptions[0]!=null)
+                groupOptions[0].SolidworksObject.Style = 1;
+
+            //if the checked radio button should maintain its state 
+            //across differet sessions of the property manager page
+            //the rest of the radio buttons should do the same which means the rest of them
+            //stay un-checked in the next run
+            for (int i = 0; i < groupOptions.Count; i++)
+            {
+                if (groupOptions[i].MaintainState)
+                {
+                    for (int j = 0; j < groupOptions.Count; j++)
+                    {
+                        groupOptions[j].MaintainState = true;
+                    }
+                    return;
+                }
+            }
         }
         #endregion
 
