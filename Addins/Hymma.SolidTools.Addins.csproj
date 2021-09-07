@@ -90,6 +90,10 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\Label_OnDisplayEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\LabelStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\UnderLineStyles.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Enums\NumberBoxStyles.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Enums\NumberBoxUnit.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Events\NumberBox_Ondisplay_EventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Events\NumberBox_OnDisplay_EventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\_Base\OnDisplay_EventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Enums\ListboxStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_Display.cs" />

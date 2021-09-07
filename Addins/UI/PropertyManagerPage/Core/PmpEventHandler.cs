@@ -246,7 +246,7 @@ namespace Hymma.SolidTools.Addins
             if (control.Type == swPropertyManagerPageControlType_e.swControlType_Numberbox
                 && control is PmpNumberBox numberBox)
             {
-                numberBox.OnTextChanged?.Invoke(Text);
+                numberBox?.TextChanged(Text);
             }
 
             //if control is a text box
@@ -267,7 +267,7 @@ namespace Hymma.SolidTools.Addins
         public void OnNumberboxChanged(int Id, double Value)
         {
             var numberBox = UiModel.GetControl(Id);
-            numberBox.CastTo<PmpNumberBox>()?.OnChange?.Invoke(Value);
+            numberBox.CastTo<PmpNumberBox>()?.Changed(Value);
         }
 
         /// <summary>
