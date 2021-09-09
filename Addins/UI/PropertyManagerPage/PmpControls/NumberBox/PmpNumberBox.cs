@@ -29,6 +29,23 @@ namespace Hymma.SolidTools.Addins
         #endregion
 
         #region methods
+        /// <summary>
+        /// Inserts an item in the attached drop-down list for this number box. 
+        /// </summary>
+        /// <param name="item">Position where to add the item in the 0-based list or -1 to put the item at the end of the list</param>
+        /// <param name="text">Text for item</param>
+        public short InsertItem(short item, string text)
+        {
+            short result = -1;
+            if (SolidworksObject != null)
+                result = SolidworksObject.InsertItem(item, text);
+            else
+                OnRegister += () =>
+                {
+                    result = SolidworksObject.InsertItem(item, text);
+                };
+            return result;
+        }
 
         /// <summary>
         /// Sets the range and increment for the slider. 
@@ -172,10 +189,11 @@ namespace Hymma.SolidTools.Addins
         }
         #endregion
 
+
         #region Call backs
         internal void TextChanged(string text)
         {
-            OnTypeIn?.Invoke(this, text);
+            OnTextChanged?.Invoke(this, text);
         }
 
         internal void Changed(double value)
@@ -187,6 +205,15 @@ namespace Hymma.SolidTools.Addins
         {
             OnDisplay?.Invoke(this, new NumberBox_Ondisplay_EventArgs(this));
         }
+
+        internal void TrackComplete(double val)
+        {
+            OnTrackingComplete?.Invoke(this, val);
+        }
+        internal void SelectionChanged(int item)
+        {
+            OnSelectionChanged?.Invoke(this, SolidworksObject.ItemText[(short)item]);
+        }
         #endregion
 
         #region events
@@ -194,7 +221,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// called when user changes the value in an number box by typing in a new value, solidworks will pass in the text that was entered
         /// </summary>
-        public event EventHandler<string> OnTypeIn;
+        public event EventHandler<string> OnTextChanged;
 
         /// <summary>
         /// fired when user changes the value via typing or clicking the up-arrow or down-arrow buttons to increment or decrement the value
@@ -203,9 +230,20 @@ namespace Hymma.SolidTools.Addins
         public event EventHandler<double> OnChange;
 
         /// <summary>
+        /// Called when a user finishes changing the value in the number box on a PropertyManager page. 
+        /// </summary>
+        public event EventHandler<double> OnTrackingComplete;
+
+        /// <summary>
+        /// fired when Style has <see cref="NumberBoxStyles.AvoidSelectionText"/> | <see cref="NumberBoxStyles.ComboEditBox"/> and user selects an item from the combo box
+        /// </summary>
+        public event EventHandler<string> OnSelectionChanged;
+
+        /// <summary>
         /// fired a moment before this number box is displayed in a property manager page
         /// </summary>
         public new event NumberBox_OnDisplay_EventHandler OnDisplay;
+
         #endregion
     }
 }

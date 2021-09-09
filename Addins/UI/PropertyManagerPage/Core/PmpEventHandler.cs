@@ -2,6 +2,7 @@
 using SolidWorks.Interop.swconst;
 using SolidWorks.Interop.swpublished;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using static Hymma.SolidTools.Addins.Logger;
@@ -287,8 +288,16 @@ namespace Hymma.SolidTools.Addins
         /// <param name="Item"></param>
         public void OnComboboxSelectionChanged(int Id, int Item)
         {
-            PmpComboBox pmpComboBox = UiModel.GetControl(Id) as PmpComboBox;
-            pmpComboBox?.SelectionChanged(Item);
+            var control = UiModel.GetControl(Id);
+            if (control.Type == swPropertyManagerPageControlType_e.swControlType_Combobox && control is PmpComboBox pmpCombo)
+            {
+                pmpCombo.SelectionChanged(Item);
+            }
+            else if (control.Type== swPropertyManagerPageControlType_e.swControlType_Numberbox && control is PmpNumberBox pmpNumber)
+            {
+                pmpNumber.SelectionChanged(Item);
+            }
+
         }
 
         /// <summary>
@@ -387,14 +396,26 @@ namespace Hymma.SolidTools.Addins
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// fires when the position of a slider is changing
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Value"></param>
         public void OnSliderPositionChanged(int Id, double Value)
         {
-            throw new NotImplementedException();
+            var slider = UiModel.GetControl(Id) as PmpSlider;
+            slider?.PositionChanged(Value);
         }
 
+        /// <summary>
+        /// fires when the user finishes changes on a slider
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Value"></param>
         public void OnSliderTrackingCompleted(int Id, double Value)
         {
-            throw new NotImplementedException();
+            var slider = UiModel.GetControl(Id) as PmpSlider;
+            slider?.TrackingComplete(Value);
         }
 
         public bool OnKeystroke(int Wparam, int Message, int Lparam, int Id)
@@ -458,9 +479,16 @@ namespace Hymma.SolidTools.Addins
             listbox?.RightMouseBtnUp(new Mathematics.Point(PosX, PosY, 0));
         }
 
+        /// <summary>
+        /// Called when a user finishes changing the value in the number box on a PropertyManager page. 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Value"></param>
         public void OnNumberBoxTrackingCompleted(int Id, double Value)
         {
-            throw new NotImplementedException();
+            Log("on numberbox tracking complete event fired");
+            var numBox = UiModel.GetControl(Id) as PmpNumberBox;
+            numBox?.TrackComplete(Value);
         }
     }
 }

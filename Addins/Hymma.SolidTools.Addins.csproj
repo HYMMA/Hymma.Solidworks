@@ -112,6 +112,8 @@
     <Compile Include="Core\Counter.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButton.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Core\PmpTextBase.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Slider\PmpSlider.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Slider\SliderStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\TextBox\Enums\TextBoxStyles.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommand.cs" />
     <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroup.cs" />

@@ -14,7 +14,7 @@ namespace Hymma.SolidTools.Addins
 
         private Color bgColor;
         private Color txtColor;
-        private PropertyManagerPageControl control;
+        private IPropertyManagerPageControl control;
         #endregion
 
         #region constructor

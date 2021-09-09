@@ -66,24 +66,14 @@ namespace Hymma.SolidTools.Addins
         {
             return SolidworksObject.DeleteItem(item);
         }
-
-        /// <summary>
-        /// Inserts an item in the attached drop-down list for this number box. 
-        /// </summary>
-        /// <param name="item">Position where to add the item in the 0-based list or -1 to put the item at the end of the list</param>
-        /// <param name="text">Text for item</param>
-        /// <returns>Position in the 0-based list where the item is added or -1 if the item is not added to the list</returns>
-        public short InsertItem(short item, string text)
-        {
-            return SolidworksObject.InsertItem(item, text);
-        }
+        
         #endregion
 
         #region properties
         /// <summary>
         /// Gets the text that appears in the number box. 
         /// </summary>
-        /// <remarks>If a user changes the value in an number box by typing in a new value, the <see cref="PmpNumberBox.OnTypeIn"/> is called with the current text string.</remarks>
+        /// <remarks>If a user changes the value in an number box by typing in a new value, the <see cref="PmpNumberBox.OnTextChanged"/> is called with the current text string.</remarks>
         public string Text => SolidworksObject?.Text;
 
         /// <summary>

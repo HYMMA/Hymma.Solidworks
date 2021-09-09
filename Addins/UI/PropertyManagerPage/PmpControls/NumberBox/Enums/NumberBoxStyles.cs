@@ -14,8 +14,8 @@ namespace Hymma.SolidTools.Addins
     public enum NumberBoxStyles
     {
         /// <summary>
-        /// The item the user selects in the attached drop-down list does not appear in the number box. Instead, the user's selection causes the add-in to get a callback via <see cref="PmpComboBox.OnSelectionChanged"/> <br/>
-        /// the Id argument will be the number box; the add-in is expected to respond by setting the value for the number box using IPropertyManagerPageNumberbox::Value.  
+        /// The item the user selects in the attached drop-down list does not appear in the number box. Instead, the user's selection causes the add-in to get a callback via <see cref="PmpNumberBox.OnSelectionChanged"/> <br/>
+        /// the Id argument will be the number box; the add-in is expected to respond by setting the value for the number box using <see cref="PmpNumberBox.Value"/>.  
         /// </summary>
         AvoidSelectionText = 4,
 

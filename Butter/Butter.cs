@@ -1,13 +1,15 @@
-﻿using Hymma.Mathematics;
-using Hymma.SolidTools.Addins;
+﻿using Hymma.SolidTools.Addins;
 using Hymma.SolidTools.Core;
 using Hymma.SolidTools.Fluent.Addins;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Point = Hymma.Mathematics.Point;
+
 namespace Butter
 {
     [ComVisible(true)]
@@ -113,8 +115,7 @@ namespace Butter
             var selBox2 = new PmpSelectionBox(
                 new[] { swSelectType_e.swSelSOLIDBODIES },
                 SelectionBoxStyles.HScroll | SelectionBoxStyles.MultipleItemSelect | SelectionBoxStyles.UpAndDownButtons);
-            selBox2.OnDisplay += SelBox2_OnDisplay;
-           
+
             var checkableBtnBtimap = new PmpBitmapButtonCheckable(Properties.Resources.xtractOrange,
                                                                   "xtractOrange23",
                                                                   "tip for checkable with bitmap",
@@ -157,16 +158,28 @@ namespace Butter
             };
             var label = new PmpLabel("caption of the label as it appears in the property manager page", LabelStyles.LeftText);
 
-            label.SetBold(0, 10,true);
+            label.SetBold(0, 10, true);
             label.SetBackgroundColor(0, 8, System.Drawing.Color.Red);
             label.SetCharacterColor(0, 8, System.Drawing.Color.Blue);
             label.BackGroundColor = System.Drawing.Color.Transparent;
-            label.OnDisplay += Label_OnDisplay;
 
             var radio = new PmpRadioButton("radio button caption") { MaintainState = true };
             var radio2 = new PmpRadioButton("radio button caption number 2");
             var checkbox = new PmpCheckBox("caption", false) { MaintainState = true };
             var checkbox2 = new PmpCheckBox("caption2", false);
+            var numBox = new PmpNumberBox(NumberBoxStyles.Thumbwheel)
+            {
+            };
+            numBox.AddItems(new[] { "1", "2" });
+            numBox.Height = 30;
+
+            numBox.OnDisplay += NumBox_OnDisplay;
+            numBox.OnTextChanged += NumBox_OnTypeIn;
+            numBox.OnChange += NumBox_OnChange;
+            numBox.OnSelectionChanged += NumBox_OnSelectionChanged;
+            numBox.OnTrackingComplete += NumBox_OnTrackingComplete;
+
+            var slider = new PmpSlider(SliderStyles.AutoTicks, "caption", "tip");
             //checkbox.OnChecked += (sender, e) =>
             //{
             //    if (e)
@@ -181,7 +194,6 @@ namespace Butter
             //        comboBox.Clear();
             //    }
             //};
-            comboBox.OnLostFocus += ComboBox_OnLostFocus;
             //controls.Add(label);
             //controls.Add(pmpBitmap);
             //controls.Add(selBox);
@@ -194,25 +206,40 @@ namespace Butter
             controls.Add(radio2);
             controls.Add(checkbox);
             controls.Add(checkbox2);
+            controls.Add(numBox);
+            controls.Add(slider);
             return controls;
         }
 
-        private void Label_OnDisplay(PmpLabel sender, Label_OnDisplayEventArgs eventArgs)
+        private void NumBox_OnSelectionChanged(object sender, string e)
         {
-            var bold=eventArgs.GetBold(0, 5);
+            Solidworks.SendMsgToUser(e);
         }
 
-        private void ComboBox_OnLostFocus(object sender, EventArgs e)
+        private void NumBox_OnTrackingComplete(object sender, double e)
         {
-            var combo = sender as PmpComboBox;
-            if (!combo.Contains(combo.EditText))
-                combo.InsertItem(2, combo.EditText);
+            var numbox = sender as PmpNumberBox;
+            if (e==100)
+            {
+                numbox.TextColor = Color.Red;
+                numbox.BackGroundColor = Color.Yellow;
+            }
         }
 
-        private void SelBox2_OnDisplay(PmpSelectionBox sender, SelBox_OnDisplay_EventArgs eventArgs)
+        private void NumBox_OnDisplay(PmpNumberBox sender, NumberBox_Ondisplay_EventArgs eventArgs)
         {
-            eventArgs.Style = ((int)SelectionBoxStyles.UpAndDownButtons);
-            eventArgs.SelectionColor = SysColor.ActiveSelectionListBox;
+            sender.InsertItem(-1, "9");
+            sender.InsertItem(3, "second item");
+        }
+
+        private void NumBox_OnTypeIn(object sender, string e)
+        {
+            var numbox = sender as PmpNumberBox;
+        }
+
+        private void NumBox_OnChange(object sender, double e)
+        {
+            var numbox = sender as PmpNumberBox;
         }
 
         public void ShowPMP()
