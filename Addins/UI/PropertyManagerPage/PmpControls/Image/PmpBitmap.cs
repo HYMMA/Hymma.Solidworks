@@ -13,18 +13,18 @@ namespace Hymma.SolidTools.Addins
         private Bitmap _bitmap;
         private byte _opacity;
         private string _filename;
-        private PmpResizeStyles _resizeStyles;
+        private ControlResizeStyles _resizeStyles;
 
         /// <summary>
         /// generates a bitmap in the property manager page
         /// </summary>
         /// <param name="bitmap">bitmap to edit and set in the property manager page</param>
         /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
-        /// <param name="resizeStyles">resize option as defined in <see cref="PmpResizeStyles"/></param>
+        /// <param name="resizeStyles">resize option as defined in <see cref="ControlResizeStyles"/></param>
         /// <param name="opacity">define opacity of the image. 255 is th emax possible value, less values result in more transparent pictures</param>
         /// <remarks>The typical image format for the two SOLIDWORKS bitmaps is 18 x 18 pixels x 256 colors. <br/>
         /// </remarks>
-        public PmpBitmap(Bitmap bitmap, string fileName, PmpResizeStyles resizeStyles=PmpResizeStyles.LockLeft, byte opacity = 255) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap)
+        public PmpBitmap(Bitmap bitmap, string fileName, ControlResizeStyles resizeStyles=ControlResizeStyles.LockLeft, byte opacity = 255) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap)
         {
             OnRegister += PmpBitmap_OnRegister;
             _bitmap = bitmap;

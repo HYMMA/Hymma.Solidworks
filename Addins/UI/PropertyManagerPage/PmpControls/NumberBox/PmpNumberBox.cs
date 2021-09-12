@@ -7,7 +7,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// creates and allows you to access a number box in a property manager page
     /// </summary>
-    public class PmpNumberBox : PmpTextBase<IPropertyManagerPageNumberbox>
+    public class PmpNumberBox : PmpControl<IPropertyManagerPageNumberbox>
     {
         #region fields
         private NumberBoxStyles _style;
@@ -21,7 +21,7 @@ namespace Hymma.SolidTools.Addins
         /// creates a number box in a property manager page
         /// </summary>
         /// <param name="style">style for this numberBox as defined by <see cref="NumberBoxStyles"/></param>
-        public PmpNumberBox(NumberBoxStyles style) : base(swPropertyManagerPageControlType_e.swControlType_Numberbox)
+        public PmpNumberBox(NumberBoxStyles style=NumberBoxStyles.Default) : base(swPropertyManagerPageControlType_e.swControlType_Numberbox)
         {
             Style = style;
         }

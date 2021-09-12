@@ -29,7 +29,7 @@ namespace Hymma.SolidTools.Addins
         {
             OnRegister += () =>
             {
-                this.control = SolidworksObject as PropertyManagerPageControl;
+                this.control = SolidworksObject as IPropertyManagerPageControl;
             };
         }
         #endregion

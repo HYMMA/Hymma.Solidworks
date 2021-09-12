@@ -1,4 +1,6 @@
-﻿namespace Hymma.SolidTools.Addins
+﻿using System;
+
+namespace Hymma.SolidTools.Addins
 {
 
     /// <summary>
@@ -22,7 +24,8 @@
     /// giving the effect that the control grows and shrinks with the PropertyManager page.</description>
     /// </item>
     /// </list></remarks>
-    public enum PmpResizeStyles
+    [Flags]
+    public enum ControlResizeStyles
     {
         /// <summary>
         /// the control is locked in place relative to the left edge of the PropertyManager page. <br/>

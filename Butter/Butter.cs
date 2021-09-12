@@ -167,8 +167,9 @@ namespace Butter
             var radio2 = new PmpRadioButton("radio button caption number 2");
             var checkbox = new PmpCheckBox("caption", false) { MaintainState = true };
             var checkbox2 = new PmpCheckBox("caption2", false);
-            var numBox = new PmpNumberBox(NumberBoxStyles.Thumbwheel)
+            var numBox = new PmpNumberBox()
             {
+
             };
             numBox.AddItems(new[] { "1", "2" });
             numBox.Height = 30;
@@ -179,21 +180,27 @@ namespace Butter
             numBox.OnSelectionChanged += NumBox_OnSelectionChanged;
             numBox.OnTrackingComplete += NumBox_OnTrackingComplete;
 
-            var slider = new PmpSlider(SliderStyles.AutoTicks, "caption", "tip");
-            //checkbox.OnChecked += (sender, e) =>
-            //{
-            //    if (e)
-            //    {
-            //        var assembly = selBox2.ActiveDoc as AssemblyDoc;
-            //        selBox.Append(assembly.GetDistictParts().ToList().Where(c => c.GetModelDoc2() is PartDoc).ToArray());
-            //        var testRow = selBox.Callout.GetRows().FirstOrDefault(row => row.Label == "label 1");
-            //        testRow.Value = "row 1 value";
-            //    }
-            //    else
-            //    {
-            //        comboBox.Clear();
-            //    }
-            //};
+            numBox.Width = 50;
+            numBox.Left = 50;
+
+            var slider = new PmpSlider(SliderStyles.AutoTicks, "tip") { };
+            slider.Width = 50;
+            slider.ResizeStyles = ControlResizeStyles.LockLeft;
+            numBox.ResizeStyles = ControlResizeStyles.LockLeft;
+            slider.Top = 130;
+            numBox.Top = 130;
+
+            checkbox.OnChecked += (sender, e) =>
+            {
+                if (e)
+                {
+
+                }
+                else
+                {
+                    comboBox.Clear();
+                }
+            };
             //controls.Add(label);
             //controls.Add(pmpBitmap);
             //controls.Add(selBox);
@@ -206,8 +213,9 @@ namespace Butter
             controls.Add(radio2);
             controls.Add(checkbox);
             controls.Add(checkbox2);
-            controls.Add(numBox);
+            controls.Add(checkbox2);
             controls.Add(slider);
+            controls.Add(numBox);
             return controls;
         }
 
@@ -219,10 +227,8 @@ namespace Butter
         private void NumBox_OnTrackingComplete(object sender, double e)
         {
             var numbox = sender as PmpNumberBox;
-            if (e==100)
+            if (e == 100)
             {
-                numbox.TextColor = Color.Red;
-                numbox.BackGroundColor = Color.Yellow;
             }
         }
 

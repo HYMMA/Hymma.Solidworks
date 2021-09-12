@@ -208,6 +208,7 @@ namespace Hymma.SolidTools.Addins
         internal void TrackingComplete(double value)
         {
             OnPositionChangeFinished?.Invoke(this, value);
+            _position = value;
         }
 
         #endregion

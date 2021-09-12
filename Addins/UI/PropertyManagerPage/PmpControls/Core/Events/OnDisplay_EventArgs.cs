@@ -55,7 +55,7 @@ namespace Hymma.SolidTools.Addins
 
         /// <summary>
         /// Gets or sets how to override the SOLIDWORKS default behavior when changing the width of a PropertyManager page. <br/>
-        /// Resize the PropertyManager page as defined in <see cref="PmpResizeStyles"/>
+        /// Resize the PropertyManager page as defined in <see cref="ControlResizeStyles"/>
         /// you can use ths porperty only before the control is displayed or while it is closed
         /// </summary>
         public int OptionsForResize
