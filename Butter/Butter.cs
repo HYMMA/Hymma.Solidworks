@@ -5,8 +5,6 @@ using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
 using Point = Hymma.Mathematics.Point;
 
@@ -87,7 +85,7 @@ namespace Butter
                     //.SaveGroup()
                     .AddGroup("Group 1")
                     .IsExpanded()
-                    .HasTheseControls(GetControlSet3())
+                    //.HasTheseControls(null)
                 .SaveGroup()
             #endregion
 
@@ -98,156 +96,6 @@ namespace Butter
 
             return (AddinUserInterface)builder;
         }
-
-        private IEnumerable<IPmpControl> GetControlSet3()
-        {
-            var controls = new List<IPmpControl>();
-            var selBox = new PmpSelectionBox(new[] { swSelectType_e.swSelCOMPONENTS },
-                                             0,
-                                             true,
-                                             false,
-                                             50,
-                                             "tip for selection box")
-            {
-                AllowSelectInMultipleBoxes = true,
-                EnableSelectIdenticalComponents = true
-            };
-            var selBox2 = new PmpSelectionBox(
-                new[] { swSelectType_e.swSelSOLIDBODIES },
-                SelectionBoxStyles.HScroll | SelectionBoxStyles.MultipleItemSelect | SelectionBoxStyles.UpAndDownButtons);
-
-            var checkableBtnBtimap = new PmpBitmapButtonCheckable(Properties.Resources.xtractOrange,
-                                                                  "xtractOrange23",
-                                                                  "tip for checkable with bitmap",
-                                                                  new[] { BtnSize.nintySix, BtnSize.hundredTwentyEight },
-                                                                  50);
-            var pmpBitmap = new PmpBitmap(Properties.Resources.hymma_logo_small, "hymma", opacity: 2);
-
-            var bitmapBtn = new PmpBitmapButton(Properties.Resources.butter,
-                                                "bitmapBtn2",
-                                                "tip"
-                                                , new[] { BtnSize.forty, BtnSize.sixtyFour }
-                                                , 50);
-
-            bitmapBtn.OnPress += (sender, e) =>
-            {
-                var btn = sender as PmpBitmapButton;
-                var rows = new List<CalloutRow>
-                {
-                    new CalloutRow("label 1", "lael 1 value"){ IgnoreValue=true },
-                    new CalloutRow("label 2", "row 2 value") { TextColor = SysColor.SelectedItem2 , ValueInactive=true, Target=new Point(0.2,0.2,0.2)},
-                    new CalloutRow("label 3", "row 3 value") { TextColor = SysColor.Highlight, Target = new Point(0.1, 0.1, 0.1) },
-                    new CalloutRow("label 4", "row 4 value") { TextColor = SysColor.Highlight, Target = new Point(0.1, 0, 0) }
-                };
-                var callout = new CalloutModel(rows, Solidworks, selBox.ActiveDoc)
-                {
-                    HasTextBox = false,
-                    SkipColon = false,
-                    TargetStyle = swCalloutTargetStyle_e.swCalloutTargetStyle_Arrow,
-                    Position = new Point(0.1, 0.2, 0.3),
-                    EnablePushPin = false,
-                    MultipleLeaders = false,
-                    OpaqueColor = SysColor.Background
-                };
-                //selBox.CalloutLabel = "my callout label";
-                selBox.Callout = callout;
-            };
-            var comboBox = new PmpComboBox(new List<string> { "item 1", "item 2", "item 3" }, ComboBoxStyles.EditableText, 90)
-            {
-                EditText = "please enter..."
-            };
-            var label = new PmpLabel("caption of the label as it appears in the property manager page", LabelStyles.LeftText);
-
-            label.SetBold(0, 10, true);
-            label.SetBackgroundColor(0, 8, System.Drawing.Color.Red);
-            label.SetCharacterColor(0, 8, System.Drawing.Color.Blue);
-            label.BackGroundColor = System.Drawing.Color.Transparent;
-
-            var radio = new PmpRadioButton("radio button caption") { MaintainState = true };
-            var radio2 = new PmpRadioButton("radio button caption number 2");
-            var checkbox = new PmpCheckBox("caption", false) { MaintainState = true };
-            var checkbox2 = new PmpCheckBox("caption2", false);
-            var numBox = new PmpNumberBox()
-            {
-
-            };
-            numBox.AddItems(new[] { "1", "2" });
-            numBox.Height = 30;
-
-            numBox.OnDisplay += NumBox_OnDisplay;
-            numBox.OnTextChanged += NumBox_OnTypeIn;
-            numBox.OnChange += NumBox_OnChange;
-            numBox.OnSelectionChanged += NumBox_OnSelectionChanged;
-            numBox.OnTrackingComplete += NumBox_OnTrackingComplete;
-
-            numBox.Width = 50;
-            numBox.Left = 50;
-
-            var slider = new PmpSlider(SliderStyles.AutoTicks, "tip") { };
-            slider.Width = 50;
-            slider.ResizeStyles = ControlResizeStyles.LockLeft;
-            numBox.ResizeStyles = ControlResizeStyles.LockLeft;
-            slider.Top = 130;
-            numBox.Top = 130;
-
-            checkbox.OnChecked += (sender, e) =>
-            {
-                if (e)
-                {
-
-                }
-                else
-                {
-                    comboBox.Clear();
-                }
-            };
-            //controls.Add(label);
-            //controls.Add(pmpBitmap);
-            //controls.Add(selBox);
-            //controls.Add(selBox2);
-            //controls.Add(checkbox);
-            //controls.Add(bitmapBtn);
-            //controls.Add(checkableBtnBtimap);
-            //controls.Add(comboBox);
-            controls.Add(radio);
-            controls.Add(radio2);
-            controls.Add(checkbox);
-            controls.Add(checkbox2);
-            controls.Add(checkbox2);
-            controls.Add(slider);
-            controls.Add(numBox);
-            return controls;
-        }
-
-        private void NumBox_OnSelectionChanged(object sender, string e)
-        {
-            Solidworks.SendMsgToUser(e);
-        }
-
-        private void NumBox_OnTrackingComplete(object sender, double e)
-        {
-            var numbox = sender as PmpNumberBox;
-            if (e == 100)
-            {
-            }
-        }
-
-        private void NumBox_OnDisplay(PmpNumberBox sender, NumberBox_Ondisplay_EventArgs eventArgs)
-        {
-            sender.InsertItem(-1, "9");
-            sender.InsertItem(3, "second item");
-        }
-
-        private void NumBox_OnTypeIn(object sender, string e)
-        {
-            var numbox = sender as PmpNumberBox;
-        }
-
-        private void NumBox_OnChange(object sender, double e)
-        {
-            var numbox = sender as PmpNumberBox;
-        }
-
         public void ShowPMP()
         {
             _pmp.Show();
