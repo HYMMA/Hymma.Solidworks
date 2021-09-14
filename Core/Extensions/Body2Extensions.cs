@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace Hymma.SolidTools.Core
 {
+    /// <summary>
+    /// extensions for <see cref="Body2"/>
+    /// </summary>
     public static class Body2Extensions
     {
         /// <summary>
@@ -47,8 +50,8 @@ namespace Hymma.SolidTools.Core
         /// get feature by its type name
         /// </summary>
         /// <param name="body"></param>
-        /// <param name="type">type of feature in string <para>
-        ///  <see cref="http://help.solidworks.com/2013/english/api/sldworksapi/solidworks.interop.sldworks~solidworks.interop.sldworks.ifeature~gettypename2.html"/>
+        /// <param name="type">type of feature in string refer to link below to interpret the type<para>
+        ///  <a href="http://help.solidworks.com/2013/english/api/sldworksapi/solidworks.interop.sldworks~solidworks.interop.sldworks.ifeature~gettypename2.html"/>
         /// </para>
         /// </param>
         /// <param name="ExcludeSuppressed">disregard feature if is suppressed</param>
@@ -178,7 +181,6 @@ namespace Hymma.SolidTools.Core
         /// <param name="part"></param>
         /// <param name="solidwork"></param>
         /// <returns>GetCutListFolder as <see cref="Feature"/></returns>
-        /// <exception cref="null"></exception>
         public static Feature GetCutListFolder(this Body2 body, PartDoc part, SldWorks solidwork)
         {
             //if this body is niether sheetMetal nor weldment return null
@@ -209,7 +211,6 @@ namespace Hymma.SolidTools.Core
         /// <param name="part"></param>
         /// <param name="solidworks"></param>
         /// <returns>an array of string where first member is length in the unit of document, second member is width and thrid one is thickness</returns>
-        /// <exception cref="null"></exception>
         public static string[] GetSheetMetalSizes(this Body2 body, PartDoc part, SldWorks solidworks)
         {
             if (!body.IsSheetMetal()) return null;

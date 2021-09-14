@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Hymma.SolidTools.Core
 {
+    /// <summary>
+    /// extension sofr <see cref="PartDoc"/>
+    /// </summary>
     public static class PartDocExtensions
     {
         /// <summary>
@@ -62,7 +65,7 @@ namespace Hymma.SolidTools.Core
         /// </summary>
         /// <param name="part"></param>
         /// <param name="featureType">the feature type, refer to this link to for a list of types as string
-        /// <see cref="http://help.solidworks.com/2013/english/api/sldworksapi/solidworks.interop.sldworks~solidworks.interop.sldworks.ifeature~gettypename2.html"/>
+        /// <a href="http://help.solidworks.com/2013/english/api/sldworksapi/solidworks.interop.sldworks~solidworks.interop.sldworks.ifeature~gettypename2.html"/>
         /// </param>
         /// <returns></returns>
         public static IList<Feature> GetFeaturesByTypeName(this PartDoc part, string featureType)

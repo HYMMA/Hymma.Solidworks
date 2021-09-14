@@ -3,8 +3,16 @@ using SolidWorks.Interop.swconst;
 
 namespace Hymma.SolidTools.Core
 {
+    /// <summary>
+    /// extensions for <see cref="View"/>
+    /// </summary>
     public static class ViewExtensions
     {
+        /// <summary>
+        /// get the flat pattern face of this view
+        /// </summary>
+        /// <param name="view"></param>
+        /// <returns><see cref="Face2"/> flat pattern or null if this view does not have one</returns>
         public static Face2 GetFlatPatternFace(this View view)
         {
             if (!view.IsFlatPatternView())

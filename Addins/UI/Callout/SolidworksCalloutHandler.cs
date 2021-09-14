@@ -37,6 +37,4 @@ namespace Hymma.SolidTools.Addins
         }
         #endregion
     }
-
-
 }

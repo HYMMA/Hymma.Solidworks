@@ -40,9 +40,6 @@
     <AssemblyOriginatorKeyFile>Butter.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hymma.Mathematics, Version=1.0.4.0, Culture=neutral, PublicKeyToken=bce01e40c33895a2, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Mathematics.1.0.5\lib\net45\Hymma.Mathematics.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="SolidWorks.Interop.sldworks">

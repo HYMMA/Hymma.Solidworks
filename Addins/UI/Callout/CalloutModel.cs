@@ -1,7 +1,7 @@
-﻿using Hymma.Mathematics;
-using Hymma.SolidTools.Core;
+﻿using Hymma.SolidTools.Core;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -102,11 +102,11 @@ namespace Hymma.SolidTools.Addins
             SolidworksObject.Label2[row.Id] = row.Label;
             SolidworksObject.TextColor[row.Id] = (int)row.TextColor;
             SolidworksObject.IgnoreValue[row.Id] = row.IgnoreValue;
-            SolidworksObject.SetTargetPoint(row.Id, row.Target.X, row.Target.Y, row.Target.Z);
+            SolidworksObject.SetTargetPoint(row.Id, row.Target.Item1, row.Target.Item2, row.Target.Item3);
 
             row.OnTargetChanged += (id, target) =>
             {
-                SolidworksObject.SetTargetPoint(id, target.X, target.Y, target.Z);
+                SolidworksObject.SetTargetPoint(id, target.Item1, target.Item2, target.Item3);
             };
 
             //when Value property of the row is changed this gets called
@@ -166,10 +166,26 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Gets and sets the position of this callout.
         /// </summary>
-        public Point Position
+        public Tuple<double, double, double> Position
         {
-            get => new Point((double[])SolidworksObject.Position.ArrayData);
-            set => SolidworksObject.SetPosition(Solidworks, value);
+            get
+            {
+                var coords = (double[])SolidworksObject.Position.ArrayData;
+                return Tuple.Create(coords[0],coords[1],coords[2]);
+            }
+
+            set
+            {
+
+                //get math util
+                var mathUtil = Solidworks.GetMathUtility() as IMathUtility;
+
+                //make a new math point from Point
+                var mathpoint = mathUtil.CreatePoint(new double[] { value.Item1, value.Item2, value.Item3 }) as MathPoint ?? (MathPoint)mathUtil.CreatePoint(new double[] { 0, 0, 0 });
+
+                //update the callout
+                SolidworksObject.Position = mathpoint;
+            }
         }
 
         /// <summary>

@@ -1,12 +1,18 @@
-﻿using Hymma.Mathematics;
-using SolidWorks.Interop.sldworks;
-using System;
+﻿using SolidWorks.Interop.sldworks;
 using System.Collections.Generic;
 
 namespace Hymma.SolidTools.Core
 {
+    /// <summary>
+    /// extension to <see cref="Face2"/>
+    /// </summary>
     public static class Face2Extensions
     {
+        /// <summary>
+        /// get the points on a face edges
+        /// </summary>
+        /// <param name="face"></param>
+        /// <returns></returns>
         public static List<double[]> GetPoints(this Face2 face)
         {
             var edges = (object[])face.GetEdges();
@@ -30,6 +36,11 @@ namespace Hymma.SolidTools.Core
             return points;
         }
 
+        /// <summary>
+        /// get the center of a face
+        /// </summary>
+        /// <param name="face"></param>
+        /// <returns></returns>
         public static double[] GetCentroid(this Face2 face)
         {
             var vUvBounds = face.GetUVBounds() as double[];
@@ -41,6 +52,12 @@ namespace Hymma.SolidTools.Core
             double[] point = new double[3] { vEvalRes[0], vEvalRes[1], vEvalRes[2] };
             return point;
         }
+
+        /// <summary>
+        /// determine if a face is planar or curved
+        /// </summary>
+        /// <param name="face"></param>
+        /// <returns></returns>
         public static bool IsPlanar(this Face2 face)
         {
             Surface surface = (Surface)face.GetSurface();
@@ -59,7 +76,15 @@ namespace Hymma.SolidTools.Core
             part.SetEntityName(face, name);
         }
 
-        public static IList<Face2> GetTangentFaces(this Face2 face)
+        /// <summary>
+        /// get all faces that are tangent to this face 
+        /// </summary>
+        /// <param name="face">the face that you want to find the tangent faces to</param>
+        /// <param name="tolerance">tolerance to consider while determining the tangency</param>
+        /// <remarks>Because Double values can lose precision when arithmetic operations are performed on them,<br/>
+        /// a comparison between two face instances that are logically tangent might fail. hence we use a tolerance</remarks>
+        /// <returns></returns>
+        public static IList<Face2> GetTangentFaces(this Face2 face, double tolerance = 0.0005)
         {
             var faces = new List<Face2>();
             //For every loop on this face
@@ -73,11 +98,9 @@ namespace Hymma.SolidTools.Core
                     CoEdge partner = (CoEdge)coEdge.GetPartner();
                     var coEdgeNormal = GetFaceNormalAtMidCoEdge(coEdge);
                     var partnerNormal = GetFaceNormalAtMidCoEdge(partner);
-                    var v1 =new Vector(coEdgeNormal);
-                    var v2 = new Vector(partnerNormal);
-
+                    
                     //get faces whose normal at middle of coedge are equal
-                    if (v1.AlmostEquals(v2, 0.0005))
+                    if (MathUtil.AlmostEqual(coEdgeNormal,partnerNormal,tolerance))
                     {
                         Loop2 partnerLoop = (Loop2)partner.GetLoop();
                         Face2 partnerFace = (Face2)partnerLoop.GetFace();

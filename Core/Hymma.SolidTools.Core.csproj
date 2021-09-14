@@ -41,9 +41,6 @@
     <AssemblyOriginatorKeyFile>SolidToolsSigniture.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hymma.Mathematics, Version=1.0.4.0, Culture=neutral, PublicKeyToken=bce01e40c33895a2, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Mathematics.1.0.5\lib\net45\Hymma.Mathematics.dll</HintPath>
-    </Reference>
     <Reference Include="SolidWorks.Interop.sldworks">
       <HintPath>..\Refrences\SolidWorks.Interop.sldworks.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -62,10 +59,10 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\MathUtil.cs" />
     <Compile Include="SldWorks\ComponentEqualityComparer.cs" />
     <Compile Include="Extensions\AssemblyDocExtensions.cs" />
     <Compile Include="Extensions\Body2Extensions.cs" />

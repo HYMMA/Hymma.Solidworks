@@ -6,7 +6,6 @@ using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using Point = Hymma.Mathematics.Point;
 
 namespace Butter
 {

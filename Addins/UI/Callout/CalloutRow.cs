@@ -1,5 +1,4 @@
 ﻿using SolidWorks.Interop.sldworks;
-using Hymma.Mathematics;
 using Hymma.SolidTools.Core;
 using System;
 
@@ -15,7 +14,7 @@ namespace Hymma.SolidTools.Addins
         private SysColor _rolColor;
         private bool _rowIsInactive;
         private bool _ignored;
-        private Point _target;
+        private Tuple<double,double,double> _target;
 
         /// <summary>
         /// constructor
@@ -101,10 +100,10 @@ namespace Hymma.SolidTools.Addins
         }
 
         /// <summary>
-        /// sets or gets the target <see cref="Point"/> for this row
+        /// sets or gets the target for this row
         /// </summary>
         /// <remarks>soldiworks internal unit is meter</remarks>
-        public Point Target
+        public Tuple<double,double,double> Target
         {
             get => _target;
             set
@@ -146,7 +145,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// fired when <see cref="Target"/> of this row changes
         /// </summary>
-        public event Action<int, Point> OnTargetChanged;
+        public event Action<int, Tuple<double, double, double>> OnTargetChanged;
 
         /// <summary>
         /// invoked by solidworks when user changes the value of this row

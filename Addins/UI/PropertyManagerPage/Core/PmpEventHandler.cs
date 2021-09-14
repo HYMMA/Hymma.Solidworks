@@ -476,7 +476,7 @@ namespace Hymma.SolidTools.Addins
         public void OnListboxRMBUp(int Id, int PosX, int PosY)
         {
             var listbox = UiModel.GetControl(Id) as PmpListBox;
-            listbox?.RightMouseBtnUp(new Mathematics.Point(PosX, PosY, 0));
+            listbox?.RightMouseBtnUp(Tuple.Create<double,double,double>(PosX, PosY, 0));
         }
 
         /// <summary>

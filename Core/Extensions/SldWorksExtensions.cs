@@ -5,6 +5,9 @@ using System.IO;
 
 namespace Hymma.SolidTools.Core
 {
+    /// <summary>
+    /// extensions for <see cref="SldWorks"/>
+    /// </summary>
     public static class SldWorksExtensions
     {
         /// <summary>
@@ -89,8 +92,6 @@ namespace Hymma.SolidTools.Core
         /// usefull when you want to activate a document in silent mode<br/>
         /// </summary>
         /// <param name="solidworks"></param>
-        /// <param name="frame">after your process is finished make sure to set this object visiblity to true
-        /// </param>
         /// <returns>true if successful and false if not
         /// <br/> make sure you set solidworks visiblity to true at the end of operation <see cref="UnFreezGraphics(SldWorks)"/>
         /// </returns>
@@ -146,15 +147,16 @@ namespace Hymma.SolidTools.Core
             action.Invoke();
             solidworks.UnFreezGraphics();
         }
-        /// <summary>
-        /// create, start, update, and stop a progress indicator on the system task bar
-        /// </summary>
-        /// <param name="solidworks"></param>
-        /// <param name="actionsTitles">a list of key value pairs where key is the <see cref="Action"/> <br/>
-        /// and value is the title of the progress bar for that specific step</param>
+
+        ///// <summary>
+        ///// create, start, update, and stop a progress indicator on the system task bar
+        ///// </summary>
+        ///// <param name = "solidworks" ></ param >
+        ///// < param name="actionsTitles">a list of key value pairs where key is the<see cref="Action"/> <br/>
+        ///// and value is the title of the progress bar for that specific step</param>
         //public static void ShowProgressBar(this SldWorks solidworks, Dictionary<Action,string> actionsTitles)
         //{
-            
+
         //    solidworks.GetUserProgressBar(out UserProgressBar userProgressBar);
         //    userProgressBar.Start(0, actionsTitles.Count, actionsTitles.Values.ElementAt(0));
         //    for (int i = 0; i < actionsTitles.Count; i++)

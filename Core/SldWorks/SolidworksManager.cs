@@ -3,10 +3,18 @@ using System;
 
 namespace Hymma.SolidTools.Core
 {
+    /// <summary>
+    /// provides conneciton and initiation methods for a solidworks app
+    /// </summary>
     public class SolidWorksManager
     {
         private readonly static object _lock = new object();
         private static SolidWorksManager _Instance;
+        
+        /// <summary>
+        /// creates or retrieves an instance of <see cref="SolidWorksManager"/>
+        /// </summary>
+        /// <returns></returns>
         public static SolidWorksManager InitiateSolidApp()
         {
             lock (_lock)
@@ -18,6 +26,11 @@ namespace Hymma.SolidTools.Core
                 return _Instance;
             }
         }
+
+        /// <summary>
+        /// connects to a running instance of solidworks or opens it up and returns the <see cref="SldWorks"/> object
+        /// </summary>
+        /// <returns>a running instance of solidworks <see cref="SldWorks"/></returns>
         public static SldWorks GetSolidworks()
         {
             try

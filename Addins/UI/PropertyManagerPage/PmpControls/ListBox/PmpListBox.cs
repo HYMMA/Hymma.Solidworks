@@ -1,5 +1,4 @@
-﻿using Hymma.Mathematics;
-using SolidWorks.Interop.sldworks;
+﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 
@@ -54,7 +53,7 @@ namespace Hymma.SolidTools.Addins
             AddItems(_items);
         }
 
-        internal void RightMouseBtnUp(Point point)
+        internal void RightMouseBtnUp(Tuple<double, double, double> point)
         {
             OnRightMouseBtnUp?.Invoke(this, point);
         }
@@ -170,13 +169,12 @@ namespace Hymma.SolidTools.Addins
         /// Gets the number of items in the attached drop-down list for this list box. 
         /// </summary>
         public int? ItemCount => SolidworksObject?.ItemCount;
-        
+
         #endregion
 
         #region events
         /// <summary>
         /// Called when the right-mouse button is released in a list box on this PropertyManager page.<br/>
-        /// <see cref="Point"/> is the coordinate of the right-mouse button menu
         /// </summary>
         public event Listbox_EventHandler_OnRMB OnRightMouseBtnUp;
 
