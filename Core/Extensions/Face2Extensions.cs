@@ -100,7 +100,7 @@ namespace Hymma.SolidTools.Core
                     var partnerNormal = GetFaceNormalAtMidCoEdge(partner);
                     
                     //get faces whose normal at middle of coedge are equal
-                    if (MathUtil.AlmostEqual(coEdgeNormal,partnerNormal,tolerance))
+                    if (Mathematics.AlmostEqual(coEdgeNormal,partnerNormal,tolerance))
                     {
                         Loop2 partnerLoop = (Loop2)partner.GetLoop();
                         Face2 partnerFace = (Face2)partnerLoop.GetFace();

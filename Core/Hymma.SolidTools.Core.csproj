@@ -33,6 +33,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Hymma.SolidTools.Core.xml</DocumentationFile>
+    <RegisterForComInterop>true</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -62,7 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\MathUtil.cs" />
+    <Compile Include="Helpers\Mathematics.cs" />
     <Compile Include="SldWorks\ComponentEqualityComparer.cs" />
     <Compile Include="Extensions\AssemblyDocExtensions.cs" />
     <Compile Include="Extensions\Body2Extensions.cs" />
