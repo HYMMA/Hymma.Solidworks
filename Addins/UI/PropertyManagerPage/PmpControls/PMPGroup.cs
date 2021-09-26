@@ -1,4 +1,5 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿using Hymma.SolidTools.Core;
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
@@ -9,22 +10,24 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a wrapper for solidworks property manager page groups
     /// </summary>
-    public class PMPGroup : IWrapSolidworksObject<IPropertyManagerPageGroup>
+    public class PmpGroup : IWrapSolidworksObject<IPropertyManagerPageGroup>
     {
-        #region constructors
+        private SysColor _backgroundColor;
 
+        #region constructors
         /// <summary>
         /// construct a property manage page group to host numerous <see cref="IPmpControl"/>
         /// </summary>
         /// <param name="caption">text that appears next to a group box</param>
         /// <param name="expanded">determines the expand state of this group box</param>
-        public PMPGroup(string caption = "Group", bool expanded = false)
+        public PmpGroup(string caption = "Group", bool expanded = false)
         {
             //assign properties
             Caption = caption;
             Expanded = expanded;
             Controls = new List<IPmpControl>();
             Options = (int)swAddGroupBoxOptions_e.swGroupBoxOptions_Expanded | (int)swAddGroupBoxOptions_e.swGroupBoxOptions_Visible;
+            _backgroundColor = SysColor.PropertyManagerColor;
         }
 
         /// <summary>
@@ -33,7 +36,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="Caption">text that appears next to a group box</param>
         /// <param name="Controls">list of controls to add to this group</param>
         /// <param name="Expanded">determines the expand state of this group box</param>
-        public PMPGroup(string Caption, List<IPmpControl> Controls, bool Expanded = false) : this(Caption, Expanded)
+        public PmpGroup(string Caption, List<IPmpControl> Controls, bool Expanded = false) : this(Caption, Expanded)
         {
             this.Controls = Controls;
         }
@@ -69,7 +72,7 @@ namespace Hymma.SolidTools.Addins
         ///<inheritdoc/>
         public IPropertyManagerPageGroup SolidworksObject { get; private set; }
         #endregion
-        
+
         #region methods
         /// <summary>
         /// Registers a control to the <see cref="Controls"/> and solidworks UI
@@ -88,6 +91,31 @@ namespace Hymma.SolidTools.Addins
         {
             Controls.AddRange(controls);
         }
+
+        /// <summary>
+        ///  Gets or sets the background color of this PropertyManager group box. 
+        /// </summary>
+        public SysColor BackgroundColor
+        {
+            get => _backgroundColor;
+            set
+            {
+                _backgroundColor = value;
+                if (SolidworksObject != null)
+                    SolidworksObject.BackgroundColor = (int)value;
+                else
+                    OnRegister += () =>
+                    {
+                        SolidworksObject.BackgroundColor = ((int)value);
+                    };
+
+            }
+        }
+
+        /// <summary>
+        /// invoked once this group is registerd into solidworks
+        /// </summary>
+        public Action OnRegister { get; set; }
 
         /// <summary>
         /// registers this group into a property manager page
@@ -109,7 +137,7 @@ namespace Hymma.SolidTools.Addins
             //we assume all the radio buttons in a PMPGroup are members of a group so we assing a value of 1 to the first one
             //get all radio buttons ...
             var groupOptions = Controls.Where(c => c.Type == swPropertyManagerPageControlType_e.swControlType_Option)?.Cast<PmpRadioButton>()?.ToList();
-            if (groupOptions[0]!=null)
+            if (groupOptions[0] != null)
                 groupOptions[0].SolidworksObject.Style = 1;
 
             //if the checked radio button should maintain its state 
@@ -127,6 +155,7 @@ namespace Hymma.SolidTools.Addins
                     return;
                 }
             }
+            OnRegister?.Invoke();
         }
         #endregion
 
@@ -153,7 +182,7 @@ namespace Hymma.SolidTools.Addins
         #region call backs
         internal void GroupChecked(bool e)
         {
-            OnGroupCheck?.Invoke(this,e);
+            OnGroupCheck?.Invoke(this, e);
         }
         internal void GroupExpand(bool e)
         {
@@ -163,7 +192,7 @@ namespace Hymma.SolidTools.Addins
         {
             SolidworksObject.Expanded = Expanded;
             Controls.ForEach(c => c.Display());
-            OnDisplay?.Invoke(this,EventArgs.Empty);
+            OnDisplay?.Invoke(this, EventArgs.Empty);
         }
         #endregion
     }

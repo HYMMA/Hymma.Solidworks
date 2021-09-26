@@ -120,6 +120,9 @@ namespace Hymma.SolidTools.Addins
         /// <returns></returns>
         public static string GetAddinIcon(Bitmap icon, string filename)
         {
+            if (icon==null)
+                return "addin icon was null";
+
             string addinIconAddress = Path.Combine(GetDefaultIconFolder(), filename + ".png");
             using (var addinIcon = new Bitmap(icon, 16, 16))
             {

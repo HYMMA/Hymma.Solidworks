@@ -24,5 +24,11 @@ namespace Hymma.SolidTools.Fluent.Addins
             };
             return pmp;
         }
+
+        /// <summary>
+        /// build the user interface object
+        /// </summary>
+        /// <returns></returns>
+        public AddinUserInterface Build() => this;
     }
 }

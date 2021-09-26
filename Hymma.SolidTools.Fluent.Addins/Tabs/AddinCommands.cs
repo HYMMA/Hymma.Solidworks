@@ -39,7 +39,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <param name="commands"></param>
         public IFluentCommandGroup Commands(IEnumerable<AddinCommand> commands)
         {
-            Group.Commands = (AddinCommand[])commands;
+            Group.Commands = commands;
             return Group;
         }
     }

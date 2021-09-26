@@ -5,7 +5,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
 using static Hymma.SolidTools.Addins.Logger;
@@ -47,11 +49,9 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// default constructor
         /// </summary>
-        /// <param name="addin">type of class that inherits from <see cref="ISwAddin"/></param>
-        public AddinMaker(Type addin)
+        public AddinMaker()
         {
-            if (addin.TryGetAttribute<AddinAttribute>(false) is AddinAttribute addinAttr)
-                Logger.Source = addinAttr.Title;
+            Logger.Source = "Solidworks Addin";
         }
         #endregion
 
@@ -74,9 +74,12 @@ namespace Hymma.SolidTools.Addins
             var addinAttribute = t.TryGetAttribute<AddinAttribute>(false) as AddinAttribute;
             if (addinAttribute == null)
                 return;
-            Log("Getting attributes from child class");
+
             try
             {
+                Logger.Source = "Solidworks Addin";
+                Log("trying to register");
+
                 string keyname = "SOFTWARE\\SolidWorks\\Addins\\{" + t.GUID.ToString() + "}";
                 RegistryKey addinKey = Registry.LocalMachine.CreateSubKey(keyname);
                 addinKey.SetValue(null, 0);
@@ -89,20 +92,20 @@ namespace Hymma.SolidTools.Addins
                 addinStartUpKey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
 
                 #region Extract icon during registration
-                //save addin icon in the current assembly folder
-                var rm = new ResourceManager($"{t.Name}.Properties.Resources", t.Assembly);
-                var addinIcon = rm.GetObject(addinAttribute.AddinIcon) as Bitmap;
-                var iconPath = IconGenerator.GetAddinIcon(addinIcon, t.Name);
+                var iconPath = IconGenerator.GetAddinIcon(GetBitmap(t), t.Name);
+                Log($"Addin icon path is {iconPath}");
 
                 addinKey.SetValue("Icon Path", iconPath);
-
-                RegisterLogger(addinAttribute.Title);
-                //Log($"registering icon location in registry {iconPath}");
                 #endregion
             }
-            catch (System.NullReferenceException nl)
+            catch (MissingManifestResourceException e)
             {
-                Log($"Error! There was a problem registering this dll: addinModel is null. \n\"" + nl.Message + "\"");
+                Log($"Error! it seems the resource {addinAttribute.AddinIcon} was not found." +
+                    $" this happens when the string provided for the resourse is not correct or the resourse not in the Properties Folder of the project. \n {e.Message}");
+            }
+            catch (System.NullReferenceException e)
+            {
+                Log($"Error! There was a problem registering this dll: addinModel is null. \n\"" + e.Message + "\"");
             }
 
             catch (System.Exception e)
@@ -110,14 +113,15 @@ namespace Hymma.SolidTools.Addins
                 Log(e);
             }
         }
-
+        
         /// <summary>
-        /// Un-registers <see cref="Type"/> from COM
+        /// unregisters the addin once un-installed or when the project is cleaned
         /// </summary>
-        /// <param name="t">type of class that inherrits from  <see cref="AddinMaker"/></param>
-        [ComUnregisterFunctionAttribute]
+        /// <param name="t"></param>
+        [ComUnregisterFunction]
         public static void BaseUnregisterFunction(Type t)
         {
+            Logger.Source = "Solidworks Addin";
             var swAttr = t.TryGetAttribute<AddinAttribute>(false) as AddinAttribute;
             if (swAttr == null)
                 Log("not attrubute found for addin");
@@ -137,15 +141,42 @@ namespace Hymma.SolidTools.Addins
                 Log(nl.Message);
 
                 //TODO:log this
-                Console.WriteLine("There was a problem unregistering this dll: " + nl.Message);
+                Console.WriteLine("Error! There was a problem unregistering this dll: " + nl.Message);
             }
             catch (System.Exception e)
             {
                 //TODO:log this
                 Log(e.Message);
-                Console.WriteLine("There was a problem unregistering this dll: " + e.Message);
+                Console.WriteLine("Error! There was a problem unregistering this dll: " + e.Message);
             }
         }
+
+        private static Bitmap GetBitmap(Type t)
+        {
+            var attribute = t.GetCustomAttribute(typeof(AddinAttribute)) as AddinAttribute;
+            if (attribute == null) return null;
+            var asm = t.Assembly;
+            string[] resNames = asm.GetManifestResourceNames();
+            foreach (var resName in resNames)
+            {
+                var rm = new ResourceManager(resName, asm);
+
+                // Get the fully qualified resource type name
+                // Resources are suffixed with .resource
+                var resName2 = resName.Substring(0, resName.IndexOf(".resource"));
+                var type = asm.GetType(resName2, true);
+
+                var resources = type.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                foreach (PropertyInfo res in resources)
+                {
+                    // collect string type resources
+                    if (res.PropertyType == typeof(Bitmap) && res.Name == attribute.AddinIcon)
+                        return res.GetValue(null, null) as Bitmap;
+                }
+            }
+            return null;
+        }
+
         #endregion
 
         #region solidworks integration
@@ -184,48 +215,7 @@ namespace Hymma.SolidTools.Addins
             }
             commandTabs = null;
         }
-        #endregion
-
-        #region UI
-        /// <summary>
-        /// Adds commands to the addin
-        /// </summary>
-        /// <returns></returns>
-        public void AddCommands(IEnumerable<AddinCommandTab> commandTabs)
-        {
-            try
-            {
-                foreach (var tab in commandTabs)
-                {
-                    //make command groups
-                    Log("Adding command group...");
-                    tab.CommandGroup.AddCommandGroup(_commandManager);
-                    Log("finished setting up commadn group");
-
-                    //make command tabs
-                    Log("Adding commadn tab...");
-                    tab.Register(_commandManager);
-                    Log("finished adding command tab");
-                }
-            }
-            catch (Exception) { throw; }
-        }
-        #endregion
-
-        #region Events
-        /*
-                public bool AttachEventsToAllDocuments()
-                {
-                    throw new NotImplementedException();
-                }
-
-                public bool AttachSwEvents()
-                {
-                    throw new NotImplementedException();
-                }*/
-
-        #endregion
-
+        
         /// <summary>
         /// SOLIDWORKS calls these command once addin is unloaded.
         /// </summary>
@@ -303,12 +293,45 @@ namespace Hymma.SolidTools.Addins
             OnStart?.Invoke(this, new OnConnectToSwEventArgs { solidworks = (ISldWorks)ThisSW, cookie = Cookie });
             return true;
         }
+        #endregion
 
+        #region UI
         /// <summary>
-        /// define a the user interface,ex: property manager page, command tabs, etc
+        /// Adds commands to the addin
         /// </summary>
         /// <returns></returns>
-        public abstract AddinUserInterface GetUserInterFace();
+        public void AddCommands(IEnumerable<AddinCommandTab> commandTabs)
+        {
+            try
+            {
+                foreach (var tab in commandTabs)
+                {
+                    //make command groups
+                    Log("Adding command group...");
+                    tab.CommandGroup.AddCommandGroup(_commandManager);
+                    Log("finished setting up commadn group");
+
+                    //make command tabs
+                    Log("Adding commadn tab...");
+                    tab.Register(_commandManager);
+                    Log("finished adding command tab");
+                }
+            }
+            catch (Exception) { throw; }
+        }
+        #endregion
+
+        #region Events
+        /*
+                public bool AttachEventsToAllDocuments()
+                {
+                    throw new NotImplementedException();
+                }
+
+                public bool AttachSwEvents()
+                {
+                    throw new NotImplementedException();
+                }*/
 
         /// <summary>
         /// Events that fires when your add-in connects to solidworks
@@ -319,6 +342,14 @@ namespace Hymma.SolidTools.Addins
         /// event that fires when user un-loads the addin (example when user un-checks the addin from the list of addins)
         /// </summary>
         public event EventHandler<OnConnectToSwEventArgs> OnExit;
+        #endregion
+
+        /// <summary>
+        /// define a the user interface,ex: property manager page, command tabs, etc
+        /// </summary>
+        /// <returns></returns>
+        public abstract AddinUserInterface GetUserInterFace();
+
     }
 
     /// <summary>

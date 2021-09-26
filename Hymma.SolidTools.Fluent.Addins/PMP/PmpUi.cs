@@ -49,7 +49,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         /// <inheritdoc/>
-        public IPmpUi WhileClosing(Action<PMPCloseReason> doThis)
+        public IPmpUi WhileClosing(Action<PmpCloseReason> doThis)
         {
             this.OnClose = doThis;
             return this;

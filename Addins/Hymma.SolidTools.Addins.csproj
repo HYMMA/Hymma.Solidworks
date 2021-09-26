@@ -79,6 +79,8 @@
     <Compile Include="UI\Callout\OnRowValueChangedEventArgs.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
     <Compile Include="UI\Callout\CalloutModel.cs" />
+    <Compile Include="UI\PropertyManagerPage\Core\PmpCloseReason.cs" />
+    <Compile Include="UI\PropertyManagerPage\Core\PmpOptions.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BitmapButtons.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BtnSize.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpButtonBase.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\Label_OnDisplayEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\LabelStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\UnderLineStyles.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Message\PmpMessage.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Enums\NumberBoxStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Enums\NumberBoxUnit.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Events\NumberBox_Ondisplay_EventArgs.cs" />
@@ -111,13 +114,14 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\Core\PmpTextBase.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Slider\PmpSlider.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Slider\SliderStyles.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpTab\PmpTab.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\TextBox\Enums\TextBoxStyles.cs" />
-    <Compile Include="UI\Tabs\CommandGroup\AddinCommand.cs" />
-    <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroup.cs" />
-    <Compile Include="UI\Tabs\CommandGroup\AddinCommandGroupBase.cs" />
-    <Compile Include="UI\Tabs\AddinCommandTab.cs" />
+    <Compile Include="UI\ToolbarTabs\CommandGroup\AddinCommand.cs" />
+    <Compile Include="UI\ToolbarTabs\CommandGroup\AddinCommandGroup.cs" />
+    <Compile Include="UI\ToolbarTabs\CommandGroup\AddinCommandGroupBase.cs" />
+    <Compile Include="UI\ToolbarTabs\AddinCommandTab.cs" />
     <Compile Include="Core\AddinMaker.cs" />
-    <Compile Include="UI\Tabs\CommandGroup\IAddinCommandGroup.cs" />
+    <Compile Include="UI\ToolbarTabs\CommandGroup\IAddinCommandGroup.cs" />
     <Compile Include="Tools\DotNet\Extensions\AssemblyExtensions.cs" />
     <Compile Include="Tools\DotNet\Extensions\TypeExtensions.cs" />
     <Compile Include="Tools\Logging\Logger.cs" />
@@ -137,7 +141,7 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\WindowsForm\PmpWindowHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Core\IPmpControl.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\PMPGroup.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpGroup.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Checkbox\PmpCheckBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\PmpLabel.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\TextBox\PmpTextBox.cs" />

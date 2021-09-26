@@ -57,11 +57,8 @@ namespace Hymma.SolidTools.Addins
         /// <exception cref="ArgumentNullException"></exception>
         protected PmpBase(PropertyManagerPage2Handler9 eventHandler, PropertyManagerPageUIBase uiModel)
         {
-            if (uiModel == null)
-                throw new ArgumentNullException();
-
             #region set up fields
-            this.uiModel = uiModel;
+            this.uiModel = uiModel ?? throw new ArgumentNullException();
             this.eventHandler = eventHandler;
             Solidworks = this.uiModel.Solidworks;
 
@@ -92,8 +89,8 @@ namespace Hymma.SolidTools.Addins
                 //add controls
                 try
                 {
-                    //uiModel.PmpGroups.ForEach(group => propertyManagerPage.AddGroup(group, Controls));
                     uiModel.PmpGroups.ForEach(group => group.Register(propertyManagerPage));
+                    uiModel.PmpTabs.ForEach(tab => tab.Register(propertyManagerPage));
                 }
                 catch (Exception e)
                 {

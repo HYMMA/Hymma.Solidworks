@@ -7,7 +7,7 @@ namespace Hymma.SolidTools.Fluent.Addins
     /// <summary>
     /// a group in property manager page that host the <see cref="IPmpControl"/>
     /// </summary>
-    public class PMP_Group : PMPGroup, IPmpGroup, IFluent
+    public class PMP_Group : PmpGroup, IPmpGroup, IFluent
     {
         /// <summary>
         /// default constructor
@@ -42,9 +42,9 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public IPmpGroup AndOnExpansionChange(Action<PMPGroup, bool> doThis)
+        public IPmpGroup AndOnExpansionChange(Action<PmpGroup, bool> doThis)
         {
-            OnGroupExpand += (sender, e) => { doThis?.Invoke((PMPGroup)sender, e); };
+            OnGroupExpand += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
             return this;
         }
 

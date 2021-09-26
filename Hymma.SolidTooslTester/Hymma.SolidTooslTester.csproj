@@ -40,6 +40,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,6 +56,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Hymma Addin For Solidworks\Hymma.Addin.SolidWorks\Hymma.Addin.SolidWorks.csproj">
+      <Project>{429244a6-4711-40f0-a6e9-0d696b03aba1}</Project>
+      <Name>Hymma.Addin.SolidWorks</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Addins\Hymma.SolidTools.Addins.csproj">
+      <Project>{86B8E368-880D-4169-BA19-60A84D3F6FB3}</Project>
+      <Name>Hymma.SolidTools.Addins</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\Hymma.SolidTools.Core.csproj">
       <Project>{c11fc3f2-c2d0-4e62-9cf2-1a152b76ae03}</Project>
       <Name>Hymma.SolidTools.Core</Name>

@@ -11,20 +11,20 @@ namespace Hymma.SolidTools.Fluent.Addins
     {
 
         /// <summary>
-        /// add extra context to this <see cref="SolidTools.Addins.PMPGroup"/>
+        /// add extra context to this <see cref="SolidTools.Addins.PmpGroup"/>
         /// </summary>
         /// <returns></returns>
         IPmpGroup That();
 
         /// <summary>
-        /// add extra context to this <see cref="SolidTools.Addins.PMPGroup"/>
+        /// add extra context to this <see cref="SolidTools.Addins.PmpGroup"/>
         /// </summary>
         /// <returns></returns>
         IPmpGroup And();
 
 
         /// <summary>
-        /// determines if this <see cref="SolidTools.Addins.PMPGroup"/> is expanded or not
+        /// determines if this <see cref="SolidTools.Addins.PmpGroup"/> is expanded or not
         /// </summary>
         /// <param name="isExpanded"></param>
         /// <returns></returns>
@@ -36,16 +36,16 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// </summary>
         /// <param name="doThis">delegate that accepts a bool as the parameter and returns void. bool parameter will be assigned by solidworks and indicates the expansion state of the group.</param>
         /// <returns></returns>
-        IPmpGroup AndOnExpansionChange(Action<PMPGroup, bool> doThis);
+        IPmpGroup AndOnExpansionChange(Action<PmpGroup, bool> doThis);
 
         /// <summary>
-        /// add these controls to the <see cref="SolidTools.Addins.PMPGroup"/>
+        /// add these controls to the <see cref="SolidTools.Addins.PmpGroup"/>
         /// </summary>
         /// <param name="controlMaker">function that returns an <see cref="IEnumerable{T}"/> where T : <see cref="IPmpControl"/></param>
         /// <returns></returns>
         IPmpGroup HasTheseControls(Func<IEnumerable<IPmpControl>> controlMaker);
         /// <summary>
-        /// add these controls to the <see cref="SolidTools.Addins.PMPGroup"/>
+        /// add these controls to the <see cref="SolidTools.Addins.PmpGroup"/>
         /// </summary>
         /// <param name="controls">an <see cref="IEnumerable{T}"/> where T : <see cref="IPmpControl"/></param>
         /// <returns></returns>

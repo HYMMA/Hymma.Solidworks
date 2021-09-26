@@ -35,7 +35,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// </summary>
         /// <param name="doThis"></param>
         /// <returns></returns>
-        IPmpUi WhileClosing(Action<PMPCloseReason> doThis);
+        IPmpUi WhileClosing(Action<PmpCloseReason> doThis);
 
         /// <summary>
         /// action to take after the property manager page is activated

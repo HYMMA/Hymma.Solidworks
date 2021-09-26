@@ -7,7 +7,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// provides extenison methodes for a <see cref="Type"/>
     /// </summary>
-    public static class TypeExtensions
+    internal static class TypeExtensions
     {
         /// <summary>
         /// returns the attribute in a type
@@ -16,7 +16,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="type"></param>
         /// <param name="searchChildren"></param>
         /// <returns></returns>
-        public static Attribute TryGetAttribute<A>(this Type type,bool searchChildren) where A:Attribute
+        internal static Attribute TryGetAttribute<A>(this Type type,bool searchChildren) where A:Attribute
         {
             foreach (Attribute attr in type.GetCustomAttributes(searchChildren))
             {
@@ -31,7 +31,7 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static string GetAssemblyDir(this object self)
+        internal static string GetAssemblyDir(this object self)
         {
             Assembly assembly = self.GetType().Assembly;
             return assembly.Location;
@@ -43,7 +43,7 @@ namespace Hymma.SolidTools.Addins
         /// <typeparam name="T"></typeparam>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static T CastTo<T>(this object self)
+        internal static T CastTo<T>(this object self)
         {
             return (T)self;
         }

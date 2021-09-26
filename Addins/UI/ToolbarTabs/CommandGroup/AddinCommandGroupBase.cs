@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using static Hymma.SolidTools.Addins.Logger;
@@ -9,14 +10,21 @@ namespace Hymma.SolidTools.Addins
     public abstract class AddinCommandGroupBase : IAddinCommandGroup
     {
         #region protected vars
+        /// <summary>
+        /// command icons
+        /// </summary>
         protected string[] _commandIcons;
+
+        /// <summary>
+        /// group icons
+        /// </summary>
         protected string[] _groupIcons;
         #endregion
 
         #region public properties
 
         /// <inheritdoc/>
-        public AddinCommand[] Commands { get; set; }
+        public IEnumerable<AddinCommand> Commands { get; set; }
 
         ///<inheritdoc/>
         public bool IgnorePrevious { get; set; }

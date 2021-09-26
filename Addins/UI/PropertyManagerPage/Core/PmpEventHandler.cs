@@ -45,7 +45,7 @@ namespace Hymma.SolidTools.Addins
         public void OnClose(int Reason)
         {
             Log("onCLose event handler");
-            UiModel?.OnClose?.Invoke((PMPCloseReason)Reason);
+            UiModel?.OnClose?.Invoke((PmpCloseReason)Reason);
         }
 
         /// <summary>

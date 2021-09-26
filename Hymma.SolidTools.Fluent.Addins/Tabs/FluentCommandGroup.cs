@@ -22,7 +22,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         public IFluentCommandTab SaveCommnadGroup()
         {
             Tab.CommandGroup = this;
-            return Tab.CastTo<IFluentCommandTab>();
+            return (IFluentCommandTab)Tab;
         }
 
         ///<inheritdoc/>

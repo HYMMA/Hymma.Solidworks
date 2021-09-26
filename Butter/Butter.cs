@@ -15,7 +15,7 @@ namespace Butter
     public class Butter : AddinMaker
     {
         private PropertyManagerPageX64 _pmp;
-        public Butter() : base(typeof(Butter))
+        public Butter() 
         {
         }
 

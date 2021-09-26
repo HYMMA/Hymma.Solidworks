@@ -50,18 +50,22 @@ namespace Hymma.SolidTools.Addins
         {
             try
             {
-                if (message.StartsWith("Error", System.StringComparison.OrdinalIgnoreCase))
+                if (message.StartsWith("Error!", System.StringComparison.OrdinalIgnoreCase))
                 {
                     EventLog.WriteEntry(Source, message, EventLogEntryType.Error);
                 }
-                if (message.StartsWith("Warning",System.StringComparison.OrdinalIgnoreCase))
+                else if (message.StartsWith("Warning!", System.StringComparison.OrdinalIgnoreCase))
                 {
                     EventLog.WriteEntry(Source, message, EventLogEntryType.Warning);
                 }
-                EventLog.WriteEntry(Source, message);
+                else
+                {
+                    EventLog.WriteEntry(Source, message);
+                }
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
+                throw e;
             }
         }
 

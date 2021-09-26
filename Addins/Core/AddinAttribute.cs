@@ -10,12 +10,18 @@ namespace Hymma.SolidTools.Addins
     [AttributeUsage(AttributeTargets.Class)]
     public class AddinAttribute : Attribute
     {
+        private string _icon;
+
         /// <summary>
-        /// file name of bitmap icon in Properties.Recourses<br/>
+        /// file name of bitmap icon in Resources.resx without extension. <br/>
         /// The add-in icon displays next to the add-in name in the SOLIDWORKS Add-in Manager dialog<br/>
         /// </summary>
-        public string AddinIcon { get; set; }
-        
+        public string AddinIcon
+        {
+            get => _icon.Replace(" ", "_");
+            set => _icon = value;
+        }
+
         /// <summary>
         /// Solidworks will load this addin at startup if set to True
         /// </summary>
