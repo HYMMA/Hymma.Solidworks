@@ -28,14 +28,13 @@ namespace Hymma.SolidTools.Addins
         /// generate a button with specified <see cref="Bitmap"/>
         /// </summary>
         /// <param name="bitmap">bitmap to edit and set in the property manager page</param>
-        /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
         /// <param name="tip">text for this button tooltip</param>
         /// <param name="iconSizes">possible icons sizes for this button</param>
         /// <param name="opacity">define opacity of the bitmap on the button, less values result in more transparent pictures</param>
-        public PmpBitmapButton(Bitmap bitmap, string fileName, string tip, BtnSize[] iconSizes, byte opacity) : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton, "", tip)
+        public PmpBitmapButton(Bitmap bitmap, string tip, BtnSize[] iconSizes, byte opacity) : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton, "", tip)
         {
             _bitmap = bitmap;
-            _fileName = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
+            _fileName = "Btn" + Id;
             _iconSizes = iconSizes;
             _opacity = opacity;
             OnRegister += PmpBitmapButton_OnRegister;
@@ -58,7 +57,7 @@ namespace Hymma.SolidTools.Addins
         {
             if (_bitmap != null && _fileName != "")
             {
-                SetButtonIcon(_bitmap, _fileName, _iconSizes,_opacity);
+                SetButtonIcon(_bitmap, _fileName, _iconSizes, _opacity);
             }
             else if (_standardIcon != 0)
             {
@@ -84,19 +83,22 @@ namespace Hymma.SolidTools.Addins
         {
             if (SolidworksObject == null)
                 return;
+
             //possible sizes for a button bitmap in solidworks
-            var maskedImages = new List<MaskedBitmap>();
+            var images = new List<string>();
+            var masks = new List<string>();
             //iterate through possible sizes and process bitmap against that size
             foreach (int size in possibleSizes)
             {
-                var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), new StringBuilder().Append(fileName).Append(size).Append(".png").ToString());
-                MaskedBitmap.Save(new Bitmap(bitmap, size, size), ref fullFileName, true, opacity);
-                maskedImages.Add(new MaskedBitmap() { FileName = fullFileName, Mask = "" });
+                using (var newSize = new Bitmap(bitmap, size, size))
+                {
+                    var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), new StringBuilder().Append(fileName).Append(size).Append(".png").ToString());
+                    MaskedBitmap.SaveAsPng(newSize, ref fullFileName, true, opacity);
+                    images.Add(fullFileName);
+                    masks.Add("");
+                }
             }
-
-            var images = maskedImages.Select(c => c.FileName).ToArray();
-            var masks = maskedImages.Select(c => c.Mask).ToArray();
-            SolidworksObject.SetBitmapsByName3(images, masks);
+            SolidworksObject.SetBitmapsByName3(images.ToArray(), masks.ToArray());
         }
 
         /// <summary>

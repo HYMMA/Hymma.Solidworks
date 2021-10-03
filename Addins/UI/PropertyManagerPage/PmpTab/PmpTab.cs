@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Text;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -46,7 +47,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Access the <see cref="PmpGroup"/>s in this tab
         /// </summary>
-        public List<PmpGroup> Groups { get; set; }
+        public List<PmpGroup> Groups { get; set; } = new List<PmpGroup>();
         #endregion
 
         #region methods
@@ -58,19 +59,21 @@ namespace Hymma.SolidTools.Addins
         {
             OnDisplay += () => { SolidworksObject.Activate(); };
         }
+        
         internal void Register(IPropertyManagerPage2 propertyManagerPage)
         {
             int tabId = Counter.GetNextPmpId();
             string iconAddress = "";
-
+            var sb = new StringBuilder();
+            sb.Append("tab").Append(tabId).Append(".bmp");
             if (_icon != null)
             {
-                iconAddress = Path.Combine(IconGenerator.GetDefaultIconFolder(), "tab" + tabId + ".png");
-                using (var icon = new Bitmap(_icon, 16, 18))
+                iconAddress = Path.Combine(IconGenerator.GetDefaultIconFolder(), sb.ToString());
+                using (var icon = new Bitmap(_icon,16, 18))
                 {
                     try
                     {
-                        icon.Save(iconAddress);
+                        icon.Save(iconAddress,System.Drawing.Imaging.ImageFormat.Bmp);
                     }
                     catch (Exception)
                     {
@@ -79,9 +82,8 @@ namespace Hymma.SolidTools.Addins
             }
 
             SolidworksObject = propertyManagerPage.AddTab(tabId, Caption, iconAddress, 0);
-
             foreach (var group in Groups)
-                group.Register(propertyManagerPage);
+                group.Register(SolidworksObject);
         }
         #endregion
 

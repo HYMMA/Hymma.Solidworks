@@ -12,7 +12,9 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpGroup : IWrapSolidworksObject<IPropertyManagerPageGroup>
     {
+        #region fields
         private SysColor _backgroundColor;
+        #endregion
 
         #region constructors
         /// <summary>
@@ -23,6 +25,7 @@ namespace Hymma.SolidTools.Addins
         public PmpGroup(string caption = "Group", bool expanded = false)
         {
             //assign properties
+            Id = Counter.GetNextPmpId();
             Caption = caption;
             Expanded = expanded;
             Controls = new List<IPmpControl>();
@@ -112,10 +115,34 @@ namespace Hymma.SolidTools.Addins
             }
         }
 
-        /// <summary>
-        /// invoked once this group is registerd into solidworks
-        /// </summary>
-        public Action OnRegister { get; set; }
+
+        private void RegisterControls()
+        {
+            Controls.ForEach(c => c.Register(SolidworksObject));
+
+            //a special rule should apply for options (radio buttons) as they require a style value of 1 to indicate the beginning of a group of options
+            //any following optio without this value set are considered part of the group; the next option with this value set indicates the start of a new option group
+            //we assume all the radio buttons in a PMPGroup are members of a group so we assing a value of 1 to the first one
+            //get all radio buttons ...
+            var groupOptions = Controls.Where(c => c.Type == swPropertyManagerPageControlType_e.swControlType_Option).Cast<PmpRadioButton>();
+
+            if (groupOptions.Count() > 0)
+            {
+                groupOptions.ElementAt(0).SolidworksObject.Style = 1;
+
+                //if the checked radio button should maintain its state 
+                //across differet sessions of the property manager page
+                //the rest of the radio buttons should do the same which means the rest of them
+                //stay un-checked in the next run
+                if (groupOptions.Any(c => c.MaintainState))
+                {
+                    for (int j = 0; j < groupOptions.Count(); j++)
+                    {
+                        groupOptions.ElementAt(j).MaintainState = true;
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// registers this group into a property manager page
@@ -123,43 +150,29 @@ namespace Hymma.SolidTools.Addins
         /// <param name="propertyManagerPage"></param>
         internal void Register(IPropertyManagerPage2 propertyManagerPage)
         {
-            Id = Counter.GetNextPmpId();
             SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(Id, Caption, (int)Options);
-
-            Controls.ForEach(c => c.Register(SolidworksObject));
-
-            var firstOption = Controls.FirstOrDefault(c => c.Type == swPropertyManagerPageControlType_e.swControlType_Option)?.CastTo<PmpRadioButton>();
-            if (firstOption != null)
-                firstOption.SolidworksObject.Style = 1;
-
-            //a special rule should apply for options (radio buttons) as they require a style value of 1 to indicate the beginning of a group of options
-            //any following optio without this value set are considered part of the group; the next option with this value set indicates the start of a new option group
-            //we assume all the radio buttons in a PMPGroup are members of a group so we assing a value of 1 to the first one
-            //get all radio buttons ...
-            var groupOptions = Controls.Where(c => c.Type == swPropertyManagerPageControlType_e.swControlType_Option)?.Cast<PmpRadioButton>()?.ToList();
-            if (groupOptions[0] != null)
-                groupOptions[0].SolidworksObject.Style = 1;
-
-            //if the checked radio button should maintain its state 
-            //across differet sessions of the property manager page
-            //the rest of the radio buttons should do the same which means the rest of them
-            //stay un-checked in the next run
-            for (int i = 0; i < groupOptions.Count; i++)
-            {
-                if (groupOptions[i].MaintainState)
-                {
-                    for (int j = 0; j < groupOptions.Count; j++)
-                    {
-                        groupOptions[j].MaintainState = true;
-                    }
-                    return;
-                }
-            }
+            RegisterControls();
             OnRegister?.Invoke();
         }
+
+        /// <summary>
+        /// registers this group into a property manager page Tab
+        /// </summary>
+        /// <param name="propertyManagerPageTab"></param>
+        internal void Register(IPropertyManagerPageTab propertyManagerPageTab)
+        {
+            SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPageTab.AddGroupBox(Id, Caption, (int)Options);
+            RegisterControls();
+            OnRegister?.Invoke();
+        }
+
         #endregion
 
         #region events
+        /// <summary>
+        /// invoked once this group is registerd into solidworks
+        /// </summary>
+        public Action OnRegister { get; set; }
 
         /// <summary>
         /// an event that gets called right before this pmpGroup is displayed

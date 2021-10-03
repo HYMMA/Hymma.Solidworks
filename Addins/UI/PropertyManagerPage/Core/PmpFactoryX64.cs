@@ -7,13 +7,13 @@ namespace Hymma.SolidTools.Addins
     /// Generates Property Manager Page for a Solidworks Addin of type <see cref="AddinMaker"/> that runs on X64 base CPU<br/>
     /// <c>since 2015 solidworks supports X64 CPU only </c>
     /// </summary>
-    public class PropertyManagerPageX64 : PmpBase
+    public class PmpFactoryX64 : PmpFactoryBase
     {
         /// <summary>
         /// default constructor 
         /// </summary>
         /// <param name="uiModel">an object that hosts differet inheritances of <see cref="IPmpControl"/> </param>
-        public PropertyManagerPageX64(PropertyManagerPageUIBase uiModel)
+        public PmpFactoryX64(PmpUiModel uiModel)
             : base(new PmpEventHandler(uiModel), uiModel)
         {
         }

@@ -1,4 +1,5 @@
 ﻿using Hymma.SolidTools.Addins;
+using Hymma.SolidTools.Core;
 using System;
 using System.Collections.Generic;
 
@@ -7,56 +8,56 @@ namespace Hymma.SolidTools.Fluent.Addins
     /// <summary>
     /// a group in property manager page that host the <see cref="IPmpControl"/>
     /// </summary>
-    public class PMP_Group : PmpGroup, IPmpGroup, IFluent
+    public class PmpGroupFluent : PmpGroup, IPmpGroupFluent
     {
         /// <summary>
         /// default constructor
         /// </summary>
         /// <param name="caption">caption of thie control inside the pmp</param>
         /// <param name="expanded">exapnsion state of the group upon load</param>
-        public PMP_Group(string caption, bool expanded) : base(caption, expanded)
+        public PmpGroupFluent(string caption, bool expanded) : base(caption, expanded)
         {
 
         }
 
         /// <inheritdoc/>
-        internal IPmpUi PropertyManagerPageUIBase { get; set; }
+        internal IPmpUiModelFluent PropertyManagerPageUIBase { get; set; }
 
         /// <inheritdoc/>
-        public IPmpGroup That()
-        {
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public IPmpGroup And()
+        public IPmpGroupFluent That()
         {
             return this;
         }
 
         /// <inheritdoc/>
-        public IPmpGroup IsExpanded(bool isExpanded = true)
+        public IPmpGroupFluent And()
+        {
+            return this;
+        }
+
+        /// <inheritdoc/>
+        public IPmpGroupFluent IsExpanded(bool isExpanded = true)
         {
             Expanded = isExpanded;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpGroup AndOnExpansionChange(Action<PmpGroup, bool> doThis)
+        public IPmpGroupFluent AndOnExpansionChange(Action<PmpGroup, bool> doThis)
         {
             OnGroupExpand += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
             return this;
         }
 
         /// <inheritdoc/>
-        public IPmpGroup HasTheseControls(Func<IEnumerable<IPmpControl>> controlMaker)
+        public IPmpGroupFluent HasTheseControls(Func<IEnumerable<IPmpControl>> controlMaker)
         {
 
             AddControls(controlMaker.Invoke());
             return this;
         }
         /// <inheritdoc/>
-        public IPmpGroup HasTheseControls(IEnumerable<IPmpControl> controls)
+        public IPmpGroupFluent HasTheseControls(IEnumerable<IPmpControl> controls)
         {
 
             AddControls(controls);
@@ -64,9 +65,16 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         /// <inheritdoc/>
-        public IPmpUi SaveGroup()
+        public IPmpUiModelFluent SaveGroup()
         {
-            return PropertyManagerPageUIBase as PmpUi;
+            return PropertyManagerPageUIBase as PmpUiModelFluent;
+        }
+
+        ///<inheritdoc/>
+        public IPmpGroupFluent Color(SysColor sysColor)
+        {
+            BackgroundColor = sysColor;
+            return this;
         }
     }
 }

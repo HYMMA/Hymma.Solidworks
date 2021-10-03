@@ -79,6 +79,7 @@
     <Compile Include="UI\Callout\OnRowValueChangedEventArgs.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
     <Compile Include="UI\Callout\CalloutModel.cs" />
+    <Compile Include="UI\PropertyManagerPage\Core\PmpCursorStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpCloseReason.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpOptions.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BitmapButtons.cs" />
@@ -89,7 +90,6 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\Label_OnDisplayEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\LabelStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\UnderLineStyles.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Message\PmpMessage.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Enums\NumberBoxStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Enums\NumberBoxUnit.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Events\NumberBox_Ondisplay_EventArgs.cs" />
@@ -125,10 +125,10 @@
     <Compile Include="Tools\DotNet\Extensions\AssemblyExtensions.cs" />
     <Compile Include="Tools\DotNet\Extensions\TypeExtensions.cs" />
     <Compile Include="Tools\Logging\Logger.cs" />
-    <Compile Include="UI\PropertyManagerPage\Core\PmpBase.cs" />
+    <Compile Include="UI\PropertyManagerPage\Core\PmpFactoryBase.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpEventHandler.cs" />
-    <Compile Include="UI\PropertyManagerPage\Core\PropertyManagerPageUIBase.cs" />
-    <Compile Include="UI\PropertyManagerPage\Core\PropertyManagerPageX64.cs" />
+    <Compile Include="UI\PropertyManagerPage\Core\PmpUiModel.cs" />
+    <Compile Include="UI\PropertyManagerPage\Core\PmpFactoryX64.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Image\PmpBitmap.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButtonCheckable.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Combobox\PmpComboBox.cs" />

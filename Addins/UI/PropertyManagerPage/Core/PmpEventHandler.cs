@@ -19,7 +19,7 @@ namespace Hymma.SolidTools.Addins
         /// default constructor
         /// </summary>
         /// <param name="uiModel"></param>
-        public PmpEventHandler(PropertyManagerPageUIBase uiModel)
+        public PmpEventHandler(PmpUiModel uiModel)
         {
             this.UiModel = uiModel ?? throw new Exception();
         }
@@ -27,7 +27,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// wrapper for constrols in this property manager page
         /// </summary>
-        public PropertyManagerPageUIBase UiModel { get; private set; }
+        public PmpUiModel UiModel { get; private set; }
 
         /// <summary>
         /// fires after user opens a pmp
@@ -332,6 +332,10 @@ namespace Hymma.SolidTools.Addins
         {
             //get selection box
             PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
+
+            //update the cursor if user has assigned value to it
+            if (selectionBox.CursorStyle != PmpCursorStyles.None)
+                UiModel.SetCursor(selectionBox.CursorStyle);
 
             //invoke delegate
             selectionBox?.ListChanged(Count);

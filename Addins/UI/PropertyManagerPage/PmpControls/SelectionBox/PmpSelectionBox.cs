@@ -112,6 +112,15 @@ namespace Hymma.SolidTools.Addins
         #region public properties
 
         /// <summary>
+        /// PropertyManager page's cursor after a user makes a selection in the SOLIDWORKS graphics area. 
+        /// </summary>
+        /// <remarks>allows an interactive user to either: <br/>
+        ///move to the next selection box on the PropertyManager page or <br/>
+        ///okay and close a PropertyManager page<br/>
+        ///after making a selection in the SOLIDWORKS graphics area. </remarks>
+        public PmpCursorStyles CursorStyle { get; set; } = PmpCursorStyles.None;
+
+        /// <summary>
         /// Gets or sets whether an entity can be selected in this selection box if the entity is selected elsewhere. 
         /// </summary>
         /// <value><list type="table"><listheader>IF--------------- THEN</listheader>

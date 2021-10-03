@@ -79,16 +79,6 @@ namespace Hymma.SolidTools.Addins
     public sealed class MaskedBitmap
     {
         /// <summary>
-        /// full file name of the masked image
-        /// </summary>
-        public string FileName { get; set; }
-
-        /// <summary>
-        /// full file name of the image mask
-        /// </summary>
-        public string Mask { get; set; }
-
-        /// <summary>
         /// coverts and saves a bitmap to specified location
         /// </summary>
         /// <param name="image">file to get bitmask for</param>
@@ -96,7 +86,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="allowPartialOpacity">if set true the number assigned to "opacityThreshold" will be considered as entered</param>
         /// <param name="opacityThreshold">a number between 0 and 255 maximum</param>
         /// <param name="invertedMask"></param>
-        public static void Save(Bitmap image,ref string fullFileName, bool allowPartialOpacity = false, byte opacityThreshold = 255, bool invertedMask = true)
+        public static void SaveAsPng(Bitmap image,ref string fullFileName, bool allowPartialOpacity = false, byte opacityThreshold = 255, bool invertedMask = true)
         {
             //check for valid file name . . .
             if (string.IsNullOrEmpty(fullFileName))

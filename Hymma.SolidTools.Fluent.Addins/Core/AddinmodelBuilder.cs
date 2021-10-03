@@ -6,7 +6,7 @@ namespace Hymma.SolidTools.Fluent.Addins
     ///<inheritdoc/>
     public class AddinModelBuilder : AddinUserInterface, IAddinModelBuilder
     {
-        private PmpUi pmp;
+        private PmpUiModelFluent pmp;
 
         ///<inheritdoc/>
         public IFluentCommandTab AddCommandTab()
@@ -15,9 +15,9 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public IPmpUi AddPropertyManagerPage(string title, ISldWorks solidworks)
+        public IPmpUiModelFluent AddPropertyManagerPage(string title, ISldWorks solidworks)
         {
-            pmp = new PmpUi(solidworks)
+            pmp = new PmpUiModelFluent(solidworks)
             {
                 Title = title,
                 AddinModel = this

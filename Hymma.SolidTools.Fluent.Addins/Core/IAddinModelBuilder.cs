@@ -11,7 +11,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// define a new property manger page. property manager pages open on the left hand side of the window (By default) when you run a command. 
         /// </summary>
         /// <returns></returns>
-        IPmpUi AddPropertyManagerPage(string title, ISldWorks solidworks);
+        IPmpUiModelFluent AddPropertyManagerPage(string title, ISldWorks solidworks);
 
 
         /// <summary>

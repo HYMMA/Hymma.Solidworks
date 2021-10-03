@@ -1,26 +1,26 @@
 ﻿using Hymma.SolidTools.Addins;
+using Hymma.SolidTools.Core;
 using System;
 using System.Collections.Generic;
 
 namespace Hymma.SolidTools.Fluent.Addins
 {
     /// <summary>
-    /// an interface to add property manager page group to a <see cref="IPmpUi"/>
+    /// an interface to add property manager page group to a <see cref="IPmpUiModelFluent"/>
     /// </summary>
-    public interface IPmpGroup
+    public interface IPmpGroupFluentBase<T> : IFluent
     {
+        /// <summary>
+        /// add extra context to this <see cref="SolidTools.Addins.PmpGroup"/>
+        /// </summary>
+        /// <returns></returns>
+        T That();
 
         /// <summary>
         /// add extra context to this <see cref="SolidTools.Addins.PmpGroup"/>
         /// </summary>
         /// <returns></returns>
-        IPmpGroup That();
-
-        /// <summary>
-        /// add extra context to this <see cref="SolidTools.Addins.PmpGroup"/>
-        /// </summary>
-        /// <returns></returns>
-        IPmpGroup And();
+        T And();
 
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// </summary>
         /// <param name="isExpanded"></param>
         /// <returns></returns>
-        IPmpGroup IsExpanded(bool isExpanded = true);
+        T IsExpanded(bool isExpanded = true);
 
 
         /// <summary>
@@ -36,25 +36,28 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// </summary>
         /// <param name="doThis">delegate that accepts a bool as the parameter and returns void. bool parameter will be assigned by solidworks and indicates the expansion state of the group.</param>
         /// <returns></returns>
-        IPmpGroup AndOnExpansionChange(Action<PmpGroup, bool> doThis);
+        T AndOnExpansionChange(Action<PmpGroup, bool> doThis);
 
         /// <summary>
         /// add these controls to the <see cref="SolidTools.Addins.PmpGroup"/>
         /// </summary>
         /// <param name="controlMaker">function that returns an <see cref="IEnumerable{T}"/> where T : <see cref="IPmpControl"/></param>
         /// <returns></returns>
-        IPmpGroup HasTheseControls(Func<IEnumerable<IPmpControl>> controlMaker);
+        T HasTheseControls(Func<IEnumerable<IPmpControl>> controlMaker);
         /// <summary>
         /// add these controls to the <see cref="SolidTools.Addins.PmpGroup"/>
         /// </summary>
         /// <param name="controls">an <see cref="IEnumerable{T}"/> where T : <see cref="IPmpControl"/></param>
         /// <returns></returns>
-        IPmpGroup HasTheseControls(IEnumerable<IPmpControl> controls);
-
+        T HasTheseControls(IEnumerable<IPmpControl> controls);
+        
         /// <summary>
-        /// save all the changes 
+        /// background color of this group
         /// </summary>
+        /// <param name="sysColor"></param>
         /// <returns></returns>
-        IPmpUi SaveGroup();
+        T Color(SysColor sysColor);
+
+        
     }
 }

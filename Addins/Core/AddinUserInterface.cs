@@ -14,9 +14,9 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// a list of classes that inherit from <see cref="PmpBase"/>
+        /// a list of classes that inherit from <see cref="PmpFactoryBase"/>
         /// </summary>
-        public List<PmpBase> PropertyManagerPages { get; set; } = new List<PmpBase>();
+        public List<PmpFactoryBase> PropertyManagerPages { get; set; } = new List<PmpFactoryBase>();
 
         /// <summary>
         /// list of command tabs that this addin will add to solidworks

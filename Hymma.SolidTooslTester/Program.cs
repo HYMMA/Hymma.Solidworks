@@ -9,7 +9,7 @@ namespace Hymma.SolidTooslTester
     {
         static void Main(string[] args)
         {
-            var bitmap = GetBitmap(typeof(Hymma.Addin.SolidWorks.Hymma));
+            var bitmap = GetBitmap(typeof(Hymma.Addin.SolidWorks.HymmaAddin));
         }
         public static Bitmap GetBitmap(Type t)
         {
