@@ -2,6 +2,7 @@
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Hymma.SolidTools.Fluent.Addins
@@ -22,7 +23,6 @@ namespace Hymma.SolidTools.Fluent.Addins
         {
             var group = new PmpGroupFluent(caption, false)
             {
-
                 //update the group propety
                 PropertyManagerPageUIBase = this
             };
@@ -37,7 +37,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <inheritdoc/>
         public IPmpUiModelFluent WithPmpOptions(PmpOptions options)
         {
-            this.Options = (int)options;
+            this.Options = options;
             return this;
         }
 
@@ -61,13 +61,6 @@ namespace Hymma.SolidTools.Fluent.Addins
         public IPmpUiModelFluent AfterActivation(Action action)
         {
             this.OnAfterActivation = action;
-            return this;
-        }
-
-        /// <inheritdoc/>
-        public IPmpUiModelFluent WhenTabClicked(Func<int, bool> doThis)
-        {
-            OnTabClicked = doThis;
             return this;
         }
 
@@ -113,6 +106,37 @@ namespace Hymma.SolidTools.Fluent.Addins
         {
             SetTitleIcon(icon);
             return this;
+        }
+
+        ///<inheritdoc/>
+        public IPmpUiModelFluent AddMenuePopUpItem(PopUpMenueItem item)
+        {
+            if (PopUpMenueItems==null)
+                PopUpMenueItems = new List<PopUpMenueItem>();
+            PopUpMenueItems.Add(item); 
+            return this;
+        }
+
+        ///<inheritdoc/>
+        IPmpUiModelFluent IPmpUiModelFluent.OnKeyStroke(EventHandler<PmpOnKeyStrokeEventArgs> doThis)
+        {
+            OnKeyStroke += doThis;
+            return this;
+        }
+        ///<inheritdoc/>
+        public IPmpGroupFluentCheckable AddCheckableGroup(string caption)
+        {
+            var group = new PmpGroupFluentCheckable(caption)
+            {
+                //update the group propety
+                PropertyManagerPageUIBase = this
+            };
+
+            //add group to the end of the list
+            this.PmpGroups.Add(group);
+
+            //return the boject in the list
+            return this.PmpGroups[this.PmpGroups.Count - 1] as PmpGroupFluentCheckable;
         }
 
         /// <summary>

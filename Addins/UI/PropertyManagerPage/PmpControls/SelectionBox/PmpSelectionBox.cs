@@ -71,6 +71,14 @@ namespace Hymma.SolidTools.Addins
             SolidworksObject.Height = _height;
             SolidworksObject.SetSelectionFilters(_filters.Cast<int>().ToArray());
             Mark = Counter.GetNextSelBoxMark();
+            
+            if (PopUpMenueItems != null)
+            {
+                foreach (var item in PopUpMenueItems)
+                {
+                    var result = SolidworksObject.AddMenuPopupItem(item.Id, item.ItemText, ((int)item.DocumentType), item.Hint);
+                }
+            }
         }
         internal void FocusChanged()
         {
@@ -110,6 +118,10 @@ namespace Hymma.SolidTools.Addins
         #endregion
 
         #region public properties
+        /// <summary>
+        /// Once user RMB on the selection box these items will be listed in the menue that appears
+        /// </summary>
+        public List<PopUpMenueItem> PopUpMenueItems{ get; set; }
 
         /// <summary>
         /// PropertyManager page's cursor after a user makes a selection in the SOLIDWORKS graphics area. 
@@ -141,7 +153,7 @@ namespace Hymma.SolidTools.Addins
             }
         }
 
-        
+
 
         /// <summary>
         /// create a clalout for this selectionbox

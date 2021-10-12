@@ -38,15 +38,6 @@ namespace Hymma.SolidTools.Addins
         /// Property manager page object
         /// </summary>
         protected IPropertyManagerPage2 propertyManagerPage;
-
-        #endregion
-
-        #region private methodes
-        private int id = 1;
-        private int GetNextId()
-        {
-            return id++;
-        }
         #endregion
 
         /// <summary>
@@ -81,7 +72,8 @@ namespace Hymma.SolidTools.Addins
             int errors = -1;
 
             Log($"Makin property manager page {nameof(PmpFactoryBase)}");
-            propertyManagerPage = Solidworks.CreatePropertyManagerPage(uiModel.Title, uiModel.Options, eventHandler, ref errors) as IPropertyManagerPage2;
+            uiModel.UpdateOptions();
+            propertyManagerPage = Solidworks.CreatePropertyManagerPage(uiModel.Title, (int)uiModel.Options, eventHandler, ref errors) as IPropertyManagerPage2;
 
             //error is passed to object by reference
             if (propertyManagerPage != null && errors == (int)swPropertyManagerPageStatus_e.swPropertyManagerPage_Okay)

@@ -22,7 +22,6 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <returns></returns>
         T And();
 
-
         /// <summary>
         /// determines if this <see cref="SolidTools.Addins.PmpGroup"/> is expanded or not
         /// </summary>
@@ -30,6 +29,12 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <returns></returns>
         T IsExpanded(bool isExpanded = true);
 
+        /// <summary>
+        /// hides this group
+        /// </summary>
+        /// <param name="isHidden"></param>
+        /// <returns></returns>
+        T IsHidden(bool isHidden = true);
 
         /// <summary>
         /// event handler for when user expands the group
@@ -44,6 +49,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <param name="controlMaker">function that returns an <see cref="IEnumerable{T}"/> where T : <see cref="IPmpControl"/></param>
         /// <returns></returns>
         T HasTheseControls(Func<IEnumerable<IPmpControl>> controlMaker);
+     
         /// <summary>
         /// add these controls to the <see cref="SolidTools.Addins.PmpGroup"/>
         /// </summary>
@@ -57,7 +63,5 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <param name="sysColor"></param>
         /// <returns></returns>
         T Color(SysColor sysColor);
-
-        
     }
 }

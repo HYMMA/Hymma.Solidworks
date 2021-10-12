@@ -36,6 +36,13 @@ namespace Hymma.SolidTools.Fluent.Addins
             return group;
         }
 
+        ///<inheritdoc/>
+        public IPmpTabFluent WhenClicked(Action doThis)
+        {
+            OnPress += doThis;
+            return this;
+        }
+
         /// <summary>
         /// saves this tab to property manager page
         /// </summary>
@@ -54,6 +61,17 @@ namespace Hymma.SolidTools.Fluent.Addins
         {
             OnDisplay += action;
             return this;
+        }
+
+        ///<inheritdoc/>
+        public IPmpTabGroupFluentCheckable AddCheckableGroup(string caption)
+        {
+            var group = new PmpTabGroupFluentCheckable(caption, false)
+            {
+                Tab = this
+            };
+            Groups.Add(group);
+            return group;
         }
     }
 }

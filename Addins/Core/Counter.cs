@@ -8,6 +8,7 @@ namespace Hymma.SolidTools.Addins
     internal static class Counter
     {
         private static int i = 0;
+        private static int p = 0;
         private static int m = -1;
         private static int rowId = -1;
         /// <summary>
@@ -35,5 +36,15 @@ namespace Hymma.SolidTools.Addins
         {
             return ++rowId;
         }
+
+        /// <summary>
+        /// get the next id for a popup menue item which is an item in the list of items in a right mouse button menue
+        /// </summary>
+        /// <returns></returns>
+        internal static int GetNextPopUpMenuItemId()
+        {
+            return ++p;
+        }
+
     }
 }

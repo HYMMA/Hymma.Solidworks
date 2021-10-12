@@ -137,8 +137,9 @@ namespace Hymma.SolidTools.Addins
         public bool OnTabClicked(int Id)
         {
             Log("on tab clicked event handling");
-            if (UiModel.OnTabClicked == null) return false;
-            return UiModel.OnTabClicked.Invoke(Id);
+            var tab = UiModel.PmpTabs.FirstOrDefault(t => t.Id == Id);
+            tab?.OnPress?.Invoke();
+            return true;
         }
 
         /// <summary>
@@ -149,7 +150,7 @@ namespace Hymma.SolidTools.Addins
         public void OnGroupExpand(int Id, bool Expanded)
         {
             Log("onGroupExpand event handling ...");
-            var group = UiModel.PmpGroups.FirstOrDefault(g => g.Id == Id);
+            var group = UiModel.AllGroups.FirstOrDefault(g => g.Id == Id);
             group.Expanded = Expanded;
             group?.GroupExpand(Expanded);
         }
@@ -162,7 +163,7 @@ namespace Hymma.SolidTools.Addins
         public void OnGroupCheck(int Id, bool Checked)
         {
             Log($"onGroupCheck event handling int id={Id} int bool={Checked}");
-            var group = UiModel.PmpGroups.Where(g => g.Id == Id).FirstOrDefault();
+            var group = UiModel.AllGroups.FirstOrDefault(g => g.Id == Id);
             group.GroupChecked(Checked);
         }
 
@@ -196,7 +197,7 @@ namespace Hymma.SolidTools.Addins
             if (!(UiModel.GetControl(Id) is PmpRadioButton radioBtn)) return;
 
             //get the group of radio button
-            var group = UiModel.PmpGroups.FirstOrDefault(g => g.Controls.Contains(radioBtn));
+            var group = UiModel.AllGroups.FirstOrDefault(g => g.Controls.Contains(radioBtn));
 
             //get all radio buttons ...
             var groupOptions = group.Controls.Where(c => c.Type == swPropertyManagerPageControlType_e.swControlType_Option).Cast<PmpRadioButton>().ToList();
@@ -293,7 +294,7 @@ namespace Hymma.SolidTools.Addins
             {
                 pmpCombo.SelectionChanged(Item);
             }
-            else if (control.Type== swPropertyManagerPageControlType_e.swControlType_Numberbox && control is PmpNumberBox pmpNumber)
+            else if (control.Type == swPropertyManagerPageControlType_e.swControlType_Numberbox && control is PmpNumberBox pmpNumber)
             {
                 pmpNumber.SelectionChanged(Item);
             }
@@ -422,19 +423,44 @@ namespace Hymma.SolidTools.Addins
             slider?.TrackingComplete(Value);
         }
 
+        /// <summary>
+        ///  Processes a keystroke that occurred on this PropertyManager page. 
+        /// </summary>
+        /// <param name="Wparam">wparam argument from Windows processing; indicates the keystroke that occurred</param>
+        /// <param name="Message">Message being processed by Windows; one of these values:</param>
+        /// <param name="Lparam">lparam argument from Windows processing; bitmask containing various pieces of information; dependent on specific message</param>
+        /// <param name="Id">ID of the control that has focus when the keystroke was made; this is the ID specified when the control was created in IPropertyManagerPage2::AddControl or IPropertyManagerPage2::IAddControl or IPropertyManagerPage2::AddGroupBox or IPropertyManagerPage2::IAddGroupBox.</param>
+        /// <returns>True indicates that the keystroke has been handled by the add-in and SOLIDWORKS should not continue to try to process it, false indicates that the keystroke has not been handled by the add-in and SOLIDWORKS will continue to try to process it</returns>
         public bool OnKeystroke(int Wparam, int Message, int Lparam, int Id)
         {
-            throw new NotImplementedException();
+            return UiModel.KeyStroke(Wparam, Message, Lparam);
         }
 
+        /// <summary>
+        /// Determines which item was selected when the user selects a pop-up menu item. 
+        /// </summary>
+        /// <param name="Id"></param>
         public void OnPopupMenuItem(int Id)
         {
-            throw new NotImplementedException();
+            var popUpItems = UiModel.GetControls<PmpSelectionBox>().SelectMany(sb => sb.PopUpMenueItems)
+                 .Concat(UiModel.PopUpMenueItems);
+            popUpItems.FirstOrDefault(item => item.Id == Id)?.OnPress?.Invoke();
         }
 
+        /// <summary>
+        ///  When Windows attempts to select or deselect and enable or disable the pop-up menu item, SOLIDWORKS calls this method to get the state of the menu item from the add-in. 
+        /// </summary>
+        /// <param name="Id">Unique user-defined ID for a pop-up menu item</param>
+        /// <param name="retval">State of the specified unique user-defined pop-up menu item:
+        /// 0 - Not selected(i.e., not checked) and disabled(i.e., grayed out)
+        /// 1 - Not selected and enabled
+        /// 2 - Selected(i.e., checked) and disabled
+        /// 3 - Selected and enabled</param>
         public void OnPopupMenuItemUpdate(int Id, ref int retval)
         {
-            throw new NotImplementedException();
+            var popUpItems = UiModel.GetControls<PmpSelectionBox>().SelectMany(sb => sb.PopUpMenueItems)
+                 .Concat(UiModel.PopUpMenueItems);
+            popUpItems.FirstOrDefault(item => item.Id == Id)?.OnUpdate?.Invoke(retval);
         }
 
         /// <summary>
@@ -480,7 +506,7 @@ namespace Hymma.SolidTools.Addins
         public void OnListboxRMBUp(int Id, int PosX, int PosY)
         {
             var listbox = UiModel.GetControl(Id) as PmpListBox;
-            listbox?.RightMouseBtnUp(Tuple.Create<double,double,double>(PosX, PosY, 0));
+            listbox?.RightMouseBtnUp(Tuple.Create<double, double, double>(PosX, PosY, 0));
         }
 
         /// <summary>

@@ -77,5 +77,12 @@ namespace Hymma.SolidTools.Fluent.Addins
             BackgroundColor = sysColor;
             return this;
         }
+
+        ///<inheritdoc/>
+        public IPmpTabGroupFluent IsHidden(bool isHidden = true)
+        {
+            Visible = !isHidden;
+            return this;
+        }
     }
 }

@@ -195,7 +195,7 @@ namespace Hymma.SolidTools.Addins
         private void SetPictureLabelForControl(Bitmap bitmap, string fileName)
         {
             var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), fileName);
-            MaskedBitmap.SaveAsPng(new Bitmap(bitmap, 18, 18), ref fullFileName);
+            MaskedBitmap.SaveAsPng(bitmap,new Size(18,18), ref fullFileName);
             _control.SetPictureLabelByName(fullFileName, "");
         }
 
@@ -209,15 +209,15 @@ namespace Hymma.SolidTools.Addins
         public void ShowBubleTooltip(string title, string message, Bitmap bitmap, string fileName)
         {
             if (_control != null)
-                ShowBubbleTooltopForControl(title, message, bitmap, fileName);
+                ShowBubbleTooltipForControl(title, message, bitmap, fileName);
             else
-                OnRegister += () => { ShowBubbleTooltopForControl(title, message, bitmap, fileName); };
+                OnRegister += () => { ShowBubbleTooltipForControl(title, message, bitmap, fileName); };
         }
 
-        private void ShowBubbleTooltopForControl(string title, string message, Bitmap bitmap, string fileName)
+        private void ShowBubbleTooltipForControl(string title, string message, Bitmap bitmap, string fileName)
         {
             var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), fileName);
-            MaskedBitmap.SaveAsPng(new Bitmap(bitmap, 18, 18), ref fullFileName);
+            MaskedBitmap.SaveAsPng(bitmap, new Size(18, 18), ref fullFileName);
             _control.ShowBubbleTooltip(title, message, fullFileName);
         }
         #endregion

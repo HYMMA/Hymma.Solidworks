@@ -82,11 +82,12 @@ namespace Hymma.SolidTools.Addins
         /// coverts and saves a bitmap to specified location
         /// </summary>
         /// <param name="image">file to get bitmask for</param>
+        /// <param name="size">new size for the new png file</param>
         /// <param name="fullFileName">file name with or without extension, this method will save the image as .png file format only</param>
         /// <param name="allowPartialOpacity">if set true the number assigned to "opacityThreshold" will be considered as entered</param>
         /// <param name="opacityThreshold">a number between 0 and 255 maximum</param>
         /// <param name="invertedMask"></param>
-        public static void SaveAsPng(Bitmap image,ref string fullFileName, bool allowPartialOpacity = false, byte opacityThreshold = 255, bool invertedMask = true)
+        public static void SaveAsPng(Bitmap image, Size size, ref string fullFileName, bool allowPartialOpacity = true, byte opacityThreshold = 255, bool invertedMask = true)
         {
             //check for valid file name . . .
             if (string.IsNullOrEmpty(fullFileName))
@@ -101,22 +102,29 @@ namespace Hymma.SolidTools.Addins
             //get maskImage
             if (!File.Exists(fullFileName))
             {
-
-                Bitmap maskImage;
-
-                //if type of image provided is png we simply save it without processing it
-                if (image.RawFormat.Equals(ImageFormat.Png))
+                using (image)
                 {
-                    maskImage = image;
-                }
-                else
-                {
-                    maskImage = GetMaskedImage(image, allowPartialOpacity, opacityThreshold, invertedMask);
-                }
 
-                using (maskImage)
-                {
-                    maskImage.Save(fullFileName);
+                    Bitmap maskImage;
+
+                    //if type of image provided is png we simply save it without processing it
+                    if (image.RawFormat.Equals(ImageFormat.Png))
+                    {
+                        maskImage = image;
+                    }
+                    else
+                    {
+                        maskImage = GetMaskedImage(image, allowPartialOpacity, opacityThreshold, invertedMask);
+                    }
+
+                    using (maskImage)
+                    {
+                        var newSize = new Bitmap(maskImage, size);
+                        using (newSize)
+                        {
+                            newSize.Save(fullFileName, ImageFormat.Png);
+                        }
+                    }
                 }
             }
         }
@@ -129,7 +137,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="opacityThreshold">a number between 0 and 255 maximum</param>
         /// <param name="invertedMask"></param>
         /// <returns></returns>
-        public static Bitmap GetImageMask(Bitmap original, bool allowPartialOpacity = false, byte opacityThreshold = 255, bool invertedMask = true)
+        public static Bitmap GetImageMask(Bitmap original, bool allowPartialOpacity = true, byte opacityThreshold = 255, bool invertedMask = true)
         {
             var maskImage = Create32bppImageAndClearAlpha(original);
 
@@ -187,11 +195,11 @@ namespace Hymma.SolidTools.Addins
 
                 BitmapData bmpData1 = maskedImage.LockBits(new Rectangle(0, 0, maskedImage.Width, maskedImage.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, maskedImage.PixelFormat);
                 byte[] maskedImageRGBAData = new byte[bmpData1.Stride * bmpData1.Height];
-                System.Runtime.InteropServices.Marshal.Copy(bmpData1.Scan0, maskedImageRGBAData, 0, maskedImageRGBAData.Length);
+                Marshal.Copy(bmpData1.Scan0, maskedImageRGBAData, 0, maskedImageRGBAData.Length);
 
                 BitmapData bmpData2 = maskImage.LockBits(new Rectangle(0, 0, maskImage.Width, maskImage.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, maskImage.PixelFormat);
                 byte[] maskImageRGBAData = new byte[bmpData2.Stride * bmpData2.Height];
-                System.Runtime.InteropServices.Marshal.Copy(bmpData2.Scan0, maskImageRGBAData, 0, maskImageRGBAData.Length);
+                Marshal.Copy(bmpData2.Scan0, maskImageRGBAData, 0, maskImageRGBAData.Length);
 
                 //copy the mask to the Alpha layer
                 for (int i = 0; i + 2 < maskedImageRGBAData.Length; i += 4)
@@ -199,7 +207,7 @@ namespace Hymma.SolidTools.Addins
                     maskedImageRGBAData[i + 3] = maskImageRGBAData[i];
 
                 }
-                System.Runtime.InteropServices.Marshal.Copy(maskedImageRGBAData, 0, bmpData1.Scan0, maskedImageRGBAData.Length);
+                Marshal.Copy(maskedImageRGBAData, 0, bmpData1.Scan0, maskedImageRGBAData.Length);
                 maskedImage.UnlockBits(bmpData1);
                 maskImage.UnlockBits(bmpData2);
                 return maskedImage;

@@ -46,7 +46,7 @@ namespace Hymma.SolidTools.Addins
             if (string.IsNullOrEmpty(fileName))
                 return;
             var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), fileName);
-            MaskedBitmap.SaveAsPng(new Bitmap(bitmap, 18, 18), ref fullFileName);
+            MaskedBitmap.SaveAsPng(bitmap, new Size(18, 18), ref fullFileName);
             _control.SetPictureLabelByName(fullFileName, "");
         }
         #endregion

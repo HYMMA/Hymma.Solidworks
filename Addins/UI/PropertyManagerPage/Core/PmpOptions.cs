@@ -23,18 +23,22 @@ namespace Hymma.SolidTools.Addins
         ///  When a user presses the Esc key, the PropertyManager page will close the page; this enumerator only applies to pages that do not contain selection boxes
         /// </summary>
         CanEscapeCancel = 4096,
+        
         /// <summary>
         /// include close dialog button
         /// </summary>
         CloseDialogButton = 8,
+        
         /// <summary>
         /// Paint the PropertyManager page after control returns to SOLIDWORKS from the add-in's handler; may help eliminate any flickering of the PropertyManager page of the add-in changes the visibility of numerous controls on the PropertyManager page
         /// </summary>
         DisablePageBuildDuringHandlers = 32768,
+        
         /// <summary>
         /// disable selection
         /// </summary>
         DisableSelection = 256,
+        
         /// <summary>
         /// Controls whether a PropertyManager page should show its disabled selection list boxes so that they appear grayed out by coloring their backgrounds the same color as the divider box background. 
         /// </summary>
@@ -47,7 +51,7 @@ namespace Hymma.SolidTools.Addins
         HandleKeystrokes = 8192,
 
         /// <summary>
-        /// Specify the Locked option in the Options parameter when you create your PropertyManager page. It is important that when a handler (such as IPropertyManagerPage2Handler5::OnButtonPress or IPropertyManagerPage2Handler5::OnClose) is finished and control returns to SOLIDWORKS that the PropertyManager page is still there. If the PropertyManager page is not there, SOLIDWORKS might crash. Some methods try to close the PropertyManager page, but you can avoid this scenario by creating the PropertyManager page as Locked.
+        /// Specify the Locked option in the Options parameter when you create your PropertyManager page. It is important that when a handler (such as <see cref="PmpButtonBase{T}.OnPress"/> or <see cref="PmpUiModel.OnClose"/>) is finished and control returns to SOLIDWORKS that the PropertyManager page is still there. If the PropertyManager page is not there, SOLIDWORKS might crash. Some methods try to close the PropertyManager page, but you can avoid this scenario by creating the PropertyManager page as Locked.
         /// </summary>
         LockedPage = 4,
 

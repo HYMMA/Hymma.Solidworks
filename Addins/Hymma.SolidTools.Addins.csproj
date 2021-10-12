@@ -79,13 +79,16 @@
     <Compile Include="UI\Callout\OnRowValueChangedEventArgs.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
     <Compile Include="UI\Callout\CalloutModel.cs" />
+    <Compile Include="UI\PopUpMenueItem.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpCursorStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpCloseReason.cs" />
+    <Compile Include="UI\PropertyManagerPage\Core\PmpOnKeyStrokeEventArgs .cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpOptions.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BitmapButtons.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BtnSize.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpButtonBase.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Combobox\ComboBoxStyles.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Group\PmpGroupCheckable.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\Label_OnDisplayEventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\Label_OnDisplayEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\LabelStyles.cs" />
@@ -141,7 +144,7 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\WindowsForm\PmpWindowHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Core\IPmpControl.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\PmpGroup.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Group\PmpGroup.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Checkbox\PmpCheckBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\PmpLabel.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\TextBox\PmpTextBox.cs" />

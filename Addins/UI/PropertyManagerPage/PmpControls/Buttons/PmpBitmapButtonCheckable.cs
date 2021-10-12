@@ -23,7 +23,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="tip"></param>
         /// <param name="iconSizes">possible sizes for this checkable button</param>
         /// <param name="opacity">define opacity of the bitmap on the button, less values result in more transparent pictures</param>
-        public PmpBitmapButtonCheckable(Bitmap bitmap,  string tip, BtnSize[] iconSizes, byte opacity) : base(bitmap,tip, iconSizes, opacity)
+        public PmpBitmapButtonCheckable(Bitmap bitmap,  string tip, BtnSize iconSizes, byte opacity) : base(bitmap,tip, iconSizes, opacity)
         {
             Type = swPropertyManagerPageControlType_e.swControlType_CheckableBitmapButton;
         }

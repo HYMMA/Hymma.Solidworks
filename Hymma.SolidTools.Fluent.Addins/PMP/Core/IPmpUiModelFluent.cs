@@ -28,7 +28,14 @@ namespace Hymma.SolidTools.Fluent.Addins
         IPmpGroupFluent AddGroup(string caption);
 
         /// <summary>
-        /// bitwise option as defined in <see cref="PmpOptions"/> default is 35
+        /// Add a checkable group to this property manager page
+        /// </summary>
+        /// <param name="caption"></param>
+        /// <returns></returns>
+        IPmpGroupFluentCheckable AddCheckableGroup(string caption);
+
+        /// <summary>
+        /// bitwise option as defined in <see cref="PmpOptions"/> default has okay, cancel, pushpin buttons and page build is disabled during handlers
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
@@ -40,6 +47,13 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <param name="doThis">void to invoke</param>
         /// <returns></returns>
         IPmpUiModelFluent AfterClose(Action doThis);
+
+        /// <summary>
+        ///Processes a keystroke that occurred on this PropertyManager page
+        /// </summary>
+        /// <param name="doThis">Action that takes two params, first one is the sender which would be the <see cref="PmpUiModel"/> and second one is the event argument for this keystroke</param>
+        /// <remarks><see cref="WithPmpOptions(PmpOptions)"/> should have the <see cref="PmpOptions.HandleKeystrokes"/> for this action to work</remarks>
+        IPmpUiModelFluent OnKeyStroke(EventHandler<PmpOnKeyStrokeEventArgs> doThis);
 
         /// <summary>
         /// Action to invoke while the property manger page is closing
@@ -54,13 +68,6 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <param name="action"></param>
         /// <returns></returns>
         IPmpUiModelFluent AfterActivation(Action action);
-
-        /// <summary>
-        /// define a funciton to be invoke when user changes the tab in the property manager page
-        /// </summary>
-        /// <param name="doThis"></param>
-        /// <returns></returns>
-        IPmpUiModelFluent WhenTabClicked(Func<int, bool> doThis);
 
         /// <summary>
         ///Sets the cursor after a selection is made in the SOLIDWORKS graphics area.
@@ -87,13 +94,11 @@ namespace Hymma.SolidTools.Fluent.Addins
         IPmpUiModelFluent WithIconInTitle(Bitmap icon);
 
         /// <summary>
-        ///  Adds a menu item to the pop-up menu for this PropertyManager page. 
+        ///  Adds a menu item to the pop-up menu for this PropertyManager page. that appears in  the right mouse menue button while thie proepryt manager page is displayed 
         /// </summary>
-        /// <param name="itemText">    Text for pop-up menu item</param>
-        /// <param name="hint">Text displayed in the SOLIDWORKS status bar when the user moves the cursor over this pop-up menu item</param>
-        /// <param name="documentTypes">Document types for which this pop-up menu item is displayed as defined in <see cref="swDocumentTypes_e"/></param>
-        void AddMenuePopUpItem(string itemText, string hint, swDocumentTypes_e documentTypes);
-
+        IPmpUiModelFluent AddMenuePopUpItem(PopUpMenueItem item);
+        
+        ///<summary>
         /// builds this property manager page and adds it to the <see cref="AddinUserInterface"/> <br/>
         /// use the <see cref="PmpFactoryX64"/>.Show() method in a <see cref="AddinCommand"/> callback function so users of your addin can actually see the property manger page once they clicked on a button
         /// </summary>

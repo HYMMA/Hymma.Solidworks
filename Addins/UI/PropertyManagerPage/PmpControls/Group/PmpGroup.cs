@@ -14,6 +14,14 @@ namespace Hymma.SolidTools.Addins
     {
         #region fields
         private SysColor _backgroundColor;
+        private bool _visible;
+        private string _caption;
+
+        /// <summary>
+        /// this is used at registering stage only
+        /// </summary>
+        protected int _options;
+        private bool _expanded;
         #endregion
 
         #region constructors
@@ -21,16 +29,17 @@ namespace Hymma.SolidTools.Addins
         /// construct a property manage page group to host numerous <see cref="IPmpControl"/>
         /// </summary>
         /// <param name="caption">text that appears next to a group box</param>
-        /// <param name="expanded">determines the expand state of this group box</param>
-        public PmpGroup(string caption = "Group", bool expanded = false)
+        /// <param name="expanded">if set true  group box will appear expanded by default</param>
+        /// <param name="visible">if set to false group box will be hidden by default</param>
+        public PmpGroup(string caption = "Group", bool expanded = true, bool visible = true)
         {
             //assign properties
             Id = Counter.GetNextPmpId();
-            Caption = caption;
-            Expanded = expanded;
-            Controls = new List<IPmpControl>();
-            Options = (int)swAddGroupBoxOptions_e.swGroupBoxOptions_Expanded | (int)swAddGroupBoxOptions_e.swGroupBoxOptions_Visible;
+            _caption = caption;
+            _expanded = expanded;
+            _visible = visible;
             _backgroundColor = SysColor.PropertyManagerColor;
+            Controls = new List<IPmpControl>();
         }
 
         /// <summary>
@@ -38,34 +47,69 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="Caption">text that appears next to a group box</param>
         /// <param name="Controls">list of controls to add to this group</param>
-        /// <param name="Expanded">determines the expand state of this group box</param>
-        public PmpGroup(string Caption, List<IPmpControl> Controls, bool Expanded = false) : this(Caption, Expanded)
+        /// <param name="expanded">if set true  group box will appear expanded by default</param>
+        /// <param name="visible">if set to false group box will be hidden by default</param>
+        public PmpGroup(string Caption, List<IPmpControl> Controls, bool expanded = true, bool visible = true) : this(Caption, expanded, visible)
         {
             this.Controls = Controls;
         }
+
         #endregion
 
         #region Properties
-
         /// <summary>
         /// identifier for this group box in Property manager page
         /// </summary>
         public int Id { get; internal set; }
 
         /// <summary>
+        ///  Gets or sets the group box visibility state. 
+        /// </summary>
+        public bool Visible
+        {
+            get => _visible;
+            set
+            {
+                _visible = value;
+                if (SolidworksObject != null)
+                    SolidworksObject.Visible = _visible;
+                else
+                    OnRegister += () => SolidworksObject.Visible = _visible;
+            }
+        }
+
+        /// <summary>
         /// caption
         /// </summary>
-        public string Caption { get; set; }
+        public string Caption
+        {
+            get => _caption;
+            set
+            {
+                _caption = value;
+                if (SolidworksObject != null)
+                    SolidworksObject.Caption = _caption;
+                else
+                    OnRegister += () => SolidworksObject.Caption = _caption;
+            }
+        }
 
         /// <summary>
         /// determines the expand state of this group box 
         /// </summary>
-        public bool Expanded { get; set; }
+        public bool Expanded
+        {
+            get => _expanded;
+            set
+            {
+                _expanded = value;
+                if (SolidworksObject != null)
+                    SolidworksObject.Expanded = _expanded;
+                else
+                    OnRegister += () => SolidworksObject.Expanded = _expanded;
+            }
+        }
 
-        /// <summary>
-        /// bitwise options as defined by <see cref="swAddGroupBoxOptions_e"/> default values correspond to a group that is expanded and is set to be visible
-        /// </summary>
-        public int Options { get; set; }
 
         /// <summary>
         /// a list of solidworks controllers
@@ -107,11 +151,7 @@ namespace Hymma.SolidTools.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.BackgroundColor = (int)value;
                 else
-                    OnRegister += () =>
-                    {
-                        SolidworksObject.BackgroundColor = ((int)value);
-                    };
-
+                    OnRegister += () => SolidworksObject.BackgroundColor = ((int)value);
             }
         }
 
@@ -143,14 +183,24 @@ namespace Hymma.SolidTools.Addins
                 }
             }
         }
-
+        /// <summary>
+        /// updates option parameter before this gorup is registerd
+        /// </summary>
+        protected virtual void UpdateSwOptions()
+        {
+            if (Expanded)
+                _options += ((int)swAddGroupBoxOptions_e.swGroupBoxOptions_Expanded);
+            if (Visible)
+                _options += ((int)swAddGroupBoxOptions_e.swGroupBoxOptions_Visible);
+        }
         /// <summary>
         /// registers this group into a property manager page
         /// </summary>
         /// <param name="propertyManagerPage"></param>
         internal void Register(IPropertyManagerPage2 propertyManagerPage)
         {
-            SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(Id, Caption, (int)Options);
+            UpdateSwOptions();
+            SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(Id, Caption, _options);
             RegisterControls();
             OnRegister?.Invoke();
         }
@@ -161,7 +211,8 @@ namespace Hymma.SolidTools.Addins
         /// <param name="propertyManagerPageTab"></param>
         internal void Register(IPropertyManagerPageTab propertyManagerPageTab)
         {
-            SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPageTab.AddGroupBox(Id, Caption, (int)Options);
+            UpdateSwOptions();
+            SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPageTab.AddGroupBox(Id, Caption, _options);
             RegisterControls();
             OnRegister?.Invoke();
         }
@@ -203,7 +254,6 @@ namespace Hymma.SolidTools.Addins
         }
         internal void Display()
         {
-            SolidworksObject.Expanded = Expanded;
             Controls.ForEach(c => c.Display());
             OnDisplay?.Invoke(this, EventArgs.Empty);
         }

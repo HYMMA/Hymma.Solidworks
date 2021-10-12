@@ -35,6 +35,11 @@ namespace Hymma.SolidTools.Addins
 
         #region properties
         /// <summary>
+        /// id of this tab used by solidworks 
+        /// </summary>
+        public int Id { get; private set; }
+
+        /// <summary>
         /// caption for this property manager page tab
         /// </summary>
         public string Caption { get; set; }
@@ -62,10 +67,10 @@ namespace Hymma.SolidTools.Addins
         
         internal void Register(IPropertyManagerPage2 propertyManagerPage)
         {
-            int tabId = Counter.GetNextPmpId();
+            Id = Counter.GetNextPmpId();
             string iconAddress = "";
             var sb = new StringBuilder();
-            sb.Append("tab").Append(tabId).Append(".bmp");
+            sb.Append("tab").Append(Id).Append(".bmp");
             if (_icon != null)
             {
                 iconAddress = Path.Combine(IconGenerator.GetDefaultIconFolder(), sb.ToString());
@@ -81,7 +86,7 @@ namespace Hymma.SolidTools.Addins
                 }
             }
 
-            SolidworksObject = propertyManagerPage.AddTab(tabId, Caption, iconAddress, 0);
+            SolidworksObject = propertyManagerPage.AddTab(Id, Caption, iconAddress, 0);
             foreach (var group in Groups)
                 group.Register(SolidworksObject);
         }
@@ -92,6 +97,12 @@ namespace Hymma.SolidTools.Addins
         /// fires a moment before the the property manger page is displayed
         /// </summary>
         public Action OnDisplay { get; set; }
+
+        /// <summary>
+        /// invoked once user clicked on this tab
+        /// </summary>
+        public Action OnPress { get; set; }
+
         #endregion
     }
 }

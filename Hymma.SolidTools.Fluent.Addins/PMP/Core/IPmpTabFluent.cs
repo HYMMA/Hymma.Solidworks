@@ -14,11 +14,26 @@ namespace Hymma.SolidTools.Fluent.Addins
         IPmpTabGroupFluent AddGroup(string caption);
 
         /// <summary>
+        /// Adds a checkable group to this tab
+        /// </summary>
+        /// <param name="caption">caption/title for this group</param>
+        /// <returns></returns>
+        IPmpTabGroupFluentCheckable AddCheckableGroup(string caption);
+
+
+        /// <summary>
         /// event to fire once this tab is displayed
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="doThis"></param>
         /// <returns></returns>
-        IPmpTabFluent WhenDisplayed(Action action);
+        IPmpTabFluent WhenDisplayed(Action doThis);
+
+        /// <summary>
+        /// define a method that returns Void to be invoke when user changes the tab in the property manager page
+        /// </summary>
+        /// <param name="doThis"></param>
+        /// <returns></returns>
+        IPmpTabFluent WhenClicked(Action doThis);
 
         /// <summary>
         /// saves the tab
