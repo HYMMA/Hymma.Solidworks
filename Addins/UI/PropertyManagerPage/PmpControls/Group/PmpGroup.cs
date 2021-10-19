@@ -20,7 +20,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// this is used at registering stage only
         /// </summary>
-        protected int _options;
+        protected swAddGroupBoxOptions_e _options;
         private bool _expanded;
         #endregion
 
@@ -36,9 +36,9 @@ namespace Hymma.SolidTools.Addins
             //assign properties
             Id = Counter.GetNextPmpId();
             _caption = caption;
-            _expanded = expanded;
-            _visible = visible;
             _backgroundColor = SysColor.PropertyManagerColor;
+            Expanded = expanded;
+            Visible = visible;
             Controls = new List<IPmpControl>();
         }
 
@@ -71,6 +71,10 @@ namespace Hymma.SolidTools.Addins
             set
             {
                 _visible = value;
+                if (_visible)
+                    _options |= swAddGroupBoxOptions_e.swGroupBoxOptions_Visible;
+                else
+                    _options &= ~swAddGroupBoxOptions_e.swGroupBoxOptions_Visible;
                 if (SolidworksObject != null)
                     SolidworksObject.Visible = _visible;
                 else
@@ -103,6 +107,10 @@ namespace Hymma.SolidTools.Addins
             set
             {
                 _expanded = value;
+                if (_expanded)
+                    _options |= (swAddGroupBoxOptions_e.swGroupBoxOptions_Expanded);
+                else
+                    _options &= ~swAddGroupBoxOptions_e.swGroupBoxOptions_Expanded;
                 if (SolidworksObject != null)
                     SolidworksObject.Expanded = _expanded;
                 else
@@ -183,24 +191,14 @@ namespace Hymma.SolidTools.Addins
                 }
             }
         }
-        /// <summary>
-        /// updates option parameter before this gorup is registerd
-        /// </summary>
-        protected virtual void UpdateSwOptions()
-        {
-            if (Expanded)
-                _options += ((int)swAddGroupBoxOptions_e.swGroupBoxOptions_Expanded);
-            if (Visible)
-                _options += ((int)swAddGroupBoxOptions_e.swGroupBoxOptions_Visible);
-        }
+
         /// <summary>
         /// registers this group into a property manager page
         /// </summary>
         /// <param name="propertyManagerPage"></param>
         internal void Register(IPropertyManagerPage2 propertyManagerPage)
         {
-            UpdateSwOptions();
-            SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(Id, Caption, _options);
+            SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(Id, Caption, ((int)_options));
             RegisterControls();
             OnRegister?.Invoke();
         }
@@ -211,8 +209,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="propertyManagerPageTab"></param>
         internal void Register(IPropertyManagerPageTab propertyManagerPageTab)
         {
-            UpdateSwOptions();
-            SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPageTab.AddGroupBox(Id, Caption, _options);
+            SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPageTab.AddGroupBox(Id, Caption, ((int)_options));
             RegisterControls();
             OnRegister?.Invoke();
         }
@@ -236,18 +233,10 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public event EventHandler<bool> OnGroupExpand;
 
-        /// <summary>
-        /// method to invoke when user checks a group <br/>
-        /// this delegate requires a bool variable to indicate the IsChecked status of the group
-        /// </summary>
-        public event EventHandler<bool> OnGroupCheck;
+        
         #endregion
 
         #region call backs
-        internal void GroupChecked(bool e)
-        {
-            OnGroupCheck?.Invoke(this, e);
-        }
         internal void GroupExpand(bool e)
         {
             OnGroupExpand?.Invoke(this, e);

@@ -64,11 +64,13 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +119,10 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\Core\PmpTextBase.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Slider\PmpSlider.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Slider\SliderStyles.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\WindowsForm\PmpFolderBrowser.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\WindowsForm\PmpFolderBrowserUi.xaml.cs">
+      <DependentUpon>PmpFolderBrowserUi.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\PropertyManagerPage\PmpTab\PmpTab.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\TextBox\Enums\TextBoxStyles.cs" />
     <Compile Include="UI\ToolbarTabs\CommandGroup\AddinCommand.cs" />
@@ -177,6 +183,11 @@
       <Name>Hymma.SolidTools.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="UI\PropertyManagerPage\PmpControls\WindowsForm\PmpFolderBrowserUi.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

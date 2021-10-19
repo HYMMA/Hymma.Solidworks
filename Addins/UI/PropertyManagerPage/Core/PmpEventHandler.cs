@@ -2,6 +2,7 @@
 using SolidWorks.Interop.swconst;
 using SolidWorks.Interop.swpublished;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -15,6 +16,9 @@ namespace Hymma.SolidTools.Addins
     [ComVisible(true)]
     public class PmpEventHandler : PropertyManagerPage2Handler9
     {
+        private IEnumerable<PopUpMenueItem> popUpItems;
+
+
         /// <summary>
         /// default constructor
         /// </summary>
@@ -22,12 +26,21 @@ namespace Hymma.SolidTools.Addins
         public PmpEventHandler(PmpUiModel uiModel)
         {
             this.UiModel = uiModel ?? throw new Exception();
+            UiModel.OnRegister += () =>
+            {
+                popUpItems = UiModel.GetControls<PmpSelectionBox>().SelectMany(sb => sb.PopUpMenueItems);
+                if (UiModel.PopUpMenueItems != null)
+                {
+                    popUpItems.Concat(UiModel.PopUpMenueItems);
+                }
+            };
         }
 
         /// <summary>
         /// wrapper for constrols in this property manager page
         /// </summary>
         public PmpUiModel UiModel { get; private set; }
+
 
         /// <summary>
         /// fires after user opens a pmp
@@ -163,8 +176,8 @@ namespace Hymma.SolidTools.Addins
         public void OnGroupCheck(int Id, bool Checked)
         {
             Log($"onGroupCheck event handling int id={Id} int bool={Checked}");
-            var group = UiModel.AllGroups.FirstOrDefault(g => g.Id == Id);
-            group.GroupChecked(Checked);
+            var group = UiModel.AllGroups.FirstOrDefault(g => g.Id == Id) as PmpGroupCheckable;
+            group?.GroupChecked(Checked);
         }
 
         /// <summary>
@@ -442,8 +455,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="Id"></param>
         public void OnPopupMenuItem(int Id)
         {
-            var popUpItems = UiModel.GetControls<PmpSelectionBox>().SelectMany(sb => sb.PopUpMenueItems)
-                 .Concat(UiModel.PopUpMenueItems);
+
             popUpItems.FirstOrDefault(item => item.Id == Id)?.OnPress?.Invoke();
         }
 
@@ -458,9 +470,8 @@ namespace Hymma.SolidTools.Addins
         /// 3 - Selected and enabled</param>
         public void OnPopupMenuItemUpdate(int Id, ref int retval)
         {
-            var popUpItems = UiModel.GetControls<PmpSelectionBox>().SelectMany(sb => sb.PopUpMenueItems)
-                 .Concat(UiModel.PopUpMenueItems);
-            popUpItems.FirstOrDefault(item => item.Id == Id)?.OnUpdate?.Invoke(retval);
+
+            popUpItems?.FirstOrDefault(item => item.Id == Id)?.OnUpdate?.Invoke(retval);
         }
 
         /// <summary>

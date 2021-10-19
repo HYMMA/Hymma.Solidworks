@@ -1,5 +1,6 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System;
 using System.Collections.Generic;
 
 namespace Hymma.SolidTools.Addins
@@ -20,9 +21,10 @@ namespace Hymma.SolidTools.Addins
         /// <param name="expanded">if set to true group will appear expanded by default</param>
         public PmpGroupCheckable(string caption , bool visible = true, bool isChecked = true, bool expanded = true) : base(caption,expanded:expanded,visible:visible)
         {
-            _isChecked = isChecked;
-            _options = ((int)swAddGroupBoxOptions_e.swGroupBoxOptions_Checkbox);
+            IsChecked = isChecked;
+            _options = swAddGroupBoxOptions_e.swGroupBoxOptions_Checkbox;
         }
+
 
         /// <summary>
         /// construct a property manager page group to host numerous <see cref="IPmpControl"/>
@@ -46,21 +48,26 @@ namespace Hymma.SolidTools.Addins
             set
             {
                 _isChecked = value;
+                if (_isChecked )
+                    _options |= swAddGroupBoxOptions_e.swGroupBoxOptions_Checked;
+                else 
+                    _options &= ~swAddGroupBoxOptions_e.swGroupBoxOptions_Checked;
+
                 if (SolidworksObject != null)
                     SolidworksObject.Checked = _isChecked;
                 else
                     OnRegister += () => SolidworksObject.Checked = _isChecked;
             }
         }
-
-        /// <summary>
-        /// uptdates the options prior registrations
-        /// </summary>
-        protected override void UpdateSwOptions()
+        internal void GroupChecked(bool status)
         {
-            base.UpdateSwOptions();
-            if (_isChecked)
-                _options += (int)swAddGroupBoxOptions_e.swGroupBoxOptions_Checked;
+            Controls.ForEach(c => c.Visible = status);
+            OnGroupCheck?.Invoke(this, status);
         }
+        /// <summary>
+        /// method to invoke when user checks a group <br/>
+        /// this delegate requires a bool variable to indicate the IsChecked status of the group
+        /// </summary>
+        public event EventHandler<bool> OnGroupCheck;
     }
 }
