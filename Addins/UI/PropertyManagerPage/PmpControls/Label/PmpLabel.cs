@@ -33,7 +33,6 @@ namespace Hymma.SolidTools.Addins
             //if add in was loaded
             if (SolidworksObject != null)
                 SolidworksObject.Italic[StartChar, EndChar] = status;
-
             //otherwise assign value upon addin startup
             else
                 OnRegister += () => { SolidworksObject.Italic[StartChar, EndChar] = status; };

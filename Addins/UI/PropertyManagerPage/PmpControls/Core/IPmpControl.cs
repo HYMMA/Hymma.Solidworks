@@ -19,6 +19,7 @@ namespace Hymma.SolidTools.Addins
         private short _left;
         private ControlResizeStyles _optionForResize;
         private PropertyManagerPageControl _control;
+        private string _tip;
 
         #region constructor
         internal IPmpControl(swPropertyManagerPageControlType_e type, string caption, string tip)
@@ -37,9 +38,9 @@ namespace Hymma.SolidTools.Addins
         public string Caption { get; }
 
         /// <summary>
-        /// tip for this controller
+        /// toolTip (hint) for this controller
         /// </summary>
-        public string Tip { get; }
+        public string Tip { get; set; }
 
         /// <summary>
         /// property manager page control as an object
@@ -105,7 +106,7 @@ namespace Hymma.SolidTools.Addins
                 if (_enabled)
                     Options |= swAddControlOptions_e.swControlOptions_Enabled;
                 else
-                    Options &= ~swAddControlOptions_e.swControlOptions_Enabled;  
+                    Options &= ~swAddControlOptions_e.swControlOptions_Enabled;
                 if (Control != null)
                     Control.Enabled = value;
                 else

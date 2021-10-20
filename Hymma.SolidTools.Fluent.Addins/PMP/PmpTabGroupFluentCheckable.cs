@@ -92,5 +92,12 @@ namespace Hymma.SolidTools.Fluent.Addins
             base.IsChecked = status;
             return this;
         }
+
+        ///<inheritdoc/>
+        public IPmpTabGroupFluentCheckable OnChecked(EventHandler<bool> doThis)
+        {
+            OnGroupCheck += doThis;
+            return this;
+        }
     }
 }

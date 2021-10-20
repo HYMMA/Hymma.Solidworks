@@ -1,4 +1,7 @@
-﻿namespace Hymma.SolidTools.Fluent.Addins
+﻿using Hymma.SolidTools.Addins;
+using System;
+
+namespace Hymma.SolidTools.Fluent.Addins
 {
     /// <summary>
     /// an interface to add property manager page group to a <see cref="IPmpUiModelFluent"/>
@@ -17,5 +20,12 @@
         /// <param name="status"></param>
         /// <returns></returns>
         IPmpGroupFluentCheckable Checked(bool status = true);
+
+        /// <summary>
+        /// fires when user check/un-check the gourp check box
+        /// </summary>
+        /// <param name="doThis"></param>
+        /// <returns><see cref="PmpGroupCheckable"/></returns>
+        IPmpGroupFluentCheckable OnChecked(EventHandler<bool> doThis);
     }
 }
