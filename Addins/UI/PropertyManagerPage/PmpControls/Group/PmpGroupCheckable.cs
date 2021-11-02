@@ -54,9 +54,16 @@ namespace Hymma.SolidTools.Addins
                     _options &= ~swAddGroupBoxOptions_e.swGroupBoxOptions_Checked;
 
                 if (SolidworksObject != null)
+                {
                     SolidworksObject.Checked = _isChecked;
+                    GroupChecked(value);
+                }
+                    
                 else
+                {
                     OnRegister += () => SolidworksObject.Checked = _isChecked;
+                    GroupChecked(value);
+                }
             }
         }
         internal void GroupChecked(bool status)
@@ -64,6 +71,7 @@ namespace Hymma.SolidTools.Addins
             Controls.ForEach(c => c.Visible = status);
             OnGroupCheck?.Invoke(this, status);
         }
+
         /// <summary>
         /// method to invoke when user checks a group <br/>
         /// this delegate requires a bool variable to indicate the IsChecked status of the group

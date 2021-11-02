@@ -53,15 +53,18 @@ namespace Hymma.SolidTools.Addins
         /// <param name="Units">Number box units as defined in <see cref="NumberBoxUnit"/> (see Remarks)</param>
         /// <param name="Minimum"></param>
         /// <param name="Maximum"></param>
-        /// <param name="Increment"></param>
+        /// <param name="Inclusive">whether the max should be inclusive in the range or not</param>
+        /// <param name="Increment">increment in <strong>meter</strong></param>
         /// <param name="fastIncrement">Fast increment value for scrolling and mouse-wheel</param>
         /// <param name="slowIncrement">Slow increment value for scrolling and mouse-wheel</param>
-        /// <param name="Inclusive">whether the max should be inclusive in the range or not</param>
         /// <remarks>This method works while a PropertyManager page is displayed with these restrictions: <br/>
         /// You cannot change Units once the page is displayed.The Units parameter is ignored if specified while the page is displayed. <br/>
-        ///If the range is changed to an invalid value by this method, then you must immediately call <see cref="Value"/> and set a valid value to prevent displaying the dialog that requests the user to enter a valid value.
+        ///If the range is changed to an invalid value by this method, then you must immediately call <see cref="Value"/> and set a valid value to prevent displaying the dialog that requests the user to enter a valid value. 
+        ///<para>
+        ///solidworks internal units are <strong>meteric</strong> it will treat this methods parameters as such. for example increment will be Meter for lenghts
+        ///</para>
         ///</remarks>
-        public void SetRange(NumberBoxUnit Units, double Minimum, double Maximum, double Increment, double fastIncrement, double slowIncrement, bool Inclusive = true)
+        public void SetRange(NumberBoxUnit Units, double Minimum, double Maximum, bool Inclusive, double Increment, double fastIncrement, double slowIncrement)
         {
             OnRegister += () =>
             {
@@ -165,28 +168,28 @@ namespace Hymma.SolidTools.Addins
             }
         }
 
-        /// <summary>
-        /// Gets or sets the unit type to display in this PropertyManager page number box. 
-        /// </summary>
-        /// <remarks> <see cref="DisplayedUnit "/>allows an add-in to have a number box that shows length values in inches, even though the system default units are meters.<br/>
-        /// <see cref="DisplayedUnit "/> simply controls how that value is displayed in the PropertyManager page number box.
-        ///You can call this porperty and change the units displayed in a number box while a Propertymanager page is displayed.</remarks>
-        public NumberBoxUnit DisplayedUnit
-        {
-            get => _displayUnit;
-            set
-            {
-                _displayUnit = value;
+        ///// <summary>
+        ///// Gets or sets the unit type to display in this PropertyManager page number box. 
+        ///// </summary>
+        ///// <remarks> <see cref="DisplayedUnit "/>allows an add-in to have a number box that shows length values in inches, even though the system default units are meters.<br/>
+        ///// <see cref="DisplayedUnit "/> simply controls how that value is displayed in the PropertyManager page number box.
+        /////You can call this porperty and change the units displayed in a number box while a Propertymanager page is displayed.</remarks>
+        //public NumberBoxUnit DisplayedUnit
+        //{
+        //    get => _displayUnit;
+        //    set
+        //    {
+        //        _displayUnit = value;
 
-                //if add-in is loaded already
-                if (SolidworksObject != null)
-                    SolidworksObject.DisplayedUnit = (int)value;
+        //        //if add-in is loaded already
+        //        if (SolidworksObject != null)
+        //            SolidworksObject.DisplayedUnit = (int)value;
 
-                //otherwise update the property when the control is loaded
-                else
-                    OnRegister += () => { SolidworksObject.DisplayedUnit = (int)value; };
-            }
-        }
+        //        //otherwise update the property when the control is loaded
+        //        else
+        //            OnRegister += () => { SolidworksObject.DisplayedUnit = (int)value; };
+        //    }
+        //}
         #endregion
 
 

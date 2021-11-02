@@ -71,7 +71,7 @@ namespace Hymma.SolidTools.Addins
         public string Name { get; set; }
 
         /// <summary>
-        /// hit for this command
+        /// hint for this command
         /// </summary>
         public string HintString { get; set; }
 

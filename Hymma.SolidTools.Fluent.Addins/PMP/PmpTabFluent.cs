@@ -37,7 +37,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public IPmpTabFluent WhenClicked(Action doThis)
+        public IPmpTabFluent OnClick(Action doThis)
         {
             OnPress += doThis;
             return this;
@@ -57,9 +57,9 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public IPmpTabFluent WhenDisplayed(Action action)
+        public IPmpTabFluent OnDisplay(Action action)
         {
-            OnDisplay += action;
+            base.OnDisplay += action;
             return this;
         }
 

@@ -37,7 +37,7 @@ namespace Hymma.SolidTools.Addins
         /// You cannot change Units once the page is displayed.The Units parameter is ignored if specified while the page is displayed. <br/>
         ///If the range is changed to an invalid value by this method, then you must immediately call <see cref="PmpNumberBox.Value"/> and set a valid value to prevent displaying the dialog that requests the user to enter a valid value.
         ///</remarks>
-        public void ChangeRange(NumberBoxUnit Units, double Minimum, double Maximum, double Increment, double fastIncrement, double slowIncrement, bool Inclusive = true)
+        public void ChangeRange(NumberBoxUnit Units, double Minimum, double Maximum, bool Inclusive, double Increment, double fastIncrement, double slowIncrement)
         {
             SolidworksObject?.SetRange2((int)Units, Minimum, Maximum, Inclusive, Increment, fastIncrement, slowIncrement);
         }

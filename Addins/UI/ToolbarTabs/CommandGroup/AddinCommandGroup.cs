@@ -36,7 +36,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="icon"><see cref="Bitmap"/> object as icon for this command group inside the command manager</param>
         /// <param name="hasToolbar">does it have toolbar?</param>
         /// <param name="hasMenue">should it be presented in a menue?</param>
-        public AddinCommandGroup(int userId, AddinCommand[] commands, string title, string description, string tooltip, string hint, Bitmap icon, bool hasToolbar = true, bool hasMenue = true )
+        public AddinCommandGroup(int userId, AddinCommand[] commands, string title, string description, string tooltip, string hint, Bitmap icon, bool hasToolbar = true, bool hasMenue = true)
         {
             #region assing values to properties
             UserId = userId;
@@ -50,9 +50,9 @@ namespace Hymma.SolidTools.Addins
             HasMenue = hasMenue;
             #endregion
         }
-        
+
         #region register this to solidworks
-        private  void RegisterIcons(ICommandGroup swGroup)
+        private void RegisterIcons(ICommandGroup swGroup)
         {
             Log($"getting command icons from command group");
             swGroup.IconList = CommandIcons;
@@ -87,16 +87,14 @@ namespace Hymma.SolidTools.Addins
             }
         }
 
-
         /// <summary>
         /// adds a new command group to this Add-inm
         /// </summary>
         /// <param name="commandManager"></param>
         /// <returns></returns>
-        public void AddCommandGroup(ICommandManager commandManager)
+        public override void Register(ICommandManager commandManager)
         {
             #region Create new command group
-
             Log("crreating new command group ...");
             //if commandGroup with all its commands does not exist ignore previous instances re-creat the commands
             CheckRegistryForThisGroup(commandManager);
@@ -120,7 +118,6 @@ namespace Hymma.SolidTools.Addins
                 throw new System.Exception($"could not create command group {UserId}");
             #endregion
 
-            Log("registering icons...");
             RegisterIcons(swGroup);
 
             //with this you get the command group listed under the Tools menu
@@ -140,7 +137,6 @@ namespace Hymma.SolidTools.Addins
             #endregion
         }
 
-
         /// <summary>
         /// determnines if a command group with its commands exists in the registry or not <br/>
         /// also update the IsRegistered property in a <see cref="AddinCommandGroup"/>
@@ -154,11 +150,10 @@ namespace Hymma.SolidTools.Addins
 
             Log($"command gourp with user id {UserId} was registered already ?  {IsRegistered}");
             //if the IDs don't match, reset the commandGroup
-            if (IsRegistered && !CompareIDs((int[])registryIds, Commands.Select(cmd => cmd.UserId).ToArray()))
+            if (IsRegistered && IdsAreEqual((int[])registryIds, Commands.Select(cmd => cmd.UserId).ToArray()))
                 IgnorePrevious = true;
         }
-
-        private bool CompareIDs(int[] storedIDs, int[] addinIDs)
+        private bool IdsAreEqual(int[] storedIDs, int[] addinIDs)
         {
             List<int> storedList = new List<int>(storedIDs);
             List<int> addinList = new List<int>(addinIDs);
@@ -172,7 +167,6 @@ namespace Hymma.SolidTools.Addins
             }
             else
             {
-
                 for (int i = 0; i < addinList.Count; i++)
                 {
                     if (addinList[i] != storedList[i])
@@ -183,6 +177,7 @@ namespace Hymma.SolidTools.Addins
             }
             return true;
         }
+
         #endregion
     }
 }

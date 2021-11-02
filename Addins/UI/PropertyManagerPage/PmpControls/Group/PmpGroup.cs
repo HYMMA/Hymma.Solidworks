@@ -112,9 +112,15 @@ namespace Hymma.SolidTools.Addins
                 else
                     _options &= ~swAddGroupBoxOptions_e.swGroupBoxOptions_Expanded;
                 if (SolidworksObject != null)
+                {
                     SolidworksObject.Expanded = _expanded;
+                    GroupExpand(value);
+                }
                 else
+                {
                     OnRegister += () => SolidworksObject.Expanded = _expanded;
+                    GroupExpand(value);
+                }
             }
         }
 
@@ -237,7 +243,7 @@ namespace Hymma.SolidTools.Addins
         #endregion
 
         #region call backs
-        internal void GroupExpand(bool e)
+        private void GroupExpand(bool e)
         {
             OnGroupExpand?.Invoke(this, e);
         }

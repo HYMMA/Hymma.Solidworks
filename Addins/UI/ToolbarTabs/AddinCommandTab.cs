@@ -10,11 +10,10 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// represents a command tab that host commands 
     /// </summary>
-    public class AddinCommandTab
+    public class AddinCommandTab : IWrapSolidworksObject<CommandTab>
     {
         #region private fields
-
-        private AddinCommandGroup commandGroup;
+        private AddinCommandGroupBase _commandGroup;
         #endregion
 
         #region public properties
@@ -30,22 +29,25 @@ namespace Hymma.SolidTools.Addins
         public IEnumerable<swDocumentTypes_e> Types { get; set; }
 
         /// <summary>
-        /// A command group
+        /// Get command groups
         /// </summary>
-        public AddinCommandGroup CommandGroup
+        public AddinCommandGroupBase CommandGroup
         {
-            get => commandGroup;
+            get => _commandGroup;
             set
             {
-                //assign separators
-                commandGroup = value;
-                var groups = commandGroup.Commands.GroupBy(c => c.BoxId);
+                _commandGroup = value;
+
+                //update the icon direcoty of the command group
+                //_commandGroup.IconsDir = AddinMaker.GetIconsDir().CreateSubdirectory($"tab_{TabTitle}").CreateSubdirectory($"grp{_commandGroup.UserId}").FullName;
+
+                var groups = _commandGroup.Commands.GroupBy(c => c.BoxId);
                 var commandsWithSpacers = new List<AddinCommand>();
                 for (int i = 0; i < groups.Count(); i++)
                 {
                     var group = groups.ElementAt(i);
                     commandsWithSpacers.AddRange(group.Select(cmd => cmd));
-                    
+
                     //except for the last group ...
                     if (i + 1 < groups.Count())
 
@@ -54,11 +56,15 @@ namespace Hymma.SolidTools.Addins
                 }
 
                 //update commads
-                commandGroup.Commands = commandsWithSpacers.ToArray();
+                _commandGroup.Commands = commandsWithSpacers.ToArray();
             }
         }
+
+        ///<inheritdoc/>
+        public CommandTab SolidworksObject { get; private set; }
+
         #endregion
-       
+
         /// <summary>
         /// Adds a command tab to solidworks <br/>
         /// </summary>
@@ -68,35 +74,31 @@ namespace Hymma.SolidTools.Addins
         {
             foreach (int type in Types)
             {
+
                 #region Add Tabs
-
                 //try to get a command tab with the current tabTitle
-                CommandTab swTab = commandManager.GetCommandTab(type, TabTitle);
+                SolidworksObject = commandManager.GetCommandTab(type, TabTitle);
 
-                //if this swTab already esists...
-                if (swTab != null & !CommandGroup.IsRegistered | CommandGroup.IgnorePrevious)
+                //if this swTab already esists and you want to add new command groups or refresh old ones in it
+                if (SolidworksObject != null & !CommandGroup.IsRegistered | CommandGroup.IgnorePrevious)
                 {
-                    //clrear this swTab from solidworks so we can regenerate it with new commands
-                    //otherwise id of commands wont match up and the tab will be blank
-                    Log($"removed command tab {swTab.Name}");
-                    commandManager.RemoveCommandTab(swTab);
-                    swTab = null;
+                    Log($"removed command tab {SolidworksObject.Name}");
+                    commandManager.RemoveCommandTab(SolidworksObject);
+                    SolidworksObject = null;
                 }
 
                 //if swTab is already added to this type ...
-                if (swTab != null)
+                if (SolidworksObject != null)
                 {
                     Log($"tab was not null so we didnt create it");
                     continue;
                 }
-
                 //if cmdTab is null, must be first load(possibly after reset), add the commands to the tabs
-                swTab = commandManager.AddCommandTab(type, TabTitle);
-                Log($"tab was created {swTab.Name}");
+                SolidworksObject = commandManager.AddCommandTab(type, TabTitle);
+                Log($"tab was created {SolidworksObject.Name}");
                 #endregion
 
                 #region Add tab boxes
-
                 var groups = CommandGroup.Commands.GroupBy(cmd => cmd.BoxId);
 
                 CommandTabBox[] tabBoxes = new CommandTabBox[groups.Count()];
@@ -104,9 +106,8 @@ namespace Hymma.SolidTools.Addins
                 {
                     Log($"creating a command for group number {i}");
                     var commandBox = groups.ElementAt(i);
-
                     //add a command box
-                    tabBoxes[i] = swTab.AddCommandTabBox();
+                    tabBoxes[i] = SolidworksObject.AddCommandTabBox();
                     //get commands but exclude the dummy one we added to represent spacer
                     var commandsForThisBox = commandBox
                         .Select(cmd => cmd)
@@ -130,6 +131,41 @@ namespace Hymma.SolidTools.Addins
                 #endregion
             }
             return true;
+        }
+
+        private void RegisterCommands(AddinCommandGroupBase CommandGroup)
+        {
+            if (SolidworksObject == null)
+                return;
+            var groups = CommandGroup.Commands.GroupBy(cmd => cmd.BoxId);
+
+            CommandTabBox[] tabBoxes = new CommandTabBox[groups.Count()];
+            for (int i = 0; i < groups.Count(); i++)
+            {
+                Log($"creating a command for group number {i}");
+                var commandBox = groups.ElementAt(i);
+                //add a command box
+                tabBoxes[i] = SolidworksObject.AddCommandTabBox();
+                //get commands but exclude the dummy one we added to represent spacer
+                var commandsForThisBox = commandBox
+                    .Select(cmd => cmd)
+                    .Where(cmd => cmd.SolidworksId != -1);
+
+                //get command ids
+                var commandIds = commandsForThisBox
+                    .Select(c => c.SolidworksId)
+                    .ToArray();
+
+                commandIds.ToList().ForEach(id => Log($"command with id {id} is in tab box {i}"));
+                //get text types
+                var commandTextTypes = commandsForThisBox
+                    .Select(cmd => cmd.CommandTabTextType)
+                    .ToArray();
+
+                //add commands to command box
+                var result = tabBoxes[i].AddCommands(commandIds, commandTextTypes);
+                Log($"commands were added to tab box? {result}");
+            }
         }
     }
 }

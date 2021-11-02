@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
 using static Hymma.SolidTools.Addins.Logger;
+using Environment = System.Environment;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -20,8 +21,12 @@ namespace Hymma.SolidTools.Addins
     [ComVisible(true)]
     public abstract class AddinMaker : ISwAddin
     {
-
         #region private fields & variables
+
+        /// <summary>
+        /// title of this addin
+        /// </summary>
+        private static string _addinTitle;
 
         /// <summary>
         /// identifier for this addin assigned by SOLIDWORKS    
@@ -49,13 +54,19 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// default constructor
         /// </summary>
-        public AddinMaker()
+        public AddinMaker(Type t)
         {
+            if (!typeof(AddinMaker).IsAssignableFrom(t))
+                throw new ApplicationException("the type should implement the AddinMaker");
+            if (!(t.TryGetAttribute<AddinAttribute>(false) is AddinAttribute addinAttribute))
+                throw new ApplicationException("the type should implement the AddinAttribute");
+            _addinTitle = addinAttribute.Title;
             Logger.Source = "Solidworks Addin";
         }
         #endregion
 
         #region Public Properties
+
         /// <summary>
         /// solidowrks object
         /// </summary>
@@ -68,7 +79,7 @@ namespace Hymma.SolidTools.Addins
         /// registers <see cref="Type"/> provided to COM so solidworks can find it
         /// </summary>
         /// <param name="t">type of class that inherrits from  <see cref="AddinMaker"/></param>
-        [ComRegisterFunctionAttribute]
+        [ComRegisterFunction]
         public static void BaseRegisterFunction(Type t)
         {
             var addinAttribute = t.TryGetAttribute<AddinAttribute>(false) as AddinAttribute;
@@ -92,8 +103,8 @@ namespace Hymma.SolidTools.Addins
                 addinStartUpKey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
 
                 #region Extract icon during registration
-                var iconPath = IconGenerator.GetAddinIcon(GetBitmap(t), t.Name);
-                Log($"Addin icon path is {iconPath}");
+
+                var iconPath = SaveAddinIcon(t);
 
                 addinKey.SetValue("Icon Path", iconPath);
                 #endregion
@@ -113,7 +124,7 @@ namespace Hymma.SolidTools.Addins
                 Log(e);
             }
         }
-        
+
         /// <summary>
         /// unregisters the addin once un-installed or when the project is cleaned
         /// </summary>
@@ -124,58 +135,32 @@ namespace Hymma.SolidTools.Addins
             Logger.Source = "Solidworks Addin";
             var swAttr = t.TryGetAttribute<AddinAttribute>(false) as AddinAttribute;
             if (swAttr == null)
-                Log("not attrubute found for addin");
-            try
-            {
-                Log("trying to unregister");
-                string keyname = "SOFTWARE\\SolidWorks\\Addins\\{" + t.GUID.ToString() + "}";
-                Registry.LocalMachine.DeleteSubKey(keyname);
-
-                keyname = "Software\\SolidWorks\\AddInsStartup\\{" + t.GUID.ToString() + "}";
-                Registry.CurrentUser.DeleteSubKey(keyname);
-
-                UnRegisterLogger(swAttr.Title);
-            }
-            catch (System.NullReferenceException nl)
-            {
-                Log(nl.Message);
-
-                //TODO:log this
-                Console.WriteLine("Error! There was a problem unregistering this dll: " + nl.Message);
-            }
-            catch (System.Exception e)
-            {
-                //TODO:log this
-                Log(e.Message);
-                Console.WriteLine("Error! There was a problem unregistering this dll: " + e.Message);
-            }
-        }
-
-        private static Bitmap GetBitmap(Type t)
-        {
-            var attribute = t.GetCustomAttribute(typeof(AddinAttribute)) as AddinAttribute;
-            if (attribute == null) return null;
-            var asm = t.Assembly;
-            string[] resNames = asm.GetManifestResourceNames();
-            foreach (var resName in resNames)
-            {
-                var rm = new ResourceManager(resName, asm);
-
-                // Get the fully qualified resource type name
-                // Resources are suffixed with .resource
-                var resName2 = resName.Substring(0, resName.IndexOf(".resource"));
-                var type = asm.GetType(resName2, true);
-
-                var resources = type.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-                foreach (PropertyInfo res in resources)
+                try
                 {
-                    // collect string type resources
-                    if (res.PropertyType == typeof(Bitmap) && res.Name == attribute.AddinIcon)
-                        return res.GetValue(null, null) as Bitmap;
+                    Log("trying to unregister");
+                    string keyname = "SOFTWARE\\SolidWorks\\Addins\\{" + t.GUID.ToString() + "}";
+                    Registry.LocalMachine.DeleteSubKey(keyname);
+
+                    keyname = "Software\\SolidWorks\\AddInsStartup\\{" + t.GUID.ToString() + "}";
+                    Registry.CurrentUser.DeleteSubKey(keyname);
+
+                    UnRegisterLogger(swAttr.Title);
                 }
-            }
-            return null;
+                catch (System.NullReferenceException nl)
+                {
+                    Log(nl.Message);
+
+                    //TODO:log this
+                    Console.WriteLine("Error! There was a problem unregistering this dll: " + nl.Message);
+                }
+                catch (System.Exception e)
+                {
+                    //TODO:log this
+                    Log(e.Message);
+                    Console.WriteLine("Error! There was a problem unregistering this dll: " + e.Message);
+                }
         }
+
 
         #endregion
 
@@ -206,16 +191,12 @@ namespace Hymma.SolidTools.Addins
         }
 
         private void RemoveCmdTabs(IEnumerable<AddinCommandTab> commandTabs)
-
         {
             foreach (var tab in commandTabs)
-            {
                 _ = _commandManager.RemoveCommandGroup(tab.CommandGroup.UserId);
-                Log($"removed command group with id {tab.CommandGroup.UserId}");
-            }
             commandTabs = null;
         }
-        
+
         /// <summary>
         /// SOLIDWORKS calls these command once addin is unloaded.
         /// </summary>
@@ -306,15 +287,10 @@ namespace Hymma.SolidTools.Addins
             {
                 foreach (var tab in commandTabs)
                 {
-                    //make command groups
-                    Log("Adding command group...");
-                    tab.CommandGroup.AddCommandGroup(_commandManager);
-                    Log("finished setting up commadn group");
 
+                    tab.CommandGroup.Register(_commandManager);
                     //make command tabs
-                    Log("Adding commadn tab...");
                     tab.Register(_commandManager);
-                    Log("finished adding command tab");
                 }
             }
             catch (Exception) { throw; }
@@ -350,6 +326,72 @@ namespace Hymma.SolidTools.Addins
         /// <returns></returns>
         public abstract AddinUserInterface GetUserInterFace();
 
+        #region static members
+        /// <summary>
+        /// generates an addin icon (.png) format and saves it on assembly folder
+        /// </summary>
+        /// <returns></returns>
+        private static string SaveAddinIcon(Type t)
+        {
+            var icon = GetBitmap(t);
+            if (icon == null)
+                return "addin icon was null";
+            if (!(t.TryGetAttribute<AddinAttribute>(false) is AddinAttribute addinAttribute))
+                throw new ApplicationException("the type should implement the AddinAttribute");
+            _addinTitle = addinAttribute.Title;
+            string addinIconAddress = Path.Combine(GetIconsDir().FullName, t.Name + ".png");
+            using (var addinIcon = new Bitmap(icon, 16, 16))
+            {
+                addinIcon.Save(addinIconAddress);
+            }
+            return addinIconAddress;
+        }
+
+        /// <summary>
+        /// this is a folder where the icons will get saved to
+        /// </summary>
+        /// <returns></returns>
+        public static DirectoryInfo GetIconsDir()
+        {
+            //directory should be a folder where user has access to at all times
+            //because we make icons for commands everytime solidworks starts
+            string localApp = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+            try
+            {
+                return Directory.CreateDirectory(localApp).CreateSubdirectory(_addinTitle);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        private static Bitmap GetBitmap(Type t)
+        {
+            if (!(t.GetCustomAttribute(typeof(AddinAttribute)) is AddinAttribute attribute)) return null;
+            var asm = t.Assembly;
+            string[] resNames = asm.GetManifestResourceNames();
+            foreach (var resName in resNames)
+            {
+                var rm = new ResourceManager(resName, asm);
+
+                // Get the fully qualified resource type name
+                // Resources are suffixed with .resource
+                var resName2 = resName.Substring(0, resName.IndexOf(".resource"));
+                var type = asm.GetType(resName2, true);
+
+                var resources = type.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                foreach (PropertyInfo res in resources)
+                {
+                    // collect string type resources
+                    if (res.PropertyType == typeof(Bitmap) && res.Name == attribute.AddinIcon)
+                        return res.GetValue(null, null) as Bitmap;
+                }
+            }
+            return null;
+        }
+        #endregion
     }
 
     /// <summary>

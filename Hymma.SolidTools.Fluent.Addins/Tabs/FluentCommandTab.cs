@@ -40,9 +40,9 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public IFluentCommandGroup AddCommandGroup(int userId)
+        public IFluentCommandGroup SetCommandGroup(int userId)
         {
-             return new FluentCommandGroup(this) { UserId=userId};
+            return new FluentCommandGroup(this) { UserId = userId };
         }
 
         ///<inheritdoc/>

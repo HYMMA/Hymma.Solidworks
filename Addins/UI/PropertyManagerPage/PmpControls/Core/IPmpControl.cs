@@ -1,9 +1,11 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -18,10 +20,9 @@ namespace Hymma.SolidTools.Addins
         private short _width;
         private short _left;
         private ControlResizeStyles _optionForResize;
-        private PropertyManagerPageControl _control;
-        private string _tip;
 
         #region constructor
+
         internal IPmpControl(swPropertyManagerPageControlType_e type, string caption, string tip)
         {
             Id = (short)Counter.GetNextPmpId();
@@ -38,6 +39,11 @@ namespace Hymma.SolidTools.Addins
         public string Caption { get; }
 
         /// <summary>
+        /// this property is automatically assigned to local app folder/AddinTtile/PmpId/ContollerId
+        /// </summary>
+        public DirectoryInfo SharedIconsDir { get; set; }
+
+        /// <summary>
         /// toolTip (hint) for this controller
         /// </summary>
         public string Tip { get; set; }
@@ -45,11 +51,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// property manager page control as an object
         /// </summary>
-        protected PropertyManagerPageControl Control
-        {
-            get => _control;
-            set => _control = value;
-        }
+        protected PropertyManagerPageControl Control { get; set; }
 
         /// <summary>
         /// type of this controller as defined in <see cref="swPropertyManagerPageControlType_e"/>
@@ -225,7 +227,7 @@ namespace Hymma.SolidTools.Addins
         }
         private void SetPictureLabelForControl(Bitmap bitmap, string fileName)
         {
-            var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), fileName);
+            var fullFileName = Path.Combine(SharedIconsDir.CreateSubdirectory(Id.ToString()).FullName, fileName);
             MaskedBitmap.SaveAsPng(bitmap, new Size(18, 18), ref fullFileName);
             Control.SetPictureLabelByName(fullFileName, "");
         }
@@ -247,7 +249,7 @@ namespace Hymma.SolidTools.Addins
 
         private void ShowBubbleTooltipForControl(string title, string message, Bitmap bitmap, string fileName)
         {
-            var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), fileName);
+            var fullFileName = Path.Combine(SharedIconsDir.CreateSubdirectory(Id.ToString()).FullName, fileName);
             MaskedBitmap.SaveAsPng(bitmap, new Size(18, 18), ref fullFileName);
             Control.ShowBubbleTooltip(title, message, fullFileName);
         }

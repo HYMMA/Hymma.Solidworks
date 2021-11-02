@@ -73,7 +73,7 @@ namespace Hymma.SolidTools.Addins
             sb.Append("tab").Append(Id).Append(".bmp");
             if (_icon != null)
             {
-                iconAddress = Path.Combine(IconGenerator.GetDefaultIconFolder(), sb.ToString());
+                iconAddress = Path.Combine(IconDir.FullName, sb.ToString());
                 using (var icon = new Bitmap(_icon,16, 18))
                 {
                     try
@@ -102,6 +102,11 @@ namespace Hymma.SolidTools.Addins
         /// invoked once user clicked on this tab
         /// </summary>
         public Action OnPress { get; set; }
+
+        /// <summary>
+        /// directory where this tab's main image get saved to
+        /// </summary>
+        public DirectoryInfo IconDir { get; internal set; }
 
         #endregion
     }

@@ -24,7 +24,7 @@ namespace Hymma.SolidTools.Addins
         /// Determines if command Group is registred in the Registry <br/>
         /// use <see cref="IgnorePrevious"/> to decide  a new commandGroup is required or not
         /// </summary>
-        bool IsRegistered { get; set; }
+        bool IsRegistered { get;}
 
         /// <summary>
         /// If you change the definition of an existing CommandGroup (i.e., add or remove toolbar buttons), you must assign a new unique user-defined UserID to that CommandGroup. <br/>
@@ -83,6 +83,7 @@ namespace Hymma.SolidTools.Addins
         /// returns a list of command group icon in standard solidworks sizes
         /// </summary>
         string[] GroupIcon { get; set; }
+        
         
         #endregion
     }

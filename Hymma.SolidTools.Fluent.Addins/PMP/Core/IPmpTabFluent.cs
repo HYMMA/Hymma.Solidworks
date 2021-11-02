@@ -26,14 +26,14 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// </summary>
         /// <param name="doThis"></param>
         /// <returns></returns>
-        IPmpTabFluent WhenDisplayed(Action doThis);
+        IPmpTabFluent OnDisplay(Action doThis);
 
         /// <summary>
         /// define a method that returns Void to be invoke when user changes the tab in the property manager page
         /// </summary>
         /// <param name="doThis"></param>
         /// <returns></returns>
-        IPmpTabFluent WhenClicked(Action doThis);
+        IPmpTabFluent OnClick(Action doThis);
 
         /// <summary>
         /// saves the tab

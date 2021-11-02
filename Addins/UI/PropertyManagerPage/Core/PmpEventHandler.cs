@@ -163,9 +163,8 @@ namespace Hymma.SolidTools.Addins
         public void OnGroupExpand(int Id, bool Expanded)
         {
             Log("onGroupExpand event handling ...");
-            var group = UiModel.AllGroups.FirstOrDefault(g => g.Id == Id);
-            group.Expanded = Expanded;
-            group?.GroupExpand(Expanded);
+            if (UiModel.AllGroups.FirstOrDefault(g => g.Id == Id) is PmpGroup group)
+                group.Expanded = Expanded;
         }
 
         /// <summary>
@@ -176,8 +175,8 @@ namespace Hymma.SolidTools.Addins
         public void OnGroupCheck(int Id, bool Checked)
         {
             Log($"onGroupCheck event handling int id={Id} int bool={Checked}");
-            var group = UiModel.AllGroups.FirstOrDefault(g => g.Id == Id) as PmpGroupCheckable;
-            group?.GroupChecked(Checked);
+            if (UiModel.AllGroups.FirstOrDefault(g => g.Id == Id) is PmpGroupCheckable group)
+                group.IsChecked = Checked;
         }
 
         /// <summary>
@@ -190,12 +189,9 @@ namespace Hymma.SolidTools.Addins
             Log($"onCheckboxCheck event handling int id ={Id} bool Checked={Checked}");
 
             //get the check box with id from UiModel
-            if (!(UiModel.GetControl(Id) is PmpCheckBox checkBox))
-                return;
-
-            //call on checked delegate on the check box
-            checkBox.IsChecked = Checked;
-            checkBox.Checked(Checked);
+            if ((UiModel.GetControl(Id) is PmpCheckBox checkBox))
+                //call on checked delegate on the check box
+                checkBox.IsChecked = Checked;
         }
 
         /// <summary>

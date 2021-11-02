@@ -29,6 +29,9 @@ namespace Hymma.SolidTools.Addins
         {
             this.Solidworks = solidworks;
             Id = Counter.GetNextPmpId();
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Pmp").Append(Id);
+            IconDir = AddinMaker.GetIconsDir().CreateSubdirectory(sb.ToString());
         }
         #endregion
 
@@ -43,9 +46,8 @@ namespace Hymma.SolidTools.Addins
         public void SetTitleIcon(Bitmap bitmap)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("pmpIcon").Append(Id).Append(".png");
-            var path = Path.Combine(IconGenerator.GetDefaultIconFolder(), sb.ToString());
-
+            sb.Append("Pmp").Append(Id).Append(".png");
+            var iconName = Path.Combine(IconDir.FullName, sb.ToString());
             using (bitmap)
             {
                 var icon = new Bitmap(bitmap, new Size(22, 22));
@@ -53,8 +55,8 @@ namespace Hymma.SolidTools.Addins
                 {
                     try
                     {
-                        icon.Save(path);
-                        OnRegister += () => { SolidworksObject.SetTitleBitmap2(path); };
+                        icon.Save(iconName);
+                        OnRegister += () => { SolidworksObject.SetTitleBitmap2(iconName); };
                     }
                     catch (Exception e)
                     {
@@ -119,6 +121,11 @@ namespace Hymma.SolidTools.Addins
         #endregion
 
         #region public properties
+        /// <summary>
+        /// directory where the icons are stored on the hard drive
+        /// </summary>
+        public DirectoryInfo IconDir { get; }
+
         /// <summary>
         ///identifier for this ui model
         /// </summary>
@@ -232,7 +239,6 @@ namespace Hymma.SolidTools.Addins
         #endregion
 
         #region call backs
-
         internal void Register(IPropertyManagerPage2 propertyManagerPage)
         {
             SolidworksObject = propertyManagerPage;
@@ -241,14 +247,20 @@ namespace Hymma.SolidTools.Addins
             {
                 foreach (var item in PopUpMenueItems)
                 {
-                    var result = SolidworksObject.AddMenuPopupItem(item.Id, item.ItemText, ((int)item.DocumentType),item.Hint);
+                    var result = SolidworksObject.AddMenuPopupItem(item.Id, item.ItemText, ((int)item.DocumentType), item.Hint);
                 }
             }
-
-            PmpGroups.ForEach(group => group.Register(propertyManagerPage));
-            PmpTabs.ForEach(tab => tab.Register(propertyManagerPage));
             AllGroups = PmpTabs.SelectMany(t => t.Groups).Concat(PmpGroups);
             AllControls = AllGroups.SelectMany(g => g.Controls);
+            
+            //update icon dir in the tabs and pmp controllers
+            AllControls.ToList().ForEach(c => c.SharedIconsDir = IconDir);
+            PmpTabs.ForEach(tab => tab.IconDir = IconDir);
+
+            //register the controllers
+            PmpGroups.ForEach(group => group.Register(propertyManagerPage));
+            PmpTabs.ForEach(tab => tab.Register(propertyManagerPage));
+
             OnRegister?.Invoke();
         }
 

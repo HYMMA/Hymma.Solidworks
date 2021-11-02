@@ -1,5 +1,7 @@
 ﻿using Hymma.SolidTools.Addins;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace Hymma.SolidTools.Fluent.Addins
 {
@@ -19,7 +21,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         /// <inheritdoc/>
-        public IFluentCommandTab SaveCommnadGroup()
+        public IFluentCommandTab SaveCommandGroup()
         {
             Tab.CommandGroup = this;
             return (IFluentCommandTab)Tab;

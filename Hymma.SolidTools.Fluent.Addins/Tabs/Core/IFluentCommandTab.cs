@@ -33,7 +33,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// You must perform this action to avoid conflicts with any previously existing CommandGroupa and to allow for backward and forward compatibility of the CommandGroups in your application.<br/>
         /// The user ID and the GUID of the CoClass implementing ISwAddin are a unique pair.</param>
         /// <returns></returns>
-        IFluentCommandGroup AddCommandGroup(int userId);
+        IFluentCommandGroup SetCommandGroup(int userId);
 
         /// <summary>
         /// saves this command tab and returns the command builder

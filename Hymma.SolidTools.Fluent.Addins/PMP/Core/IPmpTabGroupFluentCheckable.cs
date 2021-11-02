@@ -26,6 +26,13 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// </summary>
         /// <param name="doThis"></param>
         /// <returns><see cref="PmpGroupCheckable"/></returns>
-        IPmpTabGroupFluentCheckable OnChecked(EventHandler<bool> doThis);
+        IPmpTabGroupFluentCheckable WhenChecked(EventHandler<bool> doThis);
+     
+        /// <summary>
+        /// fires when this group is displayed on the screen
+        /// </summary>
+        /// <param name="doThis"></param>
+        /// <returns></returns>
+        IPmpTabGroupFluentCheckable WhenDisplayed(EventHandler doThis);
     }
 }

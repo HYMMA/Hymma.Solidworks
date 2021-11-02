@@ -53,9 +53,15 @@ namespace Hymma.SolidTools.Addins
 
                 //if addin is loaded
                 if (SolidworksObject != null)
+                {
                     SolidworksObject.Checked = value;
+                    Checked(value);
+                }
                 else
+                {
                     OnRegister += () => { SolidworksObject.Checked = value; };
+                    Checked(value);
+                }
             }
         }
 

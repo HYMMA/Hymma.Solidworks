@@ -90,7 +90,7 @@ namespace Hymma.SolidTools.Addins
             
             using (bitmap)
             {
-                var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), new StringBuilder().Append(fileName).Append(size).Append(".png").ToString());
+                var fullFileName = Path.Combine(SharedIconsDir.CreateSubdirectory(Id.ToString()).FullName, new StringBuilder().Append(fileName).Append(size).Append(".png").ToString());
                 MaskedBitmap.SaveAsPng(bitmap,new Size(((int)size),((int)size)), ref fullFileName, false, opacity);
                 images.Add(fullFileName);
                 masks.Add("");

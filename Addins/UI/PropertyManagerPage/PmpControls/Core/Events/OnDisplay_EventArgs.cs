@@ -29,28 +29,6 @@ namespace Hymma.SolidTools.Addins
         }
         #endregion
 
-        #region methods
-
-        /// <summary>
-        /// Sets the bitmap label for this control that appears next to it on the left hand side.
-        /// </summary>
-        /// <param name="bitmap"></param>
-        /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
-        /// <remarks>
-        /// You can only use this method on a PropertyManager page before the page is displayed, while it is displayed, or when it is closed. <br/>
-        /// The image will be resized to 18 x 18
-        /// </remarks>
-        public virtual void SetPictureLabel(Bitmap bitmap, string fileName)
-        {
-            if (_control == null) return;
-            if (string.IsNullOrEmpty(fileName))
-                return;
-            var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), fileName);
-            MaskedBitmap.SaveAsPng(bitmap, new Size(18, 18), ref fullFileName);
-            _control.SetPictureLabelByName(fullFileName, "");
-        }
-        #endregion
-
         #region properties
 
         /// <summary>

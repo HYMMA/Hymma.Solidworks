@@ -61,11 +61,9 @@ namespace Hymma.SolidTools.Addins
             if (SolidworksObject == null || string.IsNullOrEmpty(fileName))
                 return;
 
-            var fullFileName = Path.Combine(IconGenerator.GetDefaultIconFolder(), fileName);
+            var fullFileName = Path.Combine(SharedIconsDir.CreateSubdirectory(Id.ToString()).FullName, fileName);
             MaskedBitmap.SaveAsPng(bitmap,bitmap.Size, ref fullFileName, true, opacity);
             SolidworksObject.SetBitmapByName(fullFileName, "");
         }
-
-
     }
 }

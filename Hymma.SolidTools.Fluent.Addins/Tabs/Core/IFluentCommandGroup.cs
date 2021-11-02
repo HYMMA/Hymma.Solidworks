@@ -54,6 +54,6 @@ namespace Hymma.SolidTools.Fluent.Addins
 /// registers this command group into solidworks UI
 /// </summary>
 /// <returns></returns>
-        IFluentCommandTab SaveCommnadGroup();
+        IFluentCommandTab SaveCommandGroup();
     }
 }

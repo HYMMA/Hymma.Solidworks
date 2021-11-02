@@ -94,9 +94,16 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable OnChecked(EventHandler<bool> doThis)
+        public IPmpTabGroupFluentCheckable WhenChecked(EventHandler<bool> doThis)
         {
             OnGroupCheck += doThis;
+            return this;
+        }
+
+        ///<inheritdoc/>
+        public IPmpTabGroupFluentCheckable WhenDisplayed(EventHandler doThis)
+        {
+            OnDisplay += doThis;
             return this;
         }
     }
