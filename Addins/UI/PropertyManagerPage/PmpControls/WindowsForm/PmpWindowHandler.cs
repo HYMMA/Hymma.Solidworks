@@ -87,6 +87,20 @@ namespace Hymma.SolidTools.Addins
                 return true;
             return false;
         }
+
+        ///<inheritdoc/>
+        public override bool Enabled
+        {
+            get
+            {
+                return base.Enabled;
+            }
+            set
+            {
+                base.Enabled = value;
+                WindowsControl.IsEnabled = value;
+            }
+        }
         #endregion
     }
 }

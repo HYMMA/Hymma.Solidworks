@@ -23,9 +23,9 @@ namespace Hymma.SolidTools.Addins
         #endregion
 
         #region call backs
-        internal void Press()
+        internal void Clicked()
         {
-            OnPress?.Invoke(this, EventArgs.Empty);
+            OnClick?.Invoke(this, EventArgs.Empty);
         }
         #endregion
         
@@ -33,7 +33,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// invoked when this button is clicked
         /// </summary>
-        public event EventHandler OnPress;
+        public event EventHandler OnClick;
         #endregion
     }
 }

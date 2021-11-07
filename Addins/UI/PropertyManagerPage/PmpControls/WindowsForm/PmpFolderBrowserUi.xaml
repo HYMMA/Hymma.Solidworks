@@ -1,18 +1,22 @@
 ﻿<UserControl x:Class="Hymma.SolidTools.Addins.UI.PropertyManagerPage.PmpControls.WindowsForm.PmpFolderBrowserUi"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Hymma.SolidTools.Addins.UI.PropertyManagerPage.PmpControls.WindowsForm"
-             mc:Ignorable="d" 
-             d:DesignHeight="15" d:DesignWidth="50">
+             mc:Ignorable="d"
+             d:DesignHeight="15"
+             d:DesignWidth="50">
   <DockPanel>
     <Button Margin="2,0,0,0"
-            Padding="0,-3,0,0"
-            BorderBrush='SteelBlue'
+            Padding="0,-4,0,0"
+            BorderBrush='Black'
             DockPanel.Dock="Right"
             Width="20"
-            Click="BrowseFolder">
+            Click="BrowseFolder"
+            FontFamily='Tahoma'
+            FontSize='15'
+            FontWeight='Heavy'>
       <Button.Resources>
         <Style TargetType='Border'>
           <Setter Property='CornerRadius'
@@ -23,10 +27,12 @@
     </Button>
     <TextBox Height="Auto"
              HorizontalAlignment="Stretch"
-             BorderBrush='SteelBlue'
+             BorderBrush='Black'
              DockPanel.Dock="Right"
              VerticalContentAlignment='Center'
-             Text="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+             Text="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+             FontFamily='Tahoma'
+             Background='{Binding TextBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}'>
       <TextBox.Resources>
         <Style TargetType='Border'>
           <Setter Property='CornerRadius'

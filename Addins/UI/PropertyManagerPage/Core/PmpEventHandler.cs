@@ -232,13 +232,13 @@ namespace Hymma.SolidTools.Addins
             switch (button.Type)
             {
                 case swPropertyManagerPageControlType_e.swControlType_Button:
-                    button.CastTo<PmpButton>()?.Press();
+                    button.CastTo<PmpButton>()?.Clicked();
                     break;
                 case swPropertyManagerPageControlType_e.swControlType_BitmapButton:
-                    button.CastTo<PmpBitmapButton>()?.Press();
+                    button.CastTo<PmpBitmapButton>()?.Clicked();
                     break;
                 case swPropertyManagerPageControlType_e.swControlType_CheckableBitmapButton:
-                    button.CastTo<PmpBitmapButtonCheckable>()?.Press();
+                    button.CastTo<PmpBitmapButtonCheckable>()?.Clicked();
                     break;
                 default:
                     break;

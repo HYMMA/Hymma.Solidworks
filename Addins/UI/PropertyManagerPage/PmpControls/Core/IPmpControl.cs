@@ -99,7 +99,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// enables or disables this property control on
         /// </summary>
-        public bool Enabled
+        public virtual bool Enabled
         {
             get => _enabled;
             set
@@ -202,7 +202,11 @@ namespace Hymma.SolidTools.Addins
         internal void Register(IPropertyManagerPageGroup group)
         {
             Control = group.AddControl2(Id, (short)Type, Caption, LeftAlignment, ((int)Options), Tip) as PropertyManagerPageControl;
-
+            _top = Control.Top;
+            _width = Control.Width;
+            _left = Control.Left;
+            _visible = Control.Visible;
+            _enabled = Control.Enabled;
             //we raise this event here to give multiple controls set-up their initial state. some of the proeprties of a controller has to be set prior a property manager page is displayed or after it's closed
             OnRegister?.Invoke();
         }

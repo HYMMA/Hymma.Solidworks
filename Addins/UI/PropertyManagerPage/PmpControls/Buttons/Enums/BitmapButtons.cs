@@ -165,7 +165,7 @@
         stackup = 32,
 
         /// <summary>
-        /// stack
+        /// balloon stack
         /// </summary>
         stack = 33,
 

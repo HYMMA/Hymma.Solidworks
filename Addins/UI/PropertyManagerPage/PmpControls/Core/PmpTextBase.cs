@@ -35,7 +35,7 @@ namespace Hymma.SolidTools.Addins
         #endregion
 
         #region properties
-
+       
         /// <summary>
         ///  Gets or sets the background color of an edit box or label on the PropertyManager page. 
         /// </summary>

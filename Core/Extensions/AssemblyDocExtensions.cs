@@ -65,6 +65,10 @@ namespace Hymma.SolidTools.Core
             //get all parts and sub-assemblies and parts inside sub-assemblies
             object[] components = (object[])assembly.GetComponents(false);
             var parts = new List<Component2>();
+            
+            //if there is no component in the assy
+            if (components == null)
+                return parts;
 
             //get Part components only
             foreach (Component2 component in components)

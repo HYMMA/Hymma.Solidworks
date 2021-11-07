@@ -13,6 +13,7 @@ namespace Hymma.SolidTools.Addins
 
         private TexTBoxStyles _style;
         private string _text;
+        private short _height;
         #endregion
 
         #region constructor
@@ -65,6 +66,24 @@ namespace Hymma.SolidTools.Addins
                     OnRegister += () => { SolidworksObject.Style = (int)value; };
             }
         }
+
+        /// <summary>
+        /// set the height of this control
+        /// </summary>
+        public short Height
+        {
+            get => _height;
+            set
+            {
+                _height = value;
+
+                //if addin is loaded
+                if (SolidworksObject != null)
+                    SolidworksObject.Height = value;
+                else
+                    OnRegister += () => { SolidworksObject.Height = value; };
+            }
+        }
         #endregion
 
         #region call backs
@@ -73,6 +92,7 @@ namespace Hymma.SolidTools.Addins
         {
             OnChange?.Invoke(this, e);
         }
+
         #endregion
 
         #region events
