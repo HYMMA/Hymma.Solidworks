@@ -29,6 +29,7 @@ namespace Hymma.SolidTools.Addins
         {
             Caption = caption;
             _icon = icon;
+            Id = Counter.GetNextPmpId();
         }
 
         #endregion
@@ -37,7 +38,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// id of this tab used by solidworks 
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; protected set; }
 
         /// <summary>
         /// caption for this property manager page tab
@@ -62,12 +63,11 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public void Activate()
         {
-            OnDisplay += () => { SolidworksObject.Activate(); };
+            OnDisplay += () =>  SolidworksObject.Activate(); 
         }
         
         internal void Register(IPropertyManagerPage2 propertyManagerPage)
         {
-            Id = Counter.GetNextPmpId();
             string iconAddress = "";
             var sb = new StringBuilder();
             sb.Append("tab").Append(Id).Append(".bmp");

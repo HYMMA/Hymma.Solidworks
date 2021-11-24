@@ -164,7 +164,10 @@ namespace Hymma.SolidTools.Addins
         {
             Log("onGroupExpand event handling ...");
             if (UiModel.AllGroups.FirstOrDefault(g => g.Id == Id) is PmpGroup group)
+            {
                 group.Expanded = Expanded;
+                group.GroupExpand(Expanded);
+            }
         }
 
         /// <summary>
@@ -176,7 +179,10 @@ namespace Hymma.SolidTools.Addins
         {
             Log($"onGroupCheck event handling int id={Id} int bool={Checked}");
             if (UiModel.AllGroups.FirstOrDefault(g => g.Id == Id) is PmpGroupCheckable group)
+            {
                 group.IsChecked = Checked;
+                group.GroupChecked(Checked);
+            }
         }
 
         /// <summary>
@@ -190,8 +196,11 @@ namespace Hymma.SolidTools.Addins
 
             //get the check box with id from UiModel
             if ((UiModel.GetControl(Id) is PmpCheckBox checkBox))
+            {
                 //call on checked delegate on the check box
                 checkBox.IsChecked = Checked;
+                checkBox.Checked(Checked);
+            }
         }
 
         /// <summary>
@@ -477,7 +486,7 @@ namespace Hymma.SolidTools.Addins
         public void OnGainedFocus(int Id)
         {
             var control = UiModel.GetControl(Id);
-            control.GainedFocus();
+            control?.GainedFocus();
         }
 
         /// <summary>
@@ -487,7 +496,7 @@ namespace Hymma.SolidTools.Addins
         public void OnLostFocus(int Id)
         {
             var control = UiModel.GetControl(Id);
-            control.LostFocus();
+            control?.LostFocus();
         }
 
         /// <summary>

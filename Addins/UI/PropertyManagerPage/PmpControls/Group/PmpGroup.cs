@@ -114,12 +114,10 @@ namespace Hymma.SolidTools.Addins
                 if (SolidworksObject != null)
                 {
                     SolidworksObject.Expanded = _expanded;
-                    GroupExpand(value);
                 }
                 else
                 {
                     OnRegister += () => SolidworksObject.Expanded = _expanded;
-                    GroupExpand(value);
                 }
             }
         }
@@ -243,7 +241,7 @@ namespace Hymma.SolidTools.Addins
         #endregion
 
         #region call backs
-        private void GroupExpand(bool e)
+        internal void GroupExpand(bool e)
         {
             OnGroupExpand?.Invoke(this, e);
         }

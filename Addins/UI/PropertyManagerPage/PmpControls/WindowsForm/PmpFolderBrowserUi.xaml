@@ -25,14 +25,15 @@
       </Button.Resources>
       ...
     </Button>
+             <!-- RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}-->
     <TextBox Height="Auto"
              HorizontalAlignment="Stretch"
              BorderBrush='Black'
              DockPanel.Dock="Right"
              VerticalContentAlignment='Center'
-             Text="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
              FontFamily='Tahoma'
-             Background='{Binding TextBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}'>
+             Text='{Binding Path=Text,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PmpFolderBrowserUi}}}'
+             Background='{Binding TextBackground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PmpFolderBrowserUi}}}'>
       <TextBox.Resources>
         <Style TargetType='Border'>
           <Setter Property='CornerRadius'

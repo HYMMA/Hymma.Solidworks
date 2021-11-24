@@ -1,23 +1,23 @@
-﻿using Hymma.SolidTools.Addins;
+﻿using Force.DeepCloner;
+using Hymma.SolidTools.Addins;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-
 namespace Hymma.SolidTools.Fluent.Addins
 {
     /// <summary>
     /// controls the general settings/Events of aproperty manger page
     /// </summary>
-    public class PmpUiModelFluent : PmpUiModel,  IPmpUiModelFluent
+    public class PmpUiModelFluent : PmpUiModel, IPmpUiModelFluent
     {
         /// <inheritdoc/>
         public PmpUiModelFluent(ISldWorks solidworks) : base(solidworks)
         {
 
         }
-        
+
         /// <inheritdoc/>
         public IPmpGroupFluent AddGroup(string caption)
         {
@@ -41,7 +41,7 @@ namespace Hymma.SolidTools.Fluent.Addins
             return this;
         }
 
-        
+
         ///<inheritdoc/>
         public IPmpUiModelFluent AfterClose(Action doThis)
         {
@@ -56,7 +56,7 @@ namespace Hymma.SolidTools.Fluent.Addins
             return this;
         }
 
-   
+
         /// <inheritdoc/>
         public IPmpUiModelFluent AfterActivation(Action action)
         {
@@ -81,10 +81,18 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <returns></returns>
         public IPmpTabFluent AddTab(string caption, Bitmap icon = null)
         {
-            var tab = new PmpTabFluent(caption, icon);
-            tab.PmpUiModel = this;
+            var tab = new PmpTabFluent(caption, icon) { PmpUiModel = this };
             PmpTabs.Add(tab);
             return tab;
+        }
+
+        ///<inheritdoc/>
+        public IPmpTabFluent AddTab(PmpTabFluent pmpTab)
+        {
+           var pmpTab2 = pmpTab;
+            pmpTab2.PmpUiModel = this;
+            PmpTabs.Add(pmpTab2);
+            return pmpTab2;
         }
 
         ///<inheritdoc/>
@@ -93,7 +101,7 @@ namespace Hymma.SolidTools.Fluent.Addins
             SetCursor(cursorStyles);
             return this;
         }
-        
+
         ///<inheritdoc/>
         public IPmpUiModelFluent WithMessage(string caption, string message, swPropertyManagerPageMessageVisibility messageVisibility, swPropertyManagerPageMessageExpanded pageMessageExpanded)
         {
@@ -111,9 +119,9 @@ namespace Hymma.SolidTools.Fluent.Addins
         ///<inheritdoc/>
         public IPmpUiModelFluent AddMenuePopUpItem(PopUpMenueItem item)
         {
-            if (PopUpMenueItems==null)
+            if (PopUpMenueItems == null)
                 PopUpMenueItems = new List<PopUpMenueItem>();
-            PopUpMenueItems.Add(item); 
+            PopUpMenueItems.Add(item);
             return this;
         }
 
@@ -139,9 +147,11 @@ namespace Hymma.SolidTools.Fluent.Addins
             return this.PmpGroups[this.PmpGroups.Count - 1] as PmpGroupFluentCheckable;
         }
 
+
+
         /// <summary>
         /// the addin model that hosts this ui
         /// </summary>
-        internal AddinModelBuilder AddinModel { get;set; }
+        internal AddinModelBuilder AddinModel { get; set; }
     }
 }

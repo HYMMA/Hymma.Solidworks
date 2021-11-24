@@ -26,57 +26,70 @@ namespace Hymma.SolidTools.Core
             foreach (Component2 component in components)
             {
                 if (!(thisPart is ModelDoc2 thisModel)) return 0; //try to cast into modelDoc2
-                if (component.GetPathName()== thisModel.GetPathName() // this also ensures that assembly files are filtered out
+                if (component.GetPathName() == thisModel.GetPathName() // this also ensures that assembly files are filtered out
                     &&
                     !component.ExcludeFromBOM //if excluded from bom dont consider it
                     &&
                     !component.IsEnvelope()  //if is envelop dont consider it
-                    && 
+                    &&
                     !component.IsSuppressed() //if suppresed dont consider it
                     &&
-                    component.ReferencedConfiguration==configuration) //if configs dont match dont consider it
+                    component.ReferencedConfiguration == configuration) //if configs dont match dont consider it
                 {
                     counter++;
                 }
             }
             return counter;
         }
-       
+
+        
         /// <summary>
         /// get a list of parts in an assembly, does not take into account qty or suppression or envelope state
         /// </summary>
         /// <param name="assembly"></param>
+        /// <param name="swDocumentTypes">documents of this type will be returned</param>
+        /// <param name="topLevelOnly">if set to false will return all the components of this assembly and its sub assemblies</param>
         /// <returns></returns>
-        public static IList<Component2> GetDistictParts(this AssemblyDoc assembly)
+        public static IList<Component2> GetDistinctComponentsOfType(this AssemblyDoc assembly, swDocumentTypes_e swDocumentTypes, bool topLevelOnly = false)
         {
-            var parts = assembly.GetParts();
-         
+            var components = assembly.GetComponentsByType(swDocumentTypes,topLevelOnly);
+
             //filter out the ones that are similar
-            return parts.Distinct(new ComponentEqualityComparer()).ToList();
+            return components.Distinct(new ComponentEqualityComparer()).ToList();
         }
 
         /// <summary>
-        /// get parts in an assembly, if a part is multiplied in assembly will be returned multiple times here too
+        /// selects components of an assembly based on their document type
         /// </summary>
         /// <param name="assembly"></param>
+        /// <param name="swDocumentTypes">documents of this type will be returned</param>
+        /// <param name="topLevelOnly">if set to false will return all the components of this assembly and its sub assemblies</param>
         /// <returns></returns>
-        public static IList<Component2> GetParts(this AssemblyDoc assembly)
+        public static IList<Component2> GetComponentsByType(this AssemblyDoc assembly, swDocumentTypes_e swDocumentTypes, bool topLevelOnly = false)
         {
+            var comps = new List<Component2>();
+            if (swDocumentTypes != swDocumentTypes_e.swDocASSEMBLY &&
+                swDocumentTypes != swDocumentTypes_e.swDocIMPORTED_ASSEMBLY &&
+                swDocumentTypes != swDocumentTypes_e.swDocPART &&
+                swDocumentTypes != swDocumentTypes_e.swDocIMPORTED_PART)
+            {
+                throw new System.ArgumentException("document type is not supported", nameof(swDocumentTypes));
+            }
+
             //get all parts and sub-assemblies and parts inside sub-assemblies
-            object[] components = (object[])assembly.GetComponents(false);
-            var parts = new List<Component2>();
-            
+            object[] compArray = (object[])assembly.GetComponents(topLevelOnly);
+
             //if there is no component in the assy
-            if (components == null)
-                return parts;
+            if (compArray == null)
+                return comps;
 
             //get Part components only
-            foreach (Component2 component in components)
+            foreach (Component2 component in compArray)
             {
-                if (component.GetModelDoc2() is ModelDoc2 model && model.GetType() == (int)swDocumentTypes_e.swDocPART)
-                    parts.Add(component);
+                if (component.GetModelDoc2() is ModelDoc2 model && model.GetType() == (int)swDocumentTypes)
+                    comps.Add(component);
             }
-            return parts;
+            return comps;
         }
     }
 }

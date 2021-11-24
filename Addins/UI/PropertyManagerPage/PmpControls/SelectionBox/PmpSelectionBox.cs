@@ -332,12 +332,13 @@ namespace Hymma.SolidTools.Addins
             var selIndex = SolidworksObject.SelectionIndex[(int)index];
 
             //get item via selection manager
-            var type = (swSelectType_e)selMgr.GetSelectedObjectType3((int)selIndex, Mark);
+            var type = (swSelectType_e)selMgr.GetSelectedObjectType3(selIndex, Mark);
 
             //get type of object
             object item = selMgr.GetSelectedObject6(selIndex, Mark);
             return new KeyValuePair<object, swSelectType_e>(item, type);
         }
+
         #endregion
 
         #region events

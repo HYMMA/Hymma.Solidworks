@@ -1,5 +1,6 @@
 ﻿using Hymma.SolidTools.Addins;
 using SolidWorks.Interop.sldworks;
+using System.Drawing;
 
 namespace Hymma.SolidTools.Fluent.Addins
 {
@@ -12,6 +13,17 @@ namespace Hymma.SolidTools.Fluent.Addins
         public IFluentCommandTab AddCommandTab()
         {
             return new FluentCommandTab(this);
+        }
+
+        /// <summary>
+        /// Add a tab to this property manager page
+        /// </summary>
+        /// <param name="caption">caption for the property manager page tab </param>
+        /// <param name="icon">an icon that will be placed on the left side of the caption</param>
+        /// <returns>an object of <see cref="PmpTabFluent"/> </returns>
+        public IPmpTabFluent CreatePropertyManagerPageTab(string caption, Bitmap icon = null)
+        {
+            return new PmpTabFluent(caption, icon);
         }
 
         ///<inheritdoc/>

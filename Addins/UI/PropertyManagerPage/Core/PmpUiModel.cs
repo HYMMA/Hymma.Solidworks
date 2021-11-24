@@ -250,6 +250,7 @@ namespace Hymma.SolidTools.Addins
                     var result = SolidworksObject.AddMenuPopupItem(item.Id, item.ItemText, ((int)item.DocumentType), item.Hint);
                 }
             }
+
             AllGroups = PmpTabs.SelectMany(t => t.Groups).Concat(PmpGroups);
             AllControls = AllGroups.SelectMany(g => g.Controls);
             

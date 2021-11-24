@@ -11,6 +11,7 @@ namespace Hymma.SolidTools.Fluent.Addins
     /// </summary>
     public interface IPmpUiModelFluent : IFluent
     {
+
         /// <summary>
         /// Add a tab to this property manager page
         /// </summary>
@@ -19,6 +20,14 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// Any portions of the bitmap that are RGB(255,255,255) will be transparent, letting the tab background show through. this will be resized to 16x18 pixels</param>
         /// <returns></returns>
         IPmpTabFluent AddTab(string caption, Bitmap icon = null);
+
+        /// <summary>
+        /// adds a tab to this property manager page
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <returns><see cref="IPmpUiModelFluent"/></returns>
+        /// <remarks>use this method to share a tab between different propertry manager pages</remarks>
+        IPmpTabFluent AddTab(PmpTabFluent tab);
 
         /// <summary>
         /// Add a group that hosts controls in a properyt manager page 
@@ -97,7 +106,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         ///  Adds a menu item to the pop-up menu for this PropertyManager page. that appears in  the right mouse menue button while thie proepryt manager page is displayed 
         /// </summary>
         IPmpUiModelFluent AddMenuePopUpItem(PopUpMenueItem item);
-        
+
         ///<summary>
         /// builds this property manager page and adds it to the <see cref="AddinUserInterface"/> <br/>
         /// use the <see cref="PmpFactoryX64"/>.Show() method in a <see cref="AddinCommand"/> callback function so users of your addin can actually see the property manger page once they clicked on a button

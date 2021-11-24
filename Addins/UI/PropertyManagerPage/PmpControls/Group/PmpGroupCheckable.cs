@@ -19,10 +19,22 @@ namespace Hymma.SolidTools.Addins
         /// <param name="visible">if set to false gorup will be hiddend by default</param>
         /// <param name="isChecked">if set to true gorup will appear checked by default</param>
         /// <param name="expanded">if set to true group will appear expanded by default</param>
-        public PmpGroupCheckable(string caption , bool visible = true, bool isChecked = true, bool expanded = true) : base(caption,expanded:expanded,visible:visible)
+        public PmpGroupCheckable(string caption, bool visible = true, bool isChecked = true, bool expanded = true) : base(caption, expanded: expanded, visible: visible)
         {
             IsChecked = isChecked;
             _options = swAddGroupBoxOptions_e.swGroupBoxOptions_Checkbox;
+            OnDisplay += PmpGroupCheckable_OnDisplay;
+        }
+
+        private void PmpGroupCheckable_OnDisplay(object sender, EventArgs e)
+        {
+            var group = sender as PmpGroupCheckable;
+            group.Expanded = group.IsChecked;
+            foreach (var control in Controls)
+            {
+                control.Visible = group.IsChecked;
+                control.Enabled = group.IsChecked;
+            }
         }
 
 
@@ -34,11 +46,11 @@ namespace Hymma.SolidTools.Addins
         /// <param name="visible">if set to false gorup will be hiddend by default</param>
         /// <param name="isChecked">if set to true gorup will appear checked by default</param>
         /// <param name="expanded">if set to true group will appear expanded by default</param>
-        public PmpGroupCheckable(string caption, List<IPmpControl> controls, bool visible = true, bool isChecked = true , bool expanded = true) : this(caption,visible,isChecked,expanded)
+        public PmpGroupCheckable(string caption, List<IPmpControl> controls, bool visible = true, bool isChecked = true, bool expanded = true) : this(caption, visible, isChecked, expanded)
         {
             Controls = controls;
         }
-        
+
         /// <summary>
         /// Gets or sets if this property manager page group is checked
         /// </summary>
@@ -48,27 +60,29 @@ namespace Hymma.SolidTools.Addins
             set
             {
                 _isChecked = value;
-                if (_isChecked )
+                if (_isChecked)
                     _options |= swAddGroupBoxOptions_e.swGroupBoxOptions_Checked;
-                else 
+                else
                     _options &= ~swAddGroupBoxOptions_e.swGroupBoxOptions_Checked;
 
                 if (SolidworksObject != null)
                 {
                     SolidworksObject.Checked = _isChecked;
-                    GroupChecked(value);
                 }
-                    
+
                 else
                 {
                     OnRegister += () => SolidworksObject.Checked = _isChecked;
-                    GroupChecked(value);
                 }
             }
         }
         internal void GroupChecked(bool status)
         {
-            Controls.ForEach(c => c.Visible = status);
+            foreach (var control in Controls)
+            {
+                control.Visible=status;
+                control.Enabled=status;
+            }
             OnGroupCheck?.Invoke(this, status);
         }
 

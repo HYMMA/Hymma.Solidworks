@@ -82,11 +82,14 @@ namespace Hymma.SolidTools.Addins
         public bool Equals(PmpWindowHandler other)
         {
             if (other is null) return false;
-            if (ReferenceEquals(this, other)) return true;
-            if (this.ElementHost == other.ElementHost)
-                return true;
-            return false;
+            return ReferenceEquals(this, other) ? true : ElementHost == other.ElementHost;
         }
+
+        ///<inheritdoc/>
+        public override bool Equals(object obj) => Equals(obj as PmpWindowHandler);
+
+        ///<inheritdoc/>
+        public override int GetHashCode() => ElementHost.GetHashCode();
 
         ///<inheritdoc/>
         public override bool Enabled

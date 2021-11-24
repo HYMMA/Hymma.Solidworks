@@ -25,7 +25,7 @@ namespace Hymma.SolidTools.Addins
         /// <param name="tip">a tip for this text box</param>
         public PmpTextBox(string initialValue = "",string tip="") : base(swPropertyManagerPageControlType_e.swControlType_Textbox,tip:tip)
         {
-            Text = initialValue;
+            Value = initialValue;
         }
         #endregion
 
@@ -34,7 +34,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// value for this text box
         /// </summary>
-        public string Text
+        public string Value
         {
             get => _text;
             set
@@ -43,9 +43,13 @@ namespace Hymma.SolidTools.Addins
 
                 //if add in is loaded
                 if (SolidworksObject != null)
+                {
                     SolidworksObject.Text = value;
+                }
                 else
+                {
                     OnRegister += () => { SolidworksObject.Text = value; };
+                }
             }
         }
         
@@ -90,17 +94,16 @@ namespace Hymma.SolidTools.Addins
 
         internal void TextChanged(string e)
         {
-            OnChange?.Invoke(this, e);
+            OnUserInput?.Invoke(this, e);
         }
 
         #endregion
 
         #region events
-
         /// <summary>
-        /// fires when user changes the text in the text box
+        /// fires when text box is changed
         /// </summary>
-        public event EventHandler<string> OnChange;
+        public event EventHandler<string> OnUserInput;
         #endregion
     }
 }

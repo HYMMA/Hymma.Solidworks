@@ -81,6 +81,9 @@
     <Compile Include="SldWorks\SysColor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="packages.config" />
     <None Include="SolidToolsSigniture.snk" />
   </ItemGroup>

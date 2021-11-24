@@ -10,6 +10,28 @@ namespace Hymma.SolidTools.Core
     public static class PartDocExtensions
     {
         /// <summary>
+        /// determines if a part is sheetmetal or not
+        /// </summary>
+        /// <param name="part"></param>
+        /// <param name="bendState">bend state of the part as defined by <see cref="swSMBendState_e"/></param>
+        /// <returns></returns>
+        public static bool IsSheetMetal(this PartDoc part, out swSMBendState_e bendState)
+        {
+            ModelDoc2 model = part as ModelDoc2;
+            if (model == null)
+            {
+                bendState = swSMBendState_e.swSMBendStateNone;
+                return false;
+            }
+            bendState = (swSMBendState_e)model.GetBendState();
+            if (bendState == swSMBendState_e.swSMBendStateNone)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
         /// Get flat patterns of the part document if there is any
         /// </summary>
         /// <param name="part">the sheet metal modelDoc2 object</param>
@@ -37,8 +59,9 @@ namespace Hymma.SolidTools.Core
             if (model == null)
                 return null;
             var featureMgr = model.FeatureManager;
-            var sheetMetalFolder = (SheetMetalFolder)featureMgr.GetSheetMetalFolder();
-            if (sheetMetalFolder == null) return null;
+            SheetMetalFolder sheetMetalFolder = featureMgr.GetSheetMetalFolder() as SheetMetalFolder;
+            if (sheetMetalFolder == null)
+                return null;
             return (object[])sheetMetalFolder.GetSheetMetals();
         }
 
@@ -82,7 +105,7 @@ namespace Hymma.SolidTools.Core
             }
             return features;
         }
-       
+
         /// <summary>
         /// get cut list folder of this part for a specific body.
         /// </summary>

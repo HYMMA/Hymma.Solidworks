@@ -190,7 +190,7 @@
         favorite_load = 37,
 
         /// <summary>
-        /// set default attributes to dimesnions
+        /// set default attributes to dimesnions (a dimenions on top of a page)
         /// </summary>
         dimension_set_default_attributes = 38
     }
