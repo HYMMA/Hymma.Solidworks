@@ -35,6 +35,11 @@ namespace Hymma.SolidTools.Addins
         #endregion
 
         #region properties
+
+        /// <summary>
+        /// gets or sets the icon of this property manager page tab
+        /// </summary>
+
         /// <summary>
         /// id of this tab used by solidworks 
         /// </summary>
@@ -74,7 +79,7 @@ namespace Hymma.SolidTools.Addins
             if (_icon != null)
             {
                 iconAddress = Path.Combine(IconDir.FullName, sb.ToString());
-                using (var icon = new Bitmap(_icon,16, 18))
+                using (var icon = new Bitmap(_icon, 16, 18))
                 {
                     try
                     {

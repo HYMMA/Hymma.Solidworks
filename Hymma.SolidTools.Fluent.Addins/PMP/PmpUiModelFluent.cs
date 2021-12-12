@@ -67,6 +67,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <inheritdoc/>
         public IAddinModelBuilder SavePropertyManagerPage(out PmpFactoryX64 propertyManagerPage)
         {
+            
             propertyManagerPage = new PmpFactoryX64(this);
             this.AddinModel.PropertyManagerPages.Add(propertyManagerPage);
             return this.AddinModel;
@@ -87,12 +88,11 @@ namespace Hymma.SolidTools.Fluent.Addins
         }
 
         ///<inheritdoc/>
-        public IPmpTabFluent AddTab(PmpTabFluent pmpTab)
+        public IPmpUiModelFluent AddTab<T>() where T : PmpTab, new()
         {
-           var pmpTab2 = pmpTab;
-            pmpTab2.PmpUiModel = this;
+            var pmpTab2=Activator.CreateInstance(typeof(T)) as T;
             PmpTabs.Add(pmpTab2);
-            return pmpTab2;
+            return this;
         }
 
         ///<inheritdoc/>

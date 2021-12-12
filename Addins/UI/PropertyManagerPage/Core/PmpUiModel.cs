@@ -273,7 +273,6 @@ namespace Hymma.SolidTools.Addins
                 OnKeyStroke.Invoke(this, new PmpOnKeyStrokeEventArgs(Wparam, Message, Lparam));
                 return true;
             }
-
             return false;
         }
         #endregion

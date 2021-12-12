@@ -12,7 +12,7 @@ namespace Hymma.SolidTools.Addins.UI.PropertyManagerPage.PmpControls.WindowsForm
         /// creates a text filed with a <see cref="FolderBrowserDialog"/>
         /// </summary>
         public PmpFolderBrowserUi()
-        {
+        { 
             InitializeComponent();
         }
 

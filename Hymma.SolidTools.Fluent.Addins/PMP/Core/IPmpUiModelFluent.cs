@@ -27,7 +27,7 @@ namespace Hymma.SolidTools.Fluent.Addins
         /// <param name="tab"></param>
         /// <returns><see cref="IPmpUiModelFluent"/></returns>
         /// <remarks>use this method to share a tab between different propertry manager pages</remarks>
-        IPmpTabFluent AddTab(PmpTabFluent tab);
+        IPmpUiModelFluent AddTab<T>()where T : PmpTab, new();
 
         /// <summary>
         /// Add a group that hosts controls in a properyt manager page 

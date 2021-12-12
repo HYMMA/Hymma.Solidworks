@@ -6,7 +6,7 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// create a field and button that pop up a folder browser dialog
     /// </summary>
-    public class PmpFolderBrowser : PmpWindowHandler
+    public class PmpFolderBrowser : PmpWpfHost
     {
 
         /// <summary>

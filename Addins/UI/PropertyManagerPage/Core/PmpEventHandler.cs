@@ -1,9 +1,7 @@
-﻿using SolidWorks.Interop.sldworks;
-using SolidWorks.Interop.swconst;
+﻿using SolidWorks.Interop.swconst;
 using SolidWorks.Interop.swpublished;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using static Hymma.SolidTools.Addins.Logger;
@@ -475,7 +473,6 @@ namespace Hymma.SolidTools.Addins
         /// 3 - Selected and enabled</param>
         public void OnPopupMenuItemUpdate(int Id, ref int retval)
         {
-
             popUpItems?.FirstOrDefault(item => item.Id == Id)?.OnUpdate?.Invoke(retval);
         }
 
@@ -510,7 +507,7 @@ namespace Hymma.SolidTools.Addins
             Log("on window form handler control created fired from solidworks event handler");
             if (Status == false)
                 return (int)swHandleWindowFromHandleCreationFailure_e.swHandleWindowFromHandleCreationFailure_Cancel;
-            return 0;
+            return -1;
         }
 
         /// <summary>

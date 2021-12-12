@@ -1,7 +1,7 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
-using System.Windows.Controls;
+using System.Windows;
 using System.Windows.Forms.Integration;
 
 namespace Hymma.SolidTools.Addins
@@ -9,52 +9,42 @@ namespace Hymma.SolidTools.Addins
     /// <summary>
     /// a windows form host that solidworks uses to show win forms or wpf.
     /// </summary>
-    /// <remarks>your addin must ad a reference to WindowsFormsIntegration</remarks>
-    public class PmpWindowHandler : PmpControl<IPropertyManagerPageWindowFromHandle>, IEquatable<PmpWindowHandler>
+    /// <remarks>your addin must add a reference to WindowsFormsIntegration</remarks>
+    public class PmpWpfHost : PmpControl<IPropertyManagerPageWindowFromHandle>, IEquatable<PmpWpfHost>
     {
-        #region fields
-        private int _height;
-        #endregion
-
         #region constructors
         /// <summary>
         /// default constructor 
         /// </summary>
-        /// <param name="ElementHost">solidworks uses <see cref="System.Windows.Forms.Integration.ElementHost"/> to hook into a windows form</param>
-        /// <param name="WinFormOrWpfControl">a windows form or wpf controller</param>
+        /// <param name="elementHost">solidworks uses <see cref="System.Windows.Forms.Integration.ElementHost"/> to hook into a windows form</param>
+        /// <param name="wpfControl">wpf controller</param>
         /// <param name="height">height of this control in property manager page if set to zero the control will not appear</param>
-        public PmpWindowHandler(ElementHost ElementHost, UserControl WinFormOrWpfControl, int height) : base(swPropertyManagerPageControlType_e.swControlType_WindowFromHandle)
+        public PmpWpfHost(ElementHost elementHost, System.Windows.Controls.UserControl wpfControl, int height) : base(swPropertyManagerPageControlType_e.swControlType_WindowFromHandle)
         {
-            this.ElementHost = ElementHost;
-            this.WindowsControl = WinFormOrWpfControl;
-            _height = height;
-            OnDisplay += PmpWindowHandler_OnDisplay;
-            OnRegister += PmpWindowHandler_OnRegister;
+            this.ElementHost = elementHost;
+            this.WindowsControl = wpfControl;
+            OnDisplay += PmpWpfHost_OnDisplay;
+            OnRegister += () => SolidworksObject.Height = height;
         }
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="WinFormOrWpfControl">a windows form or wpf controller</param>
+        /// <param name="winFormOrWpfControl">a wpf controller</param>
         /// <param name="height">height of this control in property manager page if set to zero the control will not appear</param>
-        public PmpWindowHandler(UserControl WinFormOrWpfControl, int height) : this(new ElementHost(), WinFormOrWpfControl, height)
+        public PmpWpfHost(System.Windows.Controls.UserControl winFormOrWpfControl, int height) : this(new ElementHost(), winFormOrWpfControl, height)
         {
 
         }
         #endregion
 
         #region call backs
-
-        private void PmpWindowHandler_OnRegister()
-        {
-            SolidworksObject.Height = _height;
-        }
-
-        private void PmpWindowHandler_OnDisplay(object sender, OnDisplay_EventArgs e)
+        private void PmpWpfHost_OnDisplay(object sender, OnDisplay_EventArgs e)
         {
             //this should be callled everytime pmp is displayed and on the pmp registration
             if (ElementHost == null || !WindowsControl.HasContent)
                 return;
-            ElementHost.Child = WindowsControl;
+
+            ElementHost.Child =WindowsControl;
             SolidworksObject?.SetWindowHandlex64(ElementHost.Handle.ToInt64());
         }
 
@@ -70,7 +60,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// a windows form or wpf controller
         /// </summary>
-        public UserControl WindowsControl { get; }
+        public System.Windows.Controls.UserControl WindowsControl { get; }
         #endregion
 
         #region methods
@@ -79,14 +69,14 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool Equals(PmpWindowHandler other)
+        public bool Equals(PmpWpfHost other)
         {
             if (other is null) return false;
             return ReferenceEquals(this, other) ? true : ElementHost == other.ElementHost;
         }
 
         ///<inheritdoc/>
-        public override bool Equals(object obj) => Equals(obj as PmpWindowHandler);
+        public override bool Equals(object obj) => Equals(obj as PmpWpfHost);
 
         ///<inheritdoc/>
         public override int GetHashCode() => ElementHost.GetHashCode();
