@@ -43,6 +43,9 @@
     <AssemblyOriginatorKeyFile>SolidTools.SolidAddins.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Hymma.SolidTools.Wpf">
+      <HintPath>..\..\Hymma.SolidTools.Wpf\Hymma.SolidTools.Wpf\bin\Debug\Hymma.SolidTools.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="SolidWorks.Interop.sldworks, Version=28.3.0.86, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
@@ -77,12 +80,6 @@
     <Compile Include="Core\AddinUserInterface.cs" />
     <Compile Include="Core\AddinAttribute.cs" />
     <Compile Include="Core\IWrapSolidworksObject.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\WinForms\PmpFolderBrowserWinForms.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\PropertyManagerPage\PmpControls\WinForms\PmpFolderBrowserWinForms.Designer.cs">
-      <DependentUpon>PmpFolderBrowserWinForms.cs</DependentUpon>
-    </Compile>
     <Compile Include="UI\Callout\CalloutRow.cs" />
     <Compile Include="UI\Callout\OnRowValueChangedEventArgs.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
@@ -128,7 +125,6 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\WinForms\PmpWinForm.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\WinForms\PmpWinFormContoller.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Wpf\PmpFolderBrowser.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Wpf\PmpFolderBrowserUi.xaml.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpTab\PmpTab.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\TextBox\Enums\TextBoxStyles.cs" />
     <Compile Include="UI\ToolbarTabs\CommandGroup\AddinCommand.cs" />
@@ -179,9 +175,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\PropertyManagerPage\PmpControls\WinForms\PmpFolderBrowserWinForms.resx">
-      <DependentUpon>PmpFolderBrowserWinForms.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Tools\Logging\LogSnippet.snippet" />
@@ -194,12 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="UI\PropertyManagerPage\PmpControls\Wpf\PmpFolderBrowserUi.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

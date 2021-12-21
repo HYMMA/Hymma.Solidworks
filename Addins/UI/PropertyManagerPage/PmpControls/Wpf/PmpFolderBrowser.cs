@@ -1,6 +1,5 @@
-﻿using Hymma.SolidTools.Addins.UI.PropertyManagerPage.PmpControls.WindowsForm;
-using System.Windows.Media;
-
+﻿using Hymma.SolidTools.Wpf;
+using System.Windows.Forms.Integration;
 namespace Hymma.SolidTools.Addins
 {
     /// <summary>
@@ -8,32 +7,37 @@ namespace Hymma.SolidTools.Addins
     /// </summary>
     public class PmpFolderBrowser : PmpWpfHost
     {
+        private FolderBrowserCombination _combo;
 
         /// <summary>
-        /// provides access to a folder borwser dialog
+        /// allows creation of a text box that is followed by a button which opens up the folder browser dialogue
         /// </summary>
-        public PmpFolderBrowser() : base(new PmpFolderBrowserUi(), 15)
+        /// <param name="elementHost"></param>
+        public PmpFolderBrowser(ElementHost elementHost) : base(elementHost, new FolderBrowserCombination(), 15)
         {
+            _combo = base.WindowsControl as FolderBrowserCombination;
+        }
+
+        /// <summary>
+        /// description for folder browser dialogue
+        /// </summary>
+        public string Description
+        {
+            get => _combo.Description;
+            set => _combo.Description = value;
         }
         /// <summary>
-        /// allows access to the windows WPF form that defines this property manager page control
+        /// the text inside the text block
         /// </summary>
-        private PmpFolderBrowserUi Ui => WindowsControl as PmpFolderBrowserUi;
+        public string Text { get => _combo.Text; set => _combo.Text = value; }
 
         /// <summary>
-        /// text for the ui
+        /// assign value to the background color of the text in the text box
         /// </summary>
-        public string Text { get => Ui.Text; set => Ui.Text = value; }
-
-        /// <summary>
-        /// description for the folder browser dialogue
-        /// </summary>
-        public string Description { get => Ui.Description; set => Ui.Description = value; }
-
-        /// <summary>
-        /// assign value to the background
-        /// </summary>
-        public System.Windows.Media.Color Background { get => Ui.TextBackground.Color; set => Ui.TextBackground = new SolidColorBrush(value); }
-
+        public System.Windows.Media.Color TextBackground
+        {
+            get => _combo.TextBackground.Color;
+            set => _combo.TextBackground.Color = value;
+        }
     }
 }
