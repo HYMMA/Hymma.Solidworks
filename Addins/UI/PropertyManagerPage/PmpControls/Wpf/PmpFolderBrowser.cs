@@ -10,12 +10,20 @@ namespace Hymma.SolidTools.Addins
         private FolderBrowserCombination _combo;
 
         /// <summary>
-        /// allows creation of a text box that is followed by a button which opens up the folder browser dialogue
+        /// Creates a text box next to a button which opens up a folder browser dialogue
         /// </summary>
-        /// <param name="elementHost"></param>
+        /// <param name="elementHost">as solidworks uses Winforms in the background, you need to define an element host for your custom property manager page control</param>
         public PmpFolderBrowser(ElementHost elementHost) : base(elementHost, new FolderBrowserCombination(), 15)
         {
             _combo = base.WindowsControl as FolderBrowserCombination;
+        }
+
+        /// <summary>
+        /// Creates a text box next to a button which opens up a folder browser dialogue
+        /// </summary>
+        public PmpFolderBrowser():this(new ElementHost())
+        {
+
         }
 
         /// <summary>
