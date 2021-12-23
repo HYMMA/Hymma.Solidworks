@@ -1,5 +1,7 @@
 ﻿using Hymma.SolidTools.Wpf;
 using System.Windows.Forms.Integration;
+using System.Windows.Media;
+
 namespace Hymma.SolidTools.Addins
 {
     /// <summary>
@@ -16,6 +18,7 @@ namespace Hymma.SolidTools.Addins
         public PmpFolderBrowser(ElementHost elementHost) : base(elementHost, new FolderBrowserCombination(), 15)
         {
             _combo = base.WindowsControl as FolderBrowserCombination;
+            _combo.TextBackground = new SolidColorBrush(Colors.White);
         }
 
         /// <summary>
