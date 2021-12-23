@@ -99,7 +99,6 @@ namespace Hymma.SolidTools.Addins
             OnRegister += () => { SolidworksObject.SetCursor(((int)styles)); };
         }
 
-
         /// <summary>
         /// return a specific control type based on its id
         /// </summary>
