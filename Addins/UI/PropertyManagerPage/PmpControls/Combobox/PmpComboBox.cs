@@ -1,7 +1,9 @@
-﻿using SolidWorks.Interop.swconst;
-using SolidWorks.Interop.sldworks;
-using System.Collections.Generic;
+﻿using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Hymma.SolidTools.Addins
 {
@@ -35,6 +37,14 @@ namespace Hymma.SolidTools.Addins
             AddItems(items);
             Style = _style;
             Height = _height;
+            OnDisplay += PmpComboBox_OnDisplay;
+        }
+
+        private void PmpComboBox_OnDisplay(IPmpControl sender, OnDisplay_EventArgs eventArgs)
+        {
+            SolidworksObject.Clear();
+            _items.Sort();
+            SolidworksObject.AddItems(_items.ToArray());
         }
         #endregion
 
@@ -43,19 +53,23 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Adds items to the attached drop-down list for this combo box. 
         /// </summary>
-        public void AddItems(List<string> items)
+        public void AddItems(IEnumerable<string> items)
         {
             //update the backing field
             _items.AddRange(items);
-
+            _items.Sort();
             //if add in is loaded update the solidworks object
             //otherwise update the property after display
             if (SolidworksObject != null)
-                SolidworksObject.AddItems(items.ToArray());
+            {
+                SolidworksObject.Clear();
+                SolidworksObject.AddItems(_items.ToArray());
+            }
             else
                 OnRegister += () =>
                 {
-                    SolidworksObject.AddItems(items.ToArray());
+                    SolidworksObject.Clear();
+                    SolidworksObject.AddItems(_items.ToArray());
                 };
         }
 
@@ -86,7 +100,10 @@ namespace Hymma.SolidTools.Addins
         public void Clear()
         {
             _items.Clear();
-            AddItems(_items);
+            if (SolidworksObject != null)
+                SolidworksObject.Clear();
+            else
+                OnDisplay += (s, e) => SolidworksObject?.Clear();
         }
 
         /// <summary>
@@ -108,23 +125,40 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Inserts an item in the attached drop-down list of this combo box. 
         /// </summary>
-        /// <param name="index">Position where to add the item in the 0-based list or -1 to put the item at the end of the list</param>
         /// <param name="item">item to add</param>
-        public void InsertItem(short index, string item)
+        public void AddItem(string item)
         {
             //update the backing field
-            _items.Insert(index, item);
-
+            if (_items.Contains(item))
+                return;
+            _items.Add(item);
+            _items.Sort();
             //if add in is loaded update the solidworks object
             //otherwise update the property after display
             if (SolidworksObject != null)
-                SolidworksObject.InsertItem(index, item);
+            {
+                SolidworksObject.Clear();
+                SolidworksObject.AddItems(_items.ToArray());
+            }
             else
-                OnRegister += () => { SolidworksObject.InsertItem(index, item); };
+            {
+
+                OnRegister += () =>
+                {
+                    SolidworksObject.Clear();
+                    SolidworksObject.AddItems(_items.ToArray());
+                };
+            }
         }
+
+
         #endregion
 
         #region public properties
+        /// <summary>
+        /// items in the combobox the index of these items is not the same as solidworks Ui and is not reliable
+        /// </summary>
+        public ReadOnlyCollection<string> Items => _items.AsReadOnly();
 
         /// <summary>
         /// height of the combo box
