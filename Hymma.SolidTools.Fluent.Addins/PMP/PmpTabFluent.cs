@@ -32,7 +32,7 @@ namespace Hymma.SolidTools.Fluent.Addins
             {
                 Tab = this
             };
-            Groups.Add(group);
+            TabGroups.Add(group);
             return group;
         }
 
@@ -70,7 +70,7 @@ namespace Hymma.SolidTools.Fluent.Addins
             {
                 Tab = this
             };
-            Groups.Add(group);
+            TabGroups.Add(group);
             return group;
         }
     }

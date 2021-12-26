@@ -58,7 +58,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Access the <see cref="PmpGroup"/>s in this tab
         /// </summary>
-        public List<PmpGroup> Groups { get; set; } = new List<PmpGroup>();
+        public List<PmpGroup> TabGroups { get; set; } = new List<PmpGroup>();
         #endregion
 
         #region methods
@@ -92,7 +92,7 @@ namespace Hymma.SolidTools.Addins
             }
 
             SolidworksObject = propertyManagerPage.AddTab(Id, Caption, iconAddress, 0);
-            foreach (var group in Groups)
+            foreach (var group in TabGroups)
                 group.Register(SolidworksObject);
         }
         #endregion

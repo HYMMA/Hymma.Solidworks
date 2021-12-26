@@ -250,7 +250,7 @@ namespace Hymma.SolidTools.Addins
                 }
             }
 
-            AllGroups = PmpTabs.SelectMany(t => t.Groups).Concat(PmpGroups);
+            AllGroups = PmpTabs.SelectMany(t => t.TabGroups).Concat(PmpGroups);
             AllControls = AllGroups.SelectMany(g => g.Controls);
             
             //update icon dir in the tabs and pmp controllers
