@@ -83,7 +83,7 @@ namespace Hymma.SolidTools.Core
             if (compArray == null)
                 return comps;
 
-            //get Part components only
+            //filter out components that are not required
             foreach (Component2 component in compArray)
             {
                 if (component.GetModelDoc2() is ModelDoc2 model && model.GetType() == (int)swDocumentTypes)

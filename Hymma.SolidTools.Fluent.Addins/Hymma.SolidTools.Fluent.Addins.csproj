@@ -45,6 +45,12 @@
     <Reference Include="DeepCloner, Version=0.10.0.0, Culture=neutral, PublicKeyToken=dc0b95cf99bf4e99, processorArchitecture=MSIL">
       <HintPath>..\packages\DeepCloner.0.10.3\lib\net40\DeepCloner.dll</HintPath>
     </Reference>
+    <Reference Include="Hymma.SolidTools.Addins">
+      <HintPath>..\Addins\bin\Release\Hymma.SolidTools.Addins.dll</HintPath>
+    </Reference>
+    <Reference Include="Hymma.SolidTools.Core">
+      <HintPath>..\Core\bin\Release\Hymma.SolidTools.Core.dll</HintPath>
+    </Reference>
     <Reference Include="SolidWorks.Interop.sldworks">
       <HintPath>..\..\..\..\..\..\Program Files\SOLIDWORKS Corp\SOLIDWORKS\api\redist\SolidWorks.Interop.sldworks.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -90,16 +96,6 @@
   <ItemGroup>
     <None Include="FluentAddinsSolidTools.snk" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Addins\Hymma.SolidTools.Addins.csproj">
-      <Project>{86b8e368-880d-4169-ba19-60a84d3f6fb3}</Project>
-      <Name>Hymma.SolidTools.Addins</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Core\Hymma.SolidTools.Core.csproj">
-      <Project>{c11fc3f2-c2d0-4e62-9cf2-1a152b76ae03}</Project>
-      <Name>Hymma.SolidTools.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

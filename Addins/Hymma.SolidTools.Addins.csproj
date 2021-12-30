@@ -43,6 +43,10 @@
     <AssemblyOriginatorKeyFile>SolidTools.SolidAddins.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Hymma.SolidTools.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e9fee7cb4dbd868c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Core\bin\Release\Hymma.SolidTools.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Hymma.SolidTools.Wpf">
       <HintPath>..\..\Hymma.SolidTools.Wpf\Hymma.SolidTools.Wpf\bin\Debug\Hymma.SolidTools.Wpf.dll</HintPath>
     </Reference>
@@ -178,12 +182,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Tools\Logging\LogSnippet.snippet" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core\Hymma.SolidTools.Core.csproj">
-      <Project>{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}</Project>
-      <Name>Hymma.SolidTools.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
