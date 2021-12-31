@@ -43,9 +43,8 @@
     <AssemblyOriginatorKeyFile>SolidTools.SolidAddins.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hymma.SolidTools.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e9fee7cb4dbd868c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Core\bin\Release\Hymma.SolidTools.Core.dll</HintPath>
+    <Reference Include="Hymma.SolidTools.Core">
+      <HintPath>..\Core\bin\Debug\Hymma.SolidTools.Core.dll</HintPath>
     </Reference>
     <Reference Include="Hymma.SolidTools.Wpf">
       <HintPath>..\..\Hymma.SolidTools.Wpf\Hymma.SolidTools.Wpf\bin\Debug\Hymma.SolidTools.Wpf.dll</HintPath>
