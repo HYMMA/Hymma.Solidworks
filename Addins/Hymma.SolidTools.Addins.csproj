@@ -41,6 +41,12 @@
     <AssemblyOriginatorKeyFile>SolidTools.SolidAddins.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Hymma.SolidTools.Core">
+      <HintPath>..\Core\bin\Debug\Hymma.SolidTools.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hymma.SolidTools.Wpf">
+      <HintPath>..\..\Hymma.SolidTools.Wpf\Hymma.SolidTools.Wpf\bin\Debug\Hymma.SolidTools.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="SolidWorks.Interop.sldworks, Version=28.3.0.86, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">

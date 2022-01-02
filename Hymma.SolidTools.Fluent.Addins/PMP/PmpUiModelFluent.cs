@@ -1,5 +1,4 @@
-﻿using Force.DeepCloner;
-using Hymma.SolidTools.Addins;
+﻿using Hymma.SolidTools.Addins;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
