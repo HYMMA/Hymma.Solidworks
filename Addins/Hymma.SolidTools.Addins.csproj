@@ -169,7 +169,6 @@
     <Compile Include="Tools\IconGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="SolidTools.SolidAddins.snk" />
   </ItemGroup>
   <ItemGroup>
