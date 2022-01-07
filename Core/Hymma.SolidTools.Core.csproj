@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Hymma.SolidTools.Core</RootNamespace>
     <AssemblyName>Hymma.SolidTools.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -43,25 +43,21 @@
     <AssemblyOriginatorKeyFile>SolidToolsSigniture.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SolidWorks.Interop.sldworks">
-      <HintPath>..\Refrences\SolidWorks.Interop.sldworks.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+    <Reference Include="SolidWorks.Interop.sldworks, Version=26.0.1.1, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
+      <HintPath>..\packages\SOLIDWORKS.DLLs.2018.1.0.3\lib\net461\SolidWorks.Interop.sldworks.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="SolidWorks.Interop.swconst">
-      <HintPath>..\Refrences\SolidWorks.Interop.swconst.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+    <Reference Include="SolidWorks.Interop.swconst, Version=26.0.1.1, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
+      <HintPath>..\packages\SOLIDWORKS.DLLs.2018.1.0.3\lib\net461\SolidWorks.Interop.swconst.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="SolidWorks.Interop.swpublished">
-      <HintPath>..\Refrences\SolidWorks.Interop.swpublished.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+    <Reference Include="SolidWorks.Interop.swpublished, Version=26.0.1.1, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
+      <HintPath>..\packages\SOLIDWORKS.DLLs.2018.1.0.3\lib\net461\SolidWorks.Interop.swpublished.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\Mathematics.cs" />

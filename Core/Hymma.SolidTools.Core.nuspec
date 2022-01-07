@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
   <metadata>
-    <id>$id$</id>
+    <id>Hymma.SolidTools.Core</id>
     <version>$version$</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
+    <title>SOLIDWORKS API Extensions by HYMMA</title>
+    <authors>HYMMA</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
-    <projectUrl>http://project_url_here_or_delete_this_line/</projectUrl>
-    <iconUrl>https://github.com/HYMMA/Hymma.SolidTools/tree/master/Core/</iconUrl>
-    <description>$description$</description>
+    <icon>lib\icon.jpg</icon>
+    <projectUrl>https://github.com/HYMMA/Hymma.SolidTools/tree/master/Core/</projectUrl>
+    <description>Extension and helper methods for SOLIDWORKS $year$ and later.</description>
     <releaseNotes>Initial release.</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>solidworks</tags>
+    <dependencies>
+		<group targetFramework=".NETFramework4.6.1" >
+			<dependency id="SOLIDWORKS.DLLs.2018" version="1.0.3"></dependency>
+		</group>
+		
+    </dependencies>
   </metadata>
   <files>
-    <file src=""></file>
+    <file src="..\icon.jpg" target="lib"/>
+    <file src="bin\Release\*.dll" target="lib\net461\SOLIDWORKS_$year$"/>
   </files>
-
 </package>
