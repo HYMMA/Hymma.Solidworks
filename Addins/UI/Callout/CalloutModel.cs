@@ -143,10 +143,17 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         public TextFormat TextFormat { get => SolidworksObject.TextFormat; set => SolidworksObject.TextFormat = value; }
 
-        /// <summary>
-        /// Gets or sets whether to enable the pushpin for this callout. 
-        /// </summary>
-        public bool EnablePushPin { get => SolidworksObject.EnablePushPin; set => SolidworksObject.EnablePushPin = value; }
+
+        /* 
+         * 
+         <<<<<<<<<<
+          this is not available in SOLIDWORKS API 2018
+         >>>>>>>>>>
+
+         /// <summary>
+         /// Gets or sets whether to enable the pushpin for this callout. 
+         /// </summary>
+         public bool EnablePushPin { get => SolidworksObject.EnablePushPin; set => SolidworksObject.EnablePushPin = value; }*/
 
         /// <summary>
         /// Gets or sets whether the callout text is enclosed within a box

@@ -1,5 +1,4 @@
-﻿using Hymma.SolidTools.Core;
-using SolidWorks.Interop.sldworks;
+﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
@@ -16,7 +15,6 @@ namespace Hymma.SolidTools.Addins
 
         private CalloutModel _callout;
         private string _calloutLabel;
-        private bool _enableSelectIdenticalComponents;
         private short _height;
         private IEnumerable<swSelectType_e> _filters;
         private int _style;
@@ -67,11 +65,13 @@ namespace Hymma.SolidTools.Addins
         {
             SolidworksObject.AllowMultipleSelectOfSameEntity = _allowMultipleSelectOfSameEntity;
             SolidworksObject.SingleEntityOnly = _singleItemOnly;
-            SolidworksObject.EnableSelectIdenticalComponents = _enableSelectIdenticalComponents;
+
+            // this is not available in solidworks 2018 and earlier
+            //SolidworksObject.EnableSelectIdenticalComponents = _enableSelectIdenticalComponents;
             SolidworksObject.Height = _height;
             SolidworksObject.SetSelectionFilters(_filters.Cast<int>().ToArray());
             Mark = Counter.GetNextSelBoxMark();
-            
+
             if (PopUpMenueItems != null)
             {
                 foreach (var item in PopUpMenueItems)
@@ -121,7 +121,7 @@ namespace Hymma.SolidTools.Addins
         /// <summary>
         /// Once user RMB on the selection box these items will be listed in the menue that appears
         /// </summary>
-        public List<PopUpMenueItem> PopUpMenueItems{ get; set; }
+        public List<PopUpMenueItem> PopUpMenueItems { get; set; }
 
         /// <summary>
         /// PropertyManager page's cursor after a user makes a selection in the SOLIDWORKS graphics area. 
@@ -203,23 +203,28 @@ namespace Hymma.SolidTools.Addins
         /// </summary>
         /// <value>True if the selection box is active, false if not</value>
         public bool IsFocused => SolidworksObject != null && SolidworksObject.GetSelectionFocus();
+        /*
+       <<<<<<<<<<
+        this is not available in SOLIDWORKS API 2018
+       >>>>>>>>>> 
 
-        /// <summary>
-        /// Gets or sets whether to enable Select Identical Components in the context menu of this PropertyManager page selection box. 
-        /// </summary>
-        public bool EnableSelectIdenticalComponents
-        {
-            get => _enableSelectIdenticalComponents;
-            set
-            {
-                _enableSelectIdenticalComponents = value;
-                if (SolidworksObject != null)
-                    SolidworksObject.EnableSelectIdenticalComponents = value;
-                else
-                    OnRegister += () => { SolidworksObject.EnableSelectIdenticalComponents = value; };
-            }
-        }
+      /// <summary>
+      /// Gets or sets whether to enable Select Identical Components in the context menu of this PropertyManager page selection box. 
+      /// </summary>
+      public bool EnableSelectIdenticalComponents
+      {
+          get => _enableSelectIdenticalComponents;
+          set
+          {
+              _enableSelectIdenticalComponents = value;
+              if (SolidworksObject != null)
+                  SolidworksObject.EnableSelectIdenticalComponents = value;
+              else
+                  OnRegister += () => { SolidworksObject.EnableSelectIdenticalComponents = value; };
+          }
+      }
 
+         */
         /// <summary>
         /// Gets the number of items currently in this selection box. 
         /// </summary>
