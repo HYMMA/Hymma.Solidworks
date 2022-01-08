@@ -1,7 +1,7 @@
 ﻿using Hymma.Solidworks.Addins;
 using System;
 
-namespace Hymma.Solidworks.Fluent.Addins
+namespace Hymma.Solidworks.Addins.Fluent
 {
     /// <summary>
     /// an interface to add property manager page group to a <see cref="IPmpTabFluent"/>

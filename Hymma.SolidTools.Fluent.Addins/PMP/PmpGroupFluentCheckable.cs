@@ -3,7 +3,7 @@ using Hymma.Solidworks.Extensions;
 using System;
 using System.Collections.Generic;
 
-namespace Hymma.Solidworks.Fluent.Addins
+namespace Hymma.Solidworks.Addins.Fluent
 {
     /// <summary>
     /// a group in property manager page that host the <see cref="IPmpControl"/>

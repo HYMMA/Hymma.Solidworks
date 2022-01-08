@@ -4,7 +4,7 @@ using SolidWorks.Interop.swconst;
 using System;
 using System.Drawing;
 
-namespace Hymma.Solidworks.Fluent.Addins
+namespace Hymma.Solidworks.Addins.Fluent
 {
     /// <summary>
     /// create a new property manager page UI which hosts a number of controls

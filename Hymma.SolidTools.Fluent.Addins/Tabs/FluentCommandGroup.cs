@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace Hymma.Solidworks.Fluent.Addins
+namespace Hymma.Solidworks.Addins.Fluent
 {
     /// <summary>
     /// adds a command group to solidworks ui

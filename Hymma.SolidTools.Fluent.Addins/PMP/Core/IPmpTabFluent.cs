@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hymma.Solidworks.Fluent.Addins
+namespace Hymma.Solidworks.Addins.Fluent
 {
     /// <summary>
     /// creat a tab for property manager page

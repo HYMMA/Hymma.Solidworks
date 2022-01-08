@@ -1,4 +1,4 @@
-﻿namespace Hymma.Solidworks.Fluent.Addins
+﻿namespace Hymma.Solidworks.Addins.Fluent
 {
     /// <summary>
     /// Creates Multiple object required to make a solidworks addin using fluent pattern

@@ -3,7 +3,7 @@ using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hymma.Solidworks.Fluent.Addins
+namespace Hymma.Solidworks.Addins.Fluent
 {
     /// <summary>
     /// A command tab in solidworks

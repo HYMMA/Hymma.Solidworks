@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using SolidWorks.Interop.swconst;
-namespace Hymma.Solidworks.Fluent.Addins
+namespace Hymma.Solidworks.Addins.Fluent
 {
     /// <summary>
     /// an interface to add command tabs to a solidworks ui for example 'Features' is a command tab
