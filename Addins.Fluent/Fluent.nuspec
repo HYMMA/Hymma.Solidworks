@@ -22,6 +22,6 @@
   <files>
     <file src="..\icon.jpg" target="lib"/>
     <file src="bin\Release\Hymma.Solidworks.Addins.Fluent.dll" target="lib\net461\SOLIDWORKS_$year$"/>
-    <file src="bin\Release\*.xml" target="lib\net461\SOLIDWORKS_$year$"/>
+    <file src="bin\Release\Hymma.Solidworks.Addins.Fluent.xml" target="lib\net461\SOLIDWORKS_$year$"/>
   </files>
 </package>
