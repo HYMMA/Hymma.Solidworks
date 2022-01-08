@@ -1,5 +1,4 @@
-﻿using Hymma.Solidworks.Addins;
-using System;
+﻿using System;
 
 namespace Hymma.Solidworks.Addins.Fluent
 {

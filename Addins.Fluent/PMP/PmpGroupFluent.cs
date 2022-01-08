@@ -1,5 +1,4 @@
-﻿using Hymma.Solidworks.Addins;
-using Hymma.Solidworks.Extensions;
+﻿using Hymma.Solidworks.Extensions;
 using System;
 using System.Collections.Generic;
 
@@ -8,16 +7,14 @@ namespace Hymma.Solidworks.Addins.Fluent
     /// <summary>
     /// a group in property manager page that host the <see cref="IPmpControl"/>
     /// </summary>
-    public class PmpGroupFluentCheckable : PmpGroupCheckable, IPmpGroupFluentCheckable
+    public class PmpGroupFluent : PmpGroup, IPmpGroupFluent
     {
         /// <summary>
         /// default constructor
         /// </summary>
         /// <param name="caption">caption of thie control inside the pmp</param>
-        /// <param name="visible"></param>
-        /// <param name="isChecked"></param>
         /// <param name="expanded">exapnsion state of the group upon load</param>
-        public PmpGroupFluentCheckable(string caption, bool visible = true, bool isChecked = true, bool expanded = true) : base(caption, visible, isChecked, expanded)
+        public PmpGroupFluent(string caption, bool expanded) : base(caption, expanded)
         {
 
         }
@@ -26,40 +23,40 @@ namespace Hymma.Solidworks.Addins.Fluent
         internal IPmpUiModelFluent PropertyManagerPageUIBase { get; set; }
 
         /// <inheritdoc/>
-        public IPmpGroupFluentCheckable That()
+        public IPmpGroupFluent That()
         {
             return this;
         }
 
         /// <inheritdoc/>
-        public IPmpGroupFluentCheckable And()
+        public IPmpGroupFluent And()
         {
             return this;
         }
 
         /// <inheritdoc/>
-        public IPmpGroupFluentCheckable IsExpanded(bool isExpanded = true)
+        public IPmpGroupFluent IsExpanded(bool isExpanded = true)
         {
             Expanded = isExpanded;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpGroupFluentCheckable AndOnExpansionChange(Action<PmpGroup, bool> doThis)
+        public IPmpGroupFluent AndOnExpansionChange(Action<PmpGroup, bool> doThis)
         {
             OnGroupExpand += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
             return this;
         }
 
         /// <inheritdoc/>
-        public IPmpGroupFluentCheckable HasTheseControls(Func<IEnumerable<IPmpControl>> controlMaker)
+        public IPmpGroupFluent HasTheseControls(Func<IEnumerable<IPmpControl>> controlMaker)
         {
 
             AddControls(controlMaker.Invoke());
             return this;
         }
         /// <inheritdoc/>
-        public IPmpGroupFluentCheckable HasTheseControls(IEnumerable<IPmpControl> controls)
+        public IPmpGroupFluent HasTheseControls(IEnumerable<IPmpControl> controls)
         {
 
             AddControls(controls);
@@ -73,7 +70,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IPmpGroupFluentCheckable Color(SysColor sysColor)
+        public IPmpGroupFluent Color(SysColor sysColor)
         {
             BackgroundColor = sysColor;
             return this;
@@ -84,30 +81,9 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="isHidden"></param>
         /// <returns></returns>
-        public IPmpGroupFluentCheckable IsHidden(bool isHidden = true)
+        public IPmpGroupFluent IsHidden(bool isHidden = true)
         {
             Visible = !isHidden;
-            return this;
-        }
-
-        ///<inheritdoc/>
-        public IPmpGroupFluentCheckable Checked(bool status = true)
-        {
-            base.IsChecked = status;
-            return this;
-        }
-
-        ///<inheritdoc/>
-        public IPmpGroupFluentCheckable WhenChecked(EventHandler<bool> doThis)
-        {
-            base.OnGroupCheck += doThis;
-            return this;
-        }
-
-        ///<inheritdoc/>
-        public IPmpGroupFluentCheckable WhenDisplayed(EventHandler doThis)
-        {
-            OnDisplay += doThis;
             return this;
         }
     }

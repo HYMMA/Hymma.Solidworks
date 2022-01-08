@@ -1,5 +1,4 @@
-﻿using Hymma.Solidworks.Addins;
-using Hymma.Solidworks.Extensions;
+﻿using Hymma.Solidworks.Extensions;
 using System;
 using System.Collections.Generic;
 
@@ -11,19 +10,19 @@ namespace Hymma.Solidworks.Addins.Fluent
     public interface IPmpGroupFluentBase<T> : IFluent
     {
         /// <summary>
-        /// add extra context to this <see cref="SolidTools.Addins.PmpGroup"/>
+        /// add extra context to this <see cref="Solidworks.Addins.PmpGroup"/>
         /// </summary>
         /// <returns></returns>
         T That();
 
         /// <summary>
-        /// add extra context to this <see cref="SolidTools.Addins.PmpGroup"/>
+        /// add extra context to this <see cref="Solidworks.Addins.PmpGroup"/>
         /// </summary>
         /// <returns></returns>
         T And();
 
         /// <summary>
-        /// determines if this <see cref="SolidTools.Addins.PmpGroup"/> is expanded or not
+        /// determines if this <see cref="Solidworks.Addins.PmpGroup"/> is expanded or not
         /// </summary>
         /// <param name="isExpanded"></param>
         /// <returns></returns>
@@ -44,14 +43,14 @@ namespace Hymma.Solidworks.Addins.Fluent
         T AndOnExpansionChange(Action<PmpGroup, bool> doThis);
 
         /// <summary>
-        /// add these controls to the <see cref="SolidTools.Addins.PmpGroup"/>
+        /// add these controls to the <see cref="Solidworks.Addins.PmpGroup"/>
         /// </summary>
         /// <param name="controlMaker">function that returns an <see cref="IEnumerable{T}"/> where T : <see cref="IPmpControl"/></param>
         /// <returns></returns>
         T HasTheseControls(Func<IEnumerable<IPmpControl>> controlMaker);
      
         /// <summary>
-        /// add these controls to the <see cref="SolidTools.Addins.PmpGroup"/>
+        /// add these controls to the <see cref="Solidworks.Addins.PmpGroup"/>
         /// </summary>
         /// <param name="controls">an <see cref="IEnumerable{T}"/> where T : <see cref="IPmpControl"/></param>
         /// <returns></returns>

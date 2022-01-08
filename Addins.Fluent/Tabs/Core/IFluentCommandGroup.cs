@@ -1,6 +1,4 @@
-﻿using SolidWorks.Interop.swpublished;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Hymma.Solidworks.Addins.Fluent
 {

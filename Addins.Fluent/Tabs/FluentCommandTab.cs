@@ -1,7 +1,5 @@
-﻿using Hymma.Solidworks.Addins;
-using SolidWorks.Interop.swconst;
+﻿using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Hymma.Solidworks.Addins.Fluent
 {

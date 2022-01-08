@@ -1,5 +1,4 @@
-﻿using Hymma.Solidworks.Addins;
-using SolidWorks.Interop.sldworks;
+﻿using SolidWorks.Interop.sldworks;
 using System.Drawing;
 
 namespace Hymma.Solidworks.Addins.Fluent

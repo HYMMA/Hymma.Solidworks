@@ -1,5 +1,4 @@
-﻿using Hymma.Solidworks.Addins;
-using System;
+﻿using System;
 using System.Drawing;
 
 namespace Hymma.Solidworks.Addins.Fluent
@@ -57,7 +56,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public IPmpTabFluent OnDisplay(Action action)
+        public IPmpTabFluent OnDisplayed(Action action)
         {
             base.OnDisplay += action;
             return this;

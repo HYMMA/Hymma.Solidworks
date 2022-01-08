@@ -1,6 +1,4 @@
-﻿
-using Hymma.Solidworks.Addins;
-using SolidWorks.Interop.swconst;
+﻿using SolidWorks.Interop.swconst;
 using System;
 using System.Drawing;
 
@@ -24,7 +22,6 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// <summary>
         /// adds a tab to this property manager page
         /// </summary>
-        /// <param name="tab"></param>
         /// <returns><see cref="IPmpUiModelFluent"/></returns>
         /// <remarks>use this method to share a tab between different propertry manager pages</remarks>
         IPmpUiModelFluent AddTab<T>()where T : PmpTab, new();

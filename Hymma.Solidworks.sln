@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingNuget", "TestingNuge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Extensions", "Extensions\Hymma.Solidworks.Extensions.csproj", "{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.SolidTools.Fluent.Addins", "Fluent.Addins\Hymma.SolidTools.Fluent.Addins.csproj", "{6100467F-2C52-4DDA-820C-40729B0C1529}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Addins.Fluent", "Addins.Fluent\Hymma.Solidworks.Addins.Fluent.csproj", "{6100467F-2C52-4DDA-820C-40729B0C1529}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

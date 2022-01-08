@@ -1,9 +1,4 @@
-﻿using Hymma.Solidworks.Addins;
-using Hymma.Solidworks.Extensions;
-using System;
-using System.Collections.Generic;
-
-namespace Hymma.Solidworks.Addins.Fluent
+﻿namespace Hymma.Solidworks.Addins.Fluent
 {
     /// <summary>
     /// an interface to add property manager page group to a <see cref="IPmpUiModelFluent"/>

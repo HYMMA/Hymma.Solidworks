@@ -1,5 +1,4 @@
-﻿using Hymma.Solidworks.Addins;
-using Hymma.Solidworks.Extensions;
+﻿using Hymma.Solidworks.Extensions;
 using System;
 using System.Collections.Generic;
 

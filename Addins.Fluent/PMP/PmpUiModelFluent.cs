@@ -1,5 +1,4 @@
-﻿using Hymma.Solidworks.Addins;
-using SolidWorks.Interop.sldworks;
+﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
