@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
   <metadata>
-    <id>Hymma.SolidTools.Core</id>
+    <id>Hymma.Solidworks.Extensions</id>
     <version>$version$</version>
     <title>SOLIDWORKS API Extensions by HYMMA</title>
     <authors>HYMMA</authors>
