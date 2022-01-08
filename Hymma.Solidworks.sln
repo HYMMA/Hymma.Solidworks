@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.SolidTools.Core", "Core\Hymma.SolidTools.Core.csproj", "{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Extensions", "Core\Hymma.Solidworks.Extensions.csproj", "{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.SolidTools.Fluent.Addins", "Hymma.SolidTools.Fluent.Addins\Hymma.SolidTools.Fluent.Addins.csproj", "{6100467F-2C52-4DDA-820C-40729B0C1529}"
 EndProject
