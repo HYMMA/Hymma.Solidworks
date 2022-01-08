@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using static Hymma.SolidTools.Addins.Logger;
+using static Hymma.Solidworks.Addins.Logger;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// handles property manager page events

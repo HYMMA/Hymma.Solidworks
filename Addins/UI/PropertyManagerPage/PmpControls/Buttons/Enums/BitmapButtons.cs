@@ -1,4 +1,4 @@
-﻿namespace Hymma.SolidTools.Addins
+﻿namespace Hymma.Solidworks.Addins
 {
 
     /// <summary>

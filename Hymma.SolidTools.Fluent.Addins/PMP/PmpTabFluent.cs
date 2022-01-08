@@ -1,8 +1,8 @@
-﻿using Hymma.SolidTools.Addins;
+﻿using Hymma.Solidworks.Addins;
 using System;
 using System.Drawing;
 
-namespace Hymma.SolidTools.Fluent.Addins
+namespace Hymma.Solidworks.Fluent.Addins
 {
     /// <summary>
     /// tab for property manager page

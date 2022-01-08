@@ -1,11 +1,11 @@
-﻿using Hymma.SolidTools.Core;
+﻿using Hymma.Solidworks.Extensions;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// Allows add-in applications to manipulate single and multi-row callouts

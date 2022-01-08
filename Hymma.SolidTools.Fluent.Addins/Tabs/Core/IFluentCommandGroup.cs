@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Hymma.SolidTools.Fluent.Addins
+namespace Hymma.Solidworks.Fluent.Addins
 {
     /// <summary>
     /// an interface to define a command group in solidworks

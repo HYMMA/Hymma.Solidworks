@@ -1,8 +1,8 @@
-﻿using Hymma.SolidTools.Addins;
+﻿using Hymma.Solidworks.Addins;
 using SolidWorks.Interop.sldworks;
 using System.Drawing;
 
-namespace Hymma.SolidTools.Fluent.Addins
+namespace Hymma.Solidworks.Fluent.Addins
 {
     ///<inheritdoc/>
     public class AddinModelBuilder : AddinUserInterface, IAddinModelBuilder

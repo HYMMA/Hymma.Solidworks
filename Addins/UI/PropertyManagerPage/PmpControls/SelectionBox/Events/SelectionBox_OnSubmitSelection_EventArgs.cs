@@ -1,7 +1,7 @@
 ﻿using SolidWorks.Interop.swconst;
 using System;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// event arguemtns for <see cref="PmpSelectionBox.OnSubmitSelection"/>

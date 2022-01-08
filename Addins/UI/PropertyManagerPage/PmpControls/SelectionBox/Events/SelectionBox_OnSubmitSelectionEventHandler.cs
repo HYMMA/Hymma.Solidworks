@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// and event handelr for <see cref="PmpSelectionBox.OnSubmitSelection"/>

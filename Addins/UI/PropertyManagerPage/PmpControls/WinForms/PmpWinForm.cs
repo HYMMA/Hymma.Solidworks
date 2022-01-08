@@ -1,7 +1,7 @@
 ﻿using SolidWorks.Interop.sldworks;
 using System;
 
-namespace Hymma.SolidTools.Addins.UI
+namespace Hymma.Solidworks.Addins.UI
 {
     /// <summary>
     /// allows creating a winform in a propeprty manager page

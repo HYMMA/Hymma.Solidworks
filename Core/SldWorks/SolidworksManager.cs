@@ -1,7 +1,7 @@
 ﻿using SolidWorks.Interop.sldworks;
 using System;
 
-namespace Hymma.SolidTools.Core
+namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
     /// provides conneciton and initiation methods for a solidworks app

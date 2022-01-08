@@ -4,7 +4,7 @@ using System;
 using System.Windows;
 using System.Windows.Forms.Integration;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// a windows form host that solidworks uses to show win forms or wpf.

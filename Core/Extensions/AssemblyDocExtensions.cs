@@ -3,7 +3,7 @@ using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hymma.SolidTools.Core
+namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
     /// a list of useful functions for an <see cref="AssemblyDoc"/> object

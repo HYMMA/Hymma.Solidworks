@@ -1,4 +1,4 @@
-﻿namespace Hymma.SolidTools.Core
+﻿namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
     /// system colors as defined in <strong>Tools > Options > Colors.</strong>  in the SOLIDWORKS user interface

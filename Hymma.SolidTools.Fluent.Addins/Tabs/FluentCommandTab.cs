@@ -1,9 +1,9 @@
-﻿using Hymma.SolidTools.Addins;
+﻿using Hymma.Solidworks.Addins;
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hymma.SolidTools.Fluent.Addins
+namespace Hymma.Solidworks.Fluent.Addins
 {
     /// <summary>
     /// A command tab in solidworks

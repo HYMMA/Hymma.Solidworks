@@ -3,7 +3,7 @@ using System;
 using System.Drawing;
 using System.IO;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// provides useful arguments and parameters for <see cref="PmpControl{T}.OnDisplay"/>

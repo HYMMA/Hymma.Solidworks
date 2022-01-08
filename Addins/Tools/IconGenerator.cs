@@ -31,9 +31,9 @@
 using System;
 using System.Drawing;
 using System.IO;
-using static Hymma.SolidTools.Addins.Logger;
+using static Hymma.Solidworks.Addins.Logger;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// genrates solidworks ready icons

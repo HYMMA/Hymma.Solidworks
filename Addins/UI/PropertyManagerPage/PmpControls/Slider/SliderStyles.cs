@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// Bitwise styles for <see cref="PmpSlider"/>

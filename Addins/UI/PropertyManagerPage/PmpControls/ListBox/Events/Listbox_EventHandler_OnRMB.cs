@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// event handerl for <see cref="PmpListBox.OnRightMouseBtnUp"/>

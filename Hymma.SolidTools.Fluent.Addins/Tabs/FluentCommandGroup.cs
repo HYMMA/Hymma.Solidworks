@@ -1,9 +1,9 @@
-﻿using Hymma.SolidTools.Addins;
+﻿using Hymma.Solidworks.Addins;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace Hymma.SolidTools.Fluent.Addins
+namespace Hymma.Solidworks.Fluent.Addins
 {
     /// <summary>
     /// adds a command group to solidworks ui

@@ -2,7 +2,7 @@
 using SolidWorks.Interop.swconst;
 using System;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// a class to represent a text box inside a property manager page in solidworks

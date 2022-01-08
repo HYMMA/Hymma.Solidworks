@@ -25,7 +25,7 @@
 using System;
 using System.ComponentModel;
 
-namespace Hymma.SolidTools.Fluent.Addins
+namespace Hymma.Solidworks.Fluent.Addins
 {
     /// <summary>
     /// Interface that is used to build fluent interfaces and hides methods declared by <see cref="object"/> from IntelliSense.

@@ -1,10 +1,10 @@
-﻿using Hymma.SolidTools.Addins;
+﻿using Hymma.Solidworks.Addins;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-namespace Hymma.SolidTools.Fluent.Addins
+namespace Hymma.Solidworks.Fluent.Addins
 {
     /// <summary>
     /// controls the general settings/Events of aproperty manger page

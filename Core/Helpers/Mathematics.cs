@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hymma.SolidTools.Core
+namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
     /// provides numerous helper classes for unit conversion, mathematical calculaitons etc

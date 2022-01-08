@@ -1,8 +1,8 @@
 ﻿using SolidWorks.Interop.sldworks;
-using Hymma.SolidTools.Core;
+using Hymma.Solidworks.Extensions;
 using System;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// a row in a <see cref="CalloutModel"/>

@@ -1,7 +1,7 @@
 ﻿using SolidWorks.Interop.swconst;
 using System.Drawing;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// a wrapper for a command in solidworks 

@@ -1,7 +1,7 @@
 ﻿using SolidWorks.Interop.sldworks;
 using System;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// Allows using a Windows form or Windows Form user control in the property manager page

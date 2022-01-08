@@ -6,9 +6,9 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using static Hymma.SolidTools.Addins.Logger;
+using static Hymma.Solidworks.Addins.Logger;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// a wrapper for solidworks property manager page UI

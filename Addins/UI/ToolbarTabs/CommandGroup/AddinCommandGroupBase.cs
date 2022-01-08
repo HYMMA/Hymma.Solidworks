@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using static Hymma.SolidTools.Addins.Logger;
+using static Hymma.Solidworks.Addins.Logger;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     ///<inheritdoc/>
     public abstract class AddinCommandGroupBase : IAddinCommandGroup

@@ -1,4 +1,4 @@
-﻿namespace Hymma.SolidTools.Addins
+﻿namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// provides event arguments for <see cref="PmpSelectionBox.OnListChanged"/> event

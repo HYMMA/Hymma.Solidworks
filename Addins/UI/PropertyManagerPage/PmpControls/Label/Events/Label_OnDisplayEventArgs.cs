@@ -2,7 +2,7 @@
 using System;
 using System.Drawing;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// event arguments for a <see cref="PmpLabel"/>

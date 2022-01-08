@@ -1,4 +1,4 @@
-﻿namespace Hymma.SolidTools.Addins
+﻿namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     ///  PropertyManager page's cursor after a user makes a selection in the SOLIDWORKS graphics area. 

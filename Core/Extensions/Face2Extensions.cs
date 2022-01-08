@@ -1,7 +1,7 @@
 ﻿using SolidWorks.Interop.sldworks;
 using System.Collections.Generic;
 
-namespace Hymma.SolidTools.Core
+namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
     /// extension to <see cref="Face2"/>

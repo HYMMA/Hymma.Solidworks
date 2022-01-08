@@ -1,7 +1,7 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 
-namespace Hymma.SolidTools.Core
+namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
     /// extensions for <see cref="MathUtility"/>

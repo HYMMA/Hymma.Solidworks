@@ -1,9 +1,9 @@
-﻿using Hymma.SolidTools.Addins;
-using Hymma.SolidTools.Core;
+﻿using Hymma.Solidworks.Addins;
+using Hymma.Solidworks.Extensions;
 using System;
 using System.Collections.Generic;
 
-namespace Hymma.SolidTools.Fluent.Addins
+namespace Hymma.Solidworks.Fluent.Addins
 {
     /// <summary>
     /// a checkeckable group inside a tab inside a property manager page

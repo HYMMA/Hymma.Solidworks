@@ -2,7 +2,7 @@
 using SolidWorks.Interop.swconst;
 using System;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// a solidworks radio button in property managers

@@ -2,7 +2,7 @@
 using SolidWorks.Interop.swconst;
 using System;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// Allows you to access a PropertyManager page list box control.

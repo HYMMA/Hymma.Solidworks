@@ -1,4 +1,4 @@
-﻿namespace Hymma.SolidTools.Fluent.Addins
+﻿namespace Hymma.Solidworks.Fluent.Addins
 {
     ///<inheritdoc/>
     public interface IPmpTabGroupFluent : IPmpGroupFluentBase<IPmpTabGroupFluent>

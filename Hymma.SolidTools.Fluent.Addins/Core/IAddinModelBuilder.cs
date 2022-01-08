@@ -1,7 +1,7 @@
 ﻿using SolidWorks.Interop.sldworks;
 using System.Drawing;
 
-namespace Hymma.SolidTools.Fluent.Addins
+namespace Hymma.Solidworks.Fluent.Addins
 {
     /// <summary>
     /// an interface to create and register a property manager page

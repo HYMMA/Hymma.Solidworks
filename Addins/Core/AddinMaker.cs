@@ -10,10 +10,10 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
-using static Hymma.SolidTools.Addins.Logger;
+using static Hymma.Solidworks.Addins.Logger;
 using Environment = System.Environment;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// registers an <see cref="Addins.AddinUserInterface"/> into solidworks

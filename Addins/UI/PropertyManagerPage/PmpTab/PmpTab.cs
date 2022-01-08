@@ -5,7 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// Tab for a PropertyManager page. 

@@ -1,7 +1,7 @@
 ﻿using SolidWorks.Interop.sldworks;
 using System;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// a slider in property manager page

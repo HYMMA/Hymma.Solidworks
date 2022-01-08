@@ -1,6 +1,6 @@
 ﻿using SolidWorks.Interop.sldworks;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// on display event arguments for <see cref="PmpListBox"/>

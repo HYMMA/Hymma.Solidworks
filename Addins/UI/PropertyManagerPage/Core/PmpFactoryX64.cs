@@ -1,7 +1,7 @@
 ﻿using SolidWorks.Interop.sldworks;
 using System.Linq;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// Generates Property Manager Page for a Solidworks Addin of type <see cref="AddinMaker"/> that runs on X64 base CPU<br/>

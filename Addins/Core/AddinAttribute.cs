@@ -1,7 +1,7 @@
 ﻿using System;
-using static Hymma.SolidTools.Addins.Logger;
+using static Hymma.Solidworks.Addins.Logger;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// You should decorate your addin classes with this attribute <br/>

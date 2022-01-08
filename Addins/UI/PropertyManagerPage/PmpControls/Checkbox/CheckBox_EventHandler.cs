@@ -1,4 +1,4 @@
-﻿namespace Hymma.SolidTools.Addins
+﻿namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// event handler for <see cref="PmpCheckBox.OnChecked"/>

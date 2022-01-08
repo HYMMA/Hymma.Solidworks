@@ -4,9 +4,9 @@ using SolidWorks.Interop.swpublished;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Hymma.SolidTools.Addins.Logger;
+using static Hymma.Solidworks.Addins.Logger;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// an abstract class for making propety manager page

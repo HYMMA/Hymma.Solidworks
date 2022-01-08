@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// provides extenison methodes for a <see cref="Type"/>

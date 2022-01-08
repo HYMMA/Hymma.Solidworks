@@ -3,7 +3,7 @@ using SolidWorks.Interop.swconst;
 using System;
 using System.IO;
 
-namespace Hymma.SolidTools.Core
+namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
     /// extensions for <see cref="SldWorks"/>

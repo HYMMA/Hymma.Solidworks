@@ -1,6 +1,6 @@
 ﻿using SolidWorks.Interop.swconst;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// a SOLIDWORKS property manager page control

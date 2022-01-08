@@ -2,7 +2,7 @@
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 
-namespace Hymma.SolidTools.Core
+namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
     /// extension sofr <see cref="PartDoc"/>

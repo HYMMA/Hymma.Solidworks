@@ -1,7 +1,7 @@
 ﻿using SolidWorks.Interop.sldworks;
 using System.Collections.Generic;
 
-namespace Hymma.SolidTools.Core
+namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
     /// provides equality comparision for <see cref="ModelDoc2"/>

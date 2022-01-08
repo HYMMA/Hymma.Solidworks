@@ -2,7 +2,7 @@
 using SolidWorks.Interop.swconst;
 using System;
 
-namespace Hymma.SolidTools.Addins
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// creates and allows you to access a number box in a property manager page
