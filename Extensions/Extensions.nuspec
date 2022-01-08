@@ -8,7 +8,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <icon>lib\icon.jpg</icon>
-    <projectUrl>https://github.com/HYMMA/Hymma.SolidTools/tree/master/Core/</projectUrl>
+    <projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Extensions/</projectUrl>
     <description>Extension and helper methods for SOLIDWORKS $year$ and later.</description>
     <releaseNotes>Initial release.</releaseNotes>
     <copyright>$copyright$</copyright>
