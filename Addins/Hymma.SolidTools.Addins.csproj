@@ -41,23 +41,8 @@
     <AssemblyOriginatorKeyFile>SolidTools.SolidAddins.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hymma.SolidTools.Core, Version=18.0.0.0, Culture=neutral, PublicKeyToken=e9fee7cb4dbd868c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.SolidTools.Core.18.0.0\lib\net461\SOLIDWORKS_2018\Hymma.SolidTools.Core.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="SolidWorks.Interop.sldworks, Version=26.0.1.1, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
-      <HintPath>..\packages\SOLIDWORKS.DLLs.2018.1.0.3\lib\net461\SolidWorks.Interop.sldworks.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="SolidWorks.Interop.swconst, Version=26.0.1.1, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\SOLIDWORKS.DLLs.2018.1.0.3\lib\net461\SolidWorks.Interop.swconst.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="SolidWorks.Interop.swpublished, Version=26.0.1.1, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\SOLIDWORKS.DLLs.2018.1.0.3\lib\net461\SolidWorks.Interop.swpublished.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -159,7 +144,6 @@
     <Compile Include="UI\ToolbarTabs\CommandGroup\IAddinCommandGroup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="SolidTools.SolidAddins.snk" />
   </ItemGroup>
   <ItemGroup>
