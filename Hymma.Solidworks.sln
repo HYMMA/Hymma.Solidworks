@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Extensions", "Core\Hymma.Solidworks.Extensions.csproj", "{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.SolidTools.Fluent.Addins", "Hymma.SolidTools.Fluent.Addins\Hymma.SolidTools.Fluent.Addins.csproj", "{6100467F-2C52-4DDA-820C-40729B0C1529}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.SolidTools.Addins", "Addins\Hymma.SolidTools.Addins.csproj", "{86B8E368-880D-4169-BA19-60A84D3F6FB3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CD13FBB7-4F80-41AA-BFAC-9ED5ECA48747}"
@@ -16,20 +12,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingNuget", "TestingNuget\TestingNuget.csproj", "{A254B320-7283-473D-A980-0E543F098803}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Extensions", "Extensions\Hymma.Solidworks.Extensions.csproj", "{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.SolidTools.Fluent.Addins", "Fluent.Addins\Hymma.SolidTools.Fluent.Addins.csproj", "{6100467F-2C52-4DDA-820C-40729B0C1529}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6100467F-2C52-4DDA-820C-40729B0C1529}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6100467F-2C52-4DDA-820C-40729B0C1529}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6100467F-2C52-4DDA-820C-40729B0C1529}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6100467F-2C52-4DDA-820C-40729B0C1529}.Release|Any CPU.Build.0 = Release|Any CPU
 		{86B8E368-880D-4169-BA19-60A84D3F6FB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{86B8E368-880D-4169-BA19-60A84D3F6FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86B8E368-880D-4169-BA19-60A84D3F6FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,6 +30,14 @@ Global
 		{A254B320-7283-473D-A980-0E543F098803}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A254B320-7283-473D-A980-0E543F098803}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A254B320-7283-473D-A980-0E543F098803}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6100467F-2C52-4DDA-820C-40729B0C1529}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6100467F-2C52-4DDA-820C-40729B0C1529}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6100467F-2C52-4DDA-820C-40729B0C1529}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6100467F-2C52-4DDA-820C-40729B0C1529}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
