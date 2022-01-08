@@ -7,8 +7,8 @@
     <ProjectGuid>{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hymma.SolidTools.Core</RootNamespace>
-    <AssemblyName>Hymma.SolidTools.Core</AssemblyName>
+    <RootNamespace>Hymma.Solidworks.Extensions</RootNamespace>
+    <AssemblyName>Hymma.Solidworks.Extensions</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Hymma.SolidTools.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Hymma.Solidworks.Extensions.xml</DocumentationFile>
     <RegisterForComInterop>true</RegisterForComInterop>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
@@ -33,7 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Hymma.SolidTools.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Hymma.Solidworks.Extensions.xml</DocumentationFile>
     <RegisterForComInterop>true</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup>

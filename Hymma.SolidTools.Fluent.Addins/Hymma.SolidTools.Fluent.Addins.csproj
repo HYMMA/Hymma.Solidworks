@@ -7,8 +7,8 @@
     <ProjectGuid>{6100467F-2C52-4DDA-820C-40729B0C1529}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hymma.SolidTools.Fluent.Addins</RootNamespace>
-    <AssemblyName>Hymma.SolidTools.Fluent.Addins</AssemblyName>
+    <RootNamespace>Hymma.Solidworks.Addins.Fluent</RootNamespace>
+    <AssemblyName>Hymma.Solidworks.Addins.Fluent</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Hymma.SolidTools.Fluent.Addins.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Hymma.Solidworks.Addins.Fluent.xml</DocumentationFile>
     <RegisterForComInterop>true</RegisterForComInterop>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
@@ -33,7 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Hymma.SolidTools.Fluent.Addins.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Hymma.Solidworks.Addins.Fluent.xml</DocumentationFile>
     <RegisterForComInterop>true</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup>

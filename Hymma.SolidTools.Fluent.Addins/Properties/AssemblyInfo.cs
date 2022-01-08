@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Hymma.SolidTools.Fluent.Addins")]
+[assembly: AssemblyTitle("Hymma.Solidworks.Addins.Fluent")]
 [assembly: AssemblyDescription("MAKE ADDIN FOR SOLIDWORKS FLUENTLY")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HYMMA")]
-[assembly: AssemblyProduct("Hymma.SolidTools.Fluent.Addins")]
+[assembly: AssemblyProduct("Hymma.Solidworks.Addins.Fluent")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("HYMMA")]
 [assembly: AssemblyCulture("")]

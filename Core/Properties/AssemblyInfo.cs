@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SolidTools")]
+[assembly: AssemblyTitle("solidworks extensions")]
 [assembly: AssemblyDescription("Utilities for SOLIDWORKS")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HYMMA")]
-[assembly: AssemblyProduct("SolidTools")]
+[assembly: AssemblyProduct("Solidworks extensions")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("HYMMA")]
 [assembly: AssemblyCulture("")]
