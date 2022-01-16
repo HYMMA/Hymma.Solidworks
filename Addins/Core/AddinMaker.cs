@@ -90,6 +90,7 @@ namespace Hymma.Solidworks.Addins
             {
                 Logger.Source = "Solidworks Addin";
                 Log("trying to register");
+                Console.WriteLine("trying to register");
 
                 string keyname = "SOFTWARE\\SolidWorks\\Addins\\{" + t.GUID.ToString() + "}";
                 RegistryKey addinKey = Registry.LocalMachine.CreateSubKey(keyname);
@@ -107,6 +108,8 @@ namespace Hymma.Solidworks.Addins
                 var iconPath = SaveAddinIcon(t);
 
                 addinKey.SetValue("Icon Path", iconPath);
+
+                Log("Registration was successful!");
                 #endregion
             }
             catch (MissingManifestResourceException e)
@@ -144,7 +147,9 @@ namespace Hymma.Solidworks.Addins
                     keyname = "Software\\SolidWorks\\AddInsStartup\\{" + t.GUID.ToString() + "}";
                     Registry.CurrentUser.DeleteSubKey(keyname);
 
-                    UnRegisterLogger(swAttr.Title);
+                    Log("Unregister sucessful");
+                    //UnRegisterLogger(swAttr.Title);
+
                 }
                 catch (System.NullReferenceException nl)
                 {

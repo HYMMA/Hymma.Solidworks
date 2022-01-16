@@ -10,18 +10,18 @@
     <icon>lib\icon.jpg</icon>
     <projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Addins/</projectUrl>
     <description>Framework to create Addins for SOLIDWORKS $year$ and later.</description>
-    <releaseNotes>Initial release.</releaseNotes>
+    <releaseNotes>Not exporting typs for COM interop instead made the assembly COM visible</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>solidworks</tags>
     <dependencies>
 		<group targetFramework=".NETFramework4.6.1" >
-			<dependency id="Hymma.Solidworks.Extensions" version="18.0.1"></dependency>
+			<dependency id="Hymma.Solidworks.Extensions" version="18.0.3"></dependency>
 		</group>
     </dependencies>
   </metadata>
   <files>
     <file src="..\icon.jpg" target="lib"/>
-    <file src="bin\Release\Hymma.Solidworks.Addins.dll" target="lib\net461\SOLIDWORKS_$year$"/>
+    <file src="bin\Release\*.dll" target="lib\net461\SOLIDWORKS_$year$"/>
     <file src="bin\Release\*.xml" target="lib\net461\SOLIDWORKS_$year$"/>
   </files>
 </package>

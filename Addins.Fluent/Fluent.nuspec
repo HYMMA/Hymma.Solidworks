@@ -15,13 +15,13 @@
     <tags>solidworks</tags>
     <dependencies>
 		<group targetFramework=".NETFramework4.6.1" >
-			<dependency id="Hymma.Solidworks.Addins" version="18.0.1"></dependency>
+			<dependency id="Hymma.Solidworks.Addins" version="18.0.*"></dependency>
 		</group>
     </dependencies>
   </metadata>
   <files>
     <file src="..\icon.jpg" target="lib"/>
-    <file src="bin\Release\Hymma.Solidworks.Addins.Fluent.dll" target="lib\net461\SOLIDWORKS_$year$"/>
-    <file src="bin\Release\Hymma.Solidworks.Addins.Fluent.xml" target="lib\net461\SOLIDWORKS_$year$"/>
+    <file src="bin\Release\*.dll" target="lib\net461\SOLIDWORKS_$year$"/>
+    <file src="bin\Release\*.xml" target="lib\net461\SOLIDWORKS_$year$"/>
   </files>
 </package>

@@ -10,14 +10,13 @@
     <icon>lib\icon.jpg</icon>
     <projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Extensions/</projectUrl>
     <description>Extension and helper methods for SOLIDWORKS $year$ and later.</description>
-    <releaseNotes>Initial release.</releaseNotes>
+    <releaseNotes>not exporting types for COM interop but the assembly is COM visible</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>solidworks</tags>
     <dependencies>
 		<group targetFramework=".NETFramework4.6.1" >
 			<dependency id="SOLIDWORKS.DLLs.2018" version="1.0.3"></dependency>
 		</group>
-		
     </dependencies>
   </metadata>
   <files>

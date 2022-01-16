@@ -6,7 +6,7 @@ using System.IO;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// provides useful arguments and parameters for <see cref="PmpControl{T}.OnDisplay"/>
+    /// provides useful arguments and parameters once this control is painted on the screen/>
     /// </summary>
     public class OnDisplay_EventArgs : EventArgs
     {
@@ -44,7 +44,7 @@ namespace Hymma.Solidworks.Addins
 
         /// <summary>
         /// Left edge of the control <br/>
-        /// Use this proeprty and <see cref="PmpControl{T}.Top"/> to palce controls side by side<br/>
+        /// Use this proeprty and the Top property to palce controls side by side<br/>
         /// The value is in dialog units relative to the group box that the control is in. The left edge of the group box is 0; the right edge of the group box is 100
         /// </summary>
         /// <remarks>By default, the left edge of a control is either the left edge of its group box or indented a certain distance. this property overrides that default value</remarks>

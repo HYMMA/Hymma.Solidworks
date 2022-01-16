@@ -168,28 +168,28 @@ namespace Hymma.Solidworks.Addins
             }
         }
 
-        ///// <summary>
-        ///// Gets or sets the unit type to display in this PropertyManager page number box. 
-        ///// </summary>
-        ///// <remarks> <see cref="DisplayedUnit "/>allows an add-in to have a number box that shows length values in inches, even though the system default units are meters.<br/>
-        ///// <see cref="DisplayedUnit "/> simply controls how that value is displayed in the PropertyManager page number box.
-        /////You can call this porperty and change the units displayed in a number box while a Propertymanager page is displayed.</remarks>
-        //public NumberBoxUnit DisplayedUnit
-        //{
-        //    get => _displayUnit;
-        //    set
-        //    {
-        //        _displayUnit = value;
+        /// <summary>
+        /// Gets or sets the unit type to display in this PropertyManager page number box. 
+        /// </summary>
+        /// <remarks> <see cref="DisplayedUnit "/>allows an add-in to have a number box that shows length values in inches, even though the system default units are meters.<br/>
+        /// <see cref="DisplayedUnit "/> simply controls how that value is displayed in the PropertyManager page number box.
+        ///You can call this porperty and change the units displayed in a number box while a Propertymanager page is displayed.</remarks>
+        public NumberBoxUnit DisplayedUnit
+        {
+            get => _displayUnit;
+            set
+            {
+                _displayUnit = value;
 
-        //        //if add-in is loaded already
-        //        if (SolidworksObject != null)
-        //            SolidworksObject.DisplayedUnit = (int)value;
+                //if add-in is loaded already
+                if (SolidworksObject != null)
+                    SolidworksObject.DisplayedUnit = (int)value;
 
-        //        //otherwise update the property when the control is loaded
-        //        else
-        //            OnRegister += () => { SolidworksObject.DisplayedUnit = (int)value; };
-        //    }
-        //}
+                //otherwise update the property when the control is loaded
+                else
+                    OnRegister += () => { SolidworksObject.DisplayedUnit = (int)value; };
+            }
+        }
         #endregion
 
 

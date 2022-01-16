@@ -412,6 +412,12 @@ namespace Hymma.Solidworks.Addins
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="Status"></param>
+        /// <returns></returns>
         public int OnActiveXControlCreated(int Id, bool Status)
         {
             throw new NotImplementedException();

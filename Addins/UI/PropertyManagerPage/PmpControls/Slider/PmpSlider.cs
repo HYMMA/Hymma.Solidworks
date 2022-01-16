@@ -148,12 +148,7 @@ namespace Hymma.Solidworks.Addins
             get => _tickMark;
             set
             {
-#if DEBUG
-                if (!Style.HasFlag(SliderStyles.AutoTicks))
-                    throw new Exception("to set the tick mark for a slider the style of the slider must be set to SliderStyles.AutoTicks");
-#else
-                return;
-#endif
+
                 _tickMark = value;
                 if (SolidworksObject != null)
                     SolidworksObject.TickFrequency = value;
