@@ -8,7 +8,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// a lable inside a property manager page
     /// </summary>
-    public class PmpLabel : PmpTextBase<PropertyManagerPageLabel>
+    public class PmpLabel : PmpTextBase
     {
         private LabelStyles _style;
 
@@ -19,6 +19,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="style">style of the lable as defined by bitwie <see cref="LabelStyles"/></param>
         public PmpLabel(string text, LabelStyles style = LabelStyles.LeftText) : base(swPropertyManagerPageControlType_e.swControlType_Label, text)
         {
+            OnRegister += () => SolidworksObject = (PropertyManagerPageLabel)Control;
             Style = style;
         }
 
@@ -164,6 +165,10 @@ namespace Hymma.Solidworks.Addins
                     OnRegister += () => { SolidworksObject.Style = (int)value; };
             }
         }
+        /// <summary>
+        /// Solidworks object
+        /// </summary>
+        public PropertyManagerPageLabel SolidworksObject { get; private set; }
 
         /// <summary>
         /// sets the range of specified characters to bold. 

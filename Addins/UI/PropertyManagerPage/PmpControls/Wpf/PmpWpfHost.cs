@@ -10,7 +10,7 @@ namespace Hymma.Solidworks.Addins
     /// a windows form host that solidworks uses to show win forms or wpf.
     /// </summary>
     /// <remarks>your addin must add a reference to WindowsFormsIntegration</remarks>
-    public class PmpWpfHost : PmpControl<IPropertyManagerPageWindowFromHandle>, IEquatable<PmpWpfHost>
+    public class PmpWpfHost : PmpControl, IEquatable<PmpWpfHost>
     {
         #region constructors
         /// <summary>
@@ -19,12 +19,16 @@ namespace Hymma.Solidworks.Addins
         /// <param name="elementHost">solidworks uses <see cref="System.Windows.Forms.Integration.ElementHost"/> to hook into a windows form</param>
         /// <param name="wpfControl">wpf controller</param>
         /// <param name="height">height of this control in property manager page if set to zero the control will not appear</param>
-        public PmpWpfHost(ElementHost elementHost, System.Windows.Controls.UserControl wpfControl, int height) : base(swPropertyManagerPageControlType_e.swControlType_WindowFromHandle)
+        public PmpWpfHost(ElementHost elementHost, System.Windows.Controls.UserControl wpfControl, int height) : base(swPropertyManagerPageControlType_e.swControlType_WindowFromHandle,"","")
         {
             this.ElementHost = elementHost;
             this.WindowsControl = wpfControl;
             OnDisplay += PmpWpfHost_OnDisplay;
-            OnRegister += () => SolidworksObject.Height = height;
+            OnRegister += () =>
+            {
+                SolidworksObject = (IPropertyManagerPageWindowFromHandle)Control;
+                SolidworksObject.Height = height;
+            };
         }
         /// <summary>
         /// constructor
@@ -33,7 +37,6 @@ namespace Hymma.Solidworks.Addins
         /// <param name="height">height of this control in property manager page if set to zero the control will not appear</param>
         public PmpWpfHost(System.Windows.Controls.UserControl winFormOrWpfControl, int height) : this(new ElementHost(), winFormOrWpfControl, height)
         {
-
         }
         #endregion
 
@@ -44,7 +47,7 @@ namespace Hymma.Solidworks.Addins
             if (ElementHost == null || !WindowsControl.HasContent)
                 return;
 
-            ElementHost.Child =WindowsControl;
+            ElementHost.Child = WindowsControl;
             SolidworksObject?.SetWindowHandlex64(ElementHost.Handle.ToInt64());
         }
 
@@ -94,6 +97,11 @@ namespace Hymma.Solidworks.Addins
                 WindowsControl.IsEnabled = value;
             }
         }
+
+        /// <summary>
+        /// solidworks object
+        /// </summary>
+        public IPropertyManagerPageWindowFromHandle SolidworksObject { get; private set; }
         #endregion
     }
 }

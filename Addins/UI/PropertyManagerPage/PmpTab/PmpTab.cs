@@ -10,7 +10,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// Tab for a PropertyManager page. 
     /// </summary>
-    public class PmpTab : IWrapSolidworksObject<IPropertyManagerPageTab>
+    public class PmpTab 
     {
         #region fields
 

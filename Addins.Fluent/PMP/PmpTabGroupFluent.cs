@@ -56,14 +56,14 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         /// <inheritdoc/>
-        public IPmpTabGroupFluent HasTheseControls(Func<IEnumerable<IPmpControl>> controlMaker)
+        public IPmpTabGroupFluent HasTheseControls(Func<IEnumerable<PmpControl>> controlMaker)
         {
 
             AddControls(controlMaker.Invoke());
             return this;
         }
         /// <inheritdoc/>
-        public IPmpTabGroupFluent HasTheseControls(IEnumerable<IPmpControl> controls)
+        public IPmpTabGroupFluent HasTheseControls(IEnumerable<PmpControl> controls)
         {
 
             AddControls(controls);

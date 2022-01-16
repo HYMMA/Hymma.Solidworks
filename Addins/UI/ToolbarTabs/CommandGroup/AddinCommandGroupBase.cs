@@ -26,7 +26,7 @@ namespace Hymma.Solidworks.Addins
         #region public properties
 
         /// <inheritdoc/>
-        public IEnumerable<AddinCommand> Commands { get; set; }
+        public AddinCommand[] Commands { get; set; }
 
         ///<inheritdoc/>
         public bool IgnorePrevious { get; set; }

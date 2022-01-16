@@ -3,7 +3,6 @@ using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Hymma.Solidworks.Addins
@@ -11,7 +10,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// a bitmap button for property manager page
     /// </summary>
-    public class PmpBitmapButton : PmpButtonBase<PropertyManagerPageBitmapButton>
+    public class PmpBitmapButton : PmpButtonBase
     {
         #region private fields
 
@@ -23,7 +22,6 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region constructors
-
         /// <summary>
         /// generate a button with specified <see cref="Bitmap"/>
         /// </summary>
@@ -33,12 +31,17 @@ namespace Hymma.Solidworks.Addins
         /// <param name="opacity">define opacity of the bitmap on the button, less values result in more transparent pictures. If the format of the <see cref="Bitmap"/> provided in .png no transparency will be applied on the image</param>
         public PmpBitmapButton(Bitmap bitmap, string tip, BtnSize iconSizes, byte opacity) : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton, "", tip)
         {
+            OnRegister += PmpBitmapButton_OnRegister;
             _bitmap = bitmap;
             _fileName = "Btn" + Id;
             _iconSize = iconSizes;
             _opacity = opacity;
-            OnRegister += PmpBitmapButton_OnRegister;
         }
+
+        /// <summary>
+        /// solidworks ojbect
+        /// </summary>
+        public PropertyManagerPageBitmapButton SolidworksObject { get; internal set; }
 
         /// <summary>
         /// generate a button with standard icons
@@ -55,6 +58,8 @@ namespace Hymma.Solidworks.Addins
         #region call backs
         private void PmpBitmapButton_OnRegister()
         {
+            SolidworksObject = (PropertyManagerPageBitmapButton)Control;
+
             if (_bitmap != null && _fileName != "")
             {
                 SetButtonIcon(_bitmap, _fileName, _iconSize, _opacity);
@@ -87,11 +92,11 @@ namespace Hymma.Solidworks.Addins
             //possible sizes for a button bitmap in solidworks
             var images = new List<string>();
             var masks = new List<string>();
-            
+
             using (bitmap)
             {
                 var fullFileName = Path.Combine(SharedIconsDir.CreateSubdirectory(Id.ToString()).FullName, new StringBuilder().Append(fileName).Append(size).Append(".png").ToString());
-                MaskedBitmap.SaveAsPng(bitmap,new Size(((int)size),((int)size)), ref fullFileName, false, opacity);
+                MaskedBitmap.SaveAsPng(bitmap, new Size(((int)size), ((int)size)), ref fullFileName, false, opacity);
                 images.Add(fullFileName);
                 masks.Add("");
             }

@@ -1,5 +1,4 @@
 ﻿using SolidWorks.Interop.sldworks;
-using System;
 using System.Drawing;
 using System.IO;
 
@@ -8,12 +7,17 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// picture inside a property manager page
     /// </summary>
-    public class PmpBitmap : PmpControl<PropertyManagerPageBitmap>
+    public class PmpBitmap : PmpControl
     {
         private Bitmap _bitmap;
         private byte _opacity;
         private string _filename;
         private ControlResizeStyles _resizeStyles;
+
+        /// <summary>
+        /// solidworks object
+        /// </summary>
+        public PropertyManagerPageBitmap SolidworksObject { get; private set; }
 
         /// <summary>
         /// generates a bitmap in the property manager page
@@ -24,7 +28,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="opacity">define opacity of the image. 255 is th emax possible value, less values result in more transparent pictures</param>
         /// <remarks>The typical image format for the two SOLIDWORKS bitmaps is 18 x 18 pixels x 256 colors. <br/>
         /// </remarks>
-        public PmpBitmap(Bitmap bitmap, string fileName, ControlResizeStyles resizeStyles=ControlResizeStyles.LockLeft, byte opacity = 255) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap)
+        public PmpBitmap(Bitmap bitmap, string fileName, ControlResizeStyles resizeStyles=ControlResizeStyles.LockLeft, byte opacity = 255) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap,"","")
         {
             OnRegister += PmpBitmap_OnRegister;
             _bitmap = bitmap;
@@ -34,13 +38,14 @@ namespace Hymma.Solidworks.Addins
             OnDisplay += PmpBitmap_OnDisplay;
         }
 
-        private void PmpBitmap_OnDisplay(IPmpControl sender, OnDisplay_EventArgs eventArgs)
+        private void PmpBitmap_OnDisplay(PmpControl sender, OnDisplay_EventArgs eventArgs)
         {
             eventArgs.OptionsForResize = (int)_resizeStyles;
         }
 
         private void PmpBitmap_OnRegister()
         {
+            SolidworksObject = (PropertyManagerPageBitmap)Control;
             UpdatePicture(_bitmap, _filename,_opacity);
         }
 

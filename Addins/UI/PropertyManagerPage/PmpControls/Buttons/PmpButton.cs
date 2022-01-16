@@ -6,7 +6,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// a button in property manager page
     /// </summary>
-    public class PmpButton : PmpButtonBase<IPropertyManagerPageButton>
+    public class PmpButton : PmpButtonBase
     {
 
         /// <summary>
@@ -19,8 +19,14 @@ namespace Hymma.Solidworks.Addins
             OnRegister += PmpButton_OnRegister;
         }
 
+        /// <summary>
+        /// solidworks ojbect
+        /// </summary>
+        public PropertyManagerPageButton SolidworksObject { get; internal set; }
+
         private void PmpButton_OnRegister()
         {
+            SolidworksObject = (PropertyManagerPageButton)Control;
         }
     }
 }

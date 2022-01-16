@@ -7,7 +7,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// Allows you to access a PropertyManager page list box control.
     /// </summary>
-    public class PmpListBox : PmpTextBase<PropertyManagerPageListbox>
+    public class PmpListBox : PmpTextBase
     {
         #region private fields
 
@@ -50,6 +50,7 @@ namespace Hymma.Solidworks.Addins
 
         private void PmpListBox_OnRegister()
         {
+            SolidworksObject = (PropertyManagerPageListbox)Control;
             AddItems(_items);
         }
 
@@ -169,6 +170,11 @@ namespace Hymma.Solidworks.Addins
         /// Gets the number of items in the attached drop-down list for this list box. 
         /// </summary>
         public int? ItemCount => SolidworksObject?.ItemCount;
+
+        /// <summary>
+        /// solidworks object
+        /// </summary>
+        public PropertyManagerPageListbox SolidworksObject { get; private set; }
 
         #endregion
 

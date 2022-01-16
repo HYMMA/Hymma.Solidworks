@@ -9,7 +9,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// a solidworks selection box 
     /// </summary>
-    public class PmpSelectionBox : PmpControl<IPropertyManagerPageSelectionbox>
+    public class PmpSelectionBox : PmpControl
     {
         #region private fields
 
@@ -63,6 +63,7 @@ namespace Hymma.Solidworks.Addins
         #region Call Backs
         private void PmpSelectionBox_OnRegister()
         {
+            SolidworksObject = (IPropertyManagerPageSelectionbox)Control;
             SolidworksObject.AllowMultipleSelectOfSameEntity = _allowMultipleSelectOfSameEntity;
             SolidworksObject.SingleEntityOnly = _singleItemOnly;
 
@@ -82,15 +83,15 @@ namespace Hymma.Solidworks.Addins
         }
         internal void FocusChanged()
         {
-            OnFocusChanged?.Invoke(this);
+            OnFocusChanged?.Invoke(this,EventArgs.Empty);
         }
         internal void CallOutCreated()
         {
-            OnCallOutCreated?.Invoke(this);
+            OnCallOutCreated?.Invoke(this, EventArgs.Empty);
         }
         internal void CallOutDestroyed()
         {
-            OnCallOutDestroyed?.Invoke(this);
+            OnCallOutDestroyed?.Invoke(this, EventArgs.Empty);
         }
 
         internal void ListChanged(int count)
@@ -265,6 +266,10 @@ namespace Hymma.Solidworks.Addins
                     throw new ArgumentOutOfRangeException($"you assigned {value} to a selection box mark value. But {value} is not a power of 2");
             }
         }
+        /// <summary>
+        /// solidworks object
+        /// </summary>
+        public IPropertyManagerPageSelectionbox SolidworksObject { get; private set; }
 
         /// <summary>
         /// adds the selections to a selectionBox
@@ -350,24 +355,24 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// SOLIDWORKS will invoke this once focus is changed from this selection box
         /// </summary>
-        public event SelectionBox_EventHandler OnFocusChanged;
+        public event EventHandler OnFocusChanged;
 
         /// <summary>
         /// SOLIDWORKS will invoke this once a call-out is created for this selection box<br/>
         /// allows you to collect information such as the selection type from the last selection. Next, use the <see cref="Callout"/> property to get the Callout object. <br/>
         /// Then, use that object's various properties to control the callout text and display characteristics based on that selection information.
         /// </summary>
-        public event SelectionBox_EventHandler OnCallOutCreated;
+        public event EventHandler OnCallOutCreated;
 
         /// <summary>
         /// SOLIDWORKS will invoke this once a callout is destroyed
         /// </summary>
-        public event SelectionBox_EventHandler OnCallOutDestroyed;
+        public event EventHandler OnCallOutDestroyed;
 
         /// <summary>
         /// Regardless of how many items the user selects, this event is called only once per interactive box selection. In other words, if the user selects six faces using a box selection, this method is called only once. <br/>
         /// </summary>
-        public event SelectionBox_EventHandler<SelectionBox_OnListChanged_EventArgs> OnListChanged;
+        public event SelectionBox_SelectionChangeEventHandler OnListChanged;
 
         /// <summary>
         /// Called when a selection is made, which allows the add-in to accept or reject the selection. <strong>it must return <c>true</c> for selections to occure</strong><br/>
@@ -399,7 +404,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// fired just a moment before the property manager page and its controls are displayed
         /// </summary>
-        public new event SelectionBox_EventHandler<SelBox_OnDisplay_EventArgs> OnDisplay;
+        public new event SelectionBox_EventHandler OnDisplay;
         #endregion
     }
 }

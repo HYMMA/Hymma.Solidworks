@@ -13,7 +13,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// an array of <see cref="AddinCommand"/> this group presents
         /// </summary>
-        IEnumerable<AddinCommand> Commands { get; set; }
+        AddinCommand[] Commands { get; set; }
 
         /// <summary>
         /// Set this to true to prevent SOLIDWORKS from saving the current toolbar setting to the registry, even if there is no previous version.

@@ -10,7 +10,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// a combo box with multiple text values
     /// </summary>
-    public class PmpComboBox : PmpControl<PropertyManagerPageCombobox>
+    public class PmpComboBox : PmpControl
     {
         #region private fields
 
@@ -29,8 +29,9 @@ namespace Hymma.Solidworks.Addins
         /// <param name="items">list of items in the combox box</param>
         /// <param name="style">style of the combo box as defined by <see cref="ComboBoxStyles"/></param>
         /// <param name="height">height of the combo box</param>
-        public PmpComboBox(List<string> items, ComboBoxStyles style, short height = 50) : base(swPropertyManagerPageControlType_e.swControlType_Combobox)
+        public PmpComboBox(List<string> items, ComboBoxStyles style, short height = 50) : base(swPropertyManagerPageControlType_e.swControlType_Combobox,"","")
         {
+            OnRegister += PmpComboBox_OnRegister;
             _style = style;
             _height = height;
             _items = new List<string>();
@@ -40,7 +41,13 @@ namespace Hymma.Solidworks.Addins
             OnDisplay += PmpComboBox_OnDisplay;
         }
 
-        private void PmpComboBox_OnDisplay(IPmpControl sender, OnDisplay_EventArgs eventArgs)
+        private void PmpComboBox_OnRegister()
+        {
+            SolidworksObject = (PropertyManagerPageCombobox)Control;
+            throw new NotImplementedException();
+        }
+
+        private void PmpComboBox_OnDisplay(PmpControl sender, OnDisplay_EventArgs eventArgs)
         {
             SolidworksObject.Clear();
             _items.Sort();
@@ -155,6 +162,10 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region public properties
+        /// <summary>
+        /// solidworks object
+        /// </summary>
+        public PropertyManagerPageCombobox SolidworksObject { get; private set; }
         /// <summary>
         /// items in the combobox the index of these items is not the same as solidworks Ui and is not reliable
         /// </summary>

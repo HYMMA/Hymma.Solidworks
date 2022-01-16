@@ -6,7 +6,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// a slider in property manager page
     /// </summary>
-    public class PmpSlider : PmpControl<IPropertyManagerPageSlider>
+    public class PmpSlider : PmpControl
     {
         #region fields
 
@@ -30,6 +30,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="tip"></param>
         public PmpSlider(SliderStyles styles, string tip = "") : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Slider, "", tip)
         {
+            OnRegister += () => SolidworksObject = (IPropertyManagerPageSlider)Control;
             Style = styles;
             _pageSize = 2;
             _lineSize = 1;
@@ -157,6 +158,11 @@ namespace Hymma.Solidworks.Addins
 
             }
         }
+
+        /// <summary>
+        /// solidworks object
+        /// </summary>
+        public IPropertyManagerPageSlider SolidworksObject { get; private set; }
         #endregion
 
         #region methods

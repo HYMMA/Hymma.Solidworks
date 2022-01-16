@@ -10,7 +10,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// a wrapper for solidworks property manager page groups
     /// </summary>
-    public class PmpGroup : IWrapSolidworksObject<IPropertyManagerPageGroup>
+    public class PmpGroup 
     {
         #region fields
         private SysColor _backgroundColor;
@@ -26,7 +26,7 @@ namespace Hymma.Solidworks.Addins
 
         #region constructors
         /// <summary>
-        /// construct a property manage page group to host numerous <see cref="IPmpControl"/>
+        /// construct a property manage page group to host numerous <see cref="PmpControl"/>
         /// </summary>
         /// <param name="caption">text that appears next to a group box</param>
         /// <param name="expanded">if set true  group box will appear expanded by default</param>
@@ -34,22 +34,23 @@ namespace Hymma.Solidworks.Addins
         public PmpGroup(string caption = "Group", bool expanded = true, bool visible = true)
         {
             //assign properties
+            
             Id = Counter.GetNextPmpId();
             _caption = caption;
             _backgroundColor = SysColor.PropertyManagerColor;
             Expanded = expanded;
             Visible = visible;
-            Controls = new List<IPmpControl>();
+            Controls = new List<PmpControl>();
         }
 
         /// <summary>
-        /// construct a property manager page group to host numerous <see cref="IPmpControl"/>
+        /// construct a property manager page group to host numerous <see cref="PmpControl"/>
         /// </summary>
         /// <param name="Caption">text that appears next to a group box</param>
         /// <param name="Controls">list of controls to add to this group</param>
         /// <param name="expanded">if set true  group box will appear expanded by default</param>
         /// <param name="visible">if set to false group box will be hidden by default</param>
-        public PmpGroup(string Caption, List<IPmpControl> Controls, bool expanded = true, bool visible = true) : this(Caption, expanded, visible)
+        public PmpGroup(string Caption, List<PmpControl> Controls, bool expanded = true, bool visible = true) : this(Caption, expanded, visible)
         {
             this.Controls = Controls;
         }
@@ -126,8 +127,8 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// a list of solidworks controllers
         /// </summary>
-        public List<IPmpControl> Controls { get; internal set; }
-
+        public List<PmpControl> Controls { get; internal set; }
+        
         ///<inheritdoc/>
         public IPropertyManagerPageGroup SolidworksObject { get; private set; }
         #endregion
@@ -137,7 +138,7 @@ namespace Hymma.Solidworks.Addins
         /// Registers a control to the <see cref="Controls"/> and solidworks UI
         /// </summary>
         /// <param name="control"></param>
-        public void AddControl(IPmpControl control)
+        public void AddControl(PmpControl control)
         {
             Controls.Add(control);
         }
@@ -146,7 +147,7 @@ namespace Hymma.Solidworks.Addins
         /// adds a list of controls to the <see cref="Controls"/>
         /// </summary>
         /// <param name="controls"></param>
-        public void AddControls(IEnumerable<IPmpControl> controls)
+        public void AddControls(IEnumerable<PmpControl> controls)
         {
             Controls.AddRange(controls);
         }

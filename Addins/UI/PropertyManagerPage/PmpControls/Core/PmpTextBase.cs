@@ -7,18 +7,15 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// a base class for text based controls in a property manager page
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class PmpTextBase<T> : PmpControl<T>
+    public class PmpTextBase : PmpControl
     {
         #region fields
 
         private Color bgColor;
         private Color txtColor;
-        private IPropertyManagerPageControl control;
         #endregion
 
         #region constructor
-
         /// <summary>
         /// default constructor
         /// </summary>
@@ -27,10 +24,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="tip"></param>
         public PmpTextBase(swPropertyManagerPageControlType_e type, string caption = "", string tip = "") : base(type, caption, tip)
         {
-            OnRegister += () =>
-            {
-                this.control = SolidworksObject as IPropertyManagerPageControl;
-            };
+     
         }
         #endregion
 
@@ -46,18 +40,15 @@ namespace Hymma.Solidworks.Addins
             set
             {
                 bgColor = value;
-                if (control != null)
+                if (Control != null)
                 {
                     try
                     {
                         //convert color to int 
-                        control.BackgroundColor = ColorTranslator.ToWin32(value);
+                        Control.BackgroundColor = ColorTranslator.ToWin32(value);
                     }
                     catch (System.Exception)
                     {
-#if DEBUG
-                        throw;
-#endif
                     }
                 }
                 else
@@ -65,7 +56,7 @@ namespace Hymma.Solidworks.Addins
                     OnRegister += () =>
                     {
                         //convert color to int 
-                        control.BackgroundColor = ColorTranslator.ToWin32(value);
+                        Control.BackgroundColor = ColorTranslator.ToWin32(value);
                     };
                 }
             }
@@ -82,19 +73,15 @@ namespace Hymma.Solidworks.Addins
             set
             {
                 txtColor = value;
-                if (control != null)
+                if (Control != null)
                 {
-
                     try
                     {
                         //convert color to int 
-                        control.TextColor = ColorTranslator.ToWin32(value);
+                        Control.TextColor = ColorTranslator.ToWin32(value);
                     }
                     catch (System.Exception)
                     {
-#if DEBUG
-                        throw;
-#endif
                     }
                 }
                 else
@@ -102,7 +89,7 @@ namespace Hymma.Solidworks.Addins
                     OnRegister += () =>
                     {
                         //convert color to int 
-                        control.TextColor = ColorTranslator.ToWin32(value);
+                        Control.TextColor = ColorTranslator.ToWin32(value);
                     };
                 }
             }

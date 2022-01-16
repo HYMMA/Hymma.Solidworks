@@ -1,22 +1,23 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// an event handler for <see cref="PmpSelectionBox"/> where th event returns some event arguments
     /// </summary>
-    /// <typeparam name="EventArgs"></typeparam>
     /// <param name="sender">the controller</param>
-    /// <param name="eventArgs">event arguments provided to you by SOLIDWORKS when this event happens</param>
+    /// <param name="e">event arguments provided to you by SOLIDWORKS when this event happens</param>
     /// <returns></returns>
     [ComVisible(true)]
-    public delegate void SelectionBox_EventHandler<EventArgs>(PmpSelectionBox sender, EventArgs eventArgs);
+    public delegate void SelectionBox_EventHandler(PmpSelectionBox sender, SelBox_OnDisplay_EventArgs e);
+
 
     /// <summary>
-    /// handles events for a <see cref="PmpSelectionBox"/> event that does not have any event argument
+    /// an event handler for <see cref="PmpSelectionBox"/> 
     /// </summary>
-    /// <param name="sender">is the selection box that fired the event</param>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     [ComVisible(true)]
-    public delegate void SelectionBox_EventHandler(PmpSelectionBox sender);
-
+    public delegate void SelectionBox_SelectionChangeEventHandler(PmpSelectionBox sender, SelectionBox_OnListChanged_EventArgs e);
 }

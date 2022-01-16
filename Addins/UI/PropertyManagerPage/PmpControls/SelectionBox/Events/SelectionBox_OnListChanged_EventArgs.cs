@@ -1,9 +1,11 @@
-﻿namespace Hymma.Solidworks.Addins
+﻿using System;
+
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// provides event arguments for <see cref="PmpSelectionBox.OnListChanged"/> event
     /// </summary>
-    public class SelectionBox_OnListChanged_EventArgs
+    public class SelectionBox_OnListChanged_EventArgs : EventArgs
     {
         /// <summary>
         /// default constructor

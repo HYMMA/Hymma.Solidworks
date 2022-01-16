@@ -12,7 +12,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// default constructor 
         /// </summary>
-        /// <param name="uiModel">an object that hosts differet inheritances of <see cref="IPmpControl"/> </param>
+        /// <param name="uiModel">an object that hosts differet inheritances of <see cref="PmpControl"/> </param>
         public PmpFactoryX64(PmpUiModel uiModel)
             : base(new PmpEventHandler(uiModel), uiModel)
         {

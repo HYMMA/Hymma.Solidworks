@@ -72,7 +72,6 @@
   <ItemGroup>
     <Compile Include="Core\AddinUserInterface.cs" />
     <Compile Include="Core\AddinAttribute.cs" />
-    <Compile Include="Core\IWrapSolidworksObject.cs" />
     <Compile Include="UI\Callout\CalloutRow.cs" />
     <Compile Include="UI\Callout\OnRowValueChangedEventArgs.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
@@ -132,14 +131,13 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\Image\PmpBitmap.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButtonCheckable.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Combobox\PmpComboBox.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Core\PmpControl.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\PmpListBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\PmpNumberBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\RadioButton\PmpRadioButton.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpButton.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\PmpSelectionBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Core\IPmpControl.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Core\PmpControl.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Checkbox\PmpCheckBox.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\PmpLabel.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\TextBox\PmpTextBox.cs" />

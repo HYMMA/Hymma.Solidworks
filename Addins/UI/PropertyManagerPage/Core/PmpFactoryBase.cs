@@ -44,7 +44,7 @@ namespace Hymma.Solidworks.Addins
         /// default constructor 
         /// </summary>
         /// <param name="eventHandler">object to handle events such as checkbox onclick etc...</param>
-        /// <param name="uiModel">an object that hosts differet inheritances of <see cref="IPmpControl"/> </param>
+        /// <param name="uiModel">an object that hosts differet inheritances of <see cref="PmpControl"/> </param>
         /// <exception cref="ArgumentNullException"></exception>
         protected PmpFactoryBase(PropertyManagerPage2Handler9 eventHandler, PmpUiModel uiModel)
         {

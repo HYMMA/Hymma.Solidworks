@@ -7,7 +7,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// a solidworks radio button in property managers
     /// </summary>
-    public class PmpRadioButton : PmpControl<IPropertyManagerPageOption>
+    public class PmpRadioButton : PmpControl
     {
         private bool _isChecked;
 
@@ -16,8 +16,9 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         /// <param name="caption">caption for this radio button</param>
         /// <param name="isChecked">whether it is going to be the checked or not</param>
-        public PmpRadioButton(string caption, bool isChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Option, caption)
+        public PmpRadioButton(string caption, bool isChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Option, caption,"")
         {
+            OnRegister += () => SolidworksObject = (IPropertyManagerPageOption)Control;
             IsChecked = isChecked;
         }
         
@@ -64,6 +65,10 @@ namespace Hymma.Solidworks.Addins
                 }
             }
         }
+        /// <summary>
+        /// solidworks object
+        /// </summary>
+        public IPropertyManagerPageOption SolidworksObject { get; private set; }
         #endregion
 
         #region call backs

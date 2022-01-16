@@ -13,7 +13,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// a wrapper for solidworks property manager page UI
     /// </summary>
-    public class PmpUiModel : IWrapSolidworksObject<IPropertyManagerPage2>
+    public class PmpUiModel 
     {
         #region fields
 
@@ -104,14 +104,14 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         /// <param name="id">id of control to return</param>
         /// <returns></returns>
-        public IPmpControl GetControl(int id) => AllControls?.Where(c => c.Id == id).FirstOrDefault();
+        public PmpControl GetControl(int id) => AllControls?.Where(c => c.Id == id).FirstOrDefault();
 
         /// <summary>
         /// get all controls of type T in this propery manger page
         /// </summary>
         /// <typeparam name="T">type of control to return</typeparam>
         /// <returns></returns>
-        public IEnumerable<T> GetControls<T>() where T : IPmpControl
+        public IEnumerable<T> GetControls<T>() where T : PmpControl
         {
             var controls = AllControls?
                 .Where(c => c is T).Cast<T>();
@@ -138,7 +138,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// get a flattened list of all controls hosted by this UI model
         /// </summary>
-        public IEnumerable<IPmpControl> AllControls { get; private set; }
+        public IEnumerable<PmpControl> AllControls { get; private set; }
 
         /// <summary>
         /// bitwise option as defined in <see cref="PmpOptions"/> default has okay, cancel, pushpin buttons and page build is disabled during handlers

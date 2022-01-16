@@ -7,7 +7,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// a class to represent a text box inside a property manager page in solidworks
     /// </summary>
-    public class PmpTextBox : PmpTextBase<PropertyManagerPageTextbox>
+    public class PmpTextBox : PmpTextBase
     {
         #region fields
 
@@ -25,6 +25,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="tip">a tip for this text box</param>
         public PmpTextBox(string initialValue = "",string tip="") : base(swPropertyManagerPageControlType_e.swControlType_Textbox,tip:tip)
         {
+            OnRegister += () => SolidworksObject = (PropertyManagerPageTextbox)Control;
             Value = initialValue;
         }
         #endregion
@@ -88,6 +89,10 @@ namespace Hymma.Solidworks.Addins
                     OnRegister += () => { SolidworksObject.Height = value; };
             }
         }
+        /// <summary>
+        /// solidworks object
+        /// </summary>
+        public PropertyManagerPageTextbox SolidworksObject { get; private set; }
         #endregion
 
         #region call backs

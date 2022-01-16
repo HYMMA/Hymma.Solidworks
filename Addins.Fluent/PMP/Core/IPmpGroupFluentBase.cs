@@ -45,16 +45,16 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// <summary>
         /// add these controls to the <see cref="Solidworks.Addins.PmpGroup"/>
         /// </summary>
-        /// <param name="controlMaker">function that returns an <see cref="IEnumerable{T}"/> where T : <see cref="IPmpControl"/></param>
+        /// <param name="controlMaker">function that returns an <see cref="IEnumerable{T}"/> where T : <see cref="PmpControl"/></param>
         /// <returns></returns>
-        T HasTheseControls(Func<IEnumerable<IPmpControl>> controlMaker);
+        T HasTheseControls(Func<IEnumerable<PmpControl>> controlMaker);
      
         /// <summary>
         /// add these controls to the <see cref="Solidworks.Addins.PmpGroup"/>
         /// </summary>
-        /// <param name="controls">an <see cref="IEnumerable{T}"/> where T : <see cref="IPmpControl"/></param>
+        /// <param name="controls">an <see cref="IEnumerable{T}"/> where T : <see cref="PmpControl"/></param>
         /// <returns></returns>
-        T HasTheseControls(IEnumerable<IPmpControl> controls);
+        T HasTheseControls(IEnumerable<PmpControl> controls);
         
         /// <summary>
         /// background color of this group

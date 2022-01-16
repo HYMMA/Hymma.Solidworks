@@ -10,7 +10,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// represents a command tab that host commands 
     /// </summary>
-    public class AddinCommandTab : IWrapSolidworksObject<CommandTab>
+    public class AddinCommandTab 
     {
         #region private fields
         private AddinCommandGroupBase _commandGroup;

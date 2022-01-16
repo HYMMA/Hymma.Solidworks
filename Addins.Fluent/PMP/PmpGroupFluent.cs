@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Hymma.Solidworks.Addins.Fluent
 {
     /// <summary>
-    /// a group in property manager page that host the <see cref="IPmpControl"/>
+    /// a group in property manager page that host the <see cref="PmpControl"/>
     /// </summary>
     public class PmpGroupFluent : PmpGroup, IPmpGroupFluent
     {
@@ -49,14 +49,14 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         /// <inheritdoc/>
-        public IPmpGroupFluent HasTheseControls(Func<IEnumerable<IPmpControl>> controlMaker)
+        public IPmpGroupFluent HasTheseControls(Func<IEnumerable<PmpControl>> controlMaker)
         {
 
             AddControls(controlMaker.Invoke());
             return this;
         }
         /// <inheritdoc/>
-        public IPmpGroupFluent HasTheseControls(IEnumerable<IPmpControl> controls)
+        public IPmpGroupFluent HasTheseControls(IEnumerable<PmpControl> controls)
         {
 
             AddControls(controls);

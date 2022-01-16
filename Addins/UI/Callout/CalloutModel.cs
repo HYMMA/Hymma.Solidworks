@@ -10,7 +10,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// Allows add-in applications to manipulate single and multi-row callouts
     /// </summary>
-    public class CalloutModel : IWrapSolidworksObject<Callout>
+    public class CalloutModel 
     {
         #region private fields
         private List<CalloutRow> _rows = new List<CalloutRow>();

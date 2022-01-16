@@ -6,7 +6,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// a check box in a property manger page
     /// </summary>
-    public class PmpCheckBox : PmpControl<PropertyManagerPageCheckbox>
+    public class PmpCheckBox : PmpControl
     {
         #region private fields
 
@@ -25,8 +25,13 @@ namespace Hymma.Solidworks.Addins
         public PmpCheckBox(string caption, bool isChecked = false, string tip ="") : base(swPropertyManagerPageControlType_e.swControlType_Checkbox,caption,tip)
         {
             IsChecked = isChecked;
+            OnRegister += PmpCheckBox_OnRegister;
         }
 
+        private void PmpCheckBox_OnRegister()
+        {
+            SolidworksObject = (PropertyManagerPageCheckbox)Control;
+        }
 
         #endregion
 
@@ -40,6 +45,10 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region public properties
+        /// <summary>
+        /// solidworks object
+        /// </summary>
+        public PropertyManagerPageCheckbox SolidworksObject { get; private set; }
 
         /// <summary>
         /// status of this checkbox

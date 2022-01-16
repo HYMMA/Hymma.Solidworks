@@ -13,7 +13,7 @@ namespace Hymma.Solidworks.Addins
         private bool _isChecked;
 
         /// <summary>
-        /// construct a property manage page group to host numerous <see cref="IPmpControl"/>
+        /// construct a property manage page group to host numerous <see cref="PmpControl"/>
         /// </summary>
         /// <param name="caption">text that appears next to a group box</param>
         /// <param name="visible">if set to false gorup will be hiddend by default</param>
@@ -39,14 +39,14 @@ namespace Hymma.Solidworks.Addins
 
 
         /// <summary>
-        /// construct a property manager page group to host numerous <see cref="IPmpControl"/>
+        /// construct a property manager page group to host numerous <see cref="PmpControl"/>
         /// </summary>
         /// <param name="caption">text that appears next to a group box</param>
         /// <param name="controls">list of controls to add to this group</param>
         /// <param name="visible">if set to false gorup will be hiddend by default</param>
         /// <param name="isChecked">if set to true gorup will appear checked by default</param>
         /// <param name="expanded">if set to true group will appear expanded by default</param>
-        public PmpGroupCheckable(string caption, List<IPmpControl> controls, bool visible = true, bool isChecked = true, bool expanded = true) : this(caption, visible, isChecked, expanded)
+        public PmpGroupCheckable(string caption, List<PmpControl> controls, bool visible = true, bool isChecked = true, bool expanded = true) : this(caption, visible, isChecked, expanded)
         {
             Controls = controls;
         }

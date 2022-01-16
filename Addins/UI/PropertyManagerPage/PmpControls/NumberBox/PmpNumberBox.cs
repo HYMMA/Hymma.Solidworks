@@ -7,7 +7,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// creates and allows you to access a number box in a property manager page
     /// </summary>
-    public class PmpNumberBox : PmpTextBase<IPropertyManagerPageNumberbox>
+    public class PmpNumberBox : PmpTextBase
     {
         #region fields
         private NumberBoxStyles _style;
@@ -23,6 +23,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="style">style for this numberBox as defined by <see cref="NumberBoxStyles"/></param>
         public PmpNumberBox(NumberBoxStyles style=NumberBoxStyles.Default) : base(swPropertyManagerPageControlType_e.swControlType_Numberbox)
         {
+            OnRegister += () => SolidworksObject = (IPropertyManagerPageNumberbox)Control;
             Style = style;
         }
 
@@ -190,6 +191,10 @@ namespace Hymma.Solidworks.Addins
                     OnRegister += () => { SolidworksObject.DisplayedUnit = (int)value; };
             }
         }
+        /// <summary>
+        /// soildworks object
+        /// </summary>
+        public IPropertyManagerPageNumberbox SolidworksObject { get; private set; }
         #endregion
 
 
