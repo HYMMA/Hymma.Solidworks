@@ -40,14 +40,14 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="doThis">delegate that accepts a bool as the parameter and returns void. bool parameter will be assigned by solidworks and indicates the expansion state of the group.</param>
         /// <returns></returns>
-        IPmpTabGroupFluentCheckable AndOnExpansionChange(Action<PmpGroup, bool> doThis);
+        IPmpTabGroupFluentCheckable AndOnExpansionChange(CustomAction doThis);
 
         /// <summary>
         /// add these controls to the <see cref="Solidworks.Addins.PmpGroup"/>
         /// </summary>
         /// <param name="controlMaker">function that returns an <see cref="IEnumerable{T}"/> where IPmpTabGroupFluentCheckable : <see cref="PmpControl"/></param>
         /// <returns></returns>
-        IPmpTabGroupFluentCheckable HasTheseControls(Func<IEnumerable<PmpControl>> controlMaker);
+        IPmpTabGroupFluentCheckable HasTheseControls(CustomFunc controlMaker);
 
         /// <summary>
         /// add these controls to the <see cref="Solidworks.Addins.PmpGroup"/>

@@ -62,12 +62,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddinFactory.cs" />
+    <Compile Include="Core\Delegates.cs" />
     <Compile Include="Core\IFluent.cs" />
     <Compile Include="Core\IAddinModelBuilder.cs" />
     <Compile Include="Core\AddinModelBuilder.cs" />
     <Compile Include="PMP\Core\IPmpTabGroupFluentCheckable.cs" />
     <Compile Include="PMP\Core\IPmpGroupFluentCheckable.cs" />
-    <Compile Include="PMP\Core\IPmpGroupFluentBase.cs" />
     <Compile Include="PMP\Core\IPmpGroupFluent.cs" />
     <Compile Include="PMP\Core\IPmpTabFluent.cs" />
     <Compile Include="PMP\Core\IPmpTabGroupFluent.cs" />
