@@ -1,17 +1,18 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
-using System.Windows;
 using System.Windows.Forms.Integration;
-
+using Xarial.XCad.SolidWorks.Utils;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// a windows form host that solidworks uses to show win forms or wpf.
     /// </summary>
     /// <remarks>your addin must add a reference to WindowsFormsIntegration</remarks>
-    public class PmpWpfHost : PmpControl, IEquatable<PmpWpfHost>
+    public class PmpWpfHost : PmpControl, IEquatable<PmpWpfHost>, IDisposable
     {
+        private readonly WpfControlKeystrokePropagator _keystrokePropagator;
+
         #region constructors
         /// <summary>
         /// default constructor 
@@ -19,10 +20,14 @@ namespace Hymma.Solidworks.Addins
         /// <param name="elementHost">solidworks uses <see cref="System.Windows.Forms.Integration.ElementHost"/> to hook into a windows form</param>
         /// <param name="wpfControl">wpf controller</param>
         /// <param name="height">height of this control in property manager page if set to zero the control will not appear</param>
-        public PmpWpfHost(ElementHost elementHost, System.Windows.Controls.UserControl wpfControl, int height) : base(swPropertyManagerPageControlType_e.swControlType_WindowFromHandle,"","")
+        public PmpWpfHost(ElementHost elementHost,
+        System.Windows.Controls.UserControl wpfControl,
+        int height)
+        : base(swPropertyManagerPageControlType_e.swControlType_WindowFromHandle, "", "")
         {
             this.ElementHost = elementHost;
             this.WindowsControl = wpfControl;
+            _keystrokePropagator = new WpfControlKeystrokePropagator(wpfControl);
             OnDisplay += PmpWpfHost_OnDisplay;
             OnRegister += () =>
             {
@@ -35,7 +40,8 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         /// <param name="winFormOrWpfControl">a wpf controller</param>
         /// <param name="height">height of this control in property manager page if set to zero the control will not appear</param>
-        public PmpWpfHost(System.Windows.Controls.UserControl winFormOrWpfControl, int height) : this(new ElementHost(), winFormOrWpfControl, height)
+        public PmpWpfHost(System.Windows.Controls.UserControl winFormOrWpfControl, int height)
+        : this(new ElementHost(), winFormOrWpfControl, height)
         {
         }
         #endregion
@@ -83,6 +89,15 @@ namespace Hymma.Solidworks.Addins
 
         ///<inheritdoc/>
         public override int GetHashCode() => ElementHost.GetHashCode();
+
+        /// <summary>
+        /// properly disposes of this object
+        /// </summary>
+        public void Dispose()
+        {
+            _keystrokePropagator.Dispose();
+            ElementHost.Dispose();
+        }
 
         ///<inheritdoc/>
         public override bool Enabled

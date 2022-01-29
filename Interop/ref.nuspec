@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+	<metadata minClientVersion="2.5">
+		<id>Hymma.Solidworks.Interop</id>
+		<version>$year$.0.$rev$</version>
+		<authors>Hamed Ashrafi</authors>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<license type="expression">MIT</license>
+		<description>SOLIDWORKS $year$ Interop libraries</description>
+		<releaseNotes>Initial release</releaseNotes>
+		<icon>nugetIcon.png</icon>
+		<tags>cad solidworks hymma</tags>
+		<dependencies>
+			<group targetFramework=".NETStandard4.6.1"/>
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="bin\Release\*.dll" target="lib\net461" exclude="bin\Release\Hymma.Solidworks.Interop.dll" />
+		<file src="..\nugetIcon.png" target=""/>
+		<file src="build\**" target="build"/>
+		<file src="tools\**" target="tools"/>
+	</files>
+</package>

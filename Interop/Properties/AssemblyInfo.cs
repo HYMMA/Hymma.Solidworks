@@ -1,16 +1,17 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Hymma.Solidworks.Addins")]
-[assembly: AssemblyDescription("Makes addin for solidworks")]
+[assembly: AssemblyTitle("Hymma.Solidworks.Interop")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("HYMMA")]
-[assembly: AssemblyProduct("Hymma.Solidworks.Addins")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
-[assembly: AssemblyTrademark("HYMMA")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Hymma.Solidworks.Interop")]
+[assembly: AssemblyCopyright("Copyright ©  2022")]
+[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(true)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("86b8e368-880d-4169-ba19-60a84d3f6fb3")]
+[assembly: Guid("c5b3e4ab-d50e-414d-9ff3-bbce066b0bbc")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -31,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("18.0.0.0")]
-[assembly: AssemblyFileVersion("18.0.0.0")]
+[assembly: AssemblyVersion("2018.0.0.0")]
+[assembly: AssemblyFileVersion("2018.0.0.0")]

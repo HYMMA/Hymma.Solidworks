@@ -2,26 +2,26 @@
 <package>
   <metadata>
     <id>Hymma.Solidworks.Addins</id>
-    <version>$version$</version>
+    <version>$year$.0.$rev$</version>
     <title>Addins for SOLIDWORKS by HYMMA</title>
     <authors>HYMMA</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
-    <icon>lib\icon.jpg</icon>
+    <icon>nugetIcon.png</icon>
     <projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Addins/</projectUrl>
     <description>Framework to create Addins for SOLIDWORKS $year$ and later.</description>
-    <releaseNotes>Not exporting typs for COM interop instead made the assembly COM visible</releaseNotes>
+    <releaseNotes>changed the dependencies</releaseNotes>
     <copyright>$copyright$</copyright>
-    <tags>solidworks</tags>
+    <tags>cad solidworks addin hymma</tags>
     <dependencies>
 		<group targetFramework=".NETFramework4.6.1" >
-			<dependency id="Hymma.Solidworks.Extensions" version="18.0.3"></dependency>
+			<dependency id="Hymma.Solidworks.Extensions" version="2018.0.0"></dependency>
 		</group>
     </dependencies>
   </metadata>
   <files>
-    <file src="..\icon.jpg" target="lib"/>
-    <file src="bin\Release\*.dll" target="lib\net461\SOLIDWORKS_$year$"/>
-    <file src="bin\Release\*.xml" target="lib\net461\SOLIDWORKS_$year$"/>
+    <file src="..\nugetIcon.png" target=""/>
+    <file src="bin\Release\*.dll" target="lib\net461"/>
+    <file src="bin\Release\*.xml" target="lib\net461"/>
   </files>
 </package>

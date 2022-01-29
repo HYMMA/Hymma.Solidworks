@@ -1,0 +1,994 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Hymma.Solidworks.Extensions</name>
+    </assembly>
+    <members>
+        <member name="T:Hymma.Solidworks.Extensions.Mathematics">
+            <summary>
+            provides numerous helper classes for unit conversion, mathematical calculaitons etc
+            </summary>
+            <summary>
+            usefull mathematics helpers
+            </summary>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Mathematics.AlmostEqual(System.Double,System.Double,System.Double)">
+            <summary>
+            determine if two numbers are in the same range of each other<br/>
+            specifically useful when you want to know if two numbers are equal if you disregard tiny differences in values
+            </summary>
+            <param name="num1"></param>
+            <param name="num2"></param>
+            <param name="tolerance">the amount you want to compare the tow numbers against</param>
+            <remarks>this method should help with the fact that double values lose percision in arithmatic operations</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Mathematics.AlmostEqual(System.Double[],System.Double[],System.Double)">
+            <summary>
+            determines if two vectors are in the same range of each other <br/>
+            sepcifically usefull when you want to know if two vectors are equal if you disregard tiny differences in values
+            </summary>
+            <param name="vector1"></param>
+            <param name="vector2"></param>
+            <remarks>this method should help with the fact that double values lose percision in arithmatic operations</remarks>
+            <param name="tolerance">all members of the vecotrs should be within the range of this tolerance</param>
+            <returns>true if all members of each vector (array) are equal to a certain tolerance and false otherwise</returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Mathematics.VectorsDot(System.Double[],System.Double[])">
+            <summary>
+            calculate the dot product of two vectors
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns>V1.V2 or -1 on error</returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Mathematics.VectorsCross(System.Double[],System.Double[])">
+            <summary>
+            calculate the cross product of two vectors
+            </summary>
+            <param name="v1"></param>
+            <param name="v2"></param>
+            <returns>V1 x V2 or {0,0,0} on error</returns>
+        </member>
+        <member name="T:Hymma.Solidworks.Extensions.Units">
+            <summary>
+            helpers for unit conversion and calculations
+            </summary>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Units.ConvertLength(System.Double,System.String)">
+            <summary>
+            changes the unit of length from (meter) to the one specified
+            </summary>
+            <param name="length">the length to change the unit of</param>
+            <param name="newUnit">the unit required to change the length to 
+            <list type="bullet">
+            <item>mm</item><description>millimeters</description>
+            <item>cm</item><description>centimeters</description>
+            <item>m</item><description>meters</description>
+            <item>in</item><description>inches</description>
+            <item>ft</item><description>feet</description>
+            <item>ft-in</item><description>inches</description>
+            <item>angstrom</item><description>angstrom</description>
+            <item>nm</item><description>nano meters</description>
+            <item>micro-m</item><description>micro meters</description>
+            <item>mil</item><description>inches</description>
+            <item>uin</item><description>meters</description>
+            </list>
+            </param>
+            <returns></returns>
+        </member>
+        <member name="T:Hymma.Solidworks.Extensions.ComponentEqualityComparer">
+            <summary>
+            provides equality comparer for <see cref="T:SolidWorks.Interop.sldworks.Component2"/> objects
+            </summary>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.ComponentEqualityComparer.Equals(SolidWorks.Interop.sldworks.Component2,SolidWorks.Interop.sldworks.Component2)">
+            <summary>
+            determine if two <see cref="T:SolidWorks.Interop.sldworks.Component2"/> are equal or not
+            </summary>
+            <param name="x">first component</param>
+            <param name="y">secont component</param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.ComponentEqualityComparer.GetHashCode(SolidWorks.Interop.sldworks.Component2)">
+            <summary>
+            returns the hashcode for this object
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Hymma.Solidworks.Extensions.AssemblyDocExtensions">
+            <summary>
+            a list of useful functions for an <see cref="T:SolidWorks.Interop.sldworks.AssemblyDoc"/> object
+            </summary>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.AssemblyDocExtensions.GetPartQty(SolidWorks.Interop.sldworks.AssemblyDoc,SolidWorks.Interop.sldworks.PartDoc,System.String)">
+            <summary>
+            get the Qty of part in a parent assembly document
+            </summary>
+            <param name="assembly">the parten assembly where the calc should be done inside of</param>
+            <param name="thisPart">the part </param>
+            <param name="configuration">referenced configuration of the part</param>
+            <returns>Quantity as integer</returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.AssemblyDocExtensions.GetDistinctComponentsOfType(SolidWorks.Interop.sldworks.AssemblyDoc,SolidWorks.Interop.swconst.swDocumentTypes_e,System.Boolean)">
+            <summary>
+            get a list of parts in an assembly, does not take into account qty or suppression or envelope state
+            </summary>
+            <param name="assembly"></param>
+            <param name="swDocumentTypes">documents of this type will be returned</param>
+            <param name="topLevelOnly">if set to false will return all the components of this assembly and its sub assemblies</param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.AssemblyDocExtensions.GetComponentsByType(SolidWorks.Interop.sldworks.AssemblyDoc,SolidWorks.Interop.swconst.swDocumentTypes_e,System.Boolean)">
+            <summary>
+            selects components of an assembly based on their document type
+            </summary>
+            <param name="assembly"></param>
+            <param name="swDocumentTypes">documents of this type will be returned</param>
+            <param name="topLevelOnly">if set to false will return all the components of this assembly and its sub assemblies</param>
+            <returns></returns>
+        </member>
+        <member name="T:Hymma.Solidworks.Extensions.Body2Extensions">
+            <summary>
+            extensions for <see cref="T:SolidWorks.Interop.sldworks.Body2"/>
+            </summary>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Body2Extensions.GetSheetMetalFeature(SolidWorks.Interop.sldworks.Body2)">
+            <summary>
+            get sheetMetal feature of this body
+            </summary>
+            <param name="body"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Body2Extensions.GetFeatureByName(SolidWorks.Interop.sldworks.Body2,System.String,System.Boolean)">
+            <summary>
+            get feature by its name
+            </summary>
+            <param name="body"></param>
+            <param name="name"></param>
+            <param name="ExcludeSuppressed">disregard feature if is suppressed</param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Body2Extensions.GetFeaturesByTypeName(SolidWorks.Interop.sldworks.Body2,System.String,System.Boolean)">
+            <summary>
+            get feature by its type name
+            </summary>
+            <param name="body"></param>
+            <param name="type">type of feature in string refer to link below to interpret the type<para>
+             <a href="http://help.solidworks.com/2013/english/api/sldworksapi/solidworks.interop.sldworks~solidworks.interop.sldworks.ifeature~gettypename2.html"/>
+            </para>
+            </param>
+            <param name="ExcludeSuppressed">disregard feature if is suppressed</param>
+            <returns><see cref="T:SolidWorks.Interop.sldworks.Feature"/> and null if the feature is suppressed or could not find the feature</returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Body2Extensions.GetFlatPattern(SolidWorks.Interop.sldworks.Body2)">
+            <summary>
+            get flat pattern in this body
+            </summary>
+            <param name="body"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Body2Extensions.GetMassProperties(SolidWorks.Interop.sldworks.Body2,SolidWorks.Interop.sldworks.ModelDoc2)">
+             <summary>
+             Use this method to get component mass properties 
+             </summary>
+             <returns>
+             The return value is an array of doubles as follows:
+            <list type="bullet">
+             <item>
+             <term>Solid body</term>
+             <description>[ CenterOfMassX, CenterOfMassY, CenterOfMassZ, Volume, Area, Mass(Volume*density), MomXX, MomYY, MomZZ, MomXY, MomZX, MomYZ ]</description>
+             </item>
+              <item>
+             <term>Sheet body</term>
+             <description>[ CenterOfMassX, CenterOfMassY, CenterOfMassZ, Area, Circumference, Mass(Area*density), MomXX, MomYY, MomZZ, MomXY, MomZX, MomYZ ]</description>
+             </item>
+             <item>
+             <term>
+             Wire body
+             </term>
+             <description>
+             [ CenterOfMassX, CenterOfMassY, CenterOfMassZ, Length, 0, Mass(Length*density), MomXX, MomYY, MomZZ, MomXY, MomZX, MomYZ ]
+             </description>
+             </item>
+             </list></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Body2Extensions.GetFaceByName(SolidWorks.Interop.sldworks.Body2,SolidWorks.Interop.sldworks.ModelDoc2,System.String)">
+            <summary>
+            if a face has name returns it otherwise returns null
+            </summary>
+            <param name="body"></param>
+            <param name="model"></param>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Body2Extensions.GetWidestFace(SolidWorks.Interop.sldworks.Body2)">
+            <summary>
+            get the face with most area
+            </summary>
+            <param name="body"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Body2Extensions.IsWeldment(SolidWorks.Interop.sldworks.Body2)">
+            <summary>
+            determine if this body has weldment feature in it or not
+            </summary>
+            <param name="body"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Body2Extensions.GetCutListFolder(SolidWorks.Interop.sldworks.Body2,SolidWorks.Interop.sldworks.PartDoc,SolidWorks.Interop.sldworks.SldWorks)">
+            <summary>
+            gets the cut-list forlder of this body, it applies to weldment or sheetmetal components only
+            </summary>
+            <param name="body"></param>
+            <param name="part"></param>
+            <param name="solidwork"></param>
+            <returns>GetCutListFolder as <see cref="T:SolidWorks.Interop.sldworks.Feature"/></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Body2Extensions.GetSheetMetalSizes(SolidWorks.Interop.sldworks.Body2,SolidWorks.Interop.sldworks.PartDoc,SolidWorks.Interop.sldworks.SldWorks)">
+            <summary>
+            get length, width and thickness of sheetmetal feature
+            </summary>
+            <param name="body"></param>
+            <param name="part"></param>
+            <param name="solidworks"></param>
+            <returns>an array of string where first member is length in the unit of document, second member is width and thrid one is thickness</returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Body2Extensions.GetPropertyFromCutList(SolidWorks.Interop.sldworks.Body2,System.String,System.Boolean)">
+            <summary>
+            gets custom property value of a property in a weldment or sheetmetal componetn
+            <br>required configuration must be activitated prior to calling this method</br>
+            </summary>
+            <param name="body"></param>
+            <param name="customPropertyName"></param>
+            <param name="useCachedData">set this to false to get up-to-date data - </param>
+            <returns>value of the property or empty string if not applicable</returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Body2Extensions.GetBendLinePoints(SolidWorks.Interop.sldworks.Body2)">
+            <summary>
+            will return a list of skethcPoints key value pairs where key is StartPoint Value is the end point of a bend line
+            </summary>
+            <param name="body">the body with flat pattern feature to get bend lines of</param>
+            <returns>list of skethcPoints key value pairs</returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Body2Extensions.GetFlatPatternBoxCoords(SolidWorks.Interop.sldworks.Body2)">
+            <summary>
+            will return flatpattern bounding box coordinates in metric unit
+            </summary>
+            <param name="body"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Hymma.Solidworks.Extensions.DrawingDocExtensions">
+            <summary>
+            this class provides extensions for <see cref="T:SolidWorks.Interop.sldworks.DrawingDoc"/> objects
+            </summary>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.DrawingDocExtensions.GetAllBoms(SolidWorks.Interop.sldworks.DrawingDoc)">
+            <summary>
+            get a list of boms in this drawing
+            </summary>
+            <param name="drawingDoc"></param>
+            <returns>List of <see cref="T:System.Object"/> that can be cast into <see cref="T:SolidWorks.Interop.sldworks.BomFeature"/></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.DrawingDocExtensions.GetAllViews(SolidWorks.Interop.sldworks.DrawingDoc)">
+            <summary>
+            get list of views in this drawing
+            </summary>
+            <returns>List<view></view></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.DrawingDocExtensions.GetAbsoluteViews(SolidWorks.Interop.sldworks.DrawingDoc)">
+            <summary>
+            get list of absolute views in this drawing
+            </summary>
+            <returns>List<view></view></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.DrawingDocExtensions.FilterViews(SolidWorks.Interop.sldworks.DrawingDoc,System.String[],System.Object[],System.Collections.Generic.List{SolidWorks.Interop.sldworks.View})">
+            <summary>
+            gets a <see cref="T:System.Collections.Generic.List`1"/> and adds to it views in the drawing
+            whose .GetTypeName2() is in the filter array of strings
+            </summary>
+            <param name="drw">drawing to be processed where views are</param>
+            <param name="filters"></param>
+            <param name="views"></param>
+            <param name="resultList"></param>
+        </member>
+        <member name="T:Hymma.Solidworks.Extensions.Face2Extensions">
+            <summary>
+            extension to <see cref="T:SolidWorks.Interop.sldworks.Face2"/>
+            </summary>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Face2Extensions.GetPoints(SolidWorks.Interop.sldworks.Face2)">
+            <summary>
+            get the points on a face edges
+            </summary>
+            <param name="face"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Face2Extensions.GetCentroid(SolidWorks.Interop.sldworks.Face2)">
+            <summary>
+            get the center of a face
+            </summary>
+            <param name="face"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Face2Extensions.IsPlanar(SolidWorks.Interop.sldworks.Face2)">
+            <summary>
+            determine if a face is planar or curved
+            </summary>
+            <param name="face"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Face2Extensions.SetName(SolidWorks.Interop.sldworks.Face2,SolidWorks.Interop.sldworks.PartDoc,System.String)">
+            <summary>
+            assignes a name to a face
+            </summary>
+            <param name="face">the face to assign name to</param>
+            <param name="part">has to be part document only</param>
+            <param name="name">string value to assign to face</param>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.Face2Extensions.GetTangentFaces(SolidWorks.Interop.sldworks.Face2,System.Double)">
+            <summary>
+            get all faces that are tangent to this face 
+            </summary>
+            <param name="face">the face that you want to find the tangent faces to</param>
+            <param name="tolerance">tolerance to consider while determining the tangency</param>
+            <remarks>Because Double values can lose precision when arithmetic operations are performed on them,<br/>
+            a comparison between two face instances that are logically tangent might fail. hence we use a tolerance</remarks>
+            <returns></returns>
+        </member>
+        <member name="T:Hymma.Solidworks.Extensions.MathUtilitiesExtensions">
+            <summary>
+            extensions for <see cref="T:SolidWorks.Interop.sldworks.MathUtility"/>
+            </summary>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.MathUtilitiesExtensions.ConvertLengthUnit(SolidWorks.Interop.sldworks.MathUtility,System.Double,System.Int32)">
+            <summary>
+            changes the unit of length from default in solidworks (meter) to the one specified
+            </summary>
+            <param name="mathUtility"></param>
+            <param name="length">the length to change the unit of</param>
+            <param name="newUnit">the unit required to change the length to <see cref="T:SolidWorks.Interop.swconst.swLengthUnit_e"/>
+            <example>
+            <code>
+            ModelDoc2.LengthUnit;
+            </code>
+            </example>
+            </param>
+            <returns>length in new new unit</returns>
+        </member>
+        <member name="T:Hymma.Solidworks.Extensions.ModelDoc2Extensions">
+            <summary>
+            extensions for a <see cref="T:SolidWorks.Interop.sldworks.ModelDoc2"/> object
+            </summary>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.ModelDoc2Extensions.ActivateConfiguration(SolidWorks.Interop.sldworks.ModelDoc2,System.String)">
+            <summary>
+            switch to a new a model configuration
+            </summary>
+            <param name="model"></param>
+            <param name="configurationName">new configuration</param>
+            <returns></returns> 
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.ModelDoc2Extensions.Freez(SolidWorks.Interop.sldworks.ModelDoc2)">
+            <summary>
+            freez graphics in a model, to increase processing power
+            </summary>
+            <param name="model"></param>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.ModelDoc2Extensions.UnFreez(SolidWorks.Interop.sldworks.ModelDoc2)">
+            <summary>
+            Un-freez graphics in a model
+            </summary>
+            <param name="model"></param>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.ModelDoc2Extensions.GetCustomProperty(SolidWorks.Interop.sldworks.ModelDoc2,System.String,System.String,System.Boolean)">
+            <summary>
+            Gets the custom properties for this document or configuration
+            <br/>File custom information is stored in the document file. It can be:
+            <list type="bullet">
+            <item><description>General to the file, in which case there is a single value whatever the model's configuration</description></item>
+            <item><description>Configuration-specific, in which case a different value may be set for each configuration in the model</description></item>
+            </list>
+            <para>To access a general custom
+            information value, set the configuration argument 
+            to an empty string. To get a document-level property, 
+            pass an empty string ("") to the configuration argument.
+            </para>
+            </summary>
+            <param name="modelDoc"></param>
+            <param name="property"></param>
+            <param name="configuration"></param>
+            <param name="useCachedData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.ModelDoc2Extensions.GetMassProperties(SolidWorks.Interop.sldworks.ModelDoc2,SolidWorks.Interop.sldworks.Body2,System.Int32)">
+             <summary>
+             Use this method to get component mass properties 
+             <para>use index (base zero) to retrieve a specific value</para>
+             </summary>
+             <returns>
+             The return value is an array of doubles as follows:
+            <list type="bullet">
+             <item>
+             <term>Solid body</term>
+             <description>[ CenterOfMassX, CenterOfMassY, CenterOfMassZ, Volume, Area, Mass(Volume*density), MomXX, MomYY, MomZZ, MomXY, MomZX, MomYZ ]</description>
+             </item>
+              <item>
+             <term>Sheet body</term>
+             <description>[ CenterOfMassX, CenterOfMassY, CenterOfMassZ, Area, Circumference, Mass(Area*density), MomXX, MomYY, MomZZ, MomXY, MomZX, MomYZ ]</description>
+             </item>
+             <item>
+             <term>
+             Wire body
+             </term>
+             <description>
+             [ CenterOfMassX, CenterOfMassY, CenterOfMassZ, Length, 0, Mass(Length*density), MomXX, MomYY, MomZZ, MomXY, MomZX, MomYZ ]
+             </description>
+             </item>
+             </list></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.ModelDoc2Extensions.GetLengthUnitName(SolidWorks.Interop.sldworks.ModelDoc2)">
+            <summary>
+            returns units of length in string format
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Hymma.Solidworks.Extensions.PartDocExtensions">
+            <summary>
+            extension sofr <see cref="T:SolidWorks.Interop.sldworks.PartDoc"/>
+            </summary>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.PartDocExtensions.IsSheetMetal(SolidWorks.Interop.sldworks.PartDoc,SolidWorks.Interop.swconst.swSMBendState_e@)">
+            <summary>
+            determines if a part is sheetmetal or not
+            </summary>
+            <param name="part"></param>
+            <param name="bendState">bend state of the part as defined by <see cref="T:SolidWorks.Interop.swconst.swSMBendState_e"/></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.PartDocExtensions.GetFlatPatterns(SolidWorks.Interop.sldworks.PartDoc)">
+            <summary>
+            Get flat patterns of the part document if there is any
+            </summary>
+            <param name="part">the sheet metal modelDoc2 object</param>
+            <returns>an array of objects castable to <see cref="T:SolidWorks.Interop.sldworks.Feature"/> </returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.PartDocExtensions.GetSheetMetals(SolidWorks.Interop.sldworks.PartDoc)">
+            <summary>
+            gets the sheetMetal Features of this part document fi there is any
+            </summary>
+            <param name="part">the sheet metal modelDoc2 or PartDoc object</param>
+            <returns>an array of objects castable to <see cref="T:SolidWorks.Interop.sldworks.Feature"/></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.PartDocExtensions.GetBodyByName(SolidWorks.Interop.sldworks.PartDoc,System.String,System.Boolean)">
+            <summary>
+            gets the body of this partDoc by its name and null if doesnt exist
+            </summary>
+            <param name="part">the part document</param>
+            <param name="name">the name of the body</param>
+            <param name="visiblesOnly">toggle to return visible bodies or not</param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.PartDocExtensions.GetFeaturesByTypeName(SolidWorks.Interop.sldworks.PartDoc,System.String)">
+            <summary>
+            get a Ilist of features whose type is provided in the parameters
+            </summary>
+            <param name="part"></param>
+            <param name="featureType">the feature type, refer to this link to for a list of types as string
+            <a href="http://help.solidworks.com/2013/english/api/sldworksapi/solidworks.interop.sldworks~solidworks.interop.sldworks.ifeature~gettypename2.html"/>
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.PartDocExtensions.GetCutListFolder(SolidWorks.Interop.sldworks.PartDoc,SolidWorks.Interop.sldworks.Body2,SolidWorks.Interop.sldworks.SldWorks)">
+            <summary>
+            get cut list folder of this part for a specific body.
+            </summary>
+            <param name="part"></param>
+            <param name="body">a sheetMetal or WeldMent body</param>
+            <param name="solidworks"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Hymma.Solidworks.Extensions.SldWorksExtensions">
+            <summary>
+            extensions for <see cref="T:SolidWorks.Interop.sldworks.SldWorks"/>
+            </summary>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.SldWorksExtensions.GetDefaultMapFilePath(SolidWorks.Interop.sldworks.SldWorks)">
+            <summary>
+            get the default map file in solidworks, does not check if mapfile actually exists on HDD
+            </summary>
+            <returns>address of map file as set in solidwork settings</returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.SldWorksExtensions.GetModel(SolidWorks.Interop.sldworks.SldWorks,System.String,System.String)">
+            <summary>
+            opens and activates a specific solidworks document
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.SldWorksExtensions.GetModelType(SolidWorks.Interop.sldworks.SldWorks,System.String)">
+            <summary>
+            get the type of a solidworks document its extension name
+            </summary>
+            <param name="solidworks"></param>
+            <param name="modelPathName">full file name of the document including the extensionss</param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.SldWorksExtensions.FreezGraphics(SolidWorks.Interop.sldworks.SldWorks)">
+            <summary>
+            sets visiblity of solidworks to false <br/>
+            usefull when you want to activate a document in silent mode<br/>
+            </summary>
+            <param name="solidworks"></param>
+            <returns>true if successful and false if not
+            <br/> make sure you set solidworks visiblity to true at the end of operation <see cref="M:Hymma.Solidworks.Extensions.SldWorksExtensions.UnFreezGraphics(SolidWorks.Interop.sldworks.SldWorks)"/>
+            </returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.SldWorksExtensions.UnFreezGraphics(SolidWorks.Interop.sldworks.SldWorks)">
+            <summary>
+            un-freezes the graphics of the solidworks application
+            </summary>
+            <param name="solidworks"></param>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.SldWorksExtensions.FreezGraphics(SolidWorks.Interop.sldworks.SldWorks,System.Action)">
+            <summary>
+            freez graphics during an <see cref="T:System.Action"/> and unfreez it afterwards
+            </summary>
+            <param name="solidworks"></param>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Hymma.Solidworks.Extensions.ViewExtensions">
+            <summary>
+            extensions for <see cref="T:SolidWorks.Interop.sldworks.View"/>
+            </summary>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.ViewExtensions.GetFlatPatternFace(SolidWorks.Interop.sldworks.View)">
+            <summary>
+            get the flat pattern face of this view
+            </summary>
+            <param name="view"></param>
+            <returns><see cref="T:SolidWorks.Interop.sldworks.Face2"/> flat pattern or null if this view does not have one</returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.ViewExtensions.GetBodies(SolidWorks.Interop.sldworks.View)">
+            <summary>
+            get bodies of a multi body part in a view
+            </summary>
+            <param name="view"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Hymma.Solidworks.Extensions.ModelDoc2EqualityComparer">
+            <summary>
+            provides equality comparision for <see cref="T:SolidWorks.Interop.sldworks.ModelDoc2"/>
+            </summary>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.ModelDoc2EqualityComparer.Equals(SolidWorks.Interop.sldworks.ModelDoc2,SolidWorks.Interop.sldworks.ModelDoc2)">
+            <summary>
+            determin if two <see cref="T:SolidWorks.Interop.sldworks.ModelDoc2"/> are equla or not
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.ModelDoc2EqualityComparer.GetHashCode(SolidWorks.Interop.sldworks.ModelDoc2)">
+            <summary>
+            return a hashcode for this <see cref="T:SolidWorks.Interop.sldworks.ModelDoc2"/> object
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Hymma.Solidworks.Extensions.SolidWorksManager">
+            <summary>
+            provides conneciton and initiation methods for a solidworks app
+            </summary>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.SolidWorksManager.InitiateSolidApp">
+            <summary>
+            creates or retrieves an instance of <see cref="T:Hymma.Solidworks.Extensions.SolidWorksManager"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Hymma.Solidworks.Extensions.SolidWorksManager.GetSolidworks">
+            <summary>
+            connects to a running instance of solidworks or opens it up and returns the <see cref="T:SolidWorks.Interop.sldworks.SldWorks"/> object
+            </summary>
+            <returns>a running instance of solidworks <see cref="T:SolidWorks.Interop.sldworks.SldWorks"/></returns>
+        </member>
+        <member name="T:Hymma.Solidworks.Extensions.SysColor">
+            <summary>
+            system colors as defined in <strong>Tools > Options > Colors.</strong>  in the SOLIDWORKS user interface
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.ViewportBackground">
+            <summary>
+            view port background
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.TopGradientColor">
+            <summary>
+            top gradient color
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.BottomGradientColor">
+            <summary>
+            bottom gradient color
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DynamicHighlight">
+            <summary>
+            dynamic highlight
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.Highlight">
+            <summary>
+            highlight
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SelectedItem1">
+            <summary>
+            selected item 1
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SelectedItem2">
+            <summary>
+            selected item 2
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SelectedItem3">
+            <summary>
+            selected item 2
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SelectedFaceShaded">
+            <summary>
+            selected face shaded
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DrawingsVisibleModelEdge">
+            <summary>
+            drawings visible model edge
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DrawingsHiddenModelEdge">
+            <summary>
+            drawings hidden model edge
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DrawingsPaperBorder">
+            <summary>
+            Drawings Paper Border
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DrawingsPaperShadow">
+            <summary>
+            Drawings Paper Shadow
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DrawingsSheetBorder">
+            <summary>
+            Drawings Sheet Border
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.ImportedDrivingAnnotation">
+            <summary>
+            Imported Driving Annotation
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.ImportedDrivenAnnotation">
+            <summary>
+            Imported Driven Annotation
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SketchOverDefined">
+            <summary>
+            Sketch Over Defined
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SketchFullyDefined">
+            <summary>
+            Sketch Fully Defined
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SketchUnderDefined">
+            <summary>
+            Sketch Under Defined
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SketchInvalidGeometry">
+            <summary>
+            Sketch Invalid Geometry
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SketchNotSolved">
+            <summary>
+            Sketch Not Solved
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.GridLinesMinor">
+            <summary>
+            Grid Lines Minor
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.GridLinesMajor">
+            <summary>
+            Grid Lines Major
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.ConstructionGeometry">
+            <summary>
+            Construction Geometry
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DanglingDimension">
+            <summary>
+            Dangling Dimension
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.Text">
+            <summary>
+            Text
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.AssemblyEditPart">
+            <summary>
+            Assembly Edit Part
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.AssemblyEditPartHiddenLines">
+            <summary>
+            Assembly Edit Part Hidden Lines
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.AssemblyNonEditPart">
+            <summary>
+            Assembly NonEdit Part
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.InactiveEntity">
+            <summary>
+            Inactive Entity
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.TemporaryGraphics">
+            <summary>
+            Temporary Graphics
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.TemporaryGraphicsShaded">
+            <summary>
+            Temporary Graphics Shaded
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.ActiveSelectionListBox">
+            <summary>
+            Active Selection ListBox
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SurfacesOpenEdge">
+            <summary>
+            Surfaces Open Edge
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.TreeViewBackground">
+            <summary>
+            TreeView Background
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.ShadedEdge">
+            <summary>
+            Shaded Edge
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.RefTriadX">
+            <summary>
+            Ref TriadX (x axis color)
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.RefTriadY">
+            <summary>
+            Ref TriadY (y axis color)
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.RefTriadZ">
+            <summary>
+            Ref TriadZ (z axis color)
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DTDim">
+            <summary>
+            DTDim
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SelectedItem4">
+            <summary>
+            SelectedItem4
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SketchInactive">
+            <summary>
+            SketchInactive
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.TreeItemNormal">
+            <summary>
+            Tree Item Normal
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.TreeItemSelected">
+            <summary>
+            Tree Item Selected
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DrawingsPaper">
+            <summary>
+            Drawings Paper
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DrawingsBackground">
+            <summary>
+            Drawings Background
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DrawingsViewBorder">
+            <summary>
+            Drawings View Border
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DrawingsLockedFocus">
+            <summary>
+            Drawings Locked Focus
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.ImportedAnnotation">
+            <summary>
+            Imported Annotation
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.NonImportedAnnotation">
+            <summary>
+            Non-Imported Annotation
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DimsNotMarkedForDrawing">
+            <summary>
+            Dims Not Marked For Drawing
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.AsmInterferenceVolume">
+            <summary>
+            Asmbly Interference Volume
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SwiftAnnotations">
+            <summary>
+            Swift Annotations
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SwiftUnderConstrained">
+            <summary>
+            Swift Under Constrained
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SwiftFullyConstrained">
+            <summary>
+            Swift Fully Constrained
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SwiftOverConstrained">
+            <summary>
+            Swift Over Constrained
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.ToleranceAnalysisDim">
+            <summary>
+            Tolerance Analysis Dim
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.PropertyManagerColor">
+            <summary>
+            Property Manager Color
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.HiddenEdgeSelectionShow">
+            <summary>
+            Hidden Edge Selection Show
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.GhostSelColor">
+            <summary>
+            Ghost SelColor
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.InactiveHandles">
+            <summary>
+            Inactive Handles
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DrawingsSpeedPakModelEdge">
+            <summary>
+            Drawings SpeedPak Model Edge
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DrawingsModelTangentEdges">
+            <summary>
+            Drawings Model Tangent Edges
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.MateCalloutHealthy">
+            <summary>
+            Mate Callout Healthy
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.MateCalloutWarning">
+            <summary>
+            Mate Callout Warning
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.MateCalloutError">
+            <summary>
+            Mate Callout Error
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.SheetMetalTemporaryGraphics">
+            <summary>
+            SheetMetal Temporary Graphics
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.MeasureSelection">
+            <summary>
+            Measure Selection
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.DrawingsChangedDimensions">
+            <summary>
+            Drawings Changed Dimensions
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.NoteHandle">
+            <summary>
+            Note Handle
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.CrossHair">
+            <summary>
+            Cross Hair
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.NoteEditHandle">
+            <summary>
+            Note Edit Handle
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.TemporarySketchDragging">
+            <summary>
+            Temporary Sketch Dragging
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.WeldPathSelection">
+            <summary>
+            Weld Path Selection
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.CurrentColorScheme">
+            <summary>
+            Current ColorScheme
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.Envelopes">
+            <summary>
+            Envelopes
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.IconColor">
+            <summary>
+            Icon Color
+            </summary>
+        </member>
+        <member name="F:Hymma.Solidworks.Extensions.SysColor.Background">
+            <summary>
+            Background
+            </summary>
+        </member>
+    </members>
+</doc>

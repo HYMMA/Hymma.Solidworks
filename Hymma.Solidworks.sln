@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30523.141
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Addins", "Addins\Hymma.Solidworks.Addins.csproj", "{86B8E368-880D-4169-BA19-60A84D3F6FB3}"
 EndProject
@@ -15,6 +15,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Addins.Fluent", "Addins.Fluent\Hymma.Solidworks.Addins.Fluent.csproj", "{6100467F-2C52-4DDA-820C-40729B0C1529}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Addin.SolidWorks", "..\Hymma Addin For Solidworks\Hymma.Addin.SolidWorks\Hymma.Addin.SolidWorks.csproj", "{429244A6-4711-40F0-A6E9-0D696B03ABA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingNuget", "TestingNuget\TestingNuget.csproj", "{FCA0888B-E859-42BD-9C65-7561CC7D1715}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Interop", "Interop\Hymma.Solidworks.Interop.csproj", "{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +60,22 @@ Global
 		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Release|x64.ActiveCfg = Release|x64
 		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Release|x64.Build.0 = Release|x64
+		{FCA0888B-E859-42BD-9C65-7561CC7D1715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCA0888B-E859-42BD-9C65-7561CC7D1715}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCA0888B-E859-42BD-9C65-7561CC7D1715}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FCA0888B-E859-42BD-9C65-7561CC7D1715}.Debug|x64.Build.0 = Debug|Any CPU
+		{FCA0888B-E859-42BD-9C65-7561CC7D1715}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCA0888B-E859-42BD-9C65-7561CC7D1715}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCA0888B-E859-42BD-9C65-7561CC7D1715}.Release|x64.ActiveCfg = Release|Any CPU
+		{FCA0888B-E859-42BD-9C65-7561CC7D1715}.Release|x64.Build.0 = Release|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Debug|x64.Build.0 = Debug|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Release|x64.ActiveCfg = Release|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
