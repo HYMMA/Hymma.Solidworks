@@ -13,6 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,18 +45,6 @@
     <AssemblyOriginatorKeyFile>FluentAddinsSolidTools.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SolidWorks.Interop.sldworks">
-      <HintPath>..\packages\SOLIDWORKS.DLLs.2018.1.0.3\lib\net461\SolidWorks.Interop.sldworks.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="SolidWorks.Interop.swconst">
-      <HintPath>..\packages\SOLIDWORKS.DLLs.2018.1.0.3\lib\net461\SolidWorks.Interop.swconst.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="SolidWorks.Interop.swpublished">
-      <HintPath>..\packages\SOLIDWORKS.DLLs.2018.1.0.3\lib\net461\SolidWorks.Interop.swpublished.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
