@@ -1,1 +1,0 @@
-this is just a simple structure for this package.
