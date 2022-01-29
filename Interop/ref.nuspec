@@ -18,6 +18,6 @@
 		<file src="bin\Release\*.dll" target="lib\net461" exclude="bin\Release\Hymma.Solidworks.Interop.dll" />
 		<file src="..\nugetIcon.png" target=""/>
 		<file src="build\**" target="build"/>
-		<!-- <file src="tools\**" target="tools"/> -->
+		<file src="tools\**" target="tools"/>
 	</files>
 </package>
