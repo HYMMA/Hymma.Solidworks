@@ -35,7 +35,7 @@ namespace Hymma.Solidworks.Addins
             _items = items;
             _height = height==0 ? (short)(5+items.Length*15) : height;
             _style = (int)style;
-            OnRegister += PmpListBox_OnRegister;
+            Registering += PmpListBox_OnRegister;
             OnDisplay += PmpListBox_OnDisplay;
         }
         #endregion

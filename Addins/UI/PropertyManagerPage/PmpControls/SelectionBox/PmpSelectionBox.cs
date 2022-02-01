@@ -50,7 +50,7 @@ namespace Hymma.Solidworks.Addins
             _style = (int)style;
             _allowMultipleSelectOfSameEntity = allowMultipleSelectOfSameEntity;
             _singleItemOnly = singleItemOnly;
-            OnRegister += PmpSelectionBox_OnRegister;
+            Registering += PmpSelectionBox_OnRegister;
             OnDisplay += PmpSelectionBox_OnDisplay;
         }
 
@@ -150,7 +150,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.AllowMultipleSelectOfSameEntity = value;
                 else
-                    OnRegister += () => { SolidworksObject.AllowMultipleSelectOfSameEntity = value; };
+                    Registering += () => { SolidworksObject.AllowMultipleSelectOfSameEntity = value; };
             }
         }
 

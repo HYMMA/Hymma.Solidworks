@@ -25,7 +25,7 @@ namespace Hymma.Solidworks.Addins
         public PmpCheckBox(string caption, bool isChecked = false, string tip ="") : base(swPropertyManagerPageControlType_e.swControlType_Checkbox,caption,tip)
         {
             IsChecked = isChecked;
-            OnRegister += PmpCheckBox_OnRegister;
+            Registering += PmpCheckBox_OnRegister;
         }
 
         private void PmpCheckBox_OnRegister()
@@ -68,7 +68,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    OnRegister += () => { SolidworksObject.Checked = value; };
+                    Registering += () => { SolidworksObject.Checked = value; };
                     //Checked(value);
                 }
             }

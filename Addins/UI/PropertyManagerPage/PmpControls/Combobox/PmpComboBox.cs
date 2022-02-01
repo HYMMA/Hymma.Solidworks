@@ -31,7 +31,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="height">height of the combo box</param>
         public PmpComboBox(List<string> items, ComboBoxStyles style, short height = 50) : base(swPropertyManagerPageControlType_e.swControlType_Combobox,"","")
         {
-            OnRegister += PmpComboBox_OnRegister;
+            Registering += PmpComboBox_OnRegister;
             _style = style;
             _height = height;
             _items = new List<string>();
@@ -73,7 +73,7 @@ namespace Hymma.Solidworks.Addins
                 SolidworksObject.AddItems(_items.ToArray());
             }
             else
-                OnRegister += () =>
+                Registering += () =>
                 {
                     SolidworksObject.Clear();
                     SolidworksObject.AddItems(_items.ToArray());
@@ -127,7 +127,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.DeleteItem(index);
             else
-                OnRegister += () => { SolidworksObject.DeleteItem(index); };
+                Registering += () => { SolidworksObject.DeleteItem(index); };
         }
         /// <summary>
         /// Inserts an item in the attached drop-down list of this combo box. 
@@ -150,7 +150,7 @@ namespace Hymma.Solidworks.Addins
             else
             {
 
-                OnRegister += () =>
+                Registering += () =>
                 {
                     SolidworksObject.Clear();
                     SolidworksObject.AddItems(_items.ToArray());
@@ -187,7 +187,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Height = value;
                 else
-                    OnRegister += () => { SolidworksObject.Height = value; };
+                    Registering += () => { SolidworksObject.Height = value; };
             }
         }
 
@@ -215,7 +215,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Style = (int)value;
                 else
-                    OnRegister += () => { SolidworksObject.Style = (int)value; };
+                    Registering += () => { SolidworksObject.Style = (int)value; };
 
             }
         }
@@ -237,7 +237,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.CurrentSelection = value;
                 else
-                    OnRegister += () => { SolidworksObject.CurrentSelection = value; };
+                    Registering += () => { SolidworksObject.CurrentSelection = value; };
 
             }
         }
@@ -262,7 +262,7 @@ namespace Hymma.Solidworks.Addins
                     SolidworksObject.EditText = value;
                 else
                     //if this property is assigned prior to registration 
-                    OnRegister += () => { SolidworksObject.EditText = value; };
+                    Registering += () => { SolidworksObject.EditText = value; };
             }
         }
         #endregion

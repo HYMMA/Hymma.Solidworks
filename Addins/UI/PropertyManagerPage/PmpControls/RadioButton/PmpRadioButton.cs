@@ -18,7 +18,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="isChecked">whether it is going to be the checked or not</param>
         public PmpRadioButton(string caption, bool isChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Option, caption,"")
         {
-            OnRegister += () => SolidworksObject = (IPropertyManagerPageOption)Control;
+            Registering += () => SolidworksObject = (IPropertyManagerPageOption)Control;
             IsChecked = isChecked;
         }
         
@@ -37,7 +37,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Checked = value;
                 else
-                    OnRegister += () => { SolidworksObject.Checked = value; };
+                    Registering += () => { SolidworksObject.Checked = value; };
             }
         }
 

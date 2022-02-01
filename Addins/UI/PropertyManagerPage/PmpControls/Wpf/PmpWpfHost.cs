@@ -29,7 +29,7 @@ namespace Hymma.Solidworks.Addins
             this.WindowsControl = wpfControl;
             _keystrokePropagator = new WpfControlKeystrokePropagator(wpfControl);
             OnDisplay += PmpWpfHost_OnDisplay;
-            OnRegister += () =>
+            Registering += () =>
             {
                 SolidworksObject = (IPropertyManagerPageWindowFromHandle)Control;
                 SolidworksObject.Height = height;

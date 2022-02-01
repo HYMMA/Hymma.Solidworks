@@ -23,7 +23,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="tip">tip of the controller</param>
         public PmpWinFormContoller(System.Windows.Forms.UserControl userControl, int height, string caption = "", string tip = "") : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_WindowFromHandle, caption, tip)
         {
-            OnRegister += () =>
+            Registering += () =>
             {
                 SolidworksObject = (IPropertyManagerPageWindowFromHandle)Control;
                 SolidworksObject.Height = height;

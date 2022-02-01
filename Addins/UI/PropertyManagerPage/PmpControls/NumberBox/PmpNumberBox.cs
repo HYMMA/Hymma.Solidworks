@@ -23,7 +23,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="style">style for this numberBox as defined by <see cref="NumberBoxStyles"/></param>
         public PmpNumberBox(NumberBoxStyles style=NumberBoxStyles.Default) : base(swPropertyManagerPageControlType_e.swControlType_Numberbox)
         {
-            OnRegister += () => SolidworksObject = (IPropertyManagerPageNumberbox)Control;
+            Registering += () => SolidworksObject = (IPropertyManagerPageNumberbox)Control;
             Style = style;
         }
 
@@ -41,7 +41,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 result = SolidworksObject.InsertItem(item, text);
             else
-                OnRegister += () =>
+                Registering += () =>
                 {
                     result = SolidworksObject.InsertItem(item, text);
                 };
@@ -67,7 +67,7 @@ namespace Hymma.Solidworks.Addins
         ///</remarks>
         public void SetRange(NumberBoxUnit Units, double Minimum, double Maximum, bool Inclusive, double Increment, double fastIncrement, double slowIncrement)
         {
-            OnRegister += () =>
+            Registering += () =>
             {
                 SolidworksObject.SetRange2((int)Units, Minimum, Maximum, Inclusive, Increment, fastIncrement, slowIncrement);
             };
@@ -85,7 +85,7 @@ namespace Hymma.Solidworks.Addins
             }
             else
             {
-                OnRegister += () => { SolidworksObject.AddItems(items); };
+                Registering += () => { SolidworksObject.AddItems(items); };
             }
         }
 
@@ -106,7 +106,7 @@ namespace Hymma.Solidworks.Addins
             }
             else
             {
-                OnRegister += () => { SolidworksObject.SetSliderParameters(positionCount, divisionCount); };
+                Registering += () => { SolidworksObject.SetSliderParameters(positionCount, divisionCount); };
             }
         }
         #endregion
@@ -127,7 +127,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    OnRegister += () => { SolidworksObject.Value = value; };
+                    Registering += () => { SolidworksObject.Value = value; };
                 }
             }
         }
@@ -147,7 +147,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Height = value;
                 else
-                    OnRegister += () => { SolidworksObject.Height = value; };
+                    Registering += () => { SolidworksObject.Height = value; };
             }
         }
 
@@ -165,7 +165,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Style = (int)value;
                 else
-                    OnRegister += () => { SolidworksObject.Style = (int)value; };
+                    Registering += () => { SolidworksObject.Style = (int)value; };
             }
         }
 
@@ -188,7 +188,7 @@ namespace Hymma.Solidworks.Addins
 
                 //otherwise update the property when the control is loaded
                 else
-                    OnRegister += () => { SolidworksObject.DisplayedUnit = (int)value; };
+                    Registering += () => { SolidworksObject.DisplayedUnit = (int)value; };
             }
         }
         /// <summary>

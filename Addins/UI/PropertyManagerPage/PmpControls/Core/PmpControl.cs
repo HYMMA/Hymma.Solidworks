@@ -92,7 +92,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.Top = value;
                 else
-                    OnRegister += () => { Control.Top = value; };
+                    Registering += () => { Control.Top = value; };
             }
         }
 
@@ -112,7 +112,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.Enabled = value;
                 else
-                    OnRegister += () => { Control.Enabled = value; };
+                    Registering += () => { Control.Enabled = value; };
             }
         }
 
@@ -133,7 +133,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.Visible = value;
                 else
-                    OnRegister += () => { Control.Visible = value; };
+                    Registering += () => { Control.Visible = value; };
             }
         }
 
@@ -152,7 +152,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.OptionsForResize = ((int)value);
                 else
-                    OnRegister += () => { Control.OptionsForResize = ((int)value); };
+                    Registering += () => { Control.OptionsForResize = ((int)value); };
             }
         }
 
@@ -171,7 +171,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.Left = value;
                 else
-                    OnRegister += () => { Control.Left = value; };
+                    Registering += () => { Control.Left = value; };
             }
         }
 
@@ -188,7 +188,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.Width = value;
                 else
-                    OnRegister += () => { Control.Width = value; };
+                    Registering += () => { Control.Width = value; };
             }
         }
         #endregion
@@ -208,7 +208,7 @@ namespace Hymma.Solidworks.Addins
             _visible = Control.Visible;
             _enabled = Control.Enabled;
             //we raise this event here to give multiple controls set-up their initial state. some of the proeprties of a controller has to be set prior a property manager page is displayed or after it's closed
-            OnRegister?.Invoke();
+            Registering?.Invoke();
         }
 
         /// <summary>
@@ -227,7 +227,7 @@ namespace Hymma.Solidworks.Addins
             if (Control != null)
                 SetPictureLabelForControl(bitmap, fileName);
             else
-                OnRegister += () => { SetPictureLabelForControl(bitmap, fileName); };
+                Registering += () => { SetPictureLabelForControl(bitmap, fileName); };
         }
         private void SetPictureLabelForControl(Bitmap bitmap, string fileName)
         {
@@ -248,7 +248,7 @@ namespace Hymma.Solidworks.Addins
             if (Control != null)
                 ShowBubbleTooltipForControl(title, message, bitmap, fileName);
             else
-                OnRegister += () => { ShowBubbleTooltipForControl(title, message, bitmap, fileName); };
+                Registering += () => { ShowBubbleTooltipForControl(title, message, bitmap, fileName); };
         }
 
         private void ShowBubbleTooltipForControl(string title, string message, Bitmap bitmap, string fileName)
@@ -285,7 +285,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// fired when this controller is registerd in a property manager page which is when the add-in is loaded. Either when solidworks starts or when user re-loads the addin
         /// </summary>
-        internal event Action OnRegister;
+        internal event Action Registering;
 
         /// <summary>
         /// event handler for a <see cref="OnDisplay"/> event
