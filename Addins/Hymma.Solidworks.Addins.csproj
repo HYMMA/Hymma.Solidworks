@@ -111,7 +111,7 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_OnRMB.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_SelectionChanged.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_OnDisplay_EventArgs.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Checkbox\CheckBox_EventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Checkbox\PmpCheckBoxCheckedEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Core\Enums\ControlResizeStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Enums\SelectionBoxStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_EventHandler.cs" />
