@@ -32,9 +32,9 @@ namespace Hymma.Solidworks.Addins.Fluent
             return this;
         }
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable AndOnExpansionChange(Action<PmpGroup, bool> doThis)
+        public IPmpTabGroupFluentCheckable OnPmpGroupExpanded(OnPmpGroupExpandedEventHandler onPmpGroupExpandedEventHandler)
         {
-            OnGroupExpand += (sender, e) => doThis?.Invoke((PmpGroup)sender, e);
+            OnGroupExpand += (sender, e) => onPmpGroupExpandedEventHandler?.Invoke((PmpGroup)sender, e);
             return this;
         }
 
@@ -46,14 +46,14 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable HasTheseControls(Func<IEnumerable<PmpControl>> controlMaker)
+        public IPmpTabGroupFluentCheckable HasTheseControls(MakePmpControls makePmpControls)
         {
-            AddControls(controlMaker?.Invoke());
+            AddControls(makePmpControls?.Invoke());
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable HasTheseControls(IEnumerable<PmpControl> controls)
+        public IPmpTabGroupFluentCheckable HasTheseControls(PmpControl[] controls)
         {
             AddControls(controls);
             return this;
@@ -93,14 +93,14 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable WhenChecked(EventHandler<bool> doThis)
+        public IPmpTabGroupFluentCheckable OnPmpTabGroupChecked(EventHandler<bool> doThis)
         {
             OnGroupCheck += doThis;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable WhenDisplayed(EventHandler doThis)
+        public IPmpTabGroupFluentCheckable OnPmpTabGroupDisplaying(EventHandler doThis)
         {
             OnDisplay += doThis;
             return this;

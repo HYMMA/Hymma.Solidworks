@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace Hymma.Solidworks.Addins.Fluent
 {
-    public delegate void CustomAction(PmpGroup group, bool val);
+    /// <summary>
+    /// Equivalent to Aciton&lt;bool&gt;
+    /// </summary>
+    /// <param name="group"></param>
+    /// <param name="val"></param>
+    public delegate void OnPmpGroupExpandedEventHandler(PmpGroup group, bool val);
 
     /// <summary>
     /// Equivalent to Func&lt;IEnumerable&lt;PmpControl&gt;&gt;
     /// </summary>
     /// <returns></returns>
-    public delegate PmpControl[] CustomFunc();
+    public delegate PmpControl[] MakePmpControls();
 
 }

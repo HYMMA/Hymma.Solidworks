@@ -38,23 +38,23 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// <summary>
         /// event handler for when user expands the group
         /// </summary>
-        /// <param name="doThis">delegate that accepts a bool as the parameter and returns void. bool parameter will be assigned by solidworks and indicates the expansion state of the group.</param>
+        /// <param name="onPmpGroupExpandedEventHandler">delegate that accepts a bool as the parameter and returns void. bool parameter will be assigned by solidworks and indicates the expansion state of the group.</param>
         /// <returns></returns>
-        IPmpTabGroupFluentCheckable AndOnExpansionChange(CustomAction doThis);
+        IPmpTabGroupFluentCheckable OnPmpGroupExpanded(OnPmpGroupExpandedEventHandler onPmpGroupExpandedEventHandler);
 
         /// <summary>
         /// add these controls to the <see cref="Solidworks.Addins.PmpGroup"/>
         /// </summary>
-        /// <param name="controlMaker">function that returns an <see cref="IEnumerable{T}"/> where IPmpTabGroupFluentCheckable : <see cref="PmpControl"/></param>
+        /// <param name="makePmpControls">function that returns an <see cref="IEnumerable{T}"/> where IPmpTabGroupFluentCheckable : <see cref="PmpControl"/></param>
         /// <returns></returns>
-        IPmpTabGroupFluentCheckable HasTheseControls(CustomFunc controlMaker);
+        IPmpTabGroupFluentCheckable HasTheseControls(MakePmpControls makePmpControls);
 
         /// <summary>
         /// add these controls to the <see cref="Solidworks.Addins.PmpGroup"/>
         /// </summary>
         /// <param name="controls">an <see cref="IEnumerable{T}"/> where IPmpTabGroupFluentCheckable : <see cref="PmpControl"/></param>
         /// <returns></returns>
-        IPmpTabGroupFluentCheckable HasTheseControls(IEnumerable<PmpControl> controls);
+        IPmpTabGroupFluentCheckable HasTheseControls(PmpControl[] controls);
 
         /// <summary>
         /// background color of this group
@@ -81,13 +81,13 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="doThis"></param>
         /// <returns><see cref="PmpGroupCheckable"/></returns>
-        IPmpTabGroupFluentCheckable WhenChecked(EventHandler<bool> doThis);
+        IPmpTabGroupFluentCheckable OnPmpTabGroupChecked(EventHandler<bool> doThis);
      
         /// <summary>
         /// fires when this group is displayed on the screen
         /// </summary>
-        /// <param name="doThis"></param>
+        /// <param name="evntHandler"></param>
         /// <returns></returns>
-        IPmpTabGroupFluentCheckable WhenDisplayed(EventHandler doThis);
+        IPmpTabGroupFluentCheckable OnPmpTabGroupDisplaying(EventHandler evntHandler);
     }
 }
