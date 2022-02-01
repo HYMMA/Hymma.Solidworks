@@ -39,7 +39,7 @@ namespace Hymma.Solidworks.Addins
 
         internal void Checked(bool status)
         {
-            OnChecked?.Invoke(this, status);
+            PmpCehckBoxCheckedCallBack?.Invoke(this, status);
         }
 
         #endregion
@@ -104,7 +104,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// SOLIDWORKS will call this once the checkbox is clicked on
         /// </summary>
-        public event PmpCheckBoxCheckedEventHandler OnChecked;
+        public event PmpCheckBoxCheckedEventHandler PmpCehckBoxCheckedCallBack;
         #endregion
     }
 }
