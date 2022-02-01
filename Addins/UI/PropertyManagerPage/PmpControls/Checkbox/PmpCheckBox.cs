@@ -104,7 +104,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// SOLIDWORKS will call this once the checkbox is clicked on
         /// </summary>
-        public event CheckBox_EventHandler OnChecked;
+        public event PmpCheckBoxCheckedEventHandler OnChecked;
         #endregion
     }
 }
