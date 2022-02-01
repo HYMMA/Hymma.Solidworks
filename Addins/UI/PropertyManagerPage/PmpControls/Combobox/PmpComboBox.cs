@@ -268,14 +268,14 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        internal void SelectionChanged(int id)
+        internal void PmpComboBoxSelectionChangedCallBack(int id)
         {
-            OnSelectionChanged?.Invoke(this, id);
+            PmpComboBoxSelectionChangedEventHandler?.Invoke(this, id);
         }
 
-        internal void SelectionEdit(string val)
+        internal void PmpComboBoxEditChangedCallBack(string val)
         {
-            OnEditChanged?.Invoke(this, val);
+            PmpComboBoxEditChangedEventHandler?.Invoke(this, val);
         }
 
         #endregion
@@ -286,7 +286,7 @@ namespace Hymma.Solidworks.Addins
         /// Called when a user changes the selected item in a combo box on this PropertyManager page. 
         /// </summary>
         /// <remarks>solidworks will passs int the id of the selected item</remarks>
-        public event EventHandler<int> OnSelectionChanged;
+        public event EventHandler<int> PmpComboBoxSelectionChangedEventHandler;
 
         /// <summary>
         /// Called when a user changes the text string in the text box of a combo box on this PropertyManager page. solidworsk will pass in the text string
@@ -295,13 +295,13 @@ namespace Hymma.Solidworks.Addins
         /// <para>
         /// This method is only called if the combo box was set up as an editable text box. If the combo box is set up to as a static text box, then this method is not called.
         ///<para>
-        /// If the user can edit the text in the text box, then use this method with <see cref="OnSelectionChanged"/> to find out what is in the text box of the combo box.
+        /// If the user can edit the text in the text box, then use this method with <see cref="PmpComboBoxSelectionChangedEventHandler"/> to find out what is in the text box of the combo box.
         ///</para>
         ///<para>
         ///When this method is called, the control may not yet be updated with the current selection, so the <see cref="CurrentSelection"/> property is not reliable. The text passed into this method is the up-to-date text.
         ///</para>
         /// </para></remarks>
-        public event EventHandler<string> OnEditChanged;
+        public event EventHandler<string> PmpComboBoxEditChangedEventHandler;
         #endregion
     }
 }

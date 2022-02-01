@@ -295,7 +295,7 @@ namespace Hymma.Solidworks.Addins
         public void OnComboboxEditChanged(int Id, string Text)
         {
             PmpComboBox pmpComboBox = UiModel.GetControl(Id) as PmpComboBox;
-            pmpComboBox?.SelectionEdit(Text);
+            pmpComboBox?.PmpComboBoxEditChangedCallBack(Text);
         }
 
         /// <summary>
@@ -308,7 +308,7 @@ namespace Hymma.Solidworks.Addins
             var control = UiModel.GetControl(Id);
             if (control.Type == swPropertyManagerPageControlType_e.swControlType_Combobox && control is PmpComboBox pmpCombo)
             {
-                pmpCombo.SelectionChanged(Item);
+                pmpCombo.PmpComboBoxSelectionChangedCallBack(Item);
             }
             else if (control.Type == swPropertyManagerPageControlType_e.swControlType_Numberbox && control is PmpNumberBox pmpNumber)
             {
