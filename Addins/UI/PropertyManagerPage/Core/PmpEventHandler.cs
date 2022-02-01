@@ -239,13 +239,13 @@ namespace Hymma.Solidworks.Addins
             switch (button.Type)
             {
                 case swPropertyManagerPageControlType_e.swControlType_Button:
-                    button.CastTo<PmpButton>()?.Clicked();
+                    button.CastTo<PmpButton>()?.ClickedCallBack();
                     break;
                 case swPropertyManagerPageControlType_e.swControlType_BitmapButton:
-                    button.CastTo<PmpBitmapButton>()?.Clicked();
+                    button.CastTo<PmpBitmapButton>()?.ClickedCallBack();
                     break;
                 case swPropertyManagerPageControlType_e.swControlType_CheckableBitmapButton:
-                    button.CastTo<PmpBitmapButtonCheckable>()?.Clicked();
+                    button.CastTo<PmpBitmapButtonCheckable>()?.ClickedCallBack();
                     break;
                 default:
                     break;
