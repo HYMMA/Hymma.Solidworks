@@ -1,7 +1,7 @@
 ﻿namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// event handler for <see cref="PmpCheckBox.PmpCehckBoxCheckedCallBack"/>
+    /// event handler for <see cref="PmpCheckBox.PmpCehckBoxCheckedEventHandler"/>
     /// </summary>
     /// <param name="pmpCheckBox">the controller</param>
     /// <param name="isChecked">the state of the checkbox passed in by SOLIDWORKS</param>

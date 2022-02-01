@@ -197,7 +197,7 @@ namespace Hymma.Solidworks.Addins
             {
                 //call on checked delegate on the check box
                 checkBox.IsChecked = Checked;
-                checkBox.Checked(Checked);
+                checkBox.PmpCheckBoxCheckedCallBack(Checked);
             }
         }
 
