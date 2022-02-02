@@ -164,7 +164,7 @@ namespace Hymma.Solidworks.Addins
             if (UiModel.AllGroups.FirstOrDefault(g => g.Id == Id) is PmpGroup group)
             {
                 group.Expanded = Expanded;
-                group.GroupExpand(Expanded);
+                group.GroupExpandedCallBack(Expanded);
             }
         }
 

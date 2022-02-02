@@ -230,26 +230,26 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// an event that gets called right before this pmpGroup is displayed
         /// </summary>
-        public event EventHandler OnDisplay;
+        public event EventHandler Displaying;
 
         /// <summary>
         /// method to invoke when user expands a group <br/>
         /// this delegate requires a bool variable to indicate the IsExpanded status of the group
         /// </summary>
-        public event EventHandler<bool> OnGroupExpand;
+        public event EventHandler<bool> GroupExpanded;
 
         
         #endregion
 
         #region call backs
-        internal void GroupExpand(bool e)
+        internal void GroupExpandedCallBack(bool e)
         {
-            OnGroupExpand?.Invoke(this, e);
+            GroupExpanded?.Invoke(this, e);
         }
         internal void Display()
         {
             Controls.ForEach(c => c.Display());
-            OnDisplay?.Invoke(this, EventArgs.Empty);
+            Displaying?.Invoke(this, EventArgs.Empty);
         }
         #endregion
     }

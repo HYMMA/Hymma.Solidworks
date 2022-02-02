@@ -34,7 +34,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         ///<inheritdoc/>
         public IPmpTabGroupFluentCheckable OnPmpGroupExpanded(OnPmpGroupExpandedEventHandler onPmpGroupExpandedEventHandler)
         {
-            OnGroupExpand += (sender, e) => onPmpGroupExpandedEventHandler?.Invoke((PmpGroup)sender, e);
+            GroupExpanded += (sender, e) => onPmpGroupExpandedEventHandler?.Invoke((PmpGroup)sender, e);
             return this;
         }
 
@@ -102,7 +102,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         ///<inheritdoc/>
         public IPmpTabGroupFluentCheckable OnPmpTabGroupDisplaying(EventHandler doThis)
         {
-            OnDisplay += doThis;
+            Displaying += doThis;
             return this;
         }
     }

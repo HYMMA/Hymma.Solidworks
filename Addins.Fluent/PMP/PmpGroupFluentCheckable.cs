@@ -46,7 +46,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         ///<inheritdoc/>
         public IPmpGroupFluentCheckable AndOnExpansionChange(Action<PmpGroup, bool> doThis)
         {
-            OnGroupExpand += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
+            GroupExpanded += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
             return this;
         }
 
@@ -106,7 +106,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         ///<inheritdoc/>
         public IPmpGroupFluentCheckable WhenDisplayed(EventHandler doThis)
         {
-            OnDisplay += doThis;
+            Displaying += doThis;
             return this;
         }
     }
