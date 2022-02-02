@@ -325,7 +325,7 @@ namespace Hymma.Solidworks.Addins
         public void OnListboxSelectionChanged(int Id, int Item)
         {
             PmpListBox pmpList = UiModel.GetControl(Id) as PmpListBox;
-            pmpList?.SelectionChange(Item);
+            pmpList?.SelectionChangeCallBack(Item);
         }
 
         /// <summary>
@@ -525,7 +525,7 @@ namespace Hymma.Solidworks.Addins
         public void OnListboxRMBUp(int Id, int PosX, int PosY)
         {
             var listbox = UiModel.GetControl(Id) as PmpListBox;
-            listbox?.RightMouseBtnUp(Tuple.Create<double, double, double>(PosX, PosY, 0));
+            listbox?.RightMouseBtnUpCallBack(Tuple.Create<double, double, double>(PosX, PosY, 0));
         }
 
         /// <summary>
