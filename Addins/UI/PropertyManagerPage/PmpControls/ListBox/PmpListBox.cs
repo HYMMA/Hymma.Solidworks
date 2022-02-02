@@ -193,7 +193,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// will be fired a moment before this Lisbox is displayed in a property manager page. 
         /// </summary>
-        public new event Listbox_EventHandler_Display OnDisplay;
+        public new event PmpListboxDisplayingEventHandler OnDisplay;
         #endregion
     }
 }
