@@ -38,7 +38,7 @@ namespace Hymma.Solidworks.Addins
             Displaying += PmpBitmap_OnDisplay;
         }
 
-        private void PmpBitmap_OnDisplay(PmpControl sender, OnDisplay_EventArgs eventArgs)
+        private void PmpBitmap_OnDisplay(PmpControl sender, DisplayingEventArgs eventArgs)
         {
             eventArgs.OptionsForResize = (int)_resizeStyles;
         }

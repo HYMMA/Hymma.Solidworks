@@ -47,7 +47,7 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        private void PmpWpfHost_OnDisplay(object sender, OnDisplay_EventArgs e)
+        private void PmpWpfHost_OnDisplay(object sender, DisplayingEventArgs e)
         {
             //this should be callled everytime pmp is displayed and on the pmp registration
             if (ElementHost == null || !WindowsControl.HasContent)

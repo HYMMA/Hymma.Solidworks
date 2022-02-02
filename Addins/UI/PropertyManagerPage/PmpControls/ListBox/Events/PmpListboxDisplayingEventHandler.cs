@@ -5,5 +5,5 @@
     /// </summary>
     /// <param name="sender">the listbox that raised the event</param>
     /// <param name="eventArgs">useful arguments passed by SOLIDWORKS</param>
-    public delegate void PmpListboxDisplayingEventHandler(PmpListBox sender, Listbox_OnDisplay_EventArgs eventArgs);
+    public delegate void PmpListboxDisplayingEventHandler(PmpListBox sender, PmpListboxDisplayingEventArgs eventArgs);
 }

@@ -5,7 +5,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// event arguments for numberbox
     /// </summary>
-    public class NumberBox_Ondisplay_EventArgs : OnDisplay_EventArgs
+    public class NumberBox_Ondisplay_EventArgs : DisplayingEventArgs
     {
         #region fields
         private IPropertyManagerPageNumberbox SolidworksObject;

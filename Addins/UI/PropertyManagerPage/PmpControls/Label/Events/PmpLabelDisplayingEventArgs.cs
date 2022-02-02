@@ -7,7 +7,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// event arguments for a <see cref="PmpLabel"/>
     /// </summary>
-    public class PmpLabelDisplayingEventArgs : OnDisplay_EventArgs
+    public class PmpLabelDisplayingEventArgs : DisplayingEventArgs
     {
         #region fields
         private PropertyManagerPageLabel SolidworksObject;

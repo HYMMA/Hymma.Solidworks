@@ -47,7 +47,7 @@ namespace Hymma.Solidworks.Addins
             throw new NotImplementedException();
         }
 
-        private void PmpComboBox_OnDisplay(PmpControl sender, OnDisplay_EventArgs eventArgs)
+        private void PmpComboBox_OnDisplay(PmpControl sender, DisplayingEventArgs eventArgs)
         {
             SolidworksObject.Clear();
             _items.Sort();

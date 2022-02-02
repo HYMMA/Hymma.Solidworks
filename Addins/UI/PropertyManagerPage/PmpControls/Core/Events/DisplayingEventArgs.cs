@@ -8,7 +8,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// provides useful arguments and parameters once this control is painted on the screen/>
     /// </summary>
-    public class OnDisplay_EventArgs : EventArgs
+    public class DisplayingEventArgs : EventArgs
     {
         #region fields
         private short _width;
@@ -23,7 +23,7 @@ namespace Hymma.Solidworks.Addins
         /// default constructor
         /// </summary>
         /// <param name="control"></param>
-        public OnDisplay_EventArgs(IPropertyManagerPageControl control)
+        public DisplayingEventArgs(IPropertyManagerPageControl control)
         {
             _control = control;
         }

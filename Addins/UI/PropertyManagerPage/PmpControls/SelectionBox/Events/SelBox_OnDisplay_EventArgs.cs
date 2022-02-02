@@ -10,7 +10,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// event argument for <see cref="PmpSelectionBox.OnDisplay"/> event
     /// </summary>
-    public class SelBox_OnDisplay_EventArgs : OnDisplay_EventArgs
+    public class SelBox_OnDisplay_EventArgs : DisplayingEventArgs
     {
         #region Constructor
         /// <summary>

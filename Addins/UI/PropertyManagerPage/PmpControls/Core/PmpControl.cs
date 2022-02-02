@@ -266,7 +266,7 @@ namespace Hymma.Solidworks.Addins
         ///<inheritdoc/>
         internal virtual void DisplayingCallBack()
         {
-            Displaying?.Invoke(this, new OnDisplay_EventArgs(Control));
+            Displaying?.Invoke(this, new DisplayingEventArgs(Control));
         }
 
         internal virtual void GainedFocusCallBack()
@@ -293,7 +293,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="sender">the </param>
         /// <param name="eventArgs"></param>
         [ComVisible(true)]
-        public delegate void PmpcontrolDisplayingEventHandler(PmpControl sender, OnDisplay_EventArgs eventArgs);
+        public delegate void PmpcontrolDisplayingEventHandler(PmpControl sender, DisplayingEventArgs eventArgs);
 
         /// <summary>
         /// fired a moment before property manager page is displayed
