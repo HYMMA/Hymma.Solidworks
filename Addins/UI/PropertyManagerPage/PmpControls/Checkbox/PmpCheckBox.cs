@@ -90,7 +90,7 @@ namespace Hymma.Solidworks.Addins
                 _maintain = value;
                 if (_maintain)
                 {
-                    OnDisplay += (sender, e) =>
+                    Displaying += (sender, e) =>
                     {
                         var checkBox = sender as PmpCheckBox;
                         checkBox.IsChecked = _isChecked;

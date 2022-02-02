@@ -266,7 +266,7 @@ namespace Hymma.Solidworks.Addins
         ///<inheritdoc/>
         internal virtual void Display()
         {
-            OnDisplay?.Invoke(this, new OnDisplay_EventArgs(Control));
+            Displaying?.Invoke(this, new OnDisplay_EventArgs(Control));
         }
 
         internal virtual void GainedFocus()
@@ -288,17 +288,17 @@ namespace Hymma.Solidworks.Addins
         internal event Action Registering;
 
         /// <summary>
-        /// event handler for a <see cref="OnDisplay"/> event
+        /// event handler for a <see cref="Displaying"/> event
         /// </summary>
         /// <param name="sender">the </param>
         /// <param name="eventArgs"></param>
         [ComVisible(true)]
-        public delegate void PmpcontrolOnDisplayEventHandler(PmpControl sender, OnDisplay_EventArgs eventArgs);
+        public delegate void PmpcontrolDisplayingEventHandler(PmpControl sender, OnDisplay_EventArgs eventArgs);
 
         /// <summary>
         /// fired a moment before property manager page is displayed
         /// </summary>
-        public event PmpcontrolOnDisplayEventHandler OnDisplay;
+        public event PmpcontrolDisplayingEventHandler Displaying;
 
         /// <summary>
         /// fired when user starts interacting with this control, such as start of typing in a text box

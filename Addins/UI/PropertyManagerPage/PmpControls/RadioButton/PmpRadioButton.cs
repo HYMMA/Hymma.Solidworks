@@ -57,7 +57,7 @@ namespace Hymma.Solidworks.Addins
                 _maintain = value;
                 if (_maintain)
                 {
-                    OnDisplay += (sender, e) =>
+                    Displaying += (sender, e) =>
                     {
                         var radioButton = sender as PmpRadioButton;
                         radioButton.IsChecked = _isChecked;

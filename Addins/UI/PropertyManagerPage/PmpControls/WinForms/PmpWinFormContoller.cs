@@ -28,7 +28,7 @@ namespace Hymma.Solidworks.Addins
                 SolidworksObject = (IPropertyManagerPageWindowFromHandle)Control;
                 SolidworksObject.Height = height;
             };
-            OnDisplay += (s, e) =>
+            Displaying += (s, e) =>
             {
                 //according to solidworks api it should be instantiated every time
                 UiController = Activator.CreateInstance(userControl.GetType()) as System.Windows.Forms.UserControl;
@@ -43,7 +43,7 @@ namespace Hymma.Solidworks.Addins
             set
             {
                 base.Enabled = value;
-                OnDisplay += (s, e) => UiController.Enabled = value;
+                Displaying += (s, e) => UiController.Enabled = value;
             }
         }
         /// <summary>

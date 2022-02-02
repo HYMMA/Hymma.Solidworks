@@ -28,7 +28,7 @@ namespace Hymma.Solidworks.Addins
             this.ElementHost = elementHost;
             this.WindowsControl = wpfControl;
             _keystrokePropagator = new WpfControlKeystrokePropagator(wpfControl);
-            OnDisplay += PmpWpfHost_OnDisplay;
+            Displaying += PmpWpfHost_OnDisplay;
             Registering += () =>
             {
                 SolidworksObject = (IPropertyManagerPageWindowFromHandle)Control;

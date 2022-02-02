@@ -35,7 +35,7 @@ namespace Hymma.Solidworks.Addins
             _opacity = opacity;
             _filename = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
             _resizeStyles = resizeStyles;
-            OnDisplay += PmpBitmap_OnDisplay;
+            Displaying += PmpBitmap_OnDisplay;
         }
 
         private void PmpBitmap_OnDisplay(PmpControl sender, OnDisplay_EventArgs eventArgs)

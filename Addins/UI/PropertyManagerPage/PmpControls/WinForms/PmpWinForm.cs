@@ -24,7 +24,7 @@ namespace Hymma.Solidworks.Addins
                 SolidworksObject = (IPropertyManagerPageWindowFromHandle)Control;
                 SolidworksObject.Height = height;
             };
-            OnDisplay += (s, d) =>
+            Displaying += (s, d) =>
             {
                 //user needs to create the dotnet control at every display
                 _userControl = Activator.CreateInstance(form.GetType()) as System.Windows.Forms.Form;

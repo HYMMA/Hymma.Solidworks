@@ -38,7 +38,7 @@ namespace Hymma.Solidworks.Addins
             AddItems(items);
             Style = _style;
             Height = _height;
-            OnDisplay += PmpComboBox_OnDisplay;
+            Displaying += PmpComboBox_OnDisplay;
         }
 
         private void PmpComboBox_OnRegister()
@@ -110,7 +110,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.Clear();
             else
-                OnDisplay += (s, e) => SolidworksObject?.Clear();
+                Displaying += (s, e) => SolidworksObject?.Clear();
         }
 
         /// <summary>
