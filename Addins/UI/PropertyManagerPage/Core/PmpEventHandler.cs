@@ -225,7 +225,7 @@ namespace Hymma.Solidworks.Addins
             radioBtn.IsChecked = true;
 
             //invoke any function assigned to it
-            radioBtn?.Checked();
+            radioBtn?.CheckedCallBack();
         }
 
         /// <summary>
