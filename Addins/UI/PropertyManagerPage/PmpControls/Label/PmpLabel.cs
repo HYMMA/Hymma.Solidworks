@@ -200,6 +200,6 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// raised a moment before this label is displayed in the property manager page
         /// </summary>
-        public new event Label_OnDisplayEventHandler OnDisplay;
+        public new event PmpLabelDisplayingEventHandler OnDisplay;
     }
 }
