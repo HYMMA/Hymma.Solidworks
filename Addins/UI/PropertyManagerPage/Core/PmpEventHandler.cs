@@ -489,7 +489,7 @@ namespace Hymma.Solidworks.Addins
         public void OnGainedFocus(int Id)
         {
             var control = UiModel.GetControl(Id);
-            control?.GainedFocus();
+            control?.GainedFocusCallBack();
         }
 
         /// <summary>
@@ -499,7 +499,7 @@ namespace Hymma.Solidworks.Addins
         public void OnLostFocus(int Id)
         {
             var control = UiModel.GetControl(Id);
-            control?.LostFocus();
+            control?.LostFocusCallBack();
         }
 
         /// <summary>

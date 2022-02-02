@@ -269,12 +269,12 @@ namespace Hymma.Solidworks.Addins
             Displaying?.Invoke(this, new OnDisplay_EventArgs(Control));
         }
 
-        internal virtual void GainedFocus()
+        internal virtual void GainedFocusCallBack()
         {
             OnGainedFocus?.Invoke(this, EventArgs.Empty);
         }
 
-        internal virtual void LostFocus()
+        internal virtual void LostFocusCallBack()
         {
             OnLostFocus?.Invoke(this, EventArgs.Empty);
         }
