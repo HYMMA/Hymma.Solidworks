@@ -211,7 +211,7 @@ namespace Hymma.Solidworks.Addins
 
         internal override void DisplayingCallBack()
         {
-            OnDisplay?.Invoke(this, new NumberBox_Ondisplay_EventArgs(this));
+            OnDisplay?.Invoke(this, new PmpNumberBoxDisplayingEventArgs(this));
         }
 
         internal void TrackComplete(double val)
@@ -250,7 +250,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// fired a moment before this number box is displayed in a property manager page
         /// </summary>
-        public new event NumberBox_OnDisplay_EventHandler OnDisplay;
+        public new event PmpNumberBoxDisplayingEventHandler OnDisplay;
 
         #endregion
     }

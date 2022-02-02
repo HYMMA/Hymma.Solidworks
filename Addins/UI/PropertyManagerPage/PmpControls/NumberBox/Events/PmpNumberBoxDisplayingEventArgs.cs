@@ -5,7 +5,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// event arguments for numberbox
     /// </summary>
-    public class NumberBox_Ondisplay_EventArgs : DisplayingEventArgs
+    public class PmpNumberBoxDisplayingEventArgs : DisplayingEventArgs
     {
         #region fields
         private IPropertyManagerPageNumberbox SolidworksObject;
@@ -16,7 +16,7 @@ namespace Hymma.Solidworks.Addins
         /// event arguments for <see cref="PmpNumberBox.OnDisplay"/>
         /// </summary>
         /// <param name="pmpNumberBox"></param>
-        public NumberBox_Ondisplay_EventArgs(PmpNumberBox pmpNumberBox) : base((IPropertyManagerPageControl)pmpNumberBox.SolidworksObject)
+        public PmpNumberBoxDisplayingEventArgs(PmpNumberBox pmpNumberBox) : base((IPropertyManagerPageControl)pmpNumberBox.SolidworksObject)
         {
             SolidworksObject = pmpNumberBox.SolidworksObject;
         }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -14,5 +9,5 @@ namespace Hymma.Solidworks.Addins
     /// <param name="sender">the number box in the property manager page</param>
     /// <param name="eventArgs">useful commands to use once this event is raised</param>
     [ComVisible(true)]
-    public delegate void NumberBox_OnDisplay_EventHandler(PmpNumberBox sender, NumberBox_Ondisplay_EventArgs eventArgs);
+    public delegate void PmpNumberBoxDisplayingEventHandler(PmpNumberBox sender, PmpNumberBoxDisplayingEventArgs eventArgs);
 }
