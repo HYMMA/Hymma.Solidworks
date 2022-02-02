@@ -271,12 +271,12 @@ namespace Hymma.Solidworks.Addins
 
         internal virtual void GainedFocusCallBack()
         {
-            OnGainedFocus?.Invoke(this, EventArgs.Empty);
+            GainedFocus?.Invoke(this, EventArgs.Empty);
         }
 
         internal virtual void LostFocusCallBack()
         {
-            OnLostFocus?.Invoke(this, EventArgs.Empty);
+            LostFocus?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion
@@ -303,12 +303,12 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// fired when user starts interacting with this control, such as start of typing in a text box
         /// </summary>
-        public event EventHandler OnGainedFocus;
+        public event EventHandler GainedFocus;
 
         /// <summary>
         /// fires when user browses away from this control
         /// </summary>
-        public event EventHandler OnLostFocus;
+        public event EventHandler LostFocus;
         #endregion
     }
 }
