@@ -7,7 +7,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// event arguments for a <see cref="PmpLabel"/>
     /// </summary>
-    public class Label_OnDisplayEventArgs : OnDisplay_EventArgs
+    public class PmpLabelDisplayingEventArgs : OnDisplay_EventArgs
     {
         #region fields
         private PropertyManagerPageLabel SolidworksObject;
@@ -24,7 +24,7 @@ namespace Hymma.Solidworks.Addins
         /// constructor
         /// </summary>
         /// <param name="label"></param>
-        public Label_OnDisplayEventArgs(PmpLabel label) : base((IPropertyManagerPageControl)label.SolidworksObject)
+        public PmpLabelDisplayingEventArgs(PmpLabel label) : base((IPropertyManagerPageControl)label.SolidworksObject)
         {
             this.Lable = label;
             this.SolidworksObject = label.SolidworksObject;

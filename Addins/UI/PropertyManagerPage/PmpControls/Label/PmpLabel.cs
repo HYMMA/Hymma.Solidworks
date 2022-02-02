@@ -193,7 +193,7 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         internal override void Display()
         {
-            OnDisplay?.Invoke(this, new Label_OnDisplayEventArgs(this));
+            OnDisplay?.Invoke(this, new PmpLabelDisplayingEventArgs(this));
         }
         #endregion
 
