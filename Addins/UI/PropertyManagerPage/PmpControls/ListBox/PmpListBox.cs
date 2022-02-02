@@ -64,7 +64,7 @@ namespace Hymma.Solidworks.Addins
             OnSelectionChange?.Invoke(this, count);
         }
 
-        internal override void Display()
+        internal override void DisplayingCallBack()
         {
             OnDisplay?.Invoke(this, new Listbox_OnDisplay_EventArgs(this, _height));
         }

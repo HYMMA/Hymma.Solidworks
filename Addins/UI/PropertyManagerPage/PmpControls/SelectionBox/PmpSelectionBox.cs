@@ -112,7 +112,7 @@ namespace Hymma.Solidworks.Addins
             return OnSubmitSelection.Invoke(this, new SelectionBox_OnSubmitSelection_EventArgs(selection, selectType, tag));
         }
 
-        internal override void Display()
+        internal override void DisplayingCallBack()
         {
             OnDisplay?.Invoke(this, new SelBox_OnDisplay_EventArgs(this, _filters, _style, _allowMultipleSelectOfSameEntity, _singleItemOnly, _height));
         }

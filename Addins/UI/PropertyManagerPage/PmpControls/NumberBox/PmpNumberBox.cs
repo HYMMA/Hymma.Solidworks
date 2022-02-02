@@ -209,7 +209,7 @@ namespace Hymma.Solidworks.Addins
             OnChange?.Invoke(this, value);
         }
 
-        internal override void Display()
+        internal override void DisplayingCallBack()
         {
             OnDisplay?.Invoke(this, new NumberBox_Ondisplay_EventArgs(this));
         }

@@ -189,17 +189,17 @@ namespace Hymma.Solidworks.Addins
 
         #region Callbacks
         /// <summary>
-        /// called <see cref="OnDisplay"/>
+        /// called <see cref="Displaying"/>
         /// </summary>
-        internal override void Display()
+        internal override void DisplayingCallBack()
         {
-            OnDisplay?.Invoke(this, new PmpLabelDisplayingEventArgs(this));
+            Displaying?.Invoke(this, new PmpLabelDisplayingEventArgs(this));
         }
         #endregion
 
         /// <summary>
         /// raised a moment before this label is displayed in the property manager page
         /// </summary>
-        public new event PmpLabelDisplayingEventHandler OnDisplay;
+        public new event PmpLabelDisplayingEventHandler Displaying;
     }
 }

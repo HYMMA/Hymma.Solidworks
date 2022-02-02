@@ -264,7 +264,7 @@ namespace Hymma.Solidworks.Addins
         /// will be called just before this property manager page is displayed inside solidworks 
         /// </summary>
         ///<inheritdoc/>
-        internal virtual void Display()
+        internal virtual void DisplayingCallBack()
         {
             Displaying?.Invoke(this, new OnDisplay_EventArgs(Control));
         }
