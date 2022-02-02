@@ -13,7 +13,7 @@ namespace Hymma.Solidworks.Addins
 
         #region constructors
         /// <summary>
-        /// event arguments for <see cref="PmpNumberBox.OnDisplay"/>
+        /// event arguments for <see cref="PmpNumberBox.Displaying"/>
         /// </summary>
         /// <param name="pmpNumberBox"></param>
         public PmpNumberBoxDisplayingEventArgs(PmpNumberBox pmpNumberBox) : base((IPropertyManagerPageControl)pmpNumberBox.SolidworksObject)
@@ -73,7 +73,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// Gets the text that appears in the number box. 
         /// </summary>
-        /// <remarks>If a user changes the value in an number box by typing in a new value, the <see cref="PmpNumberBox.OnTextChanged"/> is called with the current text string.</remarks>
+        /// <remarks>If a user changes the value in an number box by typing in a new value, the <see cref="PmpNumberBox.TextChanged"/> is called with the current text string.</remarks>
         public string Text => SolidworksObject?.Text;
 
         /// <summary>

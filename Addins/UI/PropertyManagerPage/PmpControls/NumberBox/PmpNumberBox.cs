@@ -199,28 +199,28 @@ namespace Hymma.Solidworks.Addins
 
 
         #region Call backs
-        internal void TextChanged(string text)
+        internal void TextChangedCallBack(string text)
         {
-            OnTextChanged?.Invoke(this, text);
+            TextChanged?.Invoke(this, text);
         }
 
-        internal void Changed(double value)
+        internal void ChangingCallBack(double value)
         {
-            OnChange?.Invoke(this, value);
+            Changing?.Invoke(this, value);
         }
 
         internal override void DisplayingCallBack()
         {
-            OnDisplay?.Invoke(this, new PmpNumberBoxDisplayingEventArgs(this));
+            Displaying?.Invoke(this, new PmpNumberBoxDisplayingEventArgs(this));
         }
 
-        internal void TrackComplete(double val)
+        internal void TrackCompleteCallBack(double val)
         {
-            OnTrackingComplete?.Invoke(this, val);
+            TrackingCompleted?.Invoke(this, val);
         }
-        internal void SelectionChanged(int item)
+        internal void SelectionChangedCallBack(int item)
         {
-            OnSelectionChanged?.Invoke(this, SolidworksObject.ItemText[(short)item]);
+            SelectionChanged?.Invoke(this, SolidworksObject.ItemText[(short)item]);
         }
         #endregion
 
@@ -229,28 +229,28 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// called when user changes the value in an number box by typing in a new value, solidworks will pass in the text that was entered
         /// </summary>
-        public event EventHandler<string> OnTextChanged;
+        public event EventHandler<string> TextChanged;
 
         /// <summary>
         /// fired when user changes the value via typing or clicking the up-arrow or down-arrow buttons to increment or decrement the value
         /// </summary>
         /// <remarks>solidworks will pass in the double vlue upon change</remarks>
-        public event EventHandler<double> OnChange;
+        public event EventHandler<double> Changing;
 
         /// <summary>
         /// Called when a user finishes changing the value in the number box on a PropertyManager page. 
         /// </summary>
-        public event EventHandler<double> OnTrackingComplete;
+        public event EventHandler<double> TrackingCompleted;
 
         /// <summary>
         /// fired when Style has <see cref="NumberBoxStyles.AvoidSelectionText"/> | <see cref="NumberBoxStyles.ComboEditBox"/> and user selects an item from the combo box
         /// </summary>
-        public event EventHandler<string> OnSelectionChanged;
+        public event EventHandler<string> SelectionChanged;
 
         /// <summary>
         /// fired a moment before this number box is displayed in a property manager page
         /// </summary>
-        public new event PmpNumberBoxDisplayingEventHandler OnDisplay;
+        public new event PmpNumberBoxDisplayingEventHandler Displaying;
 
         #endregion
     }

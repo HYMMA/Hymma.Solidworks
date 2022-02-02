@@ -265,7 +265,7 @@ namespace Hymma.Solidworks.Addins
             if (control.Type == swPropertyManagerPageControlType_e.swControlType_Numberbox
                 && control is PmpNumberBox numberBox)
             {
-                numberBox?.TextChanged(Text);
+                numberBox?.TextChangedCallBack(Text);
             }
 
             //if control is a text box
@@ -284,7 +284,7 @@ namespace Hymma.Solidworks.Addins
         public void OnNumberboxChanged(int Id, double Value)
         {
             var numberBox = UiModel.GetControl(Id);
-            numberBox.CastTo<PmpNumberBox>()?.Changed(Value);
+            numberBox.CastTo<PmpNumberBox>()?.ChangingCallBack(Value);
         }
 
         /// <summary>
@@ -312,7 +312,7 @@ namespace Hymma.Solidworks.Addins
             }
             else if (control.Type == swPropertyManagerPageControlType_e.swControlType_Numberbox && control is PmpNumberBox pmpNumber)
             {
-                pmpNumber.SelectionChanged(Item);
+                pmpNumber.SelectionChangedCallBack(Item);
             }
 
         }
@@ -537,7 +537,7 @@ namespace Hymma.Solidworks.Addins
         {
             Log("on numberbox tracking complete event fired");
             var numBox = UiModel.GetControl(Id) as PmpNumberBox;
-            numBox?.TrackComplete(Value);
+            numBox?.TrackCompleteCallBack(Value);
         }
     }
 }
