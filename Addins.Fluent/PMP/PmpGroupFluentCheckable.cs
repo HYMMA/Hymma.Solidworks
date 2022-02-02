@@ -99,7 +99,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         ///<inheritdoc/>
         public IPmpGroupFluentCheckable WhenChecked(EventHandler<bool> doThis)
         {
-            base.OnGroupCheck += doThis;
+            base.Checked += doThis;
             return this;
         }
 

@@ -76,20 +76,20 @@ namespace Hymma.Solidworks.Addins
                 }
             }
         }
-        internal void GroupChecked(bool status)
+        internal void CheckedCallBack(bool status)
         {
             foreach (var control in Controls)
             {
                 control.Visible=status;
                 control.Enabled=status;
             }
-            OnGroupCheck?.Invoke(this, status);
+            Checked?.Invoke(this, status);
         }
 
         /// <summary>
         /// method to invoke when user checks a group <br/>
         /// this delegate requires a bool variable to indicate the IsChecked status of the group
         /// </summary>
-        public event EventHandler<bool> OnGroupCheck;
+        public event EventHandler<bool> Checked;
     }
 }

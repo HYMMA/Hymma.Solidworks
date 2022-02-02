@@ -95,7 +95,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         ///<inheritdoc/>
         public IPmpTabGroupFluentCheckable OnPmpTabGroupChecked(EventHandler<bool> doThis)
         {
-            OnGroupCheck += doThis;
+            Checked += doThis;
             return this;
         }
 

@@ -179,7 +179,7 @@ namespace Hymma.Solidworks.Addins
             if (UiModel.AllGroups.FirstOrDefault(g => g.Id == Id) is PmpGroupCheckable group)
             {
                 group.IsChecked = Checked;
-                group.GroupChecked(Checked);
+                group.CheckedCallBack(Checked);
             }
         }
 
