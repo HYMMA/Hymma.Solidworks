@@ -32,7 +32,7 @@ namespace Hymma.Solidworks.Addins.Fluent
             return this;
         }
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable OnPmpGroupExpanded(OnPmpGroupExpandedEventHandler onPmpGroupExpandedEventHandler)
+        public IPmpTabGroupFluentCheckable OnExpansion(OnPmpGroupExpansionEventHandler onPmpGroupExpandedEventHandler)
         {
             ExpansionChanged += (sender, e) => onPmpGroupExpandedEventHandler?.Invoke((PmpGroup)sender, e);
             return this;
@@ -60,16 +60,16 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable IsExpanded(bool isExpanded = true)
+        public IPmpTabGroupFluentCheckable SetExpansion(bool isExpanded = true)
         {
             Expanded = isExpanded;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable IsHidden(bool isHidden = true)
+        public IPmpTabGroupFluentCheckable SetVisibility(bool visibility)
         {
-            Visible = !isHidden;
+            Visible = visibility;
             return this;
         }
 
@@ -86,21 +86,21 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable Checked(bool status = true)
+        public IPmpTabGroupFluentCheckable SetCheckedStatus(bool status = true)
         {
             base.IsChecked = status;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable OnPmpTabGroupChecked(EventHandler<bool> doThis)
+        public IPmpTabGroupFluentCheckable OnChecked(EventHandler<bool> doThis)
         {
             Checked += doThis;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable OnPmpTabGroupDisplaying(EventHandler doThis)
+        public IPmpTabGroupFluentCheckable OnDisplaying(EventHandler doThis)
         {
             Displaying += doThis;
             return this;

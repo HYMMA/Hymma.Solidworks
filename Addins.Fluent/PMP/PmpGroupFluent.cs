@@ -58,7 +58,6 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// <inheritdoc/>
         public IPmpGroupFluent HasTheseControls(IEnumerable<PmpControl> controls)
         {
-
             AddControls(controls);
             return this;
         }

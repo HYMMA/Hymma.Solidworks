@@ -5,7 +5,7 @@
     /// </summary>
     /// <param name="group"></param>
     /// <param name="val"></param>
-    public delegate void OnPmpGroupExpandedEventHandler(PmpGroup group, bool val);
+    public delegate void OnPmpGroupExpansionEventHandler(PmpGroup group, bool val);
 
     /// <summary>
     /// Equivalent to Func&lt;IEnumerable&lt;PmpControl&gt;&gt;
