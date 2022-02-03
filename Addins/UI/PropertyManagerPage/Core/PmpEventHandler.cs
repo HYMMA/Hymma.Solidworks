@@ -149,7 +149,7 @@ namespace Hymma.Solidworks.Addins
         {
             Log("on tab clicked event handling");
             var tab = UiModel.PmpTabs.FirstOrDefault(t => t.Id == Id);
-            tab?.OnPress?.Invoke();
+            tab?.ClickedCallBack();
             return true;
         }
 
@@ -164,7 +164,7 @@ namespace Hymma.Solidworks.Addins
             if (UiModel.AllGroups.FirstOrDefault(g => g.Id == Id) is PmpGroup group)
             {
                 group.Expanded = Expanded;
-                group.GroupExpand(Expanded);
+                group.GroupExpandedCallBack(Expanded);
             }
         }
 
@@ -179,7 +179,7 @@ namespace Hymma.Solidworks.Addins
             if (UiModel.AllGroups.FirstOrDefault(g => g.Id == Id) is PmpGroupCheckable group)
             {
                 group.IsChecked = Checked;
-                group.GroupChecked(Checked);
+                group.CheckedCallBack(Checked);
             }
         }
 
@@ -197,7 +197,7 @@ namespace Hymma.Solidworks.Addins
             {
                 //call on checked delegate on the check box
                 checkBox.IsChecked = Checked;
-                checkBox.Checked(Checked);
+                checkBox.PmpCheckBoxCheckedCallBack(Checked);
             }
         }
 
@@ -225,7 +225,7 @@ namespace Hymma.Solidworks.Addins
             radioBtn.IsChecked = true;
 
             //invoke any function assigned to it
-            radioBtn?.Checked();
+            radioBtn?.CheckedCallBack();
         }
 
         /// <summary>
@@ -239,13 +239,13 @@ namespace Hymma.Solidworks.Addins
             switch (button.Type)
             {
                 case swPropertyManagerPageControlType_e.swControlType_Button:
-                    button.CastTo<PmpButton>()?.Clicked();
+                    button.CastTo<PmpButton>()?.ClickedCallBack();
                     break;
                 case swPropertyManagerPageControlType_e.swControlType_BitmapButton:
-                    button.CastTo<PmpBitmapButton>()?.Clicked();
+                    button.CastTo<PmpBitmapButton>()?.ClickedCallBack();
                     break;
                 case swPropertyManagerPageControlType_e.swControlType_CheckableBitmapButton:
-                    button.CastTo<PmpBitmapButtonCheckable>()?.Clicked();
+                    button.CastTo<PmpBitmapButtonCheckable>()?.ClickedCallBack();
                     break;
                 default:
                     break;
@@ -265,14 +265,14 @@ namespace Hymma.Solidworks.Addins
             if (control.Type == swPropertyManagerPageControlType_e.swControlType_Numberbox
                 && control is PmpNumberBox numberBox)
             {
-                numberBox?.TextChanged(Text);
+                numberBox?.TextChangedCallBack(Text);
             }
 
             //if control is a text box
             if (control.Type == swPropertyManagerPageControlType_e.swControlType_Textbox
                 && control is PmpTextBox txtBox)
             {
-                txtBox?.TextChanged(Text);
+                txtBox?.UserTypedCallBack(Text);
             }
         }
 
@@ -284,7 +284,7 @@ namespace Hymma.Solidworks.Addins
         public void OnNumberboxChanged(int Id, double Value)
         {
             var numberBox = UiModel.GetControl(Id);
-            numberBox.CastTo<PmpNumberBox>()?.Changed(Value);
+            numberBox.CastTo<PmpNumberBox>()?.ChangingCallBack(Value);
         }
 
         /// <summary>
@@ -295,7 +295,7 @@ namespace Hymma.Solidworks.Addins
         public void OnComboboxEditChanged(int Id, string Text)
         {
             PmpComboBox pmpComboBox = UiModel.GetControl(Id) as PmpComboBox;
-            pmpComboBox?.SelectionEdit(Text);
+            pmpComboBox?.PmpComboBoxEditChangedCallBack(Text);
         }
 
         /// <summary>
@@ -308,11 +308,11 @@ namespace Hymma.Solidworks.Addins
             var control = UiModel.GetControl(Id);
             if (control.Type == swPropertyManagerPageControlType_e.swControlType_Combobox && control is PmpComboBox pmpCombo)
             {
-                pmpCombo.SelectionChanged(Item);
+                pmpCombo.PmpComboBoxSelectionChangedCallBack(Item);
             }
             else if (control.Type == swPropertyManagerPageControlType_e.swControlType_Numberbox && control is PmpNumberBox pmpNumber)
             {
-                pmpNumber.SelectionChanged(Item);
+                pmpNumber.SelectionChangedCallBack(Item);
             }
 
         }
@@ -325,7 +325,7 @@ namespace Hymma.Solidworks.Addins
         public void OnListboxSelectionChanged(int Id, int Item)
         {
             PmpListBox pmpList = UiModel.GetControl(Id) as PmpListBox;
-            pmpList?.SelectionChange(Item);
+            pmpList?.SelectionChangeCallBack(Item);
         }
 
         /// <summary>
@@ -337,7 +337,7 @@ namespace Hymma.Solidworks.Addins
             //get selection box
             PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
 
-            selectionBox?.FocusChanged();
+            selectionBox?.FocusChangedCallBack();
         }
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace Hymma.Solidworks.Addins
                 UiModel.SetCursor(selectionBox.CursorStyle);
 
             //invoke delegate
-            selectionBox?.ListChanged(Count);
+            selectionBox?.ListChangedCallBack(Count);
         }
 
         /// <summary>
@@ -368,7 +368,7 @@ namespace Hymma.Solidworks.Addins
             PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
 
             //invoke delegate
-            selectionBox?.CallOutCreated();
+            selectionBox?.CallOutCreatedCallBack();
         }
 
         /// <summary>
@@ -381,7 +381,7 @@ namespace Hymma.Solidworks.Addins
             PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
 
             //invoke delegate
-            selectionBox?.CallOutDestroyed();
+            selectionBox?.CallOutDestroyedCallBack();
         }
 
         /// <summary>
@@ -407,7 +407,7 @@ namespace Hymma.Solidworks.Addins
             if (UiModel.GetControl(Id) is PmpSelectionBox selectionBox)
             {
                 // otherwise return what user ahs defined
-                return selectionBox.SubmitSelection(Selection, SelType, ItemText);
+                return selectionBox.SubmitSelectionCallBack(Selection, SelType, ItemText);
             }
             return true;
         }
@@ -431,7 +431,7 @@ namespace Hymma.Solidworks.Addins
         public void OnSliderPositionChanged(int Id, double Value)
         {
             var slider = UiModel.GetControl(Id) as PmpSlider;
-            slider?.PositionChanged(Value);
+            slider?.PositionChangingCallBack(Value);
         }
 
         /// <summary>
@@ -442,7 +442,7 @@ namespace Hymma.Solidworks.Addins
         public void OnSliderTrackingCompleted(int Id, double Value)
         {
             var slider = UiModel.GetControl(Id) as PmpSlider;
-            slider?.TrackingComplete(Value);
+            slider?.PositionChangedCallBack(Value);
         }
 
         /// <summary>
@@ -489,7 +489,7 @@ namespace Hymma.Solidworks.Addins
         public void OnGainedFocus(int Id)
         {
             var control = UiModel.GetControl(Id);
-            control?.GainedFocus();
+            control?.GainedFocusCallBack();
         }
 
         /// <summary>
@@ -499,7 +499,7 @@ namespace Hymma.Solidworks.Addins
         public void OnLostFocus(int Id)
         {
             var control = UiModel.GetControl(Id);
-            control?.LostFocus();
+            control?.LostFocusCallBack();
         }
 
         /// <summary>
@@ -525,7 +525,7 @@ namespace Hymma.Solidworks.Addins
         public void OnListboxRMBUp(int Id, int PosX, int PosY)
         {
             var listbox = UiModel.GetControl(Id) as PmpListBox;
-            listbox?.RightMouseBtnUp(Tuple.Create<double, double, double>(PosX, PosY, 0));
+            listbox?.RightMouseBtnUpCallBack(Tuple.Create<double, double, double>(PosX, PosY, 0));
         }
 
         /// <summary>
@@ -537,7 +537,7 @@ namespace Hymma.Solidworks.Addins
         {
             Log("on numberbox tracking complete event fired");
             var numBox = UiModel.GetControl(Id) as PmpNumberBox;
-            numBox?.TrackComplete(Value);
+            numBox?.TrackCompleteCallBack(Value);
         }
     }
 }

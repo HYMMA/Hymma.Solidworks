@@ -26,21 +26,21 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="isExpanded"></param>
         /// <returns></returns>
-        IPmpTabGroupFluentCheckable IsExpanded(bool isExpanded = true);
+        IPmpTabGroupFluentCheckable SetExpansion(bool isExpanded = true);
 
         /// <summary>
-        /// hides this group
+        /// assing value to visibility status of this group
         /// </summary>
-        /// <param name="isHidden"></param>
+        /// <param name="visibility"></param>
         /// <returns></returns>
-        IPmpTabGroupFluentCheckable IsHidden(bool isHidden = true);
+        IPmpTabGroupFluentCheckable SetVisibility(bool visibility);
 
         /// <summary>
         /// event handler for when user expands the group
         /// </summary>
         /// <param name="onPmpGroupExpandedEventHandler">delegate that accepts a bool as the parameter and returns void. bool parameter will be assigned by solidworks and indicates the expansion state of the group.</param>
         /// <returns></returns>
-        IPmpTabGroupFluentCheckable OnPmpGroupExpanded(OnPmpGroupExpandedEventHandler onPmpGroupExpandedEventHandler);
+        IPmpTabGroupFluentCheckable OnExpansion(OnPmpGroupExpansionEventHandler onPmpGroupExpandedEventHandler);
 
         /// <summary>
         /// add these controls to the <see cref="Solidworks.Addins.PmpGroup"/>
@@ -74,20 +74,20 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="status"></param>
         /// <returns><see cref="IPmpTabGroupFluentCheckable"/></returns>
-        IPmpTabGroupFluentCheckable Checked(bool status = true);
+        IPmpTabGroupFluentCheckable SetCheckedStatus(bool status = true);
 
         /// <summary>
         /// fires when user check/un-check the gourp check box
         /// </summary>
         /// <param name="doThis"></param>
         /// <returns><see cref="PmpGroupCheckable"/></returns>
-        IPmpTabGroupFluentCheckable OnPmpTabGroupChecked(EventHandler<bool> doThis);
+        IPmpTabGroupFluentCheckable OnChecked(EventHandler<bool> doThis);
      
         /// <summary>
         /// fires when this group is displayed on the screen
         /// </summary>
         /// <param name="evntHandler"></param>
         /// <returns></returns>
-        IPmpTabGroupFluentCheckable OnPmpTabGroupDisplaying(EventHandler evntHandler);
+        IPmpTabGroupFluentCheckable OnDisplaying(EventHandler evntHandler);
     }
 }

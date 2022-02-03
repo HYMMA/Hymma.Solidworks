@@ -28,8 +28,8 @@ namespace Hymma.Solidworks.Addins
             this.ElementHost = elementHost;
             this.WindowsControl = wpfControl;
             _keystrokePropagator = new WpfControlKeystrokePropagator(wpfControl);
-            OnDisplay += PmpWpfHost_OnDisplay;
-            OnRegister += () =>
+            Displaying += PmpWpfHost_OnDisplay;
+            Registering += () =>
             {
                 SolidworksObject = (IPropertyManagerPageWindowFromHandle)Control;
                 SolidworksObject.Height = height;
@@ -47,7 +47,7 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        private void PmpWpfHost_OnDisplay(object sender, OnDisplay_EventArgs e)
+        private void PmpWpfHost_OnDisplay(object sender, DisplayingEventArgs e)
         {
             //this should be callled everytime pmp is displayed and on the pmp registration
             if (ElementHost == null || !WindowsControl.HasContent)

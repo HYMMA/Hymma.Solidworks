@@ -37,16 +37,15 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         /// <inheritdoc/>
-        public IPmpGroupFluentCheckable IsExpanded(bool isExpanded = true)
+        public IPmpGroupFluentCheckable SetExpansion(bool isExpanded = true)
         {
             Expanded = isExpanded;
             return this;
         }
-
         ///<inheritdoc/>
-        public IPmpGroupFluentCheckable AndOnExpansionChange(Action<PmpGroup, bool> doThis)
+        public IPmpGroupFluentCheckable OnExpansionChanged(Action<PmpGroup, bool> doThis)
         {
-            OnGroupExpand += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
+            ExpansionChanged += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
             return this;
         }
 
@@ -78,35 +77,31 @@ namespace Hymma.Solidworks.Addins.Fluent
             return this;
         }
 
-        /// <summary>
-        /// if set to true hides this group by default
-        /// </summary>
-        /// <param name="isHidden"></param>
-        /// <returns></returns>
-        public IPmpGroupFluentCheckable IsHidden(bool isHidden = true)
+       ///<inheritdoc/>
+        public IPmpGroupFluentCheckable SetVisibility(bool visibility)
         {
-            Visible = !isHidden;
+            Visible = visibility;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpGroupFluentCheckable Checked(bool status = true)
+        public IPmpGroupFluentCheckable SetCheckedStatus(bool status)
         {
             base.IsChecked = status;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpGroupFluentCheckable WhenChecked(EventHandler<bool> doThis)
+        public IPmpGroupFluentCheckable OnChecked(EventHandler<bool> doThis)
         {
-            base.OnGroupCheck += doThis;
+            base.Checked += doThis;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpGroupFluentCheckable WhenDisplayed(EventHandler doThis)
+        public IPmpGroupFluentCheckable OnDisplaying(EventHandler doThis)
         {
-            OnDisplay += doThis;
+            Displaying += doThis;
             return this;
         }
     }

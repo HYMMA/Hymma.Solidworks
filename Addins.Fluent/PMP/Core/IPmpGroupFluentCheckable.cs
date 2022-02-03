@@ -26,21 +26,20 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="isExpanded"></param>
         /// <returns></returns>
-        IPmpGroupFluentCheckable IsExpanded(bool isExpanded = true);
+        IPmpGroupFluentCheckable SetExpansion(bool isExpanded = true);
 
         /// <summary>
-        /// hides this group
+        /// Assing visibilty status of the control
         /// </summary>
-        /// <param name="isHidden"></param>
         /// <returns></returns>
-        IPmpGroupFluentCheckable IsHidden(bool isHidden = true);
+        IPmpGroupFluentCheckable SetVisibility(bool visibility);
 
         /// <summary>
         /// event handler for when user expands the group
         /// </summary>
         /// <param name="doThis">delegate that accepts a bool as the parameter and returns void. bool parameter will be assigned by solidworks and indicates the expansion state of the group.</param>
         /// <returns></returns>
-        IPmpGroupFluentCheckable AndOnExpansionChange(Action<PmpGroup, bool> doThis);
+        IPmpGroupFluentCheckable OnExpansionChanged(Action<PmpGroup, bool> doThis);
 
         /// <summary>
         /// add these controls to the <see cref="Solidworks.Addins.PmpGroup"/>
@@ -74,20 +73,20 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="status"></param>
         /// <returns></returns>
-        IPmpGroupFluentCheckable Checked(bool status = true);
+        IPmpGroupFluentCheckable SetCheckedStatus(bool status);
 
         /// <summary>
         /// fires when user check/un-check the gourp check box
         /// </summary>
         /// <param name="doThis"></param>
         /// <returns><see cref="PmpGroupCheckable"/></returns>
-        IPmpGroupFluentCheckable WhenChecked(EventHandler<bool> doThis);
+        IPmpGroupFluentCheckable OnChecked(EventHandler<bool> doThis);
 
         /// <summary>
         /// fires when this group is displayed on the screen
         /// </summary>
         /// <param name="doThis"></param>
         /// <returns></returns>
-        IPmpGroupFluentCheckable WhenDisplayed(EventHandler doThis);
+        IPmpGroupFluentCheckable OnDisplaying(EventHandler doThis);
     }
 }

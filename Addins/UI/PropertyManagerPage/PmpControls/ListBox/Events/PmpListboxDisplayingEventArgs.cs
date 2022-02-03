@@ -5,7 +5,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// on display event arguments for <see cref="PmpListBox"/>
     /// </summary>
-    public class Listbox_OnDisplay_EventArgs : OnDisplay_EventArgs
+    public class PmpListboxDisplayingEventArgs : DisplayingEventArgs
     {
         private short _height;
 
@@ -14,7 +14,7 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         /// <param name="listBox">the controller that has fired the event</param>
         /// <param name="height">height of the control in dialogue units</param>
-        public Listbox_OnDisplay_EventArgs(PmpListBox listBox, short height) 
+        public PmpListboxDisplayingEventArgs(PmpListBox listBox, short height) 
             : base((IPropertyManagerPageControl )listBox.SolidworksObject)
         {
             this._height = height;

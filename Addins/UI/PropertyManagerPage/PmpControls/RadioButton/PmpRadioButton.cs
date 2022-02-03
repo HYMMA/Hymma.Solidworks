@@ -9,8 +9,11 @@ namespace Hymma.Solidworks.Addins
     /// </summary>
     public class PmpRadioButton : PmpControl
     {
+        #region private fields
         private bool _isChecked;
-
+        private bool _maintain;
+        #endregion
+        
         /// <summary>
         /// make a new radio button for solidworks property manager pages
         /// </summary>
@@ -18,7 +21,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="isChecked">whether it is going to be the checked or not</param>
         public PmpRadioButton(string caption, bool isChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Option, caption,"")
         {
-            OnRegister += () => SolidworksObject = (IPropertyManagerPageOption)Control;
+            Registering += () => SolidworksObject = (IPropertyManagerPageOption)Control;
             IsChecked = isChecked;
         }
         
@@ -37,7 +40,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Checked = value;
                 else
-                    OnRegister += () => { SolidworksObject.Checked = value; };
+                    Registering += () => { SolidworksObject.Checked = value; };
             }
         }
 
@@ -45,7 +48,7 @@ namespace Hymma.Solidworks.Addins
         /// provide a consitant experience between sessions of calling a property manager 
         ///we update the status of the control to that of previous call
         /// </summary>
-        /// <remarks>solidworks requires us to regiter the control once the addin is loaded.
+        /// <remarks>solidworks requires us to register the control once the addin is loaded.
         ///then everytime the property manage rpage is displayed the status of controls would reflect the registered state
         ///but to provide a consitant experience between sessions of calling a property manager 
         ///we use this property to update the status of the control to that of previous call</remarks>
@@ -57,7 +60,7 @@ namespace Hymma.Solidworks.Addins
                 _maintain = value;
                 if (_maintain)
                 {
-                    OnDisplay += (sender, e) =>
+                    Displaying += (sender, e) =>
                     {
                         var radioButton = sender as PmpRadioButton;
                         radioButton.IsChecked = _isChecked;
@@ -72,9 +75,9 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        internal void Checked()
+        internal void CheckedCallBack()
         {
-            OnChecked?.Invoke(this, EventArgs.Empty);
+            Checked?.Invoke(this, EventArgs.Empty);
         }
         #endregion
 
@@ -82,8 +85,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// SOLIDWORKS will invoke this delegate once the user checks this radio button
         /// </summary>
-        public EventHandler OnChecked;
-        private bool _maintain;
+        public event EventHandler Checked;
         #endregion
     }
 }

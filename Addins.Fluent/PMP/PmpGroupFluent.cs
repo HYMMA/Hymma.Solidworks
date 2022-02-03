@@ -42,9 +42,9 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IPmpGroupFluent AndOnExpansionChange(Action<PmpGroup, bool> doThis)
+        public IPmpGroupFluent OnExpansionChange(Action<PmpGroup, bool> doThis)
         {
-            OnGroupExpand += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
+            ExpansionChanged += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
             return this;
         }
 
@@ -58,7 +58,6 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// <inheritdoc/>
         public IPmpGroupFluent HasTheseControls(IEnumerable<PmpControl> controls)
         {
-
             AddControls(controls);
             return this;
         }

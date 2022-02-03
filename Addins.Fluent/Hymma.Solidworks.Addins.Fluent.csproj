@@ -45,7 +45,7 @@
     <AssemblyOriginatorKeyFile>FluentAddinsSolidTools.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hymma.Solidworks.Extensions, Version=18.0.3.0, Culture=neutral, PublicKeyToken=e9fee7cb4dbd868c, processorArchitecture=MSIL">
+    <Reference Include="Hymma.Solidworks.Extensions, Version=2018.0.0.0, Culture=neutral, PublicKeyToken=e9fee7cb4dbd868c, processorArchitecture=MSIL">
       <HintPath>..\packages\Hymma.Solidworks.Extensions.2018.0.0\lib\net461\Hymma.Solidworks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SolidWorks.Interop.sldworks, Version=26.0.1.1, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">

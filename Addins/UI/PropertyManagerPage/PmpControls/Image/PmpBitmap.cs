@@ -30,15 +30,15 @@ namespace Hymma.Solidworks.Addins
         /// </remarks>
         public PmpBitmap(Bitmap bitmap, string fileName, ControlResizeStyles resizeStyles=ControlResizeStyles.LockLeft, byte opacity = 255) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap,"","")
         {
-            OnRegister += PmpBitmap_OnRegister;
+            Registering += PmpBitmap_OnRegister;
             _bitmap = bitmap;
             _opacity = opacity;
             _filename = string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
             _resizeStyles = resizeStyles;
-            OnDisplay += PmpBitmap_OnDisplay;
+            Displaying += PmpBitmap_OnDisplay;
         }
 
-        private void PmpBitmap_OnDisplay(PmpControl sender, OnDisplay_EventArgs eventArgs)
+        private void PmpBitmap_OnDisplay(PmpControl sender, DisplayingEventArgs eventArgs)
         {
             eventArgs.OptionsForResize = (int)_resizeStyles;
         }

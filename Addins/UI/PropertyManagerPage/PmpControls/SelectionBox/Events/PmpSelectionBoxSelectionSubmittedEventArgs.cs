@@ -4,16 +4,16 @@ using System;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// event arguemtns for <see cref="PmpSelectionBox.OnSubmitSelection"/>
+    /// event arguemtns for <see cref="PmpSelectionBox.SelectionSubmitted"/>
     /// </summary>
-    public class SelectionBox_OnSubmitSelection_EventArgs : EventArgs
+    public class PmpSelectionBoxSelectionSubmittedEventArgs : EventArgs
     {
         /// <summary> default constructor
         /// </summary>
         /// <param name="selection">Object being selected</param>
         /// <param name="selectType">Entity type of the selection as defined in<see cref="swSelectType_e"/> </param>
         /// <param name="tag">ItemText is returned to SOLIDWORKS and stored on the selected object and can be used by your PropertyManager page selection list boxes for the life of that selection.</param>
-        public SelectionBox_OnSubmitSelection_EventArgs(object selection, int selectType, string tag)
+        public PmpSelectionBoxSelectionSubmittedEventArgs(object selection, int selectType, string tag)
         {
             this.Selection = selection;
             this.SelectType = selectType;

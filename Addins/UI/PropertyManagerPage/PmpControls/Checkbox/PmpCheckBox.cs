@@ -25,7 +25,7 @@ namespace Hymma.Solidworks.Addins
         public PmpCheckBox(string caption, bool isChecked = false, string tip ="") : base(swPropertyManagerPageControlType_e.swControlType_Checkbox,caption,tip)
         {
             IsChecked = isChecked;
-            OnRegister += PmpCheckBox_OnRegister;
+            Registering += PmpCheckBox_OnRegister;
         }
 
         private void PmpCheckBox_OnRegister()
@@ -37,9 +37,9 @@ namespace Hymma.Solidworks.Addins
 
         #region call backs
 
-        internal void Checked(bool status)
+        internal void PmpCheckBoxCheckedCallBack(bool status)
         {
-            OnChecked?.Invoke(this, status);
+            Checked?.Invoke(this, status);
         }
 
         #endregion
@@ -68,7 +68,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    OnRegister += () => { SolidworksObject.Checked = value; };
+                    Registering += () => { SolidworksObject.Checked = value; };
                     //Checked(value);
                 }
             }
@@ -90,7 +90,7 @@ namespace Hymma.Solidworks.Addins
                 _maintain = value;
                 if (_maintain)
                 {
-                    OnDisplay += (sender, e) =>
+                    Displaying += (sender, e) =>
                     {
                         var checkBox = sender as PmpCheckBox;
                         checkBox.IsChecked = _isChecked;
@@ -104,7 +104,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// SOLIDWORKS will call this once the checkbox is clicked on
         /// </summary>
-        public event CheckBox_EventHandler OnChecked;
+        public event PmpCheckBoxCheckedEventHandler Checked;
         #endregion
     }
 }

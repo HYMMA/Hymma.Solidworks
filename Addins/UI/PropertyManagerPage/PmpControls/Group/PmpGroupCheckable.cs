@@ -23,7 +23,7 @@ namespace Hymma.Solidworks.Addins
         {
             IsChecked = isChecked;
             _options = swAddGroupBoxOptions_e.swGroupBoxOptions_Checkbox;
-            OnDisplay += PmpGroupCheckable_OnDisplay;
+            Displaying += PmpGroupCheckable_OnDisplay;
         }
 
         private void PmpGroupCheckable_OnDisplay(object sender, EventArgs e)
@@ -72,24 +72,24 @@ namespace Hymma.Solidworks.Addins
 
                 else
                 {
-                    OnRegister += () => SolidworksObject.Checked = _isChecked;
+                    Registering += () => SolidworksObject.Checked = _isChecked;
                 }
             }
         }
-        internal void GroupChecked(bool status)
+        internal void CheckedCallBack(bool status)
         {
             foreach (var control in Controls)
             {
                 control.Visible=status;
                 control.Enabled=status;
             }
-            OnGroupCheck?.Invoke(this, status);
+            Checked?.Invoke(this, status);
         }
 
         /// <summary>
         /// method to invoke when user checks a group <br/>
         /// this delegate requires a bool variable to indicate the IsChecked status of the group
         /// </summary>
-        public event EventHandler<bool> OnGroupCheck;
+        public event EventHandler<bool> Checked;
     }
 }

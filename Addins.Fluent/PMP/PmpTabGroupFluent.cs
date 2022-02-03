@@ -51,7 +51,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         ///<inheritdoc/>
         public IPmpTabGroupFluent AndOnExpansionChange(Action<PmpGroup, bool> doThis)
         {
-            OnGroupExpand += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
+            ExpansionChanged += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
             return this;
         }
 

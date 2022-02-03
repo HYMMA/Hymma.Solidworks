@@ -30,7 +30,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="tip"></param>
         public PmpSlider(SliderStyles styles, string tip = "") : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Slider, "", tip)
         {
-            OnRegister += () => SolidworksObject = (IPropertyManagerPageSlider)Control;
+            Registering += () => SolidworksObject = (IPropertyManagerPageSlider)Control;
             Style = styles;
             _pageSize = 2;
             _lineSize = 1;
@@ -54,7 +54,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Style = ((int)value);
                 else
-                    OnRegister += () =>
+                    Registering += () =>
                     {
                         SolidworksObject.Style = ((int)value);
                     };
@@ -74,7 +74,7 @@ namespace Hymma.Solidworks.Addins
             set
             {
                 _height = value;
-                OnRegister += () => { SolidworksObject.Height = value; };
+                Registering += () => { SolidworksObject.Height = value; };
             }
         }
 
@@ -92,7 +92,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.LineSize = value;
                 else
-                    OnRegister += () =>
+                    Registering += () =>
                     {
                         SolidworksObject.LineSize = value;
                     };
@@ -112,7 +112,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.PageSize = value;
                 else
-                    OnRegister += () => { SolidworksObject.PageSize = value; };
+                    Registering += () => { SolidworksObject.PageSize = value; };
             }
         }
 
@@ -137,7 +137,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Position = value;
                 else
-                    OnRegister += () => { SolidworksObject.Position = value; };
+                    Registering += () => { SolidworksObject.Position = value; };
 
             }
         }
@@ -154,7 +154,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.TickFrequency = value;
                 else
-                    OnRegister += () => { SolidworksObject.TickFrequency = value; };
+                    Registering += () => { SolidworksObject.TickFrequency = value; };
 
             }
         }
@@ -183,7 +183,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 results = SolidworksObject.SetRange(((int)min), ((int)max));
             else
-                OnRegister += () => { results = SolidworksObject.SetRange(((int)min), ((int)max)); };
+                Registering += () => { results = SolidworksObject.SetRange(((int)min), ((int)max)); };
             return results;
         }
 
@@ -200,15 +200,15 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        internal void PositionChanged(double value)
+        internal void PositionChangingCallBack(double value)
         {
-            OnPositionChange?.Invoke(this, value);
+            PositionChanging?.Invoke(this, value);
             _position = value;
         }
 
-        internal void TrackingComplete(double value)
+        internal void PositionChangedCallBack(double value)
         {
-            OnPositionChangeFinished?.Invoke(this, value);
+            PositionChanged?.Invoke(this, value);
             _position = value;
         }
 
@@ -218,13 +218,12 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// fires while the user changing the position of the slider
         /// </summary>
-        public event EventHandler<double> OnPositionChange;
+        public event EventHandler<double> PositionChanging;
 
         /// <summary>
         /// fires after the user has finished changing the position of the slider
         /// </summary>
-        public event EventHandler<double> OnPositionChangeFinished;
-
+        public event EventHandler<double> PositionChanged;
         #endregion
     }
 }

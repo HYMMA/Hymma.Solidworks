@@ -45,7 +45,7 @@
     <AssemblyOriginatorKeyFile>SolidTools.SolidAddins.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hymma.Solidworks.Extensions, Version=18.0.3.0, Culture=neutral, PublicKeyToken=e9fee7cb4dbd868c, processorArchitecture=MSIL">
+    <Reference Include="Hymma.Solidworks.Extensions, Version=2018.0.0.0, Culture=neutral, PublicKeyToken=e9fee7cb4dbd868c, processorArchitecture=MSIL">
       <HintPath>..\packages\Hymma.Solidworks.Extensions.2018.0.0\lib\net461\Hymma.Solidworks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -96,29 +96,29 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\Combobox\ComboBoxStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Group\PmpGroup.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Group\PmpGroupCheckable.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\Label_OnDisplayEventArgs.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\Label_OnDisplayEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\PmpLabelDisplayingEventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\PmpLabelDisplayingEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\LabelStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\UnderLineStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Enums\NumberBoxStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Enums\NumberBoxUnit.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Events\NumberBox_Ondisplay_EventArgs.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Events\NumberBox_OnDisplay_EventHandler.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Core\Events\OnDisplay_EventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Events\PmpNumberBoxDisplayingEventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Events\PmpNumberBoxDisplayingEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Core\Events\DisplayingEventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Enums\ListboxStyles.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_Display.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_OnDisplay.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_OnRMB.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_SelectionChanged.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_OnDisplay_EventArgs.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Checkbox\CheckBox_EventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\PmpListboxDisplayingEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\PmpListboxRmbEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\PmpListboxSlectionChangedEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\PmpListboxDisplayingEventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Checkbox\PmpCheckBoxCheckedEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Core\Enums\ControlResizeStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Enums\SelectionBoxStyles.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_EventHandler.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelBox_OnDisplay_EventArgs.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnListChanged_EventArgs.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnSubmitSelectionEventHandler.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnSubmitSelection_EventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxDisplayingEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxDisplayingEventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxListChangedEventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxListChangedEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxSelectionSubmittedEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxSelectionSubmittedEventArgs.cs" />
     <Compile Include="Core\Counter.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButton.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Core\PmpTextBase.cs" />

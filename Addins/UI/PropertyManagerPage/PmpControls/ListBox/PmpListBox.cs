@@ -35,14 +35,14 @@ namespace Hymma.Solidworks.Addins
             _items = items;
             _height = height==0 ? (short)(5+items.Length*15) : height;
             _style = (int)style;
-            OnRegister += PmpListBox_OnRegister;
-            OnDisplay += PmpListBox_OnDisplay;
+            Registering += PmpListBox_OnRegister;
+            Displaying += PmpListBox_OnDisplay;
         }
         #endregion
 
         #region Call backs
 
-        private void PmpListBox_OnDisplay(object sender, OnDisplay_EventArgs e)
+        private void PmpListBox_OnDisplay(object sender, DisplayingEventArgs e)
         {
             SolidworksObject.Style = Style;
             SolidworksObject.Height = _height;
@@ -54,19 +54,19 @@ namespace Hymma.Solidworks.Addins
             AddItems(_items);
         }
 
-        internal void RightMouseBtnUp(Tuple<double, double, double> point)
+        internal void RightMouseBtnUpCallBack(Tuple<double, double, double> point)
         {
-            OnRightMouseBtnUp?.Invoke(this, point);
+            RightMouseBtnUp?.Invoke(this, point);
         }
 
-        internal void SelectionChange(int count)
+        internal void SelectionChangeCallBack(int count)
         {
-            OnSelectionChange?.Invoke(this, count);
+            SelectionChanged?.Invoke(this, count);
         }
 
-        internal override void Display()
+        internal override void DisplayingCallBack()
         {
-            OnDisplay?.Invoke(this, new Listbox_OnDisplay_EventArgs(this, _height));
+            Displaying?.Invoke(this, new PmpListboxDisplayingEventArgs(this, _height));
         }
         #endregion
 
@@ -182,18 +182,18 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// Called when the right-mouse button is released in a list box on this PropertyManager page.<br/>
         /// </summary>
-        public event Listbox_EventHandler_OnRMB OnRightMouseBtnUp;
+        public event PmpListboxRmbEventHandler RightMouseBtnUp;
 
         /// <summary>
         /// Called when a user changes the selected item in a list box or selection list box on this PropertyManager page. <br/>
         /// solidowrks will pass in the id of item
         /// </summary>
-        public event Listbox_EventHandler_SelectionChanged OnSelectionChange;
+        public event PmpListboxSlectionChangedEventHandler SelectionChanged;
 
         /// <summary>
         /// will be fired a moment before this Lisbox is displayed in a property manager page. 
         /// </summary>
-        public new event Listbox_EventHandler_Display OnDisplay;
+        public new event PmpListboxDisplayingEventHandler Displaying;
         #endregion
     }
 }

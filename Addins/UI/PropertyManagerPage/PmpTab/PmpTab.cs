@@ -59,6 +59,11 @@ namespace Hymma.Solidworks.Addins
         /// Access the <see cref="PmpGroup"/>s in this tab
         /// </summary>
         public List<PmpGroup> TabGroups { get; set; } = new List<PmpGroup>();
+        
+        /// <summary>
+        /// directory where this tab's main image get saved to
+        /// </summary>
+        public DirectoryInfo IconDir { get; internal set; }
         #endregion
 
         #region methods
@@ -68,7 +73,7 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         public void Activate()
         {
-            OnDisplay += () =>  SolidworksObject.Activate(); 
+            Displaying += () =>  SolidworksObject.Activate(); 
         }
         
         internal void Register(IPropertyManagerPage2 propertyManagerPage)
@@ -97,22 +102,28 @@ namespace Hymma.Solidworks.Addins
         }
         #endregion
 
+        #region CallBacks
+        internal void DisplayingCallBack()
+        {
+            Displaying?.Invoke();
+        }
+
+        internal void ClickedCallBack()
+        {
+            Clicked.Invoke();
+        }
+        #endregion
+        
         #region events
         /// <summary>
         /// fires a moment before the the property manger page is displayed
         /// </summary>
-        public Action OnDisplay { get; set; }
+        public event Action Displaying;
 
         /// <summary>
         /// invoked once user clicked on this tab
         /// </summary>
-        public Action OnPress { get; set; }
-
-        /// <summary>
-        /// directory where this tab's main image get saved to
-        /// </summary>
-        public DirectoryInfo IconDir { get; internal set; }
-
+        public event Action Clicked;
         #endregion
     }
 }

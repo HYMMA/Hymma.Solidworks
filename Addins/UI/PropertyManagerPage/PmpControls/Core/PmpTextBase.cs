@@ -53,7 +53,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    OnRegister += () =>
+                    Registering += () =>
                     {
                         //convert color to int 
                         Control.BackgroundColor = ColorTranslator.ToWin32(value);
@@ -86,7 +86,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    OnRegister += () =>
+                    Registering += () =>
                     {
                         //convert color to int 
                         Control.TextColor = ColorTranslator.ToWin32(value);

@@ -31,7 +31,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="opacity">define opacity of the bitmap on the button, less values result in more transparent pictures. If the format of the <see cref="Bitmap"/> provided in .png no transparency will be applied on the image</param>
         public PmpBitmapButton(Bitmap bitmap, string tip, BtnSize iconSizes, byte opacity) : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton, "", tip)
         {
-            OnRegister += PmpBitmapButton_OnRegister;
+            Registering += PmpBitmapButton_OnRegister;
             _bitmap = bitmap;
             _fileName = "Btn" + Id;
             _iconSize = iconSizes;
@@ -51,7 +51,7 @@ namespace Hymma.Solidworks.Addins
         public PmpBitmapButton(BitmapButtons standardIcon, string tip) : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton, "", tip)
         {
             _standardIcon = standardIcon;
-            OnRegister += PmpBitmapButton_OnRegister;
+            Registering += PmpBitmapButton_OnRegister;
         }
         #endregion
 

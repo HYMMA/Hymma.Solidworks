@@ -31,14 +31,14 @@ namespace Hymma.Solidworks.Addins
         /// <param name="height">height of the combo box</param>
         public PmpComboBox(List<string> items, ComboBoxStyles style, short height = 50) : base(swPropertyManagerPageControlType_e.swControlType_Combobox,"","")
         {
-            OnRegister += PmpComboBox_OnRegister;
+            Registering += PmpComboBox_OnRegister;
             _style = style;
             _height = height;
             _items = new List<string>();
             AddItems(items);
             Style = _style;
             Height = _height;
-            OnDisplay += PmpComboBox_OnDisplay;
+            Displaying += PmpComboBox_OnDisplay;
         }
 
         private void PmpComboBox_OnRegister()
@@ -47,7 +47,7 @@ namespace Hymma.Solidworks.Addins
             throw new NotImplementedException();
         }
 
-        private void PmpComboBox_OnDisplay(PmpControl sender, OnDisplay_EventArgs eventArgs)
+        private void PmpComboBox_OnDisplay(PmpControl sender, DisplayingEventArgs eventArgs)
         {
             SolidworksObject.Clear();
             _items.Sort();
@@ -73,7 +73,7 @@ namespace Hymma.Solidworks.Addins
                 SolidworksObject.AddItems(_items.ToArray());
             }
             else
-                OnRegister += () =>
+                Registering += () =>
                 {
                     SolidworksObject.Clear();
                     SolidworksObject.AddItems(_items.ToArray());
@@ -110,7 +110,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.Clear();
             else
-                OnDisplay += (s, e) => SolidworksObject?.Clear();
+                Displaying += (s, e) => SolidworksObject?.Clear();
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.DeleteItem(index);
             else
-                OnRegister += () => { SolidworksObject.DeleteItem(index); };
+                Registering += () => { SolidworksObject.DeleteItem(index); };
         }
         /// <summary>
         /// Inserts an item in the attached drop-down list of this combo box. 
@@ -150,7 +150,7 @@ namespace Hymma.Solidworks.Addins
             else
             {
 
-                OnRegister += () =>
+                Registering += () =>
                 {
                     SolidworksObject.Clear();
                     SolidworksObject.AddItems(_items.ToArray());
@@ -187,7 +187,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Height = value;
                 else
-                    OnRegister += () => { SolidworksObject.Height = value; };
+                    Registering += () => { SolidworksObject.Height = value; };
             }
         }
 
@@ -215,7 +215,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Style = (int)value;
                 else
-                    OnRegister += () => { SolidworksObject.Style = (int)value; };
+                    Registering += () => { SolidworksObject.Style = (int)value; };
 
             }
         }
@@ -237,7 +237,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.CurrentSelection = value;
                 else
-                    OnRegister += () => { SolidworksObject.CurrentSelection = value; };
+                    Registering += () => { SolidworksObject.CurrentSelection = value; };
 
             }
         }
@@ -262,20 +262,20 @@ namespace Hymma.Solidworks.Addins
                     SolidworksObject.EditText = value;
                 else
                     //if this property is assigned prior to registration 
-                    OnRegister += () => { SolidworksObject.EditText = value; };
+                    Registering += () => { SolidworksObject.EditText = value; };
             }
         }
         #endregion
 
         #region call backs
-        internal void SelectionChanged(int id)
+        internal void PmpComboBoxSelectionChangedCallBack(int id)
         {
-            OnSelectionChanged?.Invoke(this, id);
+            SelectionChanged?.Invoke(this, id);
         }
 
-        internal void SelectionEdit(string val)
+        internal void PmpComboBoxEditChangedCallBack(string val)
         {
-            OnEditChanged?.Invoke(this, val);
+            EditChanged?.Invoke(this, val);
         }
 
         #endregion
@@ -286,7 +286,7 @@ namespace Hymma.Solidworks.Addins
         /// Called when a user changes the selected item in a combo box on this PropertyManager page. 
         /// </summary>
         /// <remarks>solidworks will passs int the id of the selected item</remarks>
-        public event EventHandler<int> OnSelectionChanged;
+        public event EventHandler<int> SelectionChanged;
 
         /// <summary>
         /// Called when a user changes the text string in the text box of a combo box on this PropertyManager page. solidworsk will pass in the text string
@@ -295,13 +295,13 @@ namespace Hymma.Solidworks.Addins
         /// <para>
         /// This method is only called if the combo box was set up as an editable text box. If the combo box is set up to as a static text box, then this method is not called.
         ///<para>
-        /// If the user can edit the text in the text box, then use this method with <see cref="OnSelectionChanged"/> to find out what is in the text box of the combo box.
+        /// If the user can edit the text in the text box, then use this method with <see cref="SelectionChanged"/> to find out what is in the text box of the combo box.
         ///</para>
         ///<para>
         ///When this method is called, the control may not yet be updated with the current selection, so the <see cref="CurrentSelection"/> property is not reliable. The text passed into this method is the up-to-date text.
         ///</para>
         /// </para></remarks>
-        public event EventHandler<string> OnEditChanged;
+        public event EventHandler<string> EditChanged;
         #endregion
     }
 }

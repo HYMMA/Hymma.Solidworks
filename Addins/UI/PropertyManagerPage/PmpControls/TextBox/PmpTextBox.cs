@@ -25,7 +25,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="tip">a tip for this text box</param>
         public PmpTextBox(string initialValue = "",string tip="") : base(swPropertyManagerPageControlType_e.swControlType_Textbox,tip:tip)
         {
-            OnRegister += () => SolidworksObject = (PropertyManagerPageTextbox)Control;
+            Registering += () => SolidworksObject = (PropertyManagerPageTextbox)Control;
             Value = initialValue;
         }
         #endregion
@@ -49,7 +49,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    OnRegister += () => { SolidworksObject.Text = value; };
+                    Registering += () => { SolidworksObject.Text = value; };
                 }
             }
         }
@@ -68,7 +68,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Style = (int)value;
                 else
-                    OnRegister += () => { SolidworksObject.Style = (int)value; };
+                    Registering += () => { SolidworksObject.Style = (int)value; };
             }
         }
 
@@ -86,7 +86,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Height = value;
                 else
-                    OnRegister += () => { SolidworksObject.Height = value; };
+                    Registering += () => { SolidworksObject.Height = value; };
             }
         }
         /// <summary>
@@ -97,9 +97,9 @@ namespace Hymma.Solidworks.Addins
 
         #region call backs
 
-        internal void TextChanged(string e)
+        internal void UserTypedCallBack(string e)
         {
-            OnUserInput?.Invoke(this, e);
+            UserTyped?.Invoke(this, e);
         }
 
         #endregion
@@ -108,7 +108,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// fires when text box is changed
         /// </summary>
-        public event EventHandler<string> OnUserInput;
+        public event EventHandler<string> UserTyped;
         #endregion
     }
 }
