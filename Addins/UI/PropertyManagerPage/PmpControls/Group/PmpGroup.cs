@@ -236,15 +236,13 @@ namespace Hymma.Solidworks.Addins
         /// method to invoke when user expands a group <br/>
         /// this delegate requires a bool variable to indicate the IsExpanded status of the group
         /// </summary>
-        public event EventHandler<bool> GroupExpanded;
-
-        
+        public event EventHandler<bool> ExpansionChanged;
         #endregion
 
         #region call backs
         internal void GroupExpandedCallBack(bool e)
         {
-            GroupExpanded?.Invoke(this, e);
+            ExpansionChanged?.Invoke(this, e);
         }
         internal void RegisteringCallBack()
         {
