@@ -10,13 +10,4 @@ namespace Hymma.Solidworks.Addins
     /// <returns></returns>
     [ComVisible(true)]
     public delegate void PmpSelectionBoxDisplayingEventHandler(PmpSelectionBox sender, PmpSelectionBoxDisplayingEventArgs e);
-
-
-    /// <summary>
-    /// an event handler for <see cref="PmpSelectionBox"/> 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    [ComVisible(true)]
-    public delegate void PmpSelectionBoxListChangedEventHandler(PmpSelectionBox sender, PmpSelectionBoxListChangedEventArgs e);
 }
