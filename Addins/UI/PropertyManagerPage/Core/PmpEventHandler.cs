@@ -149,7 +149,7 @@ namespace Hymma.Solidworks.Addins
         {
             Log("on tab clicked event handling");
             var tab = UiModel.PmpTabs.FirstOrDefault(t => t.Id == Id);
-            tab?.Clicked?.Invoke();
+            tab?.ClickedCallBack();
             return true;
         }
 
