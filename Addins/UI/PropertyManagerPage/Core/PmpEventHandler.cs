@@ -149,7 +149,7 @@ namespace Hymma.Solidworks.Addins
         {
             Log("on tab clicked event handling");
             var tab = UiModel.PmpTabs.FirstOrDefault(t => t.Id == Id);
-            tab?.OnPress?.Invoke();
+            tab?.Clicked?.Invoke();
             return true;
         }
 
@@ -272,7 +272,7 @@ namespace Hymma.Solidworks.Addins
             if (control.Type == swPropertyManagerPageControlType_e.swControlType_Textbox
                 && control is PmpTextBox txtBox)
             {
-                txtBox?.TextChanged(Text);
+                txtBox?.UserTypedCallBack(Text);
             }
         }
 
@@ -431,7 +431,7 @@ namespace Hymma.Solidworks.Addins
         public void OnSliderPositionChanged(int Id, double Value)
         {
             var slider = UiModel.GetControl(Id) as PmpSlider;
-            slider?.PositionChanged(Value);
+            slider?.PositionChangingCallBack(Value);
         }
 
         /// <summary>
@@ -442,7 +442,7 @@ namespace Hymma.Solidworks.Addins
         public void OnSliderTrackingCompleted(int Id, double Value)
         {
             var slider = UiModel.GetControl(Id) as PmpSlider;
-            slider?.TrackingComplete(Value);
+            slider?.PositionChangedCallBack(Value);
         }
 
         /// <summary>

@@ -200,15 +200,15 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        internal void PositionChanged(double value)
+        internal void PositionChangingCallBack(double value)
         {
-            OnPositionChange?.Invoke(this, value);
+            PositionChanging?.Invoke(this, value);
             _position = value;
         }
 
-        internal void TrackingComplete(double value)
+        internal void PositionChangedCallBack(double value)
         {
-            OnPositionChangeFinished?.Invoke(this, value);
+            PositionChanged?.Invoke(this, value);
             _position = value;
         }
 
@@ -218,13 +218,12 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// fires while the user changing the position of the slider
         /// </summary>
-        public event EventHandler<double> OnPositionChange;
+        public event EventHandler<double> PositionChanging;
 
         /// <summary>
         /// fires after the user has finished changing the position of the slider
         /// </summary>
-        public event EventHandler<double> OnPositionChangeFinished;
-
+        public event EventHandler<double> PositionChanged;
         #endregion
     }
 }

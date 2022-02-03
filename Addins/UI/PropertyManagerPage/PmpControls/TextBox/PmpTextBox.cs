@@ -97,9 +97,9 @@ namespace Hymma.Solidworks.Addins
 
         #region call backs
 
-        internal void TextChanged(string e)
+        internal void UserTypedCallBack(string e)
         {
-            OnUserInput?.Invoke(this, e);
+            UserTyped?.Invoke(this, e);
         }
 
         #endregion
@@ -108,7 +108,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// fires when text box is changed
         /// </summary>
-        public event EventHandler<string> OnUserInput;
+        public event EventHandler<string> UserTyped;
         #endregion
     }
 }

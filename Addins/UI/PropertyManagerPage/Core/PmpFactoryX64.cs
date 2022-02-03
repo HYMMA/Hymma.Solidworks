@@ -39,7 +39,7 @@ namespace Hymma.Solidworks.Addins
             //call display method on groups which in turn calls the display on all the controls it hosts
             uiModel.AllGroups
                 .ToList()
-                .ForEach(g => g.Display());
+                .ForEach(g => g.DisplayingCallBack());
 
             //display solidowrks object
             propertyManagerPage.Show();

@@ -79,7 +79,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Visible = _visible;
                 else
-                    OnRegister += () => SolidworksObject.Visible = _visible;
+                    Registering += () => SolidworksObject.Visible = _visible;
             }
         }
 
@@ -95,7 +95,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Caption = _caption;
                 else
-                    OnRegister += () => SolidworksObject.Caption = _caption;
+                    Registering += () => SolidworksObject.Caption = _caption;
             }
         }
 
@@ -118,7 +118,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    OnRegister += () => SolidworksObject.Expanded = _expanded;
+                    Registering += () => SolidworksObject.Expanded = _expanded;
                 }
             }
         }
@@ -164,7 +164,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.BackgroundColor = (int)value;
                 else
-                    OnRegister += () => SolidworksObject.BackgroundColor = ((int)value);
+                    Registering += () => SolidworksObject.BackgroundColor = ((int)value);
             }
         }
 
@@ -205,7 +205,7 @@ namespace Hymma.Solidworks.Addins
         {
             SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(Id, Caption, ((int)_options));
             RegisterControls();
-            OnRegister?.Invoke();
+            Registering?.Invoke();
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Hymma.Solidworks.Addins
         {
             SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPageTab.AddGroupBox(Id, Caption, ((int)_options));
             RegisterControls();
-            OnRegister?.Invoke();
+            Registering?.Invoke();
         }
 
         #endregion
@@ -225,7 +225,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// invoked once this group is registerd into solidworks
         /// </summary>
-        public Action OnRegister { get; set; }
+        public event Action Registering;
 
         /// <summary>
         /// an event that gets called right before this pmpGroup is displayed
@@ -246,7 +246,11 @@ namespace Hymma.Solidworks.Addins
         {
             GroupExpanded?.Invoke(this, e);
         }
-        internal void Display()
+        internal void RegisteringCallBack()
+        {
+            Registering?.Invoke();
+        }
+        internal void DisplayingCallBack()
         {
             Controls.ForEach(c => c.DisplayingCallBack());
             Displaying?.Invoke(this, EventArgs.Empty);
