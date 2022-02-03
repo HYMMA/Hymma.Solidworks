@@ -337,7 +337,7 @@ namespace Hymma.Solidworks.Addins
             //get selection box
             PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
 
-            selectionBox?.FocusChanged();
+            selectionBox?.FocusChangedCallBack();
         }
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace Hymma.Solidworks.Addins
                 UiModel.SetCursor(selectionBox.CursorStyle);
 
             //invoke delegate
-            selectionBox?.ListChanged(Count);
+            selectionBox?.ListChangedCallBack(Count);
         }
 
         /// <summary>
@@ -368,7 +368,7 @@ namespace Hymma.Solidworks.Addins
             PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
 
             //invoke delegate
-            selectionBox?.CallOutCreated();
+            selectionBox?.CallOutCreatedCallBack();
         }
 
         /// <summary>
@@ -381,7 +381,7 @@ namespace Hymma.Solidworks.Addins
             PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
 
             //invoke delegate
-            selectionBox?.CallOutDestroyed();
+            selectionBox?.CallOutDestroyedCallBack();
         }
 
         /// <summary>
@@ -407,7 +407,7 @@ namespace Hymma.Solidworks.Addins
             if (UiModel.GetControl(Id) is PmpSelectionBox selectionBox)
             {
                 // otherwise return what user ahs defined
-                return selectionBox.SubmitSelection(Selection, SelType, ItemText);
+                return selectionBox.SubmitSelectionCallBack(Selection, SelType, ItemText);
             }
             return true;
         }

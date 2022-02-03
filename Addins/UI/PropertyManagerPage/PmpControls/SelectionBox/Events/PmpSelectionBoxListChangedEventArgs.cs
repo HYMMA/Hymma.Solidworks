@@ -3,15 +3,15 @@
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// provides event arguments for <see cref="PmpSelectionBox.OnListChanged"/> event
+    /// provides event arguments for <see cref="PmpSelectionBox.ListChanged"/> event
     /// </summary>
-    public class SelectionBox_OnListChanged_EventArgs : EventArgs
+    public class PmpSelectionBoxListChangedEventArgs : EventArgs
     {
         /// <summary>
         /// default constructor
         /// </summary>
         /// <param name="itemsCount"></param>
-        public SelectionBox_OnListChanged_EventArgs(int itemsCount)
+        public PmpSelectionBoxListChangedEventArgs(int itemsCount)
         {
             ItemsCount = itemsCount;
         }

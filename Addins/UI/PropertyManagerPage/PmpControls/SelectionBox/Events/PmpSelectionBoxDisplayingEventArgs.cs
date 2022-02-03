@@ -8,9 +8,9 @@ namespace Hymma.Solidworks.Addins
 {
 
     /// <summary>
-    /// event argument for <see cref="PmpSelectionBox.OnDisplay"/> event
+    /// event argument for <see cref="PmpSelectionBox.Displaying"/> event
     /// </summary>
-    public class SelBox_OnDisplay_EventArgs : DisplayingEventArgs
+    public class PmpSelectionBoxDisplayingEventArgs : DisplayingEventArgs
     {
         #region Constructor
         /// <summary>
@@ -22,7 +22,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="allowMultipleSelectOfSameEntity"></param>
         /// <param name="singleItemOnly"></param>
         /// <param name="height"></param>
-        internal SelBox_OnDisplay_EventArgs(PmpSelectionBox pmpSelectionBox, IEnumerable<swSelectType_e> filters, int style, bool allowMultipleSelectOfSameEntity, bool singleItemOnly, short height) 
+        internal PmpSelectionBoxDisplayingEventArgs(PmpSelectionBox pmpSelectionBox, IEnumerable<swSelectType_e> filters, int style, bool allowMultipleSelectOfSameEntity, bool singleItemOnly, short height) 
             : base((IPropertyManagerPageControl )pmpSelectionBox.SolidworksObject)
         {
             SolidworksObject = pmpSelectionBox.SolidworksObject;
