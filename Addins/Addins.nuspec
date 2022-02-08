@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
-  <metadata>
-    <id>Hymma.Solidworks.Addins</id>
-    <version>$version$</version>
-    <title>Addins for SOLIDWORKS by HYMMA</title>
-    <authors>HYMMA</authors>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <license type="expression">MIT</license>
-    <icon>lib\icon.jpg</icon>
-    <projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Addins/</projectUrl>
-    <description>Framework to create Addins for SOLIDWORKS $year$ and later.</description>
-    <releaseNotes>Initial release.</releaseNotes>
-    <copyright>$copyright$</copyright>
-    <tags>solidworks</tags>
-    <dependencies>
-		<group targetFramework=".NETFramework4.6.1" >
-			<dependency id="Hymma.Solidworks.Extensions" version="18.0.1"></dependency>
-		</group>
-    </dependencies>
-  </metadata>
-  <files>
-    <file src="..\icon.jpg" target="lib"/>
-    <file src="bin\Release\Hymma.Solidworks.Addins.dll" target="lib\net461\SOLIDWORKS_$year$"/>
-    <file src="bin\Release\*.xml" target="lib\net461\SOLIDWORKS_$year$"/>
-  </files>
+	<metadata minClientVersion="2.5">
+		<id>Hymma.Solidworks.Addins</id>
+		<version>$year$.0.$rev$</version>
+		<title>Addins for SOLIDWORKS by HYMMA</title>
+		<authors>HYMMA</authors>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<license type="expression">MIT</license>
+		<icon>nugetIcon.png</icon>
+		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Addins/</projectUrl>
+		<description>Framework to create Addins for SOLIDWORKS $year$ and later.</description>
+		<releaseNotes>changed the dependencies</releaseNotes>
+		<copyright>HYMMA</copyright>
+		<tags>cad solidworks addin hymma</tags>
+		<dependencies>
+			<group targetFramework=".NETFramework4.6.1" >
+				<dependency id="Hymma.Solidworks.Extensions" version="2018.0.0"></dependency>
+			</group>
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="..\nugetIcon.png" target=""/>
+		<file src="tools\**" target="tools"/>
+		<file src="bin\Release\*.dll" target="lib\net461"/>
+		<file src="bin\Release\*.xml" target="lib\net461"/>
+		<file src="bin\Release\*.pdb" target="lib\net461"/>
+	</files>
 </package>
