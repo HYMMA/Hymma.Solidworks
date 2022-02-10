@@ -167,6 +167,10 @@
     <None Include="packages.config" />
     <None Include="SolidTools.SolidAddins.snk" />
   </ItemGroup>
+  <PropertyGroup>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

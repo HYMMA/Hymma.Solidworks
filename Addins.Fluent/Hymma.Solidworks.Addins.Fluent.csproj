@@ -64,6 +64,7 @@
       <HintPath>..\packages\Hymma.Solidworks.Addins.2018.0.0\lib\net461\SolidWorks.Interop.swpublished.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
@@ -94,6 +95,10 @@
     <Compile Include="Tabs\Core\IFluentCommandGroup.cs" />
     <Compile Include="Tabs\Core\IFluentCommandTab.cs" />
   </ItemGroup>
+  <PropertyGroup>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="FluentAddinsSolidTools.snk" />
     <None Include="packages.config" />

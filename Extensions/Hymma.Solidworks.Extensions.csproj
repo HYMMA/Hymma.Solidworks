@@ -43,6 +43,10 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+  <PropertyGroup>
     <AssemblyOriginatorKeyFile>SolidToolsSigniture.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
