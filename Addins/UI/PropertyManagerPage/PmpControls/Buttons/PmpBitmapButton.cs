@@ -63,6 +63,7 @@ namespace Hymma.Solidworks.Addins
             {
                 SetButtonIcon(_standardIcon);
             }
+            SolidworksObject.IsCheckable = false;
         }
         #endregion
 
