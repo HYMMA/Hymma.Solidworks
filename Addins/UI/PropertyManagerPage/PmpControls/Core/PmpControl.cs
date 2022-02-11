@@ -23,7 +23,6 @@ namespace Hymma.Solidworks.Addins
             };
         }
         #endregion
-
         ///<inheritdoc/>
         public T SolidworksObject { get; internal set; }
     }
