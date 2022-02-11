@@ -1,14 +1,12 @@
 ﻿using SolidWorks.Interop.sldworks;
 using System;
-using System.Drawing;
-using System.IO;
 
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// provides useful arguments and parameters for <see cref="PmpControl{T}.OnDisplay"/>
+    /// provides useful arguments and parameters for <see cref="IPmpControl.Displaying"/>
     /// </summary>
-    public class OnDisplay_EventArgs : EventArgs
+    public class PmpControlDisplayingEventArgs : EventArgs
     {
         #region fields
         private short _width;
@@ -23,7 +21,7 @@ namespace Hymma.Solidworks.Addins
         /// default constructor
         /// </summary>
         /// <param name="control"></param>
-        public OnDisplay_EventArgs(IPropertyManagerPageControl control)
+        public PmpControlDisplayingEventArgs(IPropertyManagerPageControl control)
         {
             _control = control;
         }

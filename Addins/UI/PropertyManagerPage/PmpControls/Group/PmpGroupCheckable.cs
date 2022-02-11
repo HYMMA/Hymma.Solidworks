@@ -1,12 +1,11 @@
-﻿using SolidWorks.Interop.sldworks;
-using SolidWorks.Interop.swconst;
+﻿using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// a checkable gorup in proeprty manager page
+    /// a checkable group in property manager page
     /// </summary>
     public class PmpGroupCheckable : PmpGroup
     {
@@ -16,8 +15,8 @@ namespace Hymma.Solidworks.Addins
         /// construct a property manage page group to host numerous <see cref="IPmpControl"/>
         /// </summary>
         /// <param name="caption">text that appears next to a group box</param>
-        /// <param name="visible">if set to false gorup will be hiddend by default</param>
-        /// <param name="isChecked">if set to true gorup will appear checked by default</param>
+        /// <param name="visible">if set to false group will be hidden by default</param>
+        /// <param name="isChecked">if set to true group will appear checked by default</param>
         /// <param name="expanded">if set to true group will appear expanded by default</param>
         public PmpGroupCheckable(string caption, bool visible = true, bool isChecked = true, bool expanded = true) : base(caption, expanded: expanded, visible: visible)
         {
@@ -43,8 +42,8 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         /// <param name="caption">text that appears next to a group box</param>
         /// <param name="controls">list of controls to add to this group</param>
-        /// <param name="visible">if set to false gorup will be hiddend by default</param>
-        /// <param name="isChecked">if set to true gorup will appear checked by default</param>
+        /// <param name="visible">if set to false group will be hidden by default</param>
+        /// <param name="isChecked">if set to true group will appear checked by default</param>
         /// <param name="expanded">if set to true group will appear expanded by default</param>
         public PmpGroupCheckable(string caption, List<IPmpControl> controls, bool visible = true, bool isChecked = true, bool expanded = true) : this(caption, visible, isChecked, expanded)
         {
@@ -76,20 +75,21 @@ namespace Hymma.Solidworks.Addins
                 }
             }
         }
-        internal void GroupChecked(bool status)
+        internal void GroupCheckedCallback(bool status)
         {
+            //by default we want the visibility and enable status of controls in a group change when user expands a group for instance
             foreach (var control in Controls)
             {
                 control.Visible=status;
                 control.Enabled=status;
             }
-            OnGroupCheck?.Invoke(this, status);
+            GroupChecked?.Invoke(this, status);
         }
 
         /// <summary>
         /// method to invoke when user checks a group <br/>
-        /// this delegate requires a bool variable to indicate the IsChecked status of the group
+        /// this delegate requires a boolean variable to indicate the IsChecked status of the group
         /// </summary>
-        public event EventHandler<bool> OnGroupCheck;
+        public event EventHandler<bool> GroupChecked;
     }
 }

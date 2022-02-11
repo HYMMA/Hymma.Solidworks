@@ -23,17 +23,14 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        internal void Clicked()
-        {
-            OnClick?.Invoke(this, EventArgs.Empty);
-        }
+        internal void ClickedCallback() => Clicked?.Invoke(this, EventArgs.Empty);
         #endregion
-        
+
         #region events
         /// <summary>
         /// invoked when this button is clicked
         /// </summary>
-        public event EventHandler OnClick;
+        public event EventHandler Clicked;
         #endregion
     }
 }

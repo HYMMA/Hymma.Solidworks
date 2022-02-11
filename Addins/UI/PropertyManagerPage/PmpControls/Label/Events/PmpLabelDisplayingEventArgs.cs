@@ -1,5 +1,4 @@
 ﻿using SolidWorks.Interop.sldworks;
-using System;
 using System.Drawing;
 
 namespace Hymma.Solidworks.Addins
@@ -7,7 +6,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// event arguments for a <see cref="PmpLabel"/>
     /// </summary>
-    public class Label_OnDisplayEventArgs : OnDisplay_EventArgs
+    public class PmpLabelDisplayingEventArgs : PmpControlDisplayingEventArgs
     {
         #region fields
         private PropertyManagerPageLabel SolidworksObject;
@@ -24,13 +23,13 @@ namespace Hymma.Solidworks.Addins
         /// constructor
         /// </summary>
         /// <param name="label"></param>
-        public Label_OnDisplayEventArgs(PmpLabel label) : base((IPropertyManagerPageControl)label.SolidworksObject)
+        public PmpLabelDisplayingEventArgs(PmpLabel label) : base((IPropertyManagerPageControl)label.SolidworksObject)
         {
             this.Lable = label;
             this.SolidworksObject = label.SolidworksObject;
         }
         #endregion
-        
+
         #region properties
         /// <summary>
         /// Gets or sets the height of this label. 
@@ -50,7 +49,7 @@ namespace Hymma.Solidworks.Addins
         /// <returns>Ratio for the height of the characters relative to their expected heights &gt;0 increases their heights and &lt;0 decreases their height</returns>
         public double GetSizeRatio(short StartChar, short EndChar)
         {
-                return SolidworksObject.SizeRatio[StartChar, EndChar];
+            return SolidworksObject.SizeRatio[StartChar, EndChar];
         }
 
         /// <summary>
@@ -61,7 +60,7 @@ namespace Hymma.Solidworks.Addins
         /// <returns>offset of this character</returns>
         public double GetLineOffset(short StartChar, short EndChar)
         {
-                return SolidworksObject.LineOffset[StartChar, EndChar];
+            return SolidworksObject.LineOffset[StartChar, EndChar];
         }
 
         /// <summary>

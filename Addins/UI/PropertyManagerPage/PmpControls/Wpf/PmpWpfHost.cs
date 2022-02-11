@@ -1,16 +1,16 @@
 ﻿using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
-using System.Windows;
 using System.Windows.Forms.Integration;
+using Xarial.XCad.SolidWorks.Utils;
 
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// a windows form host that solidworks uses to show win forms or wpf.
+    /// a windows form host that solidworks uses to show win forms or wpf
     /// </summary>
     /// <remarks>your addin must add a reference to WindowsFormsIntegration</remarks>
-    public class PmpWpfHost : PmpControl<IPropertyManagerPageWindowFromHandle>, IEquatable<PmpWpfHost>
+    public class PmpWpfHost : PmpControl<IPropertyManagerPageWindowFromHandle>, IEquatable<PmpWpfHost>, IDisposable
     {
         #region constructors
         /// <summary>
@@ -23,8 +23,9 @@ namespace Hymma.Solidworks.Addins
         {
             this.ElementHost = elementHost;
             this.WindowsControl = wpfControl;
-            OnDisplay += PmpWpfHost_OnDisplay;
-            OnRegister += () => SolidworksObject.Height = height;
+            _keystrokePropagator = new WpfControlKeystrokePropagator(wpfControl);
+            Displaying += PmpWpfHost_OnDisplay;
+            Registering += () => SolidworksObject.Height = height;
         }
         /// <summary>
         /// constructor
@@ -38,13 +39,13 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        private void PmpWpfHost_OnDisplay(object sender, OnDisplay_EventArgs e)
+        private void PmpWpfHost_OnDisplay(object sender, PmpControlDisplayingEventArgs e)
         {
-            //this should be callled everytime pmp is displayed and on the pmp registration
+            //this should be called every time pmp is displayed and on the pmp registration
             if (ElementHost == null || !WindowsControl.HasContent)
                 return;
 
-            ElementHost.Child =WindowsControl;
+            ElementHost.Child = WindowsControl;
             SolidworksObject?.SetWindowHandlex64(ElementHost.Handle.ToInt64());
         }
 
@@ -61,6 +62,8 @@ namespace Hymma.Solidworks.Addins
         /// a windows form or wpf controller
         /// </summary>
         public System.Windows.Controls.UserControl WindowsControl { get; }
+
+        private WpfControlKeystrokePropagator _keystrokePropagator;
         #endregion
 
         #region methods
@@ -80,6 +83,15 @@ namespace Hymma.Solidworks.Addins
 
         ///<inheritdoc/>
         public override int GetHashCode() => ElementHost.GetHashCode();
+
+        /// <summary>
+        /// properly disposes of this object
+        /// </summary>
+        public void Dispose()
+        {
+            _keystrokePropagator.Dispose();
+            ElementHost.Dispose();
+        }
 
         ///<inheritdoc/>
         public override bool Enabled

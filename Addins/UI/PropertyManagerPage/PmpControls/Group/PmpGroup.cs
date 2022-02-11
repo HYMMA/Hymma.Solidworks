@@ -247,7 +247,7 @@ namespace Hymma.Solidworks.Addins
         }
         internal void Display()
         {
-            Controls.ForEach(c => c.Display());
+            Controls.ForEach(c => c.DisplayingCallback());
             OnDisplay?.Invoke(this, EventArgs.Empty);
         }
         #endregion

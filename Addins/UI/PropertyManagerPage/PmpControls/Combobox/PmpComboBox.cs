@@ -21,12 +21,12 @@ namespace Hymma.Solidworks.Addins
 
         #endregion
 
-        #region construtor
+        #region constructor
 
         /// <summary>
         /// create combo box for property manager page
         /// </summary>
-        /// <param name="items">list of items in the combox box</param>
+        /// <param name="items">list of items in the combo box</param>
         /// <param name="style">style of the combo box as defined by <see cref="ComboBoxStyles"/></param>
         /// <param name="height">height of the combo box</param>
         public PmpComboBox(List<string> items, ComboBoxStyles style, short height = 50) : base(swPropertyManagerPageControlType_e.swControlType_Combobox)
@@ -37,10 +37,10 @@ namespace Hymma.Solidworks.Addins
             AddItems(items);
             Style = _style;
             Height = _height;
-            OnDisplay += PmpComboBox_OnDisplay;
+            Displaying += PmpComboBox_OnDisplay;
         }
 
-        private void PmpComboBox_OnDisplay(IPmpControl sender, OnDisplay_EventArgs eventArgs)
+        private void PmpComboBox_OnDisplay(IPmpControl sender, PmpControlDisplayingEventArgs eventArgs)
         {
             SolidworksObject.Clear();
             _items.Sort();
@@ -48,7 +48,7 @@ namespace Hymma.Solidworks.Addins
         }
         #endregion
 
-        #region mehods
+        #region methods
 
         /// <summary>
         /// Adds items to the attached drop-down list for this combo box. 
@@ -66,7 +66,7 @@ namespace Hymma.Solidworks.Addins
                 SolidworksObject.AddItems(_items.ToArray());
             }
             else
-                OnRegister += () =>
+                Registering += () =>
                 {
                     SolidworksObject.Clear();
                     SolidworksObject.AddItems(_items.ToArray());
@@ -103,7 +103,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.Clear();
             else
-                OnDisplay += (s, e) => SolidworksObject?.Clear();
+                Displaying += (s, e) => SolidworksObject?.Clear();
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.DeleteItem(index);
             else
-                OnRegister += () => { SolidworksObject.DeleteItem(index); };
+                Registering += () => { SolidworksObject.DeleteItem(index); };
         }
         /// <summary>
         /// Inserts an item in the attached drop-down list of this combo box. 
@@ -143,7 +143,7 @@ namespace Hymma.Solidworks.Addins
             else
             {
 
-                OnRegister += () =>
+                Registering += () =>
                 {
                     SolidworksObject.Clear();
                     SolidworksObject.AddItems(_items.ToArray());
@@ -156,7 +156,7 @@ namespace Hymma.Solidworks.Addins
 
         #region public properties
         /// <summary>
-        /// items in the combobox the index of these items is not the same as solidworks Ui and is not reliable
+        /// items in the combo-box the index of these items is not the same as solidworks UI and is not reliable
         /// </summary>
         public ReadOnlyCollection<string> Items => _items.AsReadOnly();
 
@@ -176,12 +176,12 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Height = value;
                 else
-                    OnRegister += () => { SolidworksObject.Height = value; };
+                    Registering += () => { SolidworksObject.Height = value; };
             }
         }
 
         /// <summary>
-        /// gets or sets the style for the attached drop down list for this combobox
+        /// gets or sets the style for the attached drop down list for this combo-box
         /// </summary>
         /// <remarks>Style is a combination of Boolean values, each represented by a bit in this long value. The different Boolean values are represented in the swPropMgrPageComboBoxStyle_e enumeration. <br/>
         /// For example, to set the attached drop-down list of a combo box so that the items are sorted, set Style to <see cref="ComboBoxStyles.Sorted"/>.
@@ -196,7 +196,7 @@ namespace Hymma.Solidworks.Addins
 
             set
             {
-                //assign value to the backign field
+                //assign value to the  field
                 _style = value;
 
                 //if add in is loaded update the solidworks object
@@ -204,7 +204,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Style = (int)value;
                 else
-                    OnRegister += () => { SolidworksObject.Style = (int)value; };
+                    Registering += () => { SolidworksObject.Style = (int)value; };
 
             }
         }
@@ -218,7 +218,7 @@ namespace Hymma.Solidworks.Addins
             get => _currentSelection;
             set
             {
-                //assign value to the backign field
+                //assign value to the field
                 _currentSelection = value;
 
                 //if add in is loaded update the solidworks object
@@ -226,7 +226,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.CurrentSelection = value;
                 else
-                    OnRegister += () => { SolidworksObject.CurrentSelection = value; };
+                    Registering += () => { SolidworksObject.CurrentSelection = value; };
 
             }
         }
@@ -251,21 +251,15 @@ namespace Hymma.Solidworks.Addins
                     SolidworksObject.EditText = value;
                 else
                     //if this property is assigned prior to registration 
-                    OnRegister += () => { SolidworksObject.EditText = value; };
+                    Registering += () => { SolidworksObject.EditText = value; };
             }
         }
         #endregion
 
         #region call backs
-        internal void SelectionChanged(int id)
-        {
-            OnSelectionChanged?.Invoke(this, id);
-        }
+        internal void SelectionChangedCallback(int id) => SelectionChanged?.Invoke(this, id);
 
-        internal void SelectionEdit(string val)
-        {
-            OnEditChanged?.Invoke(this, val);
-        }
+        internal void SelectionEditCallback(string val) => EditChanged?.Invoke(this, val);
 
         #endregion
 
@@ -274,23 +268,23 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// Called when a user changes the selected item in a combo box on this PropertyManager page. 
         /// </summary>
-        /// <remarks>solidworks will passs int the id of the selected item</remarks>
-        public event EventHandler<int> OnSelectionChanged;
+        /// <remarks>solidworks will pass int the id of the selected item</remarks>
+        public event EventHandler<int> SelectionChanged;
 
         /// <summary>
-        /// Called when a user changes the text string in the text box of a combo box on this PropertyManager page. solidworsk will pass in the text string
+        /// Called when a user changes the text string in the text box of a combo box on this PropertyManager page. solidworks will pass in the text string
         /// </summary>
         /// <remarks>
         /// <para>
         /// This method is only called if the combo box was set up as an editable text box. If the combo box is set up to as a static text box, then this method is not called.
         ///<para>
-        /// If the user can edit the text in the text box, then use this method with <see cref="OnSelectionChanged"/> to find out what is in the text box of the combo box.
+        /// If the user can edit the text in the text box, then use this method with <see cref="SelectionChanged"/> to find out what is in the text box of the combo box.
         ///</para>
         ///<para>
         ///When this method is called, the control may not yet be updated with the current selection, so the <see cref="CurrentSelection"/> property is not reliable. The text passed into this method is the up-to-date text.
         ///</para>
         /// </para></remarks>
-        public event EventHandler<string> OnEditChanged;
+        public event EventHandler<string> EditChanged;
         #endregion
     }
 }

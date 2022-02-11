@@ -31,12 +31,7 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-
-        internal void Checked(bool status)
-        {
-            OnChecked?.Invoke(this, status);
-        }
-
+        internal void CheckedCallback(bool status)=> Checked?.Invoke(this, status);
         #endregion
 
         #region public properties
@@ -59,7 +54,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    OnRegister += () => { SolidworksObject.Checked = value; };
+                    Registering += () => { SolidworksObject.Checked = value; };
                     //Checked(value);
                 }
             }
@@ -81,7 +76,7 @@ namespace Hymma.Solidworks.Addins
                 _maintain = value;
                 if (_maintain)
                 {
-                    OnDisplay += (sender, e) =>
+                    Displaying += (sender, e) =>
                     {
                         var checkBox = sender as PmpCheckBox;
                         checkBox.IsChecked = _isChecked;
@@ -95,7 +90,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// SOLIDWORKS will call this once the checkbox is clicked on
         /// </summary>
-        public event CheckBox_EventHandler OnChecked;
+        public event PmpCheckBoxCheckedEventHandler Checked;
         #endregion
     }
 }
