@@ -64,7 +64,6 @@
       <HintPath>..\packages\Hymma.Solidworks.Addins.2018.0.0\lib\net461\SolidWorks.Interop.swpublished.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
