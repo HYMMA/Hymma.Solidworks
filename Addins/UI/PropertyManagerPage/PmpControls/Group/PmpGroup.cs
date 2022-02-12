@@ -21,7 +21,7 @@ namespace Hymma.Solidworks.Addins
         /// this is used at registering stage only
         /// </summary>
         protected swAddGroupBoxOptions_e _options;
-        private bool _expanded;
+        private bool _isExpanded;
         #endregion
 
         #region constructors
@@ -37,7 +37,7 @@ namespace Hymma.Solidworks.Addins
             Id = Counter.GetNextPmpId();
             _caption = caption;
             _backgroundColor = SysColor.PropertyManagerColor;
-            Expanded = expanded;
+            IsExpanded = expanded;
             Visible = visible;
             Controls = new List<IPmpControl>();
         }
@@ -101,23 +101,23 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// determines the expand state of this group box 
         /// </summary>
-        public bool Expanded
+        public bool IsExpanded
         {
-            get => _expanded;
+            get => _isExpanded;
             set
             {
-                _expanded = value;
-                if (_expanded)
+                _isExpanded = value;
+                if (_isExpanded)
                     _options |= (swAddGroupBoxOptions_e.swGroupBoxOptions_Expanded);
                 else
                     _options &= ~swAddGroupBoxOptions_e.swGroupBoxOptions_Expanded;
                 if (SolidworksObject != null)
                 {
-                    SolidworksObject.Expanded = _expanded;
+                    SolidworksObject.Expanded = _isExpanded;
                 }
                 else
                 {
-                    OnRegister += () => SolidworksObject.Expanded = _expanded;
+                    OnRegister += () => SolidworksObject.Expanded = _isExpanded;
                 }
             }
         }
@@ -229,13 +229,13 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// an event that gets called right before this pmpGroup is displayed
         /// </summary>
-        public event EventHandler OnDisplay;
+        public event EventHandler Displaying;
 
         /// <summary>
         /// method to invoke when user expands a group <br/>
         /// this delegate requires a bool variable to indicate the IsExpanded status of the group
         /// </summary>
-        public event EventHandler<bool> OnGroupExpand;
+        public event EventHandler<bool> Expanded;
 
         
         #endregion
@@ -243,12 +243,12 @@ namespace Hymma.Solidworks.Addins
         #region call backs
         internal void GroupExpand(bool e)
         {
-            OnGroupExpand?.Invoke(this, e);
+            Expanded?.Invoke(this, e);
         }
         internal void Display()
         {
             Controls.ForEach(c => c.DisplayingCallback());
-            OnDisplay?.Invoke(this, EventArgs.Empty);
+            Displaying?.Invoke(this, EventArgs.Empty);
         }
         #endregion
     }

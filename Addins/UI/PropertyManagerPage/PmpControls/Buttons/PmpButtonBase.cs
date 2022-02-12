@@ -18,7 +18,6 @@ namespace Hymma.Solidworks.Addins
         /// <param name="tip"></param>
         public PmpButtonBase(swPropertyManagerPageControlType_e type, string caption, string tip) : base(type, caption, tip)
         {
-
         }
         #endregion
 

@@ -7,7 +7,7 @@ namespace Hymma.Solidworks.Addins
     /// </summary>
     /// <remarks>When the user selects an item in the attached drop-down list, SOLIDWORKS attempts to use that item as a value in the number box.<br/>
     /// Thus, the items in the attached drop-down list should be numeric values and optionally include their units. <br/>
-    /// The add-in then gets a callback via <see cref="PmpNumberBox.Change"/> as if the user had typed a value in the number box or clicked the up-arrow or down-arrow buttons to increment or decrement the value.<br/>
+    /// The add-in then gets a callback via <see cref="PmpNumberBox.Changing"/> as if the user had typed a value in the number box or clicked the up-arrow or down-arrow buttons to increment or decrement the value.<br/>
     ///If you do not want your add-in to directly use items in the attached drop-down list in the number box, but instead want it to react to the user selecting a computed or linked value in the number box,<br/>
     ///then use <see cref="AvoidSelectionText"/></remarks>
     [Flags]

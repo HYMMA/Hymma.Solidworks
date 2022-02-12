@@ -22,13 +22,13 @@ namespace Hymma.Solidworks.Addins
         {
             IsChecked = isChecked;
             _options = swAddGroupBoxOptions_e.swGroupBoxOptions_Checkbox;
-            OnDisplay += PmpGroupCheckable_OnDisplay;
+            Displaying += PmpGroupCheckable_OnDisplay;
         }
 
         private void PmpGroupCheckable_OnDisplay(object sender, EventArgs e)
         {
             var group = sender as PmpGroupCheckable;
-            group.Expanded = group.IsChecked;
+            group.IsExpanded = group.IsChecked;
             foreach (var control in Controls)
             {
                 control.Visible = group.IsChecked;
@@ -83,13 +83,13 @@ namespace Hymma.Solidworks.Addins
                 control.Visible=status;
                 control.Enabled=status;
             }
-            GroupChecked?.Invoke(this, status);
+            Checked?.Invoke(this, status);
         }
 
         /// <summary>
         /// method to invoke when user checks a group <br/>
         /// this delegate requires a boolean variable to indicate the IsChecked status of the group
         /// </summary>
-        public event EventHandler<bool> GroupChecked;
+        public event EventHandler<bool> Checked;
     }
 }

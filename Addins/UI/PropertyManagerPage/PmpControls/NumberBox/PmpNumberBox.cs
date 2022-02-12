@@ -196,7 +196,7 @@ namespace Hymma.Solidworks.Addins
         #region Call backs
         internal void TextChangedCallback(string text) => TextChanged?.Invoke(this, text);
 
-        internal void ChangedCallback(double value) => Change?.Invoke(this, value);
+        internal void ChangedCallback(double value) => Changing?.Invoke(this, value);
 
         internal override void DisplayingCallback()
            => Displaying?.Invoke(this, new PmpNumberBoxDisplayingEventArgs(this));
@@ -217,7 +217,7 @@ namespace Hymma.Solidworks.Addins
         /// fired when user changes the value via typing or clicking the up-arrow or down-arrow buttons to increment or decrement the value
         /// </summary>
         /// <remarks>solidworks will pass in the double value upon change</remarks>
-        public event EventHandler<double> Change;
+        public event EventHandler<double> Changing;
 
         /// <summary>
         /// Called when a user finishes changing the value in the number box on a PropertyManager page. 
