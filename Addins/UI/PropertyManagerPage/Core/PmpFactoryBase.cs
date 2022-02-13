@@ -81,7 +81,7 @@ namespace Hymma.Solidworks.Addins
                 //add controls
                 try
                 {
-                    uiModel.Register(propertyManagerPage);
+                    uiModel.RegisteringCallBack(propertyManagerPage);
                 }
                 catch (Exception e)
                 {

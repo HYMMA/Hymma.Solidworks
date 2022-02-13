@@ -6,7 +6,7 @@ using System.Drawing;
 namespace Hymma.Solidworks.Addins.Fluent
 {
     /// <summary>
-    /// controls the general settings/Events of aproperty manger page
+    /// controls the general settings/Events of property manger page
     /// </summary>
     public class PmpUiModelFluent : PmpUiModel, IPmpUiModelFluent
     {
@@ -21,14 +21,14 @@ namespace Hymma.Solidworks.Addins.Fluent
         {
             var group = new PmpGroupFluent(caption, false)
             {
-                //update the group propety
+                //update the group property
                 PropertyManagerPageUIBase = this
             };
 
             //add group to the end of the list
             this.PmpGroups.Add(group);
 
-            //return the boject in the list
+            //return the object in the list
             return this.PmpGroups[this.PmpGroups.Count - 1] as PmpGroupFluent;
         }
 
@@ -41,24 +41,24 @@ namespace Hymma.Solidworks.Addins.Fluent
 
 
         ///<inheritdoc/>
-        public IPmpUiModelFluent AfterClose(Action doThis)
+        public IPmpUiModelFluent OnAfterClose(Action doThis)
         {
-            this.OnAfterClose = doThis;
+            this.AfterClose += doThis;
             return this;
         }
 
         /// <inheritdoc/>
-        public IPmpUiModelFluent WhileClosing(Action<PmpCloseReason> doThis)
+        public IPmpUiModelFluent OnClosing(Action<PmpCloseReason> doThis)
         {
-            this.OnClose = doThis;
+            this.Closing += doThis;
             return this;
         }
 
 
         /// <inheritdoc/>
-        public IPmpUiModelFluent AfterActivation(Action action)
+        public IPmpUiModelFluent OnAfterActivation(Action action)
         {
-            this.OnAfterActivation = action;
+            AfterActivation += action;
             return this;
         }
 
@@ -74,7 +74,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// <summary>
         /// add a tab to this property manager page 
         /// </summary>
-        /// <param name="caption">text taht appears on the tab</param>
+        /// <param name="caption">text that appears on the tab</param>
         /// <param name="icon">The Bitmap argument allows you to place a bitmap before the text on the tab<br/>
         /// Any portions of the bitmap that are RGB(255,255,255) will be transparent, letting the tab background show through. this will be resized to 16x18 pixels</param>
         /// <returns></returns>
@@ -124,9 +124,9 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        IPmpUiModelFluent IPmpUiModelFluent.OnKeyStroke(EventHandler<PmpOnKeyStrokeEventArgs> doThis)
+        IPmpUiModelFluent IPmpUiModelFluent.OnKeyStroke(EventHandler<PmpKeyStrokeEventArgs> doThis)
         {
-            OnKeyStroke += doThis;
+            KeyStroke += doThis;
             return this;
         }
         ///<inheritdoc/>
@@ -134,14 +134,14 @@ namespace Hymma.Solidworks.Addins.Fluent
         {
             var group = new PmpGroupFluentCheckable(caption)
             {
-                //update the group propety
+                //update the group property
                 PropertyManagerPageUIBase = this
             };
 
             //add group to the end of the list
             this.PmpGroups.Add(group);
 
-            //return the boject in the list
+            //return the object in the list
             return this.PmpGroups[this.PmpGroups.Count - 1] as PmpGroupFluentCheckable;
         }
 

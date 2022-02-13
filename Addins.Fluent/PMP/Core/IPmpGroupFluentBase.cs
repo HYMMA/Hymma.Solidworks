@@ -26,7 +26,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="isExpanded"></param>
         /// <returns></returns>
-        T IsExpanded(bool isExpanded = true);
+        T SetExpansion(bool isExpanded = true);
 
         /// <summary>
         /// hides this group
@@ -40,7 +40,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="doThis">delegate that accepts a bool as the parameter and returns void. bool parameter will be assigned by solidworks and indicates the expansion state of the group.</param>
         /// <returns></returns>
-        T AndOnExpansionChange(Action<PmpGroup, bool> doThis);
+        T OnExpansionChange(Action<PmpGroup, bool> doThis);
 
         /// <summary>
         /// add these controls to the <see cref="Solidworks.Addins.PmpGroup"/>

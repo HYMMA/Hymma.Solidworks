@@ -1,5 +1,4 @@
 ﻿using System;
-using static Hymma.Solidworks.Addins.Logger;
 
 namespace Hymma.Solidworks.Addins
 {

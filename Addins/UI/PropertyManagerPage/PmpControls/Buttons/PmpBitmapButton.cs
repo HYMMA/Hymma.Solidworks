@@ -3,7 +3,6 @@ using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Hymma.Solidworks.Addins
@@ -37,7 +36,7 @@ namespace Hymma.Solidworks.Addins
             _fileName = "Btn" + Id;
             _iconSize = iconSizes;
             _opacity = opacity;
-            OnRegister += PmpBitmapButton_OnRegister;
+            Registering += PmpBitmapButton_OnRegister;
         }
 
         /// <summary>
@@ -48,7 +47,7 @@ namespace Hymma.Solidworks.Addins
         public PmpBitmapButton(BitmapButtons standardIcon, string tip) : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton, "", tip)
         {
             _standardIcon = standardIcon;
-            OnRegister += PmpBitmapButton_OnRegister;
+            Registering += PmpBitmapButton_OnRegister;
         }
         #endregion
 
@@ -63,6 +62,7 @@ namespace Hymma.Solidworks.Addins
             {
                 SetButtonIcon(_standardIcon);
             }
+            SolidworksObject.Checked = false;
         }
         #endregion
 

@@ -4,9 +4,9 @@ namespace Hymma.Solidworks.Addins
 {
 
     /// <summary>
-    /// event arguments for <see cref="PmpUiModel.OnKeyStroke"/>
+    /// event arguments for <see cref="PmpUiModel.KeyStroke"/>
     /// </summary>
-    public class PmpOnKeyStrokeEventArgs : EventArgs
+    public class PmpKeyStrokeEventArgs : EventArgs
     {
         /// <summary>
         /// constructor
@@ -14,7 +14,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="wParam"></param>
         /// <param name="message"></param>
         /// <param name="lParam"></param>
-        public PmpOnKeyStrokeEventArgs(int wParam, int message, int lParam)
+        public PmpKeyStrokeEventArgs(int wParam, int message, int lParam)
         {
             this.Wparam = wParam;
             this.Message = message;

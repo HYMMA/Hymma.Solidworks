@@ -13,6 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,7 +29,7 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -35,6 +37,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Hymma.Solidworks.Addins.xml</DocumentationFile>
     <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -43,21 +46,21 @@
     <AssemblyOriginatorKeyFile>SolidTools.SolidAddins.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hymma.Solidworks.Extensions, Version=18.0.1.0, Culture=neutral, PublicKeyToken=e9fee7cb4dbd868c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Extensions.18.0.1\lib\net461\SOLIDWORKS_2018\Hymma.Solidworks.Extensions.dll</HintPath>
+    <Reference Include="Hymma.Solidworks.Extensions, Version=2018.0.0.0, Culture=neutral, PublicKeyToken=e9fee7cb4dbd868c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hymma.Solidworks.Extensions.2018.0.0\lib\net461\Hymma.Solidworks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="SolidWorks.Interop.sldworks, Version=26.0.1.1, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
-      <HintPath>..\packages\SOLIDWORKS.DLLs.2018.1.0.3\lib\net461\SolidWorks.Interop.sldworks.dll</HintPath>
+      <HintPath>..\packages\Hymma.Solidworks.Extensions.2018.0.0\lib\net461\SolidWorks.Interop.sldworks.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swconst, Version=26.0.1.1, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\SOLIDWORKS.DLLs.2018.1.0.3\lib\net461\SolidWorks.Interop.swconst.dll</HintPath>
+      <HintPath>..\packages\Hymma.Solidworks.Extensions.2018.0.0\lib\net461\SolidWorks.Interop.swconst.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swpublished, Version=26.0.1.1, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\SOLIDWORKS.DLLs.2018.1.0.3\lib\net461\SolidWorks.Interop.swpublished.dll</HintPath>
+      <HintPath>..\packages\Hymma.Solidworks.Extensions.2018.0.0\lib\net461\SolidWorks.Interop.swpublished.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
@@ -70,6 +73,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
@@ -92,31 +96,31 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\Enums\BtnSize.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpButtonBase.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Combobox\ComboBoxStyles.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Core\Events\PmpControlDisplayingEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Group\PmpGroup.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Group\PmpGroupCheckable.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\Label_OnDisplayEventArgs.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\Label_OnDisplayEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\PmpLabelDisplayingEventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Label\Events\PmpLabelDisplayingEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\LabelStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Label\UnderLineStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Enums\NumberBoxStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Enums\NumberBoxUnit.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Events\NumberBox_Ondisplay_EventArgs.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Events\NumberBox_OnDisplay_EventHandler.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Core\Events\OnDisplay_EventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Events\PmpNumberBoxDisplayingEventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\NumberBox\Events\PmpNumberBoxDisplayingEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Core\Events\PmpControlDisplayingEventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Enums\ListboxStyles.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_Display.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_OnDisplay.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_OnRMB.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_EventHandler_SelectionChanged.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\Listbox_OnDisplay_EventArgs.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\Checkbox\CheckBox_EventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\PmpListboxDisplayingEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\PmpListboxRightClickedEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\PmpListboxSelectionChangedEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\ListBox\Events\PmpListboxDisplayingEventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Checkbox\PmpCheckBoxCheckedEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Core\Enums\ControlResizeStyles.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Enums\SelectionBoxStyles.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_EventHandler.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelBox_OnDisplay_EventArgs.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnListChanged_EventArgs.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnSubmitSelectionEventHandler.cs" />
-    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\SelectionBox_OnSubmitSelection_EventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxDisplayingEventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxListChangedEventArgs.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxSelectionSubmittedEventHandler.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxSelectionSubmittedEventArgs.cs" />
     <Compile Include="Core\Counter.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButton.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Core\PmpTextBase.cs" />
@@ -126,11 +130,12 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\WinForms\PmpWinForm.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\WinForms\PmpWinFormContoller.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Wpf\PmpWpfHost.cs" />
+    <Compile Include="UI\PropertyManagerPage\PmpControls\Wpf\WpfControlKeystrokePropagator.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpTab\PmpTab.cs" />
     <Compile Include="Core\AddinMaker.cs" />
-    <Compile Include="Tools\DotNet\Extensions\AssemblyExtensions.cs" />
-    <Compile Include="Tools\DotNet\Extensions\TypeExtensions.cs" />
-    <Compile Include="Tools\Logging\Logger.cs" />
+    <Compile Include="Helpers\DotNet\Extensions\AssemblyExtensions.cs" />
+    <Compile Include="Helpers\DotNet\Extensions\TypeExtensions.cs" />
+    <Compile Include="Helpers\Logging\Logger.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Image\PmpBitmap.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButtonCheckable.cs" />
@@ -152,8 +157,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Tools\MaskedBitmap.cs" />
-    <Compile Include="Tools\IconGenerator.cs" />
+    <Compile Include="Helpers\MaskedBitmap.cs" />
+    <Compile Include="Helpers\IconGenerator.cs" />
     <Compile Include="UI\ToolbarTabs\AddinCommandTab.cs" />
     <Compile Include="UI\ToolbarTabs\CommandGroup\AddinCommand.cs" />
     <Compile Include="UI\ToolbarTabs\CommandGroup\AddinCommandGroup.cs" />
@@ -161,9 +166,12 @@
     <Compile Include="UI\ToolbarTabs\CommandGroup\IAddinCommandGroup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="SolidTools.SolidAddins.snk" />
   </ItemGroup>
+  <PropertyGroup>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -172,8 +180,22 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Tools\Logging\LogSnippet.snippet" />
+    <None Include="Helpers\Logging\LogSnippet.snippet" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Extensions\Hymma.Solidworks.Extensions.csproj">
+      <Project>{c11fc3f2-c2d0-4e62-9cf2-1a152b76ae03}</Project>
+      <Name>Hymma.Solidworks.Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Hymma.Solidworks.Interop.2018.0.0\build\Hymma.Solidworks.Interop.targets" Condition="Exists('..\packages\Hymma.Solidworks.Interop.2018.0.0\build\Hymma.Solidworks.Interop.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Hymma.Solidworks.Interop.2018.0.0\build\Hymma.Solidworks.Interop.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Hymma.Solidworks.Interop.2018.0.0\build\Hymma.Solidworks.Interop.targets'))" />
+    <Error Condition="!Exists('..\packages\Hymma.Solidworks.Extensions.2018.0.0\build\Hymma.Solidworks.Extensions.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Hymma.Solidworks.Extensions.2018.0.0\build\Hymma.Solidworks.Extensions.targets'))" />
+  </Target>
+  <Import Project="..\packages\Hymma.Solidworks.Extensions.2018.0.0\build\Hymma.Solidworks.Extensions.targets" Condition="Exists('..\packages\Hymma.Solidworks.Extensions.2018.0.0\build\Hymma.Solidworks.Extensions.targets')" />
 </Project>

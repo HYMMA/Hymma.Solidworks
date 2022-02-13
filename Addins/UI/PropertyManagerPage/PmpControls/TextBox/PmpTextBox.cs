@@ -48,7 +48,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    OnRegister += () => { SolidworksObject.Text = value; };
+                    Registering += () => { SolidworksObject.Text = value; };
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Style = (int)value;
                 else
-                    OnRegister += () => { SolidworksObject.Style = (int)value; };
+                    Registering += () => { SolidworksObject.Style = (int)value; };
             }
         }
 
@@ -85,16 +85,16 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Height = value;
                 else
-                    OnRegister += () => { SolidworksObject.Height = value; };
+                    Registering += () => { SolidworksObject.Height = value; };
             }
         }
         #endregion
 
         #region call backs
 
-        internal void TextChanged(string e)
+        internal void TypedIntoCallback(string e)
         {
-            OnUserInput?.Invoke(this, e);
+            TypedInto?.Invoke(this, e);
         }
 
         #endregion
@@ -103,7 +103,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// fires when text box is changed
         /// </summary>
-        public event EventHandler<string> OnUserInput;
+        public event EventHandler<string> TypedInto;
         #endregion
     }
 }

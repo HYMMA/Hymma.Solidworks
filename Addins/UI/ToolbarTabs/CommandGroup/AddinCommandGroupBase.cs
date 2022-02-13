@@ -57,6 +57,10 @@ namespace Hymma.Solidworks.Addins
         public string IconsDir { get; set; }
 
         //a method to register this command group into solidworks
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="commandManager"></param>
         public virtual void Register(ICommandManager commandManager) { }
 
         /// <summary>
@@ -156,7 +160,7 @@ namespace Hymma.Solidworks.Addins
                         stripes[i] = Path.Combine(dir, stripe);
                         combinedImage.Save(stripes[i]);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         throw;
                     }

@@ -56,7 +56,7 @@ namespace Hymma.Solidworks.Addins
                     try
                     {
                         icon.Save(iconName);
-                        OnRegister += () => { SolidworksObject.SetTitleBitmap2(iconName); };
+                        Registering += () => { SolidworksObject.SetTitleBitmap2(iconName); };
                     }
                     catch (Exception e)
                     {
@@ -68,7 +68,7 @@ namespace Hymma.Solidworks.Addins
 
         internal void UpdateOptions()
         {
-            if (OnKeyStroke != null && !Options.HasFlag(PmpOptions.HandleKeystrokes))
+            if (KeyStroke != null && !Options.HasFlag(PmpOptions.HandleKeystrokes))
                 Options |= PmpOptions.HandleKeystrokes;
         }
 
@@ -87,7 +87,7 @@ namespace Hymma.Solidworks.Addins
         /// <remarks>This method should be useful when creating multi-page PropertyManager pages where you want different informational messages on each page. </remarks>
         public void SetMessage(string caption, string message, swPropertyManagerPageMessageVisibility messageVisibility, swPropertyManagerPageMessageExpanded pageMessageExpanded)
         {
-            OnRegister += () => { SolidworksObject.SetMessage3(message, ((int)messageVisibility), ((int)pageMessageExpanded), caption); };
+            Registering += () => { SolidworksObject.SetMessage3(message, ((int)messageVisibility), ((int)pageMessageExpanded), caption); };
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="styles"></param>
         public void SetCursor(PmpCursorStyles styles)
         {
-            OnRegister += () => { SolidworksObject.SetCursor(((int)styles)); };
+            Registering += () => { SolidworksObject.SetCursor(((int)styles)); };
         }
 
         /// <summary>
@@ -174,71 +174,82 @@ namespace Hymma.Solidworks.Addins
         /// <summary>   
         /// methode to invoke once user clicked on question mark button on property manager page
         /// </summary>
-        public Func<bool> OnHelp { get; set; }
+        public event Func<bool> HelpClicked;
 
         /// <summary>
         /// methode to invoke after the propety manager page is actaved
         /// </summary>
-        public Action OnAfterActivation { get; set; }
+        public event Action AfterActivation;
 
         /// <summary>
         /// methode to invoke after the propety manager page is closed
         /// </summary>
-        public Action OnAfterClose { get; set; }
+        public event Action AfterClose;
 
         /// <summary>
         /// methode to invoke while the property manager page is closing
         /// </summary>
-        public Action<PmpCloseReason> OnClose { get; set; }
+        public event Action<PmpCloseReason> Closing;
 
         /// <summary>
         /// methode to invoke when user goes to the previous page of a property manager page
         /// </summary>
-        public Func<bool> OnPreviousPage { get; set; }
+        public event Func<bool> PreviousPageClicked;
 
         /// <summary>
         /// methode to invoke when user goes to next page of a property manager page
         /// </summary>
-        public Func<bool> OnNextPage { get; set; }
+        public event Func<bool> NextPageClicked;
 
         /// <summary>
         /// methode to invoke when user previews the results 
         /// </summary>
-        public Func<bool> OnPreview { get; set; }
+        public event Func<bool> Preview;
 
         /// <summary>
         /// methode to invoke when user selects on Wahts new button
         /// </summary>
-        public Action OnWhatsNew { get; set; }
+        public event Action WhatsNewClicked;
 
         /// <summary>
         /// methode to invoke when user calls undo (ctrl+z)
         /// </summary>
-        public Action OnUndo { get; set; }
+        public event Action UndoClicked;
         /// <summary>
         /// methode to invoke when user Re-do something (ctrl+y)
         /// </summary>
-        public Action OnRedo { get; set; }
+        public event Action RedoClicked;
 
         /// <summary>
         /// fired once your addin is loaded or when solidworks starts up
         /// </summary>
-        public Action OnRegister { get; set; }
+        public event Action Registering;
 
         /// <summary>
         /// method to invoke when user clickes on a tab
         /// </summary>
-        public Func<int, bool> OnTabClicked { get; set; }
+        public event Func<int, bool> TabClicked;
 
         /// <summary>
         ///Processes a keystroke that occurred on this PropertyManager page
         /// </summary>
         /// <remarks><see cref="PmpUiModel.Options"/> should have the <see cref="PmpOptions.HandleKeystrokes"/> for this action to work</remarks>
-        public event EventHandler<PmpOnKeyStrokeEventArgs> OnKeyStroke;
+        public event EventHandler<PmpKeyStrokeEventArgs> KeyStroke;
         #endregion
 
         #region call backs
-        internal void Register(IPropertyManagerPage2 propertyManagerPage)
+        internal bool HelpClickedCallBack()=> HelpClicked != null && HelpClicked.Invoke();
+        internal void AfterActivationCallBack() => AfterActivation?.Invoke();
+        internal void AfterCloseCallBack() => AfterClose?.Invoke();
+        internal void WhatsNewClickedCallBack() => WhatsNewClicked?.Invoke();
+        internal void UndoClickedCallBack() => UndoClicked?.Invoke();
+        internal void RedoClickedCallBack() => RedoClicked?.Invoke();
+        internal void ClosingCallBack(int reason) => Closing?.Invoke((PmpCloseReason)reason);
+        internal bool PreviousPageClickedCallBack() => PreviousPageClicked != null && PreviousPageClicked.Invoke();
+        internal bool TabedClickedCallBack(int id) => TabClicked != null && TabClicked.Invoke(id);
+        internal bool PreviewCallBack() => Preview != null && Preview.Invoke();
+        internal bool NextPageClickedCallBack() => NextPageClicked != null && NextPageClicked.Invoke();
+        internal void RegisteringCallBack(IPropertyManagerPage2 propertyManagerPage)
         {
             SolidworksObject = propertyManagerPage;
 
@@ -252,7 +263,7 @@ namespace Hymma.Solidworks.Addins
 
             AllGroups = PmpTabs.SelectMany(t => t.TabGroups).Concat(PmpGroups);
             AllControls = AllGroups.SelectMany(g => g.Controls);
-            
+
             //update icon dir in the tabs and pmp controllers
             AllControls.ToList().ForEach(c => c.SharedIconsDir = IconDir);
             PmpTabs.ForEach(tab => tab.IconDir = IconDir);
@@ -261,15 +272,15 @@ namespace Hymma.Solidworks.Addins
             PmpGroups.ForEach(group => group.Register(propertyManagerPage));
             PmpTabs.ForEach(tab => tab.Register(propertyManagerPage));
 
-            OnRegister?.Invoke();
+            Registering?.Invoke();
         }
 
 
-        internal bool KeyStroke(int Wparam, int Message, int Lparam)
+        internal bool KeyStrokeCallBack(int Wparam, int Message, int Lparam)
         {
-            if (OnKeyStroke != null)
+            if (KeyStroke != null)
             {
-                OnKeyStroke.Invoke(this, new PmpOnKeyStrokeEventArgs(Wparam, Message, Lparam));
+                KeyStroke.Invoke(this, new PmpKeyStrokeEventArgs(Wparam, Message, Lparam));
                 return true;
             }
             return false;

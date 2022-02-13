@@ -35,7 +35,7 @@ namespace Hymma.Solidworks.Addins
                 SolidworksObject.Italic[StartChar, EndChar] = status;
             //otherwise assign value upon addin startup
             else
-                OnRegister += () => { SolidworksObject.Italic[StartChar, EndChar] = status; };
+                Registering += () => { SolidworksObject.Italic[StartChar, EndChar] = status; };
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.LineOffset[StartChar, EndChar] = offset;
             else
-                OnRegister += () => { SolidworksObject.LineOffset[StartChar, EndChar] = offset; };
+                Registering += () => { SolidworksObject.LineOffset[StartChar, EndChar] = offset; };
         }
 
         
@@ -83,7 +83,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.SizeRatio[StartChar, EndChar] = ratio;
             else
-                OnRegister += () => { SolidworksObject.SizeRatio[StartChar, EndChar] = ratio; };
+                Registering += () => { SolidworksObject.SizeRatio[StartChar, EndChar] = ratio; };
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.CharacterBackgroundColor[StartChar, EndChar] = RGB;
             else
-                OnRegister += () => { SolidworksObject.CharacterBackgroundColor[StartChar, EndChar] = RGB; };
+                Registering += () => { SolidworksObject.CharacterBackgroundColor[StartChar, EndChar] = RGB; };
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.CharacterColor[StartChar, EndChar] = RGB;
             else
-                OnRegister += () => { SolidworksObject.CharacterColor[StartChar, EndChar] = RGB; };
+                Registering += () => { SolidworksObject.CharacterColor[StartChar, EndChar] = RGB; };
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.Font[StartChar, EndChar] = font;
             else
-                OnRegister += () => { SolidworksObject.Font[StartChar, EndChar] = font; };
+                Registering += () => { SolidworksObject.Font[StartChar, EndChar] = font; };
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.Underline[StartChar, EndChar] = (int)style;
             else
-                OnRegister += () => { SolidworksObject.Underline[StartChar, EndChar] = (int)style; };
+                Registering += () => { SolidworksObject.Underline[StartChar, EndChar] = (int)style; };
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Hymma.Solidworks.Addins
 
                 //otherwise register the value once addin is loaded
                 else
-                    OnRegister += () => { SolidworksObject.Style = (int)value; };
+                    Registering += () => { SolidworksObject.Style = (int)value; };
             }
         }
 
@@ -179,22 +179,22 @@ namespace Hymma.Solidworks.Addins
 
             //otherwise do it when addin loaded (started)
             else
-                OnRegister += () => { SolidworksObject.Bold[start, end] = status; };
+                Registering += () => { SolidworksObject.Bold[start, end] = status; };
         }
 
         #region Callbacks
         /// <summary>
-        /// called <see cref="OnDisplay"/>
+        /// called <see cref="Displaying"/>
         /// </summary>
-        internal override void Display()
+        internal override void DisplayingCallback()
         {
-            OnDisplay?.Invoke(this, new Label_OnDisplayEventArgs(this));
+            Displaying?.Invoke(this, new PmpLabelDisplayingEventArgs(this));
         }
         #endregion
 
         /// <summary>
         /// raised a moment before this label is displayed in the property manager page
         /// </summary>
-        public new event Label_OnDisplayEventHandler OnDisplay;
+        public new event PmpLabelDisplayingEventHandler Displaying;
     }
 }

@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
-  <metadata>
-    <id>Hymma.Solidworks.Addins.Fluent</id>
-    <version>$version$</version>
-    <title>Fluent Addins for SOLIDWORKS</title>
-    <authors>HYMMA</authors>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <license type="expression">MIT</license>
-    <icon>lib\icon.jpg</icon>
-    <projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Addins.Fluent/</projectUrl>
-    <description>Framework to create Addins for SOLIDWORKS $year$ and later using fluent API.</description>
-    <releaseNotes>Initial release.</releaseNotes>
-    <copyright>$copyright$</copyright>
-    <tags>solidworks</tags>
-    <dependencies>
-		<group targetFramework=".NETFramework4.6.1" >
-			<dependency id="Hymma.Solidworks.Addins" version="18.0.1"></dependency>
-		</group>
-    </dependencies>
-  </metadata>
-  <files>
-    <file src="..\icon.jpg" target="lib"/>
-    <file src="bin\Release\Hymma.Solidworks.Addins.Fluent.dll" target="lib\net461\SOLIDWORKS_$year$"/>
-    <file src="bin\Release\Hymma.Solidworks.Addins.Fluent.xml" target="lib\net461\SOLIDWORKS_$year$"/>
-  </files>
+	<metadata minClientVersion="2.5">
+		<id>Hymma.Solidworks.Addins.Fluent</id>
+		<version>$year$.0.$rev$</version>
+		<title>Create addins for SOLIDWORKS using fluent API</title>
+		<authors>HYMMA</authors>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<license type="expression">MIT</license>
+		<icon>nugetIcon.png</icon>
+		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Addins.Fluent/</projectUrl>
+		<description>Framework to create Addins for SOLIDWORKS $year$ and later using fluent API.</description>
+		<releaseNotes>Initial release.</releaseNotes>
+		<copyright>HYMMA</copyright>
+		<tags>hymma solidworks cad addin fluent-API</tags>
+		<dependencies>
+			<group targetFramework=".NETFramework4.6.1" >
+				<dependency id="Hymma.Solidworks.Addins" version="2018.0.0"></dependency>
+			</group>
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="..\nugetIcon.png" target=""/>
+		<file src="tools\**" target="tools"/>
+		<file src="bin\Release\*.dll" target="lib\net461"/>
+		<file src="bin\Release\*.xml" target="lib\net461"/>
+		<file src="bin\Release\*.pdb" target="lib\net461"/>
+	</files>
 </package>

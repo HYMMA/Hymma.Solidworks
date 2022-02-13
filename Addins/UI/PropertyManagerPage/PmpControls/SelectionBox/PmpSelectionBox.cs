@@ -34,7 +34,7 @@ namespace Hymma.Solidworks.Addins
         /// <item>swSelSOLIDBODIES, swSelCOMPONENTS<description> ----- Component<br/>If you want a body to appear in the selection box, then use swSelSOLIDBODIESFIRST.</description></item>
         /// <item>swSelFACES, swSelSOLIDBODIES, swSelCOMPONENTS<description> ----- Component<br/>If you want a face to appear in the selection box, then use swSelCOMPSDONTOVERRIDE.<br/>If you want a body to appear in the selection box, then use swSelSOLIDBODIESFIRST.</description>
         /// </item>
-        /// swSelSURFACEBODIES and swSelSURFBODIESFIRST behave simliar to swSelSOLIDBODIES and swSelSOLIDBODIESFIRST. swSelEDGES and swSelVERTICES behave similar to swSelFACES. If the Filters is set to swSelNOTHING or swSelUNSUPPORTED, this the call to this method fails.
+        /// swSelSURFACEBODIES and swSelSURFBODIESFIRST behave similar to swSelSOLIDBODIES and swSelSOLIDBODIESFIRST. swSelEDGES and swSelVERTICES behave similar to swSelFACES. If the Filters is set to swSelNOTHING or swSelUNSUPPORTED, this the call to this method fails.
         /// </list>
         /// </param>
         /// <param name="allowMultipleSelectOfSameEntity">True if the same entity can be selected multiple times in this selection box, false if not</param>
@@ -50,11 +50,11 @@ namespace Hymma.Solidworks.Addins
             _style = (int)style;
             _allowMultipleSelectOfSameEntity = allowMultipleSelectOfSameEntity;
             _singleItemOnly = singleItemOnly;
-            OnRegister += PmpSelectionBox_OnRegister;
-            OnDisplay += PmpSelectionBox_OnDisplay;
+            Registering += PmpSelectionBox_OnRegister;
+            Displaying += PmpSelectionBox_OnDisplay;
         }
 
-        private void PmpSelectionBox_OnDisplay(PmpSelectionBox sender, SelBox_OnDisplay_EventArgs eventArgs)
+        private void PmpSelectionBox_OnDisplay(PmpSelectionBox sender, PmpSelectionBoxDisplayingEventArgs eventArgs)
         {
             eventArgs.Style = _style;
         }
@@ -80,40 +80,25 @@ namespace Hymma.Solidworks.Addins
                 }
             }
         }
-        internal void FocusChanged()
+        internal void FocusChangedCallback()=>FocusChanged?.Invoke(this);
+        internal void CallOutCreatedCallback() => CallOutCreated?.Invoke(this);
+        internal void CallOutDestroyedCallback() => CallOutDestroyed?.Invoke(this);
+        internal void ListChangedCallback(int count) => ListChanged?.Invoke(this, new PmpSelectionBoxListChangedEventArgs(count));
+        internal bool SubmitSelectionCallback(object selection, int selectType, string tag)
         {
-            OnFocusChanged?.Invoke(this);
-        }
-        internal void CallOutCreated()
-        {
-            OnCallOutCreated?.Invoke(this);
-        }
-        internal void CallOutDestroyed()
-        {
-            OnCallOutDestroyed?.Invoke(this);
-        }
-
-        internal void ListChanged(int count)
-        {
-            OnListChanged?.Invoke(this, new SelectionBox_OnListChanged_EventArgs(count));
-        }
-
-        internal bool SubmitSelection(object selection, int selectType, string tag)
-        {
-
             //since this must return true for selection to happen
-            //if user didnt set it up we return true to make sure 
+            //if user didn't set it up we return true to make sure 
             //addin works as expected
-            if (OnSubmitSelection == null)
+            if (SelectionSubmitted == null)
                 return true;
 
             //otherwise return whatever user has set up for it
-            return OnSubmitSelection.Invoke(this, new SelectionBox_OnSubmitSelection_EventArgs(selection, selectType, tag));
+            return SelectionSubmitted.Invoke(this, new PmpSelectionBoxSelectionSubmittedEventArgs(selection, selectType, tag));
         }
 
-        internal override void Display()
+        internal override void DisplayingCallback()
         {
-            OnDisplay?.Invoke(this, new SelBox_OnDisplay_EventArgs(this, _filters, _style, _allowMultipleSelectOfSameEntity, _singleItemOnly, _height));
+            Displaying?.Invoke(this, new PmpSelectionBoxDisplayingEventArgs(this, _filters, _style, _allowMultipleSelectOfSameEntity, _singleItemOnly, _height));
         }
         #endregion
 
@@ -149,7 +134,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.AllowMultipleSelectOfSameEntity = value;
                 else
-                    OnRegister += () => { SolidworksObject.AllowMultipleSelectOfSameEntity = value; };
+                    Registering += () => { SolidworksObject.AllowMultipleSelectOfSameEntity = value; };
             }
         }
 
@@ -350,24 +335,24 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// SOLIDWORKS will invoke this once focus is changed from this selection box
         /// </summary>
-        public event SelectionBox_EventHandler OnFocusChanged;
+        public event PmpSelectionBoxEventHandler FocusChanged;
 
         /// <summary>
         /// SOLIDWORKS will invoke this once a call-out is created for this selection box<br/>
         /// allows you to collect information such as the selection type from the last selection. Next, use the <see cref="Callout"/> property to get the Callout object. <br/>
         /// Then, use that object's various properties to control the callout text and display characteristics based on that selection information.
         /// </summary>
-        public event SelectionBox_EventHandler OnCallOutCreated;
+        public event PmpSelectionBoxEventHandler CallOutCreated;
 
         /// <summary>
         /// SOLIDWORKS will invoke this once a callout is destroyed
         /// </summary>
-        public event SelectionBox_EventHandler OnCallOutDestroyed;
+        public event PmpSelectionBoxEventHandler CallOutDestroyed;
 
         /// <summary>
         /// Regardless of how many items the user selects, this event is called only once per interactive box selection. In other words, if the user selects six faces using a box selection, this method is called only once. <br/>
         /// </summary>
-        public event SelectionBox_EventHandler<SelectionBox_OnListChanged_EventArgs> OnListChanged;
+        public event PmpSelectionBoxEventHandler<PmpSelectionBoxListChangedEventArgs> ListChanged;
 
         /// <summary>
         /// Called when a selection is made, which allows the add-in to accept or reject the selection. <strong>it must return <c>true</c> for selections to occure</strong><br/>
@@ -394,12 +379,12 @@ namespace Hymma.Solidworks.Addins
         ///The add-in should not be taking any action that might affect the model or the selection list.The add-in should only be querying information and then returning true/VARIANT_TRUE or false/VARIANT_FALSE.
         /// </para>
         /// </remarks>
-        public event SelectionBox_OnSubmitSelectionEventHandler OnSubmitSelection;
+        public event PmpSelectionBoxSelectionSubmittedEventHandler SelectionSubmitted;
 
         /// <summary>
         /// fired just a moment before the property manager page and its controls are displayed
         /// </summary>
-        public new event SelectionBox_EventHandler<SelBox_OnDisplay_EventArgs> OnDisplay;
+        public new event PmpSelectionBoxEventHandler<PmpSelectionBoxDisplayingEventArgs> Displaying;
         #endregion
     }
 }

@@ -27,7 +27,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="tip"></param>
         public PmpTextBase(swPropertyManagerPageControlType_e type, string caption = "", string tip = "") : base(type, caption, tip)
         {
-            OnRegister += () =>
+            Registering += () =>
             {
                 this.control = SolidworksObject as IPropertyManagerPageControl;
             };
@@ -62,7 +62,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    OnRegister += () =>
+                    Registering += () =>
                     {
                         //convert color to int 
                         control.BackgroundColor = ColorTranslator.ToWin32(value);
@@ -99,7 +99,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    OnRegister += () =>
+                    Registering += () =>
                     {
                         //convert color to int 
                         control.TextColor = ColorTranslator.ToWin32(value);

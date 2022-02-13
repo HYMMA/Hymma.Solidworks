@@ -68,9 +68,9 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         public void Activate()
         {
-            OnDisplay += () =>  SolidworksObject.Activate(); 
+            Displaying += () => SolidworksObject.Activate();
         }
-        
+
         internal void Register(IPropertyManagerPage2 propertyManagerPage)
         {
             string iconAddress = "";
@@ -83,7 +83,7 @@ namespace Hymma.Solidworks.Addins
                 {
                     try
                     {
-                        icon.Save(iconAddress,System.Drawing.Imaging.ImageFormat.Bmp);
+                        icon.Save(iconAddress, System.Drawing.Imaging.ImageFormat.Bmp);
                     }
                     catch (Exception)
                     {
@@ -97,16 +97,21 @@ namespace Hymma.Solidworks.Addins
         }
         #endregion
 
+        #region call back
+        internal void DisplayingCallback() => Displaying?.Invoke();
+        internal void ClickedCallback() => Clicked?.Invoke();
+        #endregion
+
         #region events
         /// <summary>
-        /// fires a moment before the the property manger page is displayed
+        /// fires a moment before the property manger page is displayed
         /// </summary>
-        public Action OnDisplay { get; set; }
+        public event Action Displaying;
 
         /// <summary>
         /// invoked once user clicked on this tab
         /// </summary>
-        public Action OnPress { get; set; }
+        public event Action Clicked;
 
         /// <summary>
         /// directory where this tab's main image get saved to

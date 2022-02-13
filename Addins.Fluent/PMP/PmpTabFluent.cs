@@ -38,7 +38,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         ///<inheritdoc/>
         public IPmpTabFluent OnClick(Action doThis)
         {
-            OnPress += doThis;
+            Clicked += doThis;
             return this;
         }
 
@@ -52,13 +52,13 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         /// <summary>
-        /// provide an <see cref="Action"/> that will be fired immidiately after this tab is displayed
+        /// provide an <see cref="Action"/> that will be fired immediately after this tab is displayed
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        public IPmpTabFluent OnDisplayed(Action action)
+        public IPmpTabFluent OnDisplaying(Action action)
         {
-            base.OnDisplay += action;
+            base.Displaying += action;
             return this;
         }
 

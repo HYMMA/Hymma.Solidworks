@@ -32,11 +32,5 @@ namespace Hymma.Solidworks.Addins
         /// gets or sets if this button is checked
         /// </summary>
         public bool Checked { get => SolidworksObject.Checked; set => SolidworksObject.Checked = value; }
-
-        /// <summary>
-        /// gets or sets if this button is clickable
-        /// <br/>This property is only meaningful and used by the SOLIDWORKS application when the bitmap button control is of type swControlType_CheckableBitmapButton
-        /// </summary>
-        public bool IsCheckable { get => SolidworksObject.IsCheckable; set => SolidworksObject.IsCheckable = value; }
     }
 }

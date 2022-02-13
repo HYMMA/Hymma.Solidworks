@@ -40,7 +40,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 result = SolidworksObject.InsertItem(item, text);
             else
-                OnRegister += () =>
+                Registering += () =>
                 {
                     result = SolidworksObject.InsertItem(item, text);
                 };
@@ -66,7 +66,7 @@ namespace Hymma.Solidworks.Addins
         ///</remarks>
         public void SetRange(NumberBoxUnit Units, double Minimum, double Maximum, bool Inclusive, double Increment, double fastIncrement, double slowIncrement)
         {
-            OnRegister += () =>
+            Registering += () =>
             {
                 SolidworksObject.SetRange2((int)Units, Minimum, Maximum, Inclusive, Increment, fastIncrement, slowIncrement);
             };
@@ -84,7 +84,7 @@ namespace Hymma.Solidworks.Addins
             }
             else
             {
-                OnRegister += () => { SolidworksObject.AddItems(items); };
+                Registering += () => { SolidworksObject.AddItems(items); };
             }
         }
 
@@ -105,7 +105,7 @@ namespace Hymma.Solidworks.Addins
             }
             else
             {
-                OnRegister += () => { SolidworksObject.SetSliderParameters(positionCount, divisionCount); };
+                Registering += () => { SolidworksObject.SetSliderParameters(positionCount, divisionCount); };
             }
         }
         #endregion
@@ -126,7 +126,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    OnRegister += () => { SolidworksObject.Value = value; };
+                    Registering += () => { SolidworksObject.Value = value; };
                 }
             }
         }
@@ -146,7 +146,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Height = value;
                 else
-                    OnRegister += () => { SolidworksObject.Height = value; };
+                    Registering += () => { SolidworksObject.Height = value; };
             }
         }
 
@@ -164,59 +164,46 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Style = (int)value;
                 else
-                    OnRegister += () => { SolidworksObject.Style = (int)value; };
+                    Registering += () => { SolidworksObject.Style = (int)value; };
             }
         }
 
-        ///// <summary>
-        ///// Gets or sets the unit type to display in this PropertyManager page number box. 
-        ///// </summary>
-        ///// <remarks> <see cref="DisplayedUnit "/>allows an add-in to have a number box that shows length values in inches, even though the system default units are meters.<br/>
-        ///// <see cref="DisplayedUnit "/> simply controls how that value is displayed in the PropertyManager page number box.
-        /////You can call this porperty and change the units displayed in a number box while a Propertymanager page is displayed.</remarks>
-        //public NumberBoxUnit DisplayedUnit
-        //{
-        //    get => _displayUnit;
-        //    set
-        //    {
-        //        _displayUnit = value;
+        /// <summary>
+        /// Gets or sets the unit type to display in this PropertyManager page number box. 
+        /// </summary>
+        /// <remarks> <see cref="DisplayedUnit "/>allows an add-in to have a number box that shows length values in inches, even though the system default units are meters.<br/>
+        /// <see cref="DisplayedUnit "/> simply controls how that value is displayed in the PropertyManager page number box.
+        ///You can call this porperty and change the units displayed in a number box while a Propertymanager page is displayed.</remarks>
+        public NumberBoxUnit DisplayedUnit
+        {
+            get => _displayUnit;
+            set
+            {
+                _displayUnit = value;
 
-        //        //if add-in is loaded already
-        //        if (SolidworksObject != null)
-        //            SolidworksObject.DisplayedUnit = (int)value;
+                //if add-in is loaded already
+                if (SolidworksObject != null)
+                    SolidworksObject.DisplayedUnit = (int)value;
 
-        //        //otherwise update the property when the control is loaded
-        //        else
-        //            OnRegister += () => { SolidworksObject.DisplayedUnit = (int)value; };
-        //    }
-        //}
+                //otherwise update the property when the control is loaded
+                else
+                    OnRegister += () => { SolidworksObject.DisplayedUnit = (int)value; };
+            }
+        }
         #endregion
 
 
         #region Call backs
-        internal void TextChanged(string text)
-        {
-            OnTextChanged?.Invoke(this, text);
-        }
+        internal void TextChangedCallback(string text) => TextChanged?.Invoke(this, text);
 
-        internal void Changed(double value)
-        {
-            OnChange?.Invoke(this, value);
-        }
+        internal void ChangedCallback(double value) => Changing?.Invoke(this, value);
 
-        internal override void Display()
-        {
-            OnDisplay?.Invoke(this, new NumberBox_Ondisplay_EventArgs(this));
-        }
+        internal override void DisplayingCallback()
+           => Displaying?.Invoke(this, new PmpNumberBoxDisplayingEventArgs(this));
 
-        internal void TrackComplete(double val)
-        {
-            OnTrackingComplete?.Invoke(this, val);
-        }
-        internal void SelectionChanged(int item)
-        {
-            OnSelectionChanged?.Invoke(this, SolidworksObject.ItemText[(short)item]);
-        }
+        internal void TrackingCompletedCallback(double val) => TrackingCompleted?.Invoke(this, val);
+        internal void SelectionChangedCallback(int item)
+         =>SelectionChanged?.Invoke(this, SolidworksObject.ItemText[(short)item]);
         #endregion
 
         #region events
@@ -224,28 +211,28 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// called when user changes the value in an number box by typing in a new value, solidworks will pass in the text that was entered
         /// </summary>
-        public event EventHandler<string> OnTextChanged;
+        public event EventHandler<string> TextChanged;
 
         /// <summary>
         /// fired when user changes the value via typing or clicking the up-arrow or down-arrow buttons to increment or decrement the value
         /// </summary>
-        /// <remarks>solidworks will pass in the double vlue upon change</remarks>
-        public event EventHandler<double> OnChange;
+        /// <remarks>solidworks will pass in the double value upon change</remarks>
+        public event EventHandler<double> Changing;
 
         /// <summary>
         /// Called when a user finishes changing the value in the number box on a PropertyManager page. 
         /// </summary>
-        public event EventHandler<double> OnTrackingComplete;
+        public event EventHandler<double> TrackingCompleted;
 
         /// <summary>
         /// fired when Style has <see cref="NumberBoxStyles.AvoidSelectionText"/> | <see cref="NumberBoxStyles.ComboEditBox"/> and user selects an item from the combo box
         /// </summary>
-        public event EventHandler<string> OnSelectionChanged;
+        public event EventHandler<string> SelectionChanged;
 
         /// <summary>
         /// fired a moment before this number box is displayed in a property manager page
         /// </summary>
-        public new event NumberBox_OnDisplay_EventHandler OnDisplay;
+        public new event PmpNumberBoxDisplayingEventHandler Displaying;
 
         #endregion
     }

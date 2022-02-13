@@ -23,11 +23,11 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// adds a tab to this property manager page
         /// </summary>
         /// <returns><see cref="IPmpUiModelFluent"/></returns>
-        /// <remarks>use this method to share a tab between different propertry manager pages</remarks>
+        /// <remarks>use this method to share a tab between different property manager pages</remarks>
         IPmpUiModelFluent AddTab<T>()where T : PmpTab, new();
 
         /// <summary>
-        /// Add a group that hosts controls in a properyt manager page 
+        /// Add a group that hosts controls in a property manager page 
         /// </summary>
         /// <param name="caption">caption of the group as appears in solidworks</param>
         /// <returns></returns>
@@ -41,39 +41,39 @@ namespace Hymma.Solidworks.Addins.Fluent
         IPmpGroupFluentCheckable AddCheckableGroup(string caption);
 
         /// <summary>
-        /// bitwise option as defined in <see cref="PmpOptions"/> default has okay, cancel, pushpin buttons and page build is disabled during handlers
+        /// bitwise option as defined in <see cref="PmpOptions"/> default has okay, cancel, push-pin buttons and page build is disabled during handlers
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
         IPmpUiModelFluent WithPmpOptions(PmpOptions options);
 
         /// <summary>
-        /// define void() to invoke after the propety manager page is closed
+        /// define void() to invoke after the property manager page is closed
         /// </summary>
         /// <param name="doThis">void to invoke</param>
         /// <returns></returns>
-        IPmpUiModelFluent AfterClose(Action doThis);
+        IPmpUiModelFluent OnAfterClose(Action doThis);
 
         /// <summary>
         ///Processes a keystroke that occurred on this PropertyManager page
         /// </summary>
         /// <param name="doThis">Action that takes two params, first one is the sender which would be the <see cref="PmpUiModel"/> and second one is the event argument for this keystroke</param>
         /// <remarks><see cref="WithPmpOptions(PmpOptions)"/> should have the <see cref="PmpOptions.HandleKeystrokes"/> for this action to work</remarks>
-        IPmpUiModelFluent OnKeyStroke(EventHandler<PmpOnKeyStrokeEventArgs> doThis);
+        IPmpUiModelFluent OnKeyStroke(EventHandler<PmpKeyStrokeEventArgs> doThis);
 
         /// <summary>
         /// Action to invoke while the property manger page is closing
         /// </summary>
         /// <param name="doThis"></param>
         /// <returns></returns>
-        IPmpUiModelFluent WhileClosing(Action<PmpCloseReason> doThis);
+        IPmpUiModelFluent OnClosing(Action<PmpCloseReason> doThis);
 
         /// <summary>
         /// action to take after the property manager page is activated
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        IPmpUiModelFluent AfterActivation(Action action);
+        IPmpUiModelFluent OnAfterActivation(Action action);
 
         /// <summary>
         ///Sets the cursor after a selection is made in the SOLIDWORKS graphics area.
@@ -100,7 +100,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         IPmpUiModelFluent WithIconInTitle(Bitmap icon);
 
         /// <summary>
-        ///  Adds a menu item to the pop-up menu for this PropertyManager page. that appears in  the right mouse menue button while thie proepryt manager page is displayed 
+        ///  Adds a menu item to the pop-up menu for this PropertyManager page. that appears in  the right mouse menu button while the property manager page is displayed 
         /// </summary>
         IPmpUiModelFluent AddMenuePopUpItem(PopUpMenueItem item);
 
