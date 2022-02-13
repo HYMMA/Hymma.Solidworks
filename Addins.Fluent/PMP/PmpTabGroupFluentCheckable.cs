@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Hymma.Solidworks.Addins.Fluent
 {
     /// <summary>
-    /// a checkeckable group inside a tab inside a property manager page
+    /// a checkable group inside a tab inside a property manager page
     /// </summary>
     public class PmpTabGroupFluentCheckable : PmpGroupCheckable, IPmpTabGroupFluentCheckable
     {
@@ -32,9 +32,9 @@ namespace Hymma.Solidworks.Addins.Fluent
             return this;
         }
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable AndOnExpansionChange(Action<PmpGroup, bool> doThis)
+        public IPmpTabGroupFluentCheckable OnExpansionChange(Action<PmpGroup, bool> doThis)
         {
-            OnGroupExpand += (sender, e) => doThis?.Invoke((PmpGroup)sender, e);
+            this.Expanded += (sender, e) => doThis?.Invoke((PmpGroup)sender, e);
             return this;
         }
 
@@ -60,9 +60,9 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable IsExpanded(bool isExpanded = true)
+        public IPmpTabGroupFluentCheckable SetExpansion(bool isExpanded = true)
         {
-            Expanded = isExpanded;
+            IsExpanded = isExpanded;
             return this;
         }
 
@@ -86,23 +86,23 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable Checked(bool status = true)
+        public IPmpTabGroupFluentCheckable SetCheckedStatus(bool status = true)
         {
             base.IsChecked = status;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable WhenChecked(EventHandler<bool> doThis)
+        public IPmpTabGroupFluentCheckable OnChecked(EventHandler<bool> doThis)
         {
-            OnGroupCheck += doThis;
+            this.Checked += doThis;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable WhenDisplayed(EventHandler doThis)
+        public IPmpTabGroupFluentCheckable OnDisplaying(EventHandler doThis)
         {
-            OnDisplay += doThis;
+            Displaying += doThis;
             return this;
         }
     }

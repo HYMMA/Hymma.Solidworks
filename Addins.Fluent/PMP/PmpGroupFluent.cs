@@ -12,8 +12,8 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// <summary>
         /// default constructor
         /// </summary>
-        /// <param name="caption">caption of thie control inside the pmp</param>
-        /// <param name="expanded">exapnsion state of the group upon load</param>
+        /// <param name="caption">caption of the control inside the PMP</param>
+        /// <param name="expanded">expansion state of the group upon load</param>
         public PmpGroupFluent(string caption, bool expanded) : base(caption, expanded)
         {
 
@@ -35,16 +35,16 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         /// <inheritdoc/>
-        public IPmpGroupFluent IsExpanded(bool isExpanded = true)
+        public IPmpGroupFluent SetExpansion(bool isExpanded = true)
         {
-            Expanded = isExpanded;
+            IsExpanded = isExpanded;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpGroupFluent AndOnExpansionChange(Action<PmpGroup, bool> doThis)
+        public IPmpGroupFluent OnExpansionChange(Action<PmpGroup, bool> doThis)
         {
-            OnGroupExpand += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
+            this.Expanded += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
             return this;
         }
 
