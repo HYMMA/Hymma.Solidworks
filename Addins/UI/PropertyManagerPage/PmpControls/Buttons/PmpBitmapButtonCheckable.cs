@@ -14,7 +14,6 @@ namespace Hymma.Solidworks.Addins
         public PmpBitmapButtonCheckable(BitmapButtons standardBitmap, string tip) : base(standardBitmap, tip)
         {
             Type = swPropertyManagerPageControlType_e.swControlType_CheckableBitmapButton;
-           Registering+=()=> SolidworksObject.IsCheckable = true;
         }
 
         /// <summary>
@@ -27,7 +26,6 @@ namespace Hymma.Solidworks.Addins
         public PmpBitmapButtonCheckable(Bitmap bitmap,  string tip, BtnSize iconSizes, byte opacity) : base(bitmap,tip, iconSizes, opacity)
         {
             Type = swPropertyManagerPageControlType_e.swControlType_CheckableBitmapButton;
-            Registering += () => SolidworksObject.IsCheckable= true;
         }
 
         /// <summary>
