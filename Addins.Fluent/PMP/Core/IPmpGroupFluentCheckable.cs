@@ -18,20 +18,20 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="status"></param>
         /// <returns></returns>
-        IPmpGroupFluentCheckable Checked(bool status = true);
+        IPmpGroupFluentCheckable SetCheckStatus(bool status = true);
 
         /// <summary>
         /// fires when user check/un-check the gourp check box
         /// </summary>
         /// <param name="doThis"></param>
         /// <returns><see cref="PmpGroupCheckable"/></returns>
-        IPmpGroupFluentCheckable WhenChecked(EventHandler<bool> doThis);
+        IPmpGroupFluentCheckable OnChecked(EventHandler<bool> doThis);
 
         /// <summary>
         /// fires when this group is displayed on the screen
         /// </summary>
         /// <param name="doThis"></param>
         /// <returns></returns>
-        IPmpGroupFluentCheckable WhenDisplayed(EventHandler doThis);
+        IPmpGroupFluentCheckable OnDisplaying(EventHandler doThis);
     }
 }

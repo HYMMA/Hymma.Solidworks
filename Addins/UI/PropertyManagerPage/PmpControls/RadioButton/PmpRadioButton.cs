@@ -36,7 +36,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Checked = value;
                 else
-                    OnRegister += () => { SolidworksObject.Checked = value; };
+                    Registering += () => { SolidworksObject.Checked = value; };
             }
         }
 
@@ -56,7 +56,7 @@ namespace Hymma.Solidworks.Addins
                 _maintain = value;
                 if (_maintain)
                 {
-                    OnDisplay += (sender, e) =>
+                    Displaying += (sender, e) =>
                     {
                         var radioButton = sender as PmpRadioButton;
                         radioButton.IsChecked = _isChecked;
@@ -67,17 +67,14 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        internal void Checked()
-        {
-            OnChecked?.Invoke(this, EventArgs.Empty);
-        }
+        internal void CheckedCallback() =>Checked?.Invoke(this, EventArgs.Empty);
         #endregion
 
         #region events
         /// <summary>
         /// SOLIDWORKS will invoke this delegate once the user checks this radio button
         /// </summary>
-        public EventHandler OnChecked;
+        public EventHandler Checked;
         private bool _maintain;
         #endregion
     }

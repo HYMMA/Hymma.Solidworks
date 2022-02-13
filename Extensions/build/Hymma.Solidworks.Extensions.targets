@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- register to COM -->
+    <!-- <Target Name="AfterBuild" Condition="'$(OutputType)' == 'Library' AND '$(SignAssembly)'=='true'">
+        <RegisterAssembly CreateCodeBase="true" Assemblies="$(TargetPath)" />
+    </Target>
+
+    <Target AfterTargets="Build" Name="ShowError" Condition="'$(OutputType)' != 'Library' or '$(SignAssembly)' != 'true' ">
+        <Error Text="A project should be of type ClassLibrary and signed to be used in a SOLIDWORKS addin. We could not COM register '$(TargetPath)'" />
+    </Target> -->
+
+    <!-- unregister from COM -->
+    <!-- <Target Name="BeforeClean"> -->
+        <!-- <UnregisterAssembly Assemblies="$(TargetPath)" /> -->
+    <!-- </Target> -->
+
+    <!-- unregister from COM -->
+    <Target Name="BeforeClean" Condition="'$(OutputType)' == 'Library'">
+        <Exec Command="regsvr32 &quot;$(TargetDir)$(TargetName).comhost.dll&quot; /u /s" IgnoreExitCode="true" Condition="Exists('$(TargetDir)$(TargetName).comhost.dll') And '$(TargetFramework)' != '' And '$(TargetFramework.Substring(0, 4))' == 'netc' And '$(EnableComHosting)' == 'true'"/>
+        <Exec Command="%windir%\Microsoft.NET\Framework64\v4.0.30319\RegAsm.exe &quot;$(TargetPath)&quot; /u" IgnoreExitCode="true" Condition="Exists('$(TargetPath)') And ('$(TargetFramework)' == '' Or '$(TargetFramework.Substring(0, 4))' != 'netc')" />
+    </Target>
+
+    <!-- register to COM -->
+    <Target Name="AfterBuild" Condition="'$(OutputType)' == 'Library' ">
+        <Exec Command="regsvr32 &quot;$(TargetDir)$(TargetName).comhost.dll&quot; /s" Condition="'$(TargetFramework)' != '' And '$(TargetFramework.Substring(0, 4))' == 'netc' And '$(EnableComHosting)' == 'true'" />
+          <Exec Command="%windir%\Microsoft.NET\Framework64\v4.0.30319\RegAsm.exe &quot;$(TargetPath)&quot; /codebase" Condition="Exists('$(TargetPath)') And ('$(TargetFramework)' == '' Or '$(TargetFramework.Substring(0, 4))' != 'netc')" />
+      </Target>
+</Project>

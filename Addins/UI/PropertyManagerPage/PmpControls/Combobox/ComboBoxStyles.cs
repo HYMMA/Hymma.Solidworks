@@ -23,7 +23,7 @@
         EditBoxReadOnly = 4,
 
         /// <summary>
-        /// The item the user selects in the attached drop-down list does not appear in the combo box. Instead, the user's selection causes the add-in to get a callback via <see cref="PmpComboBox.OnSelectionChanged"/>
+        /// The item the user selects in the attached drop-down list does not appear in the combo box. Instead, the user's selection causes the add-in to get a callback via <see cref="PmpComboBox.SelectionChanged"/>
         /// </summary>
         AvoidSelectionText = 8
     }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30523.141
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Addins", "Addins\Hymma.Solidworks.Addins.csproj", "{86B8E368-880D-4169-BA19-60A84D3F6FB3}"
 EndProject
@@ -10,13 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingNuget", "TestingNuget\TestingNuget.csproj", "{A254B320-7283-473D-A980-0E543F098803}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Extensions", "Extensions\Hymma.Solidworks.Extensions.csproj", "{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Addins.Fluent", "Addins.Fluent\Hymma.Solidworks.Addins.Fluent.csproj", "{6100467F-2C52-4DDA-820C-40729B0C1529}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Addin.SolidWorks", "..\Hymma Addin For Solidworks\Hymma.Addin.SolidWorks\Hymma.Addin.SolidWorks.csproj", "{429244A6-4711-40F0-A6E9-0D696B03ABA1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidwork.Interop", "Interop\Hymma.Solidwork.Interop.csproj", "{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,14 +32,6 @@ Global
 		{86B8E368-880D-4169-BA19-60A84D3F6FB3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{86B8E368-880D-4169-BA19-60A84D3F6FB3}.Release|x64.ActiveCfg = Release|Any CPU
 		{86B8E368-880D-4169-BA19-60A84D3F6FB3}.Release|x64.Build.0 = Release|Any CPU
-		{A254B320-7283-473D-A980-0E543F098803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A254B320-7283-473D-A980-0E543F098803}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A254B320-7283-473D-A980-0E543F098803}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{A254B320-7283-473D-A980-0E543F098803}.Debug|x64.Build.0 = Debug|Any CPU
-		{A254B320-7283-473D-A980-0E543F098803}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A254B320-7283-473D-A980-0E543F098803}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A254B320-7283-473D-A980-0E543F098803}.Release|x64.ActiveCfg = Release|Any CPU
-		{A254B320-7283-473D-A980-0E543F098803}.Release|x64.Build.0 = Release|Any CPU
 		{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -58,14 +48,14 @@ Global
 		{6100467F-2C52-4DDA-820C-40729B0C1529}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6100467F-2C52-4DDA-820C-40729B0C1529}.Release|x64.ActiveCfg = Release|Any CPU
 		{6100467F-2C52-4DDA-820C-40729B0C1529}.Release|x64.Build.0 = Release|Any CPU
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Debug|x64.ActiveCfg = Debug|x64
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Debug|x64.Build.0 = Debug|x64
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Release|x64.ActiveCfg = Release|x64
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Release|x64.Build.0 = Release|x64
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Debug|x64.Build.0 = Debug|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Release|x64.ActiveCfg = Release|Any CPU
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

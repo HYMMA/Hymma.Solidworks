@@ -12,10 +12,10 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// <summary>
         /// default constructor
         /// </summary>
-        /// <param name="caption">caption of thie control inside the pmp</param>
+        /// <param name="caption">caption of the control inside the PMP</param>
         /// <param name="visible"></param>
         /// <param name="isChecked"></param>
-        /// <param name="expanded">exapnsion state of the group upon load</param>
+        /// <param name="expanded">expansion state of the group upon load</param>
         public PmpGroupFluentCheckable(string caption, bool visible = true, bool isChecked = true, bool expanded = true) : base(caption, visible, isChecked, expanded)
         {
 
@@ -37,16 +37,16 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         /// <inheritdoc/>
-        public IPmpGroupFluentCheckable IsExpanded(bool isExpanded = true)
+        public IPmpGroupFluentCheckable SetExpansion(bool isExpanded = true)
         {
-            Expanded = isExpanded;
+            IsExpanded = isExpanded;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpGroupFluentCheckable AndOnExpansionChange(Action<PmpGroup, bool> doThis)
+        public IPmpGroupFluentCheckable OnExpansionChange(Action<PmpGroup, bool> doThis)
         {
-            OnGroupExpand += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
+            Expanded += (sender, e) => { doThis?.Invoke((PmpGroup)sender, e); };
             return this;
         }
 
@@ -90,23 +90,23 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IPmpGroupFluentCheckable Checked(bool status = true)
+        public IPmpGroupFluentCheckable SetCheckStatus(bool status = true)
         {
             base.IsChecked = status;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpGroupFluentCheckable WhenChecked(EventHandler<bool> doThis)
+        public IPmpGroupFluentCheckable OnChecked(EventHandler<bool> doThis)
         {
-            base.OnGroupCheck += doThis;
+            base.Checked += doThis;
             return this;
         }
 
         ///<inheritdoc/>
-        public IPmpGroupFluentCheckable WhenDisplayed(EventHandler doThis)
+        public IPmpGroupFluentCheckable OnDisplaying(EventHandler doThis)
         {
-            OnDisplay += doThis;
+            Displaying += doThis;
             return this;
         }
     }

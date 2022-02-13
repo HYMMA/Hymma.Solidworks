@@ -22,8 +22,8 @@ namespace Hymma.Solidworks.Addins
         /// <param name="tip">tip of the controller</param>
         public PmpWinFormContoller(int height, string caption = "", string tip = "") : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_WindowFromHandle, caption, tip)
         {
-            OnRegister += () => SolidworksObject.Height = height;
-            OnDisplay += (s, e) =>
+            Registering += () => SolidworksObject.Height = height;
+            Displaying += (s, e) =>
             {
                 UiController = Activator.CreateInstance(typeof(T)) as T;
                 SolidworksObject?.SetWindowHandlex64(UiController.Handle.ToInt64());
@@ -37,7 +37,7 @@ namespace Hymma.Solidworks.Addins
             set
             {
                 base.Enabled = value;
-                OnDisplay += (s, e) => UiController.Enabled = value;
+                Displaying += (s, e) => UiController.Enabled = value;
             }
         }
     }

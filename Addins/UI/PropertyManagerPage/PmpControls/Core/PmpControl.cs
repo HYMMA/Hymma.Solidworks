@@ -17,13 +17,12 @@ namespace Hymma.Solidworks.Addins
         public PmpControl(swPropertyManagerPageControlType_e type, string caption = "", string tip = "")
             : base(type, caption, tip)
         {
-            OnRegister += () =>
+            Registering += () =>
             {
                 SolidworksObject = (T)Control;
             };
         }
         #endregion
-
         ///<inheritdoc/>
         public T SolidworksObject { get; internal set; }
     }

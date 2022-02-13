@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
-  <metadata>
+  <metadata minClientVersion="2.5">
     <id>Hymma.Solidworks.Extensions</id>
-    <version>$version$</version>
+    <version>$year$.0.$rev$</version>
     <title>SOLIDWORKS API Extensions by HYMMA</title>
     <authors>HYMMA</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
-    <icon>lib\icon.jpg</icon>
+    <icon>nugetIcon.png</icon>
     <projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Extensions/</projectUrl>
     <description>Extension and helper methods for SOLIDWORKS $year$ and later.</description>
     <releaseNotes>not exporting types for COM interop but the assembly is COM visible</releaseNotes>
-    <copyright>$copyright$</copyright>
-    <tags>solidworks</tags>
+    <tags>cad solidworks hymma</tags>
     <dependencies>
 		<group targetFramework=".NETFramework4.6.1" >
-			<dependency id="SOLIDWORKS.DLLs.2018" version="1.0.3"></dependency>
+			<dependency id="Hymma.Solidworks.Interop" version="2018.0.0"></dependency>
 		</group>
     </dependencies>
   </metadata>
   <files>
-    <file src="..\icon.jpg" target="lib"/>
-    <file src="bin\Release\*.dll" target="lib\net461\SOLIDWORKS_$year$"/>
+    <file src="..\nugetIcon.png" target=""/>
+    <file src="build\**.targets" target="build"/>
+    <file src="tools\**" target="tools"/>
+    <file src="bin\Release\*.xml" target="lib\net461"/>
+    <file src="bin\Release\*.dll" target="lib\net461"/>
+    <file src="bin\Release\*.pdb" target="lib\net461"/>
   </files>
 </package>

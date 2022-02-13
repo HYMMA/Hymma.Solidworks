@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Target Name="sldworks" AfterTargets="ResolveReferences" BeforeTargets="FindReferenceAssembliesForReferences">
+		<ItemGroup>
+			<ReferencePath Condition="'%(FileName)' == 'SolidWorks.Interop.sldworks' ">
+				<EmbedInteropTypes>False</EmbedInteropTypes>
+			</ReferencePath>
+		</ItemGroup>
+	</Target>
+	<Target Name="swpublished" AfterTargets="ResolveReferences" BeforeTargets="FindReferenceAssembliesForReferences">
+		<ItemGroup>
+			<ReferencePath Condition="'%(FileName)' == 'SolidWorks.Interop.swpublished' ">
+				<EmbedInteropTypes>False</EmbedInteropTypes>
+			</ReferencePath>
+		</ItemGroup>
+	</Target>
+	<Target Name="swconst" AfterTargets="ResolveReferences" BeforeTargets="FindReferenceAssembliesForReferences">
+		<ItemGroup>
+			<ReferencePath Condition="'%(FileName)' == 'SolidWorks.Interop.swconst' ">
+				<EmbedInteropTypes>False</EmbedInteropTypes>
+			</ReferencePath>
+		</ItemGroup>
+	</Target>
+</Project>
