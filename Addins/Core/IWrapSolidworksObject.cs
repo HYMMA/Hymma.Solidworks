@@ -1,6 +1,4 @@
-﻿using SolidWorks.Interop.sldworks;
-
-namespace Hymma.Solidworks.Addins
+﻿namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// an interface for classes that hide a native solidworks object

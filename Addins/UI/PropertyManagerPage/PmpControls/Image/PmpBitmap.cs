@@ -1,5 +1,4 @@
 ﻿using SolidWorks.Interop.sldworks;
-using System;
 using System.Drawing;
 using System.IO;
 

@@ -4,8 +4,6 @@ using SolidWorks.Interop.swconst;
 using System;
 using System.Drawing;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Hymma.Solidworks.Addins
 {
