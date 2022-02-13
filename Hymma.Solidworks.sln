@@ -16,8 +16,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Addins.Flu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidwork.Interop", "Interop\Hymma.Solidwork.Interop.csproj", "{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Addin.SolidWorks", "..\Hymma Addin For Solidworks\Hymma.Addin.SolidWorks\Hymma.Addin.SolidWorks.csproj", "{429244A6-4711-40F0-A6E9-0D696B03ABA1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,14 +56,6 @@ Global
 		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Release|x64.ActiveCfg = Release|Any CPU
 		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Release|x64.Build.0 = Release|Any CPU
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Debug|x64.ActiveCfg = Debug|x64
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Debug|x64.Build.0 = Debug|x64
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Release|x64.ActiveCfg = Release|x64
-		{429244A6-4711-40F0-A6E9-0D696B03ABA1}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
