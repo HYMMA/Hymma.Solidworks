@@ -36,6 +36,9 @@ namespace Hymma.Solidworks.Addins
             AddItems(items);
             Style = _style;
             Height = _height;
+            
+            //this removed the empty string added to index 0 of Items
+            Clear();
             Displaying += PmpComboBox_OnDisplay;
         }
 
