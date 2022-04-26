@@ -28,10 +28,11 @@ namespace Hymma.Solidworks.Extensions
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public int GetHashCode(Component2 obj)
-        {
-            var code = obj.GetPathName() + obj.ReferencedConfiguration + obj.IsEnvelope().ToString() + obj.IsSuppressed().ToString() + obj.ExcludeFromBOM.ToString();
-            return code.GetHashCode();
-        }
+        public int GetHashCode(Component2 obj)=>
+            obj.GetPathName().GetHashCode() ^ 
+            obj.ReferencedConfiguration.GetHashCode() ^ 
+            obj.IsEnvelope().ToString().GetHashCode() ^ 
+            obj.IsSuppressed().ToString().GetHashCode() ^ 
+            obj.ExcludeFromBOM.ToString().GetHashCode();
     }
 }
