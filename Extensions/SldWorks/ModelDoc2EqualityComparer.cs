@@ -24,11 +24,8 @@ namespace Hymma.Solidworks.Extensions
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public int GetHashCode(ModelDoc2 obj)
-        {
-            var code = obj.GetPathName() + obj.ConfigurationManager.ActiveConfiguration.Name;
-            return code.GetHashCode();
-        }
+        public int GetHashCode(ModelDoc2 obj)=>
+             obj.GetPathName().GetHashCode() ^ obj.ConfigurationManager.ActiveConfiguration.Name.GetHashCode();
     }
     
 }
