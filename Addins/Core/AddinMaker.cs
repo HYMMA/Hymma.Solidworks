@@ -68,17 +68,17 @@ namespace Hymma.Solidworks.Addins
         #region Public Properties
 
         /// <summary>
-        /// solidowrks object
+        /// solidworks object
         /// </summary>
         public ISldWorks Solidworks { get; set; }
 
         #endregion
 
-        #region com register/un-register
+        #region com register/unregister
         /// <summary>
         /// registers <see cref="Type"/> provided to COM so solidworks can find it
         /// </summary>
-        /// <param name="t">type of class that inherrits from  <see cref="AddinMaker"/></param>
+        /// <param name="t">type of class that inherits from  <see cref="AddinMaker"/></param>
         [ComRegisterFunction]
         public static void BaseRegisterFunction(Type t)
         {
@@ -115,11 +115,11 @@ namespace Hymma.Solidworks.Addins
             catch (MissingManifestResourceException e)
             {
                 Log($"Error! it seems the resource {addinAttribute.AddinIcon} was not found." +
-                    $" this happens when the string provided for the resourse is not correct or the resourse not in the Properties Folder of the project. \n {e.Message}");
+                    $" this happens when the string provided for the resource is not correct or the resource not in the Properties Folder of the project. \n {e.Message}");
             }
             catch (System.NullReferenceException e)
             {
-                Log($"Error! There was a problem registering this dll: addinModel is null. \n\"" + e.Message + "\"");
+                Log($"Error! There was a problem registering this library: addinModel is null. \n\"" + e.Message + "\"");
             }
 
             catch (System.Exception e)
@@ -129,7 +129,7 @@ namespace Hymma.Solidworks.Addins
         }
 
         /// <summary>
-        /// unregisters the addin once un-installed or when the project is cleaned
+        /// unregisters the addin once removed or when the project is cleaned
         /// </summary>
         /// <param name="t"></param>
         [ComUnregisterFunction]
@@ -147,7 +147,7 @@ namespace Hymma.Solidworks.Addins
                     keyname = "Software\\SolidWorks\\AddInsStartup\\{" + t.GUID.ToString() + "}";
                     Registry.CurrentUser.DeleteSubKey(keyname);
 
-                    Log("Unregister sucessful");
+                    Log("Unregister successful");
                     //UnRegisterLogger(swAttr.Title);
 
                 }
@@ -156,13 +156,13 @@ namespace Hymma.Solidworks.Addins
                     Log(nl.Message);
 
                     //TODO:log this
-                    Console.WriteLine("Error! There was a problem unregistering this dll: " + nl.Message);
+                    Console.WriteLine("Error! There was a problem unregistering this library: " + nl.Message);
                 }
                 catch (System.Exception e)
                 {
                     //TODO:log this
                     Log(e.Message);
-                    Console.WriteLine("Error! There was a problem unregistering this dll: " + e.Message);
+                    Console.WriteLine("Error! There was a problem unregistering this library: " + e.Message);
                 }
         }
 
@@ -320,7 +320,7 @@ namespace Hymma.Solidworks.Addins
         public event EventHandler<OnConnectToSwEventArgs> OnStart;
 
         /// <summary>
-        /// event that fires when user un-loads the addin (example when user un-checks the addin from the list of addins)
+        /// event that fires when user unloads the addin (example when user unchecked the addin from the list of addins)
         /// </summary>
         public event EventHandler<OnConnectToSwEventArgs> OnExit;
         #endregion
@@ -359,7 +359,7 @@ namespace Hymma.Solidworks.Addins
         public static DirectoryInfo GetIconsDir()
         {
             //directory should be a folder where user has access to at all times
-            //because we make icons for commands everytime solidworks starts
+            //because we make icons for commands every time solidworks starts
             string localApp = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
             try
@@ -405,7 +405,7 @@ namespace Hymma.Solidworks.Addins
     public class OnConnectToSwEventArgs : EventArgs
     {
         /// <summary>
-        /// solidowrks object
+        /// solidworks object
         /// </summary>
         public ISldWorks solidworks { get; set; }
 
