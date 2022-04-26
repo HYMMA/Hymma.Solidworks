@@ -41,16 +41,16 @@ namespace Hymma.Solidworks.Extensions
         /// <returns></returns>
         public static ModelDoc2 GetModel(this SldWorks solidworks, string modelPathName, string configuration)
         {
-            if (String.IsNullOrEmpty(configuration))
-                throw new Exception("A configuration was empty so we could not open the document");
-
             //Determine the type of SOLIDWORKS file based on
             // its filename extension
-            var doctype = (int)solidworks.GetModelType(modelPathName);
+            var doctype = solidworks.GetModelType(modelPathName);
+            if (string.IsNullOrEmpty(configuration) && doctype != swDocumentTypes_e.swDocDRAWING)
+                throw new Exception("A configuration was empty so we could not open the document");
+
             int error = 0;
             int warning = 0;
             return solidworks.OpenDoc6(modelPathName
-                , doctype
+                , ((int)doctype)
                 , (int)swOpenDocOptions_e.swOpenDocOptions_Silent
                 , configuration
                 , ref error, ref warning);
