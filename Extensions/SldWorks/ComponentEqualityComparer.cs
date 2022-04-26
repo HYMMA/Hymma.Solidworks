@@ -12,7 +12,7 @@ namespace Hymma.Solidworks.Extensions
         /// determine if two <see cref="Component2"/> are equal or not
         /// </summary>
         /// <param name="x">first component</param>
-        /// <param name="y">secont component</param>
+        /// <param name="y">second component</param>
         /// <returns></returns>
         public bool Equals(Component2 x, Component2 y)
         {
@@ -24,7 +24,7 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// returns the hashcode for this object
+        /// returns the hash code for this object
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
