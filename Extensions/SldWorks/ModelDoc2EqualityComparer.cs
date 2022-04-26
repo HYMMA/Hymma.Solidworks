@@ -4,12 +4,12 @@ using System.Collections.Generic;
 namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
-    /// provides equality comparision for <see cref="ModelDoc2"/>
+    /// provides equality comparison for <see cref="ModelDoc2"/>
     /// </summary>
     public class ModelDoc2EqualityComparer : IEqualityComparer<ModelDoc2>
     {
         /// <summary>
-        /// determin if two <see cref="ModelDoc2"/> are equla or not
+        /// determine if two <see cref="ModelDoc2"/> are equal or not
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
@@ -20,7 +20,7 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// return a hashcode for this <see cref="ModelDoc2"/> object
+        /// return a hash code for this <see cref="ModelDoc2"/> object
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
