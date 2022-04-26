@@ -31,7 +31,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// identifier for this addin assigned by SOLIDWORKS    
         /// </summary>
-        protected int addinCookie;
+        //protected int addinCookie;
 
         /// <summary>
         /// command manager for this addin assigned by SOLIDWORKS
@@ -220,7 +220,7 @@ namespace Hymma.Solidworks.Addins
             Solidworks = null;
 
             //fire event
-            OnExit?.Invoke(this, new OnConnectToSwEventArgs { solidworks = Solidworks, cookie = addinCookie });
+            OnExit?.Invoke(this, new OnConnectToSwEventArgs { solidworks = Solidworks, cookie = _addinUi.Id });
 
             //The addin _must_ call GC.Collect() here in order to retrieve all managed code pointers 
             GC.Collect();
@@ -243,11 +243,11 @@ namespace Hymma.Solidworks.Addins
             Log("connecting to solidworks from Addin maker base class");
             Solidworks = (ISldWorks)ThisSW;
             _addinUi = GetUserInterFace();
-            addinCookie = Cookie;
+            _addinUi.Id = Cookie;
 
-            Log($"addin cookie is  {addinCookie} ");
+            Log($"addin cookie is  {_addinUi.Id} ");
             //Setup callbacks
-            Solidworks.SetAddinCallbackInfo2(0, this, addinCookie);
+            Solidworks.SetAddinCallbackInfo2(0, this, _addinUi.Id);
 
             Log("setting up Addin Model");
 
