@@ -50,7 +50,7 @@ namespace Hymma.Solidworks.Extensions
         /// <param name="swDocumentTypes">documents of this type will be returned</param>
         /// <param name="topLevelOnly">if set to false will return all the components of this assembly and its sub assemblies</param>
         /// <returns></returns>
-        public static IList<Component2> GetDistinctComponentsOfType(this AssemblyDoc assembly, swDocumentTypes_e swDocumentTypes, bool topLevelOnly = false)
+        public static IEnumerable<Component2> GetDistinctComponentsOfType(this AssemblyDoc assembly, swDocumentTypes_e swDocumentTypes, bool topLevelOnly = false)
         {
             var components = assembly.GetComponentsByType(swDocumentTypes,topLevelOnly);
 
@@ -65,7 +65,7 @@ namespace Hymma.Solidworks.Extensions
         /// <param name="swDocumentTypes">documents of this type will be returned</param>
         /// <param name="topLevelOnly">if set to false will return all the components of this assembly and its sub assemblies</param>
         /// <returns></returns>
-        public static IList<Component2> GetComponentsByType(this AssemblyDoc assembly, swDocumentTypes_e swDocumentTypes, bool topLevelOnly = false)
+        public static IEnumerable<Component2> GetComponentsByType(this AssemblyDoc assembly, swDocumentTypes_e swDocumentTypes, bool topLevelOnly = false)
         {
             var comps = new List<Component2>();
             if (swDocumentTypes != swDocumentTypes_e.swDocASSEMBLY &&
