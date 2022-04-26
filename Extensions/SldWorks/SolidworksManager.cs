@@ -4,7 +4,7 @@ using System;
 namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
-    /// provides conneciton and initiation methods for a solidworks app
+    /// provides connection and initiation methods for a solidworks app
     /// </summary>
     public class SolidWorksManager
     {
