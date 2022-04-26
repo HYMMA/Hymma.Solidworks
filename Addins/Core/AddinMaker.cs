@@ -29,11 +29,6 @@ namespace Hymma.Solidworks.Addins
         private static string _addinTitle;
 
         /// <summary>
-        /// identifier for this addin assigned by SOLIDWORKS    
-        /// </summary>
-        //protected int addinCookie;
-
-        /// <summary>
         /// command manager for this addin assigned by SOLIDWORKS
         /// </summary>
         protected CommandManager _commandManager;
