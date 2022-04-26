@@ -11,12 +11,12 @@ namespace Hymma.Solidworks.Extensions
     public static class SldWorksExtensions
     {
         /// <summary>
-        /// get the default map file in solidworks, does not check if mapfile actually exists on HDD
+        /// get the default map file in solidworks, does not check if map file actually exists on HDD
         /// </summary>
-        /// <returns>address of map file as set in solidwork settings</returns>
+        /// <returns>address of map file as set in solidworks settings</returns>
         public static string GetDefaultMapFilePath(this SldWorks solidworks)
         {
-            //get lsit of mapping files from solidworks
+            //get list of mapping files from solidworks
             string mappingFiles =
                 solidworks.GetUserPreferenceStringListValue((int)swUserPreferenceStringListValue_e.swDxfMappingFiles);
 
@@ -60,7 +60,7 @@ namespace Hymma.Solidworks.Extensions
         /// get the type of a solidworks document its extension name
         /// </summary>
         /// <param name="solidworks"></param>
-        /// <param name="modelPathName">full file name of the document including the extensionss</param>
+        /// <param name="modelPathName">full file name of the document including the extensions</param>
         /// <returns></returns>
         public static swDocumentTypes_e GetModelType(this SldWorks solidworks, string modelPathName)
         {
@@ -88,12 +88,12 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// sets visiblity of solidworks to false <br/>
-        /// usefull when you want to activate a document in silent mode<br/>
+        /// sets visibility of solidworks to false <br/>
+        /// useful when you want to activate a document in silent mode<br/>
         /// </summary>
         /// <param name="solidworks"></param>
         /// <returns>true if successful and false if not
-        /// <br/> make sure you set solidworks visiblity to true at the end of operation <see cref="UnFreezGraphics(SldWorks)"/>
+        /// <br/> make sure you set solidworks visibility to true at the end of operation <see cref="UnFreezGraphics(SldWorks)"/>
         /// </returns>
         public static bool FreezGraphics(this SldWorks solidworks)
         {
@@ -123,7 +123,7 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// un-freezes the graphics of the solidworks application
+        /// unfreezes the graphics of the solidworks application
         /// </summary>
         /// <param name="solidworks"></param>
         public static void UnFreezGraphics(this SldWorks solidworks)
@@ -136,7 +136,7 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// freez graphics during an <see cref="Action"/> and unfreez it afterwards
+        /// freezes graphics during an <see cref="Action"/> and unfreeze it afterwards
         /// </summary>
         /// <param name="solidworks"></param>
         /// <param name="action"></param>
