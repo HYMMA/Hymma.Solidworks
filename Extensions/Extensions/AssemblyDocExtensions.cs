@@ -13,7 +13,7 @@ namespace Hymma.Solidworks.Extensions
         /// <summary>
         /// get the Qty of part in a parent assembly document
         /// </summary>
-        /// <param name="assembly">the parten assembly where the calc should be done inside of</param>
+        /// <param name="assembly"></param>
         /// <param name="thisPart">the part </param>
         /// <param name="configuration">referenced configuration of the part</param>
         /// <returns>Quantity as integer</returns>
@@ -28,13 +28,13 @@ namespace Hymma.Solidworks.Extensions
                 if (!(thisPart is ModelDoc2 thisModel)) return 0; //try to cast into modelDoc2
                 if (component.GetPathName() == thisModel.GetPathName() // this also ensures that assembly files are filtered out
                     &&
-                    !component.ExcludeFromBOM //if excluded from bom dont consider it
+                    !component.ExcludeFromBOM //if excluded from bom don't consider it
                     &&
-                    !component.IsEnvelope()  //if is envelop dont consider it
+                    !component.IsEnvelope()  //if is envelop don't consider it
                     &&
-                    !component.IsSuppressed() //if suppresed dont consider it
+                    !component.IsSuppressed() //if suppressed don't consider it
                     &&
-                    component.ReferencedConfiguration == configuration) //if configs dont match dont consider it
+                    component.ReferencedConfiguration == configuration) //if configurations don't match don't consider it
                 {
                     counter++;
                 }
@@ -79,7 +79,7 @@ namespace Hymma.Solidworks.Extensions
             //get all parts and sub-assemblies and parts inside sub-assemblies
             object[] compArray = (object[])assembly.GetComponents(topLevelOnly);
 
-            //if there is no component in the assy
+            //if there is no component in the assembly
             if (compArray == null)
                 return comps;
 
