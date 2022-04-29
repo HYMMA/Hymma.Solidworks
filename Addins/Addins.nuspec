@@ -15,7 +15,7 @@
 		<tags>cad solidworks addin hymma</tags>
 		<dependencies>
 			<group targetFramework=".NETFramework4.6.1" >
-				<dependency id="Hymma.Solidworks.Extensions" version="2018.0.0"></dependency>
+				<dependency id="Hymma.Solidworks.Extensions" version="2020.0.0"></dependency>
 			</group>
 		</dependencies>
 	</metadata>
