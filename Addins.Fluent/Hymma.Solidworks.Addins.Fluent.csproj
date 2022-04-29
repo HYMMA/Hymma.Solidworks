@@ -46,22 +46,22 @@
     <AssemblyOriginatorKeyFile>FluentAddinsSolidTools.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hymma.Solidworks.Addins, Version=18.0.1.0, Culture=neutral, PublicKeyToken=ba0fa3dd4814f928, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Addins.2018.0.0\lib\net461\Hymma.Solidworks.Addins.dll</HintPath>
+    <Reference Include="Hymma.Solidworks.Addins, Version=2020.0.0.0, Culture=neutral, PublicKeyToken=ba0fa3dd4814f928, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hymma.Solidworks.Addins.2020.0.0\lib\net461\Hymma.Solidworks.Addins.dll</HintPath>
     </Reference>
-    <Reference Include="Hymma.Solidworks.Extensions, Version=2018.0.0.0, Culture=neutral, PublicKeyToken=e9fee7cb4dbd868c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Addins.2018.0.0\lib\net461\Hymma.Solidworks.Extensions.dll</HintPath>
+    <Reference Include="Hymma.Solidworks.Extensions, Version=2020.0.0.0, Culture=neutral, PublicKeyToken=e9fee7cb4dbd868c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hymma.Solidworks.Addins.2020.0.0\lib\net461\Hymma.Solidworks.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="SolidWorks.Interop.sldworks, Version=26.0.1.1, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Addins.2018.0.0\lib\net461\SolidWorks.Interop.sldworks.dll</HintPath>
+    <Reference Include="SolidWorks.Interop.sldworks, Version=28.3.0.86, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hymma.Solidworks.Addins.2020.0.0\lib\net461\SolidWorks.Interop.sldworks.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="SolidWorks.Interop.swconst, Version=26.0.1.1, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Addins.2018.0.0\lib\net461\SolidWorks.Interop.swconst.dll</HintPath>
+    <Reference Include="SolidWorks.Interop.swconst, Version=28.3.0.86, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hymma.Solidworks.Addins.2020.0.0\lib\net461\SolidWorks.Interop.swconst.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="SolidWorks.Interop.swpublished, Version=26.0.1.1, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Addins.2018.0.0\lib\net461\SolidWorks.Interop.swpublished.dll</HintPath>
+    <Reference Include="SolidWorks.Interop.swpublished, Version=28.3.0.86, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hymma.Solidworks.Addins.2020.0.0\lib\net461\SolidWorks.Interop.swpublished.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
@@ -101,6 +101,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="FluentAddinsSolidTools.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Addins\Hymma.Solidworks.Addins.csproj">
@@ -120,6 +121,10 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Hymma.Solidworks.Interop.2018.0.0\build\Hymma.Solidworks.Interop.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Hymma.Solidworks.Interop.2018.0.0\build\Hymma.Solidworks.Interop.targets'))" />
     <Error Condition="!Exists('..\packages\Hymma.Solidworks.Extensions.2018.0.0\build\Hymma.Solidworks.Extensions.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Hymma.Solidworks.Extensions.2018.0.0\build\Hymma.Solidworks.Extensions.targets'))" />
+    <Error Condition="!Exists('..\packages\Hymma.Solidworks.Interop.2020.0.0\build\Hymma.Solidworks.Interop.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Hymma.Solidworks.Interop.2020.0.0\build\Hymma.Solidworks.Interop.targets'))" />
+    <Error Condition="!Exists('..\packages\Hymma.Solidworks.Extensions.2020.0.0\build\Hymma.Solidworks.Extensions.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Hymma.Solidworks.Extensions.2020.0.0\build\Hymma.Solidworks.Extensions.targets'))" />
   </Target>
   <Import Project="..\packages\Hymma.Solidworks.Extensions.2018.0.0\build\Hymma.Solidworks.Extensions.targets" Condition="Exists('..\packages\Hymma.Solidworks.Extensions.2018.0.0\build\Hymma.Solidworks.Extensions.targets')" />
+  <Import Project="..\packages\Hymma.Solidworks.Interop.2020.0.0\build\Hymma.Solidworks.Interop.targets" Condition="Exists('..\packages\Hymma.Solidworks.Interop.2020.0.0\build\Hymma.Solidworks.Interop.targets')" />
+  <Import Project="..\packages\Hymma.Solidworks.Extensions.2020.0.0\build\Hymma.Solidworks.Extensions.targets" Condition="Exists('..\packages\Hymma.Solidworks.Extensions.2020.0.0\build\Hymma.Solidworks.Extensions.targets')" />
 </Project>
