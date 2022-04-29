@@ -187,7 +187,7 @@ namespace Hymma.Solidworks.Addins
 
                 //otherwise update the property when the control is loaded
                 else
-                    OnRegister += () => { SolidworksObject.DisplayedUnit = (int)value; };
+                    Registering += () => { SolidworksObject.DisplayedUnit = (int)value; };
             }
         }
         #endregion
