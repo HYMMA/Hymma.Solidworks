@@ -121,7 +121,7 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxListChangedEventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxSelectionSubmittedEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxSelectionSubmittedEventArgs.cs" />
-    <Compile Include="Core\Counter.cs" />
+    <Compile Include="Helpers\Counter.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButton.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Core\PmpTextBase.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Slider\PmpSlider.cs" />
@@ -158,7 +158,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Helpers\MaskedBitmap.cs" />
-    <Compile Include="Helpers\IconGenerator.cs" />
+    <Compile Include="Helpers\Icons.cs" />
     <Compile Include="UI\ToolbarTabs\AddinCommandTab.cs" />
     <Compile Include="UI\ToolbarTabs\CommandGroup\AddinCommand.cs" />
     <Compile Include="UI\ToolbarTabs\CommandGroup\AddinCommandGroup.cs" />

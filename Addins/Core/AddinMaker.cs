@@ -53,9 +53,12 @@ namespace Hymma.Solidworks.Addins
         {
             if (!typeof(AddinMaker).IsAssignableFrom(t))
                 throw new ApplicationException("the type should implement the AddinMaker");
+        
             if (!(t.TryGetAttribute<AddinAttribute>(false) is AddinAttribute addinAttribute))
                 throw new ApplicationException("the type should implement the AddinAttribute");
+            
             _addinTitle = addinAttribute.Title;
+            
             Logger.Source = "Solidworks Addin";
         }
         #endregion
@@ -78,6 +81,7 @@ namespace Hymma.Solidworks.Addins
         public static void BaseRegisterFunction(Type t)
         {
             var addinAttribute = t.TryGetAttribute<AddinAttribute>(false) as AddinAttribute;
+
             if (addinAttribute == null)
                 return;
 
@@ -85,7 +89,6 @@ namespace Hymma.Solidworks.Addins
             {
                 Logger.Source = "Solidworks Addin";
                 Log("trying to register");
-                Console.WriteLine("trying to register");
 
                 string keyname = "SOFTWARE\\SolidWorks\\Addins\\{" + t.GUID.ToString() + "}";
                 RegistryKey addinKey = Registry.LocalMachine.CreateSubKey(keyname);
@@ -99,24 +102,16 @@ namespace Hymma.Solidworks.Addins
                 addinStartUpKey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
 
                 #region Extract icon during registration
-
-                var iconPath = SaveAddinIcon(t);
-
-                addinKey.SetValue("Icon Path", iconPath);
+                _addinTitle = addinAttribute.Title;
+                addinKey.SetValue("Icon Path", GetIconPath(t, addinAttribute));
 
                 Log("Registration was successful!");
                 #endregion
-            }
-            catch (MissingManifestResourceException e)
-            {
-                Log($"Error! it seems the resource {addinAttribute.AddinIcon} was not found." +
-                    $" this happens when the string provided for the resource is not correct or the resource not in the Properties Folder of the project. \n {e.Message}");
             }
             catch (System.NullReferenceException e)
             {
                 Log($"Error! There was a problem registering this library: addinModel is null. \n\"" + e.Message + "\"");
             }
-
             catch (System.Exception e)
             {
                 Log(e);
@@ -327,22 +322,31 @@ namespace Hymma.Solidworks.Addins
         public abstract AddinUserInterface GetUserInterFace();
 
         #region static members
+        
         /// <summary>
         /// generates an addin icon (.png) format and saves it on assembly folder
         /// </summary>
-        /// <returns></returns>
-        private static string SaveAddinIcon(Type t)
+        /// <returns>returns address</returns>
+        private static string GetIconPath(Type t, AddinAttribute addinAttribute)
         {
-            var icon = GetBitmap(t);
+            //get addin icon
+            var icon = Icons.GetAddinIcon(t, addinAttribute.AddinIcon);
+
+            //if could not get the icon from the addin attribute
             if (icon == null)
-                return "addin icon was null";
-            if (!(t.TryGetAttribute<AddinAttribute>(false) is AddinAttribute addinAttribute))
-                throw new ApplicationException("the type should implement the AddinAttribute");
-            _addinTitle = addinAttribute.Title;
+
+                //create a new empty one
+                icon = new Bitmap(16, 16);
+
             string addinIconAddress = Path.Combine(GetIconsDir().FullName, t.Name + ".png");
-            using (var addinIcon = new Bitmap(icon, 16, 16))
+
+            //resize, save and dispose of
+            using (icon)
             {
-                addinIcon.Save(addinIconAddress);
+                using (var resized = new Bitmap(icon, 16, 16))
+                {
+                    resized.Save(addinIconAddress);
+                }
             }
             return addinIconAddress;
         }
@@ -365,31 +369,6 @@ namespace Hymma.Solidworks.Addins
             {
                 throw e;
             }
-        }
-
-        private static Bitmap GetBitmap(Type t)
-        {
-            if (!(t.GetCustomAttribute(typeof(AddinAttribute)) is AddinAttribute attribute)) return null;
-            var asm = t.Assembly;
-            string[] resNames = asm.GetManifestResourceNames();
-            foreach (var resName in resNames)
-            {
-                var rm = new ResourceManager(resName, asm);
-
-                // Get the fully qualified resource type name
-                // Resources are suffixed with .resource
-                var resName2 = resName.Substring(0, resName.IndexOf(".resource"));
-                var type = asm.GetType(resName2, true);
-
-                var resources = type.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-                foreach (PropertyInfo res in resources)
-                {
-                    // collect string type resources
-                    if (res.PropertyType == typeof(Bitmap) && res.Name == attribute.AddinIcon)
-                        return res.GetValue(null, null) as Bitmap;
-                }
-            }
-            return null;
         }
         #endregion
     }

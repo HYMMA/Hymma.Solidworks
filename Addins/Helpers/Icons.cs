@@ -1,41 +1,119 @@
-﻿#region lincese
-//this is forked from AngleSix.SolidWorksApi.IconGenerator
-//https://github.com/angelsix/solidworks-api/tree/develop/Tools/CommandManager%20Icon%20Generator
-
-//MIT License
-
-//Copyright (c) 2017
-
-//Permission is hereby granted, free of charge, to any person obtaining a copy
-//of this software and associated documentation files (the "Software"), to deal
-//in the Software without restriction, including without limitation the rights
-//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//copies of the Software, and to permit persons to whom the Software is
-//furnished to do so, subject to the following conditions:
-
-//The above copyright notice and this permission notice shall be included in all
-//copies or substantial portions of the Software.
-
-//All files inside the References folder are property of Dassault Systemes 
-//SolidWorks Corp and may only be used in unmodified form in conjunction with 
-//SolidDNA.
-
-//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//SOFTWARE.
-#endregion
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
+using System.Resources;
 
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// genrates solidworks ready icons
+    /// generates solidworks ready icons
     /// </summary>
-    public static class IconGenerator
+    internal static class Icons
     {
+        /// <summary>
+        /// get solidworks icon
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        internal static Bitmap GetAddinIcon(Type t, string fileName)
+        {
+            //get assembly
+            var a = Assembly.GetAssembly(t);
+            Bitmap result;
+
+            //get fileName of all Embedded Resources
+            var embeddedResourceNames = GetAssemblyEmbeddedResourceNames(a, out string resx);
+
+            result = GetResxBitmap(t, fileName, resx);
+
+            //in case result was null check the embedded resources
+            if (result == null)
+            {
+                foreach (var item in embeddedResourceNames)
+                {
+                    if (item.EndsWith(fileName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Visual Studio always prefixes resource names with the project’s default namespace,
+                        //plus the names of any subfolders in which the file is contained
+                        var count = item.IndexOf('.') + 1;
+                        var resourceName = item.Remove(0, count);
+                        result = GetEmbeddedBitmap(t, resourceName);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private static List<string> GetAssemblyEmbeddedResourceNames(Assembly assy, out string resx)
+        {
+            var list = new List<string>();
+            resx = "";
+
+            //get all resource names
+            var names = assy.GetManifestResourceNames();
+
+            //iterate all resource names
+            foreach (var name in names)
+            {
+                //if name is a name of a resource in the binary resource file generate via resgen.exe
+                if (name.EndsWith(".resources", StringComparison.OrdinalIgnoreCase))
+
+                    //remove extension
+                    resx = Path.GetFileNameWithoutExtension(name);
+                else
+
+                    //all other names are Embedded Resource
+                    list.Add(name);
+            }
+            return list;
+        }
+
+        private static Bitmap GetResxBitmap(Type t, string imageName, string resxName)
+        {
+            var a = Assembly.GetAssembly(t);
+            var r = new ResourceManager(resxName, a);
+            ResourceSet set = r.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
+            foreach (System.Collections.DictionaryEntry entry in set)
+            {
+                if (string.Equals(entry.Key.ToString(), imageName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return entry.Value as Bitmap;
+                }
+            }
+            return null;
+        }
+
+        private static Bitmap GetEmbeddedBitmap(Type t, string resouceName)
+        {
+            //define variable
+            Bitmap result = null;
+
+            //get assembly
+            var a = Assembly.GetAssembly(t);
+            if (a == null)
+                return null;
+
+            //get manifest stream
+            //this method is the proper way to use with items whose build action is set to Embedded Resource
+            var s = a.GetManifestResourceStream(t, resouceName);
+
+            if (s == null)
+            {
+                return null;
+            }
+
+            //get bitmap from the resource
+            using (s)
+            {
+                result = Image.FromStream(s) as Bitmap;
+            }
+            return result;
+        }
         ///// <summary>
         ///// generate 6-off SolidWorks toolbar sprites in 20, 32, 40, 64, 96, 128 pixels
         ///// </summary>
@@ -97,7 +175,7 @@ namespace Hymma.Solidworks.Addins
         //    return stripes;
         //}
 
-   
+
 
         ///// <summary>
         ///// Combines images into a sprite horizontally
