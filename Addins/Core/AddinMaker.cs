@@ -53,12 +53,12 @@ namespace Hymma.Solidworks.Addins
         {
             if (!typeof(AddinMaker).IsAssignableFrom(t))
                 throw new ApplicationException("the type should implement the AddinMaker");
-        
+
             if (!(t.TryGetAttribute<AddinAttribute>(false) is AddinAttribute addinAttribute))
                 throw new ApplicationException("the type should implement the AddinAttribute");
-            
+
             _addinTitle = addinAttribute.Title;
-            
+
             Logger.Source = "Solidworks Addin";
         }
         #endregion
@@ -74,7 +74,7 @@ namespace Hymma.Solidworks.Addins
 
         #region com register/unregister
         /// <summary>
-        /// registers <see cref="Type"/> provided to COM so solidworks can find it
+        /// registers <see cref="Type"/> provided to RegisteryHelper so solidworks can find it
         /// </summary>
         /// <param name="t">type of class that inherits from  <see cref="AddinMaker"/></param>
         [ComRegisterFunction]
@@ -128,32 +128,33 @@ namespace Hymma.Solidworks.Addins
             Logger.Source = "Solidworks Addin";
             var swAttr = t.TryGetAttribute<AddinAttribute>(false) as AddinAttribute;
             if (swAttr == null)
-                try
-                {
-                    Log("trying to unregister");
-                    string keyname = "SOFTWARE\\SolidWorks\\Addins\\{" + t.GUID.ToString() + "}";
-                    Registry.LocalMachine.DeleteSubKey(keyname);
+                return;
+            try
+            {
+                Log("trying to unregister");
+                string keyname = "SOFTWARE\\SolidWorks\\Addins\\{" + t.GUID.ToString() + "}";
+                Registry.LocalMachine.DeleteSubKey(keyname);
 
-                    keyname = "Software\\SolidWorks\\AddInsStartup\\{" + t.GUID.ToString() + "}";
-                    Registry.CurrentUser.DeleteSubKey(keyname);
+                keyname = "Software\\SolidWorks\\AddInsStartup\\{" + t.GUID.ToString() + "}";
+                Registry.CurrentUser.DeleteSubKey(keyname);
 
-                    Log("Unregister successful");
-                    //UnRegisterLogger(swAttr.Title);
+                Log("Unregister successful");
+                //UnRegisterLogger(swAttr.Title);
 
-                }
-                catch (System.NullReferenceException nl)
-                {
-                    Log(nl.Message);
+            }
+            catch (System.NullReferenceException nl)
+            {
+                Log(nl.Message);
 
-                    //TODO:log this
-                    Console.WriteLine("Error! There was a problem unregistering this library: " + nl.Message);
-                }
-                catch (System.Exception e)
-                {
-                    //TODO:log this
-                    Log(e.Message);
-                    Console.WriteLine("Error! There was a problem unregistering this library: " + e.Message);
-                }
+                //TODO:log this
+                Console.WriteLine("Error! There was a problem unregistering this library: " + nl.Message);
+            }
+            catch (System.Exception e)
+            {
+                //TODO:log this
+                Log(e.Message);
+                Console.WriteLine("Error! There was a problem unregistering this library: " + e.Message);
+            }
         }
 
 
@@ -250,21 +251,6 @@ namespace Hymma.Solidworks.Addins
 
             #endregion
 
-            #region Setup the Event Handlers
-            //addin = (SldWorks)Solidworks;
-            //documentsEventsRepo = new Hashtable();
-
-            //this will be called only the first time the addin is loaded
-            //this method will attached events to all documents that open after the addin is loaded.
-
-            //AttachSwEvents();
-
-            //Listen for events on all currently open docs
-            //we need to call this method here because sometimes user fires the addin while he has some documents open already
-            //there are events that will attach event handlers to all documents but until those events are fired this call to the method will suffice
-            //AttachEventsToAllDocuments();
-            #endregion
-
             //fire event
             OnStart?.Invoke(this, new OnConnectToSwEventArgs { solidworks = (ISldWorks)ThisSW, cookie = Cookie });
             return true;
@@ -293,16 +279,6 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region Events
-        /*
-                public bool AttachEventsToAllDocuments()
-                {
-                    throw new NotImplementedException();
-                }
-
-                public bool AttachSwEvents()
-                {
-                    throw new NotImplementedException();
-                }*/
 
         /// <summary>
         /// Events that fires when your add-in connects to solidworks
@@ -322,7 +298,7 @@ namespace Hymma.Solidworks.Addins
         public abstract AddinUserInterface GetUserInterFace();
 
         #region static members
-        
+
         /// <summary>
         /// generates an addin icon (.png) format and saves it on assembly folder
         /// </summary>
@@ -330,7 +306,7 @@ namespace Hymma.Solidworks.Addins
         private static string GetIconPath(Type t, AddinAttribute addinAttribute)
         {
             //get addin icon
-            var icon = Icons.GetAddinIcon(t, addinAttribute.AddinIcon);
+            var icon = AddinIcons.GetAddinIcon(t, addinAttribute.AddinIcon);
 
             //if could not get the icon from the addin attribute
             if (icon == null)

@@ -4,14 +4,14 @@ using System.Reflection;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// provides extenison methodes for a <see cref="Type"/>
+    /// provides extension methods for a <see cref="Type"/>
     /// </summary>
     internal static class TypeExtensions
     {
         /// <summary>
         /// returns the attribute in a type
         /// </summary>
-        /// <typeparam name="A">the attriubte required</typeparam>
+        /// <typeparam name="A">the attribute required</typeparam>
         /// <param name="type"></param>
         /// <param name="searchChildren"></param>
         /// <returns></returns>
@@ -26,7 +26,7 @@ namespace Hymma.Solidworks.Addins
         }
 
         /// <summary>
-        /// get assembly locaiton
+        /// get assembly location
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>

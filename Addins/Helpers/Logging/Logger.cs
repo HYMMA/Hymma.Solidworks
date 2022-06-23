@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// loggs to Event Viewer
+    /// logs to Event Viewer
     /// </summary>
     public static class Logger
     {
@@ -25,7 +25,7 @@ namespace Hymma.Solidworks.Addins
                 //An event log source should not be created and immediately used.
                 //There is a latency time to enable the source, it should be created
                 //prior to executing the application that uses the source.
-                EventLog.CreateEventSource(source, "SOLIDWORKS_AddinLogs");
+                EventLog.CreateEventSource(source, "Application");
                 // once The source is created.  Exit the application to allow it to be registered.
                 return;
             }

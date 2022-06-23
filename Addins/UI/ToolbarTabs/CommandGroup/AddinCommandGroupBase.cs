@@ -154,7 +154,7 @@ namespace Hymma.Solidworks.Addins
                     {
                         var stripe = $"{filenamePrepend}{size}.png";
 
-                        //make a directory in the default icon filder for this command group only IconsDir is not defined specifically
+                        //make a directory in the default icon filder for this command group only _iconsDir is not defined specifically
                         var dir = string.IsNullOrEmpty(IconsDir) ? AddinMaker.GetIconsDir().CreateSubdirectory("grp"+UserId.ToString()).FullName : IconsDir;
 
                         stripes[i] = Path.Combine(dir, stripe);

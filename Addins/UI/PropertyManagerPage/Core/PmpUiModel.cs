@@ -264,7 +264,7 @@ namespace Hymma.Solidworks.Addins
             AllGroups = PmpTabs.SelectMany(t => t.TabGroups).Concat(PmpGroups);
             AllControls = AllGroups.SelectMany(g => g.Controls);
 
-            //update icon dir in the tabs and pmp controllers
+            //update icon _dir in the tabs and pmp controllers
             AllControls.ToList().ForEach(c => c.SharedIconsDir = IconDir);
             PmpTabs.ForEach(tab => tab.IconDir = IconDir);
 

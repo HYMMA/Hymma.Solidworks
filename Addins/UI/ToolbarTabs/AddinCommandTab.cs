@@ -39,7 +39,7 @@ namespace Hymma.Solidworks.Addins
                 _commandGroup = value;
 
                 //update the icon direcoty of the command group
-                //_commandGroup.IconsDir = AddinMaker.GetIconsDir().CreateSubdirectory($"tab_{TabTitle}").CreateSubdirectory($"grp{_commandGroup.UserId}").FullName;
+                //_commandGroup._iconsDir = AddinMaker.CreateIconsDir().CreateSubdirectory($"tab_{TabTitle}").CreateSubdirectory($"grp{_commandGroup.UserId}").FullName;
 
                 var groups = _commandGroup.Commands.GroupBy(c => c.BoxId);
                 var commandsWithSpacers = new List<AddinCommand>();
