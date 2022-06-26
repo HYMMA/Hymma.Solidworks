@@ -296,7 +296,7 @@ namespace Hymma.Solidworks.Extensions
         /// will return flatpattern bounding box coordinates in metric unit
         /// </summary>
         /// <param name="body"></param>
-        /// <returns></returns>
+        /// <returns>An array of 6 doubles. where the first three are the x,y,z coordinations of one corner of the cube and the rest are the coordinations of the other corner </returns>
         public static double[] GetFlatPatternBoxCoords(this Body2 body)
         {
             var flatPattern = body.GetFlatPattern();
