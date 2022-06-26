@@ -19,5 +19,8 @@
 		<file src="bin\Release\*.dll" target="lib\net461" exclude="bin\Release\Hymma.Solidworks.Interop.dll" />
 		<file src="..\nugetIcon.png" target=""/>
 		<file src="tools\**" target="tools"/>
+		<file src="bin\Release\*.xml" target="lib\net461"/>
+		<file src="bin\Release\*.dll" target="lib\net461"/>
+		<file src="bin\Release\*.pdb" target="lib\net461"/>
 	</files>
 </package>

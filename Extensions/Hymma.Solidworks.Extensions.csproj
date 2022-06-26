@@ -90,6 +90,10 @@
     <None Include="packages.config" />
     <None Include="SolidToolsSigniture.snk" />
   </ItemGroup>
+	<PropertyGroup>
+		<NuspecFileName>Extensions</NuspecFileName>
+	</PropertyGroup>
   <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	<Import Project="..\References\Hymma.common.targets" />
 </Project>
