@@ -175,7 +175,7 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// gets the cut-list forlder of this body, it applies to weldment or sheetmetal components only
+        /// gets the cut-list folder of this body, it applies to weldment or sheetmetal components only
         /// </summary>
         /// <param name="body"></param>
         /// <param name="part"></param>
@@ -183,7 +183,7 @@ namespace Hymma.Solidworks.Extensions
         /// <returns>GetCutListFolder as <see cref="Feature"/></returns>
         public static Feature GetCutListFolder(this Body2 body, PartDoc part, SldWorks solidwork)
         {
-            //if this body is niether sheetMetal nor weldment return null
+            //if this body is neither sheetMetal nor weldment return null
             if (!body.IsSheetMetal() || !body.IsWeldment()) return null;
             Feature feature = (Feature)part.FirstFeature();
             while (feature != null)
