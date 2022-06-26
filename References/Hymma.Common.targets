@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="AfterBuild" Condition="'$(Configuration)' == 'Release'">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="MyAssemblyIdentities" />
+    </GetAssemblyIdentity>
+    <!-- new line in console -->
+    <Message Text="%0D%0A" />
+    <Message Text="--------------NUGET PACK----------------" />
+    <Exec Command="nuget pack ref.nuspec -Version %(MyAssemblyIdentities.Version) -Properties Configuration=Release" />
+    <Message Text="--------------NUGET PACK----------------" />
+    <!-- new line in console -->
+    <Message Text="%0D%0A" />
+  </Target>
+  </Project>
