@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Extensions
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Addins.Fluent", "Addins.Fluent\Hymma.Solidworks.Addins.Fluent.csproj", "{6100467F-2C52-4DDA-820C-40729B0C1529}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidwork.Interop", "Interop\Hymma.Solidwork.Interop.csproj", "{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hymma.solidworks.interop", "Interop\hymma.solidworks.interop.csproj", "{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
