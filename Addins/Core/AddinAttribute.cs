@@ -12,7 +12,7 @@ namespace Hymma.Solidworks.Addins
         private string _icon;
 
         /// <summary>
-        /// resource name of a bitmap icon in the <strong>.resx file</strong> <i>or</i> the filename (with extension) of an asset with build property set to <strong>Embedded Resource</strong>.<br/> 
+        /// resource name of a bitmap icon in the <strong>.resx file</strong> <i>or</i> the filename (with extension) of an asset whose build property set to <strong>Embedded Resource</strong>.<br/> 
         /// The add-in icon displays next to the add-in name in the SOLIDWORKS Add-in Manager dialog<br/>
         /// </summary>
         /// <remarks>any space character will be replaced by '_'</remarks>
