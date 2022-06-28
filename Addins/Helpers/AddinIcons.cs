@@ -15,25 +15,23 @@ namespace Hymma.Solidworks.Addins
     {
         #region fields
 
-        private static AddinIcons _instance;
-        private static AddinAttribute _attribute;
-        private static DirectoryInfo _iconsDirInfo;
+        static AddinIcons _instance;
+        static DirectoryInfo _iconsDirInfo;
+        private string _iconFullFileName;
         #endregion
 
-        #region singleton pattern
+        #region constructor
 
-        private AddinIcons() { }
-        private static object _lock = new object();
-        internal static AddinIcons GetInstance(AddinAttribute attribute)
+        AddinIcons() { }
+        static readonly object _lock = new object();
+        internal static AddinIcons Instance()
         {
             lock (_lock)
             {
                 if (_instance == null)
                 {
                     _instance = new AddinIcons();
-                    _attribute = attribute;
                     //create the icons directory
-                    _instance.CreateIconsDir(attribute.Title);
                 }
                 return _instance;
             }
@@ -42,7 +40,7 @@ namespace Hymma.Solidworks.Addins
 
         #region private methods
 
-        private void CreateIconsDir(string dirName)
+        DirectoryInfo CreateIconsDirInLocalAppFolder(string dirName)
         {
             //directory should be assy folder where user has access to at all times
             //because we make icons for commands every time solidworks starts
@@ -50,20 +48,34 @@ namespace Hymma.Solidworks.Addins
 
             try
             {
+                //get icons directory
                 var IconsDir = Path.Combine(localApp, dirName);
 
-                //if directory exists, recreate it
-                if (Directory.Exists(IconsDir))
-                    Directory.Delete(IconsDir);
-                _iconsDirInfo = Directory.CreateDirectory(IconsDir);
+                var dir = new DirectoryInfo(IconsDir);
+
+                //if directory exists and was created more than two minutes ago
+                if (dir.Exists
+                    &&
+                    dir.CreationTime < (DateTime.Now - TimeSpan.FromMinutes(2)))
+                {
+                    //delete it
+                    dir.Delete(true);
+                }
+
+                //this method does nothing if it already exists
+                dir.Create();
+                return dir;
             }
             catch (Exception e)
             {
                 throw e;
+
+                //TODO
+                //Logger.Log(e);
             }
         }
 
-        private List<string> GetAssemblyEmbeddedResourceNames(Assembly assy, out string resx)
+        List<string> GetAssemblyEmbeddedResourceNames(Assembly assy, out string resx)
         {
             var list = new List<string>();
             resx = "";
@@ -87,7 +99,7 @@ namespace Hymma.Solidworks.Addins
             return list;
         }
 
-        private Bitmap GetResxBitmap(Type t, string imageName, string resxName)
+        Bitmap GetResxBitmap(Type t, string imageName, string resxName)
         {
             var a = Assembly.GetAssembly(t);
             var r = new ResourceManager(resxName, a);
@@ -102,19 +114,19 @@ namespace Hymma.Solidworks.Addins
             return null;
         }
 
-        private Bitmap GetEmbeddedBitmap(Type t, string resouceName)
+        Bitmap GetEmbeddedBitmap(Type type, string resouceName)
         {
             //define variable
             Bitmap result = null;
 
             //get assembly
-            var a = Assembly.GetAssembly(t);
-            if (a == null)
+            var assy = Assembly.GetAssembly(type);
+            if (assy == null)
                 return null;
 
             //get manifest stream
             //this method is the proper way to use with items whose build action is set to Embedded Resource
-            var s = a.GetManifestResourceStream(t, resouceName);
+            var s = assy.GetManifestResourceStream(type, resouceName);
 
             if (s == null)
             {
@@ -128,24 +140,14 @@ namespace Hymma.Solidworks.Addins
             }
             return result;
         }
-        #endregion
 
-        #region internal properties and methods
-
-        /// <summary>
-        /// this is assy folder where the icons will get saved to
-        /// </summary>
-        /// <returns></returns>
-        internal DirectoryInfo IconsDir => _iconsDirInfo;
-
-        /// <summary>
-        /// get solidworks icon
-        /// </summary>
-        /// <param name="type">a type in the assembly where the Embedded Resources or .resx files are stored</param>
-        /// <returns></returns>
-        internal Bitmap GetAddinIcon(Type type)
+        Bitmap GetAddinIcon(Type type)
         {
-            var fileName = _attribute.Title;
+            var attr = type.TryGetAttribute<AddinAttribute>();
+            if (attr == null)
+                return null;
+
+
             //get assembly
             var assy = Assembly.GetAssembly(type);
             Bitmap result;
@@ -153,14 +155,14 @@ namespace Hymma.Solidworks.Addins
             //get fileName of all Embedded Resources
             var embeddedResourceNames = GetAssemblyEmbeddedResourceNames(assy, out string resx);
 
-            result = GetResxBitmap(type, fileName, resx);
+            result = GetResxBitmap(type, attr.AddinIcon, resx);
 
             //in case result was null check the embedded resources
             if (result == null)
             {
                 foreach (var item in embeddedResourceNames)
                 {
-                    if (item.EndsWith(fileName, StringComparison.OrdinalIgnoreCase))
+                    if (item.EndsWith(attr.AddinIcon, StringComparison.OrdinalIgnoreCase))
                     {
                         // Visual Studio always prefixes resource names with the project’s default namespace,
                         //plus the names of any subfolders in which the file is contained
@@ -172,6 +174,56 @@ namespace Hymma.Solidworks.Addins
             }
 
             return result;
+        }
+        #endregion
+
+        #region internal properties and methods
+
+        /// <summary>
+        /// this is the folder where the icons will get saved to
+        /// </summary>
+        /// <returns></returns>
+        internal DirectoryInfo IconsDir => _iconsDirInfo;
+
+        /// <summary>
+        /// Extracts icon from the assembly of a type and saves to %LOCALAPPDATA%\<see cref="AddinAttribute.Title"/>.png
+        /// </summary>
+        /// <param name="type">A type that has <see cref="AddinAttribute"/></param>
+        /// <param name="iconFullFileName"></param>
+        internal void SaveAddinIcon(Type type, out string iconFullFileName)
+        {
+            //if this has been generated already 
+            if (!string.IsNullOrEmpty(_iconFullFileName))
+            {
+                iconFullFileName = _iconFullFileName;
+                return;
+            }
+
+            var attr = type.TryGetAttribute<AddinAttribute>();
+            _iconsDirInfo = CreateIconsDirInLocalAppFolder(attr.Title);
+            iconFullFileName = Path.Combine(_iconsDirInfo.FullName, attr.Title + ".png");
+            _iconFullFileName = iconFullFileName;
+
+            var icon = GetAddinIcon(type);
+
+            //remove old one if existed
+            if (File.Exists(iconFullFileName))
+                File.Delete(iconFullFileName);
+
+            //if could not get the icon from the addin attribute
+            if (icon == null)
+
+                //create assy new empty one
+                icon = new Bitmap(16, 16);
+
+            //resize, save and dispose of
+            using (icon)
+            {
+                using (var resized = new Bitmap(icon, 16, 16))
+                {
+                    resized.Save(iconFullFileName);
+                }
+            }
         }
         #endregion
 
