@@ -44,22 +44,6 @@ namespace Hymma.Solidworks.Addins
         private AddinUserInterface _addinUi;
         #endregion
 
-        #region constructor
-
-        /// <summary>
-        /// default constructor
-        /// </summary>
-        public AddinMaker(Type t)
-        {
-            if (!typeof(AddinMaker).IsAssignableFrom(t))
-                throw new ApplicationException("the type should implement the AddinMaker");
-
-            if (!(t.TryGetAttribute<AddinAttribute>(false) is AddinAttribute addinAttribute))
-                throw new ApplicationException("the type should implement the AddinAttribute");
-
-            _addinTitle = addinAttribute.Title;
-        }
-        #endregion
 
         #region Public Properties
 
