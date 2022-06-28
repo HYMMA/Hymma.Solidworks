@@ -139,7 +139,6 @@
     <Compile Include="Core\AddinMaker.cs" />
     <Compile Include="Helpers\DotNet\Extensions\AssemblyExtensions.cs" />
     <Compile Include="Helpers\DotNet\Extensions\TypeExtensions.cs" />
-    <Compile Include="Helpers\Logging\Logger.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Image\PmpBitmap.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButtonCheckable.cs" />
@@ -183,9 +182,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Helpers\Logging\LogSnippet.snippet" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Extensions\Hymma.Solidworks.Extensions.csproj">

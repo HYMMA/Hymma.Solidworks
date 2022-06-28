@@ -15,7 +15,7 @@ namespace Hymma.Solidworks.Addins.Helpers
         /// registers <see cref="Type"/> provided to RegisteryHelper so solidworks can find it
         /// </summary>
         /// <param name="type">type of class that inherits from  <see cref="AddinMaker"/></param>
-        public static void BaseRegisterFunction(Type type)
+        public static void RegisterSolidworksAddin(Type type)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace Hymma.Solidworks.Addins.Helpers
         /// unregisters the addin once removed or when the project is cleaned
         /// </summary>
         /// <param name="type"></param>
-        public static void BaseUnregisterFunction(Type type)
+        public static void UnregisterSolidworksAddin(Type type)
         {
             try
             {

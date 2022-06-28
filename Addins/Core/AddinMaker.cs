@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Hymma.Solidworks.Addins.Helpers;
+using Microsoft.Win32;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swpublished;
 using System;
@@ -10,7 +11,6 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
-using static Hymma.Solidworks.Addins.Logger;
 using Environment = System.Environment;
 
 namespace Hymma.Solidworks.Addins
@@ -58,8 +58,6 @@ namespace Hymma.Solidworks.Addins
                 throw new ApplicationException("the type should implement the AddinAttribute");
 
             _addinTitle = addinAttribute.Title;
-
-            Logger.Source = "Solidworks Addin";
         }
         #endregion
 
@@ -78,44 +76,9 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         /// <param name="t">type of class that inherits from  <see cref="AddinMaker"/></param>
         [ComRegisterFunction]
-        public static void BaseRegisterFunction(Type t)
+        public static void Register(Type t)
         {
-            var addinAttribute = t.TryGetAttribute<AddinAttribute>(false) as AddinAttribute;
-
-            if (addinAttribute == null)
-                return;
-
-            try
-            {
-                Logger.Source = "Solidworks Addin";
-                Log("trying to register");
-
-                string keyname = "SOFTWARE\\SolidWorks\\Addins\\{" + t.GUID.ToString() + "}";
-                RegistryKey addinKey = Registry.LocalMachine.CreateSubKey(keyname);
-                addinKey.SetValue(null, 0);
-
-                addinKey.SetValue("Description", addinAttribute.Description);
-                addinKey.SetValue("Title", addinAttribute.Title);
-
-                keyname = "Software\\SolidWorks\\AddInsStartup\\{" + t.GUID.ToString() + "}";
-                RegistryKey addinStartUpKey = Registry.CurrentUser.CreateSubKey(keyname);
-                addinStartUpKey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
-
-                #region Extract icon during registration
-                _addinTitle = addinAttribute.Title;
-                addinKey.SetValue("Icon Path", GetIconPath(t, addinAttribute));
-
-                Log("Registration was successful!");
-                #endregion
-            }
-            catch (System.NullReferenceException e)
-            {
-                Log($"Error! There was a problem registering this library: addinModel is null. \n\"" + e.Message + "\"");
-            }
-            catch (System.Exception e)
-            {
-                Log(e);
-            }
+            RegisteryHelper.RegisterSolidworksAddin(t);
         }
 
         /// <summary>
@@ -123,41 +86,10 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         /// <param name="t"></param>
         [ComUnregisterFunction]
-        public static void BaseUnregisterFunction(Type t)
+        public static void Unregister(Type t)
         {
-            Logger.Source = "Solidworks Addin";
-            var swAttr = t.TryGetAttribute<AddinAttribute>(false) as AddinAttribute;
-            if (swAttr == null)
-                return;
-            try
-            {
-                Log("trying to unregister");
-                string keyname = "SOFTWARE\\SolidWorks\\Addins\\{" + t.GUID.ToString() + "}";
-                Registry.LocalMachine.DeleteSubKey(keyname);
-
-                keyname = "Software\\SolidWorks\\AddInsStartup\\{" + t.GUID.ToString() + "}";
-                Registry.CurrentUser.DeleteSubKey(keyname);
-
-                Log("Unregister successful");
-                //UnRegisterLogger(swAttr.Title);
-
-            }
-            catch (System.NullReferenceException nl)
-            {
-                Log(nl.Message);
-
-                //TODO:log this
-                Console.WriteLine("Error! There was a problem unregistering this library: " + nl.Message);
-            }
-            catch (System.Exception e)
-            {
-                //TODO:log this
-                Log(e.Message);
-                Console.WriteLine("Error! There was a problem unregistering this library: " + e.Message);
-            }
+            RegisteryHelper.UnregisterSolidworksAddin(t);
         }
-
-
         #endregion
 
         #region solidworks integration
@@ -296,57 +228,6 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         /// <returns></returns>
         public abstract AddinUserInterface GetUserInterFace();
-
-        #region static members
-
-        /// <summary>
-        /// generates an addin icon (.png) format and saves it on assembly folder
-        /// </summary>
-        /// <returns>returns address</returns>
-        private static string GetIconPath(Type t, AddinAttribute addinAttribute)
-        {
-            //get addin icon
-            var icon = AddinIcons.GetAddinIcon(t, addinAttribute.AddinIcon);
-
-            //if could not get the icon from the addin attribute
-            if (icon == null)
-
-                //create a new empty one
-                icon = new Bitmap(16, 16);
-
-            string addinIconAddress = Path.Combine(GetIconsDir().FullName, t.Name + ".png");
-
-            //resize, save and dispose of
-            using (icon)
-            {
-                using (var resized = new Bitmap(icon, 16, 16))
-                {
-                    resized.Save(addinIconAddress);
-                }
-            }
-            return addinIconAddress;
-        }
-
-        /// <summary>
-        /// this is a folder where the icons will get saved to
-        /// </summary>
-        /// <returns></returns>
-        public static DirectoryInfo GetIconsDir()
-        {
-            //directory should be a folder where user has access to at all times
-            //because we make icons for commands every time solidworks starts
-            string localApp = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-
-            try
-            {
-                return Directory.CreateDirectory(localApp).CreateSubdirectory(_addinTitle);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-        #endregion
     }
 
     /// <summary>
