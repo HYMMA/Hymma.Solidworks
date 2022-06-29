@@ -125,37 +125,5 @@ namespace Hymma.Solidworks.Addins
             }
             return true;
         }
-
-        private void RegisterCommands(AddinCommandGroupBase CommandGroup)
-        {
-            if (SolidworksObject == null)
-                return;
-            var groups = CommandGroup.Commands.GroupBy(cmd => cmd.BoxId);
-
-            CommandTabBox[] tabBoxes = new CommandTabBox[groups.Count()];
-            for (int i = 0; i < groups.Count(); i++)
-            {
-                var commandBox = groups.ElementAt(i);
-                //add a command box
-                tabBoxes[i] = SolidworksObject.AddCommandTabBox();
-                //get commands but exclude the dummy one we added to represent spacer
-                var commandsForThisBox = commandBox
-                    .Select(cmd => cmd)
-                    .Where(cmd => cmd.SolidworksId != -1);
-
-                //get command ids
-                var commandIds = commandsForThisBox
-                    .Select(c => c.SolidworksId)
-                    .ToArray();
-
-                //get text types
-                var commandTextTypes = commandsForThisBox
-                    .Select(cmd => cmd.CommandTabTextType)
-                    .ToArray();
-
-                //add commands to command box
-                var result = tabBoxes[i].AddCommands(commandIds, commandTextTypes);
-            }
-        }
     }
 }
