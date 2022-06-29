@@ -3,7 +3,6 @@ using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using static Hymma.Solidworks.Addins.Logger;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -69,7 +68,7 @@ namespace Hymma.Solidworks.Addins
         /// Adds a command tab to solidworks <br/>
         /// </summary>
         /// <param name="commandManager"></param>
-        /// <returns>true if successfull false otherwise</returns>
+        /// <returns>true if successful false otherwise</returns>
         internal bool Register(ICommandManager commandManager)
         {
             foreach (int type in Types)
@@ -79,10 +78,9 @@ namespace Hymma.Solidworks.Addins
                 //try to get a command tab with the current tabTitle
                 SolidworksObject = commandManager.GetCommandTab(type, TabTitle);
 
-                //if this swTab already esists and you want to add new command groups or refresh old ones in it
+                //if this swTab already exists and you want to add new command groups or refresh old ones in it
                 if (SolidworksObject != null & !CommandGroup.IsRegistered | CommandGroup.IgnorePrevious)
                 {
-                    Log($"removed command tab {SolidworksObject.Name}");
                     commandManager.RemoveCommandTab(SolidworksObject);
                     SolidworksObject = null;
                 }
@@ -90,12 +88,10 @@ namespace Hymma.Solidworks.Addins
                 //if swTab is already added to this type ...
                 if (SolidworksObject != null)
                 {
-                    Log($"tab was not null so we didnt create it");
                     continue;
                 }
                 //if cmdTab is null, must be first load(possibly after reset), add the commands to the tabs
                 SolidworksObject = commandManager.AddCommandTab(type, TabTitle);
-                Log($"tab was created {SolidworksObject.Name}");
                 #endregion
 
                 #region Add tab boxes
@@ -104,7 +100,6 @@ namespace Hymma.Solidworks.Addins
                 CommandTabBox[] tabBoxes = new CommandTabBox[groups.Count()];
                 for (int i = 0; i < groups.Count(); i++)
                 {
-                    Log($"creating a command for group number {i}");
                     var commandBox = groups.ElementAt(i);
                     //add a command box
                     tabBoxes[i] = SolidworksObject.AddCommandTabBox();
@@ -118,7 +113,6 @@ namespace Hymma.Solidworks.Addins
                         .Select(c => c.SolidworksId)
                         .ToArray();
 
-                    commandIds.ToList().ForEach(id => Log($"command with id {id} is in tab box {i}"));
                     //get text types
                     var commandTextTypes = commandsForThisBox
                         .Select(cmd => cmd.CommandTabTextType)
@@ -126,7 +120,6 @@ namespace Hymma.Solidworks.Addins
 
                     //add commands to command box
                     var result = tabBoxes[i].AddCommands(commandIds, commandTextTypes);
-                    Log($"commands were added to tab box? {result}");
                 }
                 #endregion
             }
@@ -142,7 +135,6 @@ namespace Hymma.Solidworks.Addins
             CommandTabBox[] tabBoxes = new CommandTabBox[groups.Count()];
             for (int i = 0; i < groups.Count(); i++)
             {
-                Log($"creating a command for group number {i}");
                 var commandBox = groups.ElementAt(i);
                 //add a command box
                 tabBoxes[i] = SolidworksObject.AddCommandTabBox();
@@ -156,7 +148,6 @@ namespace Hymma.Solidworks.Addins
                     .Select(c => c.SolidworksId)
                     .ToArray();
 
-                commandIds.ToList().ForEach(id => Log($"command with id {id} is in tab box {i}"));
                 //get text types
                 var commandTextTypes = commandsForThisBox
                     .Select(cmd => cmd.CommandTabTextType)
@@ -164,7 +155,6 @@ namespace Hymma.Solidworks.Addins
 
                 //add commands to command box
                 var result = tabBoxes[i].AddCommands(commandIds, commandTextTypes);
-                Log($"commands were added to tab box? {result}");
             }
         }
     }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using static Hymma.Solidworks.Addins.Logger;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -147,7 +146,6 @@ namespace Hymma.Solidworks.Addins
                 // Combine all bitmaps
                 var combinedImage = CombineBitmaps(images, size);
 
-                Log("attempting to save combinedImage");
                 using (combinedImage)
                 {
                     try
@@ -155,7 +153,7 @@ namespace Hymma.Solidworks.Addins
                         var stripe = $"{filenamePrepend}{size}.png";
 
                         //make a directory in the default icon filder for this command group only _iconsDir is not defined specifically
-                        var dir = string.IsNullOrEmpty(IconsDir) ? AddinMaker.GetIconsDir().CreateSubdirectory("grp"+UserId.ToString()).FullName : IconsDir;
+                        var dir = string.IsNullOrEmpty(IconsDir) ? AddinIcons.Instance().IconsDir.CreateSubdirectory("grp"+UserId.ToString()).FullName : IconsDir;
 
                         stripes[i] = Path.Combine(dir, stripe);
                         combinedImage.Save(stripes[i]);

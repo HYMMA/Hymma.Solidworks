@@ -6,7 +6,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using static Hymma.Solidworks.Addins.Logger;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -22,7 +21,7 @@ namespace Hymma.Solidworks.Addins
         #region default constructor
 
         /// <summary>
-        /// base class for making proeprty manager page UI models and controls
+        /// base class for making property manager page UI models and controls
         /// </summary>
         /// <param name="solidworks"></param>
         public PmpUiModel(ISldWorks solidworks)
@@ -31,7 +30,7 @@ namespace Hymma.Solidworks.Addins
             Id = Counter.GetNextPmpId();
             StringBuilder sb = new StringBuilder();
             sb.Append("Pmp").Append(Id);
-            IconDir = AddinMaker.GetIconsDir().CreateSubdirectory(sb.ToString());
+            IconDir = AddinIcons.Instance().IconsDir.CreateSubdirectory(sb.ToString());
         }
         #endregion
 
@@ -60,7 +59,7 @@ namespace Hymma.Solidworks.Addins
                     }
                     catch (Exception e)
                     {
-                        Log(e);
+                        throw e;
                     }
                 }
             }

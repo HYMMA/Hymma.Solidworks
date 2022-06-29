@@ -83,7 +83,8 @@
     <Compile Include="Core\AddinUserInterface.cs" />
     <Compile Include="Core\AddinAttribute.cs" />
     <Compile Include="Core\IWrapSolidworksObject.cs" />
-    <Compile Include="Helpers\RegisteryHelper.cs" />
+    <Compile Include="Core\OnConnectToSwEventArgs.cs" />
+    <Compile Include="Helpers\DotNet\RegisteryHelper.cs" />
     <Compile Include="UI\Callout\CalloutRow.cs" />
     <Compile Include="UI\Callout\OnRowValueChangedEventArgs.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />

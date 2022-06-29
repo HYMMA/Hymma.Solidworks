@@ -4,12 +4,11 @@ using SolidWorks.Interop.swpublished;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Hymma.Solidworks.Addins.Logger;
 
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// an abstract class for making propety manager page
+    /// an abstract class for making property manager page
     /// </summary>
     public abstract class PmpFactoryBase
     {
@@ -43,8 +42,8 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// default constructor 
         /// </summary>
-        /// <param name="eventHandler">object to handle events such as checkbox onclick etc...</param>
-        /// <param name="uiModel">an object that hosts differet inheritances of <see cref="IPmpControl"/> </param>
+        /// <param name="eventHandler">object to handle events such as check-box on-click etc...</param>
+        /// <param name="uiModel">an object that hosts different inheritances of <see cref="IPmpControl"/> </param>
         /// <exception cref="ArgumentNullException"></exception>
         protected PmpFactoryBase(PropertyManagerPage2Handler9 eventHandler, PmpUiModel uiModel)
         {
@@ -65,13 +64,12 @@ namespace Hymma.Solidworks.Addins
         }
 
         /// <summary>
-        /// creates a propety manager page and adds controllers/>
+        /// creates a property manager page and adds controllers/>
         /// </summary>
         protected void CreatePropertyManagerPage()
         {
             int errors = -1;
 
-            Log($"Makin property manager page {nameof(PmpFactoryBase)}");
             uiModel.UpdateOptions();
             propertyManagerPage = Solidworks.CreatePropertyManagerPage(uiModel.Title, (int)uiModel.Options, eventHandler, ref errors) as IPropertyManagerPage2;
 
@@ -85,7 +83,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 catch (Exception e)
                 {
-                    Log($"Error! {e}");
+                    throw e;
                 }
             }
         }
@@ -96,7 +94,7 @@ namespace Hymma.Solidworks.Addins
         public abstract void Show();
 
         /// <summary>
-        /// closes the properyt manager page 
+        /// closes the property manager page 
         /// </summary>
         /// <param name="Okay"></param>
         public void Close(bool Okay)
@@ -105,8 +103,9 @@ namespace Hymma.Solidworks.Addins
             {
                 propertyManagerPage.Close(Okay);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                throw e;
             }
         }
     }

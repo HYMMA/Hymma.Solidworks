@@ -3,7 +3,6 @@ using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using static Hymma.Solidworks.Addins.Logger;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -54,7 +53,6 @@ namespace Hymma.Solidworks.Addins
         #region register this to solidworks
         private void RegisterIcons(ICommandGroup swGroup)
         {
-            Log($"getting command icons from command group");
             swGroup.IconList = CommandIcons;
             swGroup.MainIconList = GroupIcon;
 
@@ -82,8 +80,6 @@ namespace Hymma.Solidworks.Addins
 
                 //assing the index we got to command
                 command.Index = index;
-
-                Log($"a command with index {index} is created");
             }
         }
 
@@ -95,8 +91,7 @@ namespace Hymma.Solidworks.Addins
         public override void Register(ICommandManager commandManager)
         {
             #region Create new command group
-            Log("crreating new command group ...");
-            //if commandGroup with all its commands does not exist ignore previous instances re-creat the commands
+            //if commandGroup with all its commands does not exist ignore previous instances re-create the commands
             CheckRegistryForThisGroup(commandManager);
 
             int errors = 0;
@@ -148,7 +143,6 @@ namespace Hymma.Solidworks.Addins
             //get the command IDs of this command group that were registerd in windows registry
             IsRegistered = commandManager.GetGroupDataFromRegistry(UserId, out object registryIds);
 
-            Log($"command gourp with user id {UserId} was registered already ?  {IsRegistered}");
             //if the IDs don't match, reset the commandGroup
             if (IsRegistered && IdsAreEqual((int[])registryIds, Commands.Select(cmd => cmd.UserId).ToArray()))
                 IgnorePrevious = true;
