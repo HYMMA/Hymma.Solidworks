@@ -122,7 +122,7 @@ namespace Hymma.Solidworks.Addins
             Solidworks = null;
 
             //fire event
-            OnExit?.Invoke(this, new OnConnectToSwEventArgs { solidworks = Solidworks, cookie = _addinUi.Id });
+            OnExit?.Invoke(this, new OnConnectToSwEventArgs { Solidworks = Solidworks, Cookie = _addinUi.Id });
 
             //The addin _must_ call GC.Collect() here in order to retrieve all managed code pointers 
             GC.Collect();
@@ -157,7 +157,7 @@ namespace Hymma.Solidworks.Addins
             #endregion
 
             //fire event
-            OnStart?.Invoke(this, new OnConnectToSwEventArgs { solidworks = (ISldWorks)ThisSW, cookie = Cookie });
+            OnStart?.Invoke(this, new OnConnectToSwEventArgs { Solidworks = (ISldWorks)ThisSW, Cookie = Cookie });
             return true;
         }
         #endregion
@@ -203,19 +203,5 @@ namespace Hymma.Solidworks.Addins
         public abstract AddinUserInterface GetUserInterFace();
     }
 
-    /// <summary>
-    /// event arguments for when solidworks connects or disconnects from your add-in
-    /// </summary>
-    public class OnConnectToSwEventArgs : EventArgs
-    {
-        /// <summary>
-        /// solidworks object
-        /// </summary>
-        public ISldWorks Solidworks { get; set; }
 
-        /// <summary>
-        /// the identifier for this addin
-        /// </summary>
-        public int Cookie { get; set; }
-    }
 }
