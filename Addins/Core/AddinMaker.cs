@@ -43,8 +43,6 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         private AddinUserInterface _addinUi;
         #endregion
-
-
         #region Public Properties
 
         /// <summary>
@@ -87,9 +85,7 @@ namespace Hymma.Solidworks.Addins
             {
                 propertyManagerPages[i].Close(false);
                 propertyManagerPages[i] = null;
-                Log($"PMP {i} set to null");
             }
-            propertyManagerPages = null;
         }
 
         private void DetachEventsFromAllDocuments()
@@ -106,7 +102,6 @@ namespace Hymma.Solidworks.Addins
         {
             foreach (var tab in commandTabs)
                 _ = _commandManager.RemoveCommandGroup(tab.CommandGroup.UserId);
-            commandTabs = null;
         }
 
         /// <summary>
@@ -147,23 +142,17 @@ namespace Hymma.Solidworks.Addins
         /// <returns></returns>
         public bool ConnectToSW(object ThisSW, int Cookie)
         {
-            Log("connecting to solidworks from Addin maker base class");
             Solidworks = (ISldWorks)ThisSW;
             _addinUi = GetUserInterFace();
             _addinUi.Id = Cookie;
 
-            Log($"addin cookie is  {_addinUi.Id} ");
             //Setup callbacks
             Solidworks.SetAddinCallbackInfo2(0, this, _addinUi.Id);
-
-            Log("setting up Addin Model");
 
             #region Setup the Command Manager and add commands
             _commandManager = Solidworks.GetCommandManager(Cookie);
 
-            Log("addin commands . . .");
             AddCommands(_addinUi.CommandTabs);
-            Log($"finished addin commands");
 
             #endregion
 
@@ -222,11 +211,11 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// solidworks object
         /// </summary>
-        public ISldWorks solidworks { get; set; }
+        public ISldWorks Solidworks { get; set; }
 
         /// <summary>
         /// the identifier for this addin
         /// </summary>
-        public int cookie { get; set; }
+        public int Cookie { get; set; }
     }
 }
