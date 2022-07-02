@@ -13,6 +13,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Extensions", "Extensions\Hymma.Solidworks.Extensions.csproj", "{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Addins.Fluent", "Addins.Fluent\Hymma.Solidworks.Addins.Fluent.csproj", "{6100467F-2C52-4DDA-820C-40729B0C1529}"
+	ProjectSection(ProjectDependencies) = postProject
+		{86B8E368-880D-4169-BA19-60A84D3F6FB3} = {86B8E368-880D-4169-BA19-60A84D3F6FB3}
+		{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03} = {C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC} = {C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hymma.solidworks.interop", "Interop\hymma.solidworks.interop.csproj", "{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}"
 EndProject
