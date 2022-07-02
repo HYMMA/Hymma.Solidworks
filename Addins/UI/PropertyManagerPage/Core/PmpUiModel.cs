@@ -176,12 +176,12 @@ namespace Hymma.Solidworks.Addins
         public event Func<bool> HelpClicked;
 
         /// <summary>
-        /// method to invoke after the propety manager page is actaved
+        /// method to invoke after the property manager page is activated
         /// </summary>
         public event Action AfterActivation;
 
         /// <summary>
-        /// method to invoke after the propety manager page is closed
+        /// method to invoke after the property manager page is closed
         /// </summary>
         public event Action AfterClose;
 
