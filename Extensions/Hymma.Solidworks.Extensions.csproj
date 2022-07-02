@@ -50,7 +50,7 @@
     <AssemblyOriginatorKeyFile>SolidToolsSigniture.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hymma.Solidworks.Interop, Version=2018.0.1.0, Culture=neutral, PublicKeyToken=af926be2587fd2af, processorArchitecture=AMD64">
+    <Reference Include="Hymma.Solidworks.Interop, Version=2018.0.1.0, Culture=neutral, PublicKeyToken=af926be2587fd2af, processorArchitecture=MSIL">
       <HintPath>..\packages\Hymma.Solidworks.Interop.2018.0.1\lib\net461\Hymma.Solidworks.Interop.dll</HintPath>
     </Reference>
     <Reference Include="SolidWorks.Interop.sldworks, Version=26.0.1.1, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
