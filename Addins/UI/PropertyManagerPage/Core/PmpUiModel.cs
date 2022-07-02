@@ -72,7 +72,7 @@ namespace Hymma.Solidworks.Addins
         }
 
         /// <summary>
-        /// a list of pop up menue items (right mouse button click menue items)
+        /// a list of pop up menu items (right mouse button click menu items)
         /// </summary>
         public List<PopUpMenueItem> PopUpMenueItems { get; set; }
 
@@ -106,7 +106,7 @@ namespace Hymma.Solidworks.Addins
         public IPmpControl GetControl(int id) => AllControls?.Where(c => c.Id == id).FirstOrDefault();
 
         /// <summary>
-        /// get all controls of type T in this propery manger page
+        /// get all controls of type T in this proper manger page
         /// </summary>
         /// <typeparam name="T">type of control to return</typeparam>
         /// <returns></returns>
@@ -140,7 +140,7 @@ namespace Hymma.Solidworks.Addins
         public IEnumerable<IPmpControl> AllControls { get; private set; }
 
         /// <summary>
-        /// bitwise option as defined in <see cref="PmpOptions"/> default has okay, cancel, pushpin buttons and page build is disabled during handlers
+        /// bitwise option as defined in <see cref="PmpOptions"/> default has okay, cancel, push-pin buttons and page build is disabled during handlers
         /// </summary>
         public PmpOptions Options { get; set; } = PmpOptions.LockedPage | PmpOptions.OkayButton | PmpOptions.CancelButton | PmpOptions.PushpinButton | PmpOptions.DisablePageBuildDuringHandlers;
 
@@ -150,7 +150,7 @@ namespace Hymma.Solidworks.Addins
         public List<PmpGroup> PmpGroups { get; internal set; } = new List<PmpGroup>();
 
         /// <summary>
-        /// solidworks property managager tabs that in turn can contain other group boxes and controls
+        /// solidworks property manager tabs that in turn can contain other group boxes and controls
         /// </summary>
         public List<PmpTab> PmpTabs { get; set; } = new List<PmpTab>();
 
@@ -171,51 +171,51 @@ namespace Hymma.Solidworks.Addins
 
 
         /// <summary>   
-        /// methode to invoke once user clicked on question mark button on property manager page
+        /// method to invoke once user clicked on question mark button on property manager page
         /// </summary>
         public event Func<bool> HelpClicked;
 
         /// <summary>
-        /// methode to invoke after the propety manager page is actaved
+        /// method to invoke after the propety manager page is actaved
         /// </summary>
         public event Action AfterActivation;
 
         /// <summary>
-        /// methode to invoke after the propety manager page is closed
+        /// method to invoke after the propety manager page is closed
         /// </summary>
         public event Action AfterClose;
 
         /// <summary>
-        /// methode to invoke while the property manager page is closing
+        /// method to invoke while the property manager page is closing
         /// </summary>
         public event Action<PmpCloseReason> Closing;
 
         /// <summary>
-        /// methode to invoke when user goes to the previous page of a property manager page
+        /// method to invoke when user goes to the previous page of a property manager page
         /// </summary>
         public event Func<bool> PreviousPageClicked;
 
         /// <summary>
-        /// methode to invoke when user goes to next page of a property manager page
+        /// method to invoke when user goes to next page of a property manager page
         /// </summary>
         public event Func<bool> NextPageClicked;
 
         /// <summary>
-        /// methode to invoke when user previews the results 
+        /// method to invoke when user previews the results 
         /// </summary>
         public event Func<bool> Preview;
 
         /// <summary>
-        /// methode to invoke when user selects on Wahts new button
+        /// method to invoke when user selects on Whats new button
         /// </summary>
         public event Action WhatsNewClicked;
 
         /// <summary>
-        /// methode to invoke when user calls undo (ctrl+z)
+        /// method to invoke when user calls undo (ctrl+z)
         /// </summary>
         public event Action UndoClicked;
         /// <summary>
-        /// methode to invoke when user Re-do something (ctrl+y)
+        /// method to invoke when user Re-do something (ctrl+y)
         /// </summary>
         public event Action RedoClicked;
 
@@ -225,7 +225,7 @@ namespace Hymma.Solidworks.Addins
         public event Action Registering;
 
         /// <summary>
-        /// method to invoke when user clickes on a tab
+        /// method to invoke when user clicks on a tab
         /// </summary>
         public event Func<int, bool> TabClicked;
 
@@ -237,7 +237,7 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        internal bool HelpClickedCallBack()=> HelpClicked != null && HelpClicked.Invoke();
+        internal bool HelpClickedCallBack() => HelpClicked != null && HelpClicked.Invoke();
         internal void AfterActivationCallBack() => AfterActivation?.Invoke();
         internal void AfterCloseCallBack() => AfterClose?.Invoke();
         internal void WhatsNewClickedCallBack() => WhatsNewClicked?.Invoke();
