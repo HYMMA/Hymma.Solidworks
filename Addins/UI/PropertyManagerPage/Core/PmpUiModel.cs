@@ -14,9 +14,6 @@ namespace Hymma.Solidworks.Addins
     /// </summary>
     public class PmpUiModel : IWrapSolidworksObject<IPropertyManagerPage2>
     {
-        #region fields
-
-        #endregion
 
         #region default constructor
 
