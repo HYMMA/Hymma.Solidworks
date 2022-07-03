@@ -40,6 +40,8 @@ namespace Hymma.Solidworks.Addins
         private string _addinTitle;
         #endregion
 
+        #region constructor
+
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -70,6 +72,7 @@ namespace Hymma.Solidworks.Addins
             }
             return null;
         }
+        #endregion
 
         #region Public Properties
 
