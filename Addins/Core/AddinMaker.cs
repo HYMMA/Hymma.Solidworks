@@ -37,7 +37,40 @@ namespace Hymma.Solidworks.Addins
         /// construct the data model for this addin here
         /// </summary>
         private AddinUserInterface _addinUi;
+        private string _addinTitle;
         #endregion
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        public AddinMaker()
+        {
+            var addin = Assembly.GetCallingAssembly();
+            var attr = GetAddinAttribute(addin);
+            if (attr == null)
+            {
+                throw new ArgumentException("AddinAttribute was not recognized");
+            }
+            _addinTitle = attr.Title;
+        }
+
+        private AddinAttribute GetAddinAttribute(Assembly addin)
+        {
+            AddinAttribute attr=null;
+            for (int i = 0; i < addin.GetExportedTypes().Length; i++)
+            {
+                var type = addin.GetExportedTypes()[i];
+
+                if (typeof(AddinMaker).IsAssignableFrom(type))
+                {
+                    attr = type.GetCustomAttribute<AddinAttribute>();
+                    return attr;
+                }
+            }
+            return null;
+        }
+
         #region Public Properties
 
         /// <summary>
@@ -143,7 +176,6 @@ namespace Hymma.Solidworks.Addins
 
             //Setup callbacks
             Solidworks.SetAddinCallbackInfo2(0, this, _addinUi.Id);
-
             #region Setup the Command Manager and add commands
             _commandManager = Solidworks.GetCommandManager(Cookie);
 
