@@ -1,0 +1,7 @@
+@startuml
+enum UnderLineStyles {
+    DashedUnderline= 2,
+    NoUnderline= 0,
+    SolidUnderline= 1,
+}
+@enduml

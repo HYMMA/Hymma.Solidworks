@@ -1,0 +1,8 @@
+@startuml
+class "PmpWinForm`1"<T> {
+    - _userControl : T
+    + PmpWinForm(height:int, caption:string, tip:string)
+    + <<override>> Enabled : bool <<get>> <<set>>
+}
+"PmpControl`1" "<IPropertyManagerPageWindowFromHandle>" <|-- "PmpWinForm`1"
+@enduml

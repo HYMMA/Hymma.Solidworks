@@ -1,0 +1,12 @@
+@startuml
+class PmpCheckBox {
+    - _isChecked : bool
+    - _maintain : bool
+    + PmpCheckBox(caption:string, isChecked:bool, tip:string)
+    <<internal>> CheckedCallback(status:bool) : void
+    + IsChecked : bool <<get>> <<set>>
+    + MaintainState : bool <<get>> <<set>>
+    +  <<event>> Checked : PmpCheckBoxCheckedEventHandler 
+}
+"PmpControl`1" "<PropertyManagerPageCheckbox>" <|-- PmpCheckBox
+@enduml

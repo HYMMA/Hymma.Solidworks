@@ -1,0 +1,19 @@
+@startuml
+class PmpLabel {
+    - _style : LabelStyles
+    + PmpLabel(text:string, style:LabelStyles)
+    + SetItalic(StartChar:short, EndChar:short, status:bool) : void
+    + GetItalic(StartChar:short, EndChar:short) : bool
+    + SetLineOffset(StartChar:short, EndChar:short, offset:double) : void
+    + SetSizeRatio(StartChar:short, EndChar:short, ratio:double) : void
+    + SetBackgroundColor(StartChar:short, EndChar:short, color:Color) : void
+    + SetCharacterColor(StartChar:short, EndChar:short, color:Color) : void
+    + SetFont(StartChar:short, EndChar:short, font:string) : void
+    + SetUnderLineStyle(StartChar:short, EndChar:short, style:UnderLineStyles) : void
+    + Style : LabelStyles <<get>> <<set>>
+    + SetBold(start:short, end:short, status:bool) : void
+    <<internal>> <<override>> DisplayingCallback() : void
+    + <<new>>  <<event>> Displaying : PmpLabelDisplayingEventHandler 
+}
+"PmpTextBase`1" "<PropertyManagerPageLabel>" <|-- PmpLabel
+@enduml

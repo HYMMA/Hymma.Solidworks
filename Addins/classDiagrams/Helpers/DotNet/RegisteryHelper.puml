@@ -1,0 +1,6 @@
+@startuml
+class RegisteryHelper <<static>> {
+    + {static} RegisterSolidworksAddin(type:Type) : void
+    + {static} UnregisterSolidworksAddin(type:Type) : void
+}
+@enduml

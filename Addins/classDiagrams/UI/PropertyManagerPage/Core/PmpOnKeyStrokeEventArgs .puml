@@ -1,0 +1,9 @@
+@startuml
+class PmpKeyStrokeEventArgs {
+    + PmpKeyStrokeEventArgs(wParam:int, message:int, lParam:int)
+    + Wparam : int <<get>>
+    + Message : int <<get>>
+    + Lparam : int <<get>>
+}
+EventArgs <|-- PmpKeyStrokeEventArgs
+@enduml

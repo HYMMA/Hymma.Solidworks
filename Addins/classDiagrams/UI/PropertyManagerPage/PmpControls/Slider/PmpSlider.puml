@@ -1,0 +1,26 @@
+@startuml
+class PmpSlider {
+    - _style : SliderStyles
+    - _height : short
+    - _lineSize : int
+    - _position : double
+    - _rangeMin : int
+    - _rangeMax : int
+    - _pageSize : int
+    - _tickMark : int
+    + PmpSlider(styles:SliderStyles, tip:string)
+    + Style : SliderStyles <<get>> <<set>>
+    + Height : short <<get>> <<set>>
+    + LineSize : int <<get>> <<set>>
+    + PageSize : int <<get>> <<set>>
+    + Position : int <<get>> <<set>>
+    + TickFrequency : int <<get>> <<set>>
+    + SetRange(min:int, max:int) : bool
+    + GetRange(min:int, max:int) : void
+    <<internal>> PositionChangedCallback(value:double) : void
+    <<internal>> TrackingCompletedCallback(value:double) : void
+    +  <<event>> PositionChanged : EventHandler<double> 
+    +  <<event>> TrackingCompleted : EventHandler<double> 
+}
+"PmpControl`1" "<IPropertyManagerPageSlider>" <|-- PmpSlider
+@enduml

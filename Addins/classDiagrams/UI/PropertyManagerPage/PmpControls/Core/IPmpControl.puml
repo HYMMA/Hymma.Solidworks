@@ -1,0 +1,38 @@
+@startuml
+abstract class IPmpControl {
+    - _top : short
+    - _enabled : bool = true
+    - _visible : bool = true
+    - _width : short
+    - _left : short
+    - _optionForResize : ControlResizeStyles
+    <<internal>> IPmpControl(type:swPropertyManagerPageControlType_e, caption:string, tip:string)
+    + Caption : string <<get>>
+    + SharedIconsDir : DirectoryInfo <<get>> <<set>>
+    + Tip : string <<get>> <<set>>
+    # Control : PropertyManagerPageControl <<get>> <<set>>
+    + Type : swPropertyManagerPageControlType_e <<get>> <<internal set>>
+    + Id : short <<get>>
+    - LeftAlignment : short <<get>> <<set>>
+    - Options : swAddControlOptions_e <<get>> <<set>>
+    + ActiveDoc : ModelDoc2 <<get>> <<internal set>>
+    + Top : short <<get>> <<set>>
+    + <<virtual>> Enabled : bool <<get>> <<set>>
+    + Visible : bool <<get>> <<set>>
+    + ResizeStyles : ControlResizeStyles <<get>> <<set>>
+    + Left : short <<get>> <<set>>
+    + Width : short <<get>> <<set>>
+    <<internal>> Register(group:IPropertyManagerPageGroup) : void
+    + SetPictureLabel(bitmap:Bitmap, fileName:string) : void
+    - SetPictureLabelForControl(bitmap:Bitmap, fileName:string) : void
+    + ShowBubleTooltip(title:string, message:string, bitmap:Bitmap, fileName:string) : void
+    - ShowBubbleTooltipForControl(title:string, message:string, bitmap:Bitmap, fileName:string) : void
+    <<internal>> <<virtual>> DisplayingCallback() : void
+    <<internal>> <<virtual>> GainedFocusCallback() : void
+    <<internal>> <<virtual>> LostFocusCallback() : void
+    <<internal>>  <<event>> Registering : Action 
+    +  <<event>> Displaying : PmpControlDisplayingEventHandler 
+    +  <<event>> GainedFocus : EventHandler 
+    +  <<event>> LostFocus : EventHandler 
+}
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+enum PmpOptions {
+    AbortCommands= 1024,
+    CancelButton= 2,
+    CanEscapeCancel= 4096,
+    CloseDialogButton= 8,
+    DisablePageBuildDuringHandlers= 32768,
+    DisableSelection= 256,
+    GrayOutDisabledSelectionListboxes= 65536,
+    HandleKeystrokes= 8192,
+    LockedPage= 4,
+    MultiplePages= 16,
+    OkayButton= 1,
+    PreviewButton= 128,
+    PushpinButton= 32,
+    RedoButton= 16384,
+    SupportsChainSelection= 131072,
+    SupportsIsolate= 262144,
+    UndoButton= 2048,
+    WhatsNew= 512,
+}
+@enduml

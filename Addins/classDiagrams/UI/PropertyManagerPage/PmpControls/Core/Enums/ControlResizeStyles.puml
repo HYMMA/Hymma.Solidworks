@@ -1,0 +1,6 @@
+@startuml
+enum ControlResizeStyles {
+    LockLeft= 1,
+    LockRight= 2,
+}
+@enduml

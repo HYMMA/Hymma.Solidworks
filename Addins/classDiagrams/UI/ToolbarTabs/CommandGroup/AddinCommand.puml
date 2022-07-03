@@ -1,0 +1,18 @@
+@startuml
+class AddinCommand {
+    + AddinCommand()
+    + AddinCommand(name:string, hint:string, tooltipTitle:string, icon:Bitmap, nameofCallBackFunc:string, userId:short, menuOption:int, tabTextStyle:int, enableMethode:string)
+    + BoxId : int <<get>> <<set>> = 0
+    + Index : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+    + HintString : string <<get>> <<set>>
+    + ToolTip : string <<get>> <<set>>
+    + IconBitmap : Bitmap <<get>> <<set>>
+    + CallBackFunction : string <<get>> <<set>>
+    + EnableMethode : string <<get>> <<set>> = ""
+    + UserId : int <<get>> <<set>> = 0
+    + SolidworksId : int <<get>> <<set>>
+    + MenueOptions : int <<get>> <<set>> = 3
+    + CommandTabTextType : int <<get>> <<set>> = 2
+}
+@enduml

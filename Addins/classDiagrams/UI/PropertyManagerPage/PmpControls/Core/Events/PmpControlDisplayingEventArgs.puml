@@ -1,0 +1,13 @@
+@startuml
+class PmpControlDisplayingEventArgs {
+    - _width : short
+    - _left : short
+    - _control : IPropertyManagerPageControl
+    - _optionForResize : int
+    + PmpControlDisplayingEventArgs(control:IPropertyManagerPageControl)
+    + OptionsForResize : int <<get>> <<set>>
+    + Left : short <<get>> <<set>>
+    + Width : short <<get>> <<set>>
+}
+EventArgs <|-- PmpControlDisplayingEventArgs
+@enduml

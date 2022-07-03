@@ -1,0 +1,7 @@
+@startuml
+class PmpButton {
+    + PmpButton(caption:string, tip:string)
+    - PmpButton_OnRegister() : void
+}
+"PmpButtonBase`1" "<IPropertyManagerPageButton>" <|-- PmpButton
+@enduml

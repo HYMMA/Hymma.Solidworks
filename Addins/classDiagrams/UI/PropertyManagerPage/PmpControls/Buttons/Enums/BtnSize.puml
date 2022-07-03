@@ -1,0 +1,10 @@
+@startuml
+enum BtnSize {
+    sixteen= 16,
+    thirtyTwo= 32,
+    forty= 40,
+    sixtyFour= 64,
+    nintySix= 96,
+    hundredTwentyEight= 128,
+}
+@enduml

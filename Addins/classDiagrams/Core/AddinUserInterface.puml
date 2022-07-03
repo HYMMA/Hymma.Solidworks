@@ -1,0 +1,7 @@
+@startuml
+class AddinUserInterface {
+    + Id : int <<get>> <<set>>
+    + PropertyManagerPages : List<PmpFactoryBase> <<get>> <<set>>
+    + CommandTabs : List<AddinCommandTab> <<get>> <<set>>
+}
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+class CalloutModel {
+    - _rows : List<CalloutRow>
+    - _rowId : int
+    - CalloutModel(rows:List<CalloutRow>, solidworks:ISldWorks)
+    + CalloutModel(rows:List<CalloutRow>, solidworks:ISldWorks, model:ModelDoc2, updateWithSelection:bool)
+    + CalloutModel(rows:List<CalloutRow>, solidworks:ISldWorks, modelView:ModelView)
+    + GetRowIds(value:string) : List<int>
+    + GetRows() : List<CalloutRow>
+    + AddRow(row:CalloutRow) : void
+    + SolidworksObject : Callout <<get>> <<internal set>>
+    + Handler : SolidworksCalloutHandler <<get>>
+    + Solidworks : SldWorks <<get>>
+    + FontSize : int <<get>> <<set>>
+    + TextFormat : TextFormat <<get>> <<set>>
+    + HasTextBox : bool <<get>> <<set>>
+    + TargetStyle : swCalloutTargetStyle_e <<get>> <<set>>
+    + SkipColon : bool <<get>> <<set>>
+    + Position : Tuple<double, double, double> <<get>> <<set>>
+    + OpaqueColor : SysColor <<get>> <<set>>
+    + MultipleLeaders : bool <<get>> <<set>>
+    + LeaderStatus(visible:bool, multiple:bool) : bool
+}
+"IWrapSolidworksObject`1" "<Callout>" <|-- CalloutModel
+@enduml
