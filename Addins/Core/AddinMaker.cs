@@ -24,11 +24,6 @@ namespace Hymma.Solidworks.Addins
         #region private fields & variables
 
         /// <summary>
-        /// title of this addin
-        /// </summary>
-        private static string _addinTitle;
-
-        /// <summary>
         /// command manager for this addin assigned by SOLIDWORKS
         /// </summary>
         protected CommandManager _commandManager;
