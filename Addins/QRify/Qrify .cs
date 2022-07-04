@@ -19,6 +19,24 @@ namespace QRify
         {
             return new QrifyUserInterface(this.Solidworks);
         }
+
+        private object EnablePropertyMangagerPage()
+        {
+            if (Solidworks.ActiveDoc == null || Solidworks.CommandInProgress)
+            {
+                return 0;
+            }
+            return 1;
+
+        }
+
+        public void ShowQrifyPropertyManagerPage()
+        {
+            if (Solidworks.ActiveDoc is DrawingDoc drawing)
+            {
+                pmpFactory.Show();
+            }
+        }
     }
 
 
@@ -38,7 +56,7 @@ namespace QRify
             //this has to be a string and it has to be name of a command in this assembly, solidworks restrictions
             this.CallBackFunction = nameof(ShowQrifyPropertyManagerPage);
 
-
+            
             this.EnableMethode = nameof(EnablePropertyMangagerPage);
             this.sldworks = sldWorks;
             this.pmpFactory = pmpFactory;
@@ -115,16 +133,8 @@ namespace QRify
         {
             Types = new[] { swDocumentTypes_e.swDocDRAWING };
             TabTitle = "Qrify";
-            CommandGroup = new AddinCommandGroup()
-            {
-                Commands = new[] { new QrCommand(sldWorks, pmpFactory) },
-                HasMenue = true,
-                HasToolbar = true,
-                Description = "A description for the command group",
-                Hint = "A Hint",
-                ToolTip = "Tooltip",
-                MainIconBitmap = new System.Drawing.Bitmap(32, 32),
-            };
+            var commands = new[] { new QrCommand(sldWorks, pmpFactory) };
+            CommandGroup = new AddinCommandGroup(0, commands, "QRify this", "Create a QR code", "Create a QR code", "Create a QR code", Properties.Resources.qrify);
         }
     }
 
