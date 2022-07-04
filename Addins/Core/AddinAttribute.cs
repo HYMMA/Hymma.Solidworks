@@ -35,7 +35,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// The title for this addin in the addin-list
         /// </summary>
-        public string Title { get; set; }
+        public string Title { get;}
 
         /// <summary>
         /// default constructor
