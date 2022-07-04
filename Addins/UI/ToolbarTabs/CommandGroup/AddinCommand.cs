@@ -24,11 +24,12 @@ namespace Hymma.Solidworks.Addins
         /// <param name="hint">text to display in a tooltip</param>
         /// <param name="tooltipTitle">tooltip title</param>
         /// <param name="icon">icon for this command</param>
-        /// <param name="nameofCallBackFunc">name of function that this command calls</param>
+        /// <param name="nameofCallBackFunc">name of function that this command calls <strong>THIS FUNCTION MUST BE DEFINED IN THE ADDIN CLASS. ADDIN CLASS IS THE ONE THAT INHERITS FROM <see cref="AddinMaker"/></strong></param>
         /// <param name="userId">a user id for this command</param>
         /// <param name="menuOption">whether this command should be in menue or toolbox or both as defined in <see cref="swCommandItemType_e"/><br/></param>
         /// <param name="tabTextStyle">text dispay of this commnd when used in a <see cref="AddinCommandTab"/> as defined by <see cref="swCommandTabButtonTextDisplay_e"/></param>
         /// <param name="enableMethode">name of optional function that controls the state of the item; if specified, then SOLIDWORKS calls this function before displaying the item 
+        /// <strong>THIS FUNCTION MUST BE DEFINED IN THE ADDIN CLASS. ADDIN CLASS IS THE ONE THAT INHERITS FROM <see cref="AddinMaker"/></strong>
         /// <list type="table">
         /// <listheader>
         /// <term>values</term>
@@ -86,8 +87,9 @@ namespace Hymma.Solidworks.Addins
         public Bitmap IconBitmap { get; set; }
 
         /// <summary>
-        /// name of the function this command will call
+        /// name of the function this command will call 
         /// </summary>
+        /// <remarks><strong>THIS FUNCTION MUST BE DEFINED IN THE ADDIN CLASS. ADDIN CLASS IS THE ONE THAT INHERITS FROM <see cref="AddinMaker"/></strong></remarks>
         public string CallBackFunction { get; set; }
 
         /// <summary>
@@ -104,6 +106,7 @@ namespace Hymma.Solidworks.Addins
         /// <item>4<term></term><description>Not supported</description></item>
         /// </list>
         /// </summary>
+        /// <remarks><strong>THIS FUNCTION MUST BE DEFINED IN THE ADDIN CLASS. ADDIN CLASS IS THE ONE THAT INHERITS FROM <see cref="AddinMaker"/></strong></remarks>
         public string EnableMethode { get; set; } = "";
 
         /// <summary>
