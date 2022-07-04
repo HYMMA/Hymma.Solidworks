@@ -1,17 +1,12 @@
 ﻿using Hymma.Solidworks.Addins.Helpers;
-using Microsoft.Win32;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swpublished;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Resources;
 using System.Runtime.InteropServices;
-using Environment = System.Environment;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -37,7 +32,6 @@ namespace Hymma.Solidworks.Addins
         /// construct the data model for this addin here
         /// </summary>
         private AddinUserInterface _addinUi;
-        private string _addinTitle;
         #endregion
 
         #region constructor
@@ -48,26 +42,30 @@ namespace Hymma.Solidworks.Addins
         /// <exception cref="ArgumentException"></exception>
         public AddinMaker()
         {
-            var addin = Assembly.GetCallingAssembly();
-            var attr = GetAddinAttribute(addin);
-            if (attr == null)
+            //we get the type of addin so that we can use it later for locating addin icons folder
+            //otherwise we would need to read it from COM
+            var addinAssy = Assembly.GetCallingAssembly();
+            var typeOfAddin = GetTypeOfAddin(addinAssy);
+            if (typeOfAddin == null)
             {
-                throw new ArgumentException("AddinAttribute was not recognized");
+                throw new ArgumentException("Addin was not recognized");
             }
-            _addinTitle = attr.Title;
+
+            //calling this method here generates the necessary property values to locate addin icon folder which will be used
+            //by PmpUiModel to save UI icons
+            AddinIcons.Instance().SaveAddinIcon(typeOfAddin, out string iconFullFileName);
         }
 
-        private AddinAttribute GetAddinAttribute(Assembly addin)
+
+        private Type GetTypeOfAddin(Assembly addin)
         {
-            AddinAttribute attr=null;
             for (int i = 0; i < addin.GetExportedTypes().Length; i++)
             {
                 var type = addin.GetExportedTypes()[i];
 
                 if (typeof(AddinMaker).IsAssignableFrom(type))
                 {
-                    attr = type.GetCustomAttribute<AddinAttribute>();
-                    return attr;
+                    return type;
                 }
             }
             return null;

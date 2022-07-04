@@ -31,7 +31,6 @@ namespace Hymma.Solidworks.Addins
                 if (_instance == null)
                 {
                     _instance = new AddinIcons();
-                    //create the icons directory
                 }
                 return _instance;
             }
@@ -39,7 +38,6 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region private methods
-
         DirectoryInfo CreateIconsDirInLocalAppFolder(string dirName)
         {
             //directory should be assy folder where user has access to at all times
@@ -49,22 +47,22 @@ namespace Hymma.Solidworks.Addins
             try
             {
                 //get icons directory
-                var IconsDir = Path.Combine(localApp, dirName);
+                var dirPath = Path.Combine(localApp, dirName);
 
-                var dir = new DirectoryInfo(IconsDir);
+                var dirInfo = new DirectoryInfo(dirPath);
 
                 //if directory exists and was created more than two minutes ago
-                if (dir.Exists
+                if (dirInfo.Exists
                     &&
-                    dir.CreationTime < (DateTime.Now - TimeSpan.FromMinutes(2)))
+                    dirInfo.CreationTime < (DateTime.Now - TimeSpan.FromMinutes(2)))
                 {
-                    //delete it
-                    dir.Delete(true);
+                    //delete it recursively
+                    dirInfo.Delete(true);
                 }
 
                 //this method does nothing if it already exists
-                dir.Create();
-                return dir;
+                dirInfo.Create();
+                return dirInfo;
             }
             catch (Exception e)
             {
@@ -185,6 +183,7 @@ namespace Hymma.Solidworks.Addins
         /// <returns></returns>
         internal DirectoryInfo IconsDir => _iconsDirInfo;
 
+        
         /// <summary>
         /// Extracts icon from the assembly of a type and saves to %LOCALAPPDATA%\<see cref="AddinAttribute.Title"/>.png
         /// </summary>
@@ -226,6 +225,5 @@ namespace Hymma.Solidworks.Addins
             }
         }
         #endregion
-
     }
 }
