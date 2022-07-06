@@ -66,6 +66,7 @@ namespace QRify
 
         public QrPropertyManagerPageGroup()
         {
+            this.Caption = "Qrify";
             //text box
             textBox = new PmpTextBox("www.hymma.net");
 
@@ -88,7 +89,7 @@ namespace QRify
             //generate qr code and save it in clipboard
             SaveQrToClipboard(textBox);
             var btn = sender as PmpBitmapButton;
-            btn.ShowBubleTooltip("Success", "Copied into clipboard, use Ctrl+v to paste", Properties.Resources.info, "successImageFileName");
+            btn.ShowBubleTooltip("Success", "Copied into clipboard, after close use Ctrl+v to paste", Properties.Resources.info, "successImageFileName");
         }
 
         private void SaveQrToClipboard(PmpTextBox textBox)
@@ -170,7 +171,11 @@ namespace QRify
 
             this.Name = "QRify";
             this.HintString = "Get QR code";
-            this.ToolTip = "ToolTipe";
+
+            //for some reason this overrides the Name in the command
+            //that means solidworks uses ToolTip as the name of the command and shows this value in the command tab
+            //so it's better to use the name here too
+            this.ToolTip = "QRify";
         }
     }
     public class QrCommandGroup : AddinCommandGroup
