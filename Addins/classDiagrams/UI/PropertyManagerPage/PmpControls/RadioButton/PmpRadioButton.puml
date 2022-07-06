@@ -1,0 +1,12 @@
+@startuml
+class PmpRadioButton {
+    - _isChecked : bool
+    + PmpRadioButton(caption:string, isChecked:bool)
+    + IsChecked : bool <<get>> <<set>>
+    + MaintainState : bool <<get>> <<set>>
+    <<internal>> CheckedCallback() : void
+    + Checked : EventHandler
+    - _maintain : bool
+}
+"PmpControl`1" "<IPropertyManagerPageOption>" <|-- PmpRadioButton
+@enduml

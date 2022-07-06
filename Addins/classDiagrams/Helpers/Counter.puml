@@ -1,0 +1,12 @@
+@startuml
+class Counter <<static>> {
+    - {static} i : int = 0
+    - {static} p : int = 0
+    - {static} m : int
+    - {static} rowId : int
+    <<internal>> {static} GetNextPmpId() : int
+    <<internal>> {static} GetNextSelBoxMark() : int
+    <<internal>> {static} GetNextCalloutRowId() : int
+    <<internal>> {static} GetNextPopUpMenuItemId() : int
+}
+@enduml

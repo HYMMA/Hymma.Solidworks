@@ -1,0 +1,9 @@
+@startuml
+enum SelectionBoxStyles {
+    Default= 0,
+    HScroll= 1,
+    MultipleItemSelect= 4,
+    UpAndDownButtons= 2,
+    WantListboxSelectionChanged= 8,
+}
+@enduml

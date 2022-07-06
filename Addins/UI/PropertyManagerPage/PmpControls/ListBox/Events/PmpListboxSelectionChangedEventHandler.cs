@@ -1,4 +1,6 @@
-﻿
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
 namespace Hymma.Solidworks.Addins
 {
 

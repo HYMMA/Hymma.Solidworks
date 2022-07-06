@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using System;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -12,9 +15,10 @@ namespace Hymma.Solidworks.Addins
         private string _icon;
 
         /// <summary>
-        /// file name of bitmap icon in Resources.resx without extension. <br/>
+        /// resource name of a bitmap icon in the <strong>.resx file</strong> <i>or</i> the filename (with extension) of an asset whose build property set to <strong>Embedded Resource</strong>.<br/> 
         /// The add-in icon displays next to the add-in name in the SOLIDWORKS Add-in Manager dialog<br/>
         /// </summary>
+        /// <remarks>any space character will be replaced by '_'</remarks>
         public string AddinIcon
         {
             get => _icon.Replace(" ", "_");
@@ -34,13 +38,14 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// The title for this addin in the addin-list
         /// </summary>
-        public string Title { get; set; }
+        public string Title { get;}
 
         /// <summary>
         /// default constructor
         /// </summary>
-        public AddinAttribute()
+        public AddinAttribute(string title)
         {
+            Title = title;
         }
     }
 }

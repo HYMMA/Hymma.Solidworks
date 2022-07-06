@@ -1,4 +1,7 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.Linq;
@@ -175,7 +178,7 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// gets the cut-list forlder of this body, it applies to weldment or sheetmetal components only
+        /// gets the cut-list folder of this body, it applies to weldment or sheetmetal components only
         /// </summary>
         /// <param name="body"></param>
         /// <param name="part"></param>
@@ -183,7 +186,7 @@ namespace Hymma.Solidworks.Extensions
         /// <returns>GetCutListFolder as <see cref="Feature"/></returns>
         public static Feature GetCutListFolder(this Body2 body, PartDoc part, SldWorks solidwork)
         {
-            //if this body is niether sheetMetal nor weldment return null
+            //if this body is neither sheetMetal nor weldment return null
             if (!body.IsSheetMetal() || !body.IsWeldment()) return null;
             Feature feature = (Feature)part.FirstFeature();
             while (feature != null)
@@ -296,7 +299,7 @@ namespace Hymma.Solidworks.Extensions
         /// will return flatpattern bounding box coordinates in metric unit
         /// </summary>
         /// <param name="body"></param>
-        /// <returns></returns>
+        /// <returns>An array of 6 doubles. where the first three are the x,y,z coordinations of one corner of the cube and the rest are the coordinations of the other corner </returns>
         public static double[] GetFlatPatternBoxCoords(this Body2 body)
         {
             var flatPattern = body.GetFlatPattern();

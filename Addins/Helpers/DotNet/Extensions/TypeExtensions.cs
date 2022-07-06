@@ -1,39 +1,31 @@
-﻿using System;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using System;
 using System.Reflection;
 
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// provides extenison methodes for a <see cref="Type"/>
+    /// provides extension methods for a <see cref="Type"/>
     /// </summary>
     internal static class TypeExtensions
     {
         /// <summary>
         /// returns the attribute in a type
         /// </summary>
-        /// <typeparam name="A">the attriubte required</typeparam>
+        /// <typeparam name="T">the attribute required</typeparam>
         /// <param name="type"></param>
         /// <param name="searchChildren"></param>
         /// <returns></returns>
-        internal static Attribute TryGetAttribute<A>(this Type type,bool searchChildren) where A:Attribute
+        internal static T TryGetAttribute<T>(this Type type, bool searchChildren = false) where T : Attribute
         {
-            foreach (Attribute attr in type.GetCustomAttributes(searchChildren))
+            foreach (var attr in type.GetCustomAttributes(searchChildren))
             {
-                if (attr is A)
-                    return attr;
+                if (attr is T)
+                    return attr as T;
             }
             return null;
-        }
-
-        /// <summary>
-        /// get assembly locaiton
-        /// </summary>
-        /// <param name="self"></param>
-        /// <returns></returns>
-        internal static string GetAssemblyDir(this object self)
-        {
-            Assembly assembly = self.GetType().Assembly;
-            return assembly.Location;
         }
 
         /// <summary>

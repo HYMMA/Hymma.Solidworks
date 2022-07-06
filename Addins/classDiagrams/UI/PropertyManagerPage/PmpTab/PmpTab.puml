@@ -1,0 +1,18 @@
+@startuml
+class PmpTab {
+    - _icon : Bitmap
+    + PmpTab(caption:string, icon:Bitmap)
+    + Id : int <<get>> <<protected set>>
+    + Caption : string <<get>> <<set>>
+    + SolidworksObject : IPropertyManagerPageTab <<get>> <<set>>
+    + TabGroups : List<PmpGroup> <<get>> <<set>>
+    + Activate() : void
+    <<internal>> Register(propertyManagerPage:IPropertyManagerPage2) : void
+    <<internal>> DisplayingCallback() : void
+    <<internal>> ClickedCallback() : void
+    +  <<event>> Displaying : Action 
+    +  <<event>> Clicked : Action 
+    + IconDir : DirectoryInfo <<get>> <<internal set>>
+}
+"IWrapSolidworksObject`1" "<IPropertyManagerPageTab>" <|-- PmpTab
+@enduml

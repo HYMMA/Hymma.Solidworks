@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using System;
 using System.IO;
 using System.Reflection;
 

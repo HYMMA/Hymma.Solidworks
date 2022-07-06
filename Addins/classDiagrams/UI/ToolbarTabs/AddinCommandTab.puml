@@ -1,0 +1,11 @@
+@startuml
+class AddinCommandTab {
+    - _commandGroup : AddinCommandGroupBase
+    + TabTitle : string <<get>> <<set>>
+    + Types : IEnumerable<swDocumentTypes_e> <<get>> <<set>>
+    + CommandGroup : AddinCommandGroupBase <<get>> <<set>>
+    + SolidworksObject : CommandTab <<get>>
+    <<internal>> Register(commandManager:ICommandManager) : bool
+}
+"IWrapSolidworksObject`1" "<CommandTab>" <|-- AddinCommandTab
+@enduml

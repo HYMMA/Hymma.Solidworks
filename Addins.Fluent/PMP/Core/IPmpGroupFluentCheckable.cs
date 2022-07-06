@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using System;
 
 namespace Hymma.Solidworks.Addins.Fluent
 {

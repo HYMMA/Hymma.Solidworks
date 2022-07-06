@@ -1,4 +1,7 @@
-﻿using Hymma.Solidworks.Extensions;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+//using Hymma.Solidworks.Extensions;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
@@ -173,8 +176,8 @@ namespace Hymma.Solidworks.Addins
             Controls.ForEach(c => c.Register(SolidworksObject));
 
             //a special rule should apply for options (radio buttons) as they require a style value of 1 to indicate the beginning of a group of options
-            //any following optio without this value set are considered part of the group; the next option with this value set indicates the start of a new option group
-            //we assume all the radio buttons in a PMPGroup are members of a group so we assing a value of 1 to the first one
+            //any following option without this value set are considered part of the group; the next option with this value set indicates the start of a new option group
+            //we assume all the radio buttons in a PMPGroup are members of a group so we assign a value of 1 to the first one
             //get all radio buttons ...
             var groupOptions = Controls.Where(c => c.Type == swPropertyManagerPageControlType_e.swControlType_Option).Cast<PmpRadioButton>();
 
@@ -183,7 +186,7 @@ namespace Hymma.Solidworks.Addins
                 groupOptions.ElementAt(0).SolidworksObject.Style = 1;
 
                 //if the checked radio button should maintain its state 
-                //across differet sessions of the property manager page
+                //across different sessions of the property manager page
                 //the rest of the radio buttons should do the same which means the rest of them
                 //stay un-checked in the next run
                 if (groupOptions.Any(c => c.MaintainState))
@@ -222,7 +225,7 @@ namespace Hymma.Solidworks.Addins
 
         #region events
         /// <summary>
-        /// invoked once this group is registerd into solidworks
+        /// invoked once this group is registers into solidworks
         /// </summary>
         public Action OnRegister { get; set; }
 

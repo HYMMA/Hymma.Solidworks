@@ -1,0 +1,8 @@
+@startuml
+class PmpBitmapButtonCheckable {
+    + PmpBitmapButtonCheckable(standardBitmap:BitmapButtons, tip:string)
+    + PmpBitmapButtonCheckable(bitmap:Bitmap, tip:string, iconSizes:BtnSize, opacity:byte)
+    + Checked : bool <<get>> <<set>>
+}
+PmpBitmapButton <|-- PmpBitmapButtonCheckable
+@enduml

@@ -2,22 +2,25 @@
 <package >
 	<metadata minClientVersion="2.5">
 		<id>Hymma.Solidworks.Interop</id>
-		<version>$year$.0.$rev$</version>
+		<!-- will be replace by msbuild target -->
+		<version>0.0.0.0</version>
 		<authors>HYMMA</authors>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<license type="expression">MIT</license>
-		<description>SOLIDWORKS $year$ Interop libraries</description>
-		<releaseNotes>Initial release</releaseNotes>
+		<description>Solidworks interop assemblies for using its API</description>
+		<releaseNotes>Updates</releaseNotes>
 		<icon>nugetIcon.png</icon>
 		<tags>cad solidworks hymma</tags>
 		<dependencies>
-			<group targetFramework=".NETStandard4.6.1"/>
+			<group targetFramework=".NETFramework4.7.2"/>
 		</dependencies>
 	</metadata>
 	<files>
-		<file src="bin\Release\*.dll" target="lib\net461" exclude="bin\Release\Hymma.Solidworks.Interop.dll" />
+		<file src="bin\Release\*.dll" target="lib\net472" exclude="bin\Release\Hymma.Solidworks.Interop.dll" />
 		<file src="..\nugetIcon.png" target=""/>
-		<file src="build\**" target="build"/>
 		<file src="tools\**" target="tools"/>
+		<file src="bin\Release\*.xml" target="lib\net472"/>
+		<file src="bin\Release\*.dll" target="lib\net472"/>
+		<file src="bin\Release\*.pdb" target="lib\net472"/>
 	</files>
 </package>

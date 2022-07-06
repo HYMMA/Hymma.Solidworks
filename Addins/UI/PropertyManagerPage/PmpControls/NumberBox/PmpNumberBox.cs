@@ -1,4 +1,7 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 
@@ -187,7 +190,7 @@ namespace Hymma.Solidworks.Addins
 
                 //otherwise update the property when the control is loaded
                 else
-                    OnRegister += () => { SolidworksObject.DisplayedUnit = (int)value; };
+                    Registering += () => { SolidworksObject.DisplayedUnit = (int)value; };
             }
         }
         #endregion

@@ -1,11 +1,14 @@
-﻿using System.Reflection;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Hymma.Solidworks.Interop")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Adds Solidworks 2018 references to your project")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Hymma.Solidworks.Interop")]
@@ -31,5 +34,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2018.0.0.0")]
-[assembly: AssemblyFileVersion("2018.0.0.0")]
+[assembly: AssemblyVersion("2018.1.0.0")]
+[assembly: AssemblyFileVersion("2018.1.0.0")]

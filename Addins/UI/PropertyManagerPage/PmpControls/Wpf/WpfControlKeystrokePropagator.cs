@@ -1,9 +1,5 @@
-﻿//*********************************************************************
-//xCAD
-//Copyright(C) 2021 Xarial Pty Limited
-//Product URL: https://www.xcad.net
-//License: https://xcad.xarial.com/license/
-//*********************************************************************
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
 
 #region License 
 /*

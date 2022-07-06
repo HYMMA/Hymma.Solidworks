@@ -1,4 +1,6 @@
-﻿
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;

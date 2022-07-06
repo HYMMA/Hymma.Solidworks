@@ -1,0 +1,29 @@
+@startuml
+class PmpGroup {
+    - _backgroundColor : SysColor
+    - _visible : bool
+    - _caption : string
+    # _options : swAddGroupBoxOptions_e
+    - _isExpanded : bool
+    + PmpGroup(caption:string, expanded:bool, visible:bool)
+    + PmpGroup(Caption:string, Controls:List<IPmpControl>, expanded:bool, visible:bool)
+    + Id : int <<get>> <<internal set>>
+    + Visible : bool <<get>> <<set>>
+    + Caption : string <<get>> <<set>>
+    + IsExpanded : bool <<get>> <<set>>
+    + Controls : List<IPmpControl> <<get>> <<internal set>>
+    + SolidworksObject : IPropertyManagerPageGroup <<get>>
+    + AddControl(control:IPmpControl) : void
+    + AddControls(controls:IEnumerable<IPmpControl>) : void
+    + BackgroundColor : SysColor <<get>> <<set>>
+    - RegisterControls() : void
+    <<internal>> Register(propertyManagerPage:IPropertyManagerPage2) : void
+    <<internal>> Register(propertyManagerPageTab:IPropertyManagerPageTab) : void
+    + OnRegister : Action <<get>> <<set>>
+    +  <<event>> Displaying : EventHandler 
+    +  <<event>> Expanded : EventHandler<bool> 
+    <<internal>> GroupExpand(e:bool) : void
+    <<internal>> Display() : void
+}
+"IWrapSolidworksObject`1" "<IPropertyManagerPageGroup>" <|-- PmpGroup
+@enduml

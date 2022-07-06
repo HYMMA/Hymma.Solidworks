@@ -1,0 +1,10 @@
+@startuml
+enum SliderStyles {
+    NoTicks= 0,
+    Vertical= 1,
+    AutoTicks= 2,
+    BottomLeftTicks= 4,
+    TopRightTicks= 8,
+    NotifyWhileTracking= 16,
+}
+@enduml

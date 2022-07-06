@@ -1,0 +1,9 @@
+@startuml
+class PmpListboxDisplayingEventArgs {
+    - _height : short
+    + PmpListboxDisplayingEventArgs(listBox:PmpListBox, height:short)
+    + Height : short <<get>> <<set>>
+    - SolidworksObject : PropertyManagerPageListbox <<get>>
+}
+PmpControlDisplayingEventArgs <|-- PmpListboxDisplayingEventArgs
+@enduml

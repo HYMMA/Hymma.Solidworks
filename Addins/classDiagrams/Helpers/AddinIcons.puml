@@ -1,0 +1,17 @@
+@startuml
+class AddinIcons {
+    {static} _instance : AddinIcons
+    {static} _iconsDirInfo : DirectoryInfo
+    - _iconFullFileName : string
+    AddinIcons()
+    {static} <<readonly>> _lock : object
+    <<internal>> {static} Instance() : AddinIcons
+    CreateIconsDirInLocalAppFolder(dirName:string) : DirectoryInfo
+    GetAssemblyEmbeddedResourceNames(assy:Assembly, resx:string) : List<string>
+    GetResxBitmap(t:Type, imageName:string, resxName:string) : Bitmap
+    GetEmbeddedBitmap(type:Type, resouceName:string) : Bitmap
+    GetAddinIcon(type:Type) : Bitmap
+    <<internal>> IconsDir : DirectoryInfo <<get>>
+    <<internal>> SaveAddinIcon(type:Type, iconFullFileName:string) : void
+}
+@enduml

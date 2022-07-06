@@ -13,8 +13,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Extensions", "Extensions\Hymma.Solidworks.Extensions.csproj", "{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Addins.Fluent", "Addins.Fluent\Hymma.Solidworks.Addins.Fluent.csproj", "{6100467F-2C52-4DDA-820C-40729B0C1529}"
+	ProjectSection(ProjectDependencies) = postProject
+		{86B8E368-880D-4169-BA19-60A84D3F6FB3} = {86B8E368-880D-4169-BA19-60A84D3F6FB3}
+		{C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03} = {C11FC3F2-C2D0-4E62-9CF2-1A152B76AE03}
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC} = {C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidwork.Interop", "Interop\Hymma.Solidwork.Interop.csproj", "{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hymma.solidworks.interop", "Interop\hymma.solidworks.interop.csproj", "{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRify", "Addins\QRify\QRify.csproj", "{B0A0B8D8-AF58-4CE8-A27E-74114C209344}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +63,14 @@ Global
 		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Release|x64.ActiveCfg = Release|Any CPU
 		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}.Release|x64.Build.0 = Release|Any CPU
+		{B0A0B8D8-AF58-4CE8-A27E-74114C209344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0A0B8D8-AF58-4CE8-A27E-74114C209344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0A0B8D8-AF58-4CE8-A27E-74114C209344}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B0A0B8D8-AF58-4CE8-A27E-74114C209344}.Debug|x64.Build.0 = Debug|Any CPU
+		{B0A0B8D8-AF58-4CE8-A27E-74114C209344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0A0B8D8-AF58-4CE8-A27E-74114C209344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0A0B8D8-AF58-4CE8-A27E-74114C209344}.Release|x64.ActiveCfg = Release|Any CPU
+		{B0A0B8D8-AF58-4CE8-A27E-74114C209344}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

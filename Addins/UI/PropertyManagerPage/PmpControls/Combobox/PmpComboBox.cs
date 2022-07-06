@@ -1,4 +1,7 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
@@ -36,6 +39,9 @@ namespace Hymma.Solidworks.Addins
             AddItems(items);
             Style = _style;
             Height = _height;
+            
+            //this removed the empty string added to index 0 of Items
+            Clear();
             Displaying += PmpComboBox_OnDisplay;
         }
 

@@ -1,0 +1,49 @@
+@startuml
+class PmpUiModel {
+    + PmpUiModel(solidworks:ISldWorks)
+    + SetTitleIcon(bitmap:Bitmap) : void
+    <<internal>> UpdateOptions() : void
+    + PopUpMenueItems : List<PopUpMenueItem> <<get>> <<set>>
+    + SetMessage(caption:string, message:string, messageVisibility:swPropertyManagerPageMessageVisibility, pageMessageExpanded:swPropertyManagerPageMessageExpanded) : void
+    + SetCursor(styles:PmpCursorStyles) : void
+    + GetControl(id:int) : IPmpControl
+    + GetControls() : IEnumerable<T>
+    + IconDir : DirectoryInfo <<get>>
+    + Id : int <<get>>
+    + AllGroups : IEnumerable<PmpGroup> <<get>>
+    + AllControls : IEnumerable<IPmpControl> <<get>>
+    + Options : PmpOptions <<get>> <<set>>
+    + PmpGroups : List<PmpGroup> <<get>> <<internal set>>
+    + PmpTabs : List<PmpTab> <<get>> <<set>>
+    + Title : string <<get>> <<set>>
+    + Solidworks : ISldWorks <<get>> <<set>>
+    + SolidworksObject : IPropertyManagerPage2 <<get>> <<set>>
+    +  <<event>> HelpClicked : Func<bool> 
+    +  <<event>> AfterActivation : Action 
+    +  <<event>> AfterClose : Action 
+    +  <<event>> Closing : Action<PmpCloseReason> 
+    +  <<event>> PreviousPageClicked : Func<bool> 
+    +  <<event>> NextPageClicked : Func<bool> 
+    +  <<event>> Preview : Func<bool> 
+    +  <<event>> WhatsNewClicked : Action 
+    +  <<event>> UndoClicked : Action 
+    +  <<event>> RedoClicked : Action 
+    +  <<event>> Registering : Action 
+    +  <<event>> TabClicked : Func<int, bool> 
+    +  <<event>> KeyStroke : EventHandler<PmpKeyStrokeEventArgs> 
+    <<internal>> HelpClickedCallBack() : bool
+    <<internal>> AfterActivationCallBack() : void
+    <<internal>> AfterCloseCallBack() : void
+    <<internal>> WhatsNewClickedCallBack() : void
+    <<internal>> UndoClickedCallBack() : void
+    <<internal>> RedoClickedCallBack() : void
+    <<internal>> ClosingCallBack(reason:int) : void
+    <<internal>> PreviousPageClickedCallBack() : bool
+    <<internal>> TabedClickedCallBack(id:int) : bool
+    <<internal>> PreviewCallBack() : bool
+    <<internal>> NextPageClickedCallBack() : bool
+    <<internal>> RegisteringCallBack(propertyManagerPage:IPropertyManagerPage2) : void
+    <<internal>> KeyStrokeCallBack(Wparam:int, Message:int, Lparam:int) : bool
+}
+"IWrapSolidworksObject`1" "<IPropertyManagerPage2>" <|-- PmpUiModel
+@enduml

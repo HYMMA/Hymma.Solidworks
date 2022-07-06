@@ -1,0 +1,16 @@
+@startuml
+class PmpLabelDisplayingEventArgs {
+    - SolidworksObject : PropertyManagerPageLabel
+    - Lable : PmpLabel
+    + PmpLabelDisplayingEventArgs(label:PmpLabel)
+    + Height : short <<get>> <<set>>
+    + GetSizeRatio(StartChar:short, EndChar:short) : double
+    + GetLineOffset(StartChar:short, EndChar:short) : double
+    + GetUnderLineStyle(StartChar:short, EndChar:short) : int
+    + GetFont(StartChar:short, EndChar:short) : string
+    + GetBold(start:short, end:short) : bool
+    + GetBackgroundColor(StartChar:short, EndChar:short) : Color
+    + GetCharacterColor(StartChar:short, EndChar:short) : Color
+}
+PmpControlDisplayingEventArgs <|-- PmpLabelDisplayingEventArgs
+@enduml

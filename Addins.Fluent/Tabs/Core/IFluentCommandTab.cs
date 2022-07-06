@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using System.Collections.Generic;
 using SolidWorks.Interop.swconst;
 namespace Hymma.Solidworks.Addins.Fluent
 {

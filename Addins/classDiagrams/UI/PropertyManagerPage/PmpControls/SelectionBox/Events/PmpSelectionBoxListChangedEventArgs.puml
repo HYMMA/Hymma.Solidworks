@@ -1,0 +1,6 @@
+@startuml
+class PmpSelectionBoxListChangedEventArgs {
+    + PmpSelectionBoxListChangedEventArgs(itemsCount:int)
+    + ItemsCount : int <<get>>
+}
+@enduml

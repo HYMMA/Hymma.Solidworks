@@ -1,0 +1,18 @@
+@startuml
+interface IAddinCommandGroup {
+    Commands : IEnumerable<AddinCommand> <<get>> <<set>>
+    IgnorePrevious : bool <<get>> <<set>>
+    IsRegistered : bool <<get>>
+    UserId : int <<get>> <<set>>
+    Title : string <<get>> <<set>>
+    Description : string <<get>> <<set>>
+    ToolTip : string <<get>> <<set>>
+    Hint : string <<get>> <<set>>
+    Position : int <<get>> <<set>>
+    HasToolbar : bool <<get>> <<set>>
+    HasMenue : bool <<get>> <<set>>
+    MainIconBitmap : Bitmap <<get>> <<set>>
+    CommandIcons : string[] <<get>> <<set>>
+    GroupIcon : string[] <<get>> <<set>>
+}
+@enduml

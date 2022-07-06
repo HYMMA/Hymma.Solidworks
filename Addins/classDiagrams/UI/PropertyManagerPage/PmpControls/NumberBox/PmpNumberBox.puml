@@ -1,0 +1,28 @@
+@startuml
+class PmpNumberBox {
+    - _style : NumberBoxStyles
+    - _displayUnit : NumberBoxUnit
+    - _value : double
+    - _height : short
+    + PmpNumberBox(style:NumberBoxStyles)
+    + InsertItem(item:short, text:string) : short
+    + SetRange(Units:NumberBoxUnit, Minimum:double, Maximum:double, Inclusive:bool, Increment:double, fastIncrement:double, slowIncrement:double) : void
+    + AddItems(items:string[]) : void
+    + SetSliderParameters(positionCount:int, divisionCount:int) : void
+    + Value : double <<get>> <<set>>
+    + Height : short <<get>> <<set>>
+    + Style : NumberBoxStyles <<get>> <<set>>
+    + DisplayedUnit : NumberBoxUnit <<get>> <<set>>
+    <<internal>> TextChangedCallback(text:string) : void
+    <<internal>> ChangedCallback(value:double) : void
+    <<internal>> <<override>> DisplayingCallback() : void
+    <<internal>> TrackingCompletedCallback(val:double) : void
+    <<internal>> SelectionChangedCallback(item:int) : void
+    +  <<event>> TextChanged : EventHandler<string> 
+    +  <<event>> Changing : EventHandler<double> 
+    +  <<event>> TrackingCompleted : EventHandler<double> 
+    +  <<event>> SelectionChanged : EventHandler<string> 
+    + <<new>>  <<event>> Displaying : PmpNumberBoxDisplayingEventHandler 
+}
+"PmpTextBase`1" "<IPropertyManagerPageNumberbox>" <|-- PmpNumberBox
+@enduml

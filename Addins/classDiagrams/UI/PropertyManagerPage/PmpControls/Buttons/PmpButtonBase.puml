@@ -1,0 +1,8 @@
+@startuml
+class "PmpButtonBase`1"<T> {
+    + PmpButtonBase(type:swPropertyManagerPageControlType_e, caption:string, tip:string)
+    <<internal>> ClickedCallback() : void
+    +  <<event>> Clicked : EventHandler 
+}
+"PmpControl`1" "<T>" <|-- "PmpButtonBase`1"
+@enduml

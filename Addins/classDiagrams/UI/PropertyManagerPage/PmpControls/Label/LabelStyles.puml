@@ -1,0 +1,8 @@
+@startuml
+enum LabelStyles {
+    CenterText= 2,
+    LeftText= 1,
+    RightText= 4,
+    Sunken= 8,
+}
+@enduml

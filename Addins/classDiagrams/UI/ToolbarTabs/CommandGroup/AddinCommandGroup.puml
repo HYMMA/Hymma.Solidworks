@@ -1,0 +1,11 @@
+@startuml
+class AddinCommandGroup {
+    + AddinCommandGroup()
+    + AddinCommandGroup(userId:int, commands:AddinCommand[], title:string, description:string, tooltip:string, hint:string, icon:Bitmap, hasToolbar:bool, hasMenue:bool)
+    - RegisterIcons(swGroup:ICommandGroup) : void
+    + <<override>> Register(commandManager:ICommandManager) : void
+    - CheckRegistryForThisGroup(commandManager:ICommandManager) : void
+    - IdsAreEqual(storedIDs:int[], addinIDs:int[]) : bool
+}
+AddinCommandGroupBase <|-- AddinCommandGroup
+@enduml

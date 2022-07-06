@@ -1,4 +1,7 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using SolidWorks.Interop.sldworks;
 using System.Linq;
 
 namespace Hymma.Solidworks.Addins
@@ -12,7 +15,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// default constructor 
         /// </summary>
-        /// <param name="uiModel">an object that hosts differet inheritances of <see cref="IPmpControl"/> </param>
+        /// <param name="uiModel">an object that hosts different inheritances of <see cref="IPmpControl"/> </param>
         public PmpFactoryX64(PmpUiModel uiModel)
             : base(new PmpEventHandler(uiModel), uiModel)
         {
@@ -41,7 +44,7 @@ namespace Hymma.Solidworks.Addins
                 .ToList()
                 .ForEach(g => g.Display());
 
-            //display solidowrks object
+            //display Solidworks object
             propertyManagerPage.Show();
         }
     }

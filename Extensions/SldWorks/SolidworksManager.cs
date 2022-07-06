@@ -1,10 +1,13 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using SolidWorks.Interop.sldworks;
 using System;
 
 namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
-    /// provides conneciton and initiation methods for a solidworks app
+    /// provides connection and initiation methods for a solidworks app
     /// </summary>
     public class SolidWorksManager
     {
