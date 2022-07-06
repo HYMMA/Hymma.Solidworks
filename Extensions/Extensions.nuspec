@@ -14,8 +14,8 @@
 		<releaseNotes>Update to 2018</releaseNotes>
 		<tags>cad solidworks hymma</tags>
 		<dependencies>
-			<group targetFramework=".NETFramework4.6.1" >
-				<dependency id="Hymma.Solidworks.Interop" version="2018.0.1"></dependency>
+			<group targetFramework=".NETFramework4.7.2" >
+				<dependency id="Hymma.Solidworks.Interop" version="2018.1.0"></dependency>
 			</group>
 		</dependencies>
 	</metadata>
@@ -23,8 +23,8 @@
 		<file src="..\nugetIcon.png" target=""/>
 		<file src="build\**.targets" target="build"/>
 		<file src="tools\**" target="tools"/>
-		<file src="bin\Release\*.xml" target="lib\net461"/>
-		<file src="bin\Release\*.dll" target="lib\net461"/>
-		<file src="bin\Release\*.pdb" target="lib\net461"/>
+		<file src="bin\Release\*.xml" target="lib\net472"/>
+		<file src="bin\Release\*.dll" target="lib\net472"/>
+		<file src="bin\Release\*.pdb" target="lib\net472"/>
 	</files>
 </package>
