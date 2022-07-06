@@ -21,13 +21,13 @@ namespace Hymma.Solidworks.Addins
         /// constructor
         /// </summary>
         /// <param name="name">text to display next to icon</param>
-        /// <param name="hint">text to display in a tooltip</param>
-        /// <param name="tooltipTitle">tooltip title</param>
+        /// <param name="hint">text to display in a tool-tip</param>
+        /// <param name="tooltipTitle">tool-tip title</param>
         /// <param name="icon">icon for this command</param>
         /// <param name="nameofCallBackFunc">name of function that this command calls <strong>THIS FUNCTION MUST BE DEFINED IN THE ADDIN CLASS. ADDIN CLASS IS THE ONE THAT INHERITS FROM <see cref="AddinMaker"/></strong></param>
         /// <param name="userId">a user id for this command</param>
-        /// <param name="menuOption">whether this command should be in menue or toolbox or both as defined in <see cref="swCommandItemType_e"/><br/></param>
-        /// <param name="tabTextStyle">text dispay of this commnd when used in a <see cref="AddinCommandTab"/> as defined by <see cref="swCommandTabButtonTextDisplay_e"/></param>
+        /// <param name="menuOption">whether this command should be in menu or toolbox or both as defined in <see cref="swCommandItemType_e"/><br/></param>
+        /// <param name="tabTextStyle">text display of this command when used in a <see cref="AddinCommandTab"/> as defined by <see cref="swCommandTabButtonTextDisplay_e"/></param>
         /// <param name="enableMethode">name of optional function that controls the state of the item; if specified, then SOLIDWORKS calls this function before displaying the item 
         /// <strong>THIS FUNCTION MUST BE DEFINED IN THE ADDIN CLASS. ADDIN CLASS IS THE ONE THAT INHERITS FROM <see cref="AddinMaker"/></strong>
         /// <list type="table">
@@ -35,8 +35,8 @@ namespace Hymma.Solidworks.Addins
         /// <term>values</term>
         /// <description>if returned value of enabled function is:</description>
         /// </listheader>
-        /// <item>0<term></term><description>SOLIDWORKS Deselects and disables the item</description></item>
-        /// <item>1<term></term><description>SOLIDWORKS Deselects and enables the item; this is the default state if no update function is specified</description></item>
+        /// <item>0<term></term><description>SOLIDWORKS De-selects and disables the item</description></item>
+        /// <item>1<term></term><description>SOLIDWORKS De-selects and enables the item; this is the default state if no update function is specified</description></item>
         /// <item>2<term></term><description>SOLIDWORKS Selects and disables the item</description></item>
         /// <item>3<term></term><description>SOLIDWORKS Selects and enables the item</description></item>
         /// <item>4<term></term><description>Not supported</description></item>
@@ -65,7 +65,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// index of this command inside its command group object
         /// </summary>
-        public int Index { get; set; }
+        public int Index { get;internal set; }
         /// <summary>
         /// name as appears in solidworks
         /// </summary>
@@ -77,7 +77,7 @@ namespace Hymma.Solidworks.Addins
         public string HintString { get; set; }
 
         /// <summary>
-        /// tooltip for this command
+        /// tool-tip for this command
         /// </summary>
         public string ToolTip { get; set; }
 
@@ -99,8 +99,8 @@ namespace Hymma.Solidworks.Addins
         /// <term>values</term>
         /// <description>if returned value of enabled function is:</description>
         /// </listheader>
-        /// <item>0<term></term><description>SOLIDWORKS Deselects and disables the item</description></item>
-        /// <item>1<term></term><description>SOLIDWORKS Deselects and enables the item; this is the default state if no update function is specified</description></item>
+        /// <item>0<term></term><description>SOLIDWORKS De-selects and disables the item</description></item>
+        /// <item>1<term></term><description>SOLIDWORKS De-selects and enables the item; this is the default state if no update function is specified</description></item>
         /// <item>2<term></term><description>SOLIDWORKS Selects and disables the item</description></item>
         /// <item>3<term></term><description>SOLIDWORKS Selects and enables the item</description></item>
         /// <item>4<term></term><description>Not supported</description></item>
@@ -117,16 +117,16 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// Id that solidworks assigns to this command once created. it then gets used by command boxes
         /// </summary>
-        public int SolidworksId { get; set; }
+        public int SolidworksId { get;internal set; }
 
         /// <summary>
-        /// whether this command should be in menue or toolbox or both as defined in <see cref="swCommandItemType_e"/><br/>
+        /// whether this command should be in menu or toolbox or both as defined in <see cref="swCommandItemType_e"/><br/>
         /// default is 3
         /// </summary>
         public int MenueOptions { get; set; } = 3;
 
         /// <summary>
-        /// text dispay of this commnd when used in a <see cref="AddinCommandTab"/> as defined by <see cref="swCommandTabButtonTextDisplay_e"/><br/>
+        /// text display of this command when used in a <see cref="AddinCommandTab"/> as defined by <see cref="swCommandTabButtonTextDisplay_e"/><br/>
         /// default is 2
         /// </summary>
         public int CommandTabTextType { get; set; } = 2;

@@ -30,11 +30,11 @@ namespace Hymma.Solidworks.Addins
         /// <param name="title">To add a menu item for a CommandGroup to an existing SOLIDWORKS menu, specify the name of a parent menu here.<br/>
         /// <example><c>"&amp;Help\\MyApp Title"</c></example></param>
         /// <param name="description">Description of this AddinCommandGroup</param>
-        /// <param name="tooltip">Tooltip of this AddinCommandGroup</param>
+        /// <param name="tooltip">Tool-tip of this AddinCommandGroup</param>
         /// <param name="hint">A Hint for this AddinCommandGroup</param>
         /// <param name="icon"><see cref="Bitmap"/> object as icon for this command group inside the command manager</param>
-        /// <param name="hasToolbar">does it have toolbar?</param>
-        /// <param name="hasMenue">should it be presented in a menue?</param>
+        /// <param name="hasToolbar">does it have tool-bar</param>
+        /// <param name="hasMenue">should it be presented in a menu</param>
         public AddinCommandGroup(int userId, AddinCommand[] commands, string title, string description, string tooltip, string hint, Bitmap icon, bool hasToolbar = true, bool hasMenue = true)
         {
             #region assing values to properties
@@ -78,17 +78,17 @@ namespace Hymma.Solidworks.Addins
                     , command.UserId
                     , command.MenueOptions);
 
-                //assing the index we got to command
+                //assign the index we got to command
                 command.Index = index;
             }
         }
 
         /// <summary>
-        /// adds a new command group to this Add-inm
+        /// adds a new command group to this Add-in
         /// </summary>
         /// <param name="commandManager"></param>
         /// <returns></returns>
-        public override void Register(ICommandManager commandManager)
+        internal override void Register(ICommandManager commandManager)
         {
             #region Create new command group
             //if commandGroup with all its commands does not exist ignore previous instances re-create the commands

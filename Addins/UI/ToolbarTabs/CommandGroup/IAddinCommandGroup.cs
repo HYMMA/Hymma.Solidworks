@@ -21,15 +21,16 @@ namespace Hymma.Solidworks.Addins
         bool IgnorePrevious { get; set; }
 
         /// <summary>
-        /// Determines if command Group is registred in the Registry <br/>
+        /// Determines if command Group with the current <see cref="UserId"/> is registered in the Registry <br/>
         /// use <see cref="IgnorePrevious"/> to decide  a new commandGroup is required or not
         /// </summary>
+        /// <remarks>If you changed this <see cref="IAddinCommandGroup"/> in the newer versions of your addin and this method returned true, you should change the <see cref="UserId"/> .Otherwise you will face compatibility issues</remarks>
         bool IsRegistered { get;}
 
         /// <summary>
         /// If you change the definition of an existing CommandGroup (i.e., add or remove toolbar buttons), you must assign a new unique user-defined UserID to that CommandGroup. <br/>
-        /// You must perform this action to avoid conflicts with any previously existing CommandGroupa and to allow for backward and forward compatibility of the CommandGroups in your application.<br/>
-        /// The user ID and the GUID of the CoClass implementing ISwAddin are a unique pair.
+        /// You must perform this action to avoid conflicts with any previously existing CommandGroup and to allow for backward and forward compatibility of the CommandGroups in your application.<br/>
+        /// The user ID and the GUID of the CoClass implementing <see cref="AddinMaker"/> are a unique pair.
         /// </summary>
         int UserId { get; set; }
 
@@ -77,12 +78,12 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// returns list of command strips for this command group
         /// </summary>
-        string[] CommandIcons { get; set; }
+        string[] CommandIcons { get; }
         
         /// <summary>
         /// returns a list of command group icon in standard solidworks sizes
         /// </summary>
-        string[] GroupIcon { get; set; }
+        string[] GroupIcon { get;}
         
         
         #endregion

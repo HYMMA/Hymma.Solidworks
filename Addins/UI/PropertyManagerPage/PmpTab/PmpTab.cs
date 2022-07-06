@@ -43,7 +43,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// id of this tab used by solidworks 
         /// </summary>
-        public int Id { get; protected set; }
+        public int Id { get; internal set; }
 
         /// <summary>
         /// caption for this property manager page tab

@@ -4,23 +4,35 @@ using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace QRify
 {
-    [Addin(title: "Qrify", AddinIcon = "qrify.png", Description = "Creates a QR code as a picture", LoadAtStartup = true)]
-    [Guid("BB7927D1-9EAD-489F-B6EF-D48BB9091182")]
+    //It is not mandatory to make this class partial, but in future releases we might use code generators to bypass some of solidworks API restrictions
+    //AddinIcon could be a resx file or an Embedded Resource one 
+    [Addin(title: "QRify", AddinIcon = "qrify.png", Description = "Creates a QR", LoadAtStartup = true)]
     [ComVisible(true)]
-    public class Qrify : AddinMaker
+    [Guid("2EB85AF6-DB51-46FB-B955-D4A7708DA315")]
+    public partial class Qrify : AddinMaker
     {
+        private PmpFactoryBase pmpFactory;
         public override AddinUserInterface GetUserInterFace()
         {
-            return new QrifyUserInterface(this.Solidworks);
+            var ui = new QrifyUserInterface(this.Solidworks);
+            pmpFactory = ui.PmpFactory;
+            return ui;
         }
 
-        private object EnablePropertyMangagerPage()
+        //you can move this region to Qrify.g.cs
+        #region Call back functions
+        /// <summary>
+        /// This is a call back function from <see cref="QrCommand"/>
+        /// </summary>
+        /// <returns></returns>
+        public object EnablePropertyMangagerPage()
         {
             if (Solidworks.ActiveDoc == null || Solidworks.CommandInProgress)
             {
@@ -30,6 +42,10 @@ namespace QRify
 
         }
 
+        /// <summary>
+        /// This is a call back function from <see cref="QrCommand"/>
+        /// </summary>
+        /// <returns></returns>
         public void ShowQrifyPropertyManagerPage()
         {
             if (Solidworks.ActiveDoc is DrawingDoc drawing)
@@ -37,46 +53,50 @@ namespace QRify
                 pmpFactory.Show();
             }
         }
+        #endregion
     }
 
-
-    /// <summary>
-    /// This will add a command to the addin tab, once user clicked on it the property manger page should pop up
-    /// </summary>
-    public class QrCommand : AddinCommand
+    #region Property Manager Page 
+    public class QrPropertyManagerPageGroup : PmpGroup
     {
-        private ISldWorks sldworks;
-        private PmpFactoryBase pmpFactory;
+        private PmpTextBox textBox;
 
-        public QrCommand(ISldWorks sldWorks, PmpFactoryBase pmpFactory)
+        public QrPropertyManagerPageGroup()
         {
-            // this property must be set to a value otherwise solidworks wont show the command
-            this.IconBitmap = Properties.Resources.qrify;
+            //text box
+            textBox = new PmpTextBox("www.hymma.net");
 
-            //this has to be a string and it has to be name of a command in this assembly, solidworks restrictions
-            this.CallBackFunction = nameof(ShowQrifyPropertyManagerPage);
+            //button to invoke the QR generation.
+            var btn = new PmpBitmapButton(Properties.Resources.qrify, "Generate a qr picture representing above text", BtnSize.thirtyTwo, byte.MaxValue);
 
-            
-            this.EnableMethode = nameof(EnablePropertyMangagerPage);
-            this.sldworks = sldWorks;
-            this.pmpFactory = pmpFactory;
+            //once clicked on button
+            btn.Clicked += Btn_Clicked;
+
+            //Add controls using base class helper method
+            AddControls(new List<IPmpControl>
+            {
+                textBox,
+                btn
+            });
         }
 
-        private object EnablePropertyMangagerPage()
+        private void Btn_Clicked(object sender, EventArgs e)
         {
-            if (sldworks.ActiveDoc == null || sldworks.CommandInProgress)
-            {
-                return 0;
-            }
-            return 1;
-
+            //generate qr code and save it in clipboard
+            SaveQrToClipboard(textBox);
+            var btn = sender as PmpBitmapButton;
+            btn.ShowBubleTooltip("Success", "Copied into clipboard, use Ctrl+v to paste", Properties.Resources.info, "successImageFileName");
         }
 
-        public void ShowQrifyPropertyManagerPage()
+        private void SaveQrToClipboard(PmpTextBox textBox)
         {
-            if (sldworks.ActiveDoc is DrawingDoc drawing)
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(textBox.Value, QRCodeGenerator.ECCLevel.Q);
+            var qrImage = ArtQRCodeHelper.GetQRCode(textBox.Value, 5, System.Drawing.Color.Black, System.Drawing.Color.White, System.Drawing.Color.Gray, QRCodeGenerator.ECCLevel.L);
+            using (qrImage)
             {
-                pmpFactory.Show();
+                var src = Imaging.CreateBitmapSourceFromHBitmap(qrImage.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                Clipboard.SetImage(src);
             }
         }
     }
@@ -85,37 +105,41 @@ namespace QRify
     {
         public QrPropertyManagerPageTab() : base("Generate Qr", Properties.Resources.qrify)
         {
-            var controls = new List<IPmpControl>();
-            var textBox = new PmpTextBox("Text to convert to QR");
-            var btn = new PmpBitmapButton(Properties.Resources.qrify, "Generate a qr picture representing above text", BtnSize.forty, byte.MaxValue);
-            btn.Clicked += (s, e) =>
-            {
-                textBox.TextColor = Color.Green;
-                SaveQrToClipboard(textBox);
-                textBox.Value = "Press Ctrl+V to paste the code";
-            };
-            textBox.Displaying += (s, e) => textBox.TextColor = Color.Black;
-            controls.Add(textBox);
-            controls.Add(btn);
-            var group = new PmpGroup("", controls);
-            TabGroups = new List<PmpGroup> { group };
-        }
-
-        private void SaveQrToClipboard(PmpTextBox textBox)
-        {
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(textBox.Value, QRCodeGenerator.ECCLevel.Q);
-            AsciiQRCode qrCode = new AsciiQRCode(qrCodeData);
-            var code = qrCode.GetGraphic(1);
-            Clipboard.SetText(code);
+            //add the group to the tab
+            this.TabGroups = new List<PmpGroup> { new QrPropertyManagerPageGroup() };
         }
     }
 
     public class QrPropertyManagerPage : PmpUiModel
     {
+        private PmpCloseReason closeReson;
+
         public QrPropertyManagerPage(ISldWorks solidworks) : base(solidworks)
         {
             this.PmpTabs = new List<PmpTab>() { new QrPropertyManagerPageTab() };
+
+            //at this moment solidworks disables most of its API functions. So if you decided to add a sheet to a drawing for example, it wont work
+            this.Closing += QrPropertyManagerPage_Closing;
+
+            //this is where you should run any command in solidworks
+            this.AfterClose += QrPropertyManagerPage_AfterClose;
+        }
+
+        private void QrPropertyManagerPage_Closing(PmpCloseReason obj)
+        {
+            if (obj == PmpCloseReason.Cancel)
+            {
+                closeReson = obj;
+                Clipboard.Clear();
+            }
+        }
+
+        private void QrPropertyManagerPage_AfterClose()
+        {
+            if (closeReson == PmpCloseReason.Okay)
+            {
+                //Run other commands here
+            }
         }
     }
 
@@ -123,28 +147,59 @@ namespace QRify
     {
         public QrPropertyManagerPageFactory(ISldWorks sldWorks) : base(new QrPropertyManagerPage(sldWorks))
         {
-
         }
     }
+    #endregion
 
+    #region Addin button that invokes the property manger page
+    public class QrCommand : AddinCommand
+    {
+        public QrCommand()
+        {
+            this.CommandTabTextType = ((int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow);
+            this.IconBitmap = Properties.Resources.executeBtn;
+
+            //Restrictions imposed by solidworks API:
+            //These two methods must be defined in the addin class (addin class inherits from AddinMaker.cs)
+            this.EnableMethode = "EnablePropertyMangagerPage";
+            this.CallBackFunction = "ShowQrifyPropertyManagerPage";
+
+            this.Name = "QRify";
+            this.HintString = "Get QR code";
+            this.ToolTip = "ToolTipe";
+        }
+    }
+    public class QrCommandGroup : AddinCommandGroup
+    {
+        public QrCommandGroup()
+        {
+            this.Commands = new List<QrCommand>() { new QrCommand() };
+            this.Title = "Title for QRify command group";
+            this.Description = "QRify command group";
+            this.Hint = "Hint for command group";
+            this.ToolTip = "ToolTip for command group";
+            this.MainIconBitmap = Properties.Resources.qrify;
+        }
+    }
     public class QrTab : AddinCommandTab
     {
-        public QrTab(ISldWorks sldWorks, QrPropertyManagerPageFactory pmpFactory)
+        public QrTab()
         {
             Types = new[] { swDocumentTypes_e.swDocDRAWING };
-            TabTitle = "Qrify";
-            var commands = new[] { new QrCommand(sldWorks, pmpFactory) };
-            CommandGroup = new AddinCommandGroup(0, commands, "QRify this", "Create a QR code", "Create a QR code", "Create a QR code", Properties.Resources.qrify);
+            TabTitle = "QRify";
+            CommandGroup = new QrCommandGroup();
         }
     }
 
     public class QrifyUserInterface : AddinUserInterface
     {
+        public QrPropertyManagerPageFactory PmpFactory { get; }
         public QrifyUserInterface(ISldWorks sldWorks)
         {
-            var pmpFactory = new QrPropertyManagerPageFactory(sldWorks);
-            CommandTabs = new List<AddinCommandTab>() { new QrTab(sldWorks, pmpFactory) };
-            this.PropertyManagerPages = new List<PmpFactoryBase> { pmpFactory };
+            PmpFactory = new QrPropertyManagerPageFactory(sldWorks);
+            CommandTabs = new List<AddinCommandTab>() { new QrTab() };
+            this.PropertyManagerPages = new List<PmpFactoryX64> { PmpFactory };
         }
     }
+    #endregion
 }

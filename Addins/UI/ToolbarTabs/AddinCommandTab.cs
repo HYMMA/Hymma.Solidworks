@@ -37,9 +37,6 @@ namespace Hymma.Solidworks.Addins
             {
                 _commandGroup = value;
 
-                //update the icon direcoty of the command group
-                //_commandGroup._iconsDir = AddinMaker.CreateIconsDir().CreateSubdirectory($"tab_{TabTitle}").CreateSubdirectory($"grp{_commandGroup.UserId}").FullName;
-
                 var groups = _commandGroup.Commands.GroupBy(c => c.BoxId);
                 var commandsWithSpacers = new List<AddinCommand>();
                 for (int i = 0; i < groups.Count(); i++)
@@ -54,7 +51,7 @@ namespace Hymma.Solidworks.Addins
                         commandsWithSpacers.Add(new AddinCommand() { UserId = -1, IconBitmap = new Bitmap(128, 128), Index = -1, SolidworksId = -1 });
                 }
 
-                //update commads
+                //update commands
                 _commandGroup.Commands = commandsWithSpacers.ToArray();
             }
         }

@@ -106,9 +106,9 @@ namespace Hymma.Solidworks.Addins
         #region solidworks integration
 
         /// <summary>
-        /// set <see cref="PmpFactoryBase"/> object to null here
+        /// set <see cref="PmpFactoryX64"/> object to null here
         /// </summary>
-        private void RemovePMPs(List<PmpFactoryBase> propertyManagerPages)
+        private void RemovePMPs(List<PmpFactoryX64> propertyManagerPages)
         {
             for (int i = 0; i < propertyManagerPages.Count(); i++)
             {

@@ -16,27 +16,27 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// wrapper for ui objects
         /// </summary>
-        protected readonly PmpUiModel uiModel;
+        internal readonly PmpUiModel uiModel;
 
         /// <summary>
-        /// handles evetns based on their id
+        /// handles events based on their id
         /// </summary>
-        protected readonly PropertyManagerPage2Handler9 eventHandler;
+        internal readonly PropertyManagerPage2Handler9 eventHandler;
 
         /// <summary>
         /// solidworks object
         /// </summary>
-        protected readonly ISldWorks Solidworks;
+        internal readonly ISldWorks Solidworks;
 
         /// <summary>
         /// a collection of <see cref="PmpWpfHost"/> to hook property manager page with a <see cref="System.Windows.Controls.UserControl"/>
         /// </summary>
-        protected IEnumerable<PmpWpfHost> winFormHandlers;
+        internal IEnumerable<PmpWpfHost> winFormHandlers;
 
         /// <summary>
         /// Property manager page object
         /// </summary>
-        protected IPropertyManagerPage2 propertyManagerPage;
+        internal IPropertyManagerPage2 propertyManagerPage;
         #endregion
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="eventHandler">object to handle events such as check-box on-click etc...</param>
         /// <param name="uiModel">an object that hosts different inheritances of <see cref="IPmpControl"/> </param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected PmpFactoryBase(PropertyManagerPage2Handler9 eventHandler, PmpUiModel uiModel)
+        internal PmpFactoryBase(PropertyManagerPage2Handler9 eventHandler, PmpUiModel uiModel)
         {
             #region set up fields
             this.uiModel = uiModel ?? throw new ArgumentNullException();
@@ -66,7 +66,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// creates a property manager page and adds controllers/>
         /// </summary>
-        protected void CreatePropertyManagerPage()
+        internal void CreatePropertyManagerPage()
         {
             int errors = -1;
 
