@@ -170,7 +170,6 @@
     <Compile Include="UI\ToolbarTabs\CommandGroup\IAddinCommandGroup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="UI class diagram.cd" />
     <None Include="packages.config" />
     <None Include="SolidTools.SolidAddins.snk" />
   </ItemGroup>
