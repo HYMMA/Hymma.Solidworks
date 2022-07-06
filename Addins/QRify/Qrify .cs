@@ -155,6 +155,7 @@ namespace QRify
     #endregion
 
     #region Addin button that invokes the property manger page
+
     public class QrCommand : AddinCommand
     {
         public QrCommand()
