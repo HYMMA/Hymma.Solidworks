@@ -56,15 +56,15 @@
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Microsoft.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="SolidWorks.Interop.sldworks, Version=26.0.1.1, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Interop.2018.1.0\lib\net472\SolidWorks.Interop.sldworks.dll</HintPath>
+      <HintPath>..\packages\Hymma.Solidworks.Addins.2018.1.0\lib\net472\SolidWorks.Interop.sldworks.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swconst, Version=26.0.1.1, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Interop.2018.1.0\lib\net472\SolidWorks.Interop.swconst.dll</HintPath>
+      <HintPath>..\packages\Hymma.Solidworks.Addins.2018.1.0\lib\net472\SolidWorks.Interop.swconst.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swpublished, Version=26.0.1.1, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Interop.2018.1.0\lib\net472\SolidWorks.Interop.swpublished.dll</HintPath>
+      <HintPath>..\packages\Hymma.Solidworks.Addins.2018.1.0\lib\net472\SolidWorks.Interop.swpublished.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System">
