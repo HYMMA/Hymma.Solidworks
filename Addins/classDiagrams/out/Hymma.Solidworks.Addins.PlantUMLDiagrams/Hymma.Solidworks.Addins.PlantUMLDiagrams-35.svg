@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="738px" preserveAspectRatio="none" style="width:274px;height:738px;background:#FFFFFF;" version="1.1" viewBox="0 0 274 738" width="274px" zoomAndPan="magnify"><defs/><g><!--MD5=[3999afb6394fcc4f9d9b4735a2310467]
+class BitmapButtons--><g id="elem_BitmapButtons"><rect codeLine="1" fill="#F1F1F1" height="717.1563" id="BitmapButtons" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="253" x="7" y="7"/><ellipse cx="83.75" cy="23" fill="#EB937F" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M82.6094,23.7969 L82.6094,26.2969 L86.9375,26.2969 L86.9375,25.375 Q86.9375,24.7656 87.1719,24.5 Q87.4219,24.2344 87.7969,24.2344 Q88.1719,24.2344 88.4063,24.5 Q88.6406,24.7656 88.6406,25.375 L88.6406,28 L80.6406,28 Q80.0156,28 79.75,27.7656 Q79.5,27.5313 79.5,27.1406 Q79.5,26.7656 79.7656,26.5313 Q80.0313,26.2969 80.6406,26.2969 L80.9063,26.2969 L80.9063,19.6406 L80.6406,19.6406 Q80.0156,19.6406 79.75,19.4063 Q79.5,19.1719 79.5,18.7813 Q79.5,18.4063 79.75,18.1719 Q80.0156,17.9375 80.6406,17.9375 L88.2656,17.9375 L88.2656,20.5313 Q88.2656,21.1406 88.0313,21.4063 Q87.8125,21.6563 87.4219,21.6563 Q87.0469,21.6563 86.8125,21.4063 Q86.5781,21.1406 86.5781,20.5313 L86.5781,19.6406 L82.6094,19.6406 L82.6094,22.0938 L84.0938,22.0938 Q84.0938,21.4375 84.2188,21.25 Q84.4844,20.8438 84.9531,20.8438 Q85.3281,20.8438 85.5625,21.1094 Q85.7969,21.3594 85.7969,21.9688 L85.7969,23.9375 Q85.7969,24.4844 85.6719,24.6719 Q85.4063,25.0625 84.9531,25.0625 Q84.4844,25.0625 84.2188,24.6563 Q84.0938,24.4688 84.0938,23.7969 L82.6094,23.7969 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="91" x="104.25" y="28.7285">BitmapButtons</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="259" y1="39" y2="39"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65" x="13" y="57.5332">alongz= 1,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="59" x="13" y="75.1426">angle= 2,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="133" x="13" y="92.752">auto_bal_circular= 3,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106" x="13" y="110.3613">auto_bal_left= 4,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="115" x="13" y="127.9707">auto_bal_right= 5,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="131" x="13" y="145.5801">auto_bal_square= 6,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="107" x="13" y="163.1895">auto_bal_top= 7,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="79" x="13" y="180.7988">diameter= 8,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85" x="13" y="198.4082">distance1= 9,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="93" x="13" y="216.0176">distance2= 10,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="61" x="13" y="233.627">draft= 11,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="160" x="13" y="251.2363">dve_but_cmark_bolt= 12,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="172" x="13" y="268.8457">dve_but_cmark_linear= 13,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="174" x="13" y="286.4551">dve_but_cmark_single= 14,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="151" x="13" y="304.0645">leader_ang_above= 15,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="154" x="13" y="321.6738">leader_ang_beside= 16,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="148" x="13" y="339.2832">leader_hor_above= 17,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="151" x="13" y="356.8926">leader_hor_beside= 18,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="99" x="13" y="374.502">leader_left= 19,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="96" x="13" y="392.1113">leader_no= 20,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="108" x="13" y="409.7207">leader_right= 21,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="102" x="13" y="427.3301">leader_yes= 22,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="78" x="13" y="444.9395">parallel= 23,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="119" x="13" y="462.5488">perpendicular= 24,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="142" x="13" y="480.1582">reverse_direction= 25,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122" x="13" y="497.7676">revision_circle= 26,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="143" x="13" y="515.377">revision_hexagon= 27,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="133" x="13" y="532.9863">revision_square= 28,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="136" x="13" y="550.5957">revision_triangle= 29,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="84" x="13" y="568.2051">stackleft= 30,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="93" x="13" y="585.8145">stackright= 31,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="81" x="13" y="603.4238">stackup= 32,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65" x="13" y="621.0332">stack= 33,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="111" x="13" y="638.6426">favorite_add= 34,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="126" x="13" y="656.252">favorite_delete= 35,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="117" x="13" y="673.8613">favorite_save= 36,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="114" x="13" y="691.4707">favorite_load= 37,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="241" x="13" y="709.0801">dimension_set_default_attributes= 38,</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="259" y1="716.1563" y2="716.1563"/></g><!--MD5=[906d2237b80d93c609f32fbf714d9577]
+@startuml
+enum BitmapButtons {
+    alongz= 1,
+    angle= 2,
+    auto_bal_circular= 3,
+    auto_bal_left= 4,
+    auto_bal_right= 5,
+    auto_bal_square= 6,
+    auto_bal_top= 7,
+    diameter= 8,
+    distance1= 9,
+    distance2= 10,
+    draft= 11,
+    dve_but_cmark_bolt= 12,
+    dve_but_cmark_linear= 13,
+    dve_but_cmark_single= 14,
+    leader_ang_above= 15,
+    leader_ang_beside= 16,
+    leader_hor_above= 17,
+    leader_hor_beside= 18,
+    leader_left= 19,
+    leader_no= 20,
+    leader_right= 21,
+    leader_yes= 22,
+    parallel= 23,
+    perpendicular= 24,
+    reverse_direction= 25,
+    revision_circle= 26,
+    revision_hexagon= 27,
+    revision_square= 28,
+    revision_triangle= 29,
+    stackleft= 30,
+    stackright= 31,
+    stackup= 32,
+    stack= 33,
+    favorite_add= 34,
+    favorite_delete= 35,
+    favorite_save= 36,
+    favorite_load= 37,
+    dimension_set_default_attributes= 38,
+}
+@enduml
+
+PlantUML version 1.2022.5(Sat Apr 30 20:55:52 AEST 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: Cp1252
+Language: en
+Country: AU
+--></g></svg>

@@ -1,0 +1,1216 @@
+@startuml Hymma.solidworks.addins
+!include .\Core\AddinAttribute.puml
+!include .\Core\AddinMaker.puml
+!include .\Core\AddinUserInterface.puml
+!include .\Core\IWrapSolidworksObject.puml
+!include .\Core\OnConnectToSwEventArgs.puml
+!include .\Helpers\AddinIcons.puml
+!include .\Helpers\Counter.puml
+!include .\Helpers\MaskedBitmap.puml
+!include .\Properties\AssemblyInfo.puml
+!include .\Properties\Resources.Designer.puml
+!include .\UI\PopUpMenueItem.puml
+!include .\Helpers\DotNet\RegisteryHelper.puml
+!include .\obj\Debug\.NETFramework,Version=v4.6.1.AssemblyAttributes.puml
+!include .\obj\Release\.NETFramework,Version=v4.6.1.AssemblyAttributes.puml
+!include .\UI\Callout\CalloutModel.puml
+!include .\UI\Callout\CalloutRow.puml
+!include .\UI\Callout\OnRowValueChangedEventArgs.puml
+!include .\UI\Callout\SolidworksCalloutHandler.puml
+!include .\UI\ToolbarTabs\AddinCommandTab.puml
+!include .\bin\Debug\Properties\Resources.Designer.puml
+!include .\bin\Release\Properties\Resources.Designer.puml
+!include .\Helpers\DotNet\Extensions\AssemblyExtensions.puml
+!include .\Helpers\DotNet\Extensions\TypeExtensions.puml
+!include .\UI\PropertyManagerPage\Core\PmpCloseReason.puml
+!include .\UI\PropertyManagerPage\Core\PmpCursorStyles.puml
+!include .\UI\PropertyManagerPage\Core\PmpEventHandler.puml
+!include .\UI\PropertyManagerPage\Core\PmpFactoryBase.puml
+!include .\UI\PropertyManagerPage\Core\PmpFactoryX64.puml
+!include .\UI\PropertyManagerPage\Core\PmpOnKeyStrokeEventArgs .puml
+!include .\UI\PropertyManagerPage\Core\PmpOptions.puml
+!include .\UI\PropertyManagerPage\Core\PmpUiModel.puml
+!include .\UI\PropertyManagerPage\PmpTab\PmpTab.puml
+!include .\UI\ToolbarTabs\CommandGroup\AddinCommand.puml
+!include .\UI\ToolbarTabs\CommandGroup\AddinCommandGroup.puml
+!include .\UI\ToolbarTabs\CommandGroup\AddinCommandGroupBase.puml
+!include .\UI\ToolbarTabs\CommandGroup\IAddinCommandGroup.puml
+!include .\UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButton.puml
+!include .\UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButtonCheckable.puml
+!include .\UI\PropertyManagerPage\PmpControls\Buttons\PmpButton.puml
+!include .\UI\PropertyManagerPage\PmpControls\Buttons\PmpButtonBase.puml
+!include .\UI\PropertyManagerPage\PmpControls\Checkbox\PmpCheckBox.puml
+!include .\UI\PropertyManagerPage\PmpControls\Checkbox\PmpCheckBoxCheckedEventHandler.puml
+!include .\UI\PropertyManagerPage\PmpControls\Combobox\ComboBoxStyles.puml
+!include .\UI\PropertyManagerPage\PmpControls\Combobox\PmpComboBox.puml
+!include .\UI\PropertyManagerPage\PmpControls\Core\IPmpControl.puml
+!include .\UI\PropertyManagerPage\PmpControls\Core\PmpControl.puml
+!include .\UI\PropertyManagerPage\PmpControls\Core\PmpTextBase.puml
+!include .\UI\PropertyManagerPage\PmpControls\Group\PmpGroup.puml
+!include .\UI\PropertyManagerPage\PmpControls\Group\PmpGroupCheckable.puml
+!include .\UI\PropertyManagerPage\PmpControls\Image\PmpBitmap.puml
+!include .\UI\PropertyManagerPage\PmpControls\Label\LabelStyles.puml
+!include .\UI\PropertyManagerPage\PmpControls\Label\PmpLabel.puml
+!include .\UI\PropertyManagerPage\PmpControls\Label\UnderLineStyles.puml
+!include .\UI\PropertyManagerPage\PmpControls\ListBox\PmpListBox.puml
+!include .\UI\PropertyManagerPage\PmpControls\NumberBox\PmpNumberBox.puml
+!include .\UI\PropertyManagerPage\PmpControls\RadioButton\PmpRadioButton.puml
+!include .\UI\PropertyManagerPage\PmpControls\SelectionBox\PmpSelectionBox.puml
+!include .\UI\PropertyManagerPage\PmpControls\Slider\PmpSlider.puml
+!include .\UI\PropertyManagerPage\PmpControls\Slider\SliderStyles.puml
+!include .\UI\PropertyManagerPage\PmpControls\TextBox\PmpTextBox.puml
+!include .\UI\PropertyManagerPage\PmpControls\WinForms\PmpWinForm.puml
+!include .\UI\PropertyManagerPage\PmpControls\WinForms\PmpWinFormContoller.puml
+!include .\UI\PropertyManagerPage\PmpControls\Wpf\PmpWpfHost.puml
+!include .\UI\PropertyManagerPage\PmpControls\Wpf\WpfControlKeystrokePropagator.puml
+!include .\UI\PropertyManagerPage\PmpControls\Buttons\Enums\BitmapButtons.puml
+!include .\UI\PropertyManagerPage\PmpControls\Buttons\Enums\BtnSize.puml
+!include .\UI\PropertyManagerPage\PmpControls\Core\Enums\ControlResizeStyles.puml
+!include .\UI\PropertyManagerPage\PmpControls\Core\Events\PmpControlDisplayingEventArgs.puml
+!include .\UI\PropertyManagerPage\PmpControls\Core\Events\PmpControlDisplayingEventHandler.puml
+!include .\UI\PropertyManagerPage\PmpControls\Label\Events\PmpLabelDisplayingEventArgs.puml
+!include .\UI\PropertyManagerPage\PmpControls\Label\Events\PmpLabelDisplayingEventHandler.puml
+!include .\UI\PropertyManagerPage\PmpControls\ListBox\Enums\ListboxStyles.puml
+!include .\UI\PropertyManagerPage\PmpControls\ListBox\Events\PmpListboxDisplayingEventArgs.puml
+!include .\UI\PropertyManagerPage\PmpControls\ListBox\Events\PmpListboxDisplayingEventHandler.puml
+!include .\UI\PropertyManagerPage\PmpControls\ListBox\Events\PmpListboxRightClickedEventHandler.puml
+!include .\UI\PropertyManagerPage\PmpControls\ListBox\Events\PmpListboxSelectionChangedEventHandler.puml
+!include .\UI\PropertyManagerPage\PmpControls\NumberBox\Enums\NumberBoxStyles.puml
+!include .\UI\PropertyManagerPage\PmpControls\NumberBox\Enums\NumberBoxUnit.puml
+!include .\UI\PropertyManagerPage\PmpControls\NumberBox\Events\PmpNumberBoxDisplayingEventArgs.puml
+!include .\UI\PropertyManagerPage\PmpControls\NumberBox\Events\PmpNumberBoxDisplayingEventHandler.puml
+!include .\UI\PropertyManagerPage\PmpControls\SelectionBox\Enums\SelectionBoxStyles.puml
+!include .\UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxDisplayingEventArgs.puml
+!include .\UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxEventHandler.puml
+!include .\UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxListChangedEventArgs.puml
+!include .\UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxSelectionSubmittedEventArgs.puml
+!include .\UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxSelectionSubmittedEventHandler.puml
+!include .\UI\PropertyManagerPage\PmpControls\TextBox\Enums\TextBoxStyles.puml
+@enduml
+@startuml
+class Resources {
+    - {static} resourceMan : global::System.Resources.ResourceManager
+    - {static} resourceCulture : global::System.Globalization.CultureInfo
+    <<internal>> Resources()
+    + {static} ResourceManager : global::System.Resources.ResourceManager <<get>>
+    + {static} Culture : global::System.Globalization.CultureInfo <<get>> <<set>>
+}
+@enduml
+@startuml
+class Resources {
+    - {static} resourceMan : global::System.Resources.ResourceManager
+    - {static} resourceCulture : global::System.Globalization.CultureInfo
+    <<internal>> Resources()
+    + {static} ResourceManager : global::System.Resources.ResourceManager <<get>>
+    + {static} Culture : global::System.Globalization.CultureInfo <<get>> <<set>>
+}
+@enduml
+@startuml
+class AddinAttribute {
+    - _icon : string
+    + AddinIcon : string <<get>> <<set>>
+    + LoadAtStartup : bool <<get>> <<set>> = true
+    + Description : string <<get>> <<set>>
+    + Title : string <<get>> <<set>>
+    + AddinAttribute(title:string)
+}
+Attribute <|-- AddinAttribute
+@enduml
+@startuml
+abstract class AddinMaker {
+    - {static} _addinTitle : string
+    # _commandManager : CommandManager
+    # documentsEventsRepo : Hashtable
+    - _addinUi : AddinUserInterface
+    + Solidworks : ISldWorks <<get>> <<set>>
+    + {static} Register(t:Type) : void
+    + {static} Unregister(t:Type) : void
+    - RemovePMPs(propertyManagerPages:List<PmpFactoryBase>) : void
+    - DetachEventsFromAllDocuments() : void
+    - DetachSwEvents() : void
+    - RemoveCmdTabs(commandTabs:IEnumerable<AddinCommandTab>) : void
+    + DisconnectFromSW() : bool
+    + ConnectToSW(ThisSW:object, Cookie:int) : bool
+    + AddCommands(commandTabs:IEnumerable<AddinCommandTab>) : void
+    +  <<event>> OnStart : EventHandler<OnConnectToSwEventArgs> 
+    +  <<event>> OnExit : EventHandler<OnConnectToSwEventArgs> 
+    + {abstract} GetUserInterFace() : AddinUserInterface
+}
+ISwAddin <|-- AddinMaker
+@enduml
+@startuml
+class AddinUserInterface {
+    + Id : int <<get>> <<set>>
+    + PropertyManagerPages : List<PmpFactoryBase> <<get>> <<set>>
+    + CommandTabs : List<AddinCommandTab> <<get>> <<set>>
+}
+@enduml
+@startuml
+interface "IWrapSolidworksObject`1"<T> {
+    SolidworksObject : T <<get>>
+}
+@enduml
+@startuml
+class OnConnectToSwEventArgs {
+    + Solidworks : ISldWorks <<get>> <<set>>
+    + Cookie : int <<get>> <<set>>
+}
+EventArgs <|-- OnConnectToSwEventArgs
+@enduml
+@startuml
+class AddinIcons {
+    {static} _instance : AddinIcons
+    {static} _iconsDirInfo : DirectoryInfo
+    - _iconFullFileName : string
+    AddinIcons()
+    {static} <<readonly>> _lock : object
+    <<internal>> {static} Instance() : AddinIcons
+    CreateIconsDirInLocalAppFolder(dirName:string) : DirectoryInfo
+    GetAssemblyEmbeddedResourceNames(assy:Assembly, resx:string) : List<string>
+    GetResxBitmap(t:Type, imageName:string, resxName:string) : Bitmap
+    GetEmbeddedBitmap(type:Type, resouceName:string) : Bitmap
+    GetAddinIcon(type:Type) : Bitmap
+    <<internal>> IconsDir : DirectoryInfo <<get>>
+    <<internal>> SaveAddinIcon(type:Type, iconFullFileName:string) : void
+}
+@enduml
+@startuml
+class Counter <<static>> {
+    - {static} i : int = 0
+    - {static} p : int = 0
+    - {static} m : int
+    - {static} rowId : int
+    <<internal>> {static} GetNextPmpId() : int
+    <<internal>> {static} GetNextSelBoxMark() : int
+    <<internal>> {static} GetNextCalloutRowId() : int
+    <<internal>> {static} GetNextPopUpMenuItemId() : int
+}
+@enduml
+@startuml
+class MaskedBitmap <<sealed>> {
+    + {static} SaveAsPng(image:Bitmap, size:Size, fullFileName:string, allowPartialOpacity:bool, opacityThreshold:byte, invertedMask:bool) : void
+    + {static} GetImageMask(original:Bitmap, allowPartialOpacity:bool, opacityThreshold:byte, invertedMask:bool) : Bitmap
+    + {static} GetMaskedImage(original:Bitmap, allowPartialOpacity:bool, opacityThreshold:byte, invertedMask:bool) : Bitmap
+    - {static} Create32bppImageAndClearAlpha(tmpImage:Bitmap) : Bitmap
+}
+@enduml
+@startuml
+class RegisteryHelper <<static>> {
+    + {static} RegisterSolidworksAddin(type:Type) : void
+    + {static} UnregisterSolidworksAddin(type:Type) : void
+}
+@enduml
+@startuml
+class AssemblyExtensions <<static>> {
+    + {static} GetAssemblyDirectory() : string
+}
+@enduml
+@startuml
+class TypeExtensions <<static>> {
+    <<internal>> {static} TryGetAttribute(type:Type, searchChildren:bool) : T
+    <<internal>> {static} CastTo(self:object) : T
+}
+@enduml
+@startuml
+@enduml
+@startuml
+@enduml
+@startuml
+@enduml
+@startuml
+class Resources {
+    - {static} resourceMan : global::System.Resources.ResourceManager
+    - {static} resourceCulture : global::System.Globalization.CultureInfo
+    <<internal>> Resources()
+    + {static} ResourceManager : global::System.Resources.ResourceManager <<get>>
+    + {static} Culture : global::System.Globalization.CultureInfo <<get>> <<set>>
+}
+@enduml
+@startuml
+class PopUpMenueItem {
+    + PopUpMenueItem(itemText:string, hint:string, documentTypes:swDocumentTypes_e)
+    +  <<event>> Pressed : Action 
+    +  <<event>> Updated : Action<int> 
+    + ItemText : string <<get>> <<set>>
+    + Hint : string <<get>> <<set>>
+    + DocumentType : swDocumentTypes_e <<get>> <<set>>
+    + Id : int <<get>>
+    <<internal>> UpdatedCallback(u:int) : void
+    <<internal>> PressedCallback() : void
+}
+@enduml
+@startuml
+class CalloutModel {
+    - _rows : List<CalloutRow>
+    - _rowId : int
+    - CalloutModel(rows:List<CalloutRow>, solidworks:ISldWorks)
+    + CalloutModel(rows:List<CalloutRow>, solidworks:ISldWorks, model:ModelDoc2, updateWithSelection:bool)
+    + CalloutModel(rows:List<CalloutRow>, solidworks:ISldWorks, modelView:ModelView)
+    + GetRowIds(value:string) : List<int>
+    + GetRows() : List<CalloutRow>
+    + AddRow(row:CalloutRow) : void
+    + SolidworksObject : Callout <<get>> <<internal set>>
+    + Handler : SolidworksCalloutHandler <<get>>
+    + Solidworks : SldWorks <<get>>
+    + FontSize : int <<get>> <<set>>
+    + TextFormat : TextFormat <<get>> <<set>>
+    + HasTextBox : bool <<get>> <<set>>
+    + TargetStyle : swCalloutTargetStyle_e <<get>> <<set>>
+    + SkipColon : bool <<get>> <<set>>
+    + Position : Tuple<double, double, double> <<get>> <<set>>
+    + OpaqueColor : SysColor <<get>> <<set>>
+    + MultipleLeaders : bool <<get>> <<set>>
+    + LeaderStatus(visible:bool, multiple:bool) : bool
+}
+"IWrapSolidworksObject`1" "<Callout>" <|-- CalloutModel
+@enduml
+@startuml
+class CalloutRow {
+    - _rowVal : string
+    - _rowLbl : string
+    - _rolColor : SysColor
+    - _rowIsInactive : bool
+    - _ignored : bool
+    - _target : Tuple<double,double,double>
+    + CalloutRow(label:string, value:string)
+    <<internal>> Callout : ICallout <<get>> <<set>>
+    + Value : string <<get>> <<set>>
+    + Label : string <<get>> <<set>>
+    + Id : int <<get>> <<internal set>>
+    + TextColor : SysColor <<get>> <<set>>
+    + ValueInactive : bool <<get>> <<set>>
+    + Target : Tuple<double,double,double> <<get>> <<set>>
+    + IgnoreValue : bool <<get>> <<set>>
+    - ValueChanged(text:string) : void
+    +  <<event>> OnTargetChanged : Action<int, Tuple<double, double, double>> 
+    +  <<event>> OnValueChanged : CalloutEventHandler 
+}
+@enduml
+@startuml
+class OnRowValueChangedEventArgs {
+    + OnRowValueChangedEventArgs(row:CalloutRow, text:string)
+    + Row : CalloutRow <<get>> <<set>>
+    + Value : string <<get>> <<set>>
+}
+EventArgs <|-- OnRowValueChangedEventArgs
+@enduml
+@startuml
+class SolidworksCalloutHandler {
+    + SolidworksCalloutHandler(callout:CalloutModel)
+    - _callout : CalloutModel
+    OnStringValueChanged(pManipulator:object, RowID:int, Text:string) : bool
+}
+SwCalloutHandler <|-- SolidworksCalloutHandler
+@enduml
+@startuml
+enum PmpCloseReason {
+    UnknownReason= 0,
+    Okay= 1,
+    Cancel= 2,
+    ParentClosed= 3,
+    Closed= 4,
+    UserEscape= 5,
+    Apply= 6,
+    Preview= 7,
+}
+@enduml
+@startuml
+enum PmpCursorStyles {
+    None= 0,
+    Okay= 1,
+    Advance= 2,
+}
+@enduml
+@startuml
+class PmpEventHandler {
+    - popUpItems : IEnumerable<PopUpMenueItem>
+    + PmpEventHandler(uiModel:PmpUiModel)
+    + UiModel : PmpUiModel <<get>>
+    + AfterActivation() : void
+    + OnClose(Reason:int) : void
+    + AfterClose() : void
+    + OnHelp() : bool
+    + OnPreviousPage() : bool
+    + OnNextPage() : bool
+    + OnPreview() : bool
+    + OnWhatsNew() : void
+    + OnUndo() : void
+    + OnRedo() : void
+    + OnTabClicked(Id:int) : bool
+    + OnGroupExpand(Id:int, Expanded:bool) : void
+    + OnGroupCheck(Id:int, Checked:bool) : void
+    + OnCheckboxCheck(Id:int, Checked:bool) : void
+    + OnOptionCheck(Id:int) : void
+    + OnButtonPress(Id:int) : void
+    + OnTextboxChanged(Id:int, Text:string) : void
+    + OnNumberboxChanged(Id:int, Value:double) : void
+    + OnComboboxEditChanged(Id:int, Text:string) : void
+    + OnComboboxSelectionChanged(Id:int, Item:int) : void
+    + OnListboxSelectionChanged(Id:int, Item:int) : void
+    + OnSelectionboxFocusChanged(Id:int) : void
+    + OnSelectionboxListChanged(Id:int, Count:int) : void
+    + OnSelectionboxCalloutCreated(Id:int) : void
+    + OnSelectionboxCalloutDestroyed(Id:int) : void
+    + OnSubmitSelection(Id:int, Selection:object, SelType:int, ItemText:string) : bool
+    + OnActiveXControlCreated(Id:int, Status:bool) : int
+    + OnSliderPositionChanged(Id:int, Value:double) : void
+    + OnSliderTrackingCompleted(Id:int, Value:double) : void
+    + OnKeystroke(Wparam:int, Message:int, Lparam:int, Id:int) : bool
+    + OnPopupMenuItem(Id:int) : void
+    + OnPopupMenuItemUpdate(Id:int, retval:int) : void
+    + OnGainedFocus(Id:int) : void
+    + OnLostFocus(Id:int) : void
+    + OnWindowFromHandleControlCreated(Id:int, Status:bool) : int
+    + OnListboxRMBUp(Id:int, PosX:int, PosY:int) : void
+    + OnNumberBoxTrackingCompleted(Id:int, Value:double) : void
+}
+PropertyManagerPage2Handler9 <|-- PmpEventHandler
+@enduml
+@startuml
+abstract class PmpFactoryBase {
+    # <<readonly>> uiModel : PmpUiModel
+    # <<readonly>> eventHandler : PropertyManagerPage2Handler9
+    # <<readonly>> Solidworks : ISldWorks
+    # winFormHandlers : IEnumerable<PmpWpfHost>
+    # propertyManagerPage : IPropertyManagerPage2
+    # PmpFactoryBase(eventHandler:PropertyManagerPage2Handler9, uiModel:PmpUiModel)
+    # CreatePropertyManagerPage() : void
+    + {abstract} Show() : void
+    + Close(Okay:bool) : void
+}
+@enduml
+@startuml
+class PmpFactoryX64 {
+    + PmpFactoryX64(uiModel:PmpUiModel)
+    + <<override>> Show() : void
+}
+PmpFactoryBase <|-- PmpFactoryX64
+@enduml
+@startuml
+class PmpKeyStrokeEventArgs {
+    + PmpKeyStrokeEventArgs(wParam:int, message:int, lParam:int)
+    + Wparam : int <<get>>
+    + Message : int <<get>>
+    + Lparam : int <<get>>
+}
+EventArgs <|-- PmpKeyStrokeEventArgs
+@enduml
+@startuml
+enum PmpOptions {
+    AbortCommands= 1024,
+    CancelButton= 2,
+    CanEscapeCancel= 4096,
+    CloseDialogButton= 8,
+    DisablePageBuildDuringHandlers= 32768,
+    DisableSelection= 256,
+    GrayOutDisabledSelectionListboxes= 65536,
+    HandleKeystrokes= 8192,
+    LockedPage= 4,
+    MultiplePages= 16,
+    OkayButton= 1,
+    PreviewButton= 128,
+    PushpinButton= 32,
+    RedoButton= 16384,
+    SupportsChainSelection= 131072,
+    SupportsIsolate= 262144,
+    UndoButton= 2048,
+    WhatsNew= 512,
+}
+@enduml
+@startuml
+class PmpUiModel {
+    + PmpUiModel(solidworks:ISldWorks)
+    + SetTitleIcon(bitmap:Bitmap) : void
+    <<internal>> UpdateOptions() : void
+    + PopUpMenueItems : List<PopUpMenueItem> <<get>> <<set>>
+    + SetMessage(caption:string, message:string, messageVisibility:swPropertyManagerPageMessageVisibility, pageMessageExpanded:swPropertyManagerPageMessageExpanded) : void
+    + SetCursor(styles:PmpCursorStyles) : void
+    + GetControl(id:int) : IPmpControl
+    + GetControls() : IEnumerable<T>
+    + IconDir : DirectoryInfo <<get>>
+    + Id : int <<get>>
+    + AllGroups : IEnumerable<PmpGroup> <<get>>
+    + AllControls : IEnumerable<IPmpControl> <<get>>
+    + Options : PmpOptions <<get>> <<set>>
+    + PmpGroups : List<PmpGroup> <<get>> <<internal set>>
+    + PmpTabs : List<PmpTab> <<get>> <<set>>
+    + Title : string <<get>> <<set>>
+    + Solidworks : ISldWorks <<get>> <<set>>
+    + SolidworksObject : IPropertyManagerPage2 <<get>> <<set>>
+    +  <<event>> HelpClicked : Func<bool> 
+    +  <<event>> AfterActivation : Action 
+    +  <<event>> AfterClose : Action 
+    +  <<event>> Closing : Action<PmpCloseReason> 
+    +  <<event>> PreviousPageClicked : Func<bool> 
+    +  <<event>> NextPageClicked : Func<bool> 
+    +  <<event>> Preview : Func<bool> 
+    +  <<event>> WhatsNewClicked : Action 
+    +  <<event>> UndoClicked : Action 
+    +  <<event>> RedoClicked : Action 
+    +  <<event>> Registering : Action 
+    +  <<event>> TabClicked : Func<int, bool> 
+    +  <<event>> KeyStroke : EventHandler<PmpKeyStrokeEventArgs> 
+    <<internal>> HelpClickedCallBack() : bool
+    <<internal>> AfterActivationCallBack() : void
+    <<internal>> AfterCloseCallBack() : void
+    <<internal>> WhatsNewClickedCallBack() : void
+    <<internal>> UndoClickedCallBack() : void
+    <<internal>> RedoClickedCallBack() : void
+    <<internal>> ClosingCallBack(reason:int) : void
+    <<internal>> PreviousPageClickedCallBack() : bool
+    <<internal>> TabedClickedCallBack(id:int) : bool
+    <<internal>> PreviewCallBack() : bool
+    <<internal>> NextPageClickedCallBack() : bool
+    <<internal>> RegisteringCallBack(propertyManagerPage:IPropertyManagerPage2) : void
+    <<internal>> KeyStrokeCallBack(Wparam:int, Message:int, Lparam:int) : bool
+}
+"IWrapSolidworksObject`1" "<IPropertyManagerPage2>" <|-- PmpUiModel
+@enduml
+@startuml
+class PmpBitmapButton {
+    - _bitmap : Bitmap
+    - _fileName : string
+    - _iconSize : BtnSize
+    - _opacity : byte
+    - _standardIcon : BitmapButtons
+    + PmpBitmapButton(bitmap:Bitmap, tip:string, iconSizes:BtnSize, opacity:byte)
+    + PmpBitmapButton(standardIcon:BitmapButtons, tip:string)
+    - PmpBitmapButton_OnRegister() : void
+    + SetButtonIcon(bitmap:Bitmap, fileName:string, size:BtnSize, opacity:byte) : void
+    + SetButtonIcon(standardIcon:BitmapButtons) : void
+}
+"PmpButtonBase`1" "<PropertyManagerPageBitmapButton>" <|-- PmpBitmapButton
+@enduml
+@startuml
+class PmpBitmapButtonCheckable {
+    + PmpBitmapButtonCheckable(standardBitmap:BitmapButtons, tip:string)
+    + PmpBitmapButtonCheckable(bitmap:Bitmap, tip:string, iconSizes:BtnSize, opacity:byte)
+    + Checked : bool <<get>> <<set>>
+}
+PmpBitmapButton <|-- PmpBitmapButtonCheckable
+@enduml
+@startuml
+class PmpButton {
+    + PmpButton(caption:string, tip:string)
+    - PmpButton_OnRegister() : void
+}
+"PmpButtonBase`1" "<IPropertyManagerPageButton>" <|-- PmpButton
+@enduml
+@startuml
+class "PmpButtonBase`1"<T> {
+    + PmpButtonBase(type:swPropertyManagerPageControlType_e, caption:string, tip:string)
+    <<internal>> ClickedCallback() : void
+    +  <<event>> Clicked : EventHandler 
+}
+"PmpControl`1" "<T>" <|-- "PmpButtonBase`1"
+@enduml
+@startuml
+enum BitmapButtons {
+    alongz= 1,
+    angle= 2,
+    auto_bal_circular= 3,
+    auto_bal_left= 4,
+    auto_bal_right= 5,
+    auto_bal_square= 6,
+    auto_bal_top= 7,
+    diameter= 8,
+    distance1= 9,
+    distance2= 10,
+    draft= 11,
+    dve_but_cmark_bolt= 12,
+    dve_but_cmark_linear= 13,
+    dve_but_cmark_single= 14,
+    leader_ang_above= 15,
+    leader_ang_beside= 16,
+    leader_hor_above= 17,
+    leader_hor_beside= 18,
+    leader_left= 19,
+    leader_no= 20,
+    leader_right= 21,
+    leader_yes= 22,
+    parallel= 23,
+    perpendicular= 24,
+    reverse_direction= 25,
+    revision_circle= 26,
+    revision_hexagon= 27,
+    revision_square= 28,
+    revision_triangle= 29,
+    stackleft= 30,
+    stackright= 31,
+    stackup= 32,
+    stack= 33,
+    favorite_add= 34,
+    favorite_delete= 35,
+    favorite_save= 36,
+    favorite_load= 37,
+    dimension_set_default_attributes= 38,
+}
+@enduml
+@startuml
+enum BtnSize {
+    sixteen= 16,
+    thirtyTwo= 32,
+    forty= 40,
+    sixtyFour= 64,
+    nintySix= 96,
+    hundredTwentyEight= 128,
+}
+@enduml
+@startuml
+class PmpCheckBox {
+    - _isChecked : bool
+    - _maintain : bool
+    + PmpCheckBox(caption:string, isChecked:bool, tip:string)
+    <<internal>> CheckedCallback(status:bool) : void
+    + IsChecked : bool <<get>> <<set>>
+    + MaintainState : bool <<get>> <<set>>
+    +  <<event>> Checked : PmpCheckBoxCheckedEventHandler 
+}
+"PmpControl`1" "<PropertyManagerPageCheckbox>" <|-- PmpCheckBox
+@enduml
+@startuml
+@enduml
+@startuml
+enum ComboBoxStyles {
+    Sorted= 1,
+    EditableText= 2,
+    EditBoxReadOnly= 4,
+    AvoidSelectionText= 8,
+}
+@enduml
+@startuml
+class PmpComboBox {
+    - _items : List<string>
+    - _style : ComboBoxStyles
+    - _height : short
+    - _currentSelection : short
+    + PmpComboBox(items:List<string>, style:ComboBoxStyles, height:short)
+    - PmpComboBox_OnDisplay(sender:IPmpControl, eventArgs:PmpControlDisplayingEventArgs) : void
+    + AddItems(items:IEnumerable<string>) : void
+    + GetItem(index:short) : string
+    + Contains(item:string) : bool
+    + Clear() : void
+    + Delete(index:short) : void
+    + AddItem(item:string) : void
+    + Items : ReadOnlyCollection<string> <<get>>
+    + Height : short <<get>> <<set>>
+    + Style : ComboBoxStyles <<get>> <<set>>
+    + CurrentSelection : short <<get>> <<set>>
+    + EditText : string <<get>> <<set>>
+    <<internal>> SelectionChangedCallback(id:int) : void
+    <<internal>> SelectionEditCallback(val:string) : void
+    +  <<event>> SelectionChanged : EventHandler<int> 
+    +  <<event>> EditChanged : EventHandler<string> 
+}
+"PmpControl`1" "<PropertyManagerPageCombobox>" <|-- PmpComboBox
+@enduml
+@startuml
+abstract class IPmpControl {
+    - _top : short
+    - _enabled : bool = true
+    - _visible : bool = true
+    - _width : short
+    - _left : short
+    - _optionForResize : ControlResizeStyles
+    <<internal>> IPmpControl(type:swPropertyManagerPageControlType_e, caption:string, tip:string)
+    + Caption : string <<get>>
+    + SharedIconsDir : DirectoryInfo <<get>> <<set>>
+    + Tip : string <<get>> <<set>>
+    # Control : PropertyManagerPageControl <<get>> <<set>>
+    + Type : swPropertyManagerPageControlType_e <<get>> <<internal set>>
+    + Id : short <<get>>
+    - LeftAlignment : short <<get>> <<set>>
+    - Options : swAddControlOptions_e <<get>> <<set>>
+    + ActiveDoc : ModelDoc2 <<get>> <<internal set>>
+    + Top : short <<get>> <<set>>
+    + <<virtual>> Enabled : bool <<get>> <<set>>
+    + Visible : bool <<get>> <<set>>
+    + ResizeStyles : ControlResizeStyles <<get>> <<set>>
+    + Left : short <<get>> <<set>>
+    + Width : short <<get>> <<set>>
+    <<internal>> Register(group:IPropertyManagerPageGroup) : void
+    + SetPictureLabel(bitmap:Bitmap, fileName:string) : void
+    - SetPictureLabelForControl(bitmap:Bitmap, fileName:string) : void
+    + ShowBubleTooltip(title:string, message:string, bitmap:Bitmap, fileName:string) : void
+    - ShowBubbleTooltipForControl(title:string, message:string, bitmap:Bitmap, fileName:string) : void
+    <<internal>> <<virtual>> DisplayingCallback() : void
+    <<internal>> <<virtual>> GainedFocusCallback() : void
+    <<internal>> <<virtual>> LostFocusCallback() : void
+    <<internal>>  <<event>> Registering : Action 
+    +  <<event>> Displaying : PmpControlDisplayingEventHandler 
+    +  <<event>> GainedFocus : EventHandler 
+    +  <<event>> LostFocus : EventHandler 
+}
+@enduml
+@startuml
+class "PmpControl`1"<T> {
+    + PmpControl(type:swPropertyManagerPageControlType_e, caption:string, tip:string)
+    + SolidworksObject : T <<get>> <<internal set>>
+}
+IPmpControl <|-- "PmpControl`1"
+"IWrapSolidworksObject`1" "<T>" <|-- "PmpControl`1"
+@enduml
+@startuml
+class "PmpTextBase`1"<T> {
+    - bgColor : Color
+    - txtColor : Color
+    - control : IPropertyManagerPageControl
+    + PmpTextBase(type:swPropertyManagerPageControlType_e, caption:string, tip:string)
+    + BackGroundColor : Color <<get>> <<set>>
+    + TextColor : Color <<get>> <<set>>
+}
+"PmpControl`1" "<T>" <|-- "PmpTextBase`1"
+@enduml
+@startuml
+enum ControlResizeStyles {
+    LockLeft= 1,
+    LockRight= 2,
+}
+@enduml
+@startuml
+class PmpControlDisplayingEventArgs {
+    - _width : short
+    - _left : short
+    - _control : IPropertyManagerPageControl
+    - _optionForResize : int
+    + PmpControlDisplayingEventArgs(control:IPropertyManagerPageControl)
+    + OptionsForResize : int <<get>> <<set>>
+    + Left : short <<get>> <<set>>
+    + Width : short <<get>> <<set>>
+}
+EventArgs <|-- PmpControlDisplayingEventArgs
+@enduml
+@startuml
+@enduml
+@startuml
+class PmpGroup {
+    - _backgroundColor : SysColor
+    - _visible : bool
+    - _caption : string
+    # _options : swAddGroupBoxOptions_e
+    - _isExpanded : bool
+    + PmpGroup(caption:string, expanded:bool, visible:bool)
+    + PmpGroup(Caption:string, Controls:List<IPmpControl>, expanded:bool, visible:bool)
+    + Id : int <<get>> <<internal set>>
+    + Visible : bool <<get>> <<set>>
+    + Caption : string <<get>> <<set>>
+    + IsExpanded : bool <<get>> <<set>>
+    + Controls : List<IPmpControl> <<get>> <<internal set>>
+    + SolidworksObject : IPropertyManagerPageGroup <<get>>
+    + AddControl(control:IPmpControl) : void
+    + AddControls(controls:IEnumerable<IPmpControl>) : void
+    + BackgroundColor : SysColor <<get>> <<set>>
+    - RegisterControls() : void
+    <<internal>> Register(propertyManagerPage:IPropertyManagerPage2) : void
+    <<internal>> Register(propertyManagerPageTab:IPropertyManagerPageTab) : void
+    + OnRegister : Action <<get>> <<set>>
+    +  <<event>> Displaying : EventHandler 
+    +  <<event>> Expanded : EventHandler<bool> 
+    <<internal>> GroupExpand(e:bool) : void
+    <<internal>> Display() : void
+}
+"IWrapSolidworksObject`1" "<IPropertyManagerPageGroup>" <|-- PmpGroup
+@enduml
+@startuml
+class PmpGroupCheckable {
+    - _isChecked : bool
+    + PmpGroupCheckable(caption:string, visible:bool, isChecked:bool, expanded:bool)
+    - PmpGroupCheckable_OnDisplay(sender:object, e:EventArgs) : void
+    + PmpGroupCheckable(caption:string, controls:List<IPmpControl>, visible:bool, isChecked:bool, expanded:bool)
+    + IsChecked : bool <<get>> <<set>>
+    <<internal>> GroupCheckedCallback(status:bool) : void
+    +  <<event>> Checked : EventHandler<bool> 
+}
+PmpGroup <|-- PmpGroupCheckable
+@enduml
+@startuml
+class PmpBitmap {
+    - _bitmap : Bitmap
+    - _opacity : byte
+    - _filename : string
+    - _resizeStyles : ControlResizeStyles
+    + PmpBitmap(bitmap:Bitmap, fileName:string, resizeStyles:ControlResizeStyles, opacity:byte)
+    - PmpBitmap_OnDisplay(sender:IPmpControl, eventArgs:PmpControlDisplayingEventArgs) : void
+    - PmpBitmap_OnRegister() : void
+    + UpdatePicture(bitmap:Bitmap, fileName:string, opacity:byte) : void
+}
+"PmpControl`1" "<PropertyManagerPageBitmap>" <|-- PmpBitmap
+@enduml
+@startuml
+enum LabelStyles {
+    CenterText= 2,
+    LeftText= 1,
+    RightText= 4,
+    Sunken= 8,
+}
+@enduml
+@startuml
+class PmpLabel {
+    - _style : LabelStyles
+    + PmpLabel(text:string, style:LabelStyles)
+    + SetItalic(StartChar:short, EndChar:short, status:bool) : void
+    + GetItalic(StartChar:short, EndChar:short) : bool
+    + SetLineOffset(StartChar:short, EndChar:short, offset:double) : void
+    + SetSizeRatio(StartChar:short, EndChar:short, ratio:double) : void
+    + SetBackgroundColor(StartChar:short, EndChar:short, color:Color) : void
+    + SetCharacterColor(StartChar:short, EndChar:short, color:Color) : void
+    + SetFont(StartChar:short, EndChar:short, font:string) : void
+    + SetUnderLineStyle(StartChar:short, EndChar:short, style:UnderLineStyles) : void
+    + Style : LabelStyles <<get>> <<set>>
+    + SetBold(start:short, end:short, status:bool) : void
+    <<internal>> <<override>> DisplayingCallback() : void
+    + <<new>>  <<event>> Displaying : PmpLabelDisplayingEventHandler 
+}
+"PmpTextBase`1" "<PropertyManagerPageLabel>" <|-- PmpLabel
+@enduml
+@startuml
+enum UnderLineStyles {
+    DashedUnderline= 2,
+    NoUnderline= 0,
+    SolidUnderline= 1,
+}
+@enduml
+@startuml
+class PmpLabelDisplayingEventArgs {
+    - SolidworksObject : PropertyManagerPageLabel
+    - Lable : PmpLabel
+    + PmpLabelDisplayingEventArgs(label:PmpLabel)
+    + Height : short <<get>> <<set>>
+    + GetSizeRatio(StartChar:short, EndChar:short) : double
+    + GetLineOffset(StartChar:short, EndChar:short) : double
+    + GetUnderLineStyle(StartChar:short, EndChar:short) : int
+    + GetFont(StartChar:short, EndChar:short) : string
+    + GetBold(start:short, end:short) : bool
+    + GetBackgroundColor(StartChar:short, EndChar:short) : Color
+    + GetCharacterColor(StartChar:short, EndChar:short) : Color
+}
+PmpControlDisplayingEventArgs <|-- PmpLabelDisplayingEventArgs
+@enduml
+@startuml
+@enduml
+@startuml
+class PmpListBox {
+    - <<readonly>> _items : string[]
+    - _height : short
+    - _style : int
+    + PmpListBox(items:string[], caption:string, tip:string, height:short, style:ListboxStyles)
+    - PmpListBox_OnDisplay(sender:object, e:PmpControlDisplayingEventArgs) : void
+    - PmpListBox_OnRegister() : void
+    <<internal>> RightClickedCallback(point:Tuple<double, double, double>) : void
+    <<internal>> SelectionChangeCallback(count:int) : void
+    <<internal>> <<override>> DisplayingCallback() : void
+    + AddItems(items:string[]) : void
+    + Clear() : void
+    + ItemText(Item:short) : string
+    + InsertItem(Item:short, Text:string) : short?
+    + DeleteItem(item:short) : short?
+    + GetSelectedItemsCount() : int?
+    + GetSelectedItems() : object
+    + SetSelectedItem(Item:short, Selected:bool) : bool?
+    + CurrentSelection : short? <<get>> <<set>>
+    + Style : int <<get>> <<set>>
+    + ItemCount : int? <<get>>
+    +  <<event>> RightClicked : PmpListboxRightClickedEventHandler 
+    +  <<event>> SelectionChanged : PmpListboxSelectionChangedEventHandler 
+    + <<new>>  <<event>> Displaying : PmpListboxDisplayingEventHandler 
+}
+"PmpTextBase`1" "<PropertyManagerPageListbox>" <|-- PmpListBox
+@enduml
+@startuml
+enum ListboxStyles {
+    AllowMultiSelect= 4,
+    NoIntegralHeight= 2,
+    SortAlphabetically= 1,
+}
+@enduml
+@startuml
+class PmpListboxDisplayingEventArgs {
+    - _height : short
+    + PmpListboxDisplayingEventArgs(listBox:PmpListBox, height:short)
+    + Height : short <<get>> <<set>>
+    - SolidworksObject : PropertyManagerPageListbox <<get>>
+}
+PmpControlDisplayingEventArgs <|-- PmpListboxDisplayingEventArgs
+@enduml
+@startuml
+@enduml
+@startuml
+@enduml
+@startuml
+@enduml
+@startuml
+class PmpNumberBox {
+    - _style : NumberBoxStyles
+    - _displayUnit : NumberBoxUnit
+    - _value : double
+    - _height : short
+    + PmpNumberBox(style:NumberBoxStyles)
+    + InsertItem(item:short, text:string) : short
+    + SetRange(Units:NumberBoxUnit, Minimum:double, Maximum:double, Inclusive:bool, Increment:double, fastIncrement:double, slowIncrement:double) : void
+    + AddItems(items:string[]) : void
+    + SetSliderParameters(positionCount:int, divisionCount:int) : void
+    + Value : double <<get>> <<set>>
+    + Height : short <<get>> <<set>>
+    + Style : NumberBoxStyles <<get>> <<set>>
+    + DisplayedUnit : NumberBoxUnit <<get>> <<set>>
+    <<internal>> TextChangedCallback(text:string) : void
+    <<internal>> ChangedCallback(value:double) : void
+    <<internal>> <<override>> DisplayingCallback() : void
+    <<internal>> TrackingCompletedCallback(val:double) : void
+    <<internal>> SelectionChangedCallback(item:int) : void
+    +  <<event>> TextChanged : EventHandler<string> 
+    +  <<event>> Changing : EventHandler<double> 
+    +  <<event>> TrackingCompleted : EventHandler<double> 
+    +  <<event>> SelectionChanged : EventHandler<string> 
+    + <<new>>  <<event>> Displaying : PmpNumberBoxDisplayingEventHandler 
+}
+"PmpTextBase`1" "<IPropertyManagerPageNumberbox>" <|-- PmpNumberBox
+@enduml
+@startuml
+enum NumberBoxStyles {
+    Default=0,
+    AvoidSelectionText= 4,
+    ComboEditBox= 1,
+    EditBoxReadOnly= 2,
+    NoScrollArrows= 8,
+    Slider= 16,
+    SuppressNotifyWhileTracking= 64,
+    Thumbwheel= 32,
+}
+@enduml
+@startuml
+enum NumberBoxUnit {
+    Angle= 4,
+    Density= 5,
+    Force= 7,
+    Frequency= 10,
+    Gravity= 8,
+    Length= 3,
+    Percent= 11,
+    Stress= 6,
+    Time= 9,
+    UnitlessDouble= 2,
+    UnitlessInteger= 1,
+}
+@enduml
+@startuml
+class PmpNumberBoxDisplayingEventArgs {
+    - SolidworksObject : IPropertyManagerPageNumberbox
+    + PmpNumberBoxDisplayingEventArgs(pmpNumberBox:PmpNumberBox)
+    + ChangeRange(Units:NumberBoxUnit, Minimum:double, Maximum:double, Inclusive:bool, Increment:double, fastIncrement:double, slowIncrement:double) : void
+    + Clear() : void
+    + ItemText(item:short) : string
+    + DeleteItem(item:short) : short
+    + Text : string <<get>>
+    + CurrentSelection : short <<get>> <<set>>
+}
+PmpControlDisplayingEventArgs <|-- PmpNumberBoxDisplayingEventArgs
+@enduml
+@startuml
+@enduml
+@startuml
+class PmpRadioButton {
+    - _isChecked : bool
+    + PmpRadioButton(caption:string, isChecked:bool)
+    + IsChecked : bool <<get>> <<set>>
+    + MaintainState : bool <<get>> <<set>>
+    <<internal>> CheckedCallback() : void
+    + Checked : EventHandler
+    - _maintain : bool
+}
+"PmpControl`1" "<IPropertyManagerPageOption>" <|-- PmpRadioButton
+@enduml
+@startuml
+class PmpSelectionBox {
+    - _callout : CalloutModel
+    - _calloutLabel : string
+    - _height : short
+    - _filters : IEnumerable<swSelectType_e>
+    - _style : int
+    - _allowMultipleSelectOfSameEntity : bool
+    - _singleItemOnly : bool
+    + PmpSelectionBox(filters:IEnumerable<swSelectType_e>, style:SelectionBoxStyles, allowMultipleSelectOfSameEntity:bool, singleItemOnly:bool, height:short, tip:string)
+    - PmpSelectionBox_OnDisplay(sender:PmpSelectionBox, eventArgs:PmpSelectionBoxDisplayingEventArgs) : void
+    - PmpSelectionBox_OnRegister() : void
+    <<internal>> FocusChangedCallback() : void
+    <<internal>> CallOutCreatedCallback() : void
+    <<internal>> CallOutDestroyedCallback() : void
+    <<internal>> ListChangedCallback(count:int) : void
+    <<internal>> SubmitSelectionCallback(selection:object, selectType:int, tag:string) : bool
+    <<internal>> <<override>> DisplayingCallback() : void
+    + PopUpMenueItems : List<PopUpMenueItem> <<get>> <<set>>
+    + CursorStyle : PmpCursorStyles <<get>> <<set>>
+    + AllowSelectInMultipleBoxes : bool <<get>> <<set>>
+    + Callout : CalloutModel <<get>> <<set>>
+    + CalloutLabel : string <<get>> <<set>>
+    + CurrentSelection : int <<get>> <<set>>
+    + IsFocused : bool <<get>>
+    + ItemCount : int <<get>>
+    - Mark : int <<get>> <<set>>
+    + Append(items:object[]) : void
+    + GetItems() : IEnumerable<KeyValuePair<object, swSelectType_e>>
+    + GetItem(index:uint) : KeyValuePair<object, swSelectType_e>
+    +  <<event>> FocusChanged : PmpSelectionBoxEventHandler 
+    +  <<event>> CallOutCreated : PmpSelectionBoxEventHandler 
+    +  <<event>> CallOutDestroyed : PmpSelectionBoxEventHandler 
+    +  <<event>> ListChanged : PmpSelectionBoxEventHandler<PmpSelectionBoxListChangedEventArgs> 
+    +  <<event>> SelectionSubmitted : PmpSelectionBoxSelectionSubmittedEventHandler 
+    + <<new>>  <<event>> Displaying : PmpSelectionBoxEventHandler<PmpSelectionBoxDisplayingEventArgs> 
+}
+"PmpControl`1" "<IPropertyManagerPageSelectionbox>" <|-- PmpSelectionBox
+@enduml
+@startuml
+enum SelectionBoxStyles {
+    Default= 0,
+    HScroll= 1,
+    MultipleItemSelect= 4,
+    UpAndDownButtons= 2,
+    WantListboxSelectionChanged= 8,
+}
+@enduml
+@startuml
+class PmpSelectionBoxDisplayingEventArgs {
+    <<internal>> PmpSelectionBoxDisplayingEventArgs(pmpSelectionBox:PmpSelectionBox, filters:IEnumerable<swSelectType_e>, style:int, allowMultipleSelectOfSameEntity:bool, singleItemOnly:bool, height:short)
+    + ItemText(index:short) : string
+    + SelectionColor : SysColor <<get>> <<set>>
+    + Filters : IEnumerable<swSelectType_e> <<get>> <<set>>
+    + Height : short <<get>> <<set>>
+    + Style : int <<get>> <<set>>
+    + AllowMultipleSelectOfSameEntity : bool <<get>> <<set>>
+    + SingleItemOnly : bool <<get>> <<set>>
+    - SolidworksObject : IPropertyManagerPageSelectionbox
+    - _filters : IEnumerable<swSelectType_e>
+    - _style : int
+    - _allowMultipleSelectOfSameEntity : bool
+    - _singleItemOnly : bool
+    - _height : short
+    - _selectionColor : SysColor
+}
+PmpControlDisplayingEventArgs <|-- PmpSelectionBoxDisplayingEventArgs
+@enduml
+@startuml
+@enduml
+@startuml
+class PmpSelectionBoxListChangedEventArgs {
+    + PmpSelectionBoxListChangedEventArgs(itemsCount:int)
+    + ItemsCount : int <<get>>
+}
+@enduml
+@startuml
+class PmpSelectionBoxSelectionSubmittedEventArgs {
+    + PmpSelectionBoxSelectionSubmittedEventArgs(selection:object, selectType:int, tag:string)
+    + Selection : object <<get>>
+    + SelectType : int <<get>>
+    + Tag : string <<get>>
+}
+EventArgs <|-- PmpSelectionBoxSelectionSubmittedEventArgs
+@enduml
+@startuml
+@enduml
+@startuml
+class PmpSlider {
+    - _style : SliderStyles
+    - _height : short
+    - _lineSize : int
+    - _position : double
+    - _rangeMin : int
+    - _rangeMax : int
+    - _pageSize : int
+    - _tickMark : int
+    + PmpSlider(styles:SliderStyles, tip:string)
+    + Style : SliderStyles <<get>> <<set>>
+    + Height : short <<get>> <<set>>
+    + LineSize : int <<get>> <<set>>
+    + PageSize : int <<get>> <<set>>
+    + Position : int <<get>> <<set>>
+    + TickFrequency : int <<get>> <<set>>
+    + SetRange(min:int, max:int) : bool
+    + GetRange(min:int, max:int) : void
+    <<internal>> PositionChangedCallback(value:double) : void
+    <<internal>> TrackingCompletedCallback(value:double) : void
+    +  <<event>> PositionChanged : EventHandler<double> 
+    +  <<event>> TrackingCompleted : EventHandler<double> 
+}
+"PmpControl`1" "<IPropertyManagerPageSlider>" <|-- PmpSlider
+@enduml
+@startuml
+enum SliderStyles {
+    NoTicks= 0,
+    Vertical= 1,
+    AutoTicks= 2,
+    BottomLeftTicks= 4,
+    TopRightTicks= 8,
+    NotifyWhileTracking= 16,
+}
+@enduml
+@startuml
+class PmpTextBox {
+    - _style : TexTBoxStyles
+    - _text : string
+    - _height : short
+    + PmpTextBox(initialValue:string, tip:string)
+    + Value : string <<get>> <<set>>
+    + Style : TexTBoxStyles <<get>> <<set>>
+    + Height : short <<get>> <<set>>
+    <<internal>> TypedIntoCallback(e:string) : void
+    +  <<event>> TypedInto : EventHandler<string> 
+}
+"PmpTextBase`1" "<PropertyManagerPageTextbox>" <|-- PmpTextBox
+@enduml
+@startuml
+enum TexTBoxStyles {
+    NotifyOnlyWhenFocusLost= 1,
+    ReadOnly= 2,
+    NoBorder= 4,
+    Multiline= 8,
+}
+@enduml
+@startuml
+class "PmpWinForm`1"<T> {
+    - _userControl : T
+    + PmpWinForm(height:int, caption:string, tip:string)
+    + <<override>> Enabled : bool <<get>> <<set>>
+}
+"PmpControl`1" "<IPropertyManagerPageWindowFromHandle>" <|-- "PmpWinForm`1"
+@enduml
+@startuml
+class "PmpWinFormContoller`1"<T> {
+    <<internal>> UiController : T <<get>> <<set>>
+    + PmpWinFormContoller(height:int, caption:string, tip:string)
+    + <<override>> Enabled : bool <<get>> <<set>>
+}
+"PmpControl`1" "<IPropertyManagerPageWindowFromHandle>" <|-- "PmpWinFormContoller`1"
+@enduml
+@startuml
+class PmpWpfHost {
+    + PmpWpfHost(elementHost:ElementHost, wpfControl:System.Windows.Controls.UserControl, height:int)
+    + PmpWpfHost(winFormOrWpfControl:System.Windows.Controls.UserControl, height:int)
+    - PmpWpfHost_OnDisplay(sender:object, e:PmpControlDisplayingEventArgs) : void
+    + ElementHost : ElementHost <<get>>
+    + WindowsControl : System.Windows.Controls.UserControl <<get>>
+    - _keystrokePropagator : WpfControlKeystrokePropagator
+    + Equals(other:PmpWpfHost) : bool
+    + <<override>> Equals(obj:object) : bool
+    + <<override>> GetHashCode() : int
+    + Dispose() : void
+    + <<override>> Enabled : bool <<get>> <<set>>
+}
+"PmpControl`1" "<IPropertyManagerPageWindowFromHandle>" <|-- PmpWpfHost
+"IEquatable`1" "<PmpWpfHost>" <|-- PmpWpfHost
+IDisposable <|-- PmpWpfHost
+@enduml
+@startuml
+class WpfControlKeystrokePropagator {
+    - <<readonly>> m_Elem : FrameworkElement
+    - m_HwndSrc : HwndSource
+    - m_HwndSrcHook : HwndSourceHook
+    <<internal>> WpfControlKeystrokePropagator(elem:FrameworkElement)
+    - OnElementLoaded(sender:object, e:RoutedEventArgs) : void
+    - OnElementUnloaded(sender:object, e:RoutedEventArgs) : void
+    - OnChildHwndSourceHook(hwnd:IntPtr, msg:int, wParam:IntPtr, lParam:IntPtr, handled:bool) : IntPtr
+    + Dispose() : void
+}
+IDisposable <|-- WpfControlKeystrokePropagator
+@enduml
+@startuml
+class PmpTab {
+    - _icon : Bitmap
+    + PmpTab(caption:string, icon:Bitmap)
+    + Id : int <<get>> <<protected set>>
+    + Caption : string <<get>> <<set>>
+    + SolidworksObject : IPropertyManagerPageTab <<get>> <<set>>
+    + TabGroups : List<PmpGroup> <<get>> <<set>>
+    + Activate() : void
+    <<internal>> Register(propertyManagerPage:IPropertyManagerPage2) : void
+    <<internal>> DisplayingCallback() : void
+    <<internal>> ClickedCallback() : void
+    +  <<event>> Displaying : Action 
+    +  <<event>> Clicked : Action 
+    + IconDir : DirectoryInfo <<get>> <<internal set>>
+}
+"IWrapSolidworksObject`1" "<IPropertyManagerPageTab>" <|-- PmpTab
+@enduml
+@startuml
+class AddinCommandTab {
+    - _commandGroup : AddinCommandGroupBase
+    + TabTitle : string <<get>> <<set>>
+    + Types : IEnumerable<swDocumentTypes_e> <<get>> <<set>>
+    + CommandGroup : AddinCommandGroupBase <<get>> <<set>>
+    + SolidworksObject : CommandTab <<get>>
+    <<internal>> Register(commandManager:ICommandManager) : bool
+}
+"IWrapSolidworksObject`1" "<CommandTab>" <|-- AddinCommandTab
+@enduml
+@startuml
+class AddinCommand {
+    + AddinCommand()
+    + AddinCommand(name:string, hint:string, tooltipTitle:string, icon:Bitmap, nameofCallBackFunc:string, userId:short, menuOption:int, tabTextStyle:int, enableMethode:string)
+    + BoxId : int <<get>> <<set>> = 0
+    + Index : int <<get>> <<set>>
+    + Name : string <<get>> <<set>>
+    + HintString : string <<get>> <<set>>
+    + ToolTip : string <<get>> <<set>>
+    + IconBitmap : Bitmap <<get>> <<set>>
+    + CallBackFunction : string <<get>> <<set>>
+    + EnableMethode : string <<get>> <<set>> = ""
+    + UserId : int <<get>> <<set>> = 0
+    + SolidworksId : int <<get>> <<set>>
+    + MenueOptions : int <<get>> <<set>> = 3
+    + CommandTabTextType : int <<get>> <<set>> = 2
+}
+@enduml
+@startuml
+class AddinCommandGroup {
+    + AddinCommandGroup()
+    + AddinCommandGroup(userId:int, commands:AddinCommand[], title:string, description:string, tooltip:string, hint:string, icon:Bitmap, hasToolbar:bool, hasMenue:bool)
+    - RegisterIcons(swGroup:ICommandGroup) : void
+    + <<override>> Register(commandManager:ICommandManager) : void
+    - CheckRegistryForThisGroup(commandManager:ICommandManager) : void
+    - IdsAreEqual(storedIDs:int[], addinIDs:int[]) : bool
+}
+AddinCommandGroupBase <|-- AddinCommandGroup
+@enduml
+@startuml
+abstract class AddinCommandGroupBase {
+    # _commandIcons : string[]
+    # _groupIcons : string[]
+    + Commands : IEnumerable<AddinCommand> <<get>> <<set>>
+    + IgnorePrevious : bool <<get>> <<set>>
+    + IsRegistered : bool <<get>> <<protected set>>
+    + UserId : int <<get>> <<set>>
+    + Title : string <<get>> <<set>> = "Title of this AddinCommandGroup"
+    + Description : string <<get>> <<set>> = "Description of this AddinCommandGroup"
+    + ToolTip : string <<get>> <<set>> = "Tooltip of this AddinCommandGroup"
+    + Hint : string <<get>> <<set>> = "Hint of this AddinCommandGroup"
+    + Position : int <<get>> <<set>> = 0
+    + HasToolbar : bool <<get>> <<set>> = true
+    + HasMenue : bool <<get>> <<set>> = true
+    + MainIconBitmap : Bitmap <<get>> <<set>>
+    + IconsDir : string <<get>> <<set>>
+    + <<virtual>> Register(commandManager:ICommandManager) : void
+    + CommandIcons : string[] <<get>> <<set>>
+    + GroupIcon : string[] <<get>> <<set>>
+    - CheckIconsExist(fileList:string[]) : void
+    - GetCommandGroupIconStrips(images:Bitmap[], filenamePrepend:string) : string[]
+    - CombineBitmaps(bitmaps:Bitmap[], iconSize:int) : Bitmap
+}
+IAddinCommandGroup <|-- AddinCommandGroupBase
+@enduml
+@startuml
+interface IAddinCommandGroup {
+    Commands : IEnumerable<AddinCommand> <<get>> <<set>>
+    IgnorePrevious : bool <<get>> <<set>>
+    IsRegistered : bool <<get>>
+    UserId : int <<get>> <<set>>
+    Title : string <<get>> <<set>>
+    Description : string <<get>> <<set>>
+    ToolTip : string <<get>> <<set>>
+    Hint : string <<get>> <<set>>
+    Position : int <<get>> <<set>>
+    HasToolbar : bool <<get>> <<set>>
+    HasMenue : bool <<get>> <<set>>
+    MainIconBitmap : Bitmap <<get>> <<set>>
+    CommandIcons : string[] <<get>> <<set>>
+    GroupIcon : string[] <<get>> <<set>>
+}
+@enduml

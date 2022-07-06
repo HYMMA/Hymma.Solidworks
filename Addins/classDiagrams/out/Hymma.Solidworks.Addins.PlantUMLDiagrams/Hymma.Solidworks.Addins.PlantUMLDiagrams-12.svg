@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="97px" preserveAspectRatio="none" style="width:244px;height:97px;background:#FFFFFF;" version="1.1" viewBox="0 0 244 97" width="244px" zoomAndPan="magnify"><defs/><g><!--MD5=[cb94eb3c7aea8443974efd4ffe448f44]
+class AssemblyExtensions--><g id="elem_AssemblyExtensions"><rect codeLine="1" fill="#F1F1F1" height="76.3125" id="AssemblyExtensions" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="223" x="7" y="7"/><ellipse cx="50.35" cy="28.3516" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M53.1156,24.2266 Q53.2719,24.0078 53.4594,23.8984 Q53.6469,23.7891 53.8656,23.7891 Q54.2406,23.7891 54.475,24.0547 Q54.7094,24.3047 54.7094,24.9141 L54.7094,26.3672 Q54.7094,26.9766 54.475,27.2422 Q54.2406,27.5078 53.8656,27.5078 Q53.5219,27.5078 53.3188,27.3047 Q53.1156,27.1172 53.0063,26.6016 Q52.9594,26.2422 52.7719,26.0547 Q52.4438,25.6797 51.8344,25.4609 Q51.225,25.2422 50.6,25.2422 Q49.8344,25.2422 49.1938,25.5703 Q48.5688,25.8984 48.0688,26.6484 Q47.5844,27.3984 47.5844,28.4297 L47.5844,29.5234 Q47.5844,30.7578 48.475,31.5859 Q49.3656,32.3984 50.9594,32.3984 Q51.8969,32.3984 52.5531,32.1484 Q52.9438,31.9922 53.3656,31.5547 Q53.6313,31.2891 53.7719,31.2109 Q53.9281,31.1328 54.1313,31.1328 Q54.4594,31.1328 54.7094,31.3984 Q54.975,31.6484 54.975,31.9922 Q54.975,32.3359 54.6313,32.7422 Q54.1313,33.3203 53.3344,33.6484 Q52.2563,34.1016 50.9594,34.1016 Q49.4438,34.1016 48.2406,33.4766 Q47.2563,32.9766 46.5688,31.9141 Q45.8813,30.8359 45.8813,29.5547 L45.8813,28.3984 Q45.8813,27.0703 46.4906,25.9297 Q47.1156,24.7734 48.2094,24.1641 Q49.3031,23.5391 50.5375,23.5391 Q51.2719,23.5391 51.9125,23.7109 Q52.5688,23.8672 53.1156,24.2266 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="42" x="113.65" y="24.457">«static»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="128" x="70.65" y="41.627">AssemblyExtensions</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="229" y1="49.7031" y2="49.7031"/><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="229" y1="57.7031" y2="57.7031"/><ellipse cx="18" cy="68.7031" fill="#84BE84" rx="3" ry="3" style="stroke:#038048;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" text-decoration="underline" textLength="197" x="27" y="76.2363">GetAssemblyDirectory() : string</text></g><!--MD5=[bc60df15662ade637dfa6559c570f5d3]
+@startuml
+class AssemblyExtensions <<static>> {
+    + {static} GetAssemblyDirectory() : string
+}
+@enduml
+
+PlantUML version 1.2022.5(Sat Apr 30 20:55:52 AEST 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: Cp1252
+Language: en
+Country: AU
+--></g></svg>

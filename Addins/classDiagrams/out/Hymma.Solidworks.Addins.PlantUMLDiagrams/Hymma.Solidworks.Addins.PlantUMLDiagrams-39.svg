@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="139px" preserveAspectRatio="none" style="width:177px;height:139px;background:#FFFFFF;" version="1.1" viewBox="0 0 177 139" width="177px" zoomAndPan="magnify"><defs/><g><!--MD5=[9c5da540d0a60037af76db2936ca4e7e]
+class ComboBoxStyles--><g id="elem_ComboBoxStyles"><rect codeLine="1" fill="#F1F1F1" height="118.4375" id="ComboBoxStyles" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="156" x="7" y="7"/><ellipse cx="30.1" cy="23" fill="#EB937F" rx="11" ry="11" style="stroke:#181818;stroke-width:1.0;"/><path d="M28.9594,23.7969 L28.9594,26.2969 L33.2875,26.2969 L33.2875,25.375 Q33.2875,24.7656 33.5219,24.5 Q33.7719,24.2344 34.1469,24.2344 Q34.5219,24.2344 34.7563,24.5 Q34.9906,24.7656 34.9906,25.375 L34.9906,28 L26.9906,28 Q26.3656,28 26.1,27.7656 Q25.85,27.5313 25.85,27.1406 Q25.85,26.7656 26.1156,26.5313 Q26.3813,26.2969 26.9906,26.2969 L27.2563,26.2969 L27.2563,19.6406 L26.9906,19.6406 Q26.3656,19.6406 26.1,19.4063 Q25.85,19.1719 25.85,18.7813 Q25.85,18.4063 26.1,18.1719 Q26.3656,17.9375 26.9906,17.9375 L34.6156,17.9375 L34.6156,20.5313 Q34.6156,21.1406 34.3813,21.4063 Q34.1625,21.6563 33.7719,21.6563 Q33.3969,21.6563 33.1625,21.4063 Q32.9281,21.1406 32.9281,20.5313 L32.9281,19.6406 L28.9594,19.6406 L28.9594,22.0938 L30.4438,22.0938 Q30.4438,21.4375 30.5688,21.25 Q30.8344,20.8438 31.3031,20.8438 Q31.6781,20.8438 31.9125,21.1094 Q32.1469,21.3594 32.1469,21.9688 L32.1469,23.9375 Q32.1469,24.4844 32.0219,24.6719 Q31.7563,25.0625 31.3031,25.0625 Q30.8344,25.0625 30.5688,24.6563 Q30.4438,24.4688 30.4438,23.7969 L28.9594,23.7969 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106" x="45.9" y="28.7285">ComboBoxStyles</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="162" y1="39" y2="39"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="66" x="13" y="57.5332">Sorted= 1,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="102" x="13" y="75.1426">EditableText= 2,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="134" x="13" y="92.752">EditBoxReadOnly= 4,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="144" x="13" y="110.3613">AvoidSelectionText= 8,</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="162" y1="117.4375" y2="117.4375"/></g><!--MD5=[54f4dfb13b657639f14b8e66e80cd47d]
+@startuml
+enum ComboBoxStyles {
+    Sorted= 1,
+    EditableText= 2,
+    EditBoxReadOnly= 4,
+    AvoidSelectionText= 8,
+}
+@enduml
+
+PlantUML version 1.2022.5(Sat Apr 30 20:55:52 AEST 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: Cp1252
+Language: en
+Country: AU
+--></g></svg>
