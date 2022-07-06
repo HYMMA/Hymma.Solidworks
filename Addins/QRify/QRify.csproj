@@ -102,12 +102,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hymma.Solidworks.Addins.csproj">
-      <Project>{86b8e368-880d-4169-ba19-60a84d3f6fb3}</Project>
-      <Name>Hymma.Solidworks.Addins</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\executeBtn.png" />
   </ItemGroup>
   <ItemGroup>

@@ -48,32 +48,27 @@
   <ItemGroup>
     <Reference Include="Hymma.Solidworks.Addins, Version=2018.0.1.0, Culture=neutral, PublicKeyToken=ba0fa3dd4814f928, processorArchitecture=MSIL">
       <HintPath>..\packages\Hymma.Solidworks.Addins.2018.0.1\lib\net461\Hymma.Solidworks.Addins.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Hymma.Solidworks.Extensions, Version=2018.0.1.0, Culture=neutral, PublicKeyToken=e9fee7cb4dbd868c, processorArchitecture=MSIL">
       <HintPath>..\packages\Hymma.Solidworks.Addins.2018.0.1\lib\net461\Hymma.Solidworks.Extensions.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Hymma.Solidworks.Interop, Version=2018.0.1.0, Culture=neutral, PublicKeyToken=af926be2587fd2af, processorArchitecture=MSIL">
       <HintPath>..\packages\Hymma.Solidworks.Addins.2018.0.1\lib\net461\Hymma.Solidworks.Interop.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Microsoft.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="SolidWorks.Interop.sldworks, Version=26.0.1.1, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
       <HintPath>..\packages\Hymma.Solidworks.Addins.2018.0.1\lib\net461\SolidWorks.Interop.sldworks.dll</HintPath>
-      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swconst, Version=26.0.1.1, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
       <HintPath>..\packages\Hymma.Solidworks.Addins.2018.0.1\lib\net461\SolidWorks.Interop.swconst.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swpublished, Version=26.0.1.1, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
       <HintPath>..\packages\Hymma.Solidworks.Addins.2018.0.1\lib\net461\SolidWorks.Interop.swpublished.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.dll</HintPath>
@@ -113,7 +108,6 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="FluentAddinsSolidTools.snk" />
     <None Include="packages.config" />
   </ItemGroup>
