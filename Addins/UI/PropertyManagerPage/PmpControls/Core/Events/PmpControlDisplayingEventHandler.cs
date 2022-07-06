@@ -1,4 +1,7 @@
-﻿using System.Runtime.InteropServices;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using System.Runtime.InteropServices;
 
 namespace Hymma.Solidworks.Addins
 {

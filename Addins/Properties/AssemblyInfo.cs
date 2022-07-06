@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following

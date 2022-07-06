@@ -1,4 +1,7 @@
-﻿namespace Hymma.Solidworks.Addins
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     ///  PropertyManager page's cursor after a user makes a selection in the SOLIDWORKS graphics area. 

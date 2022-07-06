@@ -1,4 +1,7 @@
-﻿using Hymma.Solidworks.Addins.Helpers;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using Hymma.Solidworks.Addins.Helpers;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swpublished;
 using System;

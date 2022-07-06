@@ -1,4 +1,7 @@
-﻿#region License
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+#region License
 
 //Preamble
 

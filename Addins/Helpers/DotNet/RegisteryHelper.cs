@@ -1,4 +1,7 @@
-﻿using Microsoft.Win32;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
