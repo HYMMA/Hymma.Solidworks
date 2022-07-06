@@ -1,7 +1,7 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
-namespace Hymma.Solidworks.Extensions
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// system colors as defined in <strong>Tools > Options > Colors.</strong>  in the SOLIDWORKS user interface

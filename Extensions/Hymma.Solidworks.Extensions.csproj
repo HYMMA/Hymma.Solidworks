@@ -84,7 +84,6 @@
     <Compile Include="SldWorks\ModelDoc2EqualityComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SldWorks\SolidworksManager.cs" />
-    <Compile Include="SldWorks\SysColor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig">

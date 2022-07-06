@@ -2,7 +2,7 @@
 // Licensed under the MIT license
 
 using SolidWorks.Interop.sldworks;
-using Hymma.Solidworks.Extensions;
+//using Hymma.Solidworks.Extensions;
 using System;
 
 namespace Hymma.Solidworks.Addins

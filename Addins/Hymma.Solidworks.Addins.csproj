@@ -46,26 +46,8 @@
     <AssemblyOriginatorKeyFile>SolidTools.SolidAddins.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hymma.Solidworks.Extensions, Version=2018.0.1.0, Culture=neutral, PublicKeyToken=e9fee7cb4dbd868c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Extensions.2018.0.1\lib\net461\Hymma.Solidworks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Hymma.Solidworks.Interop, Version=2018.0.1.0, Culture=neutral, PublicKeyToken=af926be2587fd2af, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Extensions.2018.0.1\lib\net461\Hymma.Solidworks.Interop.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="SolidWorks.Interop.sldworks, Version=26.0.1.1, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Extensions.2018.0.1\lib\net461\SolidWorks.Interop.sldworks.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="SolidWorks.Interop.swconst, Version=26.0.1.1, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Extensions.2018.0.1\lib\net461\SolidWorks.Interop.swconst.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="SolidWorks.Interop.swpublished, Version=26.0.1.1, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Extensions.2018.0.1\lib\net461\SolidWorks.Interop.swpublished.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -84,6 +66,7 @@
     <Compile Include="Core\AddinAttribute.cs" />
     <Compile Include="Core\IWrapSolidworksObject.cs" />
     <Compile Include="Core\OnConnectToSwEventArgs.cs" />
+    <Compile Include="Core\SysColor.cs" />
     <Compile Include="Helpers\DotNet\RegisteryHelper.cs" />
     <Compile Include="UI\Callout\CalloutRow.cs" />
     <Compile Include="UI\Callout\OnRowValueChangedEventArgs.cs" />
@@ -189,11 +172,4 @@
     <NuspecFileName>Addins</NuspecFileName>
   </PropertyGroup>
   <Import Project="..\References\Hymma.common.targets" />
-  <Import Project="..\packages\Hymma.Solidworks.Extensions.2018.0.1\build\Hymma.Solidworks.Extensions.targets" Condition="Exists('..\packages\Hymma.Solidworks.Extensions.2018.0.1\build\Hymma.Solidworks.Extensions.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Hymma.Solidworks.Extensions.2018.0.1\build\Hymma.Solidworks.Extensions.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Hymma.Solidworks.Extensions.2018.0.1\build\Hymma.Solidworks.Extensions.targets'))" />
-  </Target>
 </Project>

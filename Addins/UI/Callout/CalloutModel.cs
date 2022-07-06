@@ -1,7 +1,7 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
-using Hymma.Solidworks.Extensions;
+//using Hymma.Solidworks.Extensions;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
@@ -37,7 +37,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// create a callout 
         /// </summary>
-        /// <param name="rows">list of string in this callout. will be adde to the UI in the same order added to this list</param>
+        /// <param name="rows">list of string in this callout. will be add to the UI in the same order added to this list</param>
         /// <param name="solidworks">solidworks object</param>
         /// <param name="model">model to add selection </param>
         /// <param name="updateWithSelection">will make callout dependent on selection if set to true.</param>
@@ -59,9 +59,9 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// Creates a callout independent of a selection in a <see cref="ModelView"/>
         /// </summary>
-        /// <param name="rows">list of string in this callout. will be adde to the UI in the same order added to this list</param>
+        /// <param name="rows">list of string in this callout. will be add to the UI in the same order added to this list</param>
         /// <param name="solidworks">solidworks object</param>
-        /// <param name="modelView">model view to creat the callout in</param>
+        /// <param name="modelView">model view to create the callout in</param>
         public CalloutModel(List<CalloutRow> rows, ISldWorks solidworks, ModelView modelView) : this(rows, solidworks)
         {
             SolidworksObject = modelView.CreateCallout(rows.Count, Handler);
