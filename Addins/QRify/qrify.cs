@@ -166,7 +166,10 @@ namespace QRify
 
             this.Name = "QRify";
             this.HintString = "Get QR code";
-            this.ToolTip = "ToolTipe";
+
+            //solidworks uses the ToolTip as the command name. maybe its a bug in their API.
+            //workaround is to use Name as the ToolTip
+            this.ToolTip = Name;
         }
     }
     public class QrCommandGroup : AddinCommandGroup
