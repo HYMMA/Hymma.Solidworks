@@ -26,7 +26,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Hymma.Solidworks.Addins.Fluent.xml</DocumentationFile>
     <RegisterForComInterop>true</RegisterForComInterop>
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -80,6 +80,7 @@
     <Compile Include="Core\IFluent.cs" />
     <Compile Include="Core\IAddinModelBuilder.cs" />
     <Compile Include="Core\AddinModelBuilder.cs" />
+    <Compile Include="Extensions\AddinUserInterfaceExtensions.cs" />
     <Compile Include="PMP\Core\IPmpTabGroupFluentCheckable.cs" />
     <Compile Include="PMP\Core\IPmpGroupFluentCheckable.cs" />
     <Compile Include="PMP\Core\IPmpGroupFluentBase.cs" />
