@@ -35,7 +35,7 @@ namespace QrifyPlus
         {
             // do your magic once addin gets loaded
 
-            //this is the proper way to access the solidworks object. prior to this moment Solidworks is going to be null as there is no add-in yet
+            //this is the proper way to access the solidworks object. prior to this moment Solidworks object is null as add-in is not connected to solidworks yet
             closeCallBackRegistry = new QrifyPlusPmpCallBacks(e.Solidworks);
         }
         public void ShowQrifyPlusPmp()
