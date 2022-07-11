@@ -91,6 +91,9 @@
     <None Include="FluentAddinsSolidTools.snk" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\addins\Hymma.Solidworks.Addins.csproj" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <NuspecFileName>Fluent</NuspecFileName>
