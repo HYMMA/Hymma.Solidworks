@@ -39,28 +39,10 @@
     <AssemblyOriginatorKeyFile>QrCoder.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hymma.Solidworks.Addins, Version=2018.1.0.0, Culture=neutral, PublicKeyToken=ba0fa3dd4814f928, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Hymma.Solidworks.Addins.2018.1.0\lib\net472\Hymma.Solidworks.Addins.dll</HintPath>
-    </Reference>
-    <Reference Include="Hymma.Solidworks.Interop, Version=2018.1.0.0, Culture=neutral, PublicKeyToken=af926be2587fd2af, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Hymma.Solidworks.Addins.2018.1.0\lib\net472\Hymma.Solidworks.Interop.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="QRCoder, Version=1.4.3.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
       <HintPath>..\..\packages\QRCoder.1.4.3\lib\net40\QRCoder.dll</HintPath>
-    </Reference>
-    <Reference Include="SolidWorks.Interop.sldworks, Version=26.0.1.1, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Hymma.Solidworks.Addins.2018.1.0\lib\net472\SolidWorks.Interop.sldworks.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="SolidWorks.Interop.swconst, Version=26.0.1.1, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Hymma.Solidworks.Addins.2018.1.0\lib\net472\SolidWorks.Interop.swconst.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="SolidWorks.Interop.swpublished, Version=26.0.1.1, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Hymma.Solidworks.Addins.2018.1.0\lib\net472\SolidWorks.Interop.swpublished.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

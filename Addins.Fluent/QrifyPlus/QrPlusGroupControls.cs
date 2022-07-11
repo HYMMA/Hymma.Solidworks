@@ -6,6 +6,8 @@ using QRCoder;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
@@ -22,48 +24,79 @@ namespace QrifyPlus
 
         private void GenerateControlsForTheGroup()
         {
+            var message = new PmpLabel("Choose a property to convert to QR. You can assign suffix to the generated code using '<' and '>'. For example: <part number is:> PartNo will suffix PartNo value with part number is:");
+            message.TextColor = Color.Gray;
+            
             //a label on top of the combo box
             var label = new PmpLabel("List of Custom Properties");
 
             //an editable combo box that allows users to select name of the propertyNames in this drawing
-            var drawingProertyNames = new PmpComboBox(new List<string>() { "Test1", "Test2" }, ComboBoxStyles.EditableText);
+            var drawingPropertyNames = new PmpComboBox(new List<string>() { "Test1", "Test2" }, ComboBoxStyles.EditableText);
 
             //update the list on each time property manager page is shown
-            drawingProertyNames.Displaying += drawingPropertyNames_Displaying;
-
+            drawingPropertyNames.Displaying += drawingPropertyNames_Displaying;
+            
             //GenerateControlsForTheGroup a button under the list to initiate the QR generations
-            var qrifyButton = new PmpBitmapButton(Properties.Resources.qrifyPlus, "Generate QR code for the value of the property", BtnSize.thirtyTwo, opacity: byte.MaxValue);
+            var qrifyButton = new PmpBitmapButton(Properties.Resources.qrifyPlus, "Generate QR code for the value of the property", BtnSize.sixteen, opacity: byte.MaxValue);
 
             //put the combo box and the button on the same line
-            //this value is relative to the PmpGroup. the controls with higher top value go to the bottom. because solidworks.
-            drawingProertyNames.Top = qrifyButton.Top = 300;
+            //this value is relative to the PmpGroup. the controls with higher top value go to the bottom of their group. because solidworks.
+            drawingPropertyNames.Top = qrifyButton.Top = 300;
+            
             //Width is the percentage relative to the width of the property manager page itself
-            drawingProertyNames.Width = 80;
+            drawingPropertyNames.Width = 80;
+            
             //Left is the position of the control from left of the property manger page as a percentage of the width of the property manger page itself
-            qrifyButton.Left = 85;
+            qrifyButton.Left = 90;
 
             qrifyButton.Clicked += (s, e) =>
             {
                 var btn = s as PmpBitmapButton;
 
                 //get current selection of the combo box
-                short index = drawingProertyNames.CurrentSelection;
-                string propertyName = drawingProertyNames.GetItem(index);
+                short index = drawingPropertyNames.CurrentSelection;
+                string dropDownItem = drawingPropertyNames.GetItem(index);
+
+                //filter out suffix if existed 
+                //filter out property name
+                GetConstructs(dropDownItem, out string suffix, out string property);
 
                 //get value of property
                 var drawing = btn.ActiveDoc;
-                var propertyValue = drawing.GetCustomProperty(propertyName);
+                var propertyValue = drawing.GetCustomProperty(property);
+
+                //if property is empty bypass the QR coder generation
+                if (string.IsNullOrWhiteSpace(propertyValue))
+                {
+                    btn.ShowBubleTooltip("Error", "The value of this property is empty", null, "");
+                    return;
+                }
 
                 //generate qr code and save it in clipboard
-                SaveQrToClipboard(propertyValue);
+                SaveQrToClipboard($"{suffix}{propertyValue}");
 
-                btn.ShowBubleTooltip("Success", "Copied into clipboard, use Ctrl+v to paste", Properties.Resources.infoPlus, "successImageFileName");
+                btn.ShowBubleTooltip("Success", $"{suffix}{propertyValue} Copied into clipboard, use Ctrl+v to paste its QR representation", Properties.Resources.infoPlus, "successImageFileName");
             };
 
             //register the controls
-            base.AddControls(new IPmpControl[] { label, drawingProertyNames, qrifyButton });
+            base.AddControls(new IPmpControl[] {message, label, drawingPropertyNames, qrifyButton });
         }
 
+
+        private void GetConstructs(string text, out string suffix, out string property)
+        {
+            //(<(?'suffix'[^<>]+)?>)?\s?(?'property'.+)
+            var pattern = @"(<                                      # start a group that starts with <
+                                (?'suffix'                          #inside this group define a group and call it 'suffix'
+                                        [^<>]+)?>                   #group suffix contains characters inside < > , unless they are < or >
+                            )?                                      #close parent group 1, by the way this group could be non-existent
+                            \s?                                     #allow spaces
+                            (?'property'.+)                         #define another group called property that contains one or many of any type of character                         
+                            ";
+            var match = Regex.Match(text, pattern, RegexOptions.Compiled | RegexOptions.IgnorePatternWhitespace);
+            suffix = match.Groups["suffix"].Value;
+            property = match.Groups["property"].Value;
+        }
         private void SaveQrToClipboard(string value)
         {
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
