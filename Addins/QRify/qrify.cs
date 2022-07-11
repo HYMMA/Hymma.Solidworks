@@ -157,7 +157,7 @@ namespace QRify
         public QrCommand()
         {
             this.CommandTabTextType = ((int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow);
-            this.IconBitmap = Properties.Resources.executeBtn;
+            this.IconBitmap = Properties.Resources.qrify;
 
             //Restrictions imposed by solidworks API:
             //These two methods must be defined in the addin class (addin class inherits from AddinMaker.cs)

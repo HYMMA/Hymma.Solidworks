@@ -19,7 +19,6 @@ namespace Hymma.Solidworks.Addins
         private List<string> _items;
         private ComboBoxStyles _style;
         private short _height;
-        private short _currentSelection;
 
         #endregion
 
@@ -220,12 +219,9 @@ namespace Hymma.Solidworks.Addins
         /// <remarks>0-based index</remarks>
         public short CurrentSelection
         {
-            get => _currentSelection;
+            get => SolidworksObject.CurrentSelection;
             set
             {
-                //assign value to the field
-                _currentSelection = value;
-
                 //if add in is loaded update the solidworks object
                 //otherwise update the property after display
                 if (SolidworksObject != null)
