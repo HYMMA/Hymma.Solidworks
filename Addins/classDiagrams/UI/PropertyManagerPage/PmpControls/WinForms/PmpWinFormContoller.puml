@@ -1,0 +1,8 @@
+@startuml
+class "PmpWinFormContoller`1"<T> {
+    <<internal>> UiController : T <<get>> <<set>>
+    + PmpWinFormContoller(height:int, caption:string, tip:string)
+    + <<override>> Enabled : bool <<get>> <<set>>
+}
+"PmpControl`1" "<IPropertyManagerPageWindowFromHandle>" <|-- "PmpWinFormContoller`1"
+@enduml

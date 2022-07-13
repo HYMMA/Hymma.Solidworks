@@ -1,10 +1,12 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using static Hymma.Solidworks.Addins.Logger;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -31,7 +33,7 @@ namespace Hymma.Solidworks.Addins
         ///<inheritdoc/>
         public bool IgnorePrevious { get; set; }
         ///<inheritdoc/>
-        public bool IsRegistered { get; protected set; }
+        public bool IsRegistered { get; internal set; }
         ///<inheritdoc/>
         public int UserId { get; set; }
         ///<inheritdoc/>
@@ -39,7 +41,7 @@ namespace Hymma.Solidworks.Addins
         ///<inheritdoc/>
         public string Description { get; set; } = "Description of this AddinCommandGroup";
         ///<inheritdoc/>
-        public string ToolTip { get; set; } = "Tooltip of this AddinCommandGroup";
+        public string ToolTip { get; set; } = "Tool-tip of this AddinCommandGroup";
         ///<inheritdoc/>
         public string Hint { get; set; } = "Hint of this AddinCommandGroup";
         ///<inheritdoc/>
@@ -54,14 +56,14 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// directory to save the icons
         /// </summary>
-        public string IconsDir { get; set; }
+        public string IconsDir { get;internal set; }
 
         //a method to register this command group into solidworks
         /// <summary>
         /// 
         /// </summary>
         /// <param name="commandManager"></param>
-        public virtual void Register(ICommandManager commandManager) { }
+        internal virtual void Register(ICommandManager commandManager) { }
 
         /// <summary>
         /// returns list of command strips for this command group
@@ -82,7 +84,6 @@ namespace Hymma.Solidworks.Addins
                 CheckIconsExist(_commandIcons);
                 return _commandIcons;
             }
-            set { _commandIcons = value; }
         }
 
 
@@ -103,7 +104,6 @@ namespace Hymma.Solidworks.Addins
                 CheckIconsExist(_groupIcons);
                 return _groupIcons;
             }
-            set { _groupIcons = value; }
         }
 
 
@@ -147,15 +147,14 @@ namespace Hymma.Solidworks.Addins
                 // Combine all bitmaps
                 var combinedImage = CombineBitmaps(images, size);
 
-                Log("attempting to save combinedImage");
                 using (combinedImage)
                 {
                     try
                     {
                         var stripe = $"{filenamePrepend}{size}.png";
 
-                        //make a directory in the default icon filder for this command group only IconsDir is not defined specifically
-                        var dir = string.IsNullOrEmpty(IconsDir) ? AddinMaker.GetIconsDir().CreateSubdirectory("grp"+UserId.ToString()).FullName : IconsDir;
+                        //make a directory in the default icon filder for this command group only _iconsDir is not defined specifically
+                        var dir = string.IsNullOrEmpty(IconsDir) ? AddinIcons.Instance().IconsDir.CreateSubdirectory("grp"+UserId.ToString()).FullName : IconsDir;
 
                         stripes[i] = Path.Combine(dir, stripe);
                         combinedImage.Save(stripes[i]);

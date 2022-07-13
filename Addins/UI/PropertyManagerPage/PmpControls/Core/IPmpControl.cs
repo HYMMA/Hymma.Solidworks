@@ -1,4 +1,6 @@
-﻿
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
@@ -251,6 +253,11 @@ namespace Hymma.Solidworks.Addins
 
         private void ShowBubbleTooltipForControl(string title, string message, Bitmap bitmap, string fileName)
         {
+            if (bitmap==null)
+            {
+                Control.ShowBubbleTooltip(title, message, "");
+                return;
+            }
             var fullFileName = Path.Combine(SharedIconsDir.CreateSubdirectory(Id.ToString()).FullName, fileName);
             MaskedBitmap.SaveAsPng(bitmap, new Size(18, 18), ref fullFileName);
             Control.ShowBubbleTooltip(title, message, fullFileName);

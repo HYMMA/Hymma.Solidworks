@@ -1,0 +1,39 @@
+@startuml
+class PmpSelectionBox {
+    - _callout : CalloutModel
+    - _calloutLabel : string
+    - _height : short
+    - _filters : IEnumerable<swSelectType_e>
+    - _style : int
+    - _allowMultipleSelectOfSameEntity : bool
+    - _singleItemOnly : bool
+    + PmpSelectionBox(filters:IEnumerable<swSelectType_e>, style:SelectionBoxStyles, allowMultipleSelectOfSameEntity:bool, singleItemOnly:bool, height:short, tip:string)
+    - PmpSelectionBox_OnDisplay(sender:PmpSelectionBox, eventArgs:PmpSelectionBoxDisplayingEventArgs) : void
+    - PmpSelectionBox_OnRegister() : void
+    <<internal>> FocusChangedCallback() : void
+    <<internal>> CallOutCreatedCallback() : void
+    <<internal>> CallOutDestroyedCallback() : void
+    <<internal>> ListChangedCallback(count:int) : void
+    <<internal>> SubmitSelectionCallback(selection:object, selectType:int, tag:string) : bool
+    <<internal>> <<override>> DisplayingCallback() : void
+    + PopUpMenueItems : List<PopUpMenueItem> <<get>> <<set>>
+    + CursorStyle : PmpCursorStyles <<get>> <<set>>
+    + AllowSelectInMultipleBoxes : bool <<get>> <<set>>
+    + Callout : CalloutModel <<get>> <<set>>
+    + CalloutLabel : string <<get>> <<set>>
+    + CurrentSelection : int <<get>> <<set>>
+    + IsFocused : bool <<get>>
+    + ItemCount : int <<get>>
+    - Mark : int <<get>> <<set>>
+    + Append(items:object[]) : void
+    + GetItems() : IEnumerable<KeyValuePair<object, swSelectType_e>>
+    + GetItem(index:uint) : KeyValuePair<object, swSelectType_e>
+    +  <<event>> FocusChanged : PmpSelectionBoxEventHandler 
+    +  <<event>> CallOutCreated : PmpSelectionBoxEventHandler 
+    +  <<event>> CallOutDestroyed : PmpSelectionBoxEventHandler 
+    +  <<event>> ListChanged : PmpSelectionBoxEventHandler<PmpSelectionBoxListChangedEventArgs> 
+    +  <<event>> SelectionSubmitted : PmpSelectionBoxSelectionSubmittedEventHandler 
+    + <<new>>  <<event>> Displaying : PmpSelectionBoxEventHandler<PmpSelectionBoxDisplayingEventArgs> 
+}
+"PmpControl`1" "<IPropertyManagerPageSelectionbox>" <|-- PmpSelectionBox
+@enduml

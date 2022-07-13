@@ -1,0 +1,9 @@
+@startuml
+class PmpSelectionBoxSelectionSubmittedEventArgs {
+    + PmpSelectionBoxSelectionSubmittedEventArgs(selection:object, selectType:int, tag:string)
+    + Selection : object <<get>>
+    + SelectType : int <<get>>
+    + Tag : string <<get>>
+}
+EventArgs <|-- PmpSelectionBoxSelectionSubmittedEventArgs
+@enduml

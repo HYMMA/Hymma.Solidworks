@@ -1,0 +1,22 @@
+@startuml
+class CalloutRow {
+    - _rowVal : string
+    - _rowLbl : string
+    - _rolColor : SysColor
+    - _rowIsInactive : bool
+    - _ignored : bool
+    - _target : Tuple<double,double,double>
+    + CalloutRow(label:string, value:string)
+    <<internal>> Callout : ICallout <<get>> <<set>>
+    + Value : string <<get>> <<set>>
+    + Label : string <<get>> <<set>>
+    + Id : int <<get>> <<internal set>>
+    + TextColor : SysColor <<get>> <<set>>
+    + ValueInactive : bool <<get>> <<set>>
+    + Target : Tuple<double,double,double> <<get>> <<set>>
+    + IgnoreValue : bool <<get>> <<set>>
+    - ValueChanged(text:string) : void
+    +  <<event>> OnTargetChanged : Action<int, Tuple<double, double, double>> 
+    +  <<event>> OnValueChanged : CalloutEventHandler 
+}
+@enduml

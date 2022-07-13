@@ -1,0 +1,6 @@
+@startuml
+class TypeExtensions <<static>> {
+    <<internal>> {static} TryGetAttribute(type:Type, searchChildren:bool) : T
+    <<internal>> {static} CastTo(self:object) : T
+}
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+class PmpEventHandler {
+    - popUpItems : IEnumerable<PopUpMenueItem>
+    + PmpEventHandler(uiModel:PmpUiModel)
+    + UiModel : PmpUiModel <<get>>
+    + AfterActivation() : void
+    + OnClose(Reason:int) : void
+    + AfterClose() : void
+    + OnHelp() : bool
+    + OnPreviousPage() : bool
+    + OnNextPage() : bool
+    + OnPreview() : bool
+    + OnWhatsNew() : void
+    + OnUndo() : void
+    + OnRedo() : void
+    + OnTabClicked(Id:int) : bool
+    + OnGroupExpand(Id:int, Expanded:bool) : void
+    + OnGroupCheck(Id:int, Checked:bool) : void
+    + OnCheckboxCheck(Id:int, Checked:bool) : void
+    + OnOptionCheck(Id:int) : void
+    + OnButtonPress(Id:int) : void
+    + OnTextboxChanged(Id:int, Text:string) : void
+    + OnNumberboxChanged(Id:int, Value:double) : void
+    + OnComboboxEditChanged(Id:int, Text:string) : void
+    + OnComboboxSelectionChanged(Id:int, Item:int) : void
+    + OnListboxSelectionChanged(Id:int, Item:int) : void
+    + OnSelectionboxFocusChanged(Id:int) : void
+    + OnSelectionboxListChanged(Id:int, Count:int) : void
+    + OnSelectionboxCalloutCreated(Id:int) : void
+    + OnSelectionboxCalloutDestroyed(Id:int) : void
+    + OnSubmitSelection(Id:int, Selection:object, SelType:int, ItemText:string) : bool
+    + OnActiveXControlCreated(Id:int, Status:bool) : int
+    + OnSliderPositionChanged(Id:int, Value:double) : void
+    + OnSliderTrackingCompleted(Id:int, Value:double) : void
+    + OnKeystroke(Wparam:int, Message:int, Lparam:int, Id:int) : bool
+    + OnPopupMenuItem(Id:int) : void
+    + OnPopupMenuItemUpdate(Id:int, retval:int) : void
+    + OnGainedFocus(Id:int) : void
+    + OnLostFocus(Id:int) : void
+    + OnWindowFromHandleControlCreated(Id:int, Status:bool) : int
+    + OnListboxRMBUp(Id:int, PosX:int, PosY:int) : void
+    + OnNumberBoxTrackingCompleted(Id:int, Value:double) : void
+}
+PropertyManagerPage2Handler9 <|-- PmpEventHandler
+@enduml

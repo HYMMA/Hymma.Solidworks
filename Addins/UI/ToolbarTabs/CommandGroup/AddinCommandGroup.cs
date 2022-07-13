@@ -1,9 +1,11 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using static Hymma.Solidworks.Addins.Logger;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -31,11 +33,11 @@ namespace Hymma.Solidworks.Addins
         /// <param name="title">To add a menu item for a CommandGroup to an existing SOLIDWORKS menu, specify the name of a parent menu here.<br/>
         /// <example><c>"&amp;Help\\MyApp Title"</c></example></param>
         /// <param name="description">Description of this AddinCommandGroup</param>
-        /// <param name="tooltip">Tooltip of this AddinCommandGroup</param>
+        /// <param name="tooltip">Tool-tip of this AddinCommandGroup</param>
         /// <param name="hint">A Hint for this AddinCommandGroup</param>
         /// <param name="icon"><see cref="Bitmap"/> object as icon for this command group inside the command manager</param>
-        /// <param name="hasToolbar">does it have toolbar?</param>
-        /// <param name="hasMenue">should it be presented in a menue?</param>
+        /// <param name="hasToolbar">does it have tool-bar</param>
+        /// <param name="hasMenue">should it be presented in a menu</param>
         public AddinCommandGroup(int userId, AddinCommand[] commands, string title, string description, string tooltip, string hint, Bitmap icon, bool hasToolbar = true, bool hasMenue = true)
         {
             #region assing values to properties
@@ -54,7 +56,6 @@ namespace Hymma.Solidworks.Addins
         #region register this to solidworks
         private void RegisterIcons(ICommandGroup swGroup)
         {
-            Log($"getting command icons from command group");
             swGroup.IconList = CommandIcons;
             swGroup.MainIconList = GroupIcon;
 
@@ -80,23 +81,20 @@ namespace Hymma.Solidworks.Addins
                     , command.UserId
                     , command.MenueOptions);
 
-                //assing the index we got to command
+                //assign the index we got to command
                 command.Index = index;
-
-                Log($"a command with index {index} is created");
             }
         }
 
         /// <summary>
-        /// adds a new command group to this Add-inm
+        /// adds a new command group to this Add-in
         /// </summary>
         /// <param name="commandManager"></param>
         /// <returns></returns>
-        public override void Register(ICommandManager commandManager)
+        internal override void Register(ICommandManager commandManager)
         {
             #region Create new command group
-            Log("crreating new command group ...");
-            //if commandGroup with all its commands does not exist ignore previous instances re-creat the commands
+            //if commandGroup with all its commands does not exist ignore previous instances re-create the commands
             CheckRegistryForThisGroup(commandManager);
 
             int errors = 0;
@@ -148,7 +146,6 @@ namespace Hymma.Solidworks.Addins
             //get the command IDs of this command group that were registerd in windows registry
             IsRegistered = commandManager.GetGroupDataFromRegistry(UserId, out object registryIds);
 
-            Log($"command gourp with user id {UserId} was registered already ?  {IsRegistered}");
             //if the IDs don't match, reset the commandGroup
             if (IsRegistered && IdsAreEqual((int[])registryIds, Commands.Select(cmd => cmd.UserId).ToArray()))
                 IgnorePrevious = true;

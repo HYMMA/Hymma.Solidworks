@@ -1,4 +1,7 @@
-﻿namespace Hymma.Solidworks.Addins.Fluent
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+namespace Hymma.Solidworks.Addins.Fluent
 {
     /// <summary>
     /// Creates Multiple object required to make a solidworks addin using fluent pattern

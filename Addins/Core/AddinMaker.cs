@@ -1,17 +1,15 @@
-﻿using Microsoft.Win32;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using Hymma.Solidworks.Addins.Helpers;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swpublished;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Resources;
 using System.Runtime.InteropServices;
-using static Hymma.Solidworks.Addins.Logger;
-using Environment = System.Environment;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -22,16 +20,6 @@ namespace Hymma.Solidworks.Addins
     public abstract class AddinMaker : ISwAddin
     {
         #region private fields & variables
-
-        /// <summary>
-        /// title of this addin
-        /// </summary>
-        private static string _addinTitle;
-
-        /// <summary>
-        /// identifier for this addin assigned by SOLIDWORKS    
-        /// </summary>
-        protected int addinCookie;
 
         /// <summary>
         /// command manager for this addin assigned by SOLIDWORKS
@@ -52,137 +40,84 @@ namespace Hymma.Solidworks.Addins
         #region constructor
 
         /// <summary>
-        /// default constructor
+        /// Default constructor
         /// </summary>
-        public AddinMaker(Type t)
+        /// <exception cref="ArgumentException"></exception>
+        public AddinMaker()
         {
-            if (!typeof(AddinMaker).IsAssignableFrom(t))
-                throw new ApplicationException("the type should implement the AddinMaker");
-            if (!(t.TryGetAttribute<AddinAttribute>(false) is AddinAttribute addinAttribute))
-                throw new ApplicationException("the type should implement the AddinAttribute");
-            _addinTitle = addinAttribute.Title;
-            Logger.Source = "Solidworks Addin";
+            //we get the type of addin so that we can use it later for locating addin icons folder
+            //otherwise we would need to read it from COM
+            var addinAssy = Assembly.GetCallingAssembly();
+            var typeOfAddin = GetTypeOfAddin(addinAssy);
+            if (typeOfAddin == null)
+            {
+                throw new ArgumentException("Addin was not recognized");
+            }
+
+            //calling this method here generates the necessary property values to locate addin icon folder which will be used
+            //by PmpUiModel to save UI icons
+            AddinIcons.Instance().SaveAddinIcon(typeOfAddin, out string iconFullFileName);
+        }
+
+
+        private Type GetTypeOfAddin(Assembly addin)
+        {
+            for (int i = 0; i < addin.GetExportedTypes().Length; i++)
+            {
+                var type = addin.GetExportedTypes()[i];
+
+                if (typeof(AddinMaker).IsAssignableFrom(type))
+                {
+                    return type;
+                }
+            }
+            return null;
         }
         #endregion
 
         #region Public Properties
 
         /// <summary>
-        /// solidowrks object
+        /// solidworks object
         /// </summary>
         public ISldWorks Solidworks { get; set; }
 
         #endregion
 
-        #region com register/un-register
+        #region com register/unregister
         /// <summary>
-        /// registers <see cref="Type"/> provided to COM so solidworks can find it
+        /// registers <see cref="Type"/> provided to RegisteryHelper so solidworks can find it
         /// </summary>
-        /// <param name="t">type of class that inherrits from  <see cref="AddinMaker"/></param>
+        /// <param name="t">type of class that inherits from  <see cref="AddinMaker"/></param>
         [ComRegisterFunction]
-        public static void BaseRegisterFunction(Type t)
+        public static void Register(Type t)
         {
-            var addinAttribute = t.TryGetAttribute<AddinAttribute>(false) as AddinAttribute;
-            if (addinAttribute == null)
-                return;
-
-            try
-            {
-                Logger.Source = "Solidworks Addin";
-                Log("trying to register");
-                Console.WriteLine("trying to register");
-
-                string keyname = "SOFTWARE\\SolidWorks\\Addins\\{" + t.GUID.ToString() + "}";
-                RegistryKey addinKey = Registry.LocalMachine.CreateSubKey(keyname);
-                addinKey.SetValue(null, 0);
-
-                addinKey.SetValue("Description", addinAttribute.Description);
-                addinKey.SetValue("Title", addinAttribute.Title);
-
-                keyname = "Software\\SolidWorks\\AddInsStartup\\{" + t.GUID.ToString() + "}";
-                RegistryKey addinStartUpKey = Registry.CurrentUser.CreateSubKey(keyname);
-                addinStartUpKey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
-
-                #region Extract icon during registration
-
-                var iconPath = SaveAddinIcon(t);
-
-                addinKey.SetValue("Icon Path", iconPath);
-
-                Log("Registration was successful!");
-                #endregion
-            }
-            catch (MissingManifestResourceException e)
-            {
-                Log($"Error! it seems the resource {addinAttribute.AddinIcon} was not found." +
-                    $" this happens when the string provided for the resourse is not correct or the resourse not in the Properties Folder of the project. \n {e.Message}");
-            }
-            catch (System.NullReferenceException e)
-            {
-                Log($"Error! There was a problem registering this dll: addinModel is null. \n\"" + e.Message + "\"");
-            }
-
-            catch (System.Exception e)
-            {
-                Log(e);
-            }
+            RegisteryHelper.RegisterSolidworksAddin(t);
         }
 
         /// <summary>
-        /// unregisters the addin once un-installed or when the project is cleaned
+        /// unregisters the addin once removed or when the project is cleaned
         /// </summary>
         /// <param name="t"></param>
         [ComUnregisterFunction]
-        public static void BaseUnregisterFunction(Type t)
+        public static void Unregister(Type t)
         {
-            Logger.Source = "Solidworks Addin";
-            var swAttr = t.TryGetAttribute<AddinAttribute>(false) as AddinAttribute;
-            if (swAttr == null)
-                try
-                {
-                    Log("trying to unregister");
-                    string keyname = "SOFTWARE\\SolidWorks\\Addins\\{" + t.GUID.ToString() + "}";
-                    Registry.LocalMachine.DeleteSubKey(keyname);
-
-                    keyname = "Software\\SolidWorks\\AddInsStartup\\{" + t.GUID.ToString() + "}";
-                    Registry.CurrentUser.DeleteSubKey(keyname);
-
-                    Log("Unregister sucessful");
-                    //UnRegisterLogger(swAttr.Title);
-
-                }
-                catch (System.NullReferenceException nl)
-                {
-                    Log(nl.Message);
-
-                    //TODO:log this
-                    Console.WriteLine("Error! There was a problem unregistering this dll: " + nl.Message);
-                }
-                catch (System.Exception e)
-                {
-                    //TODO:log this
-                    Log(e.Message);
-                    Console.WriteLine("Error! There was a problem unregistering this dll: " + e.Message);
-                }
+            RegisteryHelper.UnregisterSolidworksAddin(t);
         }
-
-
         #endregion
 
         #region solidworks integration
 
         /// <summary>
-        /// set <see cref="PmpFactoryBase"/> object to null here
+        /// set <see cref="PmpFactoryX64"/> object to null here
         /// </summary>
-        private void RemovePMPs(List<PmpFactoryBase> propertyManagerPages)
+        private void RemovePMPs(List<PmpFactoryX64> propertyManagerPages)
         {
             for (int i = 0; i < propertyManagerPages.Count(); i++)
             {
                 propertyManagerPages[i].Close(false);
                 propertyManagerPages[i] = null;
-                Log($"PMP {i} set to null");
             }
-            propertyManagerPages = null;
         }
 
         private void DetachEventsFromAllDocuments()
@@ -199,7 +134,6 @@ namespace Hymma.Solidworks.Addins
         {
             foreach (var tab in commandTabs)
                 _ = _commandManager.RemoveCommandGroup(tab.CommandGroup.UserId);
-            commandTabs = null;
         }
 
         /// <summary>
@@ -220,7 +154,7 @@ namespace Hymma.Solidworks.Addins
             Solidworks = null;
 
             //fire event
-            OnExit?.Invoke(this, new OnConnectToSwEventArgs { solidworks = Solidworks, cookie = addinCookie });
+            OnExit?.Invoke(this, new OnConnectToSwEventArgs { Solidworks = Solidworks, Cookie = _addinUi.Id });
 
             //The addin _must_ call GC.Collect() here in order to retrieve all managed code pointers 
             GC.Collect();
@@ -240,43 +174,21 @@ namespace Hymma.Solidworks.Addins
         /// <returns></returns>
         public bool ConnectToSW(object ThisSW, int Cookie)
         {
-            Log("connecting to solidworks from Addin maker base class");
             Solidworks = (ISldWorks)ThisSW;
             _addinUi = GetUserInterFace();
-            addinCookie = Cookie;
+            _addinUi.Id = Cookie;
 
-            Log($"addin cookie is  {addinCookie} ");
             //Setup callbacks
-            Solidworks.SetAddinCallbackInfo2(0, this, addinCookie);
-
-            Log("setting up Addin Model");
-
+            Solidworks.SetAddinCallbackInfo2(0, this, _addinUi.Id);
             #region Setup the Command Manager and add commands
             _commandManager = Solidworks.GetCommandManager(Cookie);
 
-            Log("addin commands . . .");
             AddCommands(_addinUi.CommandTabs);
-            Log($"finished addin commands");
 
-            #endregion
-
-            #region Setup the Event Handlers
-            //addin = (SldWorks)Solidworks;
-            //documentsEventsRepo = new Hashtable();
-
-            //this will be called only the first time the addin is loaded
-            //this method will attached events to all documents that open after the addin is loaded.
-
-            //AttachSwEvents();
-
-            //Listen for events on all currently open docs
-            //we need to call this method here because sometimes user fires the addin while he has some documents open already
-            //there are events that will attach event handlers to all documents but until those events are fired this call to the method will suffice
-            //AttachEventsToAllDocuments();
             #endregion
 
             //fire event
-            OnStart?.Invoke(this, new OnConnectToSwEventArgs { solidworks = (ISldWorks)ThisSW, cookie = Cookie });
+            OnStart?.Invoke(this, new OnConnectToSwEventArgs { Solidworks = (ISldWorks)ThisSW, Cookie = Cookie });
             return true;
         }
         #endregion
@@ -303,16 +215,6 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region Events
-        /*
-                public bool AttachEventsToAllDocuments()
-                {
-                    throw new NotImplementedException();
-                }
-
-                public bool AttachSwEvents()
-                {
-                    throw new NotImplementedException();
-                }*/
 
         /// <summary>
         /// Events that fires when your add-in connects to solidworks
@@ -320,7 +222,7 @@ namespace Hymma.Solidworks.Addins
         public event EventHandler<OnConnectToSwEventArgs> OnStart;
 
         /// <summary>
-        /// event that fires when user un-loads the addin (example when user un-checks the addin from the list of addins)
+        /// event that fires when user unloads the addin (example when user unchecked the addin from the list of addins)
         /// </summary>
         public event EventHandler<OnConnectToSwEventArgs> OnExit;
         #endregion
@@ -330,88 +232,7 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         /// <returns></returns>
         public abstract AddinUserInterface GetUserInterFace();
-
-        #region static members
-        /// <summary>
-        /// generates an addin icon (.png) format and saves it on assembly folder
-        /// </summary>
-        /// <returns></returns>
-        private static string SaveAddinIcon(Type t)
-        {
-            var icon = GetBitmap(t);
-            if (icon == null)
-                return "addin icon was null";
-            if (!(t.TryGetAttribute<AddinAttribute>(false) is AddinAttribute addinAttribute))
-                throw new ApplicationException("the type should implement the AddinAttribute");
-            _addinTitle = addinAttribute.Title;
-            string addinIconAddress = Path.Combine(GetIconsDir().FullName, t.Name + ".png");
-            using (var addinIcon = new Bitmap(icon, 16, 16))
-            {
-                addinIcon.Save(addinIconAddress);
-            }
-            return addinIconAddress;
-        }
-
-        /// <summary>
-        /// this is a folder where the icons will get saved to
-        /// </summary>
-        /// <returns></returns>
-        public static DirectoryInfo GetIconsDir()
-        {
-            //directory should be a folder where user has access to at all times
-            //because we make icons for commands everytime solidworks starts
-            string localApp = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-
-            try
-            {
-                return Directory.CreateDirectory(localApp).CreateSubdirectory(_addinTitle);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        private static Bitmap GetBitmap(Type t)
-        {
-            if (!(t.GetCustomAttribute(typeof(AddinAttribute)) is AddinAttribute attribute)) return null;
-            var asm = t.Assembly;
-            string[] resNames = asm.GetManifestResourceNames();
-            foreach (var resName in resNames)
-            {
-                var rm = new ResourceManager(resName, asm);
-
-                // Get the fully qualified resource type name
-                // Resources are suffixed with .resource
-                var resName2 = resName.Substring(0, resName.IndexOf(".resource"));
-                var type = asm.GetType(resName2, true);
-
-                var resources = type.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-                foreach (PropertyInfo res in resources)
-                {
-                    // collect string type resources
-                    if (res.PropertyType == typeof(Bitmap) && res.Name == attribute.AddinIcon)
-                        return res.GetValue(null, null) as Bitmap;
-                }
-            }
-            return null;
-        }
-        #endregion
     }
 
-    /// <summary>
-    /// event arguments for when solidworks connects or disconnects from your add-in
-    /// </summary>
-    public class OnConnectToSwEventArgs : EventArgs
-    {
-        /// <summary>
-        /// solidowrks object
-        /// </summary>
-        public ISldWorks solidworks { get; set; }
 
-        /// <summary>
-        /// the identifier for this addin
-        /// </summary>
-        public int cookie { get; set; }
-    }
 }

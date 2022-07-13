@@ -1,0 +1,15 @@
+@startuml
+class PmpBitmapButton {
+    - _bitmap : Bitmap
+    - _fileName : string
+    - _iconSize : BtnSize
+    - _opacity : byte
+    - _standardIcon : BitmapButtons
+    + PmpBitmapButton(bitmap:Bitmap, tip:string, iconSizes:BtnSize, opacity:byte)
+    + PmpBitmapButton(standardIcon:BitmapButtons, tip:string)
+    - PmpBitmapButton_OnRegister() : void
+    + SetButtonIcon(bitmap:Bitmap, fileName:string, size:BtnSize, opacity:byte) : void
+    + SetButtonIcon(standardIcon:BitmapButtons) : void
+}
+"PmpButtonBase`1" "<PropertyManagerPageBitmapButton>" <|-- PmpBitmapButton
+@enduml

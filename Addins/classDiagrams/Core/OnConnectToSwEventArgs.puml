@@ -1,0 +1,7 @@
+@startuml
+class OnConnectToSwEventArgs {
+    + Solidworks : ISldWorks <<get>> <<set>>
+    + Cookie : int <<get>> <<set>>
+}
+EventArgs <|-- OnConnectToSwEventArgs
+@enduml

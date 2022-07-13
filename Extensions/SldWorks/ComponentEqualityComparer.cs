@@ -1,4 +1,7 @@
-﻿using SolidWorks.Interop.sldworks;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using SolidWorks.Interop.sldworks;
 using System.Collections.Generic;
 
 namespace Hymma.Solidworks.Extensions
@@ -12,7 +15,7 @@ namespace Hymma.Solidworks.Extensions
         /// determine if two <see cref="Component2"/> are equal or not
         /// </summary>
         /// <param name="x">first component</param>
-        /// <param name="y">secont component</param>
+        /// <param name="y">second component</param>
         /// <returns></returns>
         public bool Equals(Component2 x, Component2 y)
         {
@@ -24,14 +27,15 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// returns the hashcode for this object
+        /// returns the hash code for this object
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public int GetHashCode(Component2 obj)
-        {
-            var code = obj.GetPathName() + obj.ReferencedConfiguration + obj.IsEnvelope().ToString() + obj.IsSuppressed().ToString() + obj.ExcludeFromBOM.ToString();
-            return code.GetHashCode();
-        }
+        public int GetHashCode(Component2 obj)=>
+            obj.GetPathName().GetHashCode() ^ 
+            obj.ReferencedConfiguration.GetHashCode() ^ 
+            obj.IsEnvelope().ToString().GetHashCode() ^ 
+            obj.IsSuppressed().ToString().GetHashCode() ^ 
+            obj.ExcludeFromBOM.ToString().GetHashCode();
     }
 }

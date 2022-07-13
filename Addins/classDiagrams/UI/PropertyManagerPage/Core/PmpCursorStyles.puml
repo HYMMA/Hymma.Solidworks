@@ -1,0 +1,7 @@
+@startuml
+enum PmpCursorStyles {
+    None= 0,
+    Okay= 1,
+    Advance= 2,
+}
+@enduml

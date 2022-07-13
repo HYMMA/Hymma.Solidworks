@@ -1,0 +1,13 @@
+@startuml
+class PmpNumberBoxDisplayingEventArgs {
+    - SolidworksObject : IPropertyManagerPageNumberbox
+    + PmpNumberBoxDisplayingEventArgs(pmpNumberBox:PmpNumberBox)
+    + ChangeRange(Units:NumberBoxUnit, Minimum:double, Maximum:double, Inclusive:bool, Increment:double, fastIncrement:double, slowIncrement:double) : void
+    + Clear() : void
+    + ItemText(item:short) : string
+    + DeleteItem(item:short) : short
+    + Text : string <<get>>
+    + CurrentSelection : short <<get>> <<set>>
+}
+PmpControlDisplayingEventArgs <|-- PmpNumberBoxDisplayingEventArgs
+@enduml

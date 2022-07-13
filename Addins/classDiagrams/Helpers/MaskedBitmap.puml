@@ -1,0 +1,8 @@
+@startuml
+class MaskedBitmap <<sealed>> {
+    + {static} SaveAsPng(image:Bitmap, size:Size, fullFileName:string, allowPartialOpacity:bool, opacityThreshold:byte, invertedMask:bool) : void
+    + {static} GetImageMask(original:Bitmap, allowPartialOpacity:bool, opacityThreshold:byte, invertedMask:bool) : Bitmap
+    + {static} GetMaskedImage(original:Bitmap, allowPartialOpacity:bool, opacityThreshold:byte, invertedMask:bool) : Bitmap
+    - {static} Create32bppImageAndClearAlpha(tmpImage:Bitmap) : Bitmap
+}
+@enduml

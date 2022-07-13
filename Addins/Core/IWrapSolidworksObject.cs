@@ -1,4 +1,7 @@
-﻿namespace Hymma.Solidworks.Addins
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// an interface for classes that hide a native solidworks object

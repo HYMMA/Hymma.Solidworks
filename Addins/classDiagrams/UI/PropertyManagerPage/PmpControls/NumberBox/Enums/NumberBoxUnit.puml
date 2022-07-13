@@ -1,0 +1,15 @@
+@startuml
+enum NumberBoxUnit {
+    Angle= 4,
+    Density= 5,
+    Force= 7,
+    Frequency= 10,
+    Gravity= 8,
+    Length= 3,
+    Percent= 11,
+    Stress= 6,
+    Time= 9,
+    UnitlessDouble= 2,
+    UnitlessInteger= 1,
+}
+@enduml

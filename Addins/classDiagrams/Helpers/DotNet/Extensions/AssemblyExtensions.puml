@@ -1,0 +1,5 @@
+@startuml
+class AssemblyExtensions <<static>> {
+    + {static} GetAssemblyDirectory() : string
+}
+@enduml

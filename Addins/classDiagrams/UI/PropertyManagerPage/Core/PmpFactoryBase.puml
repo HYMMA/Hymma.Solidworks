@@ -1,0 +1,13 @@
+@startuml
+abstract class PmpFactoryBase {
+    # <<readonly>> uiModel : PmpUiModel
+    # <<readonly>> eventHandler : PropertyManagerPage2Handler9
+    # <<readonly>> Solidworks : ISldWorks
+    # winFormHandlers : IEnumerable<PmpWpfHost>
+    # propertyManagerPage : IPropertyManagerPage2
+    # PmpFactoryBase(eventHandler:PropertyManagerPage2Handler9, uiModel:PmpUiModel)
+    # CreatePropertyManagerPage() : void
+    + {abstract} Show() : void
+    + Close(Okay:bool) : void
+}
+@enduml

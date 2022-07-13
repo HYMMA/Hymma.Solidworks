@@ -1,4 +1,7 @@
-﻿using SolidWorks.Interop.swpublished;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using SolidWorks.Interop.swpublished;
 using System.Linq;
 using System.Runtime.InteropServices;
 

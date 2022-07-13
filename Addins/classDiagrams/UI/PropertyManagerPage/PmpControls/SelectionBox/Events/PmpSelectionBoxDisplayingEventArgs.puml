@@ -1,0 +1,20 @@
+@startuml
+class PmpSelectionBoxDisplayingEventArgs {
+    <<internal>> PmpSelectionBoxDisplayingEventArgs(pmpSelectionBox:PmpSelectionBox, filters:IEnumerable<swSelectType_e>, style:int, allowMultipleSelectOfSameEntity:bool, singleItemOnly:bool, height:short)
+    + ItemText(index:short) : string
+    + SelectionColor : SysColor <<get>> <<set>>
+    + Filters : IEnumerable<swSelectType_e> <<get>> <<set>>
+    + Height : short <<get>> <<set>>
+    + Style : int <<get>> <<set>>
+    + AllowMultipleSelectOfSameEntity : bool <<get>> <<set>>
+    + SingleItemOnly : bool <<get>> <<set>>
+    - SolidworksObject : IPropertyManagerPageSelectionbox
+    - _filters : IEnumerable<swSelectType_e>
+    - _style : int
+    - _allowMultipleSelectOfSameEntity : bool
+    - _singleItemOnly : bool
+    - _height : short
+    - _selectionColor : SysColor
+}
+PmpControlDisplayingEventArgs <|-- PmpSelectionBoxDisplayingEventArgs
+@enduml

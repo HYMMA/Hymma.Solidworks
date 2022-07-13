@@ -1,0 +1,26 @@
+@startuml
+abstract class AddinCommandGroupBase {
+    # _commandIcons : string[]
+    # _groupIcons : string[]
+    + Commands : IEnumerable<AddinCommand> <<get>> <<set>>
+    + IgnorePrevious : bool <<get>> <<set>>
+    + IsRegistered : bool <<get>> <<protected set>>
+    + UserId : int <<get>> <<set>>
+    + Title : string <<get>> <<set>> = "Title of this AddinCommandGroup"
+    + Description : string <<get>> <<set>> = "Description of this AddinCommandGroup"
+    + ToolTip : string <<get>> <<set>> = "Tooltip of this AddinCommandGroup"
+    + Hint : string <<get>> <<set>> = "Hint of this AddinCommandGroup"
+    + Position : int <<get>> <<set>> = 0
+    + HasToolbar : bool <<get>> <<set>> = true
+    + HasMenue : bool <<get>> <<set>> = true
+    + MainIconBitmap : Bitmap <<get>> <<set>>
+    + IconsDir : string <<get>> <<set>>
+    + <<virtual>> Register(commandManager:ICommandManager) : void
+    + CommandIcons : string[] <<get>> <<set>>
+    + GroupIcon : string[] <<get>> <<set>>
+    - CheckIconsExist(fileList:string[]) : void
+    - GetCommandGroupIconStrips(images:Bitmap[], filenamePrepend:string) : string[]
+    - CombineBitmaps(bitmaps:Bitmap[], iconSize:int) : Bitmap
+}
+IAddinCommandGroup <|-- AddinCommandGroupBase
+@enduml
