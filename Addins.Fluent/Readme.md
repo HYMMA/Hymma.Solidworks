@@ -8,7 +8,7 @@ Making native-looking SOLIDWORKS Addins is time consuming and has a steep learni
 - Each of [Property manager page controllers](http://help.solidworks.com/2017/english/api/sldworksapiprogguide/Overview/Using_PropertyManagerPage2_and_the_Related_Objects.htm?id=fd93f031fb6c4a9c935310a569d9ce45#Pg0) have separate class that supports events so you don't need to worry about [IPropertyManagerPage2Handler9](https://help.solidworks.com/2018/English/api/swpublishedapi/SolidWorks.Interop.swpublished~SolidWorks.Interop.swpublished.IPropertyManagerPage2Handler9.html).  
 
 # How to start
-Since this package is built on top of [Hymma.Solidworks.Addins](https://www.nuget.org/packages/Hymma.Solidworks.Addins/) you need to inherit from `AddinMaker.cs` and override the `GetUserInterFacea`.
+Since this package is built on top of [Hymma.Solidworks.Addins](https://www.nuget.org/packages/Hymma.Solidworks.Addins/) you need to inherit from `AddinMaker.cs` and override the `GetUserInterFace()`.
 
 ```Csharp
 	<================FROM QRIFYPLUS PROJECT===============>
