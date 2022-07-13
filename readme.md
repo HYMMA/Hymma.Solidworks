@@ -17,7 +17,7 @@ This monorepo consists of four different projects. Each project has its own read
  - Qrify+ is made using [Hymma.Solidworks.Addins.Fluent](https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Addins.Fluent)
  	- This Addin converts value of a custom property into QR image. Users can add suffixes to the QR text. 
 
-Although these are free for commercial use they exist to help you develop your own addins. 
+Although these are free for commercial use they exist to help you develop your own addins. All the `.snk` files are included so you can build the projects once they are cloned.
 
 ## License
 [MIT](https://opensource.org/licenses.MIT)
