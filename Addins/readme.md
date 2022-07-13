@@ -19,9 +19,9 @@ When users create a 3D object, cut from it or modify it in any form they have us
 #### Property Manager Page
 Each feature in solidworks has its own `Property Manager Page`. A `Property Manager Page` hosts UI elements that allow users to define the feature. _For example_ when user clicks on the `Hole` button a property manager page will pop up on the left side of the screen. And they define the diameter and depth of the `Hole`.
 
-![Poperty Manager Page Image](/Docs/png/PopertyManagerPage.png)
+![Poperty Manager Page Image](Docs/png/PopertyManagerPage.png)
 
-![Tab Command-Group Menus Images](/Docs/png/Tab-commandGroup-Menus.png)
+![Tab Command-Group Menus Images](Docs/png/Tab-commandGroup-Menus.png)
 
 ## Quick Start
 ### Create and register the addin 
