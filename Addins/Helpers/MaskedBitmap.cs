@@ -1,4 +1,7 @@
-﻿#region License
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+#region License
 
 //Preamble
 
@@ -98,6 +101,9 @@ namespace Hymma.Solidworks.Addins
 
                 //add the extension to the file name
                 fullFileName += ".png";
+            
+            if (image == null)
+                throw new ArgumentNullException(nameof(image));
 
             //get maskImage
             if (!File.Exists(fullFileName))

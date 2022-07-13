@@ -1,0 +1,8 @@
+@startuml
+class SolidworksCalloutHandler {
+    + SolidworksCalloutHandler(callout:CalloutModel)
+    - _callout : CalloutModel
+    OnStringValueChanged(pManipulator:object, RowID:int, Text:string) : bool
+}
+SwCalloutHandler <|-- SolidworksCalloutHandler
+@enduml

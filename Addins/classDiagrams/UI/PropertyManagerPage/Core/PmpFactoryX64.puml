@@ -1,0 +1,7 @@
+@startuml
+class PmpFactoryX64 {
+    + PmpFactoryX64(uiModel:PmpUiModel)
+    + <<override>> Show() : void
+}
+PmpFactoryBase <|-- PmpFactoryX64
+@enduml

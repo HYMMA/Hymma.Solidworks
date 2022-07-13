@@ -1,0 +1,11 @@
+@startuml
+class AddinAttribute {
+    - _icon : string
+    + AddinIcon : string <<get>> <<set>>
+    + LoadAtStartup : bool <<get>> <<set>> = true
+    + Description : string <<get>> <<set>>
+    + Title : string <<get>> <<set>>
+    + AddinAttribute(title:string)
+}
+Attribute <|-- AddinAttribute
+@enduml

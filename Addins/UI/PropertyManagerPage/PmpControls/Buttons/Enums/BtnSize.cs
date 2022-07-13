@@ -1,4 +1,7 @@
-﻿namespace Hymma.Solidworks.Addins
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// size of icons that can be used for a <see cref="PmpBitmapButton"/>

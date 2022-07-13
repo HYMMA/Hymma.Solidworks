@@ -1,0 +1,11 @@
+@startuml
+class "PmpTextBase`1"<T> {
+    - bgColor : Color
+    - txtColor : Color
+    - control : IPropertyManagerPageControl
+    + PmpTextBase(type:swPropertyManagerPageControlType_e, caption:string, tip:string)
+    + BackGroundColor : Color <<get>> <<set>>
+    + TextColor : Color <<get>> <<set>>
+}
+"PmpControl`1" "<T>" <|-- "PmpTextBase`1"
+@enduml

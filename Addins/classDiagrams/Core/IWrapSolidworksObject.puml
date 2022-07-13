@@ -1,0 +1,5 @@
+@startuml
+interface "IWrapSolidworksObject`1"<T> {
+    SolidworksObject : T <<get>>
+}
+@enduml

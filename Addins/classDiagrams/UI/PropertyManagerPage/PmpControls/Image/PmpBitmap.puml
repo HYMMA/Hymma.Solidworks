@@ -1,0 +1,13 @@
+@startuml
+class PmpBitmap {
+    - _bitmap : Bitmap
+    - _opacity : byte
+    - _filename : string
+    - _resizeStyles : ControlResizeStyles
+    + PmpBitmap(bitmap:Bitmap, fileName:string, resizeStyles:ControlResizeStyles, opacity:byte)
+    - PmpBitmap_OnDisplay(sender:IPmpControl, eventArgs:PmpControlDisplayingEventArgs) : void
+    - PmpBitmap_OnRegister() : void
+    + UpdatePicture(bitmap:Bitmap, fileName:string, opacity:byte) : void
+}
+"PmpControl`1" "<PropertyManagerPageBitmap>" <|-- PmpBitmap
+@enduml

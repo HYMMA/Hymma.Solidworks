@@ -1,0 +1,12 @@
+@startuml
+enum NumberBoxStyles {
+    Default=0,
+    AvoidSelectionText= 4,
+    ComboEditBox= 1,
+    EditBoxReadOnly= 2,
+    NoScrollArrows= 8,
+    Slider= 16,
+    SuppressNotifyWhileTracking= 64,
+    Thumbwheel= 32,
+}
+@enduml

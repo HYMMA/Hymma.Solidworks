@@ -1,0 +1,26 @@
+@startuml
+class PmpComboBox {
+    - _items : List<string>
+    - _style : ComboBoxStyles
+    - _height : short
+    - _currentSelection : short
+    + PmpComboBox(items:List<string>, style:ComboBoxStyles, height:short)
+    - PmpComboBox_OnDisplay(sender:IPmpControl, eventArgs:PmpControlDisplayingEventArgs) : void
+    + AddItems(items:IEnumerable<string>) : void
+    + GetItem(index:short) : string
+    + Contains(item:string) : bool
+    + Clear() : void
+    + Delete(index:short) : void
+    + AddItem(item:string) : void
+    + Items : ReadOnlyCollection<string> <<get>>
+    + Height : short <<get>> <<set>>
+    + Style : ComboBoxStyles <<get>> <<set>>
+    + CurrentSelection : short <<get>> <<set>>
+    + EditText : string <<get>> <<set>>
+    <<internal>> SelectionChangedCallback(id:int) : void
+    <<internal>> SelectionEditCallback(val:string) : void
+    +  <<event>> SelectionChanged : EventHandler<int> 
+    +  <<event>> EditChanged : EventHandler<string> 
+}
+"PmpControl`1" "<PropertyManagerPageCombobox>" <|-- PmpComboBox
+@enduml

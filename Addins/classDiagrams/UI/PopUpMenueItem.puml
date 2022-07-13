@@ -1,0 +1,13 @@
+@startuml
+class PopUpMenueItem {
+    + PopUpMenueItem(itemText:string, hint:string, documentTypes:swDocumentTypes_e)
+    +  <<event>> Pressed : Action 
+    +  <<event>> Updated : Action<int> 
+    + ItemText : string <<get>> <<set>>
+    + Hint : string <<get>> <<set>>
+    + DocumentType : swDocumentTypes_e <<get>> <<set>>
+    + Id : int <<get>>
+    <<internal>> UpdatedCallback(u:int) : void
+    <<internal>> PressedCallback() : void
+}
+@enduml

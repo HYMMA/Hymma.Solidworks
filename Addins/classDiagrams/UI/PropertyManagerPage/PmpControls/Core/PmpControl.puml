@@ -1,0 +1,8 @@
+@startuml
+class "PmpControl`1"<T> {
+    + PmpControl(type:swPropertyManagerPageControlType_e, caption:string, tip:string)
+    + SolidworksObject : T <<get>> <<internal set>>
+}
+IPmpControl <|-- "PmpControl`1"
+"IWrapSolidworksObject`1" "<T>" <|-- "PmpControl`1"
+@enduml

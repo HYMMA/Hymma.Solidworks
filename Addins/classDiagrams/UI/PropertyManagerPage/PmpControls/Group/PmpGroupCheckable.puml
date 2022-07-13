@@ -1,0 +1,12 @@
+@startuml
+class PmpGroupCheckable {
+    - _isChecked : bool
+    + PmpGroupCheckable(caption:string, visible:bool, isChecked:bool, expanded:bool)
+    - PmpGroupCheckable_OnDisplay(sender:object, e:EventArgs) : void
+    + PmpGroupCheckable(caption:string, controls:List<IPmpControl>, visible:bool, isChecked:bool, expanded:bool)
+    + IsChecked : bool <<get>> <<set>>
+    <<internal>> GroupCheckedCallback(status:bool) : void
+    +  <<event>> Checked : EventHandler<bool> 
+}
+PmpGroup <|-- PmpGroupCheckable
+@enduml

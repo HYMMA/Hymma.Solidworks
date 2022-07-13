@@ -1,0 +1,7 @@
+@startuml
+enum ListboxStyles {
+    AllowMultiSelect= 4,
+    NoIntegralHeight= 2,
+    SortAlphabetically= 1,
+}
+@enduml

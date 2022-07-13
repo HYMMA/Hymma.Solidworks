@@ -1,0 +1,8 @@
+@startuml
+enum ComboBoxStyles {
+    Sorted= 1,
+    EditableText= 2,
+    EditBoxReadOnly= 4,
+    AvoidSelectionText= 8,
+}
+@enduml

@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
-  <metadata minClientVersion="2.5">
-    <id>Hymma.Solidworks.Extensions</id>
-    <version>$year$.0.$rev$</version>
-    <title>SOLIDWORKS API Extensions by HYMMA</title>
-    <authors>HYMMA</authors>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <license type="expression">MIT</license>
-    <icon>nugetIcon.png</icon>
-    <projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Extensions/</projectUrl>
-    <description>Extension and helper methods for SOLIDWORKS $year$ and later.</description>
-    <releaseNotes>referencing solidworks 2020 interop</releaseNotes>
-    <tags>cad solidworks hymma</tags>
-    <dependencies>
-		<group targetFramework=".NETFramework4.6.1" >
-			<dependency id="Hymma.Solidworks.Interop" version="2020.0.0"></dependency>
-		</group>
-    </dependencies>
-  </metadata>
-  <files>
-    <file src="..\nugetIcon.png" target=""/>
-    <file src="build\**.targets" target="build"/>
-    <file src="tools\**" target="tools"/>
-    <file src="bin\Release\*.xml" target="lib\net461"/>
-    <file src="bin\Release\*.dll" target="lib\net461"/>
-    <file src="bin\Release\*.pdb" target="lib\net461"/>
-  </files>
+	<metadata minClientVersion="2.5">
+		<id>Hymma.Solidworks.Extensions</id>
+		<!--will be replaced by hymma.common.targets-->
+		<version>0.0.0.0</version>
+		<title>SOLIDWORKS API Extensions by HYMMA</title>
+		<authors>HYMMA</authors>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<license type="expression">MIT</license>
+		<icon>nugetIcon.png</icon>
+		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Extensions/</projectUrl>
+		<description>Extension and helper methods for SOLIDWORKS</description>
+		<releaseNotes>Update to 2018</releaseNotes>
+		<tags>cad solidworks hymma</tags>
+		<dependencies>
+			<group targetFramework=".NETFramework4.7.2" >
+				<dependency id="Hymma.Solidworks.Interop" version="2018.1.0"></dependency>
+			</group>
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="..\nugetIcon.png" target=""/>
+		<file src="build\**.targets" target="build"/>
+		<file src="tools\**" target="tools"/>
+		<file src="bin\Release\*.xml" target="lib\net472"/>
+		<file src="bin\Release\*.dll" target="lib\net472"/>
+		<file src="bin\Release\*.pdb" target="lib\net472"/>
+	</files>
 </package>

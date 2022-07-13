@@ -1,0 +1,8 @@
+@startuml
+class OnRowValueChangedEventArgs {
+    + OnRowValueChangedEventArgs(row:CalloutRow, text:string)
+    + Row : CalloutRow <<get>> <<set>>
+    + Value : string <<get>> <<set>>
+}
+EventArgs <|-- OnRowValueChangedEventArgs
+@enduml

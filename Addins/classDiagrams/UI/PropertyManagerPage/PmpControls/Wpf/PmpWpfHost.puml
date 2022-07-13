@@ -1,0 +1,18 @@
+@startuml
+class PmpWpfHost {
+    + PmpWpfHost(elementHost:ElementHost, wpfControl:System.Windows.Controls.UserControl, height:int)
+    + PmpWpfHost(winFormOrWpfControl:System.Windows.Controls.UserControl, height:int)
+    - PmpWpfHost_OnDisplay(sender:object, e:PmpControlDisplayingEventArgs) : void
+    + ElementHost : ElementHost <<get>>
+    + WindowsControl : System.Windows.Controls.UserControl <<get>>
+    - _keystrokePropagator : WpfControlKeystrokePropagator
+    + Equals(other:PmpWpfHost) : bool
+    + <<override>> Equals(obj:object) : bool
+    + <<override>> GetHashCode() : int
+    + Dispose() : void
+    + <<override>> Enabled : bool <<get>> <<set>>
+}
+"PmpControl`1" "<IPropertyManagerPageWindowFromHandle>" <|-- PmpWpfHost
+"IEquatable`1" "<PmpWpfHost>" <|-- PmpWpfHost
+IDisposable <|-- PmpWpfHost
+@enduml

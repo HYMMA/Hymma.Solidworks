@@ -1,0 +1,13 @@
+@startuml
+class WpfControlKeystrokePropagator {
+    - <<readonly>> m_Elem : FrameworkElement
+    - m_HwndSrc : HwndSource
+    - m_HwndSrcHook : HwndSourceHook
+    <<internal>> WpfControlKeystrokePropagator(elem:FrameworkElement)
+    - OnElementLoaded(sender:object, e:RoutedEventArgs) : void
+    - OnElementUnloaded(sender:object, e:RoutedEventArgs) : void
+    - OnChildHwndSourceHook(hwnd:IntPtr, msg:int, wParam:IntPtr, lParam:IntPtr, handled:bool) : IntPtr
+    + Dispose() : void
+}
+IDisposable <|-- WpfControlKeystrokePropagator
+@enduml

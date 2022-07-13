@@ -1,0 +1,14 @@
+@startuml
+class PmpTextBox {
+    - _style : TexTBoxStyles
+    - _text : string
+    - _height : short
+    + PmpTextBox(initialValue:string, tip:string)
+    + Value : string <<get>> <<set>>
+    + Style : TexTBoxStyles <<get>> <<set>>
+    + Height : short <<get>> <<set>>
+    <<internal>> TypedIntoCallback(e:string) : void
+    +  <<event>> TypedInto : EventHandler<string> 
+}
+"PmpTextBase`1" "<PropertyManagerPageTextbox>" <|-- PmpTextBox
+@enduml

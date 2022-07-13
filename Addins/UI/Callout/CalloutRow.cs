@@ -1,5 +1,8 @@
-﻿using SolidWorks.Interop.sldworks;
-using Hymma.Solidworks.Extensions;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+using SolidWorks.Interop.sldworks;
+//using Hymma.Solidworks.Extensions;
 using System;
 
 namespace Hymma.Solidworks.Addins

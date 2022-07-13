@@ -1,0 +1,22 @@
+@startuml
+abstract class AddinMaker {
+    - {static} _addinTitle : string
+    # _commandManager : CommandManager
+    # documentsEventsRepo : Hashtable
+    - _addinUi : AddinUserInterface
+    + Solidworks : ISldWorks <<get>> <<set>>
+    + {static} Register(t:Type) : void
+    + {static} Unregister(t:Type) : void
+    - RemovePMPs(propertyManagerPages:List<PmpFactoryBase>) : void
+    - DetachEventsFromAllDocuments() : void
+    - DetachSwEvents() : void
+    - RemoveCmdTabs(commandTabs:IEnumerable<AddinCommandTab>) : void
+    + DisconnectFromSW() : bool
+    + ConnectToSW(ThisSW:object, Cookie:int) : bool
+    + AddCommands(commandTabs:IEnumerable<AddinCommandTab>) : void
+    +  <<event>> OnStart : EventHandler<OnConnectToSwEventArgs> 
+    +  <<event>> OnExit : EventHandler<OnConnectToSwEventArgs> 
+    + {abstract} GetUserInterFace() : AddinUserInterface
+}
+ISwAddin <|-- AddinMaker
+@enduml

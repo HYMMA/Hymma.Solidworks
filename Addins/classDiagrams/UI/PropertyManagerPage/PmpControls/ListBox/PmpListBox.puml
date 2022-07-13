@@ -1,0 +1,28 @@
+@startuml
+class PmpListBox {
+    - <<readonly>> _items : string[]
+    - _height : short
+    - _style : int
+    + PmpListBox(items:string[], caption:string, tip:string, height:short, style:ListboxStyles)
+    - PmpListBox_OnDisplay(sender:object, e:PmpControlDisplayingEventArgs) : void
+    - PmpListBox_OnRegister() : void
+    <<internal>> RightClickedCallback(point:Tuple<double, double, double>) : void
+    <<internal>> SelectionChangeCallback(count:int) : void
+    <<internal>> <<override>> DisplayingCallback() : void
+    + AddItems(items:string[]) : void
+    + Clear() : void
+    + ItemText(Item:short) : string
+    + InsertItem(Item:short, Text:string) : short?
+    + DeleteItem(item:short) : short?
+    + GetSelectedItemsCount() : int?
+    + GetSelectedItems() : object
+    + SetSelectedItem(Item:short, Selected:bool) : bool?
+    + CurrentSelection : short? <<get>> <<set>>
+    + Style : int <<get>> <<set>>
+    + ItemCount : int? <<get>>
+    +  <<event>> RightClicked : PmpListboxRightClickedEventHandler 
+    +  <<event>> SelectionChanged : PmpListboxSelectionChangedEventHandler 
+    + <<new>>  <<event>> Displaying : PmpListboxDisplayingEventHandler 
+}
+"PmpTextBase`1" "<PropertyManagerPageListbox>" <|-- PmpListBox
+@enduml

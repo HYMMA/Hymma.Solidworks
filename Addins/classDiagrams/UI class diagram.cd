@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Hymma.Solidworks.Addins.AddinAttribute">
+    <Position X="14.75" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAgAEAAAAAAAAAAAAAAAAiAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\AddinAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.AddinMaker">
+    <Position X="17" Y="7.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAABAAAAAEAAoCAAAAAARAAEEAAgAQASAEIA=</HashCode>
+      <FileName>Core\AddinMaker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.AddinUserInterface">
+    <Position X="22" Y="7.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgBA=</HashCode>
+      <FileName>Core\AddinUserInterface.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpUiModel" Collapsed="true">
+    <Position X="7.25" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IAACCBICQoAEAGAEaAEAIAIBDEAFAAAEACc4AhLwGAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\Core\PmpUiModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpCheckBox" Collapsed="true">
+    <Position X="19.5" Y="3" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAIAACAAAAAQAAAAAAAAAAAAAAAAgAAgAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Checkbox\PmpCheckBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.IPmpControl" Collapsed="true">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACIAAEIAACAIAQQCAAQuAAABEZAAkYCQAIACBAABA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Core\IPmpControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpControl&lt;T&gt;" Collapsed="true">
+    <Position X="10.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Core\PmpControl.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpTextBase&lt;T&gt;" Collapsed="true">
+    <Position X="17.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAABAAIAAAAAAAAAAAAAAgAAAAAAAEAAAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Core\PmpTextBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpBitmapButton" Collapsed="true">
+    <Position X="24.25" Y="4.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAUAAAAQAAABAgAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpButtonBase&lt;T&gt;" Collapsed="true">
+    <Position X="28.5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAABAAAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Buttons\PmpButtonBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpButton" Collapsed="true">
+    <Position X="29" Y="4.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Buttons\PmpButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpBitmapButtonCheckable" Collapsed="true">
+    <Position X="24.75" Y="5.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButtonCheckable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpComboBox" Collapsed="true">
+    <Position X="14.75" Y="3" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>CAAABAAABECACEAAAAACAQACgBEAAQAABCAAQCBQAAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Combobox\PmpComboBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpGroup" Collapsed="true">
+    <Position X="7.25" Y="9" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAQAAAwAAAAIAAAQAAQEAKAARAAAMCACgAAAAIAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Group\PmpGroup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpGroupCheckable" Collapsed="true">
+    <Position X="7.25" Y="10" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAACAAAACAAAAAAAAAIAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Group\PmpGroupCheckable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpBitmap" Collapsed="true">
+    <Position X="22.5" Y="3" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAACAQAQAAAgAAAAAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Image\PmpBitmap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpLabel" Collapsed="true">
+    <Position X="19.5" Y="4.75" Width="2.75" />
+    <InheritanceLine Type="Hymma.Solidworks.Addins.PmpTextBase&lt;T&gt;" FixedToPoint="true">
+      <Path>
+        <Point X="18.5" Y="3.691" />
+        <Point X="18.5" Y="4.375" />
+        <Point X="20.761" Y="4.375" />
+        <Point X="20.761" Y="4.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAACABAAAAAAAABECAAAACAAAAQAAAABAAAgCAQQAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Label\PmpLabel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpListBox" Collapsed="true">
+    <Position X="16" Y="4.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAFAAECACAAAAQAEAgRAABAQQQAABBAAQDBAAAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\ListBox\PmpListBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpNumberBox" Collapsed="true">
+    <Position X="12.25" Y="4.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>ARAgAABABECAQAAAAAAAAAACAAIQAIAABAAwYCAACIA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\NumberBox\PmpNumberBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpRadioButton" Collapsed="true">
+    <Position X="25.5" Y="3" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAIAACAAAAAQAAAAAAAAAAAAAAAAgAAgAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\RadioButton\PmpRadioButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpSelectionBox" Collapsed="true">
+    <Position X="30.5" Y="3" Width="3" />
+    <TypeIdentifier>
+      <HashCode>gEAABIEEAAGBAGAACAAhAkAAAAARw0EABACAQCAAAIA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\SelectionBox\PmpSelectionBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpSlider" Collapsed="true">
+    <Position X="12" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAABACACAAhAUAAAAAAQAQBAIAABAgQkCAAGAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Slider\PmpSlider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpTextBox" Collapsed="true">
+    <Position X="9.25" Y="4.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABACAAAAAAAAAAAAEQAAAAAAIBAAgACAAAAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\TextBox\PmpTextBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.UI.PmpWinForm&lt;T&gt;" Collapsed="true">
+    <Position X="5" Y="3" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\WinForms\PmpWinForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpWinFormContoller&lt;T&gt;" Collapsed="true">
+    <Position X="8.5" Y="3" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\WinForms\PmpWinFormContoller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpWpfHost" Collapsed="true">
+    <Position X="1.5" Y="3" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABACAAAIAQgAAAAGAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpControls\Wpf\PmpWpfHost.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.PmpTab">
+    <Position X="1.25" Y="7.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAABAAAAAAAAAAAARACCECAAgACBAAAA=</HashCode>
+      <FileName>UI\PropertyManagerPage\PmpTab\PmpTab.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Hymma.Solidworks.Addins.AddinCommandTab">
+    <Position X="11.25" Y="7.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>KgAAAACAAAAAAAAAAAAAAAAAAAABAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>UI\ToolbarTabs\AddinCommandTab.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Hymma.Solidworks.Addins.IWrapSolidworksObject&lt;T&gt;">
+    <Position X="2" Y="1" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Core\IWrapSolidworksObject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
