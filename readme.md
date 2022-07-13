@@ -12,9 +12,9 @@ This monorepo consists of four different projects. Each project has its own read
 
 ## Sample Addins
  There are two free addins in this repo.:heart:  
- - Qrify is made using [Hymma.Solidworks.Addins](Hymma.Solidworks.Addins)
+ - Qrify is made using [Hymma.Solidworks.Addins](https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Addins)
  	- This Addin converts a random text into QR image and copies it into the clipboard.
- - Qrify+ is made using [Hymma.Solidworks.Addins.Fluent](Hymma.Solidworks.Addins.Fluent)
+ - Qrify+ is made using [Hymma.Solidworks.Addins.Fluent](https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Addins.Fluent)
  	- This Addin converts value of a custom property into QR image. Users can add suffixes to the QR text. 
 
 Although these are free for commercial use they exist to help you develop your own addins. 
