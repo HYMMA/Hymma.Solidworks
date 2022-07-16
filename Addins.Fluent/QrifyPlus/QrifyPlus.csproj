@@ -38,14 +38,42 @@
     <AssemblyOriginatorKeyFile>QrifyPlus.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Hymma.Solidworks.Addins, Version=2018.1.0.0, Culture=neutral, PublicKeyToken=ba0fa3dd4814f928, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Hymma.Solidworks.Addins.Fluent.2018.1.0\lib\net472\Hymma.Solidworks.Addins.dll</HintPath>
+    </Reference>
+    <Reference Include="Hymma.Solidworks.Addins.Fluent, Version=2018.1.0.0, Culture=neutral, PublicKeyToken=cc483d3d3493a238, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Hymma.Solidworks.Addins.Fluent.2018.1.0\lib\net472\Hymma.Solidworks.Addins.Fluent.dll</HintPath>
+    </Reference>
+    <Reference Include="Hymma.Solidworks.Interop, Version=2018.1.0.0, Culture=neutral, PublicKeyToken=af926be2587fd2af, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Hymma.Solidworks.Addins.Fluent.2018.1.0\lib\net472\Hymma.Solidworks.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Hymma.Solidworks.Addins.Fluent.2018.1.0\lib\net472\Microsoft.CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="QRCoder, Version=1.4.3.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
       <HintPath>..\..\packages\QRCoder.1.4.3\lib\net40\QRCoder.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="SolidWorks.Interop.sldworks, Version=26.0.1.1, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Hymma.Solidworks.Addins.Fluent.2018.1.0\lib\net472\SolidWorks.Interop.sldworks.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SolidWorks.Interop.swconst, Version=26.0.1.1, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Hymma.Solidworks.Addins.Fluent.2018.1.0\lib\net472\SolidWorks.Interop.swconst.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SolidWorks.Interop.swpublished, Version=26.0.1.1, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Hymma.Solidworks.Addins.Fluent.2018.1.0\lib\net472\SolidWorks.Interop.swpublished.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Hymma.Solidworks.Addins.Fluent.2018.1.0\lib\net472\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Hymma.Solidworks.Addins.Fluent.2018.1.0\lib\net472\System.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -71,16 +99,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="QrifyPlus.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Addins\Hymma.Solidworks.Addins.csproj">
-      <Project>{86b8e368-880d-4169-ba19-60a84d3f6fb3}</Project>
-      <Name>Hymma.Solidworks.Addins</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Hymma.Solidworks.Addins.Fluent.csproj">
-      <Project>{6100467f-2c52-4dda-820c-40729b0c1529}</Project>
-      <Name>Hymma.Solidworks.Addins.Fluent</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
