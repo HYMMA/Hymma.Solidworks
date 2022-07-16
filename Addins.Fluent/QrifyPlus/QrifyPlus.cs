@@ -17,7 +17,6 @@ namespace QrifyPlus
     public class QrifyPlus : AddinMaker
     {
         private PmpFactoryX64 pmpFactory;
-        private PmpCloseReason pmpCloseReason;
         private QrifyPlusPmpCallBacks closeCallBackRegistry;
 
         public QrifyPlus()
