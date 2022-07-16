@@ -54,10 +54,12 @@ namespace Hymma.Solidworks.Addins
 
                 var dirInfo = new DirectoryInfo(dirPath);
 
-                //if directory exists and was created more than two minutes ago
+                //if directory exists and was created more than one day ago
+                //we want to make sure that these images exist or solidarity will not load the addin
+                //we set the time frame per day because it slows downs the startup of solidworks quite significantly
                 if (dirInfo.Exists
                     &&
-                    dirInfo.CreationTime < (DateTime.Now - TimeSpan.FromMinutes(2)))
+                    dirInfo.CreationTime < (DateTime.Now - TimeSpan.FromDays(1)))
                 {
                     //delete it recursively
                     dirInfo.Delete(true);
