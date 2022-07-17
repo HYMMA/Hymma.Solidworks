@@ -79,5 +79,14 @@ namespace QrifyPlus.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string sdf {
+            get {
+                return ResourceManager.GetString("sdf", resourceCulture);
+            }
+        }
     }
 }
