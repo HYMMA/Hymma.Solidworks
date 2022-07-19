@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using static Hymma.Solidworks.Addins.Logger;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -47,16 +48,19 @@ namespace Hymma.Solidworks.Addins
         {
             //we get the type of addin so that we can use it later for locating addin icons folder
             //otherwise we would need to read it from COM
+            log("from addin maker constructor");
             var addinAssy = Assembly.GetCallingAssembly();
             var typeOfAddin = GetTypeOfAddin(addinAssy);
             if (typeOfAddin == null)
             {
+                log("_  typeOfAddin was null");
                 throw new ArgumentException("Addin was not recognized");
             }
 
             //calling this method here generates the necessary property values to locate addin icon folder which will be used
             //by PmpUiModel to save UI icons
-            AddinIcons.Instance().SaveAddinIcon(typeOfAddin, out string iconFullFileName);
+            log("Saving Addin icons . . .");
+            AddinIcons.SaveAddinIcon(typeOfAddin, out string iconFullFileName);
         }
 
 

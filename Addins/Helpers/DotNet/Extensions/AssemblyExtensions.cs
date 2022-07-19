@@ -13,7 +13,7 @@ namespace Hymma.Solidworks.Addins
     internal static class AssemblyExtensions
     {
         /// <summary>
-        /// get the path to the current Assembly
+        /// get the Path to the current Assembly
         /// </summary>
         public static string GetAssemblyDirectory()
         {

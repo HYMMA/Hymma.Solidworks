@@ -3,12 +3,6 @@
 
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hymma.Solidworks.Addins.Helpers
 {
@@ -20,6 +14,7 @@ namespace Hymma.Solidworks.Addins.Helpers
         /// <param name="type">type of class that inherits from  <see cref="AddinMaker"/></param>
         public static void RegisterSolidworksAddin(Type type)
         {
+            Logger.log("registering solidworks addin");
             try
             {
                 var addinAttribute = type.TryGetAttribute<AddinAttribute>(false);
@@ -34,11 +29,12 @@ namespace Hymma.Solidworks.Addins.Helpers
                 RegistryKey addinStartUpKey = Registry.CurrentUser.CreateSubKey(keyname);
                 addinStartUpKey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
 
-                AddinIcons.Instance().SaveAddinIcon(type, out string iconPath);
+                AddinIcons.SaveAddinIcon(type, out string iconPath);
                 addinKey.SetValue("Icon Path", iconPath);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Logger.log("Error!  \r\n" +e.Message);
             }
         }
 
