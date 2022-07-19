@@ -30,7 +30,7 @@ namespace Hymma.Solidworks.Addins
             Id = Counter.GetNextPmpId();
             StringBuilder sb = new StringBuilder();
             sb.Append("Pmp").Append(Id);
-            IconDir = AddinIcons.Instance().IconsDir.CreateSubdirectory(sb.ToString());
+            IconDir = AddinIcons.IconsDir.CreateSubdirectory(sb.ToString());
         }
         #endregion
 

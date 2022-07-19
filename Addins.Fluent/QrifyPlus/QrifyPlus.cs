@@ -3,8 +3,10 @@
 
 using Hymma.Solidworks.Addins;
 using Hymma.Solidworks.Addins.Fluent;
+using Microsoft.Win32;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.InteropServices;

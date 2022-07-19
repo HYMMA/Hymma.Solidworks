@@ -83,6 +83,7 @@
     <Compile Include="Core\OnConnectToSwEventArgs.cs" />
     <Compile Include="Core\SysColor.cs" />
     <Compile Include="Helpers\DotNet\RegisteryHelper.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="UI\Callout\CalloutRow.cs" />
     <Compile Include="UI\Callout\OnRowValueChangedEventArgs.cs" />
     <Compile Include="UI\Callout\SolidworksCalloutHandler.cs" />
