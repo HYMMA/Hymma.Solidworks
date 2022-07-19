@@ -35,7 +35,7 @@ namespace Hymma.Solidworks.Extensions
         /// <param name="v2"></param>
         /// <param name="digits">the difference between the two numbers will be rounded to this decimal point</param>
         /// <remarks>Two numbers are almost equal to each other when their value is assessed against another number. As our environment is manufacturing and the most accurate devices (wire cutters) have a percision of 1E-5 meters we should round differences of the two numbers to that percision</remarks>
-        public static bool AlmostEqual(double v1, double v2, int digits =5)
+        public static bool AlmostEqual(double v1, double v2, int digits = 5)
         {
             var diff = Math.Abs(v1 - v2);
 
@@ -101,62 +101,5 @@ namespace Hymma.Solidworks.Extensions
             return cross;
         }
 
-    }
-
-    /// <summary>
-    /// helpers for unit conversion and calculations
-    /// </summary>
-    public static class Units
-    {
-        /// <summary>
-        /// changes the unit of length from (meter) to the one specified
-        /// </summary>
-        /// <param name="length">the length to change the unit of</param>
-        /// <param name="newUnit">the unit required to change the length to 
-        /// <list type="bullet">
-        /// <item>mm</item><description>millimeters</description>
-        /// <item>cm</item><description>centimeters</description>
-        /// <item>m</item><description>meters</description>
-        /// <item>in</item><description>inches</description>
-        /// <item>ft</item><description>feet</description>
-        /// <item>ft-in</item><description>inches</description>
-        /// <item>angstrom</item><description>angstrom</description>
-        /// <item>nm</item><description>nano meters</description>
-        /// <item>micro-m</item><description>micro meters</description>
-        /// <item>mil</item><description>inches</description>
-        /// <item>uin</item><description>meters</description>
-        /// </list>
-        /// </param>
-        /// <returns></returns>
-        public static double ConvertLength(double length, string newUnit)
-        {
-            switch (newUnit.ToLower())
-            {
-                case "mm":
-                    return length * 1000;
-                case "cm":
-                    return length * 100;
-                case "m":
-                    return length;
-                case "in":
-                    return length * 1000 / 25.4;
-                case "ft":
-                    return length * 3.28084;
-                case "ft-in":
-                    return length * 1000 / 25.4;
-                case "angstrom":
-                    return length * 1E-10;
-                case "nm":
-                    return length * 1E-9;
-                case "micro-m":
-                    return length * 1E-6;
-                case "mil":
-                    return length / 25.4;
-                case "uin":
-                    return length;
-                default:
-                    return length;
-            }
-        }
     }
 }

@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\Mathematics.cs" />
+    <Compile Include="Helpers\Units.cs" />
     <Compile Include="SldWorks\ComponentEqualityComparer.cs" />
     <Compile Include="Extensions\AssemblyDocExtensions.cs" />
     <Compile Include="Extensions\Body2Extensions.cs" />
