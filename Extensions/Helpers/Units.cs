@@ -72,7 +72,7 @@ namespace Hymma.Solidworks.Extensions
         /// </code>
         /// </example>
         /// </param>
-        /// <returns>length in new new unit</returns>
+        /// <returns>length in new unit</returns>
         public static double ConvertLength(double length, swLengthUnit_e newUnit)
         {
             switch (newUnit)

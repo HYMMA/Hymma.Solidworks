@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
-    /// extension sofr <see cref="PartDoc"/>
+    /// extensions for <see cref="PartDoc"/>
     /// </summary>
     public static class PartDocExtensions
     {
@@ -38,7 +38,7 @@ namespace Hymma.Solidworks.Extensions
         /// Get flat patterns of the part document if there is any
         /// </summary>
         /// <param name="part">the sheet metal modelDoc2 object</param>
-        /// <returns>an array of objects castable to <see cref="Feature"/> </returns>
+        /// <returns>an array of objects that can be cast to <see cref="Feature"/> </returns>
         public static object[] GetFlatPatterns(this PartDoc part)
         {
             ModelDoc2 model = part as ModelDoc2;
@@ -52,10 +52,10 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// gets the sheetMetal Features of this part document fi there is any
+        /// gets the sheetMetal Features of this part document if there is any
         /// </summary>
         /// <param name="part">the sheet metal modelDoc2 or PartDoc object</param>
-        /// <returns>an array of objects castable to <see cref="Feature"/></returns>
+        /// <returns>an array of objects cast-able to <see cref="Feature"/></returns>
         public static object[] GetSheetMetals(this PartDoc part)
         {
             ModelDoc2 model = part as ModelDoc2;
@@ -69,7 +69,7 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// gets the body of this partDoc by its name and null if doesnt exist
+        /// gets the body of this partDoc by its name and null if doesn't exist
         /// </summary>
         /// <param name="part">the part document</param>
         /// <param name="name">the name of the body</param>
@@ -87,7 +87,7 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// get a Ilist of features whose type is provided in the parameters
+        /// get a <see cref="IList{T}"/> of features 
         /// </summary>
         /// <param name="part"></param>
         /// <param name="featureType">the feature type, refer to this link to for a list of types as string
