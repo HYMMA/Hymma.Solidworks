@@ -1,6 +1,7 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Logging;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,7 +9,6 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Resources;
-using static Hymma.Solidworks.Addins.Logger;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
@@ -18,10 +18,9 @@ namespace Hymma.Solidworks.Addins
     {
         #region fields
         static DirectoryInfo _iconsDirInfo;
-        static private string _iconFullFileName;
-        static string logPath;
+        static Logger log = Logger.GetInstance(Properties.Resources.LogSource);
+        static string _iconFullFileName;
         #endregion
-
         #region private methods
         static DirectoryInfo CreateIconsDirInLocalAppFolder(string dirName)
         {
@@ -43,25 +42,20 @@ namespace Hymma.Solidworks.Addins
                     &&
                     dirInfo.CreationTime < (DateTime.Now - TimeSpan.FromDays(1)))
                 {
-                    log($"dirInfo.CreationTime is {dirInfo.CreationTime} which is less than criterion");
-                    log($"deleting {dirInfo.FullName} . . .");
                     //delete it recursively
                     dirInfo.Delete(true);
 
+                    log.Warning($"addin folder {dirName} was created on {dirInfo.CreationTime} so it was deleted to be re-created again");
                 }
 
                 //this method does nothing if it already exists
-                log($"creating {dirInfo.FullName} . . .");
                 dirInfo.Create();
                 return dirInfo;
             }
             catch (Exception e)
             {
-                log("Error! " + e.Message);
+                log.Error(e);
                 throw e;
-
-                //TODO
-                //Logger.Log(e);
             }
         }
 
@@ -72,22 +66,18 @@ namespace Hymma.Solidworks.Addins
 
             //get all resource names
             var names = assy.GetManifestResourceNames();
-            log("iterating manifest resource names");
             //iterate all resource names
             foreach (var name in names)
             {
-                log($"_ {name}");
                 //if name is assy name of assy resource in the binary resource file generate via resgen.exe
                 if (name.EndsWith(".resources", StringComparison.OrdinalIgnoreCase))
                 {
 
                     //remove extension
                     resx = Path.GetFileNameWithoutExtension(name);
-                    log($"_     Which ends with .resources so the resx name is {resx}");
                 }
                 else
                 {
-                    log("_      Which is an Embedded Resource");
 
                     //all other names are Embedded Resource
                     list.Add(name);
@@ -98,44 +88,40 @@ namespace Hymma.Solidworks.Addins
 
         static Bitmap GetResxBitmap(Type t, string imageName, string resxName)
         {
-            log("Getting bitmap from resx");
             var a = Assembly.GetAssembly(t);
             var r = new ResourceManager(resxName, a);
-            log("Getting resource set");
             ResourceSet set = r.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
 
-            log("Iterating through resource set");
             foreach (System.Collections.DictionaryEntry entry in set)
             {
-                log($"_  entry key is: {entry.Key.ToString()} and image name is {imageName}");
                 if (string.Equals(entry.Key.ToString(), imageName, StringComparison.OrdinalIgnoreCase))
                 {
-                    log($"_     it is a match and entry.Value is Bitmap bi?  {entry.Value is Bitmap bi}");
                     return entry.Value as Bitmap;
                 }
             }
-            log($"{imageName} not found, returning null");
+            log.Warning($"image {imageName} did not exist in {resxName}");
             return null;
         }
 
-        static Bitmap GetEmbeddedBitmap(Type type, string resouceName)
+        static Bitmap GetEmbeddedBitmap(Type type, string resourceName)
         {
-            log("Getting Embedded Bitmap");
             //define variable
             Bitmap result = null;
-
             //get assembly
             var assy = Assembly.GetAssembly(type);
             if (assy == null)
+            {
+                log.Error(new Exception("Could not get the Assembly of the type specified"));
                 return null;
+            }
 
             //get manifest stream
             //this method is the proper way to use with items whose build action is set to Embedded Resource
-            var s = assy.GetManifestResourceStream(type, resouceName);
+            var s = assy.GetManifestResourceStream(type, resourceName);
 
             if (s == null)
             {
-                log("assembly manifest resource stream was null");
+                log.Error(new Exception($"Could not get the manifest resource stream in {resourceName}"));
                 return null;
             }
 
@@ -144,20 +130,12 @@ namespace Hymma.Solidworks.Addins
             {
                 result = Image.FromStream(s) as Bitmap;
             }
-            log($"image was extracted and cast to Bitmap, Is it null? {result == null}");
             return result;
         }
 
         static Bitmap GetAddinIcon(Type type)
         {
             var attr = type.TryGetAttribute<AddinAttribute>();
-            if (attr == null)
-            {
-                log($"attribute is null, returning null");
-                return null;
-            }
-
-
             //get assembly
             var assy = Assembly.GetAssembly(type);
             Bitmap result;
@@ -170,21 +148,17 @@ namespace Hymma.Solidworks.Addins
             //in case result was null check the embedded resources
             if (result == null)
             {
-                log("bitmap from resx was null, iterating embedded resource names");
                 foreach (var item in embeddedResourceNames)
                 {
-                    log($"_  {item}");
                     if (item.EndsWith(attr.AddinIcon, StringComparison.OrdinalIgnoreCase))
                     {
-                        log($"_ Which ends with {attr.AddinIcon}");
                         // Visual Studio always prefixes resource names with the project’s default namespace,
                         //plus the names of any subfolders in which the file is contained
                         var count = item.IndexOf('.') + 1;
-                        log($"- index of . is {item.IndexOf('.')}");
-                        
+
                         var resourceName = item.Remove(0, count);
-                        log($"- removing the dot results in {resourceName}");
                         result = GetEmbeddedBitmap(type, resourceName);
+                        log.Info($"found the icon in embedded resources");
                     }
                 }
             }
@@ -192,7 +166,7 @@ namespace Hymma.Solidworks.Addins
             return result;
         }
         #endregion
-        
+
         #region internal properties and methods
 
         /// <summary>
@@ -203,7 +177,6 @@ namespace Hymma.Solidworks.Addins
         {
             get
             {
-                log($"retrieving IconsDir => {_iconsDirInfo.FullName}");
                 return _iconsDirInfo;
             }
         }
@@ -215,20 +188,15 @@ namespace Hymma.Solidworks.Addins
         /// <param name="iconFullFileName"></param>
         static internal void SaveAddinIcon(Type type, out string iconFullFileName)
         {
-            var desk = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            logPath = Path.Combine(desk, "AddinIcons.txt");
             //if this has been generated already 
             if (!string.IsNullOrEmpty(_iconFullFileName))
             {
                 iconFullFileName = _iconFullFileName;
-                log("returning early as iconFullFileName is already set");
                 return;
             }
 
             var attr = type.TryGetAttribute<AddinAttribute>();
-            log($"attribute is null {attr == null} and title is {attr.Title}");
             _iconsDirInfo = CreateIconsDirInLocalAppFolder(attr.Title);
-            log($"iconsDirInfo.FullName is {_iconsDirInfo.FullName}");
             iconFullFileName = Path.Combine(_iconsDirInfo.FullName, attr.Title + ".png");
             _iconFullFileName = iconFullFileName;
             var icon = GetAddinIcon(type);
@@ -240,15 +208,27 @@ namespace Hymma.Solidworks.Addins
             //if could not get the icon from the addin attribute
             if (icon == null)
 
+            {
+                log.Warning("Could not find the icon so we created a blank one");
                 //create assy new empty one
                 icon = new Bitmap(16, 16);
+            }
 
             //resize, save and dispose of
             using (icon)
             {
                 using (var resized = new Bitmap(icon, 16, 16))
                 {
-                    resized.Save(iconFullFileName);
+                    try
+                    {
+                        resized.Save(iconFullFileName);
+                        log.Info($"saved the icon in {iconFullFileName}");
+                    }
+                    catch (Exception e)
+                    {
+                        log.Error(e);
+                        throw e;
+                    }
                 }
             }
         }

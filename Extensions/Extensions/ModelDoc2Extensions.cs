@@ -27,7 +27,7 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// freez graphics in a model, to increase processing power
+        /// freeze graphics in a model, to increase processing power
         /// </summary>
         /// <param name="model"></param>
         public static void Freez(this ModelDoc2 model)
@@ -39,7 +39,7 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// Un-freez graphics in a model
+        /// UN-freeze graphics in a model
         /// </summary>
         /// <param name="model"></param>
         public static void UnFreez(this ModelDoc2 model)

@@ -59,5 +59,23 @@ namespace Hymma.Solidworks.Addins.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HymmaLogs.
+        /// </summary>
+        public static string LogName {
+            get {
+                return ResourceManager.GetString("LogName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HymmaSolidworksAddinsSrc.
+        /// </summary>
+        public static string LogSource {
+            get {
+                return ResourceManager.GetString("LogSource", resourceCulture);
+            }
+        }
     }
 }

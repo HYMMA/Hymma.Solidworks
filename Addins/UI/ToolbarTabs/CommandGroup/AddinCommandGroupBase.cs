@@ -18,6 +18,8 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         public AddinCommandGroupBase()
         {
+            //this insures that the IconsDir is set too
+            UserId = 0;
         }
         #region protected vars
         /// <summary>

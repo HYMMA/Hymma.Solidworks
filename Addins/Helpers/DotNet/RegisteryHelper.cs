@@ -14,7 +14,7 @@ namespace Hymma.Solidworks.Addins.Helpers
         /// <param name="type">type of class that inherits from  <see cref="AddinMaker"/></param>
         public static void RegisterSolidworksAddin(Type type)
         {
-            Logger.log("registering solidworks addin");
+            //As we are using EvenLog at this stage. we cannot log to it because a source in EventLog is not available immediately after a it is registered.
             try
             {
                 var addinAttribute = type.TryGetAttribute<AddinAttribute>(false);
@@ -32,9 +32,8 @@ namespace Hymma.Solidworks.Addins.Helpers
                 AddinIcons.SaveAddinIcon(type, out string iconPath);
                 addinKey.SetValue("Icon Path", iconPath);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Logger.log("Error!  \r\n" +e.Message);
             }
         }
 

@@ -66,8 +66,8 @@ namespace Hymma.Solidworks.Extensions
             {
                 if (feature.GetTypeName2() == type)
                 {
-                    //if you found the feature but it is suppressed and we dont need suppressed ones
-                    //continiue, otherwise add it to the list
+                    //if you found the feature but it is suppressed and we don't need suppressed ones
+                    //continue, otherwise add it to the list
                     if (feature.IsSuppressed() && ExcludeSuppressed)
                         continue;
                     features.Add(feature);
@@ -87,7 +87,7 @@ namespace Hymma.Solidworks.Extensions
             var f = body.GetFeaturesByTypeName("FlatPattern", false);
             if (f.Count != 0)
             {
-                //a body can have only one flatpattern feature
+                //a body can have only one flat-pattern feature
                 return f[0];
             }
             return null;
@@ -213,7 +213,7 @@ namespace Hymma.Solidworks.Extensions
         /// <param name="body"></param>
         /// <param name="part"></param>
         /// <param name="solidworks"></param>
-        /// <returns>an array of string where first member is length in the unit of document, second member is width and thrid one is thickness</returns>
+        /// <returns>an array of string where first member is length in the unit of document, second member is width and third one is thickness</returns>
         public static string[] GetSheetMetalSizes(this Body2 body, PartDoc part, SldWorks solidworks)
         {
             if (!body.IsSheetMetal()) return null;
@@ -224,8 +224,8 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// gets custom property value of a property in a weldment or sheetmetal componetn
-        /// <br>required configuration must be activitated prior to calling this method</br>
+        /// gets custom property value of a property in a weldment or sheetmetal component
+        /// <br>required configuration must be activated prior to calling this method</br>
         /// </summary>
         /// <param name="body"></param>
         /// <param name="customPropertyName"></param>
@@ -268,7 +268,7 @@ namespace Hymma.Solidworks.Extensions
 
                         object[] sketchSegments = flatPatternSketch.GetSketchSegments() as object[];
 
-                        //if there's no sketch segmets there is no bend line
+                        //if there's no sketch segment there is no bend line
                         if (sketchSegments == null) return null;
 
                         SketchSegment sketchSegment = (SketchSegment)sketchSegments[0];
@@ -296,7 +296,7 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// will return flatpattern bounding box coordinates in metric unit
+        /// will return flat-pattern bounding box coordinates in metric unit
         /// </summary>
         /// <param name="body"></param>
         /// <returns>An array of 6 doubles. where the first three are the x,y,z coordinations of one corner of the cube and the rest are the coordinations of the other corner </returns>

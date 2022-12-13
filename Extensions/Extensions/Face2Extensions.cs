@@ -68,7 +68,7 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// assignes a name to a face
+        /// assigns a name to a face
         /// </summary>
         /// <param name="face">the face to assign name to</param>
         /// <param name="part">has to be part document only</param>
@@ -83,18 +83,18 @@ namespace Hymma.Solidworks.Extensions
         /// get all faces that are tangent to this face 
         /// </summary>
         /// <param name="face">the face that you want to find the tangent faces to</param>
-        /// <param name="tolerance">tolerance to consider while determining the tangency</param>
+        /// <param name="digits">the value to be used to round the differences between the normals using <see cref="Mathematics.AlmostEqual(double[], double[], int)"/></param>
         /// <remarks>Because Double values can lose precision when arithmetic operations are performed on them,<br/>
         /// a comparison between two face instances that are logically tangent might fail. hence we use a tolerance</remarks>
         /// <returns></returns>
-        public static IList<Face2> GetTangentFaces(this Face2 face, double tolerance = 0.0005)
+        public static IList<Face2> GetTangentFaces(this Face2 face, int digits = 5)
         {
             var faces = new List<Face2>();
             //For every loop on this face
             var faceloops = (object[])face.GetLoops();
             foreach (Loop2 loop in faceloops)
             {
-                //for eavery coEdge in this loop
+                //for every coEdge in this loop
                 var coEdges = (object[])loop.GetCoEdges();
                 foreach (CoEdge coEdge in coEdges)
                 {
@@ -102,8 +102,8 @@ namespace Hymma.Solidworks.Extensions
                     var coEdgeNormal = GetFaceNormalAtMidCoEdge(coEdge);
                     var partnerNormal = GetFaceNormalAtMidCoEdge(partner);
                     
-                    //get faces whose normal at middle of coedge are equal
-                    if (Mathematics.AlmostEqual(coEdgeNormal,partnerNormal,tolerance))
+                    //get faces whose normal at middle of co-edge are equal
+                    if (Mathematics.AlmostEqual(coEdgeNormal,partnerNormal,digits))
                     {
                         Loop2 partnerLoop = (Loop2)partner.GetLoop();
                         Face2 partnerFace = (Face2)partnerLoop.GetFace();
@@ -114,10 +114,10 @@ namespace Hymma.Solidworks.Extensions
             return faces;
         }
 
-        //This function returns the normal vector for the face at the provided coedge
+        //This function returns the normal vector for the face at the provided co-edge
         private static double[] GetFaceNormalAtMidCoEdge(CoEdge coEdge)
         {
-            //should be called so solidworks gets the curve (from solidworks api help)
+            //should be called so solidworks gets the curve (from solidworks API help)
             Edge edge = coEdge.GetEdge() as Edge;
             _ = edge?.GetCurve();
             //The return value format is an array of 10 doubles:
@@ -133,7 +133,7 @@ namespace Hymma.Solidworks.Extensions
             //retval[9]  curve type(Not used)
             double[] varParams = (double[])coEdge.GetCurveParams();
             double middleOfCoEdge = (varParams[6] + varParams[7]) / 2;
-            // Get the location of the middle of the coedge
+            // Get the location of the middle of the co-edge
             double[] midCoEdgeCoord = (double[])coEdge.Evaluate2(middleOfCoEdge, 1);
             
             //obtain the surface that contains coEdge
