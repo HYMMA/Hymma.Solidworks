@@ -117,4 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LogName" xml:space="preserve">
+    <value>HymmaLogs</value>
+  </data>
+  <data name="LogSource" xml:space="preserve">
+    <value>HymmaSolidworksAddinsSrc</value>
+  </data>
 </root>

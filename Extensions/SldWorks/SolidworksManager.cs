@@ -31,7 +31,7 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// connects to a running instance of solidworks or opens it up and returns the <see cref="SldWorks"/> object
+        /// connects to a running instance of solidworks or creates a new one and returns the <see cref="SldWorks"/> object
         /// </summary>
         /// <returns>a running instance of solidworks <see cref="SldWorks"/></returns>
         /// <remarks>this function uses <see cref="System.Runtime.InteropServices.Marshal"/> which is <strong>not supported in .net core </strong></remarks>
