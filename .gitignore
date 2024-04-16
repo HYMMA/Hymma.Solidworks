@@ -344,3 +344,5 @@ healthchecksdb
 /desktop.ini
 *.snupkg
 /Extensions/Hymma.Solidworks.Extensions.2018.1.0.snupkg
+/Addins.Fluent/Hymma.Solidworks.Addins.Fluent.2018.1.0.snupkg
+/Addins/Hymma.Solidworks.Addins.2018.1.0.snupkg
