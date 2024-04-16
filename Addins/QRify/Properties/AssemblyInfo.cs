@@ -37,9 +37,3 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2018.0.1.0")]
 [assembly: AssemblyFileVersion("2018.0.1.0")]
-
-// Configure log4net using the .log4net file
-// This will cause log4net to look for a configuration file
-// called TestApp.exe.log4net in the application base
-// directory (i.e. the directory containing TestApp.exe)
-// The config file will be watched for changes.
