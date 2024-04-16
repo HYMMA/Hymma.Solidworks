@@ -2,7 +2,7 @@
 <package>
 	<metadata minClientVersion="2.5">
 		<id>Hymma.Solidworks.Addins</id>
-		
+
 		<!-- gets replaced by hymma.common.targets -->
 		<version>0.0.0.0</version>
 		<title>Addins for SOLIDWORKS by HYMMA</title>
@@ -17,15 +17,21 @@
 		<tags>cad solidworks addin hymma</tags>
 		<dependencies>
 			<group targetFramework=".NETFramework4.7.2" >
-				<dependency id="Hymma.Solidworks.Interop" version="2018.1.0"></dependency>
+				<dependency id="Hymma.Solidworks.Interop"
+							version="2018.1.1"></dependency>
 			</group>
 		</dependencies>
 	</metadata>
 	<files>
-		<file src="..\nugetIcon.png" target=""/>
-		<file src="tools\**" target="tools"/>
-		<file src="bin\Release\*.dll" target="lib\net472"/>
-		<file src="bin\Release\*.xml" target="lib\net472"/>
-		<file src="bin\Release\*.pdb" target="lib\net472"/>
+		<file src="..\nugetIcon.png"
+			  target=""/>
+		<file src="tools\**"
+			  target="tools"/>
+		<file src="bin\Release\*.dll"
+			  target="lib\net472"/>
+		<file src="bin\Release\*.xml"
+			  target="lib\net472"/>
+		<file src="bin\Release\*.pdb"
+			  target="lib\net472"/>
 	</files>
 </package>

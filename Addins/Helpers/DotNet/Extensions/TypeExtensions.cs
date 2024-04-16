@@ -11,7 +11,7 @@ namespace Hymma.Solidworks.Addins
     /// </summary>
     internal static class TypeExtensions
     {
-        static Logger log = Logger.GetInstance(Properties.Resources.LogSource);
+        //static Logger log = Logger.GetInstance(Properties.Resources.LogSource);
         /// <summary>
         /// returns the attribute in a type
         /// </summary>
@@ -25,12 +25,12 @@ namespace Hymma.Solidworks.Addins
             {
                 if (attr is T)
                 {
-                    log.Info($"found attribute {attr} in type {type}");
+                    //log.Info($"found attribute {attr} in type {type}");
                     return attr as T;
                 }
             }
             var e = new ArgumentNullException($"Could not find attribute in type {type}");
-            log.Error(e);
+            //log.Error(e);
             throw e;
         }
 
