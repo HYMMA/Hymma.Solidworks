@@ -47,4 +47,7 @@
   <ItemGroup>
     <EmbeddedResource Remove=".github\**" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="build.cmd" />
+  </ItemGroup>
 </Project>

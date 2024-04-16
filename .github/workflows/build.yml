@@ -1,4 +1,4 @@
-name: Belt Test Build
+name: Qrify Build
 
 on:
   pull_request:
@@ -18,7 +18,7 @@ jobs:
 
     - name: Run build
       shell: cmd
-      run: ./build.cmd
+      run: ./Addins/Qrify/QrifyInstaller/build.cmd
 
     - name: Save Package
       uses: actions/upload-artifact@v3
