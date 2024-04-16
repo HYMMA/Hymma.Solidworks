@@ -11,7 +11,7 @@ namespace Hymma.Solidworks.Addins.Logging
     /// <summary>
     /// Singleton class that logs to EventLog in windows
     /// </summary>
-    public class Logger
+    public sealed class Logger
     {
         static readonly object lc = new object();
         static Logger _instance;

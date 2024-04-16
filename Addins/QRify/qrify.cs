@@ -1,4 +1,5 @@
 ﻿using Hymma.Solidworks.Addins;
+using Hymma.Solidworks.Addins.Helpers;
 using QRCoder;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
@@ -8,11 +9,16 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+
 namespace QRify
 {
     //It is not mandatory to make this class partial, but in future releases we might use code generators to bypass some of solidworks API restrictions
     //AddinIcon could be a resx file or an Embedded Resource one 
-    [Addin(title: "QRify", AddinIcon = "qrify.png", Description = "Creates a QR code", LoadAtStartup = true)]
+    [Addin(title: "QRify",
+        AddinIcon = "qrify.png",
+        Description = "Creates a QR",
+        LoadAtStartup = true,
+        EventSource = "Qrify Addin")]
     [ComVisible(true)]
     [Guid("2EB85AF6-DB51-46FB-B955-D4A7708DA315")]
     public partial class Qrify : AddinMaker
@@ -31,7 +37,7 @@ namespace QRify
         /// This is a call back function from <see cref="QrCommand"/>
         /// </summary>
         /// <returns></returns>
-        public object EnablePropertyMangagerPage()
+        public object EnablePropertyManagerPage()
         {
             if (Solidworks.ActiveDoc == null || Solidworks.CommandInProgress)
             {
@@ -59,13 +65,14 @@ namespace QRify
     public class QrPropertyManagerPageGroup : PmpGroup
     {
         private PmpTextBox textBox;
+
         public QrPropertyManagerPageGroup()
         {
             //text box
             textBox = new PmpTextBox("www.hymma.net");
 
             //button to invoke the QR generation.
-            var btn = new PmpBitmapButton(Properties.Resources.qrify, "Generate a qr code representing above text", BtnSize.thirtyTwo, byte.MaxValue);
+            var btn = new PmpBitmapButton(Properties.Resources.qrify, "Generate a qr picture representing above text", BtnSize.thirtyTwo, byte.MaxValue);
 
             //once clicked on button
             btn.Clicked += Btn_Clicked;
@@ -156,6 +163,7 @@ namespace QRify
         {
             this.CommandTabTextType = ((int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow);
             this.IconBitmap = Properties.Resources.qrify;
+
             //Restrictions imposed by solidworks API:
             //These two methods must be defined in the addin class (addin class inherits from AddinMaker.cs)
             this.EnableMethode = "EnablePropertyMangagerPage";

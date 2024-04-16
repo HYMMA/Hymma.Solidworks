@@ -1,0 +1,11 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Fragment >
+		<StandardDirectory Id="ProgramFiles64Folder">
+			<Directory Id="HymmaCadTools"
+					   Name="HymmaCADtools">
+				<Directory Id="INSTALLFOLDER"
+						   Name="QRIFY FOR SOLIDWORKS"/>
+			</Directory>
+		</StandardDirectory>
+	</Fragment>
+</Wix>

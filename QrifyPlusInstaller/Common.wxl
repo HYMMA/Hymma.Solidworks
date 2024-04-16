@@ -1,0 +1,10 @@
+﻿<WixLocalization Culture="en-us" xmlns="http://wixtoolset.org/schemas/v4/wxl">
+	<String Id="Company" Value="HYMMA" />
+	<String Id="ProductNameFolder" Value="QrifyPlus" />
+	<String Id="ProductName_x64" Value="QrifyPlus (64bit)" />
+	<String Id="Description" Value="An Add-on for SOLIDWORKS that insert QR code into .sldrw files." />
+	<String Id="Comments" Value="Requires SOLIDWORKS" />
+	<String Id="Keywords" Value="SOLIDWORKS,pluing,addon,QRcode" />
+	<String Id="DowngradeErrorMessage" Value="A newer version of !(loc.ProductName_x64) is already installed." />
+	<String Id="Language" Value="1033" />
+</WixLocalization>

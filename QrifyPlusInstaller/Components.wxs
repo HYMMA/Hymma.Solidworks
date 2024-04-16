@@ -1,0 +1,9 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="InstallDir">
+			<Component>
+
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>

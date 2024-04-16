@@ -67,9 +67,9 @@ namespace Hymma.Solidworks.Addins.Helpers.DotNet
                     // Make sure the source is in the log we believe it to be in.
                     if (logForThisSource != logName)
                     {
-                        var logger = Logger.GetInstance(Properties.Resources.LogSource);
+                        //var logger = Logger.GetInstance(Properties.Resources.LogSource);
                         var msg = $"Did not un-register the source {source} from EventLog as its log was {logForThisSource} not the {logName} log";
-                        logger.Warning(msg);
+                        //logger.Warning(msg);
                         using (st)
                         {
                             st.WriteLine(msg);

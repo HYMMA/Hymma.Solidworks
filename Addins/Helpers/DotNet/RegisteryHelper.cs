@@ -3,36 +3,41 @@
 
 using Microsoft.Win32;
 using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace Hymma.Solidworks.Addins.Helpers
 {
-    internal static class RegisteryHelper
+    internal static class RegisterHelper
     {
         /// <summary>
         /// registers <see cref="Type"/> provided to RegisteryHelper so solidworks can find it
         /// </summary>
         /// <param name="type">type of class that inherits from  <see cref="AddinMaker"/></param>
-        public static void RegisterSolidworksAddin(Type type)
+        public static void TryRegisterSolidworksAddin(Type type)
         {
             //As we are using EvenLog at this stage. we cannot log to it because a source in EventLog is not available immediately after a it is registered.
             try
             {
+                //wix.4.0.5 heat harvester will read these data and generate proper registry components, on development machines these registry values will be set during compile time
                 var addinAttribute = type.TryGetAttribute<AddinAttribute>(false);
-                string keyname = "SOFTWARE\\SolidWorks\\Addins\\{" + type.GUID.ToString() + "}";
-                RegistryKey addinKey = Registry.LocalMachine.CreateSubKey(keyname);
+                string key = "SOFTWARE\\SolidWorks\\Addins\\{" + type.GUID.ToString() + "}";
+                RegistryKey addinKey = Registry.LocalMachine.CreateSubKey(key);
                 addinKey.SetValue(null, 0);
 
                 addinKey.SetValue("Description", addinAttribute.Description);
                 addinKey.SetValue("Title", addinAttribute.Title);
 
-                keyname = "Software\\SolidWorks\\AddInsStartup\\{" + type.GUID.ToString() + "}";
-                RegistryKey addinStartUpKey = Registry.CurrentUser.CreateSubKey(keyname);
+                key = "Software\\SolidWorks\\AddInsStartup\\{" + type.GUID.ToString() + "}";
+                RegistryKey addinStartUpKey = Registry.CurrentUser.CreateSubKey(key);
                 addinStartUpKey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
 
-                AddinIcons.SaveAddinIcon(type, out string iconPath);
-                addinKey.SetValue("Icon Path", iconPath);
+                //this value should be set during install. 
+                //addin icons work only if set in this registry path
+                //AddinIcons.SaveAddinIconInLocalAppData(type, out string fullFileName);
+                //addinKey.SetValue("Icon Path", fullFileName);
             }
-            catch (Exception)
+            catch (Exception )
             {
             }
         }
@@ -45,11 +50,11 @@ namespace Hymma.Solidworks.Addins.Helpers
         {
             try
             {
-                string keyname = "SOFTWARE\\SolidWorks\\Addins\\{" + type.GUID.ToString() + "}";
-                Registry.LocalMachine.DeleteSubKey(keyname);
+                string key = "SOFTWARE\\SolidWorks\\Addins\\{" + type.GUID.ToString() + "}";
+                Registry.LocalMachine.DeleteSubKey(key);
 
-                keyname = "Software\\SolidWorks\\AddInsStartup\\{" + type.GUID.ToString() + "}";
-                Registry.CurrentUser.DeleteSubKey(keyname);
+                key = "Software\\SolidWorks\\AddInsStartup\\{" + type.GUID.ToString() + "}";
+                Registry.CurrentUser.DeleteSubKey(key);
             }
             catch (Exception)
             {
