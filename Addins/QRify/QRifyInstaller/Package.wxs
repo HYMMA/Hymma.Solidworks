@@ -1,0 +1,16 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Package Name="QRify for SOLIDWorks"
+			 Manufacturer="HYMMA"
+			 Version="$(Version)"
+			 Scope="perMachine"
+			 UpgradeCode="68bd122e-d891-4047-a5ca-1cc56a3c9017">
+		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+		<MediaTemplate EmbedCab="yes"/>
+
+		<Feature Id="Main">
+			<ComponentGroupRef Id="HARVESTEDCOMPONENTS" />
+			<ComponentGroupRef Id="HARVESTEDCOMCOMPONENTS" />
+			<ComponentGroupRef Id="AddinIconAndStartup" />
+		</Feature>
+	</Package>
+</Wix>

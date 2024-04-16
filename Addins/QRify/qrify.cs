@@ -1,4 +1,5 @@
 ﻿using Hymma.Solidworks.Addins;
+using Hymma.Solidworks.Addins.Helpers;
 using QRCoder;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
@@ -13,7 +14,11 @@ namespace QRify
 {
     //It is not mandatory to make this class partial, but in future releases we might use code generators to bypass some of solidworks API restrictions
     //AddinIcon could be a resx file or an Embedded Resource one 
-    [Addin(title: "QRify", AddinIcon = "qrify.png", Description = "Creates a QR", LoadAtStartup = true)]
+    [Addin(title: "QRify",
+        AddinIcon = "qrify.png",
+        Description = "Creates a QR",
+        LoadAtStartup = true,
+        EventSource = "Qrify Addin")]
     [ComVisible(true)]
     [Guid("2EB85AF6-DB51-46FB-B955-D4A7708DA315")]
     public partial class Qrify : AddinMaker
@@ -32,7 +37,7 @@ namespace QRify
         /// This is a call back function from <see cref="QrCommand"/>
         /// </summary>
         /// <returns></returns>
-        public object EnablePropertyMangagerPage()
+        public object EnablePropertyManagerPage()
         {
             if (Solidworks.ActiveDoc == null || Solidworks.CommandInProgress)
             {

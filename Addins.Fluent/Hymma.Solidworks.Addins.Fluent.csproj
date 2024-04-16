@@ -38,6 +38,7 @@
     <DocumentationFile>bin\Release\Hymma.Solidworks.Addins.Fluent.xml</DocumentationFile>
     <RegisterForComInterop>true</RegisterForComInterop>
     <DebugSymbols>true</DebugSymbols>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -46,22 +47,25 @@
     <AssemblyOriginatorKeyFile>FluentAddinsSolidTools.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hymma.Solidworks.Interop, Version=2018.1.0.0, Culture=neutral, PublicKeyToken=af926be2587fd2af, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Interop.2018.1.0\lib\net472\Hymma.Solidworks.Interop.dll</HintPath>
+    <Reference Include="Hymma.Solidworks.Addins, Version=2018.1.1.0, Culture=neutral, PublicKeyToken=ba0fa3dd4814f928, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hymma.Solidworks.Addins.2018.1.1\lib\net472\Hymma.Solidworks.Addins.dll</HintPath>
+    </Reference>
+    <Reference Include="Hymma.Solidworks.Interop, Version=2018.1.1.0, Culture=neutral, PublicKeyToken=af926be2587fd2af, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hymma.Solidworks.Addins.2018.1.1\lib\net472\Hymma.Solidworks.Interop.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\Microsoft.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="SolidWorks.Interop.sldworks, Version=26.0.1.1, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Interop.2018.1.0\lib\net472\SolidWorks.Interop.sldworks.dll</HintPath>
+      <HintPath>..\packages\Hymma.Solidworks.Addins.2018.1.1\lib\net472\SolidWorks.Interop.sldworks.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swconst, Version=26.0.1.1, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Interop.2018.1.0\lib\net472\SolidWorks.Interop.swconst.dll</HintPath>
+      <HintPath>..\packages\Hymma.Solidworks.Addins.2018.1.1\lib\net472\SolidWorks.Interop.swconst.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="SolidWorks.Interop.swpublished, Version=26.0.1.1, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hymma.Solidworks.Interop.2018.1.0\lib\net472\SolidWorks.Interop.swpublished.dll</HintPath>
+      <HintPath>..\packages\Hymma.Solidworks.Addins.2018.1.1\lib\net472\SolidWorks.Interop.swpublished.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System">
@@ -102,15 +106,32 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Debug\Hymma.Solidworks.Addins.Fluent.xml</DocumentationFile>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\Hymma.Solidworks.Addins.Fluent.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="FluentAddinsSolidTools.snk" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Addins\Hymma.Solidworks.Addins.csproj">
-      <Project>{86b8e368-880d-4169-ba19-60a84d3f6fb3}</Project>
-      <Name>Hymma.Solidworks.Addins</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

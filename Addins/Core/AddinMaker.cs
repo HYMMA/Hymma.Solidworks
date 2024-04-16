@@ -8,7 +8,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Hymma.Solidworks.Addins
@@ -35,6 +34,9 @@ namespace Hymma.Solidworks.Addins
         /// construct the data model for this addin here
         /// </summary>
         private AddinUserInterface _addinUi;
+
+        //log object
+        //Logger log = Logger.GetInstance(Properties.Resources.LogSource);
         #endregion
 
         #region constructor
@@ -47,28 +49,32 @@ namespace Hymma.Solidworks.Addins
         {
             //we get the type of addin so that we can use it later for locating addin icons folder
             //otherwise we would need to read it from COM
-            var addinAssy = Assembly.GetCallingAssembly();
-            var typeOfAddin = GetTypeOfAddin(addinAssy);
+            var typeOfAddin = GetTypeOfAddin();
             if (typeOfAddin == null)
             {
-                throw new ArgumentException("Addin was not recognized");
+                var e = new ArgumentNullException("Addin object was null");
+                //log.Error(e);
+                return;
             }
 
             //calling this method here generates the necessary property values to locate addin icon folder which will be used
             //by PmpUiModel to save UI icons
-            AddinIcons.Instance().SaveAddinIcon(typeOfAddin, out string iconFullFileName);
+            AddinIcons.SaveAddinIconInLocalAppData(typeOfAddin, out string iconFullFileName);
         }
-
-
-        private Type GetTypeOfAddin(Assembly addin)
+        private Type GetTypeOfAddin()
         {
-            for (int i = 0; i < addin.GetExportedTypes().Length; i++)
+            //using Assembly.GetCallingAssembly() wont work in Release mode!!!
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            for (int i = 0; i < assemblies.Length; i++)
             {
-                var type = addin.GetExportedTypes()[i];
-
-                if (typeof(AddinMaker).IsAssignableFrom(type))
+                var assembly = assemblies[i];
+                for (int k = 0; k < assembly.GetExportedTypes().Length; k++)
                 {
-                    return type;
+                    var type = assembly.GetExportedTypes()[k];
+                    if (type.BaseType == typeof(AddinMaker))
+                    {
+                        return type;
+                    }
                 }
             }
             return null;
@@ -92,7 +98,11 @@ namespace Hymma.Solidworks.Addins
         [ComRegisterFunction]
         public static void Register(Type t)
         {
-            RegisteryHelper.RegisterSolidworksAddin(t);
+            //var eventSource = t.TryGetAttribute<AddinAttribute>().EventSource;
+            //EventLogHelper.RegisterEventSource(eventSource, Properties.Resources.LogName);
+            //var log = Logger.GetInstance(eventSource) ;
+            RegisterHelper.TryRegisterSolidworksAddin(t);
+            AddinIcons.TrySaveAddinIconsInAssemblyFolder(t);
         }
 
         /// <summary>
@@ -102,7 +112,8 @@ namespace Hymma.Solidworks.Addins
         [ComUnregisterFunction]
         public static void Unregister(Type t)
         {
-            RegisteryHelper.UnregisterSolidworksAddin(t);
+            RegisterHelper.UnregisterSolidworksAddin(t);
+            //EventLogHelper.UnRegisterEventSource(Properties.Resources.LogSource, Properties.Resources.LogName);
         }
         #endregion
 
@@ -233,6 +244,4 @@ namespace Hymma.Solidworks.Addins
         /// <returns></returns>
         public abstract AddinUserInterface GetUserInterFace();
     }
-
-
 }
