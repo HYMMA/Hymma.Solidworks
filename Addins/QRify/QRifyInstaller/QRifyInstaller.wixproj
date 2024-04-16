@@ -50,4 +50,7 @@
   <ItemGroup>
     <None Include="build.cmd" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QRify.csproj" />
+  </ItemGroup>
 </Project>
