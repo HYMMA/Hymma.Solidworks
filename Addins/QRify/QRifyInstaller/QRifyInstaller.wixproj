@@ -4,10 +4,6 @@
     <Content Include="HarvesterFileTransforms.xslt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".github\workflows\build.yml" />
-    <None Include="build.cmd" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="WixToolset.Heat" Version="5.0.0" />
   </ItemGroup>
   <PropertyGroup>
@@ -44,5 +40,11 @@
       <SuppressCom>false</SuppressCom>
       <SuppressRegistry>false</SuppressRegistry>
     </HarvestFile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove=".github\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove=".github\**" />
   </ItemGroup>
 </Project>
