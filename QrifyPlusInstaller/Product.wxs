@@ -1,0 +1,29 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<!--you should never change this one unless there is a major change in the upgrade that would make the new release not comparable with the previous ones-->
+	<?define UpgradeCode ="668E56B4-1926-41D6-8883-A73564EEE914" ?>
+	<!--this is the code that should change with each upgrade-->
+	<?define ProdcutCode="B9CD2691-798D-4873-8AB8-6DD911B48DF5" ?>
+	<!-- Define main product -->
+	<Package Name="!(loc.ProductName_$(var.Platform))" Language="!(loc.Language)" Version="$(var.BuildVersion)" Manufacturer="!(loc.Company)" UpgradeCode="$(var.UpgradeCode)" ProductCode="$(var.ProductCode)">
+
+		<!-- Provide package details -->
+		<SummaryInformation Manufacturer="!(loc.Company)" Description="!(loc.Description)" Keywords="!(loc.Keywords)" />
+
+		<!-- Downgrade error message -->
+		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeErrorMessage)" />
+
+		<!-- Include .cab file into .msi file -->
+		<MediaTemplate EmbedCab="yes" />
+
+		<!-- Define main app icon -->
+		<Icon Id="icon.ico" SourceFile="$(var.QrifyPlus.ProjectDir)\qrifyPlus.ico" />
+
+		<!-- Define components, shortcuts, files etc... for installer -->
+		<Feature Id="ProductFeature" Title="ConsoleApp" Level="1">
+
+			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentGroupRef Id="PublishedComponents" />
+
+		</Feature>
+	</Package>
+</Wix>
