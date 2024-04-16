@@ -12,6 +12,6 @@ echo Build
 
 nuget restore QrifyInstaller.wixproj
 
-msbuild -nologo -m QrifyInstaller.wixproj -p:BuildVersion=0.54 -p:AddinGuid={2EB85AF6-DB51-46FB-B955-D4A7708DA315} -p:Platform=X64 -p:Configuration=Release -p:CreateNugetPackage=false
+msbuild -nologo -m QrifyInstaller.wixproj -p:BuildVersion=0.54 -p:AddinGuid={2EB85AF6-DB51-46FB-B955-D4A7708DA315} -p:Configuration=Release -p:CreateNugetPackage=false
 
 pause
