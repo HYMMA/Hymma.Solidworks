@@ -18,7 +18,7 @@ jobs:
 
     - name: Run build
       shell: cmd
-      run: ./Addins/Qrify/QrifyInstaller/build.cmd
+      run: ./build.cmd
 
     - name: Save Package
       uses: actions/upload-artifact@v3
