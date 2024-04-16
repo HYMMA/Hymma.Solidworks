@@ -2,8 +2,6 @@
 // Licensed under the MIT license
 
 using Hymma.Solidworks.Addins.Helpers;
-using Hymma.Solidworks.Addins.Helpers.DotNet;
-using Hymma.Solidworks.Addins.Logging;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swpublished;
 using System;
@@ -38,7 +36,7 @@ namespace Hymma.Solidworks.Addins
         private AddinUserInterface _addinUi;
 
         //log object
-        Logger log = Logger.GetInstance(Properties.Resources.LogSource);
+        //Logger log = Logger.GetInstance(Properties.Resources.LogSource);
         #endregion
 
         #region constructor
@@ -55,13 +53,13 @@ namespace Hymma.Solidworks.Addins
             if (typeOfAddin == null)
             {
                 var e = new ArgumentNullException("Addin object was null");
-                log.Error(e);
+                //log.Error(e);
                 return;
             }
 
             //calling this method here generates the necessary property values to locate addin icon folder which will be used
             //by PmpUiModel to save UI icons
-            AddinIcons.SaveAddinIcon(typeOfAddin, out string iconFullFileName);
+            AddinIcons.SaveAddinIconInLocalAppData(typeOfAddin, out string iconFullFileName);
         }
         private Type GetTypeOfAddin()
         {
@@ -100,9 +98,11 @@ namespace Hymma.Solidworks.Addins
         [ComRegisterFunction]
         public static void Register(Type t)
         {
-            var log = Logger.GetInstance(Properties.Resources.LogSource);
-            EventLogHelper.RegisterEventSource(Properties.Resources.LogSource, Properties.Resources.LogName);
-            RegisteryHelper.RegisterSolidworksAddin(t);
+            //var eventSource = t.TryGetAttribute<AddinAttribute>().EventSource;
+            //EventLogHelper.RegisterEventSource(eventSource, Properties.Resources.LogName);
+            //var log = Logger.GetInstance(eventSource) ;
+            RegisterHelper.TryRegisterSolidworksAddin(t);
+            AddinIcons.TrySaveAddinIconsInAssemblyFolder(t);
         }
 
         /// <summary>
@@ -112,8 +112,8 @@ namespace Hymma.Solidworks.Addins
         [ComUnregisterFunction]
         public static void Unregister(Type t)
         {
-            RegisteryHelper.UnregisterSolidworksAddin(t);
-            EventLogHelper.UnRegisterEventSource(Properties.Resources.LogSource, Properties.Resources.LogName);
+            RegisterHelper.UnregisterSolidworksAddin(t);
+            //EventLogHelper.UnRegisterEventSource(Properties.Resources.LogSource, Properties.Resources.LogName);
         }
         #endregion
 

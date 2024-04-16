@@ -9,18 +9,20 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Resources;
+using System.Text;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// generates solidworks ready icons
     /// </summary>
-    internal static class AddinIcons
+    public static class AddinIcons
     {
         #region fields
         static DirectoryInfo _iconsDirInfo;
-        static Logger log = Logger.GetInstance(Properties.Resources.LogSource);
+        //static Logger log = Logger.GetInstance(Properties.Resources.LogSource);
         static string _iconFullFileName;
         #endregion
+
         #region private methods
         static DirectoryInfo CreateIconsDirInLocalAppFolder(string dirName)
         {
@@ -45,7 +47,7 @@ namespace Hymma.Solidworks.Addins
                     //delete it recursively
                     dirInfo.Delete(true);
 
-                    log.Warning($"addin folder {dirName} was created on {dirInfo.CreationTime} so it was deleted to be re-created again");
+                    //log.Warning($"addin folder {dirName} was created on {dirInfo.CreationTime} so it was deleted to be re-created again");
                 }
 
                 //this method does nothing if it already exists
@@ -54,7 +56,7 @@ namespace Hymma.Solidworks.Addins
             }
             catch (Exception e)
             {
-                log.Error(e);
+                //log.Error(e);
                 throw e;
             }
         }
@@ -99,7 +101,7 @@ namespace Hymma.Solidworks.Addins
                     return entry.Value as Bitmap;
                 }
             }
-            log.Warning($"image {imageName} did not exist in {resxName}");
+            //log.Warning($"image {imageName} did not exist in {resxName}");
             return null;
         }
 
@@ -111,7 +113,7 @@ namespace Hymma.Solidworks.Addins
             var assy = Assembly.GetAssembly(type);
             if (assy == null)
             {
-                log.Error(new Exception("Could not get the Assembly of the type specified"));
+                //log.Error(new Exception("Could not get the Assembly of the type specified"));
                 return null;
             }
 
@@ -121,7 +123,7 @@ namespace Hymma.Solidworks.Addins
 
             if (s == null)
             {
-                log.Error(new Exception($"Could not get the manifest resource stream in {resourceName}"));
+                //log.Error(new Exception($"Could not get the manifest resource stream in {resourceName}"));
                 return null;
             }
 
@@ -158,7 +160,7 @@ namespace Hymma.Solidworks.Addins
 
                         var resourceName = item.Remove(0, count);
                         result = GetEmbeddedBitmap(type, resourceName);
-                        log.Info($"found the icon in embedded resources");
+                        //log.Info($"found the icon in embedded resources");
                     }
                 }
             }
@@ -182,11 +184,53 @@ namespace Hymma.Solidworks.Addins
         }
 
         /// <summary>
+        /// Extracts icon from the assembly of a type and saves to the folder of the assembly
+        /// </summary>
+        /// <remarks>this is NOT the preferred method due to a SOLIDWORKS api bug.If used the installer should register absolute path of the 16x16 pixel image into 'HKLM:\Software\Solidworks\Addins\YOUR ADDIN GUID\Icon Path'.</remarks>
+        static public void TrySaveAddinIconsInAssemblyFolder(Type type)
+        {
+            try
+            {
+                //var attr = type.TryGetAttribute<AddinAttribute>();
+                var assy = Assembly.GetAssembly(type);
+
+                //extract file name from the dll file
+                var assyFullName = assy.GetModules()[0].FullyQualifiedName;
+                var assyPath = assyFullName.TrimEnd('.', 'd', 'l', 'l');
+                //var fileName = Path.GetFileNameWithoutExtension(assyFullName);
+
+                //valid addin icon sizes as requested by SolidWORKS docs
+                var sizes = new int[7] { 20, 16, 32, 40, 64, 96, 128 };
+
+                //create valid file names
+                string[] iconFileNames = new string[7];
+                var sb = new StringBuilder();
+                for (int i = 0; i < 7; i++)
+                {
+                    //extract the icon from the addin attribute
+                    //if null create a blank icon, which will be displayed black in the add-in list
+                    Bitmap icon = GetAddinIcon(type) ?? new Bitmap(16, 16);
+                    var fullFileName = sb.Append(assyPath).Append('_').Append(sizes[i]).ToString();
+
+                    //this has a using statement so a new icon should be passed in each call
+                    MaskedBitmap.SaveAsPng(icon, new Size(sizes[i], sizes[i]), ref fullFileName);
+
+                    sb.Clear();
+                }
+
+                //SaveIcons(icon, sizes, iconFileNames);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        /// <summary>
         /// Extracts icon from the assembly of a type and saves to %LOCALAPPDATA%\<see cref="AddinAttribute.Title"/>.png
         /// </summary>
         /// <param name="type">A type that has <see cref="AddinAttribute"/></param>
         /// <param name="iconFullFileName"></param>
-        static internal void SaveAddinIcon(Type type, out string iconFullFileName)
+        static internal void SaveAddinIconInLocalAppData(Type type, out string iconFullFileName)
         {
             //if this has been generated already 
             if (!string.IsNullOrEmpty(_iconFullFileName))
@@ -209,28 +253,14 @@ namespace Hymma.Solidworks.Addins
             if (icon == null)
 
             {
-                log.Warning("Could not find the icon so we created a blank one");
+                //log.Warning("Could not find the icon so we created a blank one");
                 //create assy new empty one
                 icon = new Bitmap(16, 16);
             }
 
-            //resize, save and dispose of
-            using (icon)
-            {
-                using (var resized = new Bitmap(icon, 16, 16))
-                {
-                    try
-                    {
-                        resized.Save(iconFullFileName);
-                        log.Info($"saved the icon in {iconFullFileName}");
-                    }
-                    catch (Exception e)
-                    {
-                        log.Error(e);
-                        throw e;
-                    }
-                }
-            }
+            //resize, save and dispose
+            MaskedBitmap.SaveAsPng(icon, new Size(16, 16), ref iconFullFileName);
+            //SaveIcons(icon, new int[] { 16 }, new[] { iconFullFileName });
         }
         #endregion
     }
