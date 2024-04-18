@@ -1,4 +1,6 @@
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+	 xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
+
 	<Fragment>
 		<ComponentGroup Id="AddinIconAndStartup"
 						Directory="INSTALLFOLDER">
@@ -25,6 +27,13 @@
 							   Action="write"
 							   KeyPath="yes"/>
 
+			</Component>
+			<Component Id="cmpEventSource"
+					   Guid="{ff85bf8c-5bd6-4a08-b0cf-cda8cf1c7cc9}">
+				<util:EventSource KeyPath="yes"
+								  EventMessageFile="[NETFRAMEWORK40FULLINSTALLROOTDIR64]EventLogMessages.dll"
+								  Name="Qrify Addin"
+								  Log="Application"/>
 			</Component>
 		</ComponentGroup>
 	</Fragment>

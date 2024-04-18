@@ -5,6 +5,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="WixToolset.Heat" Version="5.0.0" />
+    <PackageReference Include="WixToolset.UI.wixext" Version="4.0.5" />
+    <PackageReference Include="WixToolset.Util.wixext" Version="4.0.5" />
   </ItemGroup>
   <PropertyGroup>
     <BuildVersion>0</BuildVersion>
