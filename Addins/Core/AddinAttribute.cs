@@ -41,11 +41,6 @@ namespace Hymma.Solidworks.Addins
         public string Title { get;}
 
         /// <summary>
-        /// if set will log framework logs into this source. to view the logs use the EventLogViewer in Windows
-        /// </summary>
-        public string EventSource { get; set; }
-
-        /// <summary>
         /// default constructor
         /// </summary>
         public AddinAttribute(string title)

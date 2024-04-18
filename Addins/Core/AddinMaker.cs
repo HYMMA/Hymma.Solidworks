@@ -98,8 +98,10 @@ namespace Hymma.Solidworks.Addins
         [ComRegisterFunction]
         public static void Register(Type t)
         {
-            var eventSource = t.TryGetAttribute<AddinAttribute>().EventSource;
             RegisterHelper.TryRegisterSolidworksAddin(t);
+
+            //this is a better approach to save addin icon. Only the 16x16 works and it works only if registered in registry. 'HKCU\Software\Solidworks\{CLSID}\Icon Path'
+            //sample wix installer for Qrify shows how to do that.
             AddinIcons.TrySaveAddinIconsInAssemblyFolder(t);
         }
 
@@ -111,7 +113,6 @@ namespace Hymma.Solidworks.Addins
         public static void Unregister(Type t)
         {
             RegisterHelper.UnregisterSolidworksAddin(t);
-            //EventLogHelper.UnRegisterEventSource(Properties.Resources.LogSource, Properties.Resources.LogName);
         }
         #endregion
 
