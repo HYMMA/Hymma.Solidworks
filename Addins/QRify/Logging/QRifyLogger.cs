@@ -2,46 +2,27 @@
 // Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
-using SolidWorks.Interop.swconst;
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Qrify
+namespace QRify.Logging
 {
     /// <summary>
     /// Singleton class that logs to EventLog in windows
     /// </summary>
-    public sealed class Logger
+    public sealed class QRifyLogger
     {
-        static readonly object lc = new object();
-        static Logger _instance;
-        static string _source;
+        private static string logSource = "Qrify Addin";
         private static EventLogTraceListener traceListener;
 
-        /// <summary>
-        /// Get and instance of logger 
-        /// </summary>
-        /// <param name="source">source name of the logger</param>
-        /// <returns></returns>
-        public static Logger GetInstance(string source)
+        public QRifyLogger()
         {
-            lock (lc)
-            {
-                if (_instance == null)
-                {
-                    _instance = new Logger();
-                    _source = source;
-                    traceListener = new EventLogTraceListener(_source);
-                    if (!Trace.Listeners.Contains(traceListener))
-                        Trace.Listeners.Add(traceListener);
-                    return _instance;
-                }
-                return _instance;
-            }
+            traceListener = new EventLogTraceListener();
+            if (!Trace.Listeners.Contains(traceListener))
+                Trace.Listeners.Add(traceListener);
         }
-        Logger() { }
 
         /// <summary>
         /// uses <see cref="System.Diagnostics.Trace"/> and writes to EventLog
@@ -49,32 +30,27 @@ namespace Qrify
         /// <param name="message"></param>
         public void TraceLog(string message)
         {
-            if (EventLog.SourceExists(_source))
+            if (EventLog.SourceExists(logSource))
             {
                 traceListener.WriteLine(message);
             }
         }
+
         /// <summary>
         /// logs a message 
         /// </summary>
         /// <param name="msg"></param>
         /// <param name="type"></param>
-        public void Log(string msg, EventLogEntryType type)
+        public static void Log(string msg, EventLogEntryType type)
         {
-            if (!EventLog.SourceExists(_source))
-                return;
-            var logger = new EventLog();
             try
             {
-                logger.Source = _source;
-                logger.WriteEntry(msg, type);
+                if (!EventLog.SourceExists(logSource))
+                    return;
+                EventLog.WriteEntry(logSource, msg, type);//also disposes the object
             }
             catch (Exception)
             {
-            }
-            finally
-            {
-                logger.Dispose();
             }
         }
         /// <summary>
