@@ -103,6 +103,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// fires when text box is changed
         /// </summary>
+        ///<remarks>works only when defined before <see cref="PmpGroup.AddControl(IPmpControl)"/></remarks>
         public event EventHandler<string> TypedInto;
         #endregion
     }
