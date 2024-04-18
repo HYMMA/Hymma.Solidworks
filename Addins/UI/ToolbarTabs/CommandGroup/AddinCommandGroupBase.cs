@@ -13,6 +13,14 @@ namespace Hymma.Solidworks.Addins
     ///<inheritdoc/>
     public abstract class AddinCommandGroupBase : IAddinCommandGroup
     {
+        /// <summary>
+        /// provides a base class for creating a command group for an addin
+        /// </summary>
+        public AddinCommandGroupBase()
+        {
+            //this insures that the IconsDir is set too
+            UserId = 0;
+        }
         #region protected vars
         /// <summary>
         /// command icons
@@ -23,6 +31,7 @@ namespace Hymma.Solidworks.Addins
         /// group icons
         /// </summary>
         protected string[] _groupIcons;
+        private int _userId;
         #endregion
 
         #region public properties
@@ -35,7 +44,15 @@ namespace Hymma.Solidworks.Addins
         ///<inheritdoc/>
         public bool IsRegistered { get; internal set; }
         ///<inheritdoc/>
-        public int UserId { get; set; }
+        public int UserId
+        {
+            get { return _userId; }
+            set
+            {
+                _userId = value;
+                IconsDir = AddinIcons.IconsDir.CreateSubdirectory("grp" + UserId.ToString()).FullName;
+            }
+        }
         ///<inheritdoc/>
         public string Title { get; set; } = "Title of this AddinCommandGroup";
         ///<inheritdoc/>
@@ -56,7 +73,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// directory to save the icons
         /// </summary>
-        public string IconsDir { get;internal set; }
+        public string IconsDir { get; internal set; }
 
         //a method to register this command group into solidworks
         /// <summary>
@@ -153,10 +170,7 @@ namespace Hymma.Solidworks.Addins
                     {
                         var stripe = $"{filenamePrepend}{size}.png";
 
-                        //make a directory in the default icon filder for this command group only _iconsDir is not defined specifically
-                        var dir = string.IsNullOrEmpty(IconsDir) ? AddinIcons.Instance().IconsDir.CreateSubdirectory("grp"+UserId.ToString()).FullName : IconsDir;
-
-                        stripes[i] = Path.Combine(dir, stripe);
+                        stripes[i] = Path.Combine(IconsDir, stripe);
                         combinedImage.Save(stripes[i]);
                     }
                     catch (Exception)

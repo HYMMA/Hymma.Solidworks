@@ -2,7 +2,6 @@
 // Licensed under the MIT license
 
 using System;
-using System.Reflection;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -11,21 +10,27 @@ namespace Hymma.Solidworks.Addins
     /// </summary>
     internal static class TypeExtensions
     {
+        //static Logger log = Logger.GetInstance(Properties.Resources.LogSource);
         /// <summary>
         /// returns the attribute in a type
         /// </summary>
         /// <typeparam name="T">the attribute required</typeparam>
         /// <param name="type"></param>
-        /// <param name="searchChildren"></param>
+        /// <param name="searchAncesstors"></param>
         /// <returns></returns>
-        internal static T TryGetAttribute<T>(this Type type, bool searchChildren = false) where T : Attribute
+        internal static T TryGetAttribute<T>(this Type type, bool searchAncesstors = false) where T : Attribute
         {
-            foreach (var attr in type.GetCustomAttributes(searchChildren))
+            foreach (var attr in type.GetCustomAttributes(searchAncesstors))
             {
                 if (attr is T)
+                {
+                    //log.Info($"found attribute {attr} in type {type}");
                     return attr as T;
+                }
             }
-            return null;
+            var e = new ArgumentNullException($"Could not find attribute in type {type}");
+            //log.Error(e);
+            throw e;
         }
 
         /// <summary>

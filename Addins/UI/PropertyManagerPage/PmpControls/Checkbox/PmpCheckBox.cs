@@ -25,16 +25,25 @@ namespace Hymma.Solidworks.Addins
         /// <param name="isChecked">initial state</param>
         /// <param name="caption">caption for this check box</param>
         /// <param name="tip">a tip for this checkbox</param>
-        public PmpCheckBox(string caption, bool isChecked = false, string tip ="") : base(swPropertyManagerPageControlType_e.swControlType_Checkbox,caption,tip)
+        public PmpCheckBox(string caption, bool isChecked = false, string tip = "") : base(swPropertyManagerPageControlType_e.swControlType_Checkbox, caption, tip)
         {
             IsChecked = isChecked;
+
+            //sync SOLIDWORKS and this
+            Checked += PmpCheckBox_Checked;
+        }
+
+        private void PmpCheckBox_Checked(PmpCheckBox pmpCheckBox, bool isChecked)
+        {
+            if (_isChecked != isChecked)
+                _isChecked = isChecked;
         }
 
 
         #endregion
 
         #region call backs
-        internal void CheckedCallback(bool status)=> Checked?.Invoke(this, status);
+        internal void CheckedCallback(bool status) => Checked?.Invoke(this, status);
         #endregion
 
         #region public properties
@@ -64,12 +73,12 @@ namespace Hymma.Solidworks.Addins
         }
 
         /// <summary>
-        /// provide a consitant experience between sessions of calling a property manager 
+        /// provide a constant experience between sessions of calling a property manager 
         ///we update the status of the control to that of previous call
         /// </summary>
-        /// <remarks>solidworks requires us to regiter the control once the addin is loaded.
-        ///then everytime the property manage rpage is displayed the status of controls would reflect the registered state
-        ///but to provide a consitant experience between sessions of calling a property manager 
+        /// <remarks>SolidWORKS requires us to register the control once the addin is loaded.
+        ///then every time the property manage page is displayed the status of controls would reflect the registered state
+        ///but to provide a constant experience between sessions of calling a property manager 
         ///we use this property to update the status of the control to that of previous call</remarks>
         public bool MaintainState
         {

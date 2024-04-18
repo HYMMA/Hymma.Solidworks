@@ -1,0 +1,16 @@
+<Configuration>
+	<!--<ProtectedClient>Enable</ProtectedClient>-->
+	<MappedFolders>
+		<MappedFolder>
+			<HostFolder>C:\Users\Ashra\source\repos\Hymma.Solidworks\Addins\QRify\QRifyInstaller\bin\x64\Release\en-US</HostFolder>
+			<SandboxFolder>C:\users\WDAGUtilityAccount\Downloads\Setup</SandboxFolder>
+		</MappedFolder>
+		<MappedFolder>
+			<HostFolder>C:\Users\Ashra\source\repos\Hymma.Solidworks\Addins\QRify\QRifyInstaller\Tools</HostFolder>
+			<SandboxFolder>C:\users\WDAGUtilityAccount\Downloads\Setup\Tools</SandboxFolder>
+		</MappedFolder>
+	</MappedFolders>
+	<LogonCommand>
+		<Command>C:\users\WDAGUtilityAccount\Downloads\Setup\Tools\commands.cmd</Command>
+	</LogonCommand>
+</Configuration>

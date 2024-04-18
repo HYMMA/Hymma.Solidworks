@@ -13,7 +13,7 @@ namespace Hymma.Solidworks.Extensions
     public static class DrawingDocExtensions
     {
         /// <summary>
-        /// get a list of boms in this drawing
+        /// get a list of BOMs in this drawing
         /// </summary>
         /// <param name="drawingDoc"></param>
         /// <returns>List of <see cref="object"/> that can be cast into <see cref="BomFeature"/></returns>

@@ -340,3 +340,9 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/folderhighlight-ae3e25ce-fa9d-4a04-8d26-86a492107be1.ico
+/desktop.ini
+*.snupkg
+/Extensions/Hymma.Solidworks.Extensions.2018.1.0.snupkg
+/Addins.Fluent/Hymma.Solidworks.Addins.Fluent.2018.1.0.snupkg
+/Addins/Hymma.Solidworks.Addins.2018.1.0.snupkg

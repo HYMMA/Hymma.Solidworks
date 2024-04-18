@@ -1,4 +1,8 @@
-﻿using Hymma.Solidworks.Addins;
+﻿// Copyright (C) HYMMA All rights reserved.
+// Licensed under the MIT license
+
+#define TRACE
+using Hymma.Solidworks.Addins;
 using QRCoder;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
@@ -8,12 +12,16 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+using QRify.Logging;
 
 namespace QRify
 {
     //It is not mandatory to make this class partial, but in future releases we might use code generators to bypass some of solidworks API restrictions
     //AddinIcon could be a resx file or an Embedded Resource one 
-    [Addin(title: "QRify", AddinIcon = "qrify.png", Description = "Creates a QR", LoadAtStartup = true)]
+    [Addin(title: "QRify",
+        AddinIcon = "qrify.png",
+        Description = "Creates a QR",
+        LoadAtStartup = true)]
     [ComVisible(true)]
     [Guid("2EB85AF6-DB51-46FB-B955-D4A7708DA315")]
     public partial class Qrify : AddinMaker
@@ -32,14 +40,13 @@ namespace QRify
         /// This is a call back function from <see cref="QrCommand"/>
         /// </summary>
         /// <returns></returns>
-        public object EnablePropertyMangagerPage()
+        public object EnablePropertyManagerPage()
         {
             if (Solidworks.ActiveDoc == null || Solidworks.CommandInProgress)
             {
                 return 0;
             }
             return 1;
-
         }
 
         /// <summary>
@@ -90,13 +97,16 @@ namespace QRify
 
         private void SaveQrToClipboard(PmpTextBox textBox)
         {
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(textBox.Value, QRCodeGenerator.ECCLevel.Q);
-            var qrImage = ArtQRCodeHelper.GetQRCode(textBox.Value, 5, System.Drawing.Color.Black, System.Drawing.Color.White, System.Drawing.Color.Gray, QRCodeGenerator.ECCLevel.L);
+
+            var value = textBox.Value;
+            var logger = new QRifyLogger();
+            logger.Info(value);
+            var qrImage = ArtQRCodeHelper.GetQRCode(value, 5, System.Drawing.Color.Black, System.Drawing.Color.White, System.Drawing.Color.Gray, QRCodeGenerator.ECCLevel.L);
             using (qrImage)
             {
                 var src = Imaging.CreateBitmapSourceFromHBitmap(qrImage.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                 Clipboard.SetImage(src);
+                //src = null;
             }
         }
     }
@@ -193,7 +203,6 @@ namespace QRify
             CommandGroup = new QrCommandGroup();
         }
     }
-
     public class QrifyUserInterface : AddinUserInterface
     {
         public QrPropertyManagerPageFactory PmpFactory { get; }

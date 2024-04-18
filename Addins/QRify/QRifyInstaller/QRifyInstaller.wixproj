@@ -1,0 +1,55 @@
+﻿<Project Sdk="WixToolset.Sdk/4.0.5">
+  <ItemGroup>
+    <Content Include="HarvesterDirectoryTransforms.xslt" />
+    <Content Include="HarvesterFileTransforms.xslt" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WixToolset.Heat" Version="5.0.0" />
+    <PackageReference Include="WixToolset.UI.wixext" Version="4.0.5" />
+    <PackageReference Include="WixToolset.Util.wixext" Version="4.0.5" />
+  </ItemGroup>
+  <PropertyGroup>
+    <BuildVersion>0</BuildVersion>
+    <AddinGuid>{2EB85AF6-DB51-46FB-B955-D4A7708DA315}</AddinGuid>
+    <HarvestGenerateGuidsNow>True</HarvestGenerateGuidsNow>
+    <HarvestAutoGenerateGuids>False</HarvestAutoGenerateGuids>
+    <Platforms>x64</Platforms>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DefineConstants>Version=$(BuildVersion);AddinGuid=$(AddinGuid)</DefineConstants>
+  </PropertyGroup>
+  <!-- Harvest items that do not need to be com registered-->
+  <ItemGroup>
+    <HarvestDirectory Include="..\bin\$(Configuration)">
+      <ComponentGroupName>HARVESTEDCOMPONENTS</ComponentGroupName>
+      <DirectoryRefId>INSTALLFOLDER</DirectoryRefId>
+      <SuppressCom>true</SuppressCom>
+      <SuppressRegistry>true</SuppressRegistry>
+      <!--remove .tlb and .pdb and main addin .dll file-->
+      <Transforms>HarvesterDirectoryTransforms.xslt</Transforms>
+      <!--do not create a Release subfolder on clients machine-->
+      <SuppressRootDirectory>true</SuppressRootDirectory>
+    </HarvestDirectory>
+    <BindPath Include="..\bin\$(Configuration)" />
+  </ItemGroup>
+  <!--harvest main addin dll and have it registered in com-->
+  <ItemGroup>
+    <HarvestFile Include="..\bin\$(Configuration)\Qrify.dll">
+      <ComponentGroupName>HARVESTEDCOMCOMPONENTS</ComponentGroupName>
+      <DirectoryRefId>INSTALLFOLDER</DirectoryRefId>
+      <SuppressRootDirectory>true</SuppressRootDirectory>
+      <Transforms>HarvesterFileTransforms.xslt</Transforms>
+      <SuppressCom>false</SuppressCom>
+      <SuppressRegistry>false</SuppressRegistry>
+    </HarvestFile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove=".github\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove=".github\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QRify.csproj" />
+  </ItemGroup>
+</Project>
