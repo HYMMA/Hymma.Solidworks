@@ -17,7 +17,8 @@ namespace Hymma.Solidworks.Addins.Helpers
             //As we are using EvenLog at this stage. we cannot log to it because a source in EventLog is not available immediately after a it is registered.
             try
             {
-                //wix.4.0.5 heat harvester will read these data and generate proper registry components, on development machines these registry values will be set during compile time
+                //wix.4.0.5 heat harvester will read these data and generate proper registry components,
+                //on development machines these registry values will be set during compile time via regasm.exe, which visual studio will take care of
                 var addinAttribute = type.TryGetAttribute<AddinAttribute>(false);
                 string key = "SOFTWARE\\SolidWorks\\Addins\\{" + type.GUID.ToString() + "}";
                 RegistryKey addinKey = Registry.LocalMachine.CreateSubKey(key);
@@ -31,8 +32,9 @@ namespace Hymma.Solidworks.Addins.Helpers
                 addinStartUpKey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
 
                 //this value should be set during install. 
-                //addin icons work only if set in this registry path
                 //AddinIcons.SaveAddinIconInLocalAppData(type, out string fullFileName);
+
+                //addin icons work only if set in this registry path, everything else that is mentioned in Solidworks website fails.
                 //addinKey.SetValue("Icon Path", fullFileName);
             }
             catch (Exception )
