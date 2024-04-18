@@ -1,7 +1,6 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
-using Hymma.Solidworks.Addins.Logging;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
