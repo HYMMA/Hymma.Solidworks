@@ -98,9 +98,7 @@ namespace Hymma.Solidworks.Addins
         [ComRegisterFunction]
         public static void Register(Type t)
         {
-            //var eventSource = t.TryGetAttribute<AddinAttribute>().EventSource;
-            //EventLogHelper.RegisterEventSource(eventSource, Properties.Resources.LogName);
-            //var log = Logger.GetInstance(eventSource) ;
+            var eventSource = t.TryGetAttribute<AddinAttribute>().EventSource;
             RegisterHelper.TryRegisterSolidworksAddin(t);
             AddinIcons.TrySaveAddinIconsInAssemblyFolder(t);
         }
