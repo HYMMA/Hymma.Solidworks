@@ -15,7 +15,6 @@ namespace Hymma.Solidworks.Addins
         #region fields
 
         private TexTBoxStyles _style;
-        private string _text;
         private short _height;
         #endregion
 
@@ -39,11 +38,9 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         public string Value
         {
-            get => _text;
+            get => SolidworksObject?.Text;
             set
             {
-                _text = value;
-
                 //if add in is loaded
                 if (SolidworksObject != null)
                 {
