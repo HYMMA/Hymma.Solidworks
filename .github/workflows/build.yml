@@ -9,7 +9,7 @@ on:
     - master
 
 env:
-    NugetDirectory: ${{ GITHUB_WORKSPACE}}/nugets
+    NugetDirectory: ${{ github.workspace}}/nugets
 
 defaults:
   run:
