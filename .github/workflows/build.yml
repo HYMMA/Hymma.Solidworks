@@ -34,7 +34,7 @@ jobs:
     - name: Run build
       # shell: cmd
       # run: ./build.cmd
-      run: msbuild hymma.solidworks.sln -restore -nologo -m -p:configuration=release -p:RestorePackagesConfig=true -p:BuildVersion=0.54 -p:AddinGuid={2EB85AF6-DB51-46FB-B955-D4A7708DA315} -p:Platform=X64 -p:IncludeSymbols=true -p:CreateNugetPackage=true
+      run: msbuild hymma.solidworks.sln -restore -nologo -m -p:configuration=release -p:RestorePackagesConfig=true -p:BuildVersion=0.54 -p:AddinGuid='{2EB85AF6-DB51-46FB-B955-D4A7708DA315}' -p:Platform=X64 -p:IncludeSymbols=true -p:CreateNugetPackage=true
 
     - name: Save Package
       uses: actions/upload-artifact@v3
