@@ -11,8 +11,8 @@
 		<!-- new line in console -->
 		<Message Text="%0D%0A" />
 		<Message Text="--------------NUGET PACK----------------" />
-		<!--<Exec Condition="'$(IncludeSymbols)'=='false' or '$(SymbolPackageFormat)'==''"
-			  Command="nuget pack nugetSpec.nuspec -OutputDirectory ../nugets -Version %(MyAssemblyIdentities.Version) -Properties Configuration=Release" />-->
+		<Exec Condition="'$(IncludeSymbols)'=='false' or '$(SymbolPackageFormat)'==''"
+			  Command="nuget pack nugetSpec.nuspec -OutputDirectory ../nugets -Version %(MyAssemblyIdentities.Version) -Properties Configuration=Release" />
 		
 		<Exec Condition="'$(IncludeSymbols)'=='true' AND '$(SymbolPackageFormat)'=='snupkg'" 
 			  Command="nuget pack nugetSpec.nuspec -OutputDirectory ../nugets  -Version %(MyAssemblyIdentities.Version) -Properties Configuration=Release -Symbols -SymbolPackageFormat snupkg"/>
