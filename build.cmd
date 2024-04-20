@@ -10,6 +10,6 @@ for /f "usebackq delims=" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\
 
 echo Build
 
-msbuild hymma.solidworks.sln -restore -nologo -m -p:RestorePackagesConfig=true -p:BuildVersion=0.54 -p:AddinGuid={2EB85AF6-DB51-46FB-B955-D4A7708DA315} -p:Platform=X64 -p:Configuration=Release -p:CreateNugetPackage=false
+msbuild hymma.solidworks.sln -restore -nologo -m -p:RestorePackagesConfig=true -p:BuildVersion=0.54 -p:AddinGuid={2EB85AF6-DB51-46FB-B955-D4A7708DA315} -p:Platform=X64 -p:Configuration=Release -p:IncludeSymbols=true -p:CreateNugetPackage=true
 
 pause
