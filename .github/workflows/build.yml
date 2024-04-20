@@ -1,4 +1,4 @@
-name: Qrify Build
+name: Build and Publish Hymma.Solidworks
 
 on:
   pull_request:
@@ -17,6 +17,7 @@ defaults:
 
 jobs:
   build:
+    if: github.repository_owner == 'HYMMA'
     name: Build
     runs-on: windows-latest
     steps:
