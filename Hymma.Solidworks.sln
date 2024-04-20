@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hymma.Solidworks.Addins", "Addins\Hymma.Solidworks.Addins.csproj", "{86B8E368-880D-4169-BA19-60A84D3F6FB3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC} = {C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CD13FBB7-4F80-41AA-BFAC-9ED5ECA48747}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,6 +27,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hymma.solidworks.interop", "Interop\hymma.solidworks.interop.csproj", "{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRify", "Addins\QRify\QRify.csproj", "{B0A0B8D8-AF58-4CE8-A27E-74114C209344}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC} = {C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrifyPlus", "Addins.Fluent\QrifyPlus\QrifyPlus.csproj", "{7E4CBD5B-B098-4365-9509-F5B16133CFC4}"
 EndProject
