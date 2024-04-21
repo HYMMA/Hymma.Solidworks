@@ -15,6 +15,7 @@ defaults:
   run:
     shell: pwsh
 
+
 jobs:
   build:
     if: github.repository_owner == 'HYMMA'
@@ -36,10 +37,16 @@ jobs:
       run: msbuild hymma.solidworks.sln -restore -nologo -m -p:configuration=release -p:RestorePackagesConfig=true -p:BuildVersion=0.54 -p:AddinGuid='{2EB85AF6-DB51-46FB-B955-D4A7708DA315}' -p:Platform=X64 -p:IncludeSymbols=true -p:CreateNugetPackage=true
 
     - name: Save Package
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: nugets 
         path: ${{ env.NuGetDirectory}}/*.*nupkg
+
+    - name: Save Installer
+      uses: actions/upload-artifact@v4
+      with:
+       name: QrifyInstaller
+       path: ./**/Qrify/**/bin/**/*.msi
 
     - name: publish nuget
       run: |
