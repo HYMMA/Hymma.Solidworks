@@ -64,7 +64,7 @@ namespace Hymma.Solidworks.Addins
         /// You cannot change Units once the page is displayed.The Units parameter is ignored if specified while the page is displayed. <br/>
         ///If the range is changed to an invalid value by this method, then you must immediately call <see cref="Value"/> and set a valid value to prevent displaying the dialog that requests the user to enter a valid value. 
         ///<para>
-        ///SolidWORKS internal units are <strong>meteric</strong> it will treat this methods parameters as such. for example increment will be Meter for lenghts
+        ///SolidWORKS internal units are <strong>metric</strong> it will treat this methods parameters as such. for example increment will be Meter for lengths. 
         ///</para>
         ///</remarks>
         public void SetRange(NumberBoxUnit Units, double Minimum, double Maximum, bool Inclusive, double Increment, double fastIncrement, double slowIncrement)
