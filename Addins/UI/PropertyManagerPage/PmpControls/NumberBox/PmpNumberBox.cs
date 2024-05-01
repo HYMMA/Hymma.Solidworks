@@ -24,7 +24,7 @@ namespace Hymma.Solidworks.Addins
         /// creates a number box in a property manager page
         /// </summary>
         /// <param name="style">style for this numberBox as defined by <see cref="NumberBoxStyles"/></param>
-        public PmpNumberBox(NumberBoxStyles style=NumberBoxStyles.Default) : base(swPropertyManagerPageControlType_e.swControlType_Numberbox)
+        public PmpNumberBox(NumberBoxStyles style = NumberBoxStyles.Default) : base(swPropertyManagerPageControlType_e.swControlType_Numberbox)
         {
             Style = style;
         }
@@ -64,7 +64,7 @@ namespace Hymma.Solidworks.Addins
         /// You cannot change Units once the page is displayed.The Units parameter is ignored if specified while the page is displayed. <br/>
         ///If the range is changed to an invalid value by this method, then you must immediately call <see cref="Value"/> and set a valid value to prevent displaying the dialog that requests the user to enter a valid value. 
         ///<para>
-        ///solidworks internal units are <strong>meteric</strong> it will treat this methods parameters as such. for example increment will be Meter for lenghts
+        ///SolidWORKS internal units are <strong>metric</strong> it will treat this methods parameters as such. for example increment will be Meter for lengths. 
         ///</para>
         ///</remarks>
         public void SetRange(NumberBoxUnit Units, double Minimum, double Maximum, bool Inclusive, double Increment, double fastIncrement, double slowIncrement)
@@ -117,19 +117,20 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// Gets and sets the value that appears in the number box. 
         /// </summary>
-        public double Value
+        ///<remarks>will be null if called before <see cref="PmpGroup.AddControl(IPmpControl)"/></remarks>
+        public double? Value
         {
-            get => _value;
+            get => SolidworksObject?.Value;
             set
             {
-                _value = value;
+                //_value = value;
                 if (SolidworksObject != null)
                 {
-                    SolidworksObject.Value = value;
+                    SolidworksObject.Value = value ?? 0;
                 }
                 else
                 {
-                    Registering += () => { SolidworksObject.Value = value; };
+                    Registering += () => { SolidworksObject.Value = value ?? 0; };
                 }
             }
         }
@@ -206,20 +207,20 @@ namespace Hymma.Solidworks.Addins
 
         internal void TrackingCompletedCallback(double val) => TrackingCompleted?.Invoke(this, val);
         internal void SelectionChangedCallback(int item)
-         =>SelectionChanged?.Invoke(this, SolidworksObject.ItemText[(short)item]);
+         => SelectionChanged?.Invoke(this, SolidworksObject.ItemText[(short)item]);
         #endregion
 
         #region events
 
         /// <summary>
-        /// called when user changes the value in an number box by typing in a new value, solidworks will pass in the text that was entered
+        /// called when user changes the value in an number box by typing in a new value, SolidWORKS will pass in the text that was entered
         /// </summary>
         public event EventHandler<string> TextChanged;
 
         /// <summary>
         /// fired when user changes the value via typing or clicking the up-arrow or down-arrow buttons to increment or decrement the value
         /// </summary>
-        /// <remarks>solidworks will pass in the double value upon change</remarks>
+        /// <remarks>SolidWORKS will pass in the double value upon change</remarks>
         public event EventHandler<double> Changing;
 
         /// <summary>

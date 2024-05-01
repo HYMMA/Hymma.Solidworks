@@ -38,7 +38,7 @@ namespace Hymma.Solidworks.Addins
             AddItems(items);
             Style = _style;
             Height = _height;
-            
+
             //this removed the empty string added to index 0 of Items
             Clear();
             Displaying += PmpComboBox_OnDisplay;
@@ -62,7 +62,7 @@ namespace Hymma.Solidworks.Addins
             //update the backing field
             _items.AddRange(items);
             _items.Sort();
-            //if add in is loaded update the solidworks object
+            //if add in is loaded update the SolidWORKS object
             //otherwise update the property after display
             if (SolidworksObject != null)
             {
@@ -98,6 +98,7 @@ namespace Hymma.Solidworks.Addins
         {
             return _items.Contains(item);
         }
+
         /// <summary>
         /// Clears all items from the attached drop-down list for this combo box.  
         /// </summary>
@@ -119,13 +120,14 @@ namespace Hymma.Solidworks.Addins
             //update the backing field
             _items.RemoveAt(index);
 
-            //if add in is loaded update the solidworks object
+            //if add in is loaded update the SolidWORKS object
             //otherwise update the property after display
             if (SolidworksObject != null)
                 SolidworksObject.DeleteItem(index);
             else
                 Registering += () => { SolidworksObject.DeleteItem(index); };
         }
+
         /// <summary>
         /// Inserts an item in the attached drop-down list of this combo box. 
         /// </summary>
@@ -137,7 +139,7 @@ namespace Hymma.Solidworks.Addins
                 return;
             _items.Add(item);
             _items.Sort();
-            //if add in is loaded update the solidworks object
+            //if add in is loaded update the SolidWORKS object
             //otherwise update the property after display
             if (SolidworksObject != null)
             {
@@ -155,12 +157,11 @@ namespace Hymma.Solidworks.Addins
             }
         }
 
-
         #endregion
 
         #region public properties
         /// <summary>
-        /// items in the combo-box the index of these items is not the same as solidworks UI and is not reliable
+        /// items in the combo-box the index of these items is not the same as SolidWORKS UI and is not reliable
         /// </summary>
         public ReadOnlyCollection<string> Items => _items.AsReadOnly();
 
@@ -175,7 +176,7 @@ namespace Hymma.Solidworks.Addins
                 //assign value to the backing field
                 _height = value;
 
-                //if add in is loaded update the solidworks object
+                //if add in is loaded update the SolidWORKS object
                 //otherwise update the property after display
                 if (SolidworksObject != null)
                     SolidworksObject.Height = value;
@@ -203,7 +204,7 @@ namespace Hymma.Solidworks.Addins
                 //assign value to the  field
                 _style = value;
 
-                //if add in is loaded update the solidworks object
+                //if add in is loaded update the SolidWORKS object
                 //otherwise update the property after display
                 if (SolidworksObject != null)
                     SolidworksObject.Style = (int)value;
@@ -222,7 +223,7 @@ namespace Hymma.Solidworks.Addins
             get => SolidworksObject.CurrentSelection;
             set
             {
-                //if add in is loaded update the solidworks object
+                //if add in is loaded update the SolidWORKS object
                 //otherwise update the property after display
                 if (SolidworksObject != null)
                     SolidworksObject.CurrentSelection = value;
@@ -269,11 +270,11 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// Called when a user changes the selected item in a combo box on this PropertyManager page. 
         /// </summary>
-        /// <remarks>solidworks will pass int the id of the selected item</remarks>
+        /// <remarks>SolidWORKS will pass int the id of the selected item</remarks>
         public event EventHandler<int> SelectionChanged;
 
         /// <summary>
-        /// Called when a user changes the text string in the text box of a combo box on this PropertyManager page. solidworks will pass in the text string
+        /// Called when a user changes the text string in the text box of a combo box on this PropertyManager page. SolidWORKS will pass in the text string
         /// </summary>
         /// <remarks>
         /// <para>

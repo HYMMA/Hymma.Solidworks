@@ -8,22 +8,31 @@ using System;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// a solidworks radio button in property managers
+    /// a SolidWORKS radio button in property managers
     /// </summary>
     public class PmpRadioButton : PmpControl<IPropertyManagerPageOption>
     {
         private bool _isChecked;
 
         /// <summary>
-        /// make a new radio button for solidworks property manager pages
+        /// make a new radio button for SolidWORKS property manager pages
         /// </summary>
         /// <param name="caption">caption for this radio button</param>
         /// <param name="isChecked">whether it is going to be the checked or not</param>
         public PmpRadioButton(string caption, bool isChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Option, caption)
         {
             IsChecked = isChecked;
+
+            //bind this to SolidWORKS
+            Checked += PmpRadioButton_Checked;
         }
-        
+
+        private void PmpRadioButton_Checked(object sender, bool e)
+        {
+            if (_isChecked != e)
+                _isChecked = e;
+        }
+
         #region properties
 
         /// <summary>
@@ -44,12 +53,12 @@ namespace Hymma.Solidworks.Addins
         }
 
         /// <summary>
-        /// provide a consitant experience between sessions of calling a property manager 
+        /// provide a constant experience between sessions of calling a property manager 
         ///we update the status of the control to that of previous call
         /// </summary>
-        /// <remarks>solidworks requires us to regiter the control once the addin is loaded.
-        ///then everytime the property manage rpage is displayed the status of controls would reflect the registered state
-        ///but to provide a consitant experience between sessions of calling a property manager 
+        /// <remarks>SolidWORKS requires us to register the control once the addin is loaded.
+        ///then every time the property manager page is displayed the status of controls would reflect the registered state
+        ///but to provide a constant experience between sessions of calling a property manager 
         ///we use this property to update the status of the control to that of previous call</remarks>
         public bool MaintainState
         {
@@ -70,14 +79,14 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        internal void CheckedCallback() =>Checked?.Invoke(this, EventArgs.Empty);
+        internal void CheckedCallback() => Checked?.Invoke(this, true);
         #endregion
 
         #region events
         /// <summary>
         /// SOLIDWORKS will invoke this delegate once the user checks this radio button
         /// </summary>
-        public EventHandler Checked;
+        public event EventHandler<bool> Checked;
         private bool _maintain;
         #endregion
     }

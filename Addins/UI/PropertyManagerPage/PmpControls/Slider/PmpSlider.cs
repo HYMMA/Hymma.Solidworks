@@ -39,6 +39,15 @@ namespace Hymma.Solidworks.Addins
             _position = 5;
             _rangeMin = 0;
             _rangeMax = 10;
+
+            //bind SolidWORKS object with this
+            TrackingCompleted += PmpSlider_TrackingCompleted;
+        }
+
+        private void PmpSlider_TrackingCompleted(object sender, double e)
+        {
+            if (_position!=e)
+                _position = e;
         }
         #endregion
 

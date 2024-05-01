@@ -78,7 +78,7 @@ namespace QrifyPlus
                             {
                                 return new AddinCommand[]
                                 {
-                                    new AddinCommand("QRify+", "QRify+", "QRify+", Properties.Resources.qrifyPlus, nameof(ShowQrifyPlusPmp), enableMethode:nameof(QrifyPlusPmpEnabler)),
+                                    new AddinCommand("QRify+", "QRify+", "QRify+", Properties.Resources.qrifyPlus, nameof(ShowQrifyPlusPmp), enableMethod:nameof(QrifyPlusPmpEnabler)),
                                 };
                             })
                     .SaveCommandGroup()                                         //Save the command group 

@@ -16,7 +16,7 @@ using QRify.Logging;
 
 namespace QRify
 {
-    //It is not mandatory to make this class partial, but in future releases we might use code generators to bypass some of solidworks API restrictions
+    //It is not mandatory to make this class partial, but in future releases we might use code generators to bypass some of SolidWORKS API restrictions
     //AddinIcon could be a resx file or an Embedded Resource one 
     [Addin(title: "QRify",
         AddinIcon = "qrify.png",
@@ -128,10 +128,10 @@ namespace QRify
         {
             this.PmpTabs = new List<PmpTab>() { new QrPropertyManagerPageTab() };
 
-            //at this moment solidworks disables most of its API functions. So if you decided to add a sheet to a drawing for example, it wont work
+            //at this moment SolidWORKS disables most of its API functions. So if you decided to add a sheet to a drawing for example, it wont work
             this.Closing += QrPropertyManagerPage_Closing;
 
-            //this is where you should run any command in solidworks
+            //this is where you should run any command in SolidWORKS
             this.AfterClose += QrPropertyManagerPage_AfterClose;
         }
 
@@ -169,15 +169,15 @@ namespace QRify
             this.CommandTabTextType = ((int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow);
             this.IconBitmap = Properties.Resources.qrify;
 
-            //Restrictions imposed by solidworks API:
+            //Restrictions imposed by SolidWORKS API:
             //These two methods must be defined in the addin class (addin class inherits from AddinMaker.cs)
-            this.EnableMethode = "EnablePropertyMangagerPage";
+            this.EnableMethod = "EnablePropertyMangagerPage";
             this.CallBackFunction = "ShowQrifyPropertyManagerPage";
 
             this.Name = "QRify";
             this.HintString = "Get QR code";
 
-            //solidworks uses the ToolTip as the command name. maybe its a bug in their API.
+            //SolidWORKS uses the ToolTip as the command name. maybe its a bug in their API.
             //workaround is to use Name as the ToolTip
             this.ToolTip = Name;
         }

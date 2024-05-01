@@ -31,7 +31,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="userId">a user id for this command</param>
         /// <param name="menuOption">whether this command should be in menu or toolbox or both as defined in <see cref="swCommandItemType_e"/><br/></param>
         /// <param name="tabTextStyle">text display of this command when used in a <see cref="AddinCommandTab"/> as defined by <see cref="swCommandTabButtonTextDisplay_e"/></param>
-        /// <param name="enableMethode">name of optional function that controls the state of the item; if specified, then SOLIDWORKS calls this function before displaying the item 
+        /// <param name="enableMethod">name of optional function that controls the state of the item; if specified, then SOLIDWORKS calls this function before displaying the item 
         /// <strong>THIS FUNCTION MUST BE DEFINED IN THE ADDIN CLASS. ADDIN CLASS IS THE ONE THAT INHERITS FROM <see cref="AddinMaker"/></strong>
         /// <list type="table">
         /// <listheader>
@@ -44,7 +44,7 @@ namespace Hymma.Solidworks.Addins
         /// <item>3<term></term><description>SOLIDWORKS Selects and enables the item</description></item>
         /// <item>4<term></term><description>Not supported</description></item>
         /// </list></param>
-        public AddinCommand(string name, string hint, string tooltipTitle, Bitmap icon, string nameofCallBackFunc, short userId = 0, int menuOption = 3, int tabTextStyle = 2, string enableMethode = "")
+        public AddinCommand(string name, string hint, string tooltipTitle, Bitmap icon, string nameofCallBackFunc, short userId = 0, int menuOption = 3, int tabTextStyle = 2, string enableMethod = "")
         {
             #region assign values to properties
             Name = name;
@@ -53,9 +53,9 @@ namespace Hymma.Solidworks.Addins
             IconBitmap = icon;
             CallBackFunction = nameofCallBackFunc;
             UserId = userId;
-            MenueOptions = menuOption;
+            MenuOptions = menuOption;
             CommandTabTextType = tabTextStyle;
-            EnableMethode = enableMethode;
+            EnableMethod = enableMethod;
             #endregion
         }
         #endregion
@@ -70,7 +70,7 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         public int Index { get;internal set; }
         /// <summary>
-        /// name as appears in solidworks
+        /// name as appears in SolidWORKS
         /// </summary>
         public string Name { get; set; }
 
@@ -110,7 +110,7 @@ namespace Hymma.Solidworks.Addins
         /// </list>
         /// </summary>
         /// <remarks><strong>THIS FUNCTION MUST BE DEFINED IN THE ADDIN CLASS. ADDIN CLASS IS THE ONE THAT INHERITS FROM <see cref="AddinMaker"/></strong></remarks>
-        public string EnableMethode { get; set; } = "";
+        public string EnableMethod { get; set; } = "";
 
         /// <summary>
         /// User-defined command ID or 0 if not used
@@ -118,7 +118,7 @@ namespace Hymma.Solidworks.Addins
         public int UserId { get; set; } = 0;
 
         /// <summary>
-        /// Id that solidworks assigns to this command once created. it then gets used by command boxes
+        /// Id that SolidWORKS assigns to this command once created. it then gets used by command boxes
         /// </summary>
         public int SolidworksId { get;internal set; }
 
@@ -126,7 +126,7 @@ namespace Hymma.Solidworks.Addins
         /// whether this command should be in menu or toolbox or both as defined in <see cref="swCommandItemType_e"/><br/>
         /// default is 3
         /// </summary>
-        public int MenueOptions { get; set; } = 3;
+        public int MenuOptions { get; set; } = 3;
 
         /// <summary>
         /// text display of this command when used in a <see cref="AddinCommandTab"/> as defined by <see cref="swCommandTabButtonTextDisplay_e"/><br/>
