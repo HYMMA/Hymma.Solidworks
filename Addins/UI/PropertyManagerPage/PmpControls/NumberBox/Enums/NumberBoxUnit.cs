@@ -4,7 +4,7 @@
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// units for numberbox
+    /// units for <see cref="PmpNumberBox"/>
     /// </summary>
     public enum NumberBoxUnit
     {
@@ -53,12 +53,12 @@ namespace Hymma.Solidworks.Addins
         Time = 9,
 
         /// <summary>
-        /// unitless doulbe
+        /// unitless double
         /// </summary>
         UnitlessDouble = 2,
 
         /// <summary>
-        /// unitles integer
+        /// unitless integer
         /// </summary>
         UnitlessInteger = 1
     }
