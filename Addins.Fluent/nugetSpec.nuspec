@@ -10,6 +10,7 @@
 		<icon>nugetIcon.png</icon>
 		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Addins.Fluent/</projectUrl>
 		<description>Framework to create Addins for SOLIDWORKS 2018 and later using fluent API.</description>
+		<readme>readme.md</readme>
 		<releaseNotes>Changed version to 2018.</releaseNotes>
 		<copyright>HYMMA</copyright>
 		<tags>hymma solidworks cad addin fluent-API</tags>

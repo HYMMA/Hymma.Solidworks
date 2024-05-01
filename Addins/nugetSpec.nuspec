@@ -12,6 +12,7 @@
 		<icon>nugetIcon.png</icon>
 		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Addins/</projectUrl>
 		<description>Framework to create Addins for SOLIDWORKS and later.</description>
+		<readme>readme.md</readme>
 		<releaseNotes>changed the dependencies</releaseNotes>
 		<copyright>HYMMA</copyright>
 		<tags>cad solidworks addin hymma</tags>
