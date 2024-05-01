@@ -169,6 +169,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="nugetSpec.nuspec" />
+    <None Include="readme.md" />
     <None Include="SolidTools.SolidAddins.snk" />
   </ItemGroup>
   <PropertyGroup>
