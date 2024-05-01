@@ -10,7 +10,7 @@ using System.Linq;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// a solidworks selection box 
+    /// a SolidWORKS selection box 
     /// </summary>
     public class PmpSelectionBox : PmpControl<IPropertyManagerPageSelectionbox>
     {
@@ -43,8 +43,8 @@ namespace Hymma.Solidworks.Addins
         /// <param name="allowMultipleSelectOfSameEntity">True if the same entity can be selected multiple times in this selection box, false if not</param>
         /// <param name="style">style of this selection box as defined by bitwise <see cref="SelectionBoxStyles"/></param>
         /// <param name="singleItemOnly">Gets or sets whether this selection box is for single or multiple items. </param>
-        /// <param name="height">height of selectionbox in the pmp</param>
-        /// <param name="tip">tip for the selectionbox</param>
+        /// <param name="height">height of selection-box in the pmp</param>
+        /// <param name="tip">tip for the selection-box</param>
         public PmpSelectionBox(IEnumerable<swSelectType_e> filters, SelectionBoxStyles style = SelectionBoxStyles.Default, bool allowMultipleSelectOfSameEntity = true, bool singleItemOnly = false, short height = 50, string tip = "")
             : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox, "", tip)
         {
@@ -69,7 +69,7 @@ namespace Hymma.Solidworks.Addins
             SolidworksObject.AllowMultipleSelectOfSameEntity = _allowMultipleSelectOfSameEntity;
             SolidworksObject.SingleEntityOnly = _singleItemOnly;
 
-            // this is not available in solidworks 2018 and earlier
+            // this is not available in SolidWORKS 2018 and earlier
             //SolidworksObject.EnableSelectIdenticalComponents = _enableSelectIdenticalComponents;
             SolidworksObject.Height = _height;
             SolidworksObject.SetSelectionFilters(_filters.Cast<int>().ToArray());
@@ -107,17 +107,17 @@ namespace Hymma.Solidworks.Addins
 
         #region public properties
         /// <summary>
-        /// Once user RMB on the selection box these items will be listed in the menue that appears
+        /// Once user RMB on the selection box these items will be listed in the  menu that appears
         /// </summary>
         public List<PopUpMenueItem> PopUpMenueItems { get; set; }
 
         /// <summary>
-        /// PropertyManager page's cursor after a user makes a selection in the SOLIDWORKS graphics area. 
+        /// PropertyManager page's cursor after a user makes a selection in the SolidWORKS graphics area. 
         /// </summary>
         /// <remarks>allows an interactive user to either: <br/>
         ///move to the next selection box on the PropertyManager page or <br/>
         ///okay and close a PropertyManager page<br/>
-        ///after making a selection in the SOLIDWORKS graphics area. </remarks>
+        ///after making a selection in the SolidWORKS graphics area. </remarks>
         public PmpCursorStyles CursorStyle { get; set; } = PmpCursorStyles.None;
 
         /// <summary>
@@ -144,9 +144,9 @@ namespace Hymma.Solidworks.Addins
 
 
         /// <summary>
-        /// create a clalout for this selectionbox
+        /// create a callout for this selection-box
         /// </summary>
-        /// <remarks>you should use this property in the context of a part or assembly or drawing environment i.e you cannot use it when solidworks starts</remarks>
+        /// <remarks>you should use this property in the context of a part or assembly or drawing environment i.e you cannot use it when SolidWORKS starts</remarks>
         public CalloutModel Callout
         {
             get => _callout;
@@ -193,7 +193,7 @@ namespace Hymma.Solidworks.Addins
         public bool IsFocused => SolidworksObject != null && SolidworksObject.GetSelectionFocus();
         /*
        <<<<<<<<<<
-        this is not available in SOLIDWORKS API 2018
+        this is not available in SolidWORKS API 2018
        >>>>>>>>>> 
 
       /// <summary>
@@ -244,7 +244,7 @@ namespace Hymma.Solidworks.Addins
 
             set
             {
-                // Mark values(whether set by the SolidWorks application or by your application) must be powers of two(for example, 1, 2, 4, 8)
+                // Mark values(whether set by the SolidWORKS application or by your application) must be powers of two(for example, 1, 2, 4, 8)
                 var isPowerOfTwo = (value != 0) && ((value & (value - 1)) == 0);
 
                 if (isPowerOfTwo)
@@ -274,7 +274,7 @@ namespace Hymma.Solidworks.Addins
         /// gets a dicitonary of items and their type in a selection box whether they are selected or not
         /// folow instructions in the link below to get the actual object of the selected item 
         /// </summary>
-        ///<remarks> <a href="http://help.solidworks.com/2019/english/api/swconst/SOLIDWORKS.Interop.swconst~SOLIDWORKS.Interop.swconst.swSelectType_e.html">solidworks website</a>
+        ///<remarks> <a href="http://help.solidworks.com/2019/english/api/swconst/SOLIDWORKS.Interop.swconst~SOLIDWORKS.Interop.swconst.swSelectType_e.html">SolidWORKS website</a>
         ///<list type="bullet">
         ///<item>IF . . . . . . . . . . . . . . .<description> . . .THEN THIS METHOD RETURNS</description></item>
         ///<item>Reference surfaces are selected. . . . . .<description>Reference surface faces instead of the entire reference surface feature.</description></item>
@@ -300,7 +300,7 @@ namespace Hymma.Solidworks.Addins
         /// folow instructions in the link below to get the actual object of the selected item 
         /// </summary>
         /// <param name="index">0-based index of the item in the selection manager</param>
-        ///<remarks> <a href="http://help.solidworks.com/2019/english/api/swconst/SOLIDWORKS.Interop.swconst~SOLIDWORKS.Interop.swconst.swSelectType_e.html">solidworks website</a>
+        ///<remarks> <a href="http://help.solidworks.com/2019/english/api/swconst/SOLIDWORKS.Interop.swconst~SOLIDWORKS.Interop.swconst.swSelectType_e.html">SolidWORKS website</a>
         ///<list type="bullet">
         ///<item>IF . . . . . . . . . . . . . . .<description> . . .THEN THIS METHOD RETURNS</description></item>
         ///<item>Reference surfaces are selected. . . . . .<description>Reference surface faces instead of the entire reference surface feature.</description></item>
@@ -336,19 +336,19 @@ namespace Hymma.Solidworks.Addins
 
         #region events
         /// <summary>
-        /// SOLIDWORKS will invoke this once focus is changed from this selection box
+        /// SolidWORKS will invoke this once focus is changed from this selection box
         /// </summary>
         public event PmpSelectionBoxEventHandler FocusChanged;
 
         /// <summary>
-        /// SOLIDWORKS will invoke this once a call-out is created for this selection box<br/>
+        /// SolidWORKS will invoke this once a call-out is created for this selection box<br/>
         /// allows you to collect information such as the selection type from the last selection. Next, use the <see cref="Callout"/> property to get the Callout object. <br/>
         /// Then, use that object's various properties to control the callout text and display characteristics based on that selection information.
         /// </summary>
         public event PmpSelectionBoxEventHandler CallOutCreated;
 
         /// <summary>
-        /// SOLIDWORKS will invoke this once a callout is destroyed
+        /// SolidWORKS will invoke this once a callout is destroyed
         /// </summary>
         public event PmpSelectionBoxEventHandler CallOutDestroyed;
 
@@ -362,7 +362,7 @@ namespace Hymma.Solidworks.Addins
         /// you should pass a delegate that accepts (object WhatIsSelected, int swSelectType_e, string tag)
         /// </summary>
         /// <remarks> 
-        /// <para>This method is called by SOLIDWORKS when an add-in 
+        /// <para>This method is called by SolidWORKS when an add-in 
         /// has a PropertyManager page displayed and a selection is made that passes the selection 
         /// filter criteria set up for a selection list box. The add-in can then:<br/> 
         /// </para>
@@ -372,13 +372,13 @@ namespace Hymma.Solidworks.Addins
         /// <item>Use methods or properties of that interface to determine if the selection should be allowed or not.If the selection is:
         /// <list type="bullet">
         /// <item>accepted, return true, and processing continues normally.</item>
-        /// <item>rejected, return false, and SOLIDWORKS does not accept the selection, just as if the selection did not pass the selection filter criteria of the selection list box.</item>
+        /// <item>rejected, return false, and SolidWORKS does not accept the selection, just as if the selection did not pass the selection filter criteria of the selection list box.</item>
         /// </list>
         /// </item>
         /// </list>
         /// <para>
-        ///The add-in should not release the Dispatch pointer. SOLIDWORKS will release the Dispatch pointer upon return from this method.
-        ///The method is called during the process of SOLIDWORKS selection.It is neither a pre-notification nor post-notification. <br/>
+        ///The add-in should not release the Dispatch pointer. SolidWORKS will release the Dispatch pointer upon return from this method.
+        ///The method is called during the process of SolidWORKS selection.It is neither a pre-notification nor post-notification. <br/>
         ///The add-in should not be taking any action that might affect the model or the selection list.The add-in should only be querying information and then returning true/VARIANT_TRUE or false/VARIANT_FALSE.
         /// </para>
         /// </remarks>
