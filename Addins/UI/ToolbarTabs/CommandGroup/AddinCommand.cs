@@ -53,9 +53,9 @@ namespace Hymma.Solidworks.Addins
             IconBitmap = icon;
             CallBackFunction = nameofCallBackFunc;
             UserId = userId;
-            MenueOptions = menuOption;
+            MenuOptions = menuOption;
             CommandTabTextType = tabTextStyle;
-            EnableMethode = enableMethod;
+            EnableMethod = enableMethod;
             #endregion
         }
         #endregion
@@ -70,7 +70,7 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         public int Index { get;internal set; }
         /// <summary>
-        /// name as appears in solidworks
+        /// name as appears in SolidWORKS
         /// </summary>
         public string Name { get; set; }
 
@@ -110,7 +110,7 @@ namespace Hymma.Solidworks.Addins
         /// </list>
         /// </summary>
         /// <remarks><strong>THIS FUNCTION MUST BE DEFINED IN THE ADDIN CLASS. ADDIN CLASS IS THE ONE THAT INHERITS FROM <see cref="AddinMaker"/></strong></remarks>
-        public string EnableMethode { get; set; } = "";
+        public string EnableMethod { get; set; } = "";
 
         /// <summary>
         /// User-defined command ID or 0 if not used
@@ -118,7 +118,7 @@ namespace Hymma.Solidworks.Addins
         public int UserId { get; set; } = 0;
 
         /// <summary>
-        /// Id that solidworks assigns to this command once created. it then gets used by command boxes
+        /// Id that SolidWORKS assigns to this command once created. it then gets used by command boxes
         /// </summary>
         public int SolidworksId { get;internal set; }
 
@@ -126,7 +126,7 @@ namespace Hymma.Solidworks.Addins
         /// whether this command should be in menu or toolbox or both as defined in <see cref="swCommandItemType_e"/><br/>
         /// default is 3
         /// </summary>
-        public int MenueOptions { get; set; } = 3;
+        public int MenuOptions { get; set; } = 3;
 
         /// <summary>
         /// text display of this command when used in a <see cref="AddinCommandTab"/> as defined by <see cref="swCommandTabButtonTextDisplay_e"/><br/>
