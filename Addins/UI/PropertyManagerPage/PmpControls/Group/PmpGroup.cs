@@ -43,6 +43,13 @@ namespace Hymma.Solidworks.Addins
             IsExpanded = expanded;
             Visible = visible;
             Controls = new List<IPmpControl>();
+            Expanded += PmpGroup_Expanded;
+        }
+
+        private void PmpGroup_Expanded(object sender, bool e)
+        {
+            if (_isExpanded != e)
+                _isExpanded = e;
         }
 
         /// <summary>
@@ -240,7 +247,7 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         public event EventHandler<bool> Expanded;
 
-        
+
         #endregion
 
         #region call backs
