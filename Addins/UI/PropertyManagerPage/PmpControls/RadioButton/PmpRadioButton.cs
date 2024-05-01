@@ -22,8 +22,17 @@ namespace Hymma.Solidworks.Addins
         public PmpRadioButton(string caption, bool isChecked = false) : base(swPropertyManagerPageControlType_e.swControlType_Option, caption)
         {
             IsChecked = isChecked;
+
+            //bind this to SolidWORKS
+            Checked += PmpRadioButton_Checked;
         }
-        
+
+        private void PmpRadioButton_Checked(object sender, bool e)
+        {
+            if (_isChecked != e)
+                _isChecked = e;
+        }
+
         #region properties
 
         /// <summary>
@@ -70,14 +79,14 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        internal void CheckedCallback() =>Checked?.Invoke(this, EventArgs.Empty);
+        internal void CheckedCallback() => Checked?.Invoke(this, true);
         #endregion
 
         #region events
         /// <summary>
         /// SOLIDWORKS will invoke this delegate once the user checks this radio button
         /// </summary>
-        public EventHandler Checked;
+        public event EventHandler<bool> Checked;
         private bool _maintain;
         #endregion
     }

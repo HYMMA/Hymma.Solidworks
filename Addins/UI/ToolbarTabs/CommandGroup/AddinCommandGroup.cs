@@ -77,9 +77,9 @@ namespace Hymma.Solidworks.Addins
                     , command.ToolTip
                     , imageIndex
                     , command.CallBackFunction
-                    , command.EnableMethode
+                    , command.EnableMethod
                     , command.UserId
-                    , command.MenueOptions);
+                    , command.MenuOptions);
 
                 //assign the index we got to command
                 command.Index = index;
