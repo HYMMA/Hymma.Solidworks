@@ -31,7 +31,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="userId">a user id for this command</param>
         /// <param name="menuOption">whether this command should be in menu or toolbox or both as defined in <see cref="swCommandItemType_e"/><br/></param>
         /// <param name="tabTextStyle">text display of this command when used in a <see cref="AddinCommandTab"/> as defined by <see cref="swCommandTabButtonTextDisplay_e"/></param>
-        /// <param name="enableMethode">name of optional function that controls the state of the item; if specified, then SOLIDWORKS calls this function before displaying the item 
+        /// <param name="enableMethod">name of optional function that controls the state of the item; if specified, then SOLIDWORKS calls this function before displaying the item 
         /// <strong>THIS FUNCTION MUST BE DEFINED IN THE ADDIN CLASS. ADDIN CLASS IS THE ONE THAT INHERITS FROM <see cref="AddinMaker"/></strong>
         /// <list type="table">
         /// <listheader>
@@ -44,7 +44,7 @@ namespace Hymma.Solidworks.Addins
         /// <item>3<term></term><description>SOLIDWORKS Selects and enables the item</description></item>
         /// <item>4<term></term><description>Not supported</description></item>
         /// </list></param>
-        public AddinCommand(string name, string hint, string tooltipTitle, Bitmap icon, string nameofCallBackFunc, short userId = 0, int menuOption = 3, int tabTextStyle = 2, string enableMethode = "")
+        public AddinCommand(string name, string hint, string tooltipTitle, Bitmap icon, string nameofCallBackFunc, short userId = 0, int menuOption = 3, int tabTextStyle = 2, string enableMethod = "")
         {
             #region assign values to properties
             Name = name;
@@ -55,7 +55,7 @@ namespace Hymma.Solidworks.Addins
             UserId = userId;
             MenueOptions = menuOption;
             CommandTabTextType = tabTextStyle;
-            EnableMethode = enableMethode;
+            EnableMethode = enableMethod;
             #endregion
         }
         #endregion
