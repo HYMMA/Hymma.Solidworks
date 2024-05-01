@@ -23,7 +23,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// make a text box for a property manager page in soldiworks
         /// </summary>
-        /// <param name="initialValue">initial value for this text box once generated in a porperty manager page</param>
+        /// <param name="initialValue">initial value for this text box once generated in a property manager page</param>
         /// <param name="tip">a tip for this text box</param>
         public PmpTextBox(string initialValue = "",string tip="") : base(swPropertyManagerPageControlType_e.swControlType_Textbox,tip:tip)
         {
