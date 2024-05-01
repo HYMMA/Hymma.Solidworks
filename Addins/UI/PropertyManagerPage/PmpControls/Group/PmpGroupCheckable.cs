@@ -26,6 +26,13 @@ namespace Hymma.Solidworks.Addins
             IsChecked = isChecked;
             _options = swAddGroupBoxOptions_e.swGroupBoxOptions_Checkbox;
             Displaying += PmpGroupCheckable_OnDisplay;
+            Checked += PmpGroupCheckable_Checked;
+        }
+
+        private void PmpGroupCheckable_Checked(object sender, bool e)
+        {
+            if (_isChecked!=e)
+                _isChecked = e;
         }
 
         private void PmpGroupCheckable_OnDisplay(object sender, EventArgs e)
