@@ -271,8 +271,8 @@ namespace Hymma.Solidworks.Addins
         }
 
         /// <summary>
-        /// gets a dicitonary of items and their type in a selection box whether they are selected or not
-        /// folow instructions in the link below to get the actual object of the selected item 
+        /// gets a dictionary of items and their type in a selection box whether they are selected or not
+        /// follow instructions in the link below to get the actual object of the selected item 
         /// </summary>
         ///<remarks> <a href="http://help.solidworks.com/2019/english/api/swconst/SOLIDWORKS.Interop.swconst~SOLIDWORKS.Interop.swconst.swSelectType_e.html">SolidWORKS website</a>
         ///<list type="bullet">
@@ -284,7 +284,7 @@ namespace Hymma.Solidworks.Addins
         ///<item>Called in a drawing document . . . . . .<description>Selected <see cref="IDrawingComponent"/> object. </description></item>
         ///<item>Called in a part or assembly document . . . . . .<description> <see cref="IComponent2"/> object. </description></item>
         /// </list></remarks> 
-        /// <returns> a dicitonary of items and their type as defined in <see cref="swSelectType_e"/> Nothing or null might be returned if the type is not supported or if nothing is selected</returns>
+        /// <returns> a dictionary of items and their type as defined in <see cref="swSelectType_e"/> Nothing or null might be returned if the type is not supported or if nothing is selected</returns>
         public IEnumerable<KeyValuePair<object, swSelectType_e>> GetItems()
         {
             var itemsTypes = new List<KeyValuePair<object, swSelectType_e>>();
@@ -297,7 +297,7 @@ namespace Hymma.Solidworks.Addins
 
         /// <summary>
         /// get the specified item in the selection box <br/>
-        /// folow instructions in the link below to get the actual object of the selected item 
+        /// follow instructions in the link below to get the actual object of the selected item 
         /// </summary>
         /// <param name="index">0-based index of the item in the selection manager</param>
         ///<remarks> <a href="http://help.solidworks.com/2019/english/api/swconst/SOLIDWORKS.Interop.swconst~SOLIDWORKS.Interop.swconst.swSelectType_e.html">SolidWORKS website</a>
