@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// registers an <see cref="Addins.AddinUserInterface"/> into solidworks
+    /// registers an <see cref="Addins.AddinUserInterface"/> into SolidWORKS 
     /// </summary>
     [ComVisible(true)]
     public abstract class AddinMaker : ISwAddin
@@ -52,7 +52,7 @@ namespace Hymma.Solidworks.Addins
             var typeOfAddin = GetTypeOfAddin();
             if (typeOfAddin == null)
             {
-                var e = new ArgumentNullException("Addin object was null");
+                //var e = new ArgumentNullException("Addin object was null");
                 //log.Error(e);
                 return;
             }
@@ -84,7 +84,7 @@ namespace Hymma.Solidworks.Addins
         #region Public Properties
 
         /// <summary>
-        /// solidworks object
+        /// SolidWORKS object
         /// </summary>
         public ISldWorks Solidworks { get; set; }
 
@@ -92,17 +92,13 @@ namespace Hymma.Solidworks.Addins
 
         #region com register/unregister
         /// <summary>
-        /// registers <see cref="Type"/> provided to RegisteryHelper so solidworks can find it
+        /// registers <see cref="Type"/> provided to RegisteryHelper so SolidWORKS can find it
         /// </summary>
         /// <param name="t">type of class that inherits from  <see cref="AddinMaker"/></param>
         [ComRegisterFunction]
         public static void Register(Type t)
         {
             RegisterHelper.TryRegisterSolidworksAddin(t);
-
-            //this is a better approach to save addin icon. Only the 16x16 works and it works only if registered in registry. 'HKCU\Software\Solidworks\{CLSID}\Icon Path'
-            //sample wix installer for Qrify shows how to do that.
-            AddinIcons.TrySaveAddinIconsInAssemblyFolder(t);
         }
 
         /// <summary>
@@ -116,7 +112,7 @@ namespace Hymma.Solidworks.Addins
         }
         #endregion
 
-        #region solidworks integration
+        #region SolidWORKS integration
 
         /// <summary>
         /// set <see cref="PmpFactoryX64"/> object to null here

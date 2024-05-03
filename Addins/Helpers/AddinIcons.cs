@@ -12,7 +12,7 @@ using System.Text;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// generates solidworks ready icons
+    /// generates SolidWORKS ready icons
     /// </summary>
     public static class AddinIcons
     {
@@ -26,7 +26,7 @@ namespace Hymma.Solidworks.Addins
         static DirectoryInfo CreateIconsDirInLocalAppFolder(string dirName)
         {
             //directory should be assy folder where user has access to at all times
-            //because we make icons for commands every time solidworks starts
+            //because we make icons for commands every time SolidWORKS starts
             string localApp = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
             try
@@ -38,7 +38,7 @@ namespace Hymma.Solidworks.Addins
 
                 //if directory exists and was created more than one day ago
                 //we want to make sure that these images exist or solidarity will not load the addin
-                //we set the time frame per day because it slows downs the startup of solidworks quite significantly
+                //we set the time frame per day because it slows downs the startup of SolidWORKS quite significantly
                 if (dirInfo.Exists
                     &&
                     dirInfo.CreationTime < (DateTime.Now - TimeSpan.FromDays(1)))
