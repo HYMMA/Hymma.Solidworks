@@ -24,6 +24,8 @@
 		</dependencies>
 	</metadata>
 	<files>
+		<file src="readme.md"
+			  target="" />
 		<file src="..\nugetIcon.png"
 			  target=""/>
 		<file src="tools\**"
