@@ -16,7 +16,7 @@
 								   Type="string"
 								   KeyPath="yes"
 								   Name="Icon Path"
-								   Value="[INSTALLFOLDER]Qrify_16.png"/>
+								   Value="[LocalAppDataFolder]qrify.png"/>
 				</RegistryKey>
 			</Component>
 			<Component Guid="{4b853935-c2d9-4179-aca4-9ab1978dce24}">
