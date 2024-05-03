@@ -48,7 +48,7 @@ namespace Hymma.Solidworks.Addins
         public AddinMaker()
         {
             //we get the type of addin so that we can use it later for locating addin icons folder
-            //otherwise we would need to read it from COM
+             //otherwise we would need to read it from COM
             var typeOfAddin = GetTypeOfAddin();
             if (typeOfAddin == null)
             {
