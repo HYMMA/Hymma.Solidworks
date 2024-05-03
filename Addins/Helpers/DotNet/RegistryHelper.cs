@@ -31,11 +31,15 @@ namespace Hymma.Solidworks.Addins.Helpers
                 RegistryKey addinStartUpKey = Registry.CurrentUser.CreateSubKey(key);
                 addinStartUpKey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
 
+                //the following lines do not work with WIX harvesting 
+                //so the registry values should be set manually in the installers
+                //there is no problem during development 
+
                 //this value should be set during install. 
-                //AddinIcons.SaveAddinIconInLocalAppData(type, out string fullFileName);
+                AddinIcons.SaveAddinIconInLocalAppData(type, out string fullFileName);
 
                 //addin icons work only if set in this registry path, everything else that is mentioned in Solidworks website fails.
-                //addinKey.SetValue("Icon Path", fullFileName);
+                addinKey.SetValue("Icon Path", fullFileName);
             }
             catch (Exception )
             {
