@@ -40,10 +40,6 @@ namespace Hymma.Solidworks.Addins
         #region properties
 
         /// <summary>
-        /// gets or sets the icon of this property manager page tab
-        /// </summary>
-
-        /// <summary>
         /// id of this tab used by solidworks 
         /// </summary>
         public int Id { get; internal set; }
