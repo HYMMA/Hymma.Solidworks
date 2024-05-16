@@ -30,7 +30,7 @@ namespace Hymma.Solidworks.Extensions
         /// freeze graphics in a model, to increase processing power
         /// </summary>
         /// <param name="model"></param>
-        public static void Freez(this ModelDoc2 model)
+        public static void Freeze(this ModelDoc2 model)
         {
             var modelView = model.ActiveView as ModelView;
             model.FeatureManager.EnableFeatureTree = false;
@@ -42,7 +42,7 @@ namespace Hymma.Solidworks.Extensions
         /// UN-freeze graphics in a model
         /// </summary>
         /// <param name="model"></param>
-        public static void UnFreez(this ModelDoc2 model)
+        public static void UnFreeze(this ModelDoc2 model)
         {
             var modelView = model.ActiveView as ModelView;
             model.FeatureManager.EnableFeatureTree = true;
