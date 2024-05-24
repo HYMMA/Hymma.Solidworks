@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -28,7 +29,7 @@ namespace Hymma.Solidworks.Addins
         /// use <see cref="IgnorePrevious"/> to decide  a new commandGroup is required or not
         /// </summary>
         /// <remarks>If you changed this <see cref="IAddinCommandGroup"/> in the newer versions of your addin and this method returned true, you should change the <see cref="UserId"/> .Otherwise you will face compatibility issues</remarks>
-        bool IsRegistered { get;}
+        bool IsRegistered { get; set; }
 
         /// <summary>
         /// If you change the definition of an existing CommandGroup (i.e., add or remove toolbar buttons), you must assign a new unique user-defined UserID to that CommandGroup. <br/>
@@ -37,6 +38,10 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         int UserId { get; set; }
 
+        /// <summary>
+        /// this is the directory where the icons will get saved to
+        /// </summary>
+        DirectoryInfo IconsDir { get; set; }
         /// <summary>
         /// To add a menu item for a CommandGroup to an existing SOLIDWORKS menu, specify the name of a parent menu here.<br/>
         /// <example><c>"&amp;Help\\MyApp Title"</c></example>
@@ -71,7 +76,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// if it has menue
         /// </summary>
-        bool HasMenue { get; set; }
+        bool HasMenu { get; set; }
 
         /// <summary>
         /// <see cref="Bitmap"/> object as icon
