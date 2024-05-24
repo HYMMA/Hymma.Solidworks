@@ -4,11 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Resources;
-using System.Text;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
@@ -16,50 +17,6 @@ namespace Hymma.Solidworks.Addins
     /// </summary>
     public static class AddinIcons
     {
-        #region fields
-        static DirectoryInfo _iconsDirInfo;
-        //static Logger log = Logger.GetInstance(Properties.Resources.LogSource);
-        static string _iconFullFileName;
-        #endregion
-
-        #region private methods
-        static DirectoryInfo CreateIconsDirInLocalAppFolder(string dirName)
-        {
-            //directory should be assy folder where user has access to at all times
-            //because we make icons for commands every time SolidWORKS starts
-            string localApp = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-
-            try
-            {
-                //get icons directory
-                var dirPath = Path.Combine(localApp, dirName);
-
-                var dirInfo = new DirectoryInfo(dirPath);
-
-                //if directory exists and was created more than one day ago
-                //we want to make sure that these images exist or solidarity will not load the addin
-                //we set the time frame per day because it slows downs the startup of SolidWORKS quite significantly
-                if (dirInfo.Exists
-                    &&
-                    dirInfo.CreationTime < (DateTime.Now - TimeSpan.FromDays(1)))
-                {
-                    //delete it recursively
-                    dirInfo.Delete(true);
-
-                    //log.Warning($"addin folder {dirName} was created on {dirInfo.CreationTime} so it was deleted to be re-created again");
-                }
-
-                //this method does nothing if it already exists
-                dirInfo.Create();
-                return dirInfo;
-            }
-            catch (Exception e)
-            {
-                //log.Error(e);
-                throw e;
-            }
-        }
-
         static List<string> GetAssemblyEmbeddedResourceNames(Assembly assy, out string resx)
         {
             var list = new List<string>();
@@ -73,7 +30,6 @@ namespace Hymma.Solidworks.Addins
                 //if name is assy name of assy resource in the binary resource file generate via resgen.exe
                 if (name.EndsWith(".resources", StringComparison.OrdinalIgnoreCase))
                 {
-
                     //remove extension
                     resx = Path.GetFileNameWithoutExtension(name);
                 }
@@ -129,12 +85,18 @@ namespace Hymma.Solidworks.Addins
             //get bitmap from the resource
             using (s)
             {
-                result = Image.FromStream(s) as Bitmap;
+                result = System.Drawing.Image.FromStream(s) as Bitmap;
             }
             return result;
         }
 
-        static Bitmap GetAddinIcon(Type type)
+        /// <summary>
+        /// extracts image by its name as identified in <see cref="AddinAttribute.AddinIcon"/> 
+        /// </summary>
+        /// <param name="type">the type the has the attribute, the main addin class</param>
+        /// <returns>a bitmap object</returns>
+        ///<remarks>this method is public for testing only</remarks>
+        public static Bitmap GetAddinIcon(Type type)
         {
             var attr = type.TryGetAttribute<AddinAttribute>();
             //get assembly
@@ -166,101 +128,36 @@ namespace Hymma.Solidworks.Addins
 
             return result;
         }
-        #endregion
-
-        #region internal properties and methods
 
         /// <summary>
-        /// this is the folder where the icons will get saved to
+        /// Solidworks Addin icons has to be in 16x16 anything else fails. this method converts a random image file into a size recognizable by solidworks
         /// </summary>
-        /// <returns></returns>
-        static internal DirectoryInfo IconsDir
+        /// <param name="image">the image obj to convert to png format in 16x16</param>
+        /// <param name="directory">the directory to save the file</param>
+        /// <param name="file">the name of the file. the extension does not matter.</param>
+        ///<returns>full file name of the modified image</returns>
+        public static string SaveAsStandardSize(Bitmap image, string directory, string file)
         {
-            get
+            if (image == null || string.IsNullOrEmpty(directory))
+                throw new ArgumentNullException();
+
+            if (file.ToCharArray().Any(c => (Path.GetInvalidPathChars().Any(i => i.Equals(c)))))
+                throw new Exception("file contains invalid chars");
+
+            Directory.CreateDirectory(directory);
+            //var fileName = Path.GetFileNameWithoutExtension(file);
+            var fileNamePng = Path.ChangeExtension(file, "png");
+            var fullFileName = Path.Combine(directory, fileNamePng);
+            using (image)
             {
-                return _iconsDirInfo;
-            }
-        }
-
-        /// <summary>
-        /// Extracts icon from the assembly of a type and saves to the folder of the assembly
-        /// </summary>
-        /// <remarks>this is NOT the preferred method due to a SOLIDWORKS api bug.If used the installer should register absolute path of the 16x16 pixel image into 'HKLM:\Software\Solidworks\Addins\YOUR ADDIN GUID\Icon Path'.</remarks>
-        static public void TrySaveAddinIconsInAssemblyFolder(Type type)
-        {
-            try
-            {
-                //var attr = type.TryGetAttribute<AddinAttribute>();
-                var assy = Assembly.GetAssembly(type);
-
-                //extract file name from the dll file
-                var assyFullName = assy.GetModules()[0].FullyQualifiedName;
-                var assyPath = assyFullName.TrimEnd('.', 'd', 'l', 'l');
-                //var fileName = Path.GetFileNameWithoutExtension(assyFullName);
-
-                //valid addin icon sizes as requested by SolidWORKS docs
-                var sizes = new int[7] { 20, 16, 32, 40, 64, 96, 128 };
-
-                //create valid file names
-                string[] iconFileNames = new string[7];
-                var sb = new StringBuilder();
-                for (int i = 0; i < 7; i++)
+                //MaskedBitmap.SaveAsPng(image, new Size(16, 16),ref fullFileName, false, 255, false);
+                using (var newSize = new Bitmap(image, new Size(16, 16)))
                 {
-                    //extract the icon from the addin attribute
-                    //if null create a blank icon, which will be displayed black in the add-in list
-                    Bitmap icon = GetAddinIcon(type) ?? new Bitmap(16, 16);
-                    var fullFileName = sb.Append(assyPath).Append('_').Append(sizes[i]).ToString();
-
-                    //this has a using statement so a new icon should be passed in each call
-                    MaskedBitmap.SaveAsPng(icon, new Size(sizes[i], sizes[i]), ref fullFileName);
-
-                    sb.Clear();
+                    newSize.Save(fullFileName, ImageFormat.Png);
                 }
+            }
 
-                //SaveIcons(icon, sizes, iconFileNames);
-            }
-            catch (Exception)
-            {
-            }
+            return fullFileName;
         }
-
-        /// <summary>
-        /// Extracts icon from the assembly of a type and saves to %LOCALAPPDATA%\<see cref="AddinAttribute.Title"/>.png
-        /// </summary>
-        /// <param name="type">A type that has <see cref="AddinAttribute"/></param>
-        /// <param name="iconFullFileName"></param>
-        static internal void SaveAddinIconInLocalAppData(Type type, out string iconFullFileName)
-        {
-            //if this has been generated already 
-            if (!string.IsNullOrEmpty(_iconFullFileName))
-            {
-                iconFullFileName = _iconFullFileName;
-                return;
-            }
-
-            var attr = type.TryGetAttribute<AddinAttribute>();
-            _iconsDirInfo = CreateIconsDirInLocalAppFolder(attr.Title);
-            iconFullFileName = Path.Combine(_iconsDirInfo.FullName, attr.Title + ".png");
-            _iconFullFileName = iconFullFileName;
-            var icon = GetAddinIcon(type);
-
-            //remove old one if existed
-            if (File.Exists(iconFullFileName))
-                File.Delete(iconFullFileName);
-
-            //if could not get the icon from the addin attribute
-            if (icon == null)
-
-            {
-                //log.Warning("Could not find the icon so we created a blank one");
-                //create assy new empty one
-                icon = new Bitmap(16, 16);
-            }
-
-            //resize, save and dispose
-            MaskedBitmap.SaveAsPng(icon, new Size(16, 16), ref iconFullFileName);
-            //SaveIcons(icon, new int[] { 16 }, new[] { iconFullFileName });
-        }
-        #endregion
     }
 }
