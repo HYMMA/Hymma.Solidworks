@@ -4,6 +4,7 @@
 using Hymma.Solidworks.Addins;
 using QRCoder;
 using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -26,7 +27,7 @@ namespace QrifyPlus
         {
             var message = new PmpLabel("Choose a property to convert to QR. You can assign suffix to the generated code using '<' and '>'. For example: <part number is:> PartNo will suffix PartNo value with part number is:");
             message.TextColor = Color.Gray;
-            
+
             //a label on top of the combo box
             var label = new PmpLabel("List of Custom Properties");
 
@@ -35,17 +36,17 @@ namespace QrifyPlus
 
             //update the list on each time property manager page is shown
             drawingPropertyNames.Displaying += drawingPropertyNames_Displaying;
-            
+
             //GenerateControlsForTheGroup a button under the list to initiate the QR generations
             var qrifyButton = new PmpBitmapButton(Properties.Resources.qrifyPlus, "Generate QR code for the value of the property", BtnSize.sixteen, opacity: byte.MaxValue);
 
             //put the combo box and the button on the same line
             //this value is relative to the PmpGroup. the controls with higher top value go to the bottom of their group. because solidworks.
             drawingPropertyNames.Top = qrifyButton.Top = 300;
-            
+
             //Width is the percentage relative to the width of the property manager page itself
             drawingPropertyNames.Width = 80;
-            
+
             //Left is the position of the control from left of the property manger page as a percentage of the width of the property manger page itself
             qrifyButton.Left = 90;
 
@@ -68,20 +69,28 @@ namespace QrifyPlus
                 //if property is empty bypass the QR coder generation
                 if (string.IsNullOrWhiteSpace(propertyValue))
                 {
-                    btn.ShowBubleTooltip("Error", "The value of this property is empty", null, "");
+                    btn.ShowBubbleTooltip("Error", "The value of this property is empty", null, "");
                     return;
                 }
 
                 //generate qr code and save it in clipboard
                 SaveQrToClipboard($"{suffix}{propertyValue}");
 
-                btn.ShowBubleTooltip("Success", $"{suffix}{propertyValue} Copied into clipboard, use Ctrl+v to paste its QR representation", Properties.Resources.infoPlus, "successImageFileName");
+                btn.ShowBubbleTooltip("Success", $"{suffix}{propertyValue} Copied into clipboard, use Ctrl+v to paste its QR representation", Properties.Resources.infoPlus, "successImageFileName");
             };
 
+            var selBox1 = new PmpSelectionBox(new[] { swSelectType_e.swSelDRAWINGVIEWS });
+            var selBox2 = new PmpSelectionBox(new[] { swSelectType_e.swSelDRAWINGVIEWS }, SelectionBoxStyles.UpAndDownButtons | SelectionBoxStyles.MultipleItemSelect)
+            {
+                PopUpMenuItems = new List<PopUpMenuItem>()
+                    {
+                       new PopUpMenuItem("popup item","hint for the item",swDocumentTypes_e.swDocDRAWING),
+                       new PopUpMenuItem("popup item2","hint for the item2",swDocumentTypes_e.swDocDRAWING),
+                    }
+            };
             //register the controls
-            base.AddControls(new IPmpControl[] {message, label, drawingPropertyNames, qrifyButton });
+            base.AddControls(new IPmpControl[] { message, label, drawingPropertyNames, qrifyButton, selBox1, selBox2 });
         }
-
 
         private void GetConstructs(string text, out string suffix, out string property)
         {

@@ -130,5 +130,14 @@
       <Name>Hymma.Solidworks.Addins.Fluent</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\simpson.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\knight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\box.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
