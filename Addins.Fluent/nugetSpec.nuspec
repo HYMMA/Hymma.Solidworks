@@ -16,7 +16,7 @@
 		<tags>hymma solidworks cad addin fluent-API</tags>
 		<dependencies>
 			<group targetFramework=".NETFramework4.7.2" >
-				<dependency id="Hymma.Solidworks.Addins" version="2018.1.1"></dependency>
+				<dependency id="Hymma.Solidworks.Addins" version="2018.1.*"></dependency>
 			</group>
 		</dependencies>
 	</metadata>
