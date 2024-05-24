@@ -13,13 +13,13 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// an abstract class for making property manager page
     /// </summary>
-    public abstract class PmpFactoryBase
+    public abstract class PropertyManagerPageBase
     {
         #region protected fields
         /// <summary>
         /// wrapper for ui objects
         /// </summary>
-        internal readonly PmpUiModel uiModel;
+        internal PmpUiModel UiModel;
 
         /// <summary>
         /// handles events based on their id
@@ -48,22 +48,18 @@ namespace Hymma.Solidworks.Addins
         /// <param name="eventHandler">object to handle events such as check-box on-click etc...</param>
         /// <param name="uiModel">an object that hosts different inheritances of <see cref="IPmpControl"/> </param>
         /// <exception cref="ArgumentNullException"></exception>
-        internal PmpFactoryBase(PropertyManagerPage2Handler9 eventHandler, PmpUiModel uiModel)
+        internal PropertyManagerPageBase(PropertyManagerPage2Handler9 eventHandler, PmpUiModel uiModel)
         {
             #region set up fields
-            this.uiModel = uiModel ?? throw new ArgumentNullException();
+            this.UiModel = uiModel ?? throw new ArgumentNullException();
             this.eventHandler = eventHandler;
-            Solidworks = this.uiModel.Solidworks;
+            Solidworks = this.UiModel.Solidworks;
 
             //get element host wrappers
             var winFormHandlers = uiModel.PmpGroups
               .Select(box => box.Controls
               .Where(c => c is PmpWpfHost));
-
-
             #endregion
-
-            CreatePropertyManagerPage();
         }
 
         /// <summary>
@@ -73,8 +69,8 @@ namespace Hymma.Solidworks.Addins
         {
             int errors = -1;
 
-            uiModel.UpdateOptions();
-            propertyManagerPage = Solidworks.CreatePropertyManagerPage(uiModel.Title, (int)uiModel.Options, eventHandler, ref errors) as IPropertyManagerPage2;
+            UiModel.UpdateOptions();
+            propertyManagerPage = Solidworks.CreatePropertyManagerPage(UiModel.Title, (int)UiModel.Options, eventHandler, ref errors) as IPropertyManagerPage2;
 
             //error is passed to object by reference
             if (propertyManagerPage != null && errors == (int)swPropertyManagerPageStatus_e.swPropertyManagerPage_Okay)
@@ -82,7 +78,7 @@ namespace Hymma.Solidworks.Addins
                 //add controls
                 try
                 {
-                    uiModel.RegisteringCallBack(propertyManagerPage);
+                    UiModel.RegisteringCallBack(propertyManagerPage);
                 }
                 catch (Exception e)
                 {
