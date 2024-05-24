@@ -1,14 +1,17 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Core;
 using Hymma.Solidworks.Addins.Helpers;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swpublished;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Environment = System.Environment;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -18,7 +21,7 @@ namespace Hymma.Solidworks.Addins
     [ComVisible(true)]
     public abstract class AddinMaker : ISwAddin
     {
-        #region private fields & variables
+        #region private fields
 
         /// <summary>
         /// command manager for this addin assigned by SOLIDWORKS
@@ -35,50 +38,6 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         private AddinUserInterface _addinUi;
 
-        //log object
-        //Logger log = Logger.GetInstance(Properties.Resources.LogSource);
-        #endregion
-
-        #region constructor
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        public AddinMaker()
-        {
-            //we get the type of addin so that we can use it later for locating addin icons folder
-             //otherwise we would need to read it from COM
-            var typeOfAddin = GetTypeOfAddin();
-            if (typeOfAddin == null)
-            {
-                //var e = new ArgumentNullException("Addin object was null");
-                //log.Error(e);
-                return;
-            }
-
-            //calling this method here generates the necessary property values to locate addin icon folder which will be used
-            //by PmpUiModel to save UI icons
-            AddinIcons.SaveAddinIconInLocalAppData(typeOfAddin, out string iconFullFileName);
-        }
-        private Type GetTypeOfAddin()
-        {
-            //using Assembly.GetCallingAssembly() wont work in Release mode!!!
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            for (int i = 0; i < assemblies.Length; i++)
-            {
-                var assembly = assemblies[i];
-                for (int k = 0; k < assembly.GetExportedTypes().Length; k++)
-                {
-                    var type = assembly.GetExportedTypes()[k];
-                    if (type.BaseType == typeof(AddinMaker))
-                    {
-                        return type;
-                    }
-                }
-            }
-            return null;
-        }
         #endregion
 
         #region Public Properties
@@ -92,7 +51,7 @@ namespace Hymma.Solidworks.Addins
 
         #region com register/unregister
         /// <summary>
-        /// registers <see cref="Type"/> provided to RegisteryHelper so SolidWORKS can find it
+        /// registers <see cref="Type"/> provided to Register Helper so SolidWORKS can find it
         /// </summary>
         /// <param name="t">type of class that inherits from  <see cref="AddinMaker"/></param>
         [ComRegisterFunction]
@@ -108,16 +67,16 @@ namespace Hymma.Solidworks.Addins
         [ComUnregisterFunction]
         public static void Unregister(Type t)
         {
-            RegisterHelper.UnregisterSolidworksAddin(t);
+            RegisterHelper.TryUnregisterSolidworksAddin(t);
         }
         #endregion
 
         #region SolidWORKS integration
 
         /// <summary>
-        /// set <see cref="PmpFactoryX64"/> object to null here
+        /// set <see cref="PropertyManagerPageX64"/> object to null here
         /// </summary>
-        private void RemovePMPs(List<PmpFactoryX64> propertyManagerPages)
+        private void RemovePMPs(List<PropertyManagerPageX64> propertyManagerPages)
         {
             for (int i = 0; i < propertyManagerPages.Count(); i++)
             {
@@ -186,16 +145,45 @@ namespace Hymma.Solidworks.Addins
 
             //Setup callbacks
             Solidworks.SetAddinCallbackInfo2(0, this, _addinUi.Id);
+
             #region Setup the Command Manager and add commands
             _commandManager = Solidworks.GetCommandManager(Cookie);
 
+            UpdateIconsDirectory(_addinUi);
             AddCommands(_addinUi.CommandTabs);
+            AddPropertyManagerPages(_addinUi.PropertyManagerPages);
 
             #endregion
 
             //fire event
             OnStart?.Invoke(this, new OnConnectToSwEventArgs { Solidworks = (ISldWorks)ThisSW, Cookie = Cookie });
             return true;
+        }
+
+        private void AddPropertyManagerPages(List<PropertyManagerPageX64> propertyManagerPages)
+        {
+            foreach (var pmp in propertyManagerPages)
+            {
+                pmp.CreatePropertyManagerPage();
+            }
+        }
+
+        private void UpdateIconsDirectory(AddinUserInterface addinUi)
+        {
+            if (addinUi.IconsParentDirectory is null)
+                addinUi.IconsParentDirectory =
+                    new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+
+            foreach (var pmp in addinUi.PropertyManagerPages)
+            {
+                var sub = "pmp" + pmp.UiModel.Title;
+                pmp.UiModel.IconDir = addinUi.IconsParentDirectory.CreateSubdirectory(sub);
+            }
+            foreach (var tab in addinUi.CommandTabs)
+            {
+                var sub = "cmdGrp" + tab.CommandGroup.UserId;
+                tab.CommandGroup.IconsDir = addinUi.IconsParentDirectory.CreateSubdirectory(sub);
+            }
         }
         #endregion
 
@@ -210,10 +198,8 @@ namespace Hymma.Solidworks.Addins
             {
                 foreach (var tab in commandTabs)
                 {
-
-                    tab.CommandGroup.Register(_commandManager);
-                    //make command tabs
-                    tab.Register(_commandManager);
+                    _commandManager.Register(tab.CommandGroup);
+                    _commandManager.Register(tab);
                 }
             }
             catch (Exception) { throw; }
