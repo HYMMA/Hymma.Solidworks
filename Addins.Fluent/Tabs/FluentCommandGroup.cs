@@ -2,6 +2,7 @@
 // Licensed under the MIT license
 
 using System.Drawing;
+using System.Linq;
 
 namespace Hymma.Solidworks.Addins.Fluent
 {
@@ -70,9 +71,9 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IFluentCommandGroup WithTitle(string title)
+        public IFluentCommandGroup WithTitle(string title, string menu = Constants.SolidworksMenu.Tools)
         {
-            Title = title;
+            Title = $"&{menu}\\{title}";
             return this;
         }
     }

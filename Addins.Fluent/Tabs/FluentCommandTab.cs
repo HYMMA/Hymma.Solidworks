@@ -23,14 +23,14 @@ namespace Hymma.Solidworks.Addins.Fluent
         ///<inheritdoc/>
         public IFluentCommandTab WithTitle(string title)
         {
-            TabTitle = title;
+            Title = title;
             return this;
         }
 
         ///<inheritdoc/>
         public IFluentCommandTab IsVisibleIn(IEnumerable<swDocumentTypes_e> types)
         {
-            Types = types;
+            DocTypes = types;
             return this;
         }
 

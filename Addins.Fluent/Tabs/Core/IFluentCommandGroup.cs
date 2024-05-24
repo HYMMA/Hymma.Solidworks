@@ -23,12 +23,13 @@ namespace Hymma.Solidworks.Addins.Fluent
 
         /// <summary>
         /// To add a CommandGroup to an existing SOLIDWORKS menu, specify the name of the parent menu here.<br/>
-        /// <example><c>"&amp;Help\\MyApp Title"</c></example>
+        /// <param name="title">the title as appears in solidworks menu</param>
+        /// <param name="menu">solidworks menus as defined in <see cref="Constants.SolidworksMenu"/></param>
         /// </summary>
-        IFluentCommandGroup WithTitle(string title);
+        IFluentCommandGroup WithTitle(string title, string menu = Constants.SolidworksMenu.Tools);
 
         /// <summary>
-        /// tooltip for this command group
+        /// tooltip for this command group that appears under the button in SOLIDWORKS tab
         /// </summary>
         /// <param name="toolTip"></param>
         IFluentCommandGroup WithToolTip(string toolTip);

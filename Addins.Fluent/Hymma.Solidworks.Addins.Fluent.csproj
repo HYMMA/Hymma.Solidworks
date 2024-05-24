@@ -129,7 +129,6 @@
   <ItemGroup>
     <None Include="FluentAddinsSolidTools.snk" />
     <None Include="nugetSpec.nuspec" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Addins\Hymma.Solidworks.Addins.csproj">
