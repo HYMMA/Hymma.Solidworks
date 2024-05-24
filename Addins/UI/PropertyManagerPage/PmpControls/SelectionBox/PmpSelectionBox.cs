@@ -73,17 +73,20 @@ namespace Hymma.Solidworks.Addins
             //SolidworksObject.EnableSelectIdenticalComponents = _enableSelectIdenticalComponents;
             SolidworksObject.Height = _height;
             SolidworksObject.SetSelectionFilters(_filters.Cast<int>().ToArray());
-            Mark = Counter.GetNextSelBoxMark();
+            //Mark = Constants.GetNextSelBoxMark();
 
-            if (PopUpMenueItems != null)
+            if (PopUpMenuItems != null)
             {
-                foreach (var item in PopUpMenueItems)
+                for (int i = 0; i < PopUpMenuItems.Count; i++)
                 {
+                    var item = PopUpMenuItems[i];
+                    item.Id = i + 1;
                     var result = SolidworksObject.AddMenuPopupItem(item.Id, item.ItemText, ((int)item.DocumentType), item.Hint);
+                    //TODO: LOG error if !result
                 }
             }
         }
-        internal void FocusChangedCallback()=>FocusChanged?.Invoke(this);
+        internal void FocusChangedCallback() => FocusChanged?.Invoke(this);
         internal void CallOutCreatedCallback() => CallOutCreated?.Invoke(this);
         internal void CallOutDestroyedCallback() => CallOutDestroyed?.Invoke(this);
         internal void ListChangedCallback(int count) => ListChanged?.Invoke(this, new PmpSelectionBoxListChangedEventArgs(count));
@@ -109,7 +112,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// Once user RMB on the selection box these items will be listed in the  menu that appears
         /// </summary>
-        public List<PopUpMenueItem> PopUpMenueItems { get; set; }
+        public List<PopUpMenuItem> PopUpMenuItems { get; set; } = new List<PopUpMenuItem>();
 
         /// <summary>
         /// PropertyManager page's cursor after a user makes a selection in the SolidWORKS graphics area. 
@@ -159,7 +162,7 @@ namespace Hymma.Solidworks.Addins
         }
 
         /// <summary>
-        /// a lable for the callout, unless this property has a value the callout for this selection box will not be created
+        /// a label for the callout, unless this property has a value the callout for this selection box will not be created
         /// </summary>
         public string CalloutLabel
         {
@@ -232,8 +235,9 @@ namespace Hymma.Solidworks.Addins
         /// Gets the mark used on selected items in this selection box. 
         /// </summary>
         /// <value> mark value for this selectin box </value>
-        /// <remarks>if called before selection box is registered returns -1</remarks>
-        private int Mark
+        /// <remarks>Can only be set before selection box is displayed, otherwise will be set automatically. Can be retrieved only after selection box is displayed and if called before selection box is registered returns -1</remarks>
+
+        public int Mark
         {
             get
             {
@@ -242,13 +246,16 @@ namespace Hymma.Solidworks.Addins
                 return SolidworksObject.Mark;
             }
 
-            set
+            internal set
             {
                 // Mark values(whether set by the SolidWORKS application or by your application) must be powers of two(for example, 1, 2, 4, 8)
                 var isPowerOfTwo = (value != 0) && ((value & (value - 1)) == 0);
 
                 if (isPowerOfTwo)
-                    SolidworksObject.Mark = value;
+                    Displaying += (s, e) =>
+                    {
+                        SolidworksObject.Mark = value;
+                    };
                 else
                     throw new ArgumentOutOfRangeException($"you assigned {value} to a selection box mark value. But {value} is not a power of 2");
             }
@@ -261,7 +268,7 @@ namespace Hymma.Solidworks.Addins
         /// <remarks>
         ///use this method to add items to the selection box when selection box is not focused. for example you can add all solid bodies of an assembly to a selection box once user clicked on a button.
         ///</remarks>
-        public void Append(object[] items)
+        public void Append(object[] items )
         {
             var swModelDocExt = ActiveDoc.Extension;
             SelectionMgr swSelectionMgr = ActiveDoc.SelectionManager as SelectionMgr;
@@ -313,8 +320,8 @@ namespace Hymma.Solidworks.Addins
         /// <returns>Selected object as defined in <see cref="swSelectType_e"/> Nothing or null might be returned if the type is not supported or if nothing is selected</returns>
         public KeyValuePair<object, swSelectType_e> GetItem(uint index)
         {
-            if (ActiveDoc == null || SolidworksObject == null)
-                throw new ArgumentNullException("A Call to Selection manager::GetItem failed becuase ActiveDoc or Selection manager was null");
+            if (ActiveDoc== null || SolidworksObject == null)
+                throw new ArgumentNullException("A Call to Selection manager::GetItem failed because activeDoc or Selection manager was null");
             if (index > ItemCount - 1)
                 throw new ArgumentOutOfRangeException("the index provided to selection manager::GetItem was more than items in the selection box");
 

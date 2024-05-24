@@ -9,6 +9,9 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Controls;
+using Environment = System.Environment;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -24,13 +27,12 @@ namespace Hymma.Solidworks.Addins
         /// base class for making property manager page UI models and controls
         /// </summary>
         /// <param name="solidworks"></param>
-        public PmpUiModel(ISldWorks solidworks)
+        /// <param name="title">the title of the property manager page that appears on top of it in solidWORK</param>
+        ///<remarks>the title of the property manger page has to be a unique value for each add-in</remarks>
+        public PmpUiModel(ISldWorks solidworks, string title )
         {
             this.Solidworks = solidworks;
-            Id = Counter.GetNextPmpId();
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Pmp").Append(Id);
-            IconDir = AddinIcons.IconsDir.CreateSubdirectory(sb.ToString());
+            Title = title;
         }
         #endregion
 
@@ -45,7 +47,7 @@ namespace Hymma.Solidworks.Addins
         public void SetTitleIcon(Bitmap bitmap)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("Pmp").Append(Id).Append(".png");
+            sb.Append("Pmp").Append(Title).Append(".png");
             var iconName = Path.Combine(IconDir.FullName, sb.ToString());
             using (bitmap)
             {
@@ -55,7 +57,6 @@ namespace Hymma.Solidworks.Addins
                     try
                     {
                         icon.Save(iconName);
-                        Registering += () => { SolidworksObject.SetTitleBitmap2(iconName); };
                     }
                     catch (Exception e)
                     {
@@ -63,6 +64,7 @@ namespace Hymma.Solidworks.Addins
                     }
                 }
             }
+            Registering += () => { SolidworksObject.SetTitleBitmap2(iconName); };
         }
 
         internal void UpdateOptions()
@@ -74,7 +76,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// a list of pop up menu items (right mouse button click menu items)
         /// </summary>
-        public List<PopUpMenueItem> PopUpMenueItems { get; set; }
+        public List<PopUpMenuItem> PopUpMenuItems { get; set; }
 
         /// <summary>
         /// Sets the message in this PropertyManager page.  
@@ -122,22 +124,17 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// directory where the icons are stored on the hard drive
         /// </summary>
-        public DirectoryInfo IconDir { get; }
-
-        /// <summary>
-        ///identifier for this ui model
-        /// </summary>
-        public int Id { get; }
+        public DirectoryInfo IconDir { get; internal set; }
 
         /// <summary>
         /// get a flattened list of all groups hosted by this UI model
         /// </summary>
-        public IEnumerable<PmpGroup> AllGroups { get; private set; }
+        public List<PmpGroup> AllGroups { get; private set; }
 
         /// <summary>
         /// get a flattened list of all controls hosted by this UI model
         /// </summary>
-        public IEnumerable<IPmpControl> AllControls { get; private set; }
+        public List<IPmpControl> AllControls { get; private set; }
 
         /// <summary>
         /// bitwise option as defined in <see cref="PmpOptions"/> default has okay, cancel, push-pin buttons and page build is disabled during handlers
@@ -245,31 +242,103 @@ namespace Hymma.Solidworks.Addins
         internal void RedoClickedCallBack() => RedoClicked?.Invoke();
         internal void ClosingCallBack(int reason) => Closing?.Invoke((PmpCloseReason)reason);
         internal bool PreviousPageClickedCallBack() => PreviousPageClicked != null && PreviousPageClicked.Invoke();
-        internal bool TabedClickedCallBack(int id) => TabClicked != null && TabClicked.Invoke(id);
+        internal bool TabbedClickedCallBack(int id) => TabClicked != null && TabClicked.Invoke(id);
         internal bool PreviewCallBack() => Preview != null && Preview.Invoke();
         internal bool NextPageClickedCallBack() => NextPageClicked != null && NextPageClicked.Invoke();
         internal void RegisteringCallBack(IPropertyManagerPage2 propertyManagerPage)
         {
             SolidworksObject = propertyManagerPage;
 
-            if (PopUpMenueItems != null)
+            if (PopUpMenuItems != null)
             {
-                foreach (var item in PopUpMenueItems)
+                for (int i = 0; i < PopUpMenuItems.Count; i++)
                 {
-                    var result = SolidworksObject.AddMenuPopupItem(item.Id, item.ItemText, ((int)item.DocumentType), item.Hint);
+                    var item = PopUpMenuItems.ElementAt(i);
+                    item.Id = i + 1;
+                    var created = SolidworksObject.AddMenuPopupItem(item.Id, item.ItemText, ((int)item.DocumentType), item.Hint);
+
+                    //TODO:
+                    /*if (!created)
+                    {
+                        //LOG ERROR
+                    }*/
                 }
             }
 
-            AllGroups = PmpTabs.SelectMany(t => t.TabGroups).Concat(PmpGroups);
-            AllControls = AllGroups.SelectMany(g => g.Controls);
+
+            short lastId = 0;
+            AllGroups = new List<PmpGroup>();
+            AllControls = new List<IPmpControl>();
+            //register all tabs and their controllers
+            for (int i = 0; i < PmpTabs.Count; i++)
+            {
+                var tab = PmpTabs.ElementAt(i);
+
+                //update the Id and set the IconDir before registering
+                tab.Id = ++lastId;
+                tab.IconDir = IconDir;
+
+                //register the PmpGroups that are inside each tab
+                //before registering the tab
+                for (int j = 0; j < tab.TabGroups.Count; j++)
+                {
+                    var group = tab.TabGroups[j];
+                    AllGroups.Add(group);
+                    group.Id = ++lastId;
+                    RegisterControls(group.Controls);
+                }
+                //this registers the tabs groups and that ,in turn, registers the controls in the group 
+                tab.Register(propertyManagerPage);
+            }
+
+            //register the controls that are directly under this ui (main tab)
+            for (int i = 0; i < PmpGroups.Count; i++)
+            {
+                var group = PmpGroups.ElementAt(i);
+                AllGroups.Add(group);
+                group.Id = ++lastId;
+                RegisterControls(group.Controls);
+                group.Register(propertyManagerPage);
+            }
+
+            //register the controls in a group
+            void RegisterControls(IEnumerable<IPmpControl> controls)
+            {
+
+                for (int j = 0; j < controls.Count(); j++)
+                {
+                    var control = controls.ElementAt(j);
+
+                    //add to list
+                    AllControls.Add(control);
+
+                    //update IconDir of the controls
+                    control.SharedIconsDir = IconDir;
+
+                    //get next id
+                    control.Id = ++lastId;
+
+                    //update mark if PmpSelectionBox
+                    if (control is PmpSelectionBox box)
+                        box.Mark = (int)Math.Pow(2, ++lastId);
+
+                }
+            }
+
+            //AllGroups = PmpTabs.SelectMany(t => t.TabGroups)
+            //.Concat(PmpGroups);
+
+            //AllControls = AllGroups
+            //.SelectMany(g => g.Controls);
 
             //update icon _dir in the tabs and pmp controllers
-            AllControls.ToList().ForEach(c => c.SharedIconsDir = IconDir);
-            PmpTabs.ForEach(tab => tab.IconDir = IconDir);
+            //AllControls.ToList().ForEach(c => c.SharedIconsDir = IconDir);
+
+            //PmpTabs.ForEach(tab => tab.IconDir = IconDir);
 
             //register the controllers
-            PmpGroups.ForEach(group => group.Register(propertyManagerPage));
-            PmpTabs.ForEach(tab => tab.Register(propertyManagerPage));
+            //PmpGroups.ForEach(group => group.Register(propertyManagerPage));
+            //PmpTabs.ForEach(tab => tab.Register(propertyManagerPage));
 
             Registering?.Invoke();
         }

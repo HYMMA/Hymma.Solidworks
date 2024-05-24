@@ -2,6 +2,7 @@
 // Licensed under the MIT license
 
 using System.Collections.Generic;
+using System.IO;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -10,14 +11,21 @@ namespace Hymma.Solidworks.Addins
     /// </summary>
     public class AddinUserInterface
     {
+
+        /// <summary>
+        /// this is the main directory to save various addin icons
+        /// </summary>
+        ///<remarks></remarks>
+        public DirectoryInfo IconsParentDirectory { get; set; } 
+
         /// <summary>
         /// unique identifier for this addin, gets assigned to by solidworks 
         /// </summary>
-        public int Id { get; set; }
+        public int Id { get;internal set; }
         /// <summary>
-        /// a list of classes that inherit from <see cref="PmpFactoryBase"/>
+        /// a list of classes that inherit from <see cref="PropertyManagerPageBase"/>
         /// </summary>
-        public List<PmpFactoryX64> PropertyManagerPages { get; set; } = new List<PmpFactoryX64>();
+        public List<PropertyManagerPageX64> PropertyManagerPages { get; set; } = new List<PropertyManagerPageX64>();
 
         /// <summary>
         /// list of command tabs that this addin will add to solidworks

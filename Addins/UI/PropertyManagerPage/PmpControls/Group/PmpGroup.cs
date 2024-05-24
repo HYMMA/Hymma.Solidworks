@@ -37,7 +37,7 @@ namespace Hymma.Solidworks.Addins
         public PmpGroup(string caption = "Group", bool expanded = true, bool visible = true)
         {
             //assign properties
-            Id = Counter.GetNextPmpId();
+            //Id = Constants.GetNextPmpId();
             _caption = caption;
             _backgroundColor = SysColor.PropertyManagerColor;
             IsExpanded = expanded;

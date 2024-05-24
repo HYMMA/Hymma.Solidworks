@@ -36,7 +36,7 @@ namespace Hymma.Solidworks.Addins
         public PmpBitmapButton(Bitmap bitmap, string tip, BtnSize iconSizes, byte opacity) : base(swPropertyManagerPageControlType_e.swControlType_BitmapButton, "", tip)
         {
             _bitmap = bitmap;
-            _fileName = "Btn" + Id;
+            _fileName = "Btn";
             _iconSize = iconSizes;
             _opacity = opacity;
             Registering += PmpBitmapButton_OnRegister;
@@ -87,17 +87,22 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject == null)
                 return;
 
+            var fullFileName = Path.Combine(SharedIconsDir.CreateSubdirectory(Id.ToString()).FullName,
+                                            new StringBuilder().Append(fileName).Append(Constants.GetBtnSize(size)).Append(".png").ToString());
+            if (!File.Exists(fullFileName))
+            {
+                using (bitmap)
+                {
+                    MaskedBitmap.SaveAsPng(bitmap, new Size(((int)size), ((int)size)), ref fullFileName, false, opacity);
+                }
+            }
+
             //possible sizes for a button bitmap in solidworks
             var images = new List<string>();
             var masks = new List<string>();
-            
-            using (bitmap)
-            {
-                var fullFileName = Path.Combine(SharedIconsDir.CreateSubdirectory(Id.ToString()).FullName, new StringBuilder().Append(fileName).Append(size).Append(".png").ToString());
-                MaskedBitmap.SaveAsPng(bitmap,new Size(((int)size),((int)size)), ref fullFileName, false, opacity);
-                images.Add(fullFileName);
-                masks.Add("");
-            }
+
+            images.Add(fullFileName);
+            masks.Add("");
 
             SolidworksObject.SetBitmapsByName3(images.ToArray(), masks.ToArray());
         }

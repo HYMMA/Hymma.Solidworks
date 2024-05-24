@@ -25,7 +25,7 @@ namespace Hymma.Solidworks.Addins
 
         internal IPmpControl(swPropertyManagerPageControlType_e type, string caption, string tip)
         {
-            Id = (short)Counter.GetNextPmpId();
+            //Id = (short)Constants.GetNextPmpId();
             Type = type;
             Caption = caption;
             Tip = tip;
@@ -39,7 +39,7 @@ namespace Hymma.Solidworks.Addins
         public string Caption { get; }
 
         /// <summary>
-        /// this property is automatically assigned to local app folder/AddinTtile/PmpId/ContollerId
+        /// this property is automatically assigned to local app folder/AddinTtile/PmpTitle/ContollerId
         /// </summary>
         public DirectoryInfo SharedIconsDir { get; set; }
 
@@ -61,7 +61,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// id of this controller which is used by SOLIDWORKS to identify it
         /// </summary>
-        public short Id { get; }
+        public short Id { get; internal set; }
 
         /// <summary>
         /// Left alignment of this control as defined in <see cref="swPropertyManagerPageControlLeftAlign_e"/>
@@ -243,7 +243,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="message">Message to display in bubble ToolTip</param>
         /// <param name="bitmap">bitmap object to use as icon in the tooltip</param>
         /// <param name="fileName">resultant bitmap file name on disk without extensions or directory</param>
-        public void ShowBubleTooltip(string title, string message, Bitmap bitmap, string fileName)
+        public void ShowBubbleTooltip(string title, string message, Bitmap bitmap, string fileName)
         {
             if (Control != null)
                 ShowBubbleTooltipForControl(title, message, bitmap, fileName);
