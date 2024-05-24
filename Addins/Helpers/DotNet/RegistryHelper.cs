@@ -3,13 +3,18 @@
 
 using Microsoft.Win32;
 using System;
+using System.Drawing;
+using System.IO;
 
 namespace Hymma.Solidworks.Addins.Helpers
 {
-    internal static class RegisterHelper
+    /// <summary>
+    /// utility class to write to registry
+    /// </summary>
+    public static class RegisterHelper
     {
         /// <summary>
-        /// registers <see cref="Type"/> provided to RegisteryHelper so solidworks can find it
+        /// registers <see cref="Type"/> provided to registry helper so solidworks can find it
         /// </summary>
         /// <param name="type">type of class that inherits from  <see cref="AddinMaker"/></param>
         public static void TryRegisterSolidworksAddin(Type type)
@@ -18,7 +23,7 @@ namespace Hymma.Solidworks.Addins.Helpers
             try
             {
                 //wix.4.0.5 heat harvester will read these data and generate proper registry components,
-                //on development machines these registry values will be set during compile time via regasm.exe, which visual studio will take care of
+                //on development machines these registry values will be set during compile time via regasm.exe, visual studio will take care of that
                 var addinAttribute = type.TryGetAttribute<AddinAttribute>(false);
                 string key = "SOFTWARE\\SolidWorks\\Addins\\{" + type.GUID.ToString() + "}";
                 RegistryKey addinKey = Registry.LocalMachine.CreateSubKey(key);
@@ -31,17 +36,16 @@ namespace Hymma.Solidworks.Addins.Helpers
                 RegistryKey addinStartUpKey = Registry.CurrentUser.CreateSubKey(key);
                 addinStartUpKey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
 
-                //the following lines do not work with WIX harvesting 
-                //so the registry values should be set manually in the installers
-                //there is no problem during development 
-
-                //this value should be set during install. 
-                AddinIcons.SaveAddinIconInLocalAppData(type, out string fullFileName);
-
-                //addin icons work only if set in this registry path, everything else that is mentioned in Solidworks website fails.
-                addinKey.SetValue("Icon Path", fullFileName);
+                var icon = AddinIcons.GetAddinIcon(type);
+                using (icon)
+                {
+                    var localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                    var path = Path.Combine(localAppDataFolder, addinAttribute.Title+"_Addin_Icon");
+                    var addinIconFileName = AddinIcons.SaveAsStandardSize(icon, path, addinAttribute.Title);
+                    addinKey.SetValue("Icon Path", addinIconFileName);
+                }
             }
-            catch (Exception )
+            catch (Exception)
             {
             }
         }
@@ -50,7 +54,7 @@ namespace Hymma.Solidworks.Addins.Helpers
         /// unregisters the addin once removed or when the project is cleaned
         /// </summary>
         /// <param name="type"></param>
-        public static void UnregisterSolidworksAddin(Type type)
+        public static void TryUnregisterSolidworksAddin(Type type)
         {
             try
             {
