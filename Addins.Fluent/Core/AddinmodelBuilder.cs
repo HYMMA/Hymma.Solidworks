@@ -3,6 +3,7 @@
 
 using SolidWorks.Interop.sldworks;
 using System.Drawing;
+using System.IO;
 
 namespace Hymma.Solidworks.Addins.Fluent
 {
@@ -31,18 +32,37 @@ namespace Hymma.Solidworks.Addins.Fluent
         ///<inheritdoc/>
         public IPmpUiModelFluent AddPropertyManagerPage(string title, ISldWorks solidworks)
         {
-            pmp = new PmpUiModelFluent(solidworks)
+            pmp = new PmpUiModelFluent(solidworks,title)
             {
                 Title = title,
                 AddinModel = this
             };
             return pmp;
         }
+        
+        /// <summary>
+        /// define the parent directory where various command and property manager page icons should be saved into
+        /// </summary>
+        /// <param name="iconsDir">absolute path to the folder </param>
+        /// <returns></returns>
+        public AddinModelBuilder WithIconsPath(DirectoryInfo iconsDir)
+        {
+            IconsParentDirectory = iconsDir;
+            return this;
+        }
 
         /// <summary>
         /// build the user interface object
         /// </summary>
         /// <returns></returns>
-        public AddinUserInterface Build() => this;
+        ///<exception cref="DirectoryNotFoundException"></exception>
+        public AddinUserInterface Build()
+        {
+            if (IconsParentDirectory is null)
+            {
+                throw new DirectoryNotFoundException("Icons directory is null");
+            }
+            return this;
+        } 
     }
 }
