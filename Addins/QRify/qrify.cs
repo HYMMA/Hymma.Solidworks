@@ -1,38 +1,42 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
-#define TRACE
 using Hymma.Solidworks.Addins;
+using Hymma.Solidworks.Addins.Helpers;
 using QRCoder;
+using QRify.Logging;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
-using QRify.Logging;
+using Environment = System.Environment;
 
 namespace QRify
 {
     //It is not mandatory to make this class partial, but in future releases we might use code generators to bypass some of SolidWORKS API restrictions
     //AddinIcon could be a resx file or an Embedded Resource one 
     [Addin(title: "QRify",
-        AddinIcon = "qrify.png",
+        AddinIcon = "HforHymma.jpg",
         Description = "Creates a QR",
         LoadAtStartup = true)]
     [ComVisible(true)]
     [Guid("2EB85AF6-DB51-46FB-B955-D4A7708DA315")]
     public partial class Qrify : AddinMaker
     {
-        private PmpFactoryBase pmpFactory;
+        private PropertyManagerPageBase pmpFactory;
         public override AddinUserInterface GetUserInterFace()
         {
             var ui = new QrifyUserInterface(this.Solidworks);
             pmpFactory = ui.PmpFactory;
             return ui;
         }
+
 
         //you can move this region to Qrify.g.cs
         #region Call back functions
@@ -92,7 +96,7 @@ namespace QRify
             //generate qr code and save it in clipboard
             SaveQrToClipboard(textBox);
             var btn = sender as PmpBitmapButton;
-            btn.ShowBubleTooltip("Success", "Copied into clipboard, use Ctrl+v to paste", Properties.Resources.info, "successImageFileName");
+            btn.ShowBubbleTooltip("Success", "Copied into clipboard, use Ctrl+v to paste", Properties.Resources.info, "successImageFileName");
         }
 
         private void SaveQrToClipboard(PmpTextBox textBox)
@@ -122,9 +126,9 @@ namespace QRify
 
     public class QrPropertyManagerPage : PmpUiModel
     {
-        private PmpCloseReason closeReson;
+        private PmpCloseReason closeReason;
 
-        public QrPropertyManagerPage(ISldWorks solidworks) : base(solidworks)
+        public QrPropertyManagerPage(ISldWorks solidworks) : base(solidworks, "Qrify")
         {
             this.PmpTabs = new List<PmpTab>() { new QrPropertyManagerPageTab() };
 
@@ -139,21 +143,21 @@ namespace QRify
         {
             if (obj == PmpCloseReason.Cancel)
             {
-                closeReson = obj;
+                closeReason = obj;
                 Clipboard.Clear();
             }
         }
 
         private void QrPropertyManagerPage_AfterClose()
         {
-            if (closeReson == PmpCloseReason.Okay)
+            if (closeReason == PmpCloseReason.Okay)
             {
                 //Run other commands here
             }
         }
     }
 
-    public class QrPropertyManagerPageFactory : PmpFactoryX64
+    public class QrPropertyManagerPageFactory : PropertyManagerPageX64
     {
         public QrPropertyManagerPageFactory(ISldWorks sldWorks) : base(new QrPropertyManagerPage(sldWorks))
         {
@@ -182,24 +186,45 @@ namespace QRify
             this.ToolTip = Name;
         }
     }
+    public class QrCommandHelp:AddinCommand
+    {
+        public QrCommandHelp()
+        {
+            this.CommandTabTextType = ((int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow);
+            this.IconBitmap = Properties.Resources.info;
+
+            this.EnableMethod = "EnablePropertyMangagerPage";
+            this.CallBackFunction = "ShowQrifyPropertyManagerPage";
+
+            ToolTip = "Help for Qrify";
+            HintString = "How to get help!";
+            Name = "Qrify Helps";
+        }
+    }
     public class QrCommandGroup : AddinCommandGroup
     {
-        public QrCommandGroup()
+        public QrCommandGroup() : base(0,
+                                       new List<AddinCommand>() { new QrCommand(),new QrCommandHelp() },
+                                       "Title for Qrify command group",
+                                       "Description for Qrify",
+                                       "make QR codes",
+                                       "Tooltip",
+                                       Properties.Resources.qrify)
         {
-            this.Commands = new List<QrCommand>() { new QrCommand() };
-            this.Title = "Title for QRify command group";
-            this.Description = "QRify command group";
-            this.Hint = "Hint for command group";
-            this.ToolTip = "ToolTip for command group";
-            this.MainIconBitmap = Properties.Resources.qrify;
+            //this.Commands = new List<QrCommand>() { new QrCommand() };
+            //this.Title = "Title for QRify command group";
+            //this.Description = "QRify command group";
+            //this.Hint = "Hint for command group";
+            //this.ToolTip = "ToolTip for command group";
+            //this.MainIconBitmap = Properties.Resources.qrify;
         }
     }
     public class QrTab : AddinCommandTab
     {
         public QrTab()
         {
-            Types = new[] { swDocumentTypes_e.swDocDRAWING };
-            TabTitle = "QRify";
+            DocTypes = new[] { swDocumentTypes_e.swDocDRAWING };
+            Title = "QRify";
             CommandGroup = new QrCommandGroup();
         }
     }
@@ -208,9 +233,12 @@ namespace QRify
         public QrPropertyManagerPageFactory PmpFactory { get; }
         public QrifyUserInterface(ISldWorks sldWorks)
         {
+            
             PmpFactory = new QrPropertyManagerPageFactory(sldWorks);
             CommandTabs = new List<AddinCommandTab>() { new QrTab() };
-            this.PropertyManagerPages = new List<PmpFactoryX64> { PmpFactory };
+            var localappdata = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            IconsParentDirectory = new DirectoryInfo(Path.Combine(localappdata, "QrifyIcons"));
+            this.PropertyManagerPages = new List<PropertyManagerPageX64> { PmpFactory };
         }
     }
     #endregion
