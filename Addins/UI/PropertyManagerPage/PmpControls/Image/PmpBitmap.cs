@@ -26,7 +26,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="opacity">define opacity of the image. 255 is the max possible value, less values result in more transparent pictures</param>
         /// <remarks>The typical image format for the two SOLIDWORKS bitmaps is 18 x 18 pixels x 256 colors. <br/>
         /// </remarks>
-        public PmpBitmap(Bitmap bitmap, string fileName, ControlResizeStyles resizeStyles=ControlResizeStyles.LockLeft, byte opacity = 255) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap)
+        public PmpBitmap(Bitmap bitmap, string fileName, ControlResizeStyles resizeStyles = ControlResizeStyles.LockLeft, byte opacity = 255) : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_Bitmap)
         {
             Registering += PmpBitmap_OnRegister;
             _bitmap = bitmap;
@@ -43,7 +43,7 @@ namespace Hymma.Solidworks.Addins
 
         private void PmpBitmap_OnRegister()
         {
-            UpdatePicture(_bitmap, _filename,_opacity);
+            UpdatePicture(_bitmap, _filename, _opacity);
         }
 
         /// <summary>
@@ -64,7 +64,13 @@ namespace Hymma.Solidworks.Addins
                 return;
 
             var fullFileName = Path.Combine(SharedIconsDir.CreateSubdirectory(Id.ToString()).FullName, fileName);
-            MaskedBitmap.SaveAsPng(bitmap,bitmap.Size, ref fullFileName, true, opacity);
+            if (!File.Exists(fullFileName))
+            {
+                using (bitmap)
+                {
+                    MaskedBitmap.SaveAsPng(bitmap, bitmap.Size, ref fullFileName, true, opacity);
+                }
+            }
             SolidworksObject.SetBitmapByName(fullFileName, "");
         }
     }

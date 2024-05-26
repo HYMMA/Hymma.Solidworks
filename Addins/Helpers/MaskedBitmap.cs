@@ -136,14 +136,14 @@ namespace Hymma.Solidworks.Addins
         }
 
         /// <summary>
-        /// get the maske for a bitmap
+        /// get the masked for a bitmap
         /// </summary>
         /// <param name="original"></param>
         /// <param name="allowPartialOpacity">if set true the number assigned to "opacityThreshold" will be considered as entered</param>
         /// <param name="opacityThreshold">a number between 0 and 255 maximum</param>
         /// <param name="invertedMask"></param>
         /// <returns></returns>
-        public static Bitmap GetImageMask(Bitmap original, bool allowPartialOpacity = true, byte opacityThreshold = 255, bool invertedMask = true)
+        static Bitmap GetImageMask(Bitmap original, bool allowPartialOpacity = true, byte opacityThreshold = 255, bool invertedMask = true)
         {
             var maskImage = Create32bppImageAndClearAlpha(original);
 
@@ -185,7 +185,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="opacityThreshold"></param>
         /// <param name="invertedMask"></param>
         /// <returns></returns>
-        public static Bitmap GetMaskedImage(Bitmap original, bool allowPartialOpacity = false, byte opacityThreshold = 255, bool invertedMask = true)
+        static Bitmap GetMaskedImage(Bitmap original, bool allowPartialOpacity = false, byte opacityThreshold = 255, bool invertedMask = true)
         {
             if (original == null)
                 throw new ArgumentNullException(nameof(original));
@@ -221,7 +221,7 @@ namespace Hymma.Solidworks.Addins
         }
 
         //converts a 24bpp bitmap to another that supports alpha layer whith 32bpp 
-        private static Bitmap Create32bppImageAndClearAlpha(Bitmap tmpImage)
+        static Bitmap Create32bppImageAndClearAlpha(Bitmap tmpImage)
         {
             // declare the new image that will be returned by the function
             Bitmap returnedImage = new Bitmap(tmpImage.Width, tmpImage.Height, PixelFormat.Format32bppArgb);
