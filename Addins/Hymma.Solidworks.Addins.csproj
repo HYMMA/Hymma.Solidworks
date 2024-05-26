@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="Core\AddinUserInterface.cs" />
     <Compile Include="Core\AddinAttribute.cs" />
+    <Compile Include="Core\ICommandMangerExtensions.cs" />
     <Compile Include="Core\IWrapSolidworksObject.cs" />
     <Compile Include="Core\OnConnectToSwEventArgs.cs" />
     <Compile Include="Core\SysColor.cs" />
@@ -90,8 +91,8 @@
     <Compile Include="UI\PopUpMenueItem.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpCloseReason.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpCursorStyles.cs" />
-    <Compile Include="UI\PropertyManagerPage\Core\PmpFactoryBase.cs" />
-    <Compile Include="UI\PropertyManagerPage\Core\PmpFactoryX64.cs" />
+    <Compile Include="UI\PropertyManagerPage\Core\PropertyManagerPageBase.cs" />
+    <Compile Include="UI\PropertyManagerPage\Core\PropertyManagerPageX64.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpOnKeyStrokeEventArgs .cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpOptions.cs" />
     <Compile Include="UI\PropertyManagerPage\Core\PmpUiModel.cs" />
@@ -124,7 +125,7 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxListChangedEventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxSelectionSubmittedEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxSelectionSubmittedEventArgs.cs" />
-    <Compile Include="Helpers\Counter.cs" />
+    <Compile Include="Helpers\Constants.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButton.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Core\PmpTextBase.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Slider\PmpSlider.cs" />
@@ -164,7 +165,6 @@
     <Compile Include="UI\ToolbarTabs\AddinCommandTab.cs" />
     <Compile Include="UI\ToolbarTabs\CommandGroup\AddinCommand.cs" />
     <Compile Include="UI\ToolbarTabs\CommandGroup\AddinCommandGroup.cs" />
-    <Compile Include="UI\ToolbarTabs\CommandGroup\AddinCommandGroupBase.cs" />
     <Compile Include="UI\ToolbarTabs\CommandGroup\IAddinCommandGroup.cs" />
   </ItemGroup>
   <ItemGroup>
