@@ -14,7 +14,7 @@ namespace Hymma.Solidworks.Addins.Fluent
     public class PmpUiModelFluent : PmpUiModel, IPmpUiModelFluent
     {
         /// <inheritdoc/>
-        public PmpUiModelFluent(ISldWorks solidworks) : base(solidworks)
+        public PmpUiModelFluent(ISldWorks solidworks,string title) : base(solidworks,title)
         {
 
         }
@@ -66,10 +66,10 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         /// <inheritdoc/>
-        public IAddinModelBuilder SavePropertyManagerPage(out PmpFactoryX64 propertyManagerPage)
+        public IAddinModelBuilder SavePropertyManagerPage(out PropertyManagerPageX64 propertyManagerPage)
         {
             
-            propertyManagerPage = new PmpFactoryX64(this);
+            propertyManagerPage = new PropertyManagerPageX64(this);
             this.AddinModel.PropertyManagerPages.Add(propertyManagerPage);
             return this.AddinModel;
         }
@@ -118,11 +118,11 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IPmpUiModelFluent AddMenuePopUpItem(PopUpMenueItem item)
+        public IPmpUiModelFluent AddMenuePopUpItem(PopUpMenuItem item)
         {
-            if (PopUpMenueItems == null)
-                PopUpMenueItems = new List<PopUpMenueItem>();
-            PopUpMenueItems.Add(item);
+            if (PopUpMenuItems == null)
+                PopUpMenuItems = new List<PopUpMenuItem>();
+            PopUpMenuItems.Add(item);
             return this;
         }
 
