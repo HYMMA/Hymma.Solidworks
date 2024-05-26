@@ -13,6 +13,17 @@ namespace Hymma.Solidworks.Extensions
     /// </summary>
     public static class SldWorksExtensions
     {
+
+        /// <summary>
+        /// returns the path to SLDWORKS.exe on this computer.
+        /// </summary>
+        /// <param name="sldWorks">current running instance of SolidWorks</param>
+        /// <returns>path to SOLIDWORKS.exe on this computer</returns>
+        public static string GetExecutableFullFileName(this ISldWorks sldWorks)
+        {
+            return Path.Combine(sldWorks.GetExecutablePath(), "SLDWORKS.exe");
+        }
+
         /// <summary>
         /// get the default map file in solidworks, does not check if map file actually exists on HDD
         /// </summary>
@@ -96,12 +107,17 @@ namespace Hymma.Solidworks.Extensions
         /// </summary>
         /// <param name="solidworks"></param>
         /// <returns>true if successful and false if not
-        /// <br/> make sure you set solidworks visibility to true at the end of operation <see cref="UnFreezGraphics(SldWorks)"/>
+        /// <br/> make sure you set solidworks visibility to true at the end of operation <see cref="UnFreezeGraphics(SldWorks)"/>
         /// </returns>
-        public static bool FreezGraphics(this SldWorks solidworks)
+        ///<remarks>you should call this before any documents are open. In other words, if a document is open and you call this method, it will have not effect.</remarks>
+        public static bool FreezeGraphics(this SldWorks solidworks)
         {
             try
             {
+                // Allow SOLIDWORKS to run in the background
+                // and be invisible
+                solidworks.UserControl = false;
+
                 // Allow SOLIDWORKS to run in the background
                 // and be invisible
                 solidworks.UserControlBackground = false;
@@ -117,7 +133,7 @@ namespace Hymma.Solidworks.Extensions
                 // ISldWorks::ActivateDoc2 is called
                 var frame = (Frame)solidworks.Frame();
                 frame.KeepInvisible = true;
-                return (frame.KeepInvisible && !solidworks.Visible && !solidworks.UserControlBackground);
+                return (frame.KeepInvisible &&!solidworks.UserControl && !solidworks.Visible && !solidworks.UserControlBackground);
             }
             catch
             {
@@ -129,13 +145,13 @@ namespace Hymma.Solidworks.Extensions
         /// unfreezes the graphics of the solidworks application
         /// </summary>
         /// <param name="solidworks"></param>
-        public static void UnFreezGraphics(this SldWorks solidworks)
+        public static void UnFreezeGraphics(this SldWorks solidworks)
         {
-            var frame = solidworks.Frame() as Frame;
-            if (frame == null)
+            if (!(solidworks.Frame() is Frame frame))
                 return;
             frame.KeepInvisible = false;
             solidworks.Visible = true;
+            solidworks.UserControl = true;
         }
 
         /// <summary>
@@ -144,11 +160,21 @@ namespace Hymma.Solidworks.Extensions
         /// <param name="solidworks"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static void FreezGraphics(this SldWorks solidworks, Action action)
+        public static void FreezeGraphics(this SldWorks solidworks, Action action)
         {
-            solidworks.FreezGraphics();
-            action.Invoke();
-            solidworks.UnFreezGraphics();
+            solidworks.FreezeGraphics();
+            try
+            {
+                action.Invoke();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                solidworks.UnFreezeGraphics();
+            }
         }
 
         ///// <summary>
