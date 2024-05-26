@@ -12,10 +12,10 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// represents a command tab that host commands 
     /// </summary>
-    public class AddinCommandTab : IWrapSolidworksObject<CommandTab>
+    public class AddinCommandTab 
     {
         #region private fields
-        private AddinCommandGroupBase _commandGroup;
+        private IAddinCommandGroup _commandGroup;
         #endregion
 
         #region public properties
@@ -23,17 +23,17 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// title of command tab 
         /// </summary>
-        public string TabTitle { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
         /// document types that this should be visible in 
         /// </summary>
-        public IEnumerable<swDocumentTypes_e> Types { get; set; }
+        public IEnumerable<swDocumentTypes_e> DocTypes { get; set; }
 
         /// <summary>
         /// Get command groups
         /// </summary>
-        public AddinCommandGroupBase CommandGroup
+        public IAddinCommandGroup CommandGroup
         {
             get => _commandGroup;
             set
@@ -59,8 +59,6 @@ namespace Hymma.Solidworks.Addins
             }
         }
 
-        ///<inheritdoc/>
-        public CommandTab SolidworksObject { get; private set; }
 
         #endregion
 
@@ -69,14 +67,14 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         /// <param name="commandManager"></param>
         /// <returns>true if successful false otherwise</returns>
-        internal bool Register(ICommandManager commandManager)
+        /*internal bool Register(ICommandManager commandManager)
         {
-            foreach (int type in Types)
+            foreach (int type in DocTypes)
             {
 
                 #region Add Tabs
                 //try to get a command tab with the current tabTitle
-                SolidworksObject = commandManager.GetCommandTab(type, TabTitle);
+                SolidworksObject = commandManager.GetCommandTab(type, Title);
 
                 //if this swTab already exists and you want to add new command groups or refresh old ones in it
                 if (SolidworksObject != null & !CommandGroup.IsRegistered | CommandGroup.IgnorePrevious)
@@ -91,7 +89,7 @@ namespace Hymma.Solidworks.Addins
                     continue;
                 }
                 //if cmdTab is null, must be first load(possibly after reset), add the commands to the tabs
-                SolidworksObject = commandManager.AddCommandTab(type, TabTitle);
+                SolidworksObject = commandManager.AddCommandTab(type, Title);
                 #endregion
 
                 #region Add tab boxes
@@ -124,6 +122,6 @@ namespace Hymma.Solidworks.Addins
                 #endregion
             }
             return true;
-        }
+        }*/
     }
 }
