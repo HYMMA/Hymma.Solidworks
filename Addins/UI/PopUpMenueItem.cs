@@ -9,7 +9,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// allows access to a pop up menu item
     /// </summary>
-    public class PopUpMenueItem
+    public class PopUpMenuItem
     {
         /// <summary>
         /// Adds a menu item to the pop-up menu
@@ -17,10 +17,9 @@ namespace Hymma.Solidworks.Addins
         /// <param name="itemText">Text for the item</param>
         /// <param name="hint">Text displayed in the SOLIDWORKS status bar when the user moves the cursor over this pop-up menu item</param>
         /// <param name="documentTypes">Document types for which this pop-up menu item is displayed as defined in <see cref="swDocumentTypes_e"/></param>
-        public PopUpMenueItem(string itemText, string hint, swDocumentTypes_e documentTypes)
+        public PopUpMenuItem(string itemText, string hint, swDocumentTypes_e documentTypes)
         {
             this.ItemText = itemText; this.Hint = hint; this.DocumentType = documentTypes;
-            this.Id = Counter.GetNextPopUpMenuItemId();
         }
 
         /// <summary>
@@ -56,7 +55,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// id of this menu pop up item that's assigned to it once the item was created
         /// </summary>
-        public int Id { get; }
+        public int Id { get;internal set; }
 
         #region call backs
         internal void UpdatedCallback(int u) => Updated?.Invoke(u);
