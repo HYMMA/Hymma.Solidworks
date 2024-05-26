@@ -16,7 +16,7 @@ namespace Hymma.Solidworks.Addins
     [ComVisible(true)]
     public class PmpEventHandler : PropertyManagerPage2Handler9
     {
-        private IEnumerable<PopUpMenueItem> popUpItems;
+        private List<PopUpMenuItem> popUpItems;
 
 
         /// <summary>
@@ -26,12 +26,19 @@ namespace Hymma.Solidworks.Addins
         public PmpEventHandler(PmpUiModel uiModel)
         {
             this.UiModel = uiModel ?? throw new Exception();
+            popUpItems = new List<PopUpMenuItem>();
             UiModel.Registering += () =>
             {
-                popUpItems = UiModel.GetControls<PmpSelectionBox>().SelectMany(sb => sb.PopUpMenueItems);
-                if (UiModel.PopUpMenueItems != null)
+                foreach (var item in UiModel.GetControls<PmpSelectionBox>())
                 {
-                    popUpItems.Concat(UiModel.PopUpMenueItems);
+                    if (item is PmpSelectionBox box)
+                    {
+                        popUpItems.AddRange(box.PopUpMenuItems); 
+                    }
+                }
+                if (UiModel.PopUpMenuItems != null)
+                {
+                    popUpItems.AddRange(UiModel.PopUpMenuItems);
                 }
             };
         }
@@ -50,24 +57,24 @@ namespace Hymma.Solidworks.Addins
         /// fired when user closes the pmp
         /// </summary>
         /// <param name="Reason"></param>
-        public void OnClose(int Reason)=>UiModel.ClosingCallBack(Reason);
+        public void OnClose(int Reason) => UiModel.ClosingCallBack(Reason);
 
         /// <summary>
         /// fires after users closes the pmp
         /// </summary>
-        public void AfterClose() =>UiModel.AfterCloseCallBack();
+        public void AfterClose() => UiModel.AfterCloseCallBack();
 
         /// <summary>
         /// fires once user clicks on help button
         /// </summary>
         /// <returns></returns>
-        public bool OnHelp()=> UiModel.HelpClickedCallBack();
+        public bool OnHelp() => UiModel.HelpClickedCallBack();
 
         /// <summary>
         /// fires when users selects on previous page button in pmp
         /// </summary>
         /// <returns></returns>
-        public bool OnPreviousPage()=> UiModel.PreviousPageClickedCallBack();
+        public bool OnPreviousPage() => UiModel.PreviousPageClickedCallBack();
 
         /// <summary>
         /// fires when users selects on next page button in pmp
@@ -79,7 +86,7 @@ namespace Hymma.Solidworks.Addins
         /// fires when users previews results
         /// </summary>
         /// <returns></returns>
-        public bool OnPreview()=>UiModel.PreviewCallBack();
+        public bool OnPreview() => UiModel.PreviewCallBack();
 
         /// <summary>
         /// fires when users press on whats new button in pmp
@@ -89,12 +96,12 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// fires when user presses undo in a pmp
         /// </summary>
-        public void OnUndo()=>UiModel.UndoClickedCallBack();
+        public void OnUndo() => UiModel.UndoClickedCallBack();
 
         /// <summary>
         /// fires when user re does something
         /// </summary>
-        public void OnRedo()=>UiModel.RedoClickedCallBack();
+        public void OnRedo() => UiModel.RedoClickedCallBack();
 
         /// <summary>
         /// fires when uses clicks on a tab in pmp
