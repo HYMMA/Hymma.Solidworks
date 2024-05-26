@@ -112,6 +112,9 @@ namespace Hymma.Solidworks.Extensions
         ///<remarks>you should call this before any documents are open. In other words, if a document is open and you call this method, it will have not effect.</remarks>
         public static bool FreezeGraphics(this SldWorks solidworks)
         {
+            if (solidworks.GetDocumentCount()!=0)
+                return false;
+            
             try
             {
                 // Allow SOLIDWORKS to run in the background
