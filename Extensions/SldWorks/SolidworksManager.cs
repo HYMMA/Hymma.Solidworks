@@ -1,61 +1,139 @@
-﻿// Copyright (C) HYMMA All rights reserved.
-// Licensed under the MIT license
+﻿//**********************
+//Copyright(C) 2024 Xarial Pty Limited
+//Reference: https://www.codestack.net/solidworks-api/getting-started/stand-alone/connect-csharp/
+//License: https://www.codestack.net/license/
+//**********************
 
 using SolidWorks.Interop.sldworks;
 using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
-    /// provides connection and initiation methods for a solidworks app
+    /// Handles <see cref="ISldWorks"/>  
     /// </summary>
-    public class SolidWorksManager
+    public static class SolidworksManager
     {
-        private readonly static object _lock = new object();
-        private static SolidWorksManager _Instance;
-        
         /// <summary>
-        /// creates or retrieves an instance of <see cref="SolidWorksManager"/>
+        /// starts a new SOLIDWORSK instance and returns the <see cref="ISldWorks"/> 
         /// </summary>
-        /// <returns></returns>
-        public static SolidWorksManager InitiateSolidApp()
+        /// <param name="info"></param>
+        /// <param name="timeoutSec"></param>
+        /// <returns>A new instance of <see cref="ISldWorks"/></returns>
+        /// <exception cref="TimeoutException"></exception>
+        public static ISldWorks StartNewSolidworksApp(ProcessStartInfo info, int timeoutSec = 10)
         {
-            lock (_lock)
+            if (string.IsNullOrEmpty(info.FileName))
+                info.FileName = @"C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS\SLDWORKS.exe";
+
+            var timeout = TimeSpan.FromSeconds(timeoutSec);
+
+            var startTime = DateTime.Now;
+
+            if (info.WindowStyle == ProcessWindowStyle.Hidden)
+                info.UseShellExecute = true;
+
+            var prc = Process.Start(info);
+            ISldWorks app = null;
+
+            while (app == null)
             {
-                if (_Instance == null)
+                if (DateTime.Now - startTime > timeout)
                 {
-                    _Instance = new SolidWorksManager();
+                    throw new TimeoutException();
                 }
-                return _Instance;
+
+                app = GetSwAppFromProcess(prc.Id);
             }
+
+            return app;
+
         }
 
         /// <summary>
-        /// connects to a running instance of solidworks or creates a new one and returns the <see cref="SldWorks"/> object
+        /// starts a new SOLIDWORSK instance and returns the <see cref="ISldWorks"/> 
         /// </summary>
-        /// <returns>a running instance of solidworks <see cref="SldWorks"/></returns>
-        /// <remarks>this function uses <see cref="System.Runtime.InteropServices.Marshal"/> which is <strong>not supported in .net core </strong></remarks>
-        public static SldWorks GetSolidworks()
+        /// <param name="executablePath">Its best to ask users to explicitly browse to the location of solidworks install. 
+        /// However the default install path is the value of this parameter. When calling from your addins, use extension <code>ISldWorks.GetExecutableFullFileName()  </code></param>
+        /// <param name="timeoutSec"></param>
+        /// <returns>A new instance of <see cref="ISldWorks"/></returns>
+        /// <exception cref="TimeoutException"></exception>
+        public static ISldWorks StartNewSolidworksApp(string executablePath = @"C:\Program Files\SOLIDWORKS Corp\SOLIDWORKS\SLDWORKS.exe",
+                                                      int timeoutSec = 10)
         {
+            return StartNewSolidworksApp(new ProcessStartInfo(executablePath), timeoutSec);
+        }
+
+
+        [DllImport("ole32.dll")]
+        static extern int CreateBindCtx(uint reserved, out IBindCtx ppbc);
+
+        static ISldWorks GetSwAppFromProcess(int processId)
+        {
+            var monikerName = "SolidWorks_PID_" + processId.ToString();
+
+            IBindCtx context = null;
+            IRunningObjectTable rot = null;
+            IEnumMoniker monikers = null;
+
             try
             {
-                try
+                CreateBindCtx(0, out context);
+
+                context.GetRunningObjectTable(out rot);
+                rot.EnumRunning(out monikers);
+
+                var moniker = new IMoniker[1];
+
+                while (monikers.Next(1, moniker, IntPtr.Zero) == 0)
                 {
-                    return System.Runtime.InteropServices.Marshal.GetActiveObject("SldWorks.Application") as SldWorks;
-                }
-                catch
-                {
-                    Type solidworksAppType = System.Type.GetTypeFromProgID("SldWorks.Application");
-                    var app = System.Activator.CreateInstance(solidworksAppType) as SldWorks;
-                    //Must be set visible explicitly
-                    app.Visible = true;
-                    return app;
+                    var curMoniker = moniker.First();
+
+                    string name = null;
+
+                    if (curMoniker != null)
+                    {
+                        try
+                        {
+                            curMoniker.GetDisplayName(context, null, out name);
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                        }
+                    }
+
+                    if (string.Equals(monikerName,
+                        name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        object app;
+                        rot.GetObject(curMoniker, out app);
+                        return app as ISldWorks;
+                    }
                 }
             }
-            catch (Exception)
+            finally
             {
-                throw new MemberAccessException("Could not get an instance of Solidworks");
+                if (monikers != null)
+                {
+                    Marshal.ReleaseComObject(monikers);
+                }
+
+                if (rot != null)
+                {
+                    Marshal.ReleaseComObject(rot);
+                }
+
+                if (context != null)
+                {
+                    Marshal.ReleaseComObject(context);
+                }
             }
+
+            return null;
         }
     }
 }
