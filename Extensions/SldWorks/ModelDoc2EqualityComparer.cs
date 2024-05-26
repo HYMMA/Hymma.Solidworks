@@ -19,6 +19,13 @@ namespace Hymma.Solidworks.Extensions
         /// <returns></returns>
         public bool Equals(ModelDoc2 x, ModelDoc2 y)
         {
+            //Check whether the compared objects reference the same data.
+            if (ReferenceEquals(x, y)) return true;
+
+            //Check whether any of the compared objects is null.
+            if (x is null || y is null)
+                return false;
+            
             return (x.GetPathName() == y.GetPathName()) && (x.ConfigurationManager.ActiveConfiguration.Name == y.ConfigurationManager.ActiveConfiguration.Name);
         }
 
@@ -27,8 +34,13 @@ namespace Hymma.Solidworks.Extensions
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public int GetHashCode(ModelDoc2 obj)=>
-             obj.GetPathName().GetHashCode() ^ obj.ConfigurationManager.ActiveConfiguration.Name.GetHashCode();
+        public int GetHashCode(ModelDoc2 obj)
+        {
+            if (obj==null)
+                return 0;
+            
+             return obj.GetPathName().GetHashCode() ^ obj.ConfigurationManager.ActiveConfiguration.Name.GetHashCode();
+        }
     }
     
 }

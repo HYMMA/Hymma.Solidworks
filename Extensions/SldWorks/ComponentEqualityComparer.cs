@@ -19,6 +19,13 @@ namespace Hymma.Solidworks.Extensions
         /// <returns></returns>
         public bool Equals(Component2 x, Component2 y)
         {
+            //Check whether the compared objects reference the same data.
+            if (ReferenceEquals(x, y)) return true;
+
+            //Check whether any of the compared objects is null.
+            if (x is null || y is null)
+                return false;
+
             return (x.GetPathName() == y.GetPathName()
                     && (x.ReferencedConfiguration == y.ReferencedConfiguration)
                     && (x.IsSuppressed() == y.IsSuppressed())
@@ -31,11 +38,16 @@ namespace Hymma.Solidworks.Extensions
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public int GetHashCode(Component2 obj)=>
-            obj.GetPathName().GetHashCode() ^ 
-            obj.ReferencedConfiguration.GetHashCode() ^ 
-            obj.IsEnvelope().ToString().GetHashCode() ^ 
-            obj.IsSuppressed().ToString().GetHashCode() ^ 
-            obj.ExcludeFromBOM.ToString().GetHashCode();
+        public int GetHashCode(Component2 obj)
+        {
+            if (obj==null)
+                return 0;
+            
+            return obj.GetPathName().GetHashCode() ^
+                        obj.ReferencedConfiguration.GetHashCode() ^
+                        obj.IsEnvelope().ToString().GetHashCode() ^
+                        obj.IsSuppressed().ToString().GetHashCode() ^
+                        obj.ExcludeFromBOM.ToString().GetHashCode();
+        }
     }
 }
