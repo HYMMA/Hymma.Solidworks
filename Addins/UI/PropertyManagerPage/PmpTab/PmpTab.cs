@@ -32,7 +32,7 @@ namespace Hymma.Solidworks.Addins
         {
             Caption = caption;
             _icon = icon;
-            Id = Counter.GetNextPmpId();
+            //Id = Constants.GetNextPmpId();
         }
 
         #endregion
@@ -86,6 +86,7 @@ namespace Hymma.Solidworks.Addins
                     }
                     catch (Exception)
                     {
+                        //TODO: LOG ERROR
                     }
                 }
             }
