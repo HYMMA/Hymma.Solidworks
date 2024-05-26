@@ -105,13 +105,13 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// <summary>
         ///  Adds a menu item to the pop-up menu for this PropertyManager page. that appears in  the right mouse menu button while the property manager page is displayed 
         /// </summary>
-        IPmpUiModelFluent AddMenuePopUpItem(PopUpMenueItem item);
+        IPmpUiModelFluent AddMenuePopUpItem(PopUpMenuItem item);
 
         ///<summary>
         /// builds this property manager page and adds it to the <see cref="AddinUserInterface"/> <br/>
-        /// use the <see cref="PmpFactoryX64"/>.Show() method in a <see cref="AddinCommand"/> callback function so users of your addin can actually see the property manger page once they clicked on a button
+        /// use the <see cref="PropertyManagerPageX64"/>.Show() method in a <see cref="AddinCommand"/> callback function so users of your addin can actually see the property manger page once they clicked on a button
         /// </summary>
         /// <returns></returns>
-        IAddinModelBuilder SavePropertyManagerPage(out PmpFactoryX64 propertyManagerPage);
+        IAddinModelBuilder SavePropertyManagerPage(out PropertyManagerPageX64 propertyManagerPage);
     }
 }
