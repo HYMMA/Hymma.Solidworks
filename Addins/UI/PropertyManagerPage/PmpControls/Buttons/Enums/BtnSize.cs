@@ -30,7 +30,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// 96
         /// </summary>
-        nintySix = 96,
+        ninetySix = 96,
 
         /// <summary>
         /// 128
