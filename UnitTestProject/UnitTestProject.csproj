@@ -30,6 +30,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -48,7 +49,7 @@
     </Reference>
     <Reference Include="SolidWorks.Interop.sldworks, Version=26.0.1.1, Culture=neutral, PublicKeyToken=7c4797c3e4eeac03, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
       <HintPath>..\Interop\bin\Release\SolidWorks.Interop.sldworks.dll</HintPath>
     </Reference>
     <Reference Include="SolidWorks.Interop.swconst, Version=26.0.1.1, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
@@ -66,6 +67,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\SldWorksExtensionsTests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -90,6 +92,10 @@
     <ProjectReference Include="..\Addins\QRify\QRify.csproj">
       <Project>{b0a0b8d8-af58-4ce8-a27e-74114c209344}</Project>
       <Name>QRify</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Extensions\Hymma.Solidworks.Extensions.csproj">
+      <Project>{c11fc3f2-c2d0-4e62-9cf2-1a152b76ae03}</Project>
+      <Name>Hymma.Solidworks.Extensions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

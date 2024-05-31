@@ -15,7 +15,6 @@ namespace Hymma.Solidworks.Addins
         #region fields
         private NumberBoxStyles _style;
         private NumberBoxUnit _displayUnit;
-        private double _value;
         private short _height;
         #endregion
 
@@ -123,7 +122,6 @@ namespace Hymma.Solidworks.Addins
             get => SolidworksObject?.Value;
             set
             {
-                //_value = value;
                 if (SolidworksObject != null)
                 {
                     SolidworksObject.Value = value ?? 0;

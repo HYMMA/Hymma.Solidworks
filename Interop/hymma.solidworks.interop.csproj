@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RegisterForComInterop>true</RegisterForComInterop>
+    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>portable</DebugType>
@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Hymma.solidworks.interop.snk" />
+    <None Include="nugetSpec.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SolidWorks.Interop.sldworks">

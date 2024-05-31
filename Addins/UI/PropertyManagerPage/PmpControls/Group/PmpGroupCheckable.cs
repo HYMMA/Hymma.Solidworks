@@ -81,7 +81,7 @@ namespace Hymma.Solidworks.Addins
 
                 else
                 {
-                    OnRegister += () => SolidworksObject.Checked = _isChecked;
+                    Registering += () => SolidworksObject.Checked = _isChecked;
                 }
             }
         }

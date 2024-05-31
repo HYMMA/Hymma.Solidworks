@@ -20,4 +20,12 @@
 		<!-- new line in console -->
 		<Message Text="%0D%0A" />
 	</Target>
+
+	
+	<PropertyGroup>
+		<AssemblyFilePath>../References/Hymma.BuildTasks.dll</AssemblyFilePath>
+		<ReferenceName>SolidWorks</ReferenceName>
+		<EmbedmentSwitch>false</EmbedmentSwitch>
+	</PropertyGroup>
+<Import Project=".\Hymma.BuildTasks.targets"/>
 </Project>

@@ -107,6 +107,22 @@ namespace QrifyPlus
                 .SaveCommandTab()
                 .AddPropertyManagerPage("QRify+", this.Solidworks)          //Add property manager page to the list of UI that the builder will create
                 .AddMenuePopUpItem(new PopUpMenuItem("item 1", "hint", swDocumentTypes_e.swDocDRAWING))
+                        .AddGroup("Group Under Property Manager Page")
+                            .That()
+                            .HasTheseControls(new List<IPmpControl>
+                            {
+                                new PmpSelectionBox(new[] { swSelectType_e.swSelDRAWINGVIEWS })
+                                {
+                                    PopUpMenuItems = new List<PopUpMenuItem>()
+                                    {
+                                       new PopUpMenuItem("popUp menu item", "hint for the pop up menu item", swDocumentTypes_e.swDocDRAWING) ,
+                                       new PopUpMenuItem("another item", "hint for this item", swDocumentTypes_e.swDocDRAWING) ,
+                                    }
+                                }
+                            })
+                            .SetExpansion(true)
+                            .Color(SysColor.ActiveSelectionListBox)
+                        .SaveGroup()
                     .AddTab<QrPlusTab>()                                    //Best practice to add tabs with complex Ui setup
                     .AddTab("Settings", Properties.Resources.infoPlus)      //A Property manager page can or cannot have a tab that host the groups. A group hosts the controls such as text box and selection box and ...
                         .AddGroup(caption: "Settings Controls")             //Add a group to property manager page Tab

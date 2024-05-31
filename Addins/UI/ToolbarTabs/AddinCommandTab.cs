@@ -62,11 +62,6 @@ namespace Hymma.Solidworks.Addins
 
         #endregion
 
-        /// <summary>
-        /// Adds a command tab to solidworks <br/>
-        /// </summary>
-        /// <param name="commandManager"></param>
-        /// <returns>true if successful false otherwise</returns>
         /*internal bool Register(ICommandManager commandManager)
         {
             foreach (int type in DocTypes)

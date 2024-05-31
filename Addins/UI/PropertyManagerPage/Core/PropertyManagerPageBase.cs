@@ -32,11 +32,6 @@ namespace Hymma.Solidworks.Addins
         internal readonly ISldWorks Solidworks;
 
         /// <summary>
-        /// a collection of <see cref="PmpWpfHost"/> to hook property manager page with a <see cref="System.Windows.Controls.UserControl"/>
-        /// </summary>
-        internal IEnumerable<PmpWpfHost> winFormHandlers;
-
-        /// <summary>
         /// Property manager page object
         /// </summary>
         internal IPropertyManagerPage2 propertyManagerPage;
@@ -54,11 +49,6 @@ namespace Hymma.Solidworks.Addins
             this.UiModel = uiModel ?? throw new ArgumentNullException();
             this.eventHandler = eventHandler;
             Solidworks = this.UiModel.Solidworks;
-
-            //get element host wrappers
-            var winFormHandlers = uiModel.PmpGroups
-              .Select(box => box.Controls
-              .Where(c => c is PmpWpfHost));
             #endregion
         }
 

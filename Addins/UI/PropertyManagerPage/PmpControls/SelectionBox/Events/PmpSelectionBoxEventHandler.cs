@@ -1,8 +1,5 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
-
-using System.Runtime.InteropServices;
-
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
@@ -12,14 +9,11 @@ namespace Hymma.Solidworks.Addins
     /// <param name="sender">the controller</param>
     /// <param name="eventArgs">event arguments provided to you by SOLIDWORKS when this event happens</param>
     /// <returns></returns>
-    [ComVisible(true)]
     public delegate void PmpSelectionBoxEventHandler<EventArgs>(PmpSelectionBox sender, EventArgs eventArgs);
 
     /// <summary>
     /// handles events for a <see cref="PmpSelectionBox"/> event that does not have any event argument
     /// </summary>
     /// <param name="sender">is the selection box that fired the event</param>
-    [ComVisible(true)]
     public delegate void PmpSelectionBoxEventHandler(PmpSelectionBox sender);
-
 }
