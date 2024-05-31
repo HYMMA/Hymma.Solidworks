@@ -45,17 +45,13 @@ jobs:
        with:
         vs-version: '[17.0,18.0)'
 
-     - name: Checkout
-       uses: actions/checkout@v4
-       with:
-         fetch-depth: 0
-
      - name: runTest
        uses: microsoft/vstest-action@v1.0.0
        with:
          testAssembly: UnitTestProject.dll
-         searchFolder: ${{github.workspace}}\UnitTestProject\**\
-         runInParallel: true
+         searchFolder: ${{github.workspace}}\UnitTestProject\bin\**\
+         Name: UnitTestProject
+         # runInParallel: true
          # codeCoverageEnabled: true
          # testFiltercriteria: "Category!=Extensions"
 
