@@ -1,10 +1,13 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using EnvDTE;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
+using System.Drawing;
 using System.IO;
+using System.Net;
 
 namespace Hymma.Solidworks.Extensions
 {
@@ -13,6 +16,28 @@ namespace Hymma.Solidworks.Extensions
     /// </summary>
     public static class SldWorksExtensions
     {
+        /// <summary>
+        /// get the preview thumbnail of the path provided. regardless the file is open or not.
+        /// </summary>
+        /// <param name="solidworks"></param>
+        /// <param name="path">path to the solidworks document.</param>
+        /// <param name="configuration">name of the configuration of the document</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        /// <exception cref="FileNotFoundException"></exception>
+        ///<exception cref="System.Runtime.InteropServices.COMException"></exception>
+        ///<remarks>Currently only in-process applications(that is add-ins) can use this method; out-of-process applications(that is, executables) will get an <see cref="System.Runtime.InteropServices.COMException"/> error because the IPictureDisp interface cannot be marshalled across process boundaries.This is a Microsoft behavior by design.See the Microsoft Knowledge Base for details. 
+        ///<para>This method is not supported in macros or out-of-process applications in SOLIDWORKS x64.</para></remarks>
+        public static Bitmap GetPreviewImage(this ISldWorks solidworks, string path, string configuration)
+        {
+            if (!File.Exists(path))
+                throw new FileNotFoundException(path);
+            var img = solidworks.GetPreviewBitmap(path, configuration);
+
+            if (!(img is stdole.StdPicture pic))
+                throw new Exception($"Could not get preview of {path}.");
+            return Bitmap.FromHbitmap((IntPtr)pic.Handle);
+        }
 
         /// <summary>
         /// returns the path to SLDWORKS.exe on this computer.
@@ -112,9 +137,9 @@ namespace Hymma.Solidworks.Extensions
         ///<remarks>you should call this before any documents are open. In other words, if a document is open and you call this method, it will have not effect.</remarks>
         public static bool FreezeGraphics(this SldWorks solidworks)
         {
-            if (solidworks.GetDocumentCount()!=0)
+            if (solidworks.GetDocumentCount() != 0)
                 return false;
-            
+
             try
             {
                 // Allow SOLIDWORKS to run in the background
@@ -136,7 +161,7 @@ namespace Hymma.Solidworks.Extensions
                 // ISldWorks::ActivateDoc2 is called
                 var frame = (Frame)solidworks.Frame();
                 frame.KeepInvisible = true;
-                return (frame.KeepInvisible &&!solidworks.UserControl && !solidworks.Visible && !solidworks.UserControlBackground);
+                return (frame.KeepInvisible && !solidworks.UserControl && !solidworks.Visible && !solidworks.UserControlBackground);
             }
             catch
             {
