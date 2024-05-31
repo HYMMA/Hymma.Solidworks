@@ -1,6 +1,9 @@
 name: Build and Publish Hymma.Solidworks
 
 on:
+  pull_request:
+    branches:
+    - '*' 
   push:
     branches:
     - master
@@ -15,8 +18,6 @@ defaults:
 
 jobs:
   build:
-    needs: [test]
-    if: github.repository_owner == 'HYMMA'
     name: Build
     runs-on: windows-latest
     steps:
@@ -34,20 +35,45 @@ jobs:
     - name: Run build
       run: msbuild hymma.solidworks.sln -restore -nologo -m -p:configuration=release -p:RestorePackagesConfig=true -p:BuildVersion=0.54 -p:AddinGuid='{2EB85AF6-DB51-46FB-B955-D4A7708DA315}' -p:Platform=X64 -p:IncludeSymbols=true -p:CreateNugetPackage=true
 
-    - name: Save Package
-      uses: actions/upload-artifact@v4
-      with:
-        name: nugets 
-        path: ${{ env.NuGetDirectory}}/*.*nupkg
+  test:
+     needs: [build]
+     runs-on: windows-latest
+     steps:
 
-    - name: Save Installer
-      uses: actions/upload-artifact@v4
-      with:
-       name: QrifyInstaller
-       path: ./**/Qrify/**/bin/**/*.msi
+     - name: Checkout
+       uses: actions/checkout@v4
+       with:
+         fetch-depth: 0
 
-    - name: publish nuget
-      run: |
-        foreach($file in (Get-ChildItem "${{ env.NuGetDirectory}}" -Recurse -Include Hymma.Solidworks.*.*nupkg )){
-         nuget push $file -ApiKey "${{ secrets.NUGET_APIKEY}}" -src https://api.nuget.org/v3/index.json -SkipDuplicate}
-      
+     - name: runTest
+       uses: microsoft/vstest-action@v1.0.0
+       with:
+         testAssembly: UnitTestProject.dll
+         searchFolder: .\UnitTestProject\bin\Release\
+         runInParallel: true
+         codeCoverageEnabled: true
+         testFiltercriteria: "Category!=Extensions"
+
+  publish:
+     if: github.repository_owner == 'HYMMA'
+     needs: [test]
+     runs-on: windows-latest
+     steps:
+  
+     - name: Save Package
+       uses: actions/upload-artifact@v4
+       with:
+         name: nugets 
+         path: ${{ env.NuGetDirectory}}/*.*nupkg
+
+     - name: Save Installer
+       uses: actions/upload-artifact@v4
+       with:
+        name: QrifyInstaller
+        path: ./**/Qrify/**/bin/**/*.msi
+
+     - name: publish nuget
+       run: |
+            foreach($file in (Get-ChildItem "${{ env.NuGetDirectory}}" -Recurse -Include Hymma.Solidworks.*.*nupkg )){
+            nuget push $file -ApiKey "${{ secrets.NUGET_APIKEY}}" -src https://api.nuget.org/v3/index.json -SkipDuplicate}
+              
