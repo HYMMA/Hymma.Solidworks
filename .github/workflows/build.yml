@@ -32,14 +32,14 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: install MinVer CLI
-      id: getVersion
-      run: | 
-          dotnet tool install --global minver-cli --version 5.0.0 
-          echo "minVerSion=$(minver)" >> $GITHUB_OUTPUT
+    # - name: install MinVer CLI
+    #   id: getVersion
+    #   run: | 
+    #       dotnet tool install --global minver-cli --version 5.0.0 
+    #       echo "minVerSion=$(minver)" >> $GITHUB_OUTPUT
 
-    - name: Echo Min Version
-      run: echo ${{ steps.getVersion.outputs.minVerSion}}
+    # - name: Echo Min Version
+    #   run: echo ${{ steps.getVersion.outputs.minVerSion}}
 
     - name: run minver
       id: version
