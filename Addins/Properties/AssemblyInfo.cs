@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 // Setting ComVisible to false makes the types in this assembly not visible
 // to RegisteryHelper components.  If you need to access a type in this assembly from
 // RegisteryHelper, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(true)]
+[assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to RegisteryHelper
 [assembly: Guid("86b8e368-880d-4169-ba19-60a84d3f6fb3")]
