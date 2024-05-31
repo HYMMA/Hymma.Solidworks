@@ -15,8 +15,8 @@
 		<copyright>HYMMA</copyright>
 		<tags>hymma solidworks cad addin fluent-API</tags>
 		<dependencies>
-			<group targetFramework=".NETFramework4.7.2" >
-				<dependency id="Hymma.Solidworks.Addins" version="2018.1.*"></dependency>
+			<group targetFramework=".NETFramework4.8" >
+				<dependency id="Hymma.Solidworks.Addins" version="2018.1.5"></dependency>
 			</group>
 		</dependencies>
 	</metadata>
@@ -25,8 +25,8 @@
 			  target="" />
 		<file src="..\nugetIcon.png" target=""/>
 		<file src="tools\**" target="tools"/>
-		<file src="bin\Release\*.dll" target="lib\net472"/>
-		<file src="bin\Release\*.xml" target="lib\net472"/>
-		<file src="bin\Release\*.pdb" target="lib\net472"/>
+		<file src="bin\Release\*.dll" target="lib\net48"/>
+		<file src="bin\Release\*.xml" target="lib\net48"/>
+		<file src="bin\Release\*.pdb" target="lib\net48"/>
 	</files>
 </package>
