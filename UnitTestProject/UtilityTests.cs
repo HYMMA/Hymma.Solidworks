@@ -15,15 +15,21 @@ using System.Reflection;
 namespace UnitTestProject
 {
     [TestClass]
+    [TestCategory("Framework")]
     public class UtilityTests
     {
+        private DirectoryInfo _testImageDir;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _testImageDir = Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), @"TestImages"));
+        }
         [DynamicData(nameof(GetImages), DynamicDataSourceType.Method)]
         [DataTestMethod]
         public void ShouldSaveAddinIconAsStandard(Bitmap image)
         {
-            var localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var path = Path.Combine(localAppDataFolder, "TestImages");
-            var fullFileName = AddinIcons.SaveAsStandardSize(image, path, Guid.NewGuid().ToString());
+            var fullFileName = AddinIcons.SaveAsStandardSize(image, _testImageDir.FullName, Guid.NewGuid().ToString());
 
             Assert.IsTrue(File.Exists(fullFileName));
 
@@ -63,8 +69,9 @@ namespace UnitTestProject
         [ClassCleanup]
         public static void CleanClass()
         {
-            var localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            Directory.Delete(Path.Combine(localAppDataFolder, "TestImages"), true);
+            //var localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var _testImageDir = Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), @"TestImages"));
+            Directory.Delete(_testImageDir.FullName, true);
         }
 
         public static IEnumerable<object[]> GetImages()
