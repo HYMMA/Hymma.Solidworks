@@ -13,7 +13,7 @@ namespace Hymma.Solidworks.Addins
     public enum SelectionBoxStyles
     {
         /// <summary>
-        /// default selection box taht matches most soldiworks commands (recommended so your users dont feel alienated)
+        /// default selection box that matches most soldiworks commands (recommended so your users don't feel alienated)
         /// </summary>
         Default = 0,
         /// <summary>
