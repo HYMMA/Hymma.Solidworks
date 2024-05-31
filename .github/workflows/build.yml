@@ -43,7 +43,7 @@ jobs:
 
     - name: run minver
       id: version
-      uses: thefringeninja/action-minver
+      uses: thefringeninja/action-minver@2.0.0-preview1
 
     - name: output
       run: |
