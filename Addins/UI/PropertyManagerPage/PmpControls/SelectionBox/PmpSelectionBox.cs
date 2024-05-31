@@ -45,7 +45,14 @@ namespace Hymma.Solidworks.Addins
         /// <param name="singleItemOnly">Gets or sets whether this selection box is for single or multiple items. </param>
         /// <param name="height">height of selection-box in the pmp</param>
         /// <param name="tip">tip for the selection-box</param>
-        public PmpSelectionBox(IEnumerable<swSelectType_e> filters, SelectionBoxStyles style = SelectionBoxStyles.Default, bool allowMultipleSelectOfSameEntity = true, bool singleItemOnly = false, short height = 50, string tip = "")
+        /// <param name="allowSelectInMultipleBoxes">Gets or sets whether the same entity can be selected multiple times in this selection box.  </param>
+        public PmpSelectionBox(IEnumerable<swSelectType_e> filters,
+                               SelectionBoxStyles style = SelectionBoxStyles.Default,
+                               bool allowMultipleSelectOfSameEntity = true,
+                               bool singleItemOnly = false,
+                               short height = 50,
+                               string tip = "",
+                               bool allowSelectInMultipleBoxes =true)
             : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox, "", tip)
         {
             _height = height;
@@ -53,6 +60,7 @@ namespace Hymma.Solidworks.Addins
             _style = (int)style;
             _allowMultipleSelectOfSameEntity = allowMultipleSelectOfSameEntity;
             _singleItemOnly = singleItemOnly;
+            AllowSelectInMultipleBoxes = allowSelectInMultipleBoxes;
             Registering += PmpSelectionBox_OnRegister;
             Displaying += PmpSelectionBox_OnDisplay;
         }
@@ -77,9 +85,9 @@ namespace Hymma.Solidworks.Addins
 
             if (PopUpMenuItems != null)
             {
-                for (int i = 0; i < PopUpMenuItems.Count; i++)
+                for (int i = Id; i < PopUpMenuItems.Count + Id; i++)
                 {
-                    var item = PopUpMenuItems[i];
+                    var item = PopUpMenuItems[i-Id];
                     item.Id = i + 1;
                     var result = SolidworksObject.AddMenuPopupItem(item.Id, item.ItemText, ((int)item.DocumentType), item.Hint);
                     //TODO: LOG error if !result
@@ -138,9 +146,9 @@ namespace Hymma.Solidworks.Addins
             set
             {
                 if (SolidworksObject != null)
-                    SolidworksObject.AllowMultipleSelectOfSameEntity = value;
+                    SolidworksObject.AllowSelectInMultipleBoxes = value;
                 else
-                    Registering += () => { SolidworksObject.AllowMultipleSelectOfSameEntity = value; };
+                    Registering += () => { SolidworksObject.AllowSelectInMultipleBoxes= value; };
             }
         }
 
@@ -211,7 +219,7 @@ namespace Hymma.Solidworks.Addins
               if (SolidworksObject != null)
                   SolidworksObject.EnableSelectIdenticalComponents = value;
               else
-                  OnRegister += () => { SolidworksObject.EnableSelectIdenticalComponents = value; };
+                  Registering += () => { SolidworksObject.EnableSelectIdenticalComponents = value; };
           }
       }
 
@@ -268,7 +276,7 @@ namespace Hymma.Solidworks.Addins
         /// <remarks>
         ///use this method to add items to the selection box when selection box is not focused. for example you can add all solid bodies of an assembly to a selection box once user clicked on a button.
         ///</remarks>
-        public void Append(object[] items )
+        public void Append(object[] items)
         {
             var swModelDocExt = ActiveDoc.Extension;
             SelectionMgr swSelectionMgr = ActiveDoc.SelectionManager as SelectionMgr;
@@ -320,7 +328,7 @@ namespace Hymma.Solidworks.Addins
         /// <returns>Selected object as defined in <see cref="swSelectType_e"/> Nothing or null might be returned if the type is not supported or if nothing is selected</returns>
         public KeyValuePair<object, swSelectType_e> GetItem(uint index)
         {
-            if (ActiveDoc== null || SolidworksObject == null)
+            if (ActiveDoc == null || SolidworksObject == null)
                 throw new ArgumentNullException("A Call to Selection manager::GetItem failed because activeDoc or Selection manager was null");
             if (index > ItemCount - 1)
                 throw new ArgumentOutOfRangeException("the index provided to selection manager::GetItem was more than items in the selection box");
