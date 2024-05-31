@@ -88,7 +88,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Visible = _visible;
                 else
-                    OnRegister += () => SolidworksObject.Visible = _visible;
+                    Registering += () => SolidworksObject.Visible = _visible;
             }
         }
 
@@ -104,7 +104,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Caption = _caption;
                 else
-                    OnRegister += () => SolidworksObject.Caption = _caption;
+                    Registering += () => SolidworksObject.Caption = _caption;
             }
         }
 
@@ -127,7 +127,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    OnRegister += () => SolidworksObject.Expanded = _isExpanded;
+                    Registering += () => SolidworksObject.Expanded = _isExpanded;
                 }
             }
         }
@@ -173,7 +173,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.BackgroundColor = (int)value;
                 else
-                    OnRegister += () => SolidworksObject.BackgroundColor = ((int)value);
+                    Registering += () => SolidworksObject.BackgroundColor = ((int)value);
             }
         }
 
@@ -206,6 +206,20 @@ namespace Hymma.Solidworks.Addins
             }
         }
 
+        private void DisposeRegisterEventHanders()
+        {
+            //the registering list of delegates happens once only ( when user loads the addin)
+            // we don't need to keep these in memory
+            var list = Registering?.GetInvocationList();
+            if (list != null)
+            {
+                for (int i = 0; i < list.Length; i++)
+                {
+                    var action = list[i] as Action;
+                    Registering -= action;
+                }
+            }
+        }
         /// <summary>
         /// registers this group into a property manager page
         /// </summary>
@@ -214,7 +228,8 @@ namespace Hymma.Solidworks.Addins
         {
             SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(Id, Caption, ((int)_options));
             RegisterControls();
-            OnRegister?.Invoke();
+            Registering?.Invoke();
+            DisposeRegisterEventHanders();
         }
 
         /// <summary>
@@ -225,7 +240,8 @@ namespace Hymma.Solidworks.Addins
         {
             SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPageTab.AddGroupBox(Id, Caption, ((int)_options));
             RegisterControls();
-            OnRegister?.Invoke();
+            Registering?.Invoke();
+            DisposeRegisterEventHanders();
         }
 
         #endregion
@@ -234,7 +250,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// invoked once this group is registers into solidworks
         /// </summary>
-        public Action OnRegister { get; set; }
+        public event Action Registering; 
 
         /// <summary>
         /// an event that gets called right before this pmpGroup is displayed

@@ -265,7 +265,6 @@ namespace Hymma.Solidworks.Addins
                 }
             }
 
-
             short lastId = 0;
             AllGroups = new List<PmpGroup>();
             AllControls = new List<IPmpControl>();
@@ -320,27 +319,24 @@ namespace Hymma.Solidworks.Addins
 
                     //update mark if PmpSelectionBox
                     if (control is PmpSelectionBox box)
-                        box.Mark = (int)Math.Pow(2, ++lastId);
+                        box.Mark = (int)Math.Pow(2, lastId);
 
                 }
             }
 
-            //AllGroups = PmpTabs.SelectMany(t => t.TabGroups)
-            //.Concat(PmpGroups);
-
-            //AllControls = AllGroups
-            //.SelectMany(g => g.Controls);
-
-            //update icon _dir in the tabs and pmp controllers
-            //AllControls.ToList().ForEach(c => c.SharedIconsDir = IconDir);
-
-            //PmpTabs.ForEach(tab => tab.IconDir = IconDir);
-
-            //register the controllers
-            //PmpGroups.ForEach(group => group.Register(propertyManagerPage));
-            //PmpTabs.ForEach(tab => tab.Register(propertyManagerPage));
-
             Registering?.Invoke();
+
+            //the registering list of delegates happens once only ( when user loads the addin)
+            // we don't need to keep these in memory
+            var list = Registering?.GetInvocationList();
+            if (list != null)
+            {
+                for (int i = 0; i < list.Length; i++)
+                {
+                    var action = list[i] as Action;
+                    Registering -= action;
+                }
+            }
         }
 
 

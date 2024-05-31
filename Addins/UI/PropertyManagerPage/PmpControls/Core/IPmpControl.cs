@@ -39,7 +39,7 @@ namespace Hymma.Solidworks.Addins
         public string Caption { get; }
 
         /// <summary>
-        /// this property is automatically assigned to local app folder/AddinTtile/PmpTitle/ContollerId
+        /// this where the icon for this controller will be saved
         /// </summary>
         public DirectoryInfo SharedIconsDir { get; set; }
 
@@ -70,12 +70,12 @@ namespace Hymma.Solidworks.Addins
         private short LeftAlignment { get; set; } = (short)swPropertyManagerPageControlLeftAlign_e.swControlAlign_LeftEdge;
 
         /// <summary>
-        /// bitwise options as defined in <see cref="swAddControlOptions_e"/>, default value coresponds to a visible and enabled control
+        /// bitwise options as defined in <see cref="swAddControlOptions_e"/>, default value corresponds to a visible and enabled control
         /// </summary>
         private swAddControlOptions_e Options { get; set; } = swAddControlOptions_e.swControlOptions_Enabled | swAddControlOptions_e.swControlOptions_Visible;
 
         /// <summary>
-        /// the solidworks document where the property manager page is displayed in. you can use this proeprty before the property manager page is displayed
+        /// the solidworks document where the property manager page is displayed in. you can use this property before the property manager page is displayed
         /// </summary>
         public ModelDoc2 ActiveDoc { get; internal set; }
 
@@ -141,7 +141,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// Gets or sets how to override the SOLIDWORKS default behavior when changing the width of a PropertyManager page. <br/>
         /// Resize the PropertyManager page as defined in <see cref="ControlResizeStyles"/>
-        /// you can use ths porperty only before the control is displayed or while it is closed
+        /// you can use ths property only before the control is displayed or while it is closed
         /// </summary>
         public ControlResizeStyles ResizeStyles
         {
@@ -158,7 +158,7 @@ namespace Hymma.Solidworks.Addins
 
         /// <summary>
         /// Left edge of the control <br/>
-        /// Use this proeprty and <see cref="Top"/> to palce controls side by side<br/>
+        /// Use this property and <see cref="Top"/> to place controls side by side<br/>
         /// The value is in dialog units relative to the group box that the control is in. The left edge of the group box is 0; the right edge of the group box is 100
         /// </summary>
         /// <remarks>By default, the left edge of a control is either the left edge of its group box or indented a certain distance. this property overrides that default value</remarks>
@@ -198,7 +198,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// Add this control to a group in a property manager page 
         /// </summary>
-        /// <param name="group">the group that this contorl should be registered to</param>
+        /// <param name="group">the group that this control should be registered to</param>
         internal void Register(IPropertyManagerPageGroup group)
         {
             Control = group.AddControl2(Id, (short)Type, Caption, LeftAlignment, ((int)Options), Tip) as PropertyManagerPageControl;
@@ -207,8 +207,21 @@ namespace Hymma.Solidworks.Addins
             _left = Control.Left;
             _visible = Control.Visible;
             _enabled = Control.Enabled;
-            //we raise this event here to give multiple controls set-up their initial state. some of the proeprties of a controller has to be set prior a property manager page is displayed or after it's closed
+            //we raise this event here to give multiple controls set-up their initial state. some of the properties of a controller has to be set prior a property manager page is displayed or after it's closed
             Registering?.Invoke();
+
+            //the registering list of delegates happens once only ( when user loads the addin)
+            // we don't need to keep these in memory
+            var list = Registering?.GetInvocationList();
+            if (list != null)
+            {
+                for (int i = 0; i < list.Length; i++)
+                {
+                    var action = list[i] as Action;
+                    Registering -= action;
+                }
+            }
+
         }
 
         /// <summary>
@@ -253,7 +266,7 @@ namespace Hymma.Solidworks.Addins
 
         private void ShowBubbleTooltipForControl(string title, string message, Bitmap bitmap, string fileName)
         {
-            if (bitmap==null)
+            if (bitmap == null)
             {
                 Control.ShowBubbleTooltip(title, message, "");
                 return;
