@@ -52,7 +52,7 @@ jobs:
          searchFolder: ${{github.workspace}}\UnitTestProject\bin\Release\
          runInParallel: true
          codeCoverageEnabled: true
-         testFiltercriteria: "Category!=Extensions"
+         # testFiltercriteria: "Category!=Extensions"
 
   publish:
      if: github.repository_owner == 'HYMMA'
