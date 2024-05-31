@@ -1,9 +1,6 @@
 name: Build and Publish Hymma.Solidworks
 
 on:
-  pull_request:
-    branches:
-    - master 
   push:
     branches:
     - master
@@ -18,6 +15,7 @@ defaults:
 
 jobs:
   build:
+    needs: [test]
     if: github.repository_owner == 'HYMMA'
     name: Build
     runs-on: windows-latest

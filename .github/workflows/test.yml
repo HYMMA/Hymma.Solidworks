@@ -1,0 +1,38 @@
+name: Build and Publish Hymma.Solidworks
+
+on:
+  pull_request:
+    branches:
+    - '*' 
+  push:
+    branches:
+    - master
+
+env:
+    NugetDirectory: ${{ github.workspace}}\nugets
+
+defaults:
+  run:
+    shell: pwsh
+
+
+jobs:
+  test:
+    name: test
+    runs-on: windows-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: runTest
+      uses: microsoft/vstest-action@v1.0.0
+      with:
+        testAssembly: UnitTestProject.dll
+        searchFolder: .\UnitTestProject\bin\Release\
+        runInParallel: true
+        codeCoverageEnabled: true
+        testFiltercriteria: "Category!=Extensions"
+
