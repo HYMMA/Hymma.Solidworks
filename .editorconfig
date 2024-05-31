@@ -28,6 +28,8 @@ csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_style_unused_value_assignment_preference = discard_variable:suggestion
 csharp_style_unused_value_expression_statement_preference = discard_variable:silent
 csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_primary_constructors = true:suggestion
 
 [*.{cs,vb}]
 file_header_template = Copyright (C) HYMMA All rights reserved.\nLicensed under the MIT license
@@ -98,3 +100,4 @@ dotnet_style_prefer_simplified_interpolation = true:suggestion
 dotnet_style_namespace_match_folder = true:suggestion
 dotnet_style_readonly_field = true:suggestion
 dotnet_style_predefined_type_for_locals_parameters_members = true:silent
+dotnet_style_prefer_collection_expression = when_types_loosely_match:suggestion
