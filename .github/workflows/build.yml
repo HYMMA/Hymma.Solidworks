@@ -52,7 +52,7 @@ jobs:
        uses: microsoft/vstest-action@v1.0.0
        with:
          testAssembly: UnitTestProject.dll
-         searchFolder: ${{github.workspace}}/UnitTestProject/bin/Release/
+         searchFolder: ${{github.workspace}}\UnitTestProject\bin\Release\
          # runInParallel: true
          # codeCoverageEnabled: true
          testFiltercriteria: "Category=Framework"
