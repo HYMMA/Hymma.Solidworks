@@ -61,13 +61,13 @@ jobs:
        uses: actions/upload-artifact@v4
        with:
          name: nugets 
-         path: ${{ env.NuGetDirectory}}/*.*nupkg
+         path: ${{ env.NuGetDirectory}}\*.*nupkg
 
      - name: Save Installer
        uses: actions/upload-artifact@v4
        with:
         name: QrifyInstaller
-        path: ./**/Qrify/**/bin/**/*.msi
+        path: .\**\Qrify\**\bin\**\*.msi
 
      - name: publish nuget
        run: |
