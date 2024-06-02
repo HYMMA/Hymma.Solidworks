@@ -24,21 +24,21 @@ jobs:
     runs-on: windows-latest
     steps:
 
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v4
+    # - name: Setup dotnet
+      # uses: actions/setup-dotnet@v4
 
     - name: Checkout
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
-    - name: install MinVer CLI
-      id: getVersion
-      run: | 
-          dotnet tool install --global minver-cli --version 5.0.0 
+    # - name: install MinVer CLI
+    #   id: getVersion
+    #   run: | 
+    #       dotnet tool install --global minver-cli --version 5.0.0 
 
-    - name : call Minver
-      run: echo "minversion=$(minver)" >> "$GITHUB_OUTPUT"
+    # - name : call Minver
+    #   run: echo "minversion=$(minver)" >> "$GITHUB_OUTPUT"
 
     - name: Echo Min Version
       run: echo ${{ steps.getVersion.outputs.minversion}}
@@ -52,7 +52,9 @@ jobs:
         echo ${{ steps.version.outputs.version }}
 
     - name: make nugets
-      run: nuget pack nugetSpec.nuspec -OutputDirectory ../nugets -Version ${{ steps.version.outputs.version }} -Properties Configuration=Release -Symbols -SymbolPackageFormat snupkg
+      run: |
+            foreach($file in (Get-ChildItem ./ -Recurse -Include *.nuspec)){
+             nuget pack $file -OutputDirectory ../nugets -Version ${{ steps.version.outputs.version }} -Properties Configuration=Release -Symbols -SymbolPackageFormat snupkg}
 
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v2
