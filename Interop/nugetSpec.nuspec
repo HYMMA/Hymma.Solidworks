@@ -10,6 +10,7 @@
 		<description>Solidworks interop assemblies for using its API</description>
 		<releaseNotes>Updates</releaseNotes>
 		<icon>nugetIcon.png</icon>
+		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks</projectUrl>
 		<tags>cad solidworks hymma</tags>
 		<dependencies>
 			<group targetFramework=".NETFramework4.8"/>

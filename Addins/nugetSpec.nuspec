@@ -10,7 +10,7 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<license type="expression">MIT</license>
 		<icon>nugetIcon.png</icon>
-		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Addins/</projectUrl>
+		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks</projectUrl>
 		<description>Framework to create Addins for SOLIDWORKS and later.</description>
 		<readme>readme.md</readme>
 		<releaseNotes>changed the dependencies</releaseNotes>

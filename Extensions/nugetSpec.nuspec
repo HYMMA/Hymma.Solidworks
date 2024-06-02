@@ -9,7 +9,7 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<license type="expression">MIT</license>
 		<icon>nugetIcon.png</icon>
-		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks/tree/dev/Extensions/</projectUrl>
+		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks</projectUrl>
 		<description>Extension and helper methods for SOLIDWORKS</description>
 		<releaseNotes>Update to 2018</releaseNotes>
 		<tags>cad solidworks hymma</tags>
