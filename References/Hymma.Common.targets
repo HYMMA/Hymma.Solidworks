@@ -11,11 +11,18 @@
 		<!-- new line in console -->
 		<Message Text="%0D%0A" />
 		<Message Text="--------------NUGET PACK----------------" />
+		<ConvertToAbsolutePath Paths="..\nugets">
+			<Output PropertyName="NugetDirectoryAbsolute" TaskParameter="AbsolutePaths"/>
+		</ConvertToAbsolutePath>
+		<Message Text="nugets directory does not exist. will be created." Condition="!Exists('..\nugets')"/>
+		<MakeDir Condition="!Exists('..\nugets')" Directories="..\nugets">
+			<Output TaskParameter="DirectoriesCreated" PropertyName="NugetDirectoryAbsolute" />
+        </MakeDir>
 		<Exec Condition="'$(IncludeSymbols)'=='false' or '$(SymbolPackageFormat)'==''"
-			  Command="nuget pack nugetSpec.nuspec -OutputDirectory ..\nugets -Version %(MyAssemblyIdentities.Version) -Properties Configuration=Release" />
+			  Command="nuget pack nugetSpec.nuspec -OutputDirectory $(NugetDirectoryAbsolute) -Version %(MyAssemblyIdentities.Version) -Properties Configuration=Release" />
 		
 		<Exec Condition="'$(IncludeSymbols)'=='true' AND '$(SymbolPackageFormat)'=='snupkg'" 
-			  Command="nuget pack nugetSpec.nuspec -OutputDirectory ..\nugets  -Version %(MyAssemblyIdentities.Version) -Properties Configuration=Release -Symbols -SymbolPackageFormat snupkg"/>
+			  Command="nuget pack nugetSpec.nuspec -OutputDirectory $(NugetDirectoryAbsolute)  -Version %(MyAssemblyIdentities.Version) -Properties Configuration=Release -Symbols -SymbolPackageFormat snupkg"/>
 		<Message Text="--------------NUGET PACK----------------" />
 		<!-- new line in console -->
 		<Message Text="%0D%0A" />
