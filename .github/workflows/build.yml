@@ -24,59 +24,41 @@ jobs:
     runs-on: windows-latest
     steps:
 
-    # - name: Setup dotnet
-      # uses: actions/setup-dotnet@v4
-
     - name: Checkout
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-
-    # - name: install MinVer CLI
-    #   id: getVersion
-    #   run: | 
-    #       dotnet tool install --global minver-cli --version 5.0.0 
-
-    # - name : call Minver
-    #   run: echo "minversion=$(minver)" >> "$GITHUB_OUTPUT"
-
-    - name: Echo Min Version
-      run: echo ${{ steps.getVersion.outputs.minversion}}
-
-    - name: run minver
-      id: version
-      uses: thefringeninja/action-minver@2.0.0-preview1
-
-    - name: output
-      run: |
-        echo ${{ steps.version.outputs.version }}
-
-    - name: make nugets
-      run: |
-            foreach($file in (Get-ChildItem ./ -Recurse -Include *.nuspec)){
-             nuget pack $file -OutputDirectory ../nugets -Version ${{ steps.version.outputs.version }} -Properties Configuration=Release -Symbols -SymbolPackageFormat snupkg}
 
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v2
       with:
        vs-version: '[17.0,18.0)'
 
+    # - name : make nugets
+    #   run: |
+    #       msbuild ./Addins.Fluent/Hymma.Solidworks.Addins.Fluen.csproj -t:CreateNugetPackage -p:IncludeSymbols=true -p:CreateNugetPackage=true
+    #       msbuild ./Extensions/Hymma.solidworks.Extensions.csproj -t:CreateNugetPackage -p:IncludeSymbols=true -p:CreateNugetPackage=true
+    #       msbuild ./Interop/Hymma.Solidworks.Interop.csproj -t:CreateNugetPackage -p:IncludeSymbols=true -p:CreateNugetPackage=true
+
     - name: Run build
-      run: msbuild hymma.solidworks.sln -restore -nologo -m -p:configuration=release -p:RestorePackagesConfig=true -p:BuildVersion=0.54 -p:AddinGuid='{2EB85AF6-DB51-46FB-B955-D4A7708DA315}' -p:Platform=X64 -p:IncludeSymbols=false -p:CreateNugetPackage=false
+      run: msbuild hymma.solidworks.sln -restore -nologo -m -p:configuration=release -p:RestorePackagesConfig=true -p:BuildVersion=0.54 -p:AddinGuid='{2EB85AF6-DB51-46FB-B955-D4A7708DA315}' -p:Platform=X64 -p:IncludeSymbols=true -p:CreateNugetPackage=true
 
   test:
      needs: [build]
      runs-on: windows-latest
      steps:
 
-     - name: runTest
-       uses: microsoft/vstest-action@v1.0.0
-       with:
-         testAssembly: UnitTestProject.dll
-         searchFolder: ${{github.workspace}}/UnitTestProject/bin/**/
-         # runInParallel: true
-         # codeCoverageEnabled: true
-         testFiltercriteria: "Category!=Extensions"
+     - name: run tests
+       run: vstest.console.exe {{github.workspace}}/UnitTestProject/bing/Release/UnitTestProject.dll /TestCaseFilter:"TestCategory=Framework"
+
+     # - name: runTest
+     #   uses: microsoft/vstest-action@v1.0.0
+     #   with:
+     #     testAssembly: UnitTestProject.dll
+     #     searchFolder: ${{github.workspace}}/UnitTestProject/bin/**/
+     #     # runInParallel: true
+     #     # codeCoverageEnabled: true
+     #     testFiltercriteria: "Category!=Extensions"
 
   publish:
      if: github.repository_owner == 'HYMMA'
@@ -90,14 +72,14 @@ jobs:
          name: nugets 
          path: ${{ env.NuGetDirectory}}/*.*nupkg
 
-     - name: Save Installer
-       uses: actions/upload-artifact@v4
-       with:
-        name: QrifyInstaller
-        path: ./**/Qrify/**/bin/**/*.msi
+    # - name: Save Installer
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #    name: QrifyInstaller
+    #    path: ./**/Qrify/**/bin/**/*.msi
 
-     - name: publish nuget
-       run: |
-            foreach($file in (Get-ChildItem "${{ env.NuGetDirectory}}" -Recurse -Include Hymma.Solidworks.*.*nupkg )){
-            nuget push $file -ApiKey "${{ secrets.NUGET_APIKEY}}" -src https://api.nuget.org/v3/index.json -SkipDuplicate}
+     # - name: publish nuget
+     #   run: |
+     #        foreach($file in (Get-ChildItem "${{ env.NuGetDirectory}}" -Recurse -Include Hymma.Solidworks.*.*nupkg )){
+     #        nuget push $file -ApiKey "${{ secrets.NUGET_APIKEY}}" -src https://api.nuget.org/v3/index.json -SkipDuplicate}
               
