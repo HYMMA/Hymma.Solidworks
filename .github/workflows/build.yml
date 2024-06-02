@@ -42,7 +42,7 @@ jobs:
       uses: darenm/Setup-VSTest@v1.3
 
     - name: run tests
-      run: vstest.console.exe /TestCaseFilter:"Category=Framework"  ${{github.workspace}}\UnitTestProject\bin\Release\UnitTestProject.dll
+      run: vstest.console.exe /TestCaseFilter:"TestCategory=Framework"  ${{github.workspace}}\UnitTestProject\bin\Release\UnitTestProject.dll
             
     # TODO: get this action work somehow. and replace the above two steps
     # - name: runTest
@@ -54,11 +54,11 @@ jobs:
     #      codeCoverageEnabled: true
     #      testFiltercriteria: "Category=Framework"
 
-    # - name: Save Package
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #      name: nugets 
-    #      path: ${{ env.NuGetDirectory}}\*.*nupkg
+    - name: Save Package
+      uses: actions/upload-artifact@v4
+      with:
+         name: nugets 
+         path: ${{ env.NuGetDirectory}}\*.*nupkg
 
     # - name: Save Installer
     #   uses: actions/upload-artifact@v4
