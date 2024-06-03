@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<!--AfterBuild-->
-	<Target Name="CreateNugetPackage" AfterTargets="Build,CoreCompile" Condition="'$(Configuration)' == 'Release' AND '$(CreateNugetPackage)'=='true'">
+	<Target Name="CreateNugetPackage" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' AND '$(CreateNugetPackage)'=='true'">
 		<GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
 			<Output TaskParameter="Assemblies" ItemName="MyAssemblyIdentities" />
 		</GetAssemblyIdentity>
