@@ -81,17 +81,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Addins.Fluent\QrifyPlus\QrifyPlus.csproj">
-      <Project>{7E4CBD5B-B098-4365-9509-F5B16133CFC4}</Project>
-      <Name>QrifyPlus</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Addins\Hymma.Solidworks.Addins.csproj">
       <Project>{86b8e368-880d-4169-ba19-60a84d3f6fb3}</Project>
       <Name>Hymma.Solidworks.Addins</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Addins\QRify\QRify.csproj">
-      <Project>{b0a0b8d8-af58-4ce8-a27e-74114c209344}</Project>
-      <Name>QRify</Name>
     </ProjectReference>
     <ProjectReference Include="..\Extensions\Hymma.Solidworks.Extensions.csproj">
       <Project>{c11fc3f2-c2d0-4e62-9cf2-1a152b76ae03}</Project>

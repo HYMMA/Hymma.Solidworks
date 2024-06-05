@@ -20,7 +20,7 @@
   </PropertyGroup>
   <!-- Harvest items that do not need to be com registered-->
   <ItemGroup>
-    <HarvestDirectory Include="..\bin\$(Configuration)">
+    <HarvestDirectory Include="..\Qrify\bin\$(Configuration)">
       <ComponentGroupName>HARVESTEDCOMPONENTS</ComponentGroupName>
       <DirectoryRefId>INSTALLFOLDER</DirectoryRefId>
       <SuppressCom>true</SuppressCom>
@@ -30,11 +30,11 @@
       <!--do not create a Release subfolder on clients machine-->
       <SuppressRootDirectory>true</SuppressRootDirectory>
     </HarvestDirectory>
-    <BindPath Include="..\bin\$(Configuration)" />
+    <BindPath Include="..\Qrify\bin\$(Configuration)" />
   </ItemGroup>
   <!--harvest main addin dll and have it registered in com-->
   <ItemGroup>
-    <HarvestFile Include="..\bin\$(Configuration)\Qrify.dll">
+    <HarvestFile Include="..\Qrify\bin\$(Configuration)\Qrify.dll">
       <ComponentGroupName>HARVESTEDCOMCOMPONENTS</ComponentGroupName>
       <DirectoryRefId>INSTALLFOLDER</DirectoryRefId>
       <SuppressRootDirectory>true</SuppressRootDirectory>
@@ -50,6 +50,6 @@
     <EmbeddedResource Remove=".github\**" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\QRify.csproj" />
+    <ProjectReference Include="..\QRify\QRify.csproj" />
   </ItemGroup>
 </Project>

@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B0A0B8D8-AF58-4CE8-A27E-74114C209344}</ProjectGuid>
+    <ProjectGuid>{7E4CBD5B-B098-4365-9509-F5B16133CFC4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>QRify</RootNamespace>
-    <AssemblyName>QRify</AssemblyName>
+    <RootNamespace>QrifyPlus</RootNamespace>
+    <AssemblyName>QrifyPlus</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,14 +32,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RegisterForComInterop>true</RegisterForComInterop>
-    <DocumentationFile>
-    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>QrCoder.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>QrifyPlus.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -55,7 +52,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>bin\Release\QRify.xml</DocumentationFile>
     <Optimize>true</Optimize>
     <RegisterForComInterop>true</RegisterForComInterop>
     <DebugType>pdbonly</DebugType>
@@ -89,55 +85,59 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logging\QRifyLogger.cs" />
-    <Compile Include="Qrify.g.cs" />
+    <Compile Include="ModelDocExtensions.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Qrify.cs" />
+    <Compile Include="QrifyPlus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QrifyPlusPmpCallBacks.cs" />
+    <Compile Include="QrPlusGroupControls.cs" />
+    <Compile Include="QrPlusTab.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="QrCoder.snk" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Assets\qrify.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <None Include="QrifyPlus.snk" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\info.png" />
+    <None Include="Resources\infoPlus.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <None Include="Resources\qrifyPlus.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hymma.Solidworks.Addins.csproj">
+    <ProjectReference Include="..\..\Addins\Hymma.Solidworks.Addins.csproj">
       <Project>{86b8e368-880d-4169-ba19-60a84d3f6fb3}</Project>
       <Name>Hymma.Solidworks.Addins</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Addins.Fluent\Hymma.Solidworks.Addins.Fluent.csproj">
+      <Project>{6100467f-2c52-4dda-820c-40729b0c1529}</Project>
+      <Name>Hymma.Solidworks.Addins.Fluent</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\qrify.png" />
+    <None Include="Resources\simpson.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Assets\HforHymma.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <None Include="Resources\knight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\box.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
