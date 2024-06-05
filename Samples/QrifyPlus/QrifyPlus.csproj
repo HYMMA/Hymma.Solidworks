@@ -121,13 +121,13 @@
     <None Include="Resources\qrifyPlus.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Addins\Hymma.Solidworks.Addins.csproj">
-      <Project>{86b8e368-880d-4169-ba19-60a84d3f6fb3}</Project>
-      <Name>Hymma.Solidworks.Addins</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Addins.Fluent\Hymma.Solidworks.Addins.Fluent.csproj">
       <Project>{6100467f-2c52-4dda-820c-40729b0c1529}</Project>
       <Name>Hymma.Solidworks.Addins.Fluent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Addins\Hymma.Solidworks.Addins.csproj">
+      <Project>{86b8e368-880d-4169-ba19-60a84d3f6fb3}</Project>
+      <Name>Hymma.Solidworks.Addins</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
