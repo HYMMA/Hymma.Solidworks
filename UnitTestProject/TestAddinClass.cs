@@ -2,6 +2,7 @@
 // Licensed under the MIT license
 
 using Hymma.Solidworks.Addins;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,14 @@ using System.Threading.Tasks;
 
 namespace UnitTestProject
 {
-    [Addin("TestAddin")]
-    internal class TestAddinClass
+    [TestClass]
+    public class TestAddinClass
     {
+
+        [TestMethod]
+        public void WhenMultiplePropertyManagerPagesExist_ShouldCreateAnIconFolderForEach()
+        {
+
+        }
     }
 }
