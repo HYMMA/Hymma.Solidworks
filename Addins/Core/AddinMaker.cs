@@ -168,11 +168,14 @@ namespace Hymma.Solidworks.Addins
             }
         }
 
-        private void UpdateIconsDirectory(AddinUserInterface addinUi)
+        /// <summary>
+        /// this method is public for testing only. It will generate necessary folders in the <see cref="AddinUserInterface.IconsParentDirectory"/>
+        /// </summary>
+        /// <param name="addinUi"></param>
+        public static void UpdateIconsDirectory(AddinUserInterface addinUi)
         {
             if (addinUi.IconsParentDirectory is null)
-                addinUi.IconsParentDirectory =
-                    new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+                throw new Exception("The IconParentDirectory is not defined.");
 
             foreach (var pmp in addinUi.PropertyManagerPages)
             {
