@@ -8,7 +8,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// on display event arguments for <see cref="PmpListBox"/>
     /// </summary>
-    public class PmpListboxDisplayingEventArgs : PmpControlDisplayingEventArgs
+    public class PmpListboxDisplayingEventArgs : EventArgs 
     {
         private short _height;
 

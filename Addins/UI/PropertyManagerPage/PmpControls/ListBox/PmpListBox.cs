@@ -45,7 +45,7 @@ namespace Hymma.Solidworks.Addins
 
         #region Call backs
 
-        private void PmpListBox_OnDisplay(object sender, PmpControlDisplayingEventArgs e)
+        private void PmpListBox_OnDisplay(PmpListBox sender, PmpListboxDisplayingEventArgs eventArgs)
         {
             SolidworksObject.Style = Style;
             SolidworksObject.Height = _height;
