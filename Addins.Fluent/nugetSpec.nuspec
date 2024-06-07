@@ -10,7 +10,7 @@
 		<icon>nugetIcon.png</icon>
 		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks</projectUrl>
 		<description>Framework to create Addins for SOLIDWORKS 2018 and later using fluent API.</description>
-		<readme>readme.md</readme>
+		<readme>Readme.md</readme>
 		<releaseNotes>Changed version to 2018.</releaseNotes>
 		<copyright>HYMMA</copyright>
 		<tags>hymma solidworks cad addin fluent-API</tags>
@@ -21,8 +21,7 @@
 		</dependencies>
 	</metadata>
 	<files>
-		<file src="readme.md"
-			  target="" />
+		<file src="Readme.md" target=""/>
 		<file src="..\nugetIcon.png" target=""/>
 		<file src="tools\**" target="tools"/>
 		<file src="bin\Release\*.dll" target="lib\net48"/>
