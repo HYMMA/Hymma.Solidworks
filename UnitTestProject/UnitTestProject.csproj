@@ -67,6 +67,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DummySolidworks.cs" />
     <Compile Include="Extensions\SldWorksExtensionsTests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -88,6 +89,14 @@
     <ProjectReference Include="..\Extensions\Hymma.Solidworks.Extensions.csproj">
       <Project>{c11fc3f2-c2d0-4e62-9cf2-1a152b76ae03}</Project>
       <Name>Hymma.Solidworks.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samples\QrifyPlus\QrifyPlus.csproj">
+      <Project>{7e4cbd5b-b098-4365-9509-f5b16133cfc4}</Project>
+      <Name>QrifyPlus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Samples\QRify\QRify.csproj">
+      <Project>{B0A0B8D8-AF58-4CE8-A27E-74114C209344}</Project>
+      <Name>QRify</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

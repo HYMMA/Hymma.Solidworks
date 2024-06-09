@@ -13,8 +13,6 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
-    <!--<NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>-->
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,7 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>5</WarningLevel>
     <DocumentationFile>bin\Debug\Hymma.Solidworks.Addins.xml</DocumentationFile>
-    <RegisterForComInterop>false</RegisterForComInterop>
+    <RegisterForComInterop>true</RegisterForComInterop>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -83,6 +81,7 @@
     <Compile Include="Core\IWrapSolidworksObject.cs" />
     <Compile Include="Core\OnConnectToSwEventArgs.cs" />
     <Compile Include="Core\SysColor.cs" />
+    <Compile Include="Utilities\DotNet\PathHelpers.cs" />
     <Compile Include="Utilities\DotNet\RegistryHelper.cs" />
     <Compile Include="UI\Callout\CalloutRow.cs" />
     <Compile Include="UI\Callout\OnRowValueChangedEventArgs.cs" />
@@ -208,5 +207,5 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\References\Hymma.common.targets" />
+  <Import Project="..\References\Hymma.Packing.targets" />
 </Project>

@@ -13,8 +13,6 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,7 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Hymma.Solidworks.Addins.Fluent.xml</DocumentationFile>
-    <RegisterForComInterop>false</RegisterForComInterop>
+    <RegisterForComInterop>true</RegisterForComInterop>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -137,9 +135,5 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <NuspecFileName>Fluent</NuspecFileName>
-  </PropertyGroup>
-  <Import Project="..\packages\Hymma.Solidworks.Interop.2018.0.1\build\Hymma.Solidworks.Extensions.targets" Condition="Exists('..\packages\Hymma.Solidworks.Interop.2018.0.1\build\Hymma.Solidworks.Extensions.targets')" />
-  <Import Project="..\References\Hymma.Common.targets" />
+  <Import Project="..\References\Hymma.Packing.targets" />
 </Project>
