@@ -1,6 +1,7 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Utilities.DotNet;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,11 +11,14 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
+using System.Runtime.InteropServices;
+using System.Text;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
     /// generates SolidWORKS ready icons
     /// </summary>
+    [ComVisible(true)]
     public static class AddinIcons
     {
         static List<string> GetAssemblyEmbeddedResourceNames(Assembly assy, out string resx)
@@ -130,6 +134,89 @@ namespace Hymma.Solidworks.Addins
         }
 
         /// <summary>
+        /// Creates sub directory under the IconsRootDir for the <see cref="PmpUiModel"/>
+        /// </summary>
+        /// <param name="addinUi"></param>
+        /// <exception cref="Exception"></exception>
+        ///<remarks>is public for testing</remarks>
+        public static void CreatePropertyManagerPageIconsDir(AddinUserInterface addinUi)
+        {
+        
+            var pmpTitles = addinUi.PropertyManagerPages.Select(p => p.UiModel.Title)
+                                                          .Select(t => PathHelpers.RemoveInvalidFileNameChars(t));
+            if (!AreUnique(pmpTitles))
+            {
+                for (int i = 0; i < addinUi.PropertyManagerPages.Count; i++)
+                {
+                    var pmp = addinUi.PropertyManagerPages[i];
+                    var sub = "pmp" + pmpTitles.ElementAt(i) + i;
+                    pmp.UiModel.IconDir = addinUi.IconsRootDir.CreateSubdirectory(sub);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < addinUi.PropertyManagerPages.Count; i++)
+                {
+                    var pmp = addinUi.PropertyManagerPages[i];
+                    var sub = "pmp" + pmpTitles.ElementAt(i);
+                    pmp.UiModel.IconDir = addinUi.IconsRootDir.CreateSubdirectory(sub);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates sub directory under the IconsRootDir for the <see cref="AddinCommand"/>
+        /// </summary>
+        /// <param name="addinUi"></param>
+        /// <exception cref="Exception"></exception>
+        ///<remarks>is public for testing </remarks>
+        public static void CreateTabIconsDir(AddinUserInterface addinUi)
+        {
+            
+            var tabTitles = addinUi.CommandTabs.Select(p => p.Title)
+                                                          .Select(t => PathHelpers.RemoveInvalidFileNameChars(t));
+            if (!AreUnique(tabTitles))
+            {
+                for (int i = 0; i < addinUi.CommandTabs.Count; i++)
+                {
+                    var tab = addinUi.CommandTabs[i];
+                    var sub = "cmdGrp" + tab.Title + i;
+                    tab.CommandGroup.IconsDir = addinUi.IconsRootDir.CreateSubdirectory(sub);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < addinUi.CommandTabs.Count; i++)
+                {
+                    var tab = addinUi.CommandTabs[i];
+                    var sub = "cmdGrp" + tab.Title;
+                    tab.CommandGroup.IconsDir = addinUi.IconsRootDir.CreateSubdirectory(sub);
+                }
+            }
+        }
+
+        /// <summary>
+        /// this method is public for testing only. It will generate necessary sub-folders in the <see cref="AddinUserInterface.IconsRootDir"/>
+        /// so an icon in a property manager page or ui tab has its unique path even when used in multiple controllers
+        /// </summary>
+        /// <param name="addinUi"></param>
+        public static void CreateSubDirForUiItems(AddinUserInterface addinUi)
+        {
+            if (addinUi.IconsRootDir is null)
+                throw new Exception("The IconsRootDir is not defined.");
+
+            CreateTabIconsDir(addinUi);
+            CreatePropertyManagerPageIconsDir(addinUi);
+        }
+
+        static bool AreUnique(IEnumerable<string> validTitles)
+        {
+            var set = new HashSet<string>(validTitles);
+            return set.Count == validTitles.Count();
+        }
+
+
+        /// <summary>
         /// Solidworks Addin icons has to be in 16x16 anything else fails. this method converts a random image file into a size recognizable by solidworks
         /// </summary>
         /// <param name="image">the image obj to convert to png format in 16x16</param>
@@ -142,7 +229,7 @@ namespace Hymma.Solidworks.Addins
                 throw new ArgumentNullException();
 
             if (file.ToCharArray().Any(c => (Path.GetInvalidPathChars().Any(i => i.Equals(c)))))
-                throw new Exception("file contains invalid chars");
+                throw new Exception("file contains invalidFilaNameChars chars");
 
             Directory.CreateDirectory(directory);
             //var fileName = Path.GetFileNameWithoutExtension(file);

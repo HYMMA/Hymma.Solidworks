@@ -8,10 +8,8 @@ using SolidWorks.Interop.swpublished;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Environment = System.Environment;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -149,7 +147,7 @@ namespace Hymma.Solidworks.Addins
             #region Setup the Command Manager and add commands
             _commandManager = Solidworks.GetCommandManager(Cookie);
 
-            UpdateIconsDirectory(_addinUi);
+            AddinIcons.CreateSubDirForUiItems(_addinUi);
             AddCommands(_addinUi.CommandTabs);
             AddPropertyManagerPages(_addinUi.PropertyManagerPages);
 
@@ -165,27 +163,6 @@ namespace Hymma.Solidworks.Addins
             foreach (var pmp in propertyManagerPages)
             {
                 pmp.CreatePropertyManagerPage();
-            }
-        }
-
-        /// <summary>
-        /// this method is public for testing only. It will generate necessary folders in the <see cref="AddinUserInterface.IconsParentDirectory"/>
-        /// </summary>
-        /// <param name="addinUi"></param>
-        public void UpdateIconsDirectory(AddinUserInterface addinUi)
-        {
-            if (addinUi.IconsParentDirectory is null)
-                throw new Exception("The IconParentDirectory is not defined.");
-
-            foreach (var pmp in addinUi.PropertyManagerPages)
-            {
-                var sub = "pmp" + pmp.UiModel.Title;
-                pmp.UiModel.IconDir = addinUi.IconsParentDirectory.CreateSubdirectory(sub);
-            }
-            foreach (var tab in addinUi.CommandTabs)
-            {
-                var sub = "cmdGrp" + tab.CommandGroup.UserId;
-                tab.CommandGroup.IconsDir = addinUi.IconsParentDirectory.CreateSubdirectory(sub);
             }
         }
         #endregion
