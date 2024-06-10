@@ -115,6 +115,21 @@ namespace QRify
         }
     }
 
+    public class QrPropertyManagerPageSettingGroup : PmpGroup
+    {
+        public QrPropertyManagerPageSettingGroup()
+        {
+            var lblSunken = new PmpLabel("A label with sunk text", LabelStyles.Sunken);
+            var lblRight = new PmpLabel("A label with right aligned text", LabelStyles.RightText);
+            var btn = new PmpButton("Button", "tip for this button");
+            var img = new PmpBitmap(Properties.Resources.info, "info button", ControlResizeStyles.LockLeft);
+            var bitMapbtn = new PmpBitmapButton(Properties.Resources.info, "tip for the bitmap button", BtnSize.thirtyTwo, byte.MaxValue) { Top = 400};
+            var imgLbl = new PmpLabel("Info") { Top = 400 ,Left = 30};
+            var list = new PmpListBox(new[] { "item 1", "item 2", "item 3", "item 4" }, "caption for list", "tip for list", 0, ListboxStyles.AllowMultiSelect);
+
+            AddControls(new List<IPmpControl>() { lblSunken, lblRight, btn, img,  bitMapbtn, imgLbl,list });
+        }
+    }
     public class QrPropertyManagerPageTab : PmpTab
     {
         public QrPropertyManagerPageTab() : base("Generate Qr", Properties.Resources.qrify)
@@ -123,14 +138,22 @@ namespace QRify
             this.TabGroups = new List<PmpGroup> { new QrPropertyManagerPageGroup() };
         }
     }
+    public class QrPropertyManagerPageSettingsTab : PmpTab
+    {
+        public QrPropertyManagerPageSettingsTab() : base("Settings")
+        {
+            //add the group to the tab
+            this.TabGroups = new List<PmpGroup> { new QrPropertyManagerPageSettingGroup() };
+        }
+    }
 
-    public class QrPropertyManagerPage : PmpUiModel
+    public class QrPropertyManagerPageUiModel : PmpUiModel
     {
         private PmpCloseReason closeReason;
 
-        public QrPropertyManagerPage(ISldWorks solidworks) : base(solidworks, "Qrify")
+        public QrPropertyManagerPageUiModel(ISldWorks solidworks) : base(solidworks, "Qrify")
         {
-            this.PmpTabs = new List<PmpTab>() { new QrPropertyManagerPageTab() };
+            this.PmpTabs = new List<PmpTab>() { new QrPropertyManagerPageTab(), new QrPropertyManagerPageSettingsTab() };
 
             //at this moment SolidWORKS disables most of its API functions. So if you decided to add a sheet to a drawing for example, it wont work
             this.Closing += QrPropertyManagerPage_Closing;
@@ -157,9 +180,9 @@ namespace QRify
         }
     }
 
-    public class QrPropertyManagerPageFactory : PropertyManagerPageX64
+    public class QrPropertyManagerPage : PropertyManagerPageX64
     {
-        public QrPropertyManagerPageFactory(ISldWorks sldWorks) : base(new QrPropertyManagerPage(sldWorks))
+        public QrPropertyManagerPage(ISldWorks sldWorks) : base(new QrPropertyManagerPageUiModel(sldWorks))
         {
         }
     }
@@ -186,7 +209,7 @@ namespace QRify
             this.ToolTip = Name;
         }
     }
-    public class QrCommandHelp:AddinCommand
+    public class QrCommandHelp : AddinCommand
     {
         public QrCommandHelp()
         {
@@ -204,7 +227,7 @@ namespace QRify
     public class QrCommandGroup : AddinCommandGroup
     {
         public QrCommandGroup() : base(0,
-                                       new List<AddinCommand>() { new QrCommand(),new QrCommandHelp() },
+                                       new List<AddinCommand>() { new QrCommand(), new QrCommandHelp() },
                                        "Title for Qrify command group",
                                        "Description for Qrify",
                                        "make QR codes",
@@ -230,14 +253,14 @@ namespace QRify
     }
     public class QrifyUserInterface : AddinUserInterface
     {
-        public QrPropertyManagerPageFactory PmpFactory { get; }
+        public QrPropertyManagerPage PmpFactory { get; }
         public QrifyUserInterface(ISldWorks sldWorks)
         {
-            
-            PmpFactory = new QrPropertyManagerPageFactory(sldWorks);
+
+            PmpFactory = new QrPropertyManagerPage(sldWorks);
             CommandTabs = new List<AddinCommandTab>() { new QrTab() };
             var localappdata = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            IconsParentDirectory = new DirectoryInfo(Path.Combine(localappdata, "QrifyIcons"));
+            IconsRootDir = new DirectoryInfo(Path.Combine(localappdata, "QrifyIcons"));
             this.PropertyManagerPages = new List<PropertyManagerPageX64> { PmpFactory };
         }
     }
