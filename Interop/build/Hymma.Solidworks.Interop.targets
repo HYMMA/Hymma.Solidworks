@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<!--<AssemblyFilePath>..\packages\Hymma.Solidworks.Interop.2018.1.4\build\Hymma.BuildTasks.dll</AssemblyFilePath>-->
+			<ReferenceName>SolidWorks.Interop</ReferenceName>
+			<EmbedmentSwitch>false</EmbedmentSwitch>
+		</PropertyGroup>
+    <!--<Target Name="SendMessages" BeforeTargets="ChangeReferenceEmbedmentTarget">
+		--><!--<FindUnderPath Path=".\delMe" Files="Hymma.BuildTasks.dll" >
+			<Output TaskParameter="InPath" ItemName="FilesFound" />
+        </FindUnderPath>--><!--
+		<ConvertToAbsolutePath Paths="$(AssemblyFilePath)">
+			<Output TaskParameter="AbsolutePaths" PropertyName="AbsPath">
+			</Output>
+		</ConvertToAbsolutePath>
+        <PropertyGroup>
+            <ErrorText>
+                Could not not resolve {0} to set SolidWorks.Interop.* embedment references to false.
+            </ErrorText>
+        </PropertyGroup>
+		<Message Text="Trying to resolve $(AbsPath)"/>
+		--><!--<Message Text="Trying to find %(FilesFound.FullPath)"/>--><!--
+		<Error Text="$([System.String]::Format('$(ErrorText)', '$(AbsPath)'))" Condition="!Exists($(AbsPath))"  />
+    </Target>-->
+	<UsingTask TaskName="Hymma.BuildTasks.ChangeReferenceEmbedment" Runtime="CLR4"  AssemblyFile="Hymma.BuildTasks.dll" />
+	<!--Before Build-->
+	<Target Name="ChangeReferenceEmbedmentTarget" BeforeTargets="CoreCompile">
+		<ChangeReferenceEmbedment MSBuildProjectFullPath="$(MSBuildProjectFullPath)" ReferenceName="$(ReferenceName)" Switch="$(EmbedmentSwitch)">
+        </ChangeReferenceEmbedment>
+	</Target>
+</Project>

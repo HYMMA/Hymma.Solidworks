@@ -17,11 +17,11 @@
 		</dependencies>
 	</metadata>
 	<files>
-		<!--<file src="bin\Release\*.dll" target="lib\net48" exclude="bin\Release\Hymma.Solidworks.Interop.dll" />-->
 		<file src="..\nugetIcon.png" target=""/>
 		<file src="tools\**" target="tools"/>
+		<!--<file src="build\*.targets" target="build"/>-->
+		<!--<file src="build\Hymma.BuildTasks.dll" target="build"/>-->
 		<file src="bin\Release\*.xml" target="lib\net48"/>
 		<file src="bin\Release\*.dll" target="lib\net48" exclude="bin\Release\Hymma.Solidworks.Interop.dll" />
-		<file src="bin\Release\*.pdb" target="lib\net48"/>
 	</files>
 </package>
