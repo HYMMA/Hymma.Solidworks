@@ -16,7 +16,7 @@ namespace Hymma.Solidworks.Addins
         /// this is the main directory to save various addin icons
         /// </summary>
         ///<remarks></remarks>
-        public DirectoryInfo IconsParentDirectory { get; set; } 
+        public DirectoryInfo IconsRootDir { get; set; } 
 
         /// <summary>
         /// unique identifier for this addin, gets assigned to by solidworks 

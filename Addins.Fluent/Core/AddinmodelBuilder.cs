@@ -47,7 +47,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// <returns></returns>
         public AddinModelBuilder WithIconsPath(DirectoryInfo iconsDir)
         {
-            IconsParentDirectory = iconsDir;
+            IconsRootDir = iconsDir;
             return this;
         }
 
@@ -58,7 +58,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         ///<exception cref="DirectoryNotFoundException"></exception>
         public AddinUserInterface Build()
         {
-            if (IconsParentDirectory is null)
+            if (IconsRootDir is null)
             {
                 throw new DirectoryNotFoundException("Icons directory is null");
             }
