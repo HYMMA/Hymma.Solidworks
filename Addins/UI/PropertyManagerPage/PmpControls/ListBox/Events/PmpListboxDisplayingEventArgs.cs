@@ -2,6 +2,7 @@
 // Licensed under the MIT license
 
 using SolidWorks.Interop.sldworks;
+using System;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -18,11 +19,10 @@ namespace Hymma.Solidworks.Addins
         /// <param name="listBox">the controller that has fired the event</param>
         /// <param name="height">height of the control in dialogue units</param>
         public PmpListboxDisplayingEventArgs(PmpListBox listBox, short height) 
-            : base((IPropertyManagerPageControl )listBox.SolidworksObject)
         {
+            this.SolidworksObject = listBox.SolidworksObject;
             this._height = height;
             this.Height = height;
-            this.SolidworksObject = listBox.SolidworksObject;
         }
 
 

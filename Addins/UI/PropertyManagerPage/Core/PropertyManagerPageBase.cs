@@ -19,7 +19,8 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// wrapper for ui objects
         /// </summary>
-        internal PmpUiModel UiModel;
+        ///<remarks>it is public for testing puposes</remarks>
+        public PmpUiModel UiModel { get; }
 
         /// <summary>
         /// handles events based on their id
