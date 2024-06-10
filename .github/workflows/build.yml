@@ -33,7 +33,7 @@ jobs:
        vs-version: '[17.0,18.0)'
 
     - name: Run build
-      run: msbuild hymma.solidworks.sln -restore -nologo -p:configuration=Release -p:RestorePackagesConfig=true -p:BuildVersion=0.54 -p:AddinGuid='{2EB85AF6-DB51-46FB-B955-D4A7708DA315}' -p:Platform=X64 -p:IncludeSymbols=true -p:CreateNugetPackage=true
+      run: msbuild hymma.solidworks.sln -restore -nologo -p:configuration=Release -p:RestorePackagesConfig=true -p:BuildVersion=0.54 -p:AddinGuid='{2EB85AF6-DB51-46FB-B955-D4A7708DA315}' -p:IncludeSymbols=true -p:CreateNugetPackage=true
 
       # the legend behind this action is not maintaining this anymore
     - name: Setup VSTest.console.exe
