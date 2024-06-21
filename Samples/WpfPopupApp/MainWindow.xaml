@@ -1,0 +1,15 @@
+﻿<Window x:Class="WpfPopupApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfPopupApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="135" Width="465">
+  <Grid>
+    <Button Content='Ok' Margin='345,79,60,0' VerticalAlignment='Top' Click='Button_Click'/>
+    <TextBlock Margin='70,30,0,0' TextWrapping='Wrap' Text='Qrify+ is an open source free solidworks addin.' VerticalAlignment='Top' Height='20' HorizontalAlignment='Left' Width='145'/>
+    <Image HorizontalAlignment='Left' Height='60' Margin='5,10,0,0' VerticalAlignment='Top' Width='69' Source='/infoPlus.png'/>
+
+  </Grid>
+</Window>

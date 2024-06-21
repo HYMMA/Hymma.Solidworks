@@ -3,6 +3,7 @@
 
 using Hymma.Solidworks.Addins;
 using Hymma.Solidworks.Addins.Fluent;
+using Hymma.Solidworks.Addins.UI.PopUps;
 using Microsoft.Win32;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
@@ -11,8 +12,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using Environment = System.Environment;
-
 namespace QrifyPlus
 {
     [Addin("QRifyPlus", AddinIcon = "qrifyPlus", Description = "Generate QR Code and more", LoadAtStartup = true)]
@@ -22,6 +24,8 @@ namespace QrifyPlus
     {
         private PropertyManagerPageX64 pmpFactory;
         private QrifyPlusPmpCallBacks closeCallBackRegistry;
+        private bool _checkedLicenseValidation;
+        private bool _isLicValid;
 
         public QrifyPlus()
         {
@@ -41,6 +45,7 @@ namespace QrifyPlus
             //this is the proper way to access the solidworks object. prior to this moment Solidworks object is null as add-in is not connected to solidworks yet
             closeCallBackRegistry = new QrifyPlusPmpCallBacks(e.Solidworks);
         }
+
         public void ShowQrifyPlusPmp()
         {
             var model = Solidworks.ActiveDoc as ModelDoc2;
@@ -52,8 +57,17 @@ namespace QrifyPlus
                     break;
             }
         }
+
+        private bool IsLicenseValid()
+        {
+            return true;
+        }
+
         public int QrifyPlusPmpEnabler()
         {
+            if (!IsLicenseValid())
+                return 0;
+
             if (Solidworks.ActiveDoc == null)
                 return 0;
 
@@ -66,7 +80,7 @@ namespace QrifyPlus
 
         public override AddinUserInterface GetUserInterFace()
         {
-            var iconsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"QrifyPlusIcons");
+            var iconsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "QrifyPlusIcons");
             var builder = this.GetBuilder();
             builder
                 .AddCommandTab()                                                //An Addin must have a command tab that hosts the command group which in turn hosts the commands
@@ -74,17 +88,26 @@ namespace QrifyPlus
                     .That()
                     .IsVisibleIn(new[] { swDocumentTypes_e.swDocDRAWING })      //Define which document types this command tab should be accessible from
                     .SetCommandGroup(5)                                         //Add a command group with ID 1. or else if you want. this id and the GUID of this add-in should be unique. once you updated your addin you should change this ID to hold backward compatibility
-                        .WithTitle("Qrify+",Constants.SolidworksMenu.View)      //Define a title for command group and place the group under Edit menu in solidworks. for most Ui elements solidworks will not load the ui if they don't have a title
+                        .WithTitle("Qrify+", AddinConstants.SolidworksMenu.View)      //Define a title for command group and place the group under Edit menu in solidworks. for most Ui elements solidworks will not load the ui if they don't have a title
                         .WithIcon(Properties.Resources.qrifyPlus)               //An Icon for the command group
                         .Has()                                                  //change context
                             .Commands(() =>                                     //Add commands to the command group
                             {
                                 return new AddinCommand[]
                                 {
-                                    new AddinCommand("QRify+", "QRify+", "QRify+", Properties.Resources.knight, nameof(ShowQrifyPlusPmp), enableMethod:nameof(QrifyPlusPmpEnabler)),
-                                        new AddinCommand("Qrify+ helps","help for qrify+","help toolTip",Properties.Resources.infoPlus,nameof(ShowQrifyPlusHelpDia),enableMethod:nameof(QrifyPlusPmpEnabler)),
-                                        new AddinCommand("Qrify+ info","info for qrify+","info toolTip",Properties.Resources.simpson,nameof(ShowQrifyPlusHelpDia),enableMethod:nameof(QrifyPlusPmpEnabler)),
-                                        new AddinCommand("box","info","info toolTip",Properties.Resources.box,nameof(ShowQrifyPlusHelpDia),enableMethod:nameof(QrifyPlusPmpEnabler)){BoxId=2},
+                                    new AddinCommand("QRify+",
+                                                     "QRify+",
+                                                     "QRify+",
+                                                     Properties.Resources.knight,
+                                                     nameof(ShowQrifyPlusPmp),
+                                                     enableMethod:nameof(QrifyPlusPmpEnabler)),
+
+                                        new AddinCommand("box",
+                                                         "info",
+                                                         "info toolTip",
+                                                         Properties.Resources.box,
+                                                         nameofCallBackFunc: nameof(ShowWinformHelpDia),
+                                                         enableMethod:nameof(QrifyPlusPmpEnabler)){BoxId=2},
                                 };
                             })
                     .SaveCommandGroup()                                         //Save the command group 
@@ -93,14 +116,19 @@ namespace QrifyPlus
                     .WithTitle("Qrify+ help")
                     .IsVisibleIn(new[] { swDocumentTypes_e.swDocDRAWING })
                     .SetCommandGroup(7)
-                        .WithTitle("Help for Q+", Constants.SolidworksMenu.Help)
+                        .WithTitle("Help for Q+", AddinConstants.SolidworksMenu.Help)
                         .WithIcon(Properties.Resources.infoPlus)
                             .Has()
                                 .Commands(() =>
                                 {
                                     return new AddinCommand[]
                                     {
-                                        new AddinCommand("Qrify+ help","help for qrify+","help toolTip",Properties.Resources.infoPlus,nameof(ShowQrifyPlusHelpDia),enableMethod:nameof(QrifyPlusPmpEnabler)),
+                                        new AddinCommand("Qrify+ help",
+                                                         "help for qrify+",
+                                                         "help toolTip",
+                                                         Properties.Resources.infoPlus,
+                                                        nameofCallBackFunc: nameof(ShowWPFDia),
+                                                         enableMethod:nameof(QrifyPlusPmpEnabler)),
                                     };
                                 })
                     .SaveCommandGroup()
@@ -139,9 +167,16 @@ namespace QrifyPlus
             return builder.WithIconsPath(new DirectoryInfo(iconsPath)).Build();                                         //Build the UI
         }
 
-        private object ShowQrifyPlusHelpDia()
+        public void ShowWPFDia()
         {
-            throw new NotImplementedException();
+            var dia = Solidworks.HookWpfWindow(new WpfPopupApp.MainWindow());
+            dia.Show();
+        }
+
+        public void ShowWinformHelpDia()
+        {
+            var dia = Solidworks.HookWinForm(new WinFormPopupApp.Form1());
+            dia.Show();
         }
 
         private List<IPmpControl> GetSettingsControls()
