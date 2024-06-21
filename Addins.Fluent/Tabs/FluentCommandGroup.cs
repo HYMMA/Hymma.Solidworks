@@ -71,7 +71,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IFluentCommandGroup WithTitle(string title, string menu = Constants.SolidworksMenu.Tools)
+        public IFluentCommandGroup WithTitle(string title, string menu = AddinConstants.SolidworksMenu.Tools)
         {
             Title = $"&{menu}\\{title}";
             return this;
