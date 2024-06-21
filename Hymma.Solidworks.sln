@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrifyPlus", "Samples\QrifyP
 EndProject
 Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "QRifyInstaller", "Samples\QRifyInstaller\QRifyInstaller.wixproj", "{7167EC61-60DD-4DBD-B843-26E1F9C9A23E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormPopupApp", "Samples\WinFormPopupApp\WinFormPopupApp.csproj", "{17B2718E-900E-46CA-BA92-7B582B1280DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfPopupApp", "Samples\WpfPopupApp\WpfPopupApp.csproj", "{77C63854-2653-4D4E-82F1-B2294DBD4671}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -175,6 +179,38 @@ Global
 		{7167EC61-60DD-4DBD-B843-26E1F9C9A23E}.Release|x64.Build.0 = Release|x64
 		{7167EC61-60DD-4DBD-B843-26E1F9C9A23E}.Release|x86.ActiveCfg = Release|x64
 		{7167EC61-60DD-4DBD-B843-26E1F9C9A23E}.Release|x86.Build.0 = Release|x64
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Debug|x64.Build.0 = Debug|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Debug|x86.Build.0 = Debug|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Release|ARM64.Build.0 = Release|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Release|x64.ActiveCfg = Release|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Release|x64.Build.0 = Release|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Release|x86.ActiveCfg = Release|Any CPU
+		{17B2718E-900E-46CA-BA92-7B582B1280DB}.Release|x86.Build.0 = Release|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Debug|x64.Build.0 = Debug|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Debug|x86.Build.0 = Debug|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Release|ARM64.Build.0 = Release|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Release|x64.ActiveCfg = Release|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Release|x64.Build.0 = Release|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Release|x86.ActiveCfg = Release|Any CPU
+		{77C63854-2653-4D4E-82F1-B2294DBD4671}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
