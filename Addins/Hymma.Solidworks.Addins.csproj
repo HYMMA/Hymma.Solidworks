@@ -81,6 +81,11 @@
     <Compile Include="Core\IWrapSolidworksObject.cs" />
     <Compile Include="Core\OnConnectToSwEventArgs.cs" />
     <Compile Include="Core\SysColor.cs" />
+    <Compile Include="UI\PopUps\ISldWorksExtensions.cs" />
+    <Compile Include="UI\PopUps\ScreenZones.cs" />
+    <Compile Include="UI\PopUps\PopupHelper.cs" />
+    <Compile Include="UI\PopUps\SwPopupWindow.cs" />
+    <Compile Include="UI\PopUps\Thickness.cs" />
     <Compile Include="Utilities\DotNet\PathHelpers.cs" />
     <Compile Include="Utilities\DotNet\RegistryHelper.cs" />
     <Compile Include="UI\Callout\CalloutRow.cs" />
@@ -124,7 +129,7 @@
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxListChangedEventArgs.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxSelectionSubmittedEventHandler.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\SelectionBox\Events\PmpSelectionBoxSelectionSubmittedEventArgs.cs" />
-    <Compile Include="Utilities\Constants.cs" />
+    <Compile Include="Utilities\AddinConstants.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Buttons\PmpBitmapButton.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Core\PmpTextBase.cs" />
     <Compile Include="UI\PropertyManagerPage\PmpControls\Slider\PmpSlider.cs" />
@@ -170,6 +175,7 @@
     <None Include="nugetSpec.nuspec" />
     <None Include="readme.md" />
     <None Include="SolidTools.SolidAddins.snk" />
+    <None Include="UI\PopUps\Readme.md" />
   </ItemGroup>
   <PropertyGroup>
     <IncludeSymbols>true</IncludeSymbols>
