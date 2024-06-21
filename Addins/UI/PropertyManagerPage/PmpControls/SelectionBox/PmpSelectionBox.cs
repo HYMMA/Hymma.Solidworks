@@ -81,7 +81,7 @@ namespace Hymma.Solidworks.Addins
             //SolidworksObject.EnableSelectIdenticalComponents = _enableSelectIdenticalComponents;
             SolidworksObject.Height = _height;
             SolidworksObject.SetSelectionFilters(_filters.Cast<int>().ToArray());
-            //Mark = Constants.GetNextSelBoxMark();
+            //Mark = AddinConstants.GetNextSelBoxMark();
 
             if (PopUpMenuItems != null)
             {

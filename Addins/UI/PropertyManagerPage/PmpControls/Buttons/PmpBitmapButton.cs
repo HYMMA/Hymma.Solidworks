@@ -88,7 +88,7 @@ namespace Hymma.Solidworks.Addins
                 return;
 
             var fullFileName = Path.Combine(SharedIconsDir.CreateSubdirectory(Id.ToString()).FullName,
-                                            new StringBuilder().Append(fileName).Append(Constants.GetBtnSize(size)).Append(".png").ToString());
+                                            new StringBuilder().Append(fileName).Append(AddinConstants.GetBtnSize(size)).Append(".png").ToString());
             if (!File.Exists(fullFileName))
             {
                 using (bitmap)

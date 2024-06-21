@@ -32,7 +32,7 @@ namespace Hymma.Solidworks.Addins
         {
             Caption = caption;
             _icon = icon;
-            //Id = Constants.GetNextPmpId();
+            //Id = AddinConstants.GetNextPmpId();
         }
 
         #endregion

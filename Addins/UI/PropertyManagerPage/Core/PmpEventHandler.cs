@@ -458,7 +458,7 @@ namespace Hymma.Solidworks.Addins
         }
 
         /// <summary>
-        /// fired after a window form handler control is displayed in the property manager page 
+        /// fired after a window winForm handler control is displayed in the property manager page 
         /// </summary>
         /// <param name="Id"></param>
         /// <param name="Status"></param>

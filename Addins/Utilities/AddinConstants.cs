@@ -8,7 +8,7 @@ namespace Hymma.Solidworks.Addins
     /// <summary>
     /// generate a new id
     /// </summary>
-    public sealed class Constants
+    public sealed class AddinConstants
     {
         /// <summary>
         /// provides names of all menus  in SOLIDWORKS

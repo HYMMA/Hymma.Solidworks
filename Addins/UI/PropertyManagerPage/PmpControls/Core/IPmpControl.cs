@@ -25,7 +25,7 @@ namespace Hymma.Solidworks.Addins
 
         internal IPmpControl(swPropertyManagerPageControlType_e type, string caption, string tip)
         {
-            //Id = (short)Constants.GetNextPmpId();
+            //Id = (short)AddinConstants.GetNextPmpId();
             Type = type;
             Caption = caption;
             Tip = tip;
