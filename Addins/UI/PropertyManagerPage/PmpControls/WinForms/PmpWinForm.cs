@@ -17,8 +17,8 @@ namespace Hymma.Solidworks.Addins.UI
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="height">if set to zero the form will not be shown</param>
-        /// <param name="caption">caption for the form</param>
+        /// <param name="height">if set to zero the winForm will not be shown</param>
+        /// <param name="caption">caption for the winForm</param>
         /// <param name="tip">a tip for the controller</param>
         public PmpWinForm(int height, string caption = "", string tip = "") : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_WindowFromHandle, caption, tip)
         {

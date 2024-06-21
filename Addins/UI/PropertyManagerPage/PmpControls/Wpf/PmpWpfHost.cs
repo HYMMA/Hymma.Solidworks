@@ -10,7 +10,7 @@ using Xarial.XCad.SolidWorks.Utils;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// a windows form host that solidworks uses to show win forms or wpf
+    /// a windows winForm host that solidworks uses to show win forms or wpf
     /// </summary>
     /// <remarks>your addin must add a reference to WindowsFormsIntegration</remarks>
     public class PmpWpfHost : PmpControl<IPropertyManagerPageWindowFromHandle>, IEquatable<PmpWpfHost>, IDisposable
@@ -19,7 +19,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// default constructor 
         /// </summary>
-        /// <param name="elementHost">solidworks uses <see cref="System.Windows.Forms.Integration.ElementHost"/> to hook into a windows form</param>
+        /// <param name="elementHost">solidworks uses <see cref="System.Windows.Forms.Integration.ElementHost"/> to hook into a windows winForm</param>
         /// <param name="wpfControl">wpf controller</param>
         /// <param name="height">height of this control in property manager page if set to zero the control will not appear</param>
         public PmpWpfHost(ElementHost elementHost, System.Windows.Controls.UserControl wpfControl, int height) : base(swPropertyManagerPageControlType_e.swControlType_WindowFromHandle)
@@ -62,7 +62,7 @@ namespace Hymma.Solidworks.Addins
         public ElementHost ElementHost { get; }
 
         /// <summary>
-        /// a windows form or wpf controller
+        /// a windows winForm or wpf controller
         /// </summary>
         public System.Windows.Controls.UserControl WindowsControl { get; }
 

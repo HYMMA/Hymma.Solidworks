@@ -7,7 +7,7 @@ using System;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// Allows using a Windows form or Windows Form user control in the property manager page
+    /// Allows using a Windows winForm or Windows Form user control in the property manager page
     /// </summary>
     public class PmpWinFormContoller<T> : PmpControl<IPropertyManagerPageWindowFromHandle> where T : System.Windows.Forms.UserControl, new()
     {
