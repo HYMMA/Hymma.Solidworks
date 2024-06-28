@@ -1,6 +1,7 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Utilities.DotNet;
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -40,7 +41,8 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
 
             if (scaleDpi)
             {
-                GetDpiScale(out scaleX, out scaleY);
+                scaleX = GraphicsHelper.XDpiScale;
+                scaleY = GraphicsHelper.YDpiScale;
             }
             else
             {
@@ -53,6 +55,15 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
 
             var wndWidth = (rect.Right - rect.Left) / scaleX;
             var wndHeight = (rect.Bottom - rect.Top) / scaleY;
+
+            if (double.IsNaN(height))
+            {
+                height = 0;
+            }
+            if (double.IsNaN(width))
+            {
+                width = 0;
+            }
 
             switch (zone)
             {
@@ -73,17 +84,6 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
 
                 default:
                     throw new NotSupportedException();
-            }
-        }
-
-        private static void GetDpiScale(out double scaleX, out double scaleY)
-        {
-            using (var graphics = System.Drawing.Graphics.FromHwnd(IntPtr.Zero))
-            {
-                const int DPI = 96;
-
-                scaleX = graphics.DpiX / DPI;
-                scaleY = graphics.DpiY / DPI;
             }
         }
     }

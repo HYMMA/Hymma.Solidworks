@@ -106,8 +106,10 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
         {
             var startupLoc = wpfWindow.WindowStartupLocation;
 
-            PositionWindow(dock);
-
+            wpfWindow.Loaded += (s, e) =>
+            {
+                PositionWindow(dock);
+            };
             var res = wpfWindow.ShowDialog();
 
             wpfWindow.WindowStartupLocation = startupLoc;
@@ -122,10 +124,9 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
         public void Show(ScreenZones dock = ScreenZones.Center)
         {
             var startupLoc = wpfWindow.WindowStartupLocation;
+            wpfWindow.Show();
 
             PositionWindow(dock);
-
-            wpfWindow.Show();
             wpfWindow.BringIntoView();
 
             wpfWindow.WindowStartupLocation = startupLoc;

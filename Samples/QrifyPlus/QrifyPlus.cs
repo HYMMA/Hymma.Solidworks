@@ -127,7 +127,7 @@ namespace QrifyPlus
                                                          "help for qrify+",
                                                          "help toolTip",
                                                          Properties.Resources.infoPlus,
-                                                        nameofCallBackFunc: nameof(ShowWPFDia),
+                                                         nameofCallBackFunc: nameof(ShowWPFDia),
                                                          enableMethod:nameof(QrifyPlusPmpEnabler)),
                                     };
                                 })
