@@ -86,6 +86,7 @@
     <Compile Include="UI\PopUps\PopupHelper.cs" />
     <Compile Include="UI\PopUps\SwPopupWindow.cs" />
     <Compile Include="UI\PopUps\Thickness.cs" />
+    <Compile Include="Utilities\DotNet\GraphicsHelper.cs" />
     <Compile Include="Utilities\DotNet\PathHelpers.cs" />
     <Compile Include="Utilities\DotNet\RegistryHelper.cs" />
     <Compile Include="UI\Callout\CalloutRow.cs" />

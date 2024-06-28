@@ -3,6 +3,7 @@
 
 using Hymma.Solidworks.Addins.Core;
 using Hymma.Solidworks.Addins.Helpers;
+using Hymma.Solidworks.Addins.Utilities.DotNet;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swpublished;
 using System;
@@ -38,6 +39,13 @@ namespace Hymma.Solidworks.Addins
 
         #endregion
 
+        /// <summary>
+        /// initial values will be saved to memory here.
+        /// </summary>
+        protected AddinMaker()
+        {
+            GraphicsHelper.SaveDpiScaleInMemory();
+        }
         #region Public Properties
 
         /// <summary>

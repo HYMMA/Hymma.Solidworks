@@ -1,6 +1,7 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Utilities.DotNet;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
@@ -92,7 +93,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.Top = value;
                 else
-                    Registering += () => { Control.Top = value; };
+                    Registering += () => { Control.Top = (short)(value / GraphicsHelper.YDpiScale); };
             }
         }
 
@@ -171,7 +172,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.Left = value;
                 else
-                    Registering += () => { Control.Left = value; };
+                    Registering += () => { Control.Left = (short)(value / GraphicsHelper.XDpiScale); };
             }
         }
 
@@ -188,7 +189,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.Width = value;
                 else
-                    Registering += () => { Control.Width = value; };
+                    Registering += () => { Control.Width = (short)(value / GraphicsHelper.XDpiScale); };
             }
         }
         #endregion
