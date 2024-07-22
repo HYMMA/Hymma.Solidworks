@@ -162,7 +162,7 @@ namespace QRify
             this.AfterClose += QrPropertyManagerPage_AfterClose;
         }
 
-        private void QrPropertyManagerPage_Closing(PmpCloseReason obj)
+        private void QrPropertyManagerPage_Closing(PmpUiModel sender,PmpCloseReason obj)
         {
             if (obj == PmpCloseReason.Cancel)
             {
@@ -171,7 +171,7 @@ namespace QRify
             }
         }
 
-        private void QrPropertyManagerPage_AfterClose()
+        private void QrPropertyManagerPage_AfterClose(PmpUiModel sender)
         {
             if (closeReason == PmpCloseReason.Okay)
             {
