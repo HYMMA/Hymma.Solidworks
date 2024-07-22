@@ -134,7 +134,7 @@ namespace QrifyPlus
                     .SaveCommandGroup()
                 .SaveCommandTab()
                 .AddPropertyManagerPage("QRify+", this.Solidworks)          //Add property manager page to the list of UI that the builder will create
-                .AddMenuePopUpItem(new PopUpMenuItem("item 1", "hint", swDocumentTypes_e.swDocDRAWING))
+                .AddMenuPopUpItem(new PopUpMenuItem("item 1", "hint", swDocumentTypes_e.swDocDRAWING))
                         .AddGroup("Group Under Property Manager Page")
                             .That()
                             .HasTheseControls(new List<IPmpControl>
@@ -160,8 +160,8 @@ namespace QrifyPlus
                             .OnExpansionChange(null)                        //Event to fire once group expansion changes
                         .SaveGroup()                                        //Save the property manager page group
                     .SaveTab()                                              //Save the property manger page tab
-               .OnClosing((r) => closeCallBackRegistry.DuringClose(r))      //Solidworks exposes this API but actually locks the UI and most of the command will have no effect. THIS IS IMPORTANT
-               .OnAfterClose(() => closeCallBackRegistry.AfterClose())      //Once the Property Manager Page is closed for good
+               .OnClosing((p,r) => closeCallBackRegistry.DuringClose(r))      //Solidworks exposes this API but actually locks the UI and most of the command will have no effect. THIS IS IMPORTANT
+               .OnAfterClose((p) => closeCallBackRegistry.AfterClose())      //Once the Property Manager Page is closed for good
                .SavePropertyManagerPage(out PropertyManagerPageX64 pmpFactoryX64);  //expose the object that is responsible for showing th property manager page 
             this.pmpFactory = pmpFactoryX64;
             return builder.WithIconsPath(new DirectoryInfo(iconsPath)).Build();                                         //Build the UI

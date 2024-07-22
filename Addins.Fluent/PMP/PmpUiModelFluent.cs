@@ -14,7 +14,7 @@ namespace Hymma.Solidworks.Addins.Fluent
     public class PmpUiModelFluent : PmpUiModel, IPmpUiModelFluent
     {
         /// <inheritdoc/>
-        public PmpUiModelFluent(ISldWorks solidworks,string title) : base(solidworks,title)
+        public PmpUiModelFluent(ISldWorks solidworks, string title) : base(solidworks, title)
         {
 
         }
@@ -44,14 +44,14 @@ namespace Hymma.Solidworks.Addins.Fluent
 
 
         ///<inheritdoc/>
-        public IPmpUiModelFluent OnAfterClose(Action doThis)
+        public IPmpUiModelFluent OnAfterClose(Action<PmpUiModel> doThis)
         {
             this.AfterClose += doThis;
             return this;
         }
 
         /// <inheritdoc/>
-        public IPmpUiModelFluent OnClosing(Action<PmpCloseReason> doThis)
+        public IPmpUiModelFluent OnClosing(Action<PmpUiModel, PmpCloseReason> doThis)
         {
             this.Closing += doThis;
             return this;
@@ -59,7 +59,7 @@ namespace Hymma.Solidworks.Addins.Fluent
 
 
         /// <inheritdoc/>
-        public IPmpUiModelFluent OnAfterActivation(Action action)
+        public IPmpUiModelFluent OnAfterActivation(Action<PmpUiModel> action)
         {
             AfterActivation += action;
             return this;
@@ -68,7 +68,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// <inheritdoc/>
         public IAddinModelBuilder SavePropertyManagerPage(out PropertyManagerPageX64 propertyManagerPage)
         {
-            
+
             propertyManagerPage = new PropertyManagerPageX64(this);
             this.AddinModel.PropertyManagerPages.Add(propertyManagerPage);
             return this.AddinModel;
@@ -89,9 +89,16 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
+        public IPmpUiModelFluent AddTab(PmpTab tab)
+        {
+            PmpTabs.Add(tab);
+            return this;
+        }
+
+        ///<inheritdoc/>
         public IPmpUiModelFluent AddTab<T>() where T : PmpTab, new()
         {
-            var pmpTab2=Activator.CreateInstance(typeof(T)) as T;
+            var pmpTab2 = Activator.CreateInstance(typeof(T)) as T;
             PmpTabs.Add(pmpTab2);
             return this;
         }
@@ -118,7 +125,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IPmpUiModelFluent AddMenuePopUpItem(PopUpMenuItem item)
+        public IPmpUiModelFluent AddMenuPopUpItem(PopUpMenuItem item)
         {
             if (PopUpMenuItems == null)
                 PopUpMenuItems = new List<PopUpMenuItem>();

@@ -29,7 +29,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="solidworks"></param>
         /// <param name="title">the title of the property manager page that appears on top of it in solidWORK</param>
         ///<remarks>the title of the property manger page has to be a unique value for each add-in</remarks>
-        public PmpUiModel(ISldWorks solidworks, string title )
+        public PmpUiModel(ISldWorks solidworks, string title)
         {
             this.Solidworks = solidworks;
             Title = title;
@@ -175,17 +175,17 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// method to invoke after the property manager page is activated
         /// </summary>
-        public event Action AfterActivation;
+        public event Action<PmpUiModel> AfterActivation;
 
         /// <summary>
         /// method to invoke after the property manager page is closed
         /// </summary>
-        public event Action AfterClose;
+        public event Action<PmpUiModel> AfterClose;
 
         /// <summary>
         /// method to invoke while the property manager page is closing
         /// </summary>
-        public event Action<PmpCloseReason> Closing;
+        public event Action<PmpUiModel, PmpCloseReason> Closing;
 
         /// <summary>
         /// method to invoke when user goes to the previous page of a property manager page
@@ -205,16 +205,16 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// method to invoke when user selects on Whats new button
         /// </summary>
-        public event Action WhatsNewClicked;
+        public event Action<PmpUiModel> WhatsNewClicked;
 
         /// <summary>
         /// method to invoke when user calls undo (ctrl+z)
         /// </summary>
-        public event Action UndoClicked;
+        public event Action<PmpUiModel> UndoClicked;
         /// <summary>
         /// method to invoke when user Re-do something (ctrl+y)
         /// </summary>
-        public event Action RedoClicked;
+        public event Action<PmpUiModel> RedoClicked;
 
         /// <summary>
         /// fired once your addin is loaded or when solidworks starts up
@@ -235,12 +235,12 @@ namespace Hymma.Solidworks.Addins
 
         #region call backs
         internal bool HelpClickedCallBack() => HelpClicked != null && HelpClicked.Invoke();
-        internal void AfterActivationCallBack() => AfterActivation?.Invoke();
-        internal void AfterCloseCallBack() => AfterClose?.Invoke();
-        internal void WhatsNewClickedCallBack() => WhatsNewClicked?.Invoke();
-        internal void UndoClickedCallBack() => UndoClicked?.Invoke();
-        internal void RedoClickedCallBack() => RedoClicked?.Invoke();
-        internal void ClosingCallBack(int reason) => Closing?.Invoke((PmpCloseReason)reason);
+        internal void AfterActivationCallBack() => AfterActivation?.Invoke(this);
+        internal void AfterCloseCallBack() => AfterClose?.Invoke(this);
+        internal void WhatsNewClickedCallBack() => WhatsNewClicked?.Invoke(this);
+        internal void UndoClickedCallBack() => UndoClicked?.Invoke(this);
+        internal void RedoClickedCallBack() => RedoClicked?.Invoke(this);
+        internal void ClosingCallBack(int reason) => Closing?.Invoke(this, (PmpCloseReason)reason);
         internal bool PreviousPageClickedCallBack() => PreviousPageClicked != null && PreviousPageClicked.Invoke();
         internal bool TabbedClickedCallBack(int id) => TabClicked != null && TabClicked.Invoke(id);
         internal bool PreviewCallBack() => Preview != null && Preview.Invoke();

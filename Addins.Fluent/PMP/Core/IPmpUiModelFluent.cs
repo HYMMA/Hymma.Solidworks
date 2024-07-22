@@ -27,7 +27,14 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <returns><see cref="IPmpUiModelFluent"/></returns>
         /// <remarks>use this method to share a tab between different property manager pages</remarks>
-        IPmpUiModelFluent AddTab<T>()where T : PmpTab, new();
+        IPmpUiModelFluent AddTab<T>() where T : PmpTab, new();
+
+        /// <summary>
+        /// adds a tab to this property manager page
+        /// </summary>
+        /// <param name="tab">the tab to add to this property manager page</param>
+        /// <returns></returns>
+        IPmpUiModelFluent AddTab(PmpTab tab);
 
         /// <summary>
         /// Add a group that hosts controls in a property manager page 
@@ -55,7 +62,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="doThis">void to invoke</param>
         /// <returns></returns>
-        IPmpUiModelFluent OnAfterClose(Action doThis);
+        IPmpUiModelFluent OnAfterClose(Action<PmpUiModel> doThis);
 
         /// <summary>
         ///Processes a keystroke that occurred on this PropertyManager page
@@ -69,14 +76,14 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="doThis"></param>
         /// <returns></returns>
-        IPmpUiModelFluent OnClosing(Action<PmpCloseReason> doThis);
+        IPmpUiModelFluent OnClosing(Action<PmpUiModel, PmpCloseReason> doThis);
 
         /// <summary>
         /// action to take after the property manager page is activated
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        IPmpUiModelFluent OnAfterActivation(Action action);
+        IPmpUiModelFluent OnAfterActivation(Action<PmpUiModel> action);
 
         /// <summary>
         ///Sets the cursor after a selection is made in the SOLIDWORKS graphics area.
@@ -105,7 +112,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// <summary>
         ///  Adds a menu item to the pop-up menu for this PropertyManager page. that appears in  the right mouse menu button while the property manager page is displayed 
         /// </summary>
-        IPmpUiModelFluent AddMenuePopUpItem(PopUpMenuItem item);
+        IPmpUiModelFluent AddMenuPopUpItem(PopUpMenuItem item);
 
         ///<summary>
         /// builds this property manager page and adds it to the <see cref="AddinUserInterface"/> <br/>
