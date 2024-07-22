@@ -51,7 +51,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// SolidWORKS object
         /// </summary>
-        public ISldWorks Solidworks { get; set; }
+        internal ISldWorks Solidworks { get; set; }
 
         #endregion
 
@@ -113,6 +113,8 @@ namespace Hymma.Solidworks.Addins
         /// <returns></returns>
         public bool DisconnectFromSW()
         {
+            //fire event
+            OnExit?.Invoke(this, new OnConnectToSwEventArgs { Solidworks = Solidworks, Cookie = _addinUi.Id });
             RemoveCmdTabs(_addinUi.CommandTabs);
             RemovePMPs(_addinUi.PropertyManagerPages);
             //DetachSwEvents();
@@ -124,8 +126,6 @@ namespace Hymma.Solidworks.Addins
             Marshal.ReleaseComObject(Solidworks);
             Solidworks = null;
 
-            //fire event
-            OnExit?.Invoke(this, new OnConnectToSwEventArgs { Solidworks = Solidworks, Cookie = _addinUi.Id });
 
             //The addin _must_ call GC.Collect() here in order to retrieve all managed code pointers 
             GC.Collect();

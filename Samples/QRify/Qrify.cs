@@ -29,10 +29,23 @@ namespace QRify
     [Guid("2EB85AF6-DB51-46FB-B955-D4A7708DA315")]
     public partial class Qrify : AddinMaker
     {
+        public Qrify()
+        {
+            base.OnStart += Qrify_OnStart;
+        }
+
+        private void Qrify_OnStart(object sender, OnConnectToSwEventArgs e)
+        {
+            this.SolidWorks = e.Solidworks;
+        }
+
         private PropertyManagerPageBase pmpFactory;
+
+        public ISldWorks SolidWorks { get; private set; }
+
         public override AddinUserInterface GetUserInterFace()
         {
-            var ui = new QrifyUserInterface(this.Solidworks);
+            var ui = new QrifyUserInterface(this.SolidWorks);
             pmpFactory = ui.PmpFactory;
             return ui;
         }
@@ -46,7 +59,7 @@ namespace QRify
         /// <returns></returns>
         public object EnablePropertyManagerPage()
         {
-            if (Solidworks.ActiveDoc == null || Solidworks.CommandInProgress)
+            if (SolidWorks.ActiveDoc == null || SolidWorks.CommandInProgress)
             {
                 return 0;
             }
@@ -59,7 +72,7 @@ namespace QRify
         /// <returns></returns>
         public void ShowQrifyPropertyManagerPage()
         {
-            if (Solidworks.ActiveDoc is DrawingDoc drawing)
+            if (SolidWorks.ActiveDoc is DrawingDoc drawing)
             {
                 pmpFactory.Show();
             }

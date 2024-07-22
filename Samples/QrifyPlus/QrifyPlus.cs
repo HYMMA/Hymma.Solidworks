@@ -23,6 +23,9 @@ namespace QrifyPlus
     public class QrifyPlus : AddinMaker
     {
         private PropertyManagerPageX64 pmpFactory;
+
+        public ISldWorks SolidWorks { get; private set; }
+
         private QrifyPlusPmpCallBacks closeCallBackRegistry;
         private bool _checkedLicenseValidation;
         private bool _isLicValid;
@@ -43,12 +46,13 @@ namespace QrifyPlus
             // do your magic once addin gets loaded
 
             //this is the proper way to access the solidworks object. prior to this moment Solidworks object is null as add-in is not connected to solidworks yet
+            this.SolidWorks = e.Solidworks;
             closeCallBackRegistry = new QrifyPlusPmpCallBacks(e.Solidworks);
         }
 
         public void ShowQrifyPlusPmp()
         {
-            var model = Solidworks.ActiveDoc as ModelDoc2;
+            var model = SolidWorks.ActiveDoc as ModelDoc2;
             model.ClearSelection2(true);
             switch (model.GetType())
             {
@@ -68,11 +72,11 @@ namespace QrifyPlus
             if (!IsLicenseValid())
                 return 0;
 
-            if (Solidworks.ActiveDoc == null)
+            if (SolidWorks.ActiveDoc == null)
                 return 0;
 
             //activate the commands only if no other property manager page is running
-            Solidworks.GetRunningCommandInfo(out int commandId, out string pmpTitle, out bool isUiActive);
+            SolidWorks.GetRunningCommandInfo(out int commandId, out string pmpTitle, out bool isUiActive);
             if (string.IsNullOrEmpty(pmpTitle))
                 return 1;
             return 0;
@@ -133,7 +137,7 @@ namespace QrifyPlus
                                 })
                     .SaveCommandGroup()
                 .SaveCommandTab()
-                .AddPropertyManagerPage("QRify+", this.Solidworks)          //Add property manager page to the list of UI that the builder will create
+                .AddPropertyManagerPage("QRify+", this.SolidWorks)          //Add property manager page to the list of UI that the builder will create
                 .AddMenuPopUpItem(new PopUpMenuItem("item 1", "hint", swDocumentTypes_e.swDocDRAWING))
                         .AddGroup("Group Under Property Manager Page")
                             .That()
@@ -169,13 +173,13 @@ namespace QrifyPlus
 
         public void ShowWPFDia()
         {
-            var dia = Solidworks.HookWpfWindow(new WpfPopupApp.MainWindow());
+            var dia = SolidWorks.HookWpfWindow(new WpfPopupApp.MainWindow());
             dia.Show();
         }
 
         public void ShowWinformHelpDia()
         {
-            var dia = Solidworks.HookWinForm(new WinFormPopupApp.Form1());
+            var dia = SolidWorks.HookWinForm(new WinFormPopupApp.Form1());
             dia.Show();
         }
 
