@@ -175,16 +175,16 @@ namespace QRify
             this.AfterClose += QrPropertyManagerPage_AfterClose;
         }
 
-        private void QrPropertyManagerPage_Closing(PmpUiModel sender,PmpCloseReason obj)
+        private void QrPropertyManagerPage_Closing(PmpUiModel sender,PmpCloseReason reason)
         {
-            if (obj == PmpCloseReason.Cancel)
+            if (reason == PmpCloseReason.Cancel)
             {
-                closeReason = obj;
+                closeReason = reason;
                 Clipboard.Clear();
             }
         }
 
-        private void QrPropertyManagerPage_AfterClose(PmpUiModel sender)
+        private void QrPropertyManagerPage_AfterClose(PmpUiModel sender,PmpCloseReason reason)
         {
             if (closeReason == PmpCloseReason.Okay)
             {

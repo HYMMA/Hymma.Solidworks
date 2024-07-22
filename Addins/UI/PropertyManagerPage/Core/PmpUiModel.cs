@@ -20,6 +20,7 @@ namespace Hymma.Solidworks.Addins
     /// </summary>
     public class PmpUiModel : IWrapSolidworksObject<IPropertyManagerPage2>
     {
+        private PmpCloseReason closeReason;
 
         #region default constructor
 
@@ -33,6 +34,12 @@ namespace Hymma.Solidworks.Addins
         {
             this.Solidworks = solidworks;
             Title = title;
+            Closing += PmpUiModel_Closing;
+        }
+
+        private void PmpUiModel_Closing(PmpUiModel arg1, PmpCloseReason arg2)
+        {
+            this.closeReason = arg2;
         }
         #endregion
 
@@ -180,7 +187,7 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// method to invoke after the property manager page is closed
         /// </summary>
-        public event Action<PmpUiModel> AfterClose;
+        public event Action<PmpUiModel,PmpCloseReason> AfterClose;
 
         /// <summary>
         /// method to invoke while the property manager page is closing
@@ -203,7 +210,7 @@ namespace Hymma.Solidworks.Addins
         public event Func<bool> Preview;
 
         /// <summary>
-        /// method to invoke when user selects on Whats new button
+        /// method to invoke when user selects on Whet's new button
         /// </summary>
         public event Action<PmpUiModel> WhatsNewClicked;
 
@@ -236,7 +243,7 @@ namespace Hymma.Solidworks.Addins
         #region call backs
         internal bool HelpClickedCallBack() => HelpClicked != null && HelpClicked.Invoke();
         internal void AfterActivationCallBack() => AfterActivation?.Invoke(this);
-        internal void AfterCloseCallBack() => AfterClose?.Invoke(this);
+        internal void AfterCloseCallBack() => AfterClose?.Invoke(this,closeReason);
         internal void WhatsNewClickedCallBack() => WhatsNewClicked?.Invoke(this);
         internal void UndoClickedCallBack() => UndoClicked?.Invoke(this);
         internal void RedoClickedCallBack() => RedoClicked?.Invoke(this);

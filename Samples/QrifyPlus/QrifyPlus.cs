@@ -165,7 +165,7 @@ namespace QrifyPlus
                         .SaveGroup()                                        //Save the property manager page group
                     .SaveTab()                                              //Save the property manger page tab
                .OnClosing((p,r) => closeCallBackRegistry.DuringClose(r))      //Solidworks exposes this API but actually locks the UI and most of the command will have no effect. THIS IS IMPORTANT
-               .OnAfterClose((p) => closeCallBackRegistry.AfterClose())      //Once the Property Manager Page is closed for good
+               .OnAfterClose((p,r) => closeCallBackRegistry.AfterClose())      //Once the Property Manager Page is closed for good
                .SavePropertyManagerPage(out PropertyManagerPageX64 pmpFactoryX64);  //expose the object that is responsible for showing th property manager page 
             this.pmpFactory = pmpFactoryX64;
             return builder.WithIconsPath(new DirectoryInfo(iconsPath)).Build();                                         //Build the UI

@@ -44,7 +44,7 @@ namespace Hymma.Solidworks.Addins.Fluent
 
 
         ///<inheritdoc/>
-        public IPmpUiModelFluent OnAfterClose(Action<PmpUiModel> doThis)
+        public IPmpUiModelFluent OnAfterClose(Action<PmpUiModel,PmpCloseReason> doThis)
         {
             this.AfterClose += doThis;
             return this;

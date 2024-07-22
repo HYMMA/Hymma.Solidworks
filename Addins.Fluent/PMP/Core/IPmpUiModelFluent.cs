@@ -62,7 +62,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="doThis">void to invoke</param>
         /// <returns></returns>
-        IPmpUiModelFluent OnAfterClose(Action<PmpUiModel> doThis);
+        IPmpUiModelFluent OnAfterClose(Action<PmpUiModel, PmpCloseReason> doThis);
 
         /// <summary>
         ///Processes a keystroke that occurred on this PropertyManager page
