@@ -145,6 +145,9 @@ namespace Hymma.Solidworks.Addins
         /// <returns></returns>
         public bool ConnectToSW(object ThisSW, int Cookie)
         {
+            //fire event
+            OnStart?.Invoke(this, new OnConnectToSwEventArgs { Solidworks = (ISldWorks)ThisSW, Cookie = Cookie });
+
             Solidworks = (ISldWorks)ThisSW;
             _addinUi = GetUserInterFace();
             _addinUi.Id = Cookie;
@@ -161,8 +164,6 @@ namespace Hymma.Solidworks.Addins
 
             #endregion
 
-            //fire event
-            OnStart?.Invoke(this, new OnConnectToSwEventArgs { Solidworks = (ISldWorks)ThisSW, Cookie = Cookie });
             return true;
         }
 
