@@ -38,7 +38,7 @@ namespace QrifyPlus
             drawingPropertyNames.Displaying += drawingPropertyNames_Displaying;
 
             //GenerateControlsForTheGroup a button under the list to initiate the QR generations
-            var qrifyButton = new PmpBitmapButton(Properties.Resources.qrifyPlus, "Generate QR code for the value of the property", BtnSize.sixteen, opacity: byte.MaxValue);
+            var qrifyButton = new PmpBitmapButton(Properties.Resources.qrifyPlus, "Generate QR code for the value of the property", BtnSize.twenty, opacity: byte.MaxValue);
 
             //put the combo box and the button on the same line
             //this value is relative to the PmpGroup. the controls with higher top value go to the bottom of their group. because solidworks.

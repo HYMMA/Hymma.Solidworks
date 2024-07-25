@@ -162,6 +162,7 @@ namespace Hymma.Solidworks.Addins
         /// a title for this property manager page
         /// </summary>
         public string Title { get; set; }
+
         /// <summary>
         /// solidworks object
         /// </summary>

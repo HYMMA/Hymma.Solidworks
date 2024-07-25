@@ -8,9 +8,9 @@ namespace Hymma.Solidworks.Addins
     /// </summary>
     public enum BtnSize
     {/// <summary>
-    /// 16
+    /// 20 
     /// </summary>
-        sixteen = 16,
+        twenty = 20,
 
         /// <summary>
         /// 32

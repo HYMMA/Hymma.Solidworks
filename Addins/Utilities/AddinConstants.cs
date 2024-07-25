@@ -49,8 +49,8 @@ namespace Hymma.Solidworks.Addins
         {
             switch (btnSize)
             {
-                case BtnSize.sixteen:
-                    return "16";
+                case BtnSize.twenty:
+                    return "20";
                 case BtnSize.thirtyTwo:
                     return "32";
                 case BtnSize.forty:
@@ -62,7 +62,7 @@ namespace Hymma.Solidworks.Addins
                 case BtnSize.hundredTwentyEight:
                     return "128";
                 default:
-                    return "16";
+                    return "20";
             }
         }
     }

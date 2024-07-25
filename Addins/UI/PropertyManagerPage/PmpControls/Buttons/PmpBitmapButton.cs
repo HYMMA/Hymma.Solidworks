@@ -98,15 +98,14 @@ namespace Hymma.Solidworks.Addins
             }
 
             //possible sizes for a button bitmap in solidworks
-            var images = new List<string>();
-            var masks = new List<string>();
+            //var images = new List<string>();
+            //var masks = new List<string>();
 
-            images.Add(fullFileName);
-            masks.Add("");
-
-            SolidworksObject.SetBitmapsByName3(images.ToArray(), masks.ToArray());
+            //images.Add(fullFileName);
+            //masks.Add("");
+            Width = (short)size;
+            SolidworksObject.SetBitmapsByName3(new[] {fullFileName}, new[] {""});
         }
-
         /// <summary>
         /// assign an icon to this bitmap button from a list of standard solidworks icons <br/>
         /// The not-clicked, clicked, and disabled states for the control are automatically set by the SOLIDWORKS application.
