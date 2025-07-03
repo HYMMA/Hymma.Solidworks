@@ -6,6 +6,7 @@ using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq.Expressions;
 namespace Hymma.Solidworks.Addins.Fluent
 {
     /// <summary>
@@ -44,7 +45,7 @@ namespace Hymma.Solidworks.Addins.Fluent
 
 
         ///<inheritdoc/>
-        public IPmpUiModelFluent OnAfterClose(Action<PmpUiModel,PmpCloseReason> doThis)
+        public IPmpUiModelFluent OnAfterClose(Action<PmpUiModel, PmpCloseReason> doThis)
         {
             this.AfterClose += doThis;
             return this;
@@ -102,6 +103,16 @@ namespace Hymma.Solidworks.Addins.Fluent
             PmpTabs.Add(pmpTab2);
             return this;
         }
+
+        ///<inheritdoc/>
+        public IPmpUiModelFluent AddTab<T>(Action<T> Config) where T : PmpTab, new()
+        {
+            var pmpTab2 = Activator.CreateInstance(typeof(T)) as T;
+            Config.Invoke(pmpTab2);
+            PmpTabs.Add(pmpTab2);
+            return this;
+        }
+
 
         ///<inheritdoc/>
         public IPmpUiModelFluent WithCursorStyle(PmpCursorStyles cursorStyles)
