@@ -30,6 +30,13 @@ namespace Hymma.Solidworks.Addins.Fluent
         IPmpUiModelFluent AddTab<T>() where T : PmpTab, new();
 
         /// <summary>
+        /// creates a tab to this property manager page and configures it before adding it
+        /// </summary>
+        /// <returns><see cref="IPmpUiModelFluent"/></returns>
+        /// <remarks>use this method to share a configured tab between different property manager pages</remarks>
+        IPmpUiModelFluent AddTab<T>(Action<T> Config) where T : PmpTab, new();
+
+        /// <summary>
         /// adds a tab to this property manager page
         /// </summary>
         /// <param name="tab">the tab to add to this property manager page</param>
