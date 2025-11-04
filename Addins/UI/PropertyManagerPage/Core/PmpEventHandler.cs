@@ -16,8 +16,7 @@ namespace Hymma.Solidworks.Addins
     [ComVisible(true)]
     public class PmpEventHandler : PropertyManagerPage2Handler9
     {
-        private List<PopUpMenuItem> popUpItems;
-
+        readonly List<PopUpMenuItem> popUpItems;
 
         /// <summary>
         /// default constructor
@@ -27,13 +26,13 @@ namespace Hymma.Solidworks.Addins
         {
             this.UiModel = uiModel ?? throw new Exception();
             popUpItems = new List<PopUpMenuItem>();
-            UiModel.Registering += () =>
+            UiModel.Registering += (s,e) =>
             {
                 foreach (var item in UiModel.GetControls<PmpSelectionBox>())
                 {
                     if (item is PmpSelectionBox box)
                     {
-                        popUpItems.AddRange(box.PopUpMenuItems); 
+                        popUpItems.AddRange(box.PopUpMenuItems);
                     }
                 }
                 if (UiModel.PopUpMenuItems != null)
@@ -444,7 +443,16 @@ namespace Hymma.Solidworks.Addins
         public void OnGainedFocus(int Id)
         {
             var control = UiModel.GetControl(Id);
-            control?.GainedFocusCallback();
+            try
+            {
+
+                control?.GainedFocusCallback();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
 
         /// <summary>
@@ -454,7 +462,14 @@ namespace Hymma.Solidworks.Addins
         public void OnLostFocus(int Id)
         {
             var control = UiModel.GetControl(Id);
-            control?.LostFocusCallback();
+            try
+            {
+                control?.LostFocusCallback();
+            }
+            catch (Exception )
+            {
+                throw;
+            }
         }
 
         /// <summary>

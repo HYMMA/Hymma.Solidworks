@@ -45,14 +45,14 @@ namespace Hymma.Solidworks.Addins.Fluent
 
 
         ///<inheritdoc/>
-        public IPmpUiModelFluent OnAfterClose(Action<PmpUiModel, PmpCloseReason> doThis)
+        public IPmpUiModelFluent OnAfterClose(EventHandler<PmpCloseEventArgs> doThis)
         {
             this.AfterClose += doThis;
             return this;
         }
 
         /// <inheritdoc/>
-        public IPmpUiModelFluent OnClosing(Action<PmpUiModel, PmpCloseReason> doThis)
+        public IPmpUiModelFluent OnClosing(EventHandler<PmpCloseEventArgs> doThis)
         {
             this.Closing += doThis;
             return this;
@@ -60,7 +60,7 @@ namespace Hymma.Solidworks.Addins.Fluent
 
 
         /// <inheritdoc/>
-        public IPmpUiModelFluent OnAfterActivation(Action<PmpUiModel> action)
+        public IPmpUiModelFluent OnAfterActivation(EventHandler<EventArgs> action)
         {
             AfterActivation += action;
             return this;
@@ -165,8 +165,6 @@ namespace Hymma.Solidworks.Addins.Fluent
             //return the object in the list
             return this.PmpGroups[this.PmpGroups.Count - 1] as PmpGroupFluentCheckable;
         }
-
-
 
         /// <summary>
         /// the addin model that hosts this ui

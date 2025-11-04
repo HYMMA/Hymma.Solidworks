@@ -1,9 +1,13 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Core;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System;
 using System.Drawing;
+using System.Linq;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -38,7 +42,7 @@ namespace Hymma.Solidworks.Addins
                 SolidworksObject.Italic[StartChar, EndChar] = status;
             //otherwise assign value upon addin startup
             else
-                Registering += () => { SolidworksObject.Italic[StartChar, EndChar] = status; };
+                Registering += (s,e) => { SolidworksObject.Italic[StartChar, EndChar] = status; };
         }
 
         /// <summary>
@@ -71,7 +75,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.LineOffset[StartChar, EndChar] = offset;
             else
-                Registering += () => { SolidworksObject.LineOffset[StartChar, EndChar] = offset; };
+                Registering += (s,e) => { SolidworksObject.LineOffset[StartChar, EndChar] = offset; };
         }
 
         
@@ -86,7 +90,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.SizeRatio[StartChar, EndChar] = ratio;
             else
-                Registering += () => { SolidworksObject.SizeRatio[StartChar, EndChar] = ratio; };
+                Registering += (s,e) => { SolidworksObject.SizeRatio[StartChar, EndChar] = ratio; };
         }
 
         /// <summary>
@@ -101,7 +105,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.CharacterBackgroundColor[StartChar, EndChar] = RGB;
             else
-                Registering += () => { SolidworksObject.CharacterBackgroundColor[StartChar, EndChar] = RGB; };
+                Registering += (s,e) => { SolidworksObject.CharacterBackgroundColor[StartChar, EndChar] = RGB; };
         }
 
         /// <summary>
@@ -116,7 +120,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.CharacterColor[StartChar, EndChar] = RGB;
             else
-                Registering += () => { SolidworksObject.CharacterColor[StartChar, EndChar] = RGB; };
+                Registering += (s,e) => { SolidworksObject.CharacterColor[StartChar, EndChar] = RGB; };
         }
 
         /// <summary>
@@ -130,7 +134,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.Font[StartChar, EndChar] = font;
             else
-                Registering += () => { SolidworksObject.Font[StartChar, EndChar] = font; };
+                Registering += (s,e) => { SolidworksObject.Font[StartChar, EndChar] = font; };
         }
 
         /// <summary>
@@ -144,7 +148,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.Underline[StartChar, EndChar] = (int)style;
             else
-                Registering += () => { SolidworksObject.Underline[StartChar, EndChar] = (int)style; };
+                Registering += (s,e) => { SolidworksObject.Underline[StartChar, EndChar] = (int)style; };
         }
 
         /// <summary>
@@ -164,7 +168,7 @@ namespace Hymma.Solidworks.Addins
 
                 //otherwise register the value once addin is loaded
                 else
-                    Registering += () => { SolidworksObject.Style = (int)value; };
+                    Registering += (s,e) => { SolidworksObject.Style = (int)value; };
             }
         }
 
@@ -182,7 +186,7 @@ namespace Hymma.Solidworks.Addins
 
             //otherwise do it when addin loaded (started)
             else
-                Registering += () => { SolidworksObject.Bold[start, end] = status; };
+                Registering += (s,e) => { SolidworksObject.Bold[start, end] = status; };
         }
 
         #region Callbacks
@@ -191,13 +195,26 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         internal override void DisplayingCallback()
         {
-            Displaying?.Invoke(this, new PmpLabelDisplayingEventArgs(this));
+            _displayingEvents?.Raise(this, new PmpLabelDisplayingEventArgs(this));
         }
         #endregion
-
+        private readonly WeakEventSource<PmpLabelDisplayingEventArgs> _displayingEvents= new WeakEventSource<PmpLabelDisplayingEventArgs>();
+        /// <summary>
+        /// unsubscribes all event handlers
+        /// </summary>
+        public override void UnsubscribeFromEvents()
+        {
+            base.UnsubscribeFromEvents();
+            _displayingEvents.ClearHandlers();
+            //Displaying?.GetInvocationList()?.ToList()?.ForEach(d => Displaying -= (PmpLabelDisplayingEventHandler)d);
+        }
         /// <summary>
         /// raised a moment before this label is displayed in the property manager page
         /// </summary>
-        public new event PmpLabelDisplayingEventHandler Displaying;
+        public new event EventHandler<PmpLabelDisplayingEventArgs> Displaying
+        {
+            add { _displayingEvents.Subscribe(this,value); }
+            remove { _displayingEvents.Unsubscribe(value); }
+        }
     }
 }

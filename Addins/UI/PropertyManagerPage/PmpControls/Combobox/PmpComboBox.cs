@@ -1,11 +1,14 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Core;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -44,7 +47,7 @@ namespace Hymma.Solidworks.Addins
             Displaying += PmpComboBox_OnDisplay;
         }
 
-        private void PmpComboBox_OnDisplay(IPmpControl sender, PmpControlDisplayingEventArgs eventArgs)
+        private void PmpComboBox_OnDisplay(object sender, PmpControlDisplayingEventArgs eventArgs)
         {
             SolidworksObject.Clear();
             _items.Sort();
@@ -70,7 +73,7 @@ namespace Hymma.Solidworks.Addins
                 SolidworksObject.AddItems(_items.ToArray());
             }
             else
-                Registering += () =>
+                Registering += (object s, EventArgs e) =>
                 {
                     SolidworksObject.Clear();
                     SolidworksObject.AddItems(_items.ToArray());
@@ -125,7 +128,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 SolidworksObject.DeleteItem(index);
             else
-                Registering += () => { SolidworksObject.DeleteItem(index); };
+                Registering += (s,e) => { SolidworksObject.DeleteItem(index); };
         }
 
         /// <summary>
@@ -149,7 +152,7 @@ namespace Hymma.Solidworks.Addins
             else
             {
 
-                Registering += () =>
+                Registering += (s,e) =>
                 {
                     SolidworksObject.Clear();
                     SolidworksObject.AddItems(_items.ToArray());
@@ -181,7 +184,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Height = value;
                 else
-                    Registering += () => { SolidworksObject.Height = value; };
+                    Registering += (s,e) => { SolidworksObject.Height = value; };
             }
         }
 
@@ -209,7 +212,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Style = (int)value;
                 else
-                    Registering += () => { SolidworksObject.Style = (int)value; };
+                    Registering += (s,e) => { SolidworksObject.Style = (int)value; };
 
             }
         }
@@ -228,7 +231,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.CurrentSelection = value;
                 else
-                    Registering += () => { SolidworksObject.CurrentSelection = value; };
+                    Registering += (s,e) => { SolidworksObject.CurrentSelection = value; };
 
             }
         }
@@ -253,25 +256,40 @@ namespace Hymma.Solidworks.Addins
                     SolidworksObject.EditText = value;
                 else
                     //if this property is assigned prior to registration 
-                    Registering += () => { SolidworksObject.EditText = value; };
+                    Registering += (s,e) => { SolidworksObject.EditText = value; };
             }
         }
         #endregion
 
         #region call backs
-        internal void SelectionChangedCallback(int id) => SelectionChanged?.Invoke(this, id);
+        internal void SelectionChangedCallback(int id) => _selectionEventSource.Raise(this, id);
 
-        internal void SelectionEditCallback(string val) => EditChanged?.Invoke(this, val);
+        internal void SelectionEditCallback(string val) => _editEventSource.Raise(this, val);
 
         #endregion
 
         #region events
 
+        private readonly WeakEventSource<string> _editEventSource = new WeakEventSource<string>();
+        private readonly WeakEventSource<int> _selectionEventSource = new WeakEventSource<int>();
+        /// <summary>
+        /// Unsubscribes all event handlers from events
+        /// </summary>
+        public override void UnsubscribeFromEvents()
+        {
+            base.UnsubscribeFromEvents();
+            _editEventSource.ClearHandlers();
+            _selectionEventSource.ClearHandlers();
+        }
         /// <summary>
         /// Called when a user changes the selected item in a combo box on this PropertyManager page. 
         /// </summary>
         /// <remarks>SolidWORKS will pass int the id of the selected item</remarks>
-        public event EventHandler<int> SelectionChanged;
+        public event EventHandler<int> SelectionChanged
+        {
+            add { _selectionEventSource.Subscribe(this,value); }
+            remove { _selectionEventSource.Unsubscribe(value); }
+        }
 
         /// <summary>
         /// Called when a user changes the text string in the text box of a combo box on this PropertyManager page. SolidWORKS will pass in the text string
@@ -286,7 +304,11 @@ namespace Hymma.Solidworks.Addins
         ///When this method is called, the control may not yet be updated with the current selection, so the <see cref="CurrentSelection"/> property is not reliable. The text passed into this method is the up-to-date text.
         ///</para>
         /// </para></remarks>
-        public event EventHandler<string> EditChanged;
+        public event EventHandler<string> EditChanged
+        {
+            add { _editEventSource.Subscribe(this,value); }
+            remove { _editEventSource.Unsubscribe(value); }
+        }
         #endregion
     }
 }

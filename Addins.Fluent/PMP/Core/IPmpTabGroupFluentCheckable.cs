@@ -35,6 +35,6 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="doThis"></param>
         /// <returns></returns>
-        IPmpTabGroupFluentCheckable OnDisplaying(EventHandler doThis);
+        IPmpTabGroupFluentCheckable OnDisplaying(EventHandler<EventArgs> doThis);
     }
 }

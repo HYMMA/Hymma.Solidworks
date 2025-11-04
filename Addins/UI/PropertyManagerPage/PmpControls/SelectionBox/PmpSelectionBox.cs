@@ -1,11 +1,13 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Core;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -52,7 +54,7 @@ namespace Hymma.Solidworks.Addins
                                bool singleItemOnly = false,
                                short height = 50,
                                string tip = "",
-                               bool allowSelectInMultipleBoxes =true)
+                               bool allowSelectInMultipleBoxes = true)
             : base(swPropertyManagerPageControlType_e.swControlType_Selectionbox, "", tip)
         {
             _height = height;
@@ -65,14 +67,14 @@ namespace Hymma.Solidworks.Addins
             Displaying += PmpSelectionBox_OnDisplay;
         }
 
-        private void PmpSelectionBox_OnDisplay(PmpSelectionBox sender, PmpSelectionBoxDisplayingEventArgs eventArgs)
+        private void PmpSelectionBox_OnDisplay(object sender, PmpSelectionBoxDisplayingEventArgs eventArgs)
         {
             eventArgs.Style = _style;
         }
         #endregion
 
         #region Call Backs
-        private void PmpSelectionBox_OnRegister()
+        private void PmpSelectionBox_OnRegister(object s, EventArgs e)
         {
             SolidworksObject.AllowMultipleSelectOfSameEntity = _allowMultipleSelectOfSameEntity;
             SolidworksObject.SingleEntityOnly = _singleItemOnly;
@@ -87,32 +89,40 @@ namespace Hymma.Solidworks.Addins
             {
                 for (int i = Id; i < PopUpMenuItems.Count + Id; i++)
                 {
-                    var item = PopUpMenuItems[i-Id];
+                    var item = PopUpMenuItems[i - Id];
                     item.Id = i + 1;
                     var result = SolidworksObject.AddMenuPopupItem(item.Id, item.ItemText, ((int)item.DocumentType), item.Hint);
                     //TODO: LOG error if !result
                 }
             }
         }
-        internal void FocusChangedCallback() => FocusChanged?.Invoke(this);
-        internal void CallOutCreatedCallback() => CallOutCreated?.Invoke(this);
-        internal void CallOutDestroyedCallback() => CallOutDestroyed?.Invoke(this);
-        internal void ListChangedCallback(int count) => ListChanged?.Invoke(this, new PmpSelectionBoxListChangedEventArgs(count));
+        internal void FocusChangedCallback() => _focusChangedEvents?.Raise(this, EventArgs.Empty);
+        internal void CallOutCreatedCallback() => _callOutCreatedEvents?.Raise(this, EventArgs.Empty);
+        internal void CallOutDestroyedCallback() => _callOutDestroyedEvents?.Raise(this, EventArgs.Empty);
+        internal void ListChangedCallback(int count) => _listChangedEvents?.Raise(this, new PmpSelectionBoxListChangedEventArgs(count));
         internal bool SubmitSelectionCallback(object selection, int selectType, string tag)
         {
             //since this must return true for selection to happen
             //if user didn't set it up we return true to make sure 
             //addin works as expected
-            if (SelectionSubmitted == null)
+            if (_selectionSubmittedEvents.Count == 0)
+            {
                 return true;
+            }
 
-            //otherwise return whatever user has set up for it
-            return SelectionSubmitted.Invoke(this, new PmpSelectionBoxSelectionSubmittedEventArgs(selection, selectType, tag));
+            bool res = false; ;
+            foreach (var item in _selectionSubmittedEvents)
+            {
+                res &= item.Invoke(this, new PmpSelectionBoxSelectionSubmittedEventArgs(selection, selectType, tag));
+            }
+
+            //otherwise set it to whatever user wanted
+            return res;
         }
 
         internal override void DisplayingCallback()
         {
-            Displaying?.Invoke(this, new PmpSelectionBoxDisplayingEventArgs(this, _filters, _style, _allowMultipleSelectOfSameEntity, _singleItemOnly, _height));
+            _displayingEvents?.Raise(this, new PmpSelectionBoxDisplayingEventArgs(this, _filters, _style, _allowMultipleSelectOfSameEntity, _singleItemOnly, _height));
         }
         #endregion
 
@@ -148,11 +158,9 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.AllowSelectInMultipleBoxes = value;
                 else
-                    Registering += () => { SolidworksObject.AllowSelectInMultipleBoxes= value; };
+                    Registering += (s, e) => { SolidworksObject.AllowSelectInMultipleBoxes = value; };
             }
         }
-
-
 
         /// <summary>
         /// create a callout for this selection-box
@@ -236,8 +244,6 @@ namespace Hymma.Solidworks.Addins
                 return 0;
             }
         }
-
-
 
         /// <summary>
         /// Gets the mark used on selected items in this selection box. 
@@ -350,27 +356,79 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region events
+        readonly WeakEventSource<EventArgs> _focusChangedEvents = new WeakEventSource<EventArgs>();
+        readonly WeakEventSource<EventArgs> _callOutCreatedEvents = new WeakEventSource<EventArgs>();
+        readonly WeakEventSource<EventArgs> _callOutDestroyedEvents = new WeakEventSource<EventArgs>();
+        readonly WeakEventSource<PmpSelectionBoxListChangedEventArgs> _listChangedEvents = new WeakEventSource<PmpSelectionBoxListChangedEventArgs>();
+
+        List<PmpSelectionBoxSelectionSubmittedEventHandler> _selectionSubmittedEvents = new List<PmpSelectionBoxSelectionSubmittedEventHandler>();
+
+        readonly WeakEventSource<PmpSelectionBoxDisplayingEventArgs> _displayingEvents = new WeakEventSource<PmpSelectionBoxDisplayingEventArgs>();
+        /// <summary>
+        /// Unsubscribes all event handlers from this selection box
+        /// </summary>
+        public override void UnsubscribeFromEvents()
+        {
+            base.UnsubscribeFromEvents();
+            _focusChangedEvents.ClearHandlers();
+            _callOutCreatedEvents.ClearHandlers();
+            _callOutDestroyedEvents.ClearHandlers();
+            _listChangedEvents.ClearHandlers();
+            _selectionSubmittedEvents?.Clear();
+            _selectionSubmittedEvents = null;
+            _displayingEvents.ClearHandlers();
+            PopUpMenuItems?.ForEach(i => i.UnsubscribeFromEvents());
+            //FocusChanged?.GetInvocationList().ToList()
+            //    .ForEach(d => FocusChanged -= (PmpSelectionBoxEventHandler)d);
+            //CallOutCreated?.GetInvocationList().ToList()
+            //    .ForEach(d => CallOutCreated -= (PmpSelectionBoxEventHandler)d);
+            //CallOutDestroyed?.GetInvocationList().ToList()
+            //    .ForEach(d => CallOutDestroyed -= (PmpSelectionBoxEventHandler)d);
+            //ListChanged?.GetInvocationList().ToList()
+            //    .ForEach(d => ListChanged -= (PmpSelectionBoxEventHandler<PmpSelectionBoxListChangedEventArgs>)d);
+            //SelectionSubmitted?.GetInvocationList().ToList()
+            //    .ForEach(d => SelectionSubmitted -= (PmpSelectionBoxSelectionSubmittedEventHandler)d);
+            //Displaying?.GetInvocationList().ToList()
+            //    .ForEach(d => Displaying -= (PmpSelectionBoxEventHandler<PmpSelectionBoxDisplayingEventArgs>)d);
+
+        }
         /// <summary>
         /// SolidWORKS will invoke this once focus is changed from this selection box
         /// </summary>
-        public event PmpSelectionBoxEventHandler FocusChanged;
+        public event EventHandler<EventArgs> FocusChanged
+        {
+            add => _focusChangedEvents.Subscribe(this, value);
+            remove => _focusChangedEvents.Unsubscribe(value);
+        }
 
         /// <summary>
         /// SolidWORKS will invoke this once a call-out is created for this selection box<br/>
         /// allows you to collect information such as the selection type from the last selection. Next, use the <see cref="Callout"/> property to get the Callout object. <br/>
         /// Then, use that object's various properties to control the callout text and display characteristics based on that selection information.
         /// </summary>
-        public event PmpSelectionBoxEventHandler CallOutCreated;
+        public event EventHandler<EventArgs> CallOutCreated
+        {
+            add => _callOutCreatedEvents.Subscribe(this, value);
+            remove => _callOutCreatedEvents.Unsubscribe(value);
+        }
 
         /// <summary>
         /// SolidWORKS will invoke this once a callout is destroyed
         /// </summary>
-        public event PmpSelectionBoxEventHandler CallOutDestroyed;
+        public event EventHandler<EventArgs> CallOutDestroyed
+        {
+            add => _callOutDestroyedEvents.Subscribe(this, value);
+            remove => _callOutDestroyedEvents.Unsubscribe(value);
+        }
 
         /// <summary>
         /// Regardless of how many items the user selects, this event is called only once per interactive box selection. In other words, if the user selects six faces using a box selection, this method is called only once. <br/>
         /// </summary>
-        public event PmpSelectionBoxEventHandler<PmpSelectionBoxListChangedEventArgs> ListChanged;
+        public event EventHandler<PmpSelectionBoxListChangedEventArgs> ListChanged
+        {
+            add => _listChangedEvents.Subscribe(this, value);
+            remove => _listChangedEvents.Unsubscribe(value);
+        }
 
         /// <summary>
         /// Called when a selection is made, which allows the add-in to accept or reject the selection. <strong>it must return <c>true</c> for selections to occure</strong><br/>
@@ -397,12 +455,20 @@ namespace Hymma.Solidworks.Addins
         ///The add-in should not be taking any action that might affect the model or the selection list.The add-in should only be querying information and then returning true/VARIANT_TRUE or false/VARIANT_FALSE.
         /// </para>
         /// </remarks>
-        public event PmpSelectionBoxSelectionSubmittedEventHandler SelectionSubmitted;
+        public event PmpSelectionBoxSelectionSubmittedEventHandler SelectionSubmitted
+        {
+            add => _selectionSubmittedEvents.Add(value);
+            remove => _selectionSubmittedEvents.Remove(value);
+        }
 
         /// <summary>
         /// fired just a moment before the property manager page and its controls are displayed
         /// </summary>
-        public new event PmpSelectionBoxEventHandler<PmpSelectionBoxDisplayingEventArgs> Displaying;
+        public new event EventHandler<PmpSelectionBoxDisplayingEventArgs> Displaying
+        {
+            add => _displayingEvents.Subscribe(this, value);
+            remove => _displayingEvents.Unsubscribe(value);
+        }
         #endregion
     }
 }

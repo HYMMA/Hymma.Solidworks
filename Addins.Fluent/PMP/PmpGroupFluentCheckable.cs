@@ -106,7 +106,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IPmpGroupFluentCheckable OnDisplaying(EventHandler doThis)
+        public IPmpGroupFluentCheckable OnDisplaying(EventHandler<EventArgs> doThis)
         {
             Displaying += doThis;
             return this;

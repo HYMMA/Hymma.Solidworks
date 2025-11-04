@@ -102,7 +102,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         }
 
         ///<inheritdoc/>
-        public IPmpTabGroupFluentCheckable OnDisplaying(EventHandler doThis)
+        public IPmpTabGroupFluentCheckable OnDisplaying(EventHandler<EventArgs> doThis)
         {
             Displaying += doThis;
             return this;

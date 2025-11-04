@@ -1,10 +1,12 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Core;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
-
+using System.Linq;
+using WeakEvent;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
@@ -42,7 +44,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 result = SolidworksObject.InsertItem(item, text);
             else
-                Registering += () =>
+                Registering += (s, e) =>
                 {
                     result = SolidworksObject.InsertItem(item, text);
                 };
@@ -68,7 +70,7 @@ namespace Hymma.Solidworks.Addins
         ///</remarks>
         public void SetRange(NumberBoxUnit Units, double Minimum, double Maximum, bool Inclusive, double Increment, double fastIncrement, double slowIncrement)
         {
-            Registering += () =>
+            Registering += (s, e) =>
             {
                 SolidworksObject.SetRange2((int)Units, Minimum, Maximum, Inclusive, Increment, fastIncrement, slowIncrement);
             };
@@ -86,7 +88,7 @@ namespace Hymma.Solidworks.Addins
             }
             else
             {
-                Registering += () => { SolidworksObject.AddItems(items); };
+                Registering += (s, e) => { SolidworksObject.AddItems(items); };
             }
         }
 
@@ -107,7 +109,7 @@ namespace Hymma.Solidworks.Addins
             }
             else
             {
-                Registering += () => { SolidworksObject.SetSliderParameters(positionCount, divisionCount); };
+                Registering += (s, e) => { SolidworksObject.SetSliderParameters(positionCount, divisionCount); };
             }
         }
         #endregion
@@ -128,7 +130,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    Registering += () => { SolidworksObject.Value = value ?? 0; };
+                    Registering += (s, e) => { SolidworksObject.Value = value ?? 0; };
                 }
             }
         }
@@ -148,7 +150,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Height = value;
                 else
-                    Registering += () => { SolidworksObject.Height = value; };
+                    Registering += (s, e) => { SolidworksObject.Height = value; };
             }
         }
 
@@ -166,7 +168,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Style = (int)value;
                 else
-                    Registering += () => { SolidworksObject.Style = (int)value; };
+                    Registering += (s, e) => { SolidworksObject.Style = (int)value; };
             }
         }
 
@@ -189,52 +191,86 @@ namespace Hymma.Solidworks.Addins
 
                 //otherwise update the property when the control is loaded
                 else
-                    Registering += () => { SolidworksObject.DisplayedUnit = (int)value; };
+                    Registering += (s, e) => { SolidworksObject.DisplayedUnit = (int)value; };
             }
         }
         #endregion
 
 
         #region Call backs
-        internal void TextChangedCallback(string text) => TextChanged?.Invoke(this, text);
+        internal void TextChangedCallback(string text) => _txtChangedEvents?.Raise(this, text);
 
-        internal void ChangedCallback(double value) => Changing?.Invoke(this, value);
+        internal void ChangedCallback(double value) => _changingEvents?.Raise(this, value);
 
         internal override void DisplayingCallback()
-           => Displaying?.Invoke(this, new PmpNumberBoxDisplayingEventArgs(this));
+           => _displayingEvents?.Raise(this, new PmpNumberBoxDisplayingEventArgs(this));
 
-        internal void TrackingCompletedCallback(double val) => TrackingCompleted?.Invoke(this, val);
+        internal void TrackingCompletedCallback(double val) => _trackingCompletedEvents?.Raise(this, val);
         internal void SelectionChangedCallback(int item)
-         => SelectionChanged?.Invoke(this, SolidworksObject.ItemText[(short)item]);
+         => _selectionChangedEvents?.Raise(this, SolidworksObject.ItemText[(short)item]);
         #endregion
 
         #region events
+        private readonly WeakEventSource<string> _txtChangedEvents = new WeakEventSource<string>();
+        private readonly WeakEventSource<string> _selectionChangedEvents = new WeakEventSource<string>();
+        private readonly WeakEventSource<double> _changingEvents = new WeakEventSource<double>();
+        private readonly WeakEventSource<double> _trackingCompletedEvents = new WeakEventSource<double>();
+        private readonly WeakEventSource<PmpNumberBoxDisplayingEventArgs> _displayingEvents = new WeakEventSource<PmpNumberBoxDisplayingEventArgs>();
+
+        /// <summary>
+        /// Unsubscribes all event handlers from this control events
+        /// </summary>
+        public override void UnsubscribeFromEvents()
+        {
+            base.UnsubscribeFromEvents();
+            _txtChangedEvents.ClearHandlers();
+            _selectionChangedEvents.ClearHandlers();
+            _changingEvents.ClearHandlers();
+            _trackingCompletedEvents.ClearHandlers();
+            _displayingEvents.ClearHandlers();
+        }
 
         /// <summary>
         /// called when user changes the value in an number box by typing in a new value, SolidWORKS will pass in the text that was entered
         /// </summary>
-        public event EventHandler<string> TextChanged;
+        public event EventHandler<string> TextChanged
+        {
+            add => _txtChangedEvents.Subscribe(this,value);
+            remove => _txtChangedEvents.Unsubscribe(value);
+        }
 
         /// <summary>
         /// fired when user changes the value via typing or clicking the up-arrow or down-arrow buttons to increment or decrement the value
         /// </summary>
         /// <remarks>SolidWORKS will pass in the double value upon change</remarks>
-        public event EventHandler<double> Changing;
+        public event EventHandler<double> Changing { 
+            add => _changingEvents.Subscribe(this,value); 
+            remove => _changingEvents.Unsubscribe(value);
+        }
 
         /// <summary>
         /// Called when a user finishes changing the value in the number box on a PropertyManager page. 
         /// </summary>
-        public event EventHandler<double> TrackingCompleted;
+        public event EventHandler<double> TrackingCompleted { 
+            add => _trackingCompletedEvents.Subscribe(this,value); 
+            remove => _trackingCompletedEvents.Unsubscribe(value);
+        }
 
         /// <summary>
         /// fired when Style has <see cref="NumberBoxStyles.AvoidSelectionText"/> | <see cref="NumberBoxStyles.ComboEditBox"/> and user selects an item from the combo box
         /// </summary>
-        public event EventHandler<string> SelectionChanged;
+        public event EventHandler<string> SelectionChanged { 
+            add => _selectionChangedEvents.Subscribe(this,value); 
+            remove => _selectionChangedEvents.Unsubscribe(value);
+        }
 
         /// <summary>
         /// fired a moment before this number box is displayed in a property manager page
         /// </summary>
-        public new event PmpNumberBoxDisplayingEventHandler Displaying;
+        public new event EventHandler<PmpNumberBoxDisplayingEventArgs> Displaying { 
+            add => _displayingEvents.Subscribe(this,value); 
+            remove => _displayingEvents.Unsubscribe(value);
+        }
 
         #endregion
     }

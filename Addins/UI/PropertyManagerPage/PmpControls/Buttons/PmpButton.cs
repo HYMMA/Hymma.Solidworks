@@ -19,11 +19,6 @@ namespace Hymma.Solidworks.Addins
         /// <param name="tip">tooltip text</param>
         public PmpButton(string caption, string tip = "") : base(swPropertyManagerPageControlType_e.swControlType_Button, caption, tip)
         {
-            Registering += PmpButton_OnRegister;
-        }
-
-        private void PmpButton_OnRegister()
-        {
         }
     }
 }

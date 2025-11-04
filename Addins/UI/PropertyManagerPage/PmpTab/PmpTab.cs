@@ -1,12 +1,16 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Core;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -67,7 +71,7 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         public void Activate()
         {
-            Displaying += () => SolidworksObject.Activate();
+            Displaying += (s, e) => SolidworksObject.Activate();
         }
 
         internal void Register(IPropertyManagerPage2 propertyManagerPage)
@@ -75,18 +79,22 @@ namespace Hymma.Solidworks.Addins
             string iconAddress = "";
             var sb = new StringBuilder();
             sb.Append("tab").Append(Id).Append(".bmp");
+
             if (_icon != null)
             {
-                iconAddress = Path.Combine(IconDir.FullName, sb.ToString());
-                using (var icon = new Bitmap(_icon, 16, 18))
+                using (_icon)
                 {
-                    try
+                    iconAddress = Path.Combine(IconDir.FullName, sb.ToString());
+                    using (var icon = new Bitmap(_icon, 16, 18))
                     {
-                        icon.Save(iconAddress, System.Drawing.Imaging.ImageFormat.Bmp);
-                    }
-                    catch (Exception)
-                    {
-                        //TODO: LOG ERROR
+                        try
+                        {
+                            icon.Save(iconAddress, System.Drawing.Imaging.ImageFormat.Bmp);
+                        }
+                        catch (Exception)
+                        {
+                            //TODO: LOG ERROR
+                        }
                     }
                 }
             }
@@ -98,20 +106,65 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call back
-        internal void DisplayingCallback() => Displaying?.Invoke();
-        internal void ClickedCallback() => Clicked?.Invoke();
+        internal void DisplayingCallback() => _displayingEvents.Raise(this, EventArgs.Empty);
+        internal void ClickedCallback() => _clickedEvents.Raise(this, EventArgs.Empty);
         #endregion
 
         #region events
+        readonly WeakEventSource<EventArgs> _displayingEvents = new WeakEventSource<EventArgs>();
+        readonly WeakEventSource<EventArgs> _clickedEvents = new WeakEventSource<EventArgs>();
+        /// <summary>
+        /// unsubscribe all event handlers from this tab
+        /// </summary>
+        public virtual void UnsubscribeFromEvents()
+        {
+            _displayingEvents?.ClearHandlers();
+            _clickedEvents?.ClearHandlers();
+            if (TabGroups != null)
+            {
+
+                foreach (var group in TabGroups)
+                {
+                    group.UnsubscribeFromEvents();
+                }
+            }
+
+            //_displayingEvents?.GetInvocationList()?.ToList()?.ForEach(d => Displaying -= (Action)d);
+            //Clicked?.GetInvocationList()?.ToList()?.ForEach(c => Clicked -= (Action)c);
+        }
+
+        /// <summary>
+        /// release solidworks object
+        /// </summary>
+        public void ReleaseSolidworksObject()
+        {
+            Marshal.ReleaseComObject(SolidworksObject);
+            if (TabGroups != null)
+            {
+                foreach (var group in TabGroups)
+                {
+                    group.ReleaseSolidworksObject();
+                }
+            }
+        }
+
         /// <summary>
         /// fires a moment before the property manger page is displayed
         /// </summary>
-        public event Action Displaying;
+        public event EventHandler<EventArgs> Displaying
+        {
+            add { _displayingEvents.Subscribe(this, value); }
+            remove { _displayingEvents.Unsubscribe(value); }
+        }
 
         /// <summary>
         /// invoked once user clicked on this tab
         /// </summary>
-        public event Action Clicked;
+        public event EventHandler<EventArgs> Clicked
+        {
+            add { _clickedEvents.Subscribe(this, value); }
+            remove { _clickedEvents.Unsubscribe(value); }
+        }
 
         /// <summary>
         /// directory where this tab's main image get saved to

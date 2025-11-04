@@ -3,6 +3,7 @@
 
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -55,7 +56,7 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        private void PmpBitmapButton_OnRegister()
+        private void PmpBitmapButton_OnRegister(object s, EventArgs e)
         {
             if (_bitmap != null && _fileName != "")
             {
@@ -84,27 +85,37 @@ namespace Hymma.Solidworks.Addins
         /// <param name="opacity">define opacity of the bitmap on the button, less values result in more transparent pictures</param>
         public void SetButtonIcon(Bitmap bitmap, string fileName, BtnSize size, byte opacity)
         {
-            if (SolidworksObject == null)
-                return;
-
-            var fullFileName = Path.Combine(SharedIconsDir.CreateSubdirectory(Id.ToString()).FullName,
-                                            new StringBuilder().Append(fileName).Append(AddinConstants.GetBtnSize(size)).Append(".png").ToString());
-            if (!File.Exists(fullFileName))
+            try
             {
-                using (bitmap)
+
+                if (SolidworksObject == null)
+                    return;
+
+                var fullFileName = Path.Combine(SharedIconsDir.CreateSubdirectory(Id.ToString()).FullName,
+                                                new StringBuilder().Append(fileName).Append(AddinConstants.GetBtnSize(size)).Append(".png").ToString());
+                if (!File.Exists(fullFileName))
                 {
                     MaskedBitmap.SaveAsPng(bitmap, new Size(((int)size), ((int)size)), ref fullFileName, false, opacity);
                 }
+
+                //possible sizes for a button bitmap in solidworks
+                //var images = new List<string>();
+                //var masks = new List<string>();
+
+                //images.Add(fullFileName);
+                //masks.Add("");
+                Width = (short)size;
+                SolidworksObject.SetBitmapsByName3(new[] { fullFileName }, new[] { "" });
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                bitmap?.Dispose();
             }
 
-            //possible sizes for a button bitmap in solidworks
-            //var images = new List<string>();
-            //var masks = new List<string>();
-
-            //images.Add(fullFileName);
-            //masks.Add("");
-            Width = (short)size;
-            SolidworksObject.SetBitmapsByName3(new[] {fullFileName}, new[] {""});
         }
         /// <summary>
         /// assign an icon to this bitmap button from a list of standard solidworks icons <br/>
@@ -113,8 +124,7 @@ namespace Hymma.Solidworks.Addins
         /// <param name="standardIcon">standard icon as defined by <see cref="BitmapButtons"/></param>
         public void SetButtonIcon(BitmapButtons standardIcon)
         {
-            if (SolidworksObject != null)
-                SolidworksObject.SetStandardBitmaps((int)standardIcon);
+            SolidworksObject?.SetStandardBitmaps((int)standardIcon);
         }
 
         #endregion

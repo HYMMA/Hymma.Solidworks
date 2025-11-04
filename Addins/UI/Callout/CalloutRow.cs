@@ -4,6 +4,7 @@
 using SolidWorks.Interop.sldworks;
 //using Hymma.Solidworks.Extensions;
 using System;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -17,8 +18,9 @@ namespace Hymma.Solidworks.Addins
         private SysColor _rolColor;
         private bool _rowIsInactive;
         private bool _ignored;
-        private Tuple<double,double,double> _target;
-
+        private Tuple<double, double, double> _target;
+        private readonly WeakEventSource<CalloutRowTargetChangedEventArgs> targetChangedSource = new WeakEventSource<CalloutRowTargetChangedEventArgs>();
+        private readonly WeakEventSource<string> valueChangedSource = new WeakEventSource<string>();
         /// <summary>
         /// constructor
         /// </summary>
@@ -106,13 +108,13 @@ namespace Hymma.Solidworks.Addins
         /// sets or gets the target for this row
         /// </summary>
         /// <remarks>soldiworks internal unit is meter</remarks>
-        public Tuple<double,double,double> Target
+        public Tuple<double, double, double> Target
         {
             get => _target;
             set
             {
                 _target = value;
-                OnTargetChanged?.Invoke(Id, _target);
+                targetChangedSource?.Raise(this, new CalloutRowTargetChangedEventArgs(Id, _target));
             }
         }
 
@@ -142,19 +144,27 @@ namespace Hymma.Solidworks.Addins
             _rowVal = text;
 
             //implemet event subscribers instruction otherwise
-            OnValueChanged?.Invoke(this, text);
+            valueChangedSource?.Raise(this, text);
         }
 
         /// <summary>
         /// fired when <see cref="Target"/> of this row changes
         /// </summary>
-        public event Action<int, Tuple<double, double, double>> OnTargetChanged;
+        public event EventHandler<CalloutRowTargetChangedEventArgs> OnTargetChanged
+        {
+            add { targetChangedSource.Subscribe(this, value); }
+            remove { targetChangedSource.Unsubscribe(value); }
+        }
 
         /// <summary>
         /// invoked by solidworks when user changes the value of this row
         /// </summary>
         /// <remarks>true to update the callout and false to not. this event is useful for input validation</remarks>
-        public event CalloutEventHandler OnValueChanged;
+        public event EventHandler<string> OnValueChanged
+        {
+            add { valueChangedSource.Subscribe(this, value); }
+            remove { valueChangedSource.Unsubscribe(value); }
+        }
     }
 
     /// <summary>
@@ -164,4 +174,30 @@ namespace Hymma.Solidworks.Addins
     /// <param name="newValue">new value</param>
     /// <returns>true to update the callout and false to not</returns>
     public delegate void CalloutEventHandler(CalloutRow sender, string newValue);
+
+    /// <summary>
+    /// event args for when a row's target is changed
+    /// </summary>
+    public class CalloutRowTargetChangedEventArgs : EventArgs
+    {
+        /// <summary>
+        /// id of the row that its target changed
+        /// </summary>
+        public int RowId { get; }
+        /// <summary>
+        /// new target
+        /// </summary>
+        public Tuple<double, double, double> NewTarget { get; }
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="rowId">id of the row that its target changed</param>
+        /// <param name="newTarget">new target</param>
+        public CalloutRowTargetChangedEventArgs(int rowId, Tuple<double, double, double> newTarget)
+        {
+            RowId = rowId;
+            NewTarget = newTarget;
+        }
+    }
+
 }

@@ -1,9 +1,12 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Core;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
+using System.Linq;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -48,7 +51,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    Registering += () => { SolidworksObject.Text = value; };
+                    Registering += (s,e) => { SolidworksObject.Text = value; };
                 }
             }
         }
@@ -67,7 +70,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Style = (int)value;
                 else
-                    Registering += () => { SolidworksObject.Style = (int)value; };
+                    Registering += (s,e) => { SolidworksObject.Style = (int)value; };
             }
         }
 
@@ -85,7 +88,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Height = value;
                 else
-                    Registering += () => { SolidworksObject.Height = value; };
+                    Registering += (s,e) => { SolidworksObject.Height = value; };
             }
         }
         #endregion
@@ -94,17 +97,30 @@ namespace Hymma.Solidworks.Addins
 
         internal void TypedIntoCallback(string e)
         {
-            TypedInto?.Invoke(this, e);
+            _editEventSource?.Raise(this, e);
         }
 
         #endregion
 
         #region events
+        readonly WeakEventSource<string> _editEventSource = new WeakEventSource<string>();
+        /// <summary>
+        /// unsubscribe from events
+        /// </summary>
+        public override void UnsubscribeFromEvents()
+        {
+            base.UnsubscribeFromEvents();
+            _editEventSource.ClearHandlers();
+            //TypedInto?.GetInvocationList()?.ToList()?.ForEach(d => TypedInto -= (EventHandler<string>)d);
+        }
         /// <summary>
         /// fires when text box is changed
         /// </summary>
         ///<remarks>works only when defined before <see cref="PmpGroup.AddControl(IPmpControl)"/></remarks>
-        public event EventHandler<string> TypedInto;
+        public event EventHandler<string> TypedInto { 
+            add { _editEventSource.Subscribe(this,value); } 
+            remove { _editEventSource.Unsubscribe(value); }
+        }
         #endregion
     }
 }

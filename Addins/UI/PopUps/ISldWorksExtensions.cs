@@ -20,7 +20,7 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
         /// <returns>A wrapper object that allows you to show or show-as-dialogue the win-form</returns>
         public static PopupWinForm HookWinForm(this ISldWorks sldWorks, Form form)
         {
-            var parent = (IntPtr)sldWorks.IFrameObject().GetHWnd();
+            var parent = (IntPtr)sldWorks.IFrameObject().GetHWndx64();
             return new PopupWinForm(form, parent);
         }
 
@@ -32,7 +32,7 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
         /// <returns>A wrapper object that allows you to show or show-as-dialogue the window</returns>
         public static PopupWpfWindow HookWpfWindow(this ISldWorks sldWorks, Window window)
         {
-            var parent = (IntPtr)sldWorks.IFrameObject().GetHWnd();
+            var parent = (IntPtr)sldWorks.IFrameObject().GetHWndx64();
             return new PopupWpfWindow(window, parent);
         }
     }

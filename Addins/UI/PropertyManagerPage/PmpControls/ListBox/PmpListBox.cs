@@ -3,7 +3,10 @@
 
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System.Linq;
 using System;
+using Hymma.Solidworks.Addins.Core;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -45,25 +48,25 @@ namespace Hymma.Solidworks.Addins
 
         #region Call backs
 
-        private void PmpListBox_OnDisplay(PmpListBox sender, PmpListboxDisplayingEventArgs eventArgs)
+        private void PmpListBox_OnDisplay(object sender, PmpListboxDisplayingEventArgs eventArgs)
         {
             SolidworksObject.Style = Style;
             SolidworksObject.Height = _height;
         }
 
-        private void PmpListBox_OnRegister()
+        private void PmpListBox_OnRegister(object s , EventArgs e)
         {
             AddItems(_items);
         }
 
         internal void RightClickedCallback(Tuple<double, double, double> point) 
-            =>  RightClicked?.Invoke(this, point);
+            =>  _rightClickEvents?.Raise(this, point);
 
         internal void SelectionChangeCallback(int count)
-           => SelectionChanged?.Invoke(this, count);
+           => _selectionChangedEvents?.Raise(this, count);
 
         internal override void DisplayingCallback()
-         =>Displaying?.Invoke(this, new PmpListboxDisplayingEventArgs(this, _height));
+         =>_displayingEvents?.Raise(this, new PmpListboxDisplayingEventArgs(this, _height));
         #endregion
 
         #region public methods
@@ -170,21 +173,49 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region events
+        private readonly WeakEventSource<Tuple<double,double,double>> _rightClickEvents = new WeakEventSource<Tuple<double,double,double>>();
+
+        private readonly WeakEventSource<int> _selectionChangedEvents = new WeakEventSource<int>();
+        private readonly WeakEventSource<PmpListboxDisplayingEventArgs> _displayingEvents = new WeakEventSource<PmpListboxDisplayingEventArgs>();
+
+        /// <summary>
+        /// Unsubscribes all event handlers from events fired by this control.
+        /// </summary>
+        public override void UnsubscribeFromEvents()
+        {
+            base.UnsubscribeFromEvents();
+            _rightClickEvents?.ClearHandlers();
+            _displayingEvents?.ClearHandlers();
+            _selectionChangedEvents?.ClearHandlers();
+        }
+
         /// <summary>
         /// Called when the right-mouse button is released in a list box on this PropertyManager page.<br/>
         /// </summary>
-        public event PmpListboxRightClickedEventHandler RightClicked;
+        public event EventHandler<Tuple<double,double,double>> RightClicked
+        {
+            add { _rightClickEvents.Subscribe(this,value); }
+            remove { _rightClickEvents.Unsubscribe(value); }
+        }
 
         /// <summary>
         /// Called when a user changes the selected item in a list box or selection list box on this PropertyManager page. <br/>
         /// solidworks will pass in the id of item
         /// </summary>
-        public event PmpListboxSelectionChangedEventHandler SelectionChanged;
+        public event EventHandler<int> SelectionChanged
+        {
+            add { _selectionChangedEvents.Subscribe(this,value); }
+            remove { _selectionChangedEvents.Unsubscribe(value); }
+        }
 
         /// <summary>
         /// will be fired a moment before this Listbox is displayed in a property manager page. 
         /// </summary>
-        public new event PmpListboxDisplayingEventHandler Displaying;
+        public new event EventHandler<PmpListboxDisplayingEventArgs> Displaying
+        {
+            add { _displayingEvents.Subscribe(this,value); }
+            remove { _displayingEvents.Unsubscribe(value); }
+        }
         #endregion
     }
 }

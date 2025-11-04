@@ -1,9 +1,11 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Core;
 using SolidWorks.Interop.sldworks;
 using System;
-
+using System.Linq;
+using WeakEvent;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
@@ -65,7 +67,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Style = ((int)value);
                 else
-                    Registering += () =>
+                    Registering += (s,e) =>
                     {
                         SolidworksObject.Style = ((int)value);
                     };
@@ -85,7 +87,7 @@ namespace Hymma.Solidworks.Addins
             set
             {
                 _height = value;
-                Registering += () => { SolidworksObject.Height = value; };
+                Registering += (s,e) => { SolidworksObject.Height = value; };
             }
         }
 
@@ -103,7 +105,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.LineSize = value;
                 else
-                    Registering += () =>
+                    Registering += (s,e) =>
                     {
                         SolidworksObject.LineSize = value;
                     };
@@ -123,7 +125,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.PageSize = value;
                 else
-                    Registering += () => { SolidworksObject.PageSize = value; };
+                    Registering += (s,e) => { SolidworksObject.PageSize = value; };
             }
         }
 
@@ -148,7 +150,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Position = value;
                 else
-                    Registering += () => { SolidworksObject.Position = value; };
+                    Registering += (s,e) => { SolidworksObject.Position = value; };
 
             }
         }
@@ -165,7 +167,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.TickFrequency = value;
                 else
-                    Registering += () => { SolidworksObject.TickFrequency = value; };
+                    Registering += (s,e) => { SolidworksObject.TickFrequency = value; };
 
             }
         }
@@ -189,7 +191,7 @@ namespace Hymma.Solidworks.Addins
             if (SolidworksObject != null)
                 results = SolidworksObject.SetRange(((int)min), ((int)max));
             else
-                Registering += () => { results = SolidworksObject.SetRange(((int)min), ((int)max)); };
+                Registering += (s,e) => { results = SolidworksObject.SetRange(((int)min), ((int)max)); };
             return results;
         }
 
@@ -208,28 +210,49 @@ namespace Hymma.Solidworks.Addins
         #region call backs
         internal void PositionChangedCallback(double value)
         {
-            PositionChanged?.Invoke(this, value);
+            _positionChangedEvents?.Raise(this, value);
             _position = value;
         }
 
         internal void TrackingCompletedCallback(double value)
         {
-            TrackingCompleted?.Invoke(this, value);
+            _trackingCompletedEvents?.Raise(this, value);
             _position = value;
         }
 
         #endregion
 
         #region events
+        readonly WeakEventSource<double> _positionChangedEvents = new WeakEventSource<double>();
+        readonly WeakEventSource<double> _trackingCompletedEvents = new WeakEventSource<double>();
+        /// <summary>
+        /// unsubscribes from all events
+        /// </summary>
+        public override void UnsubscribeFromEvents()
+        {
+            base.UnsubscribeFromEvents();
+            _positionChangedEvents.ClearHandlers();
+            _trackingCompletedEvents.ClearHandlers();
+            //PositionChanged?.GetInvocationList()?.ToList()?.ForEach(d => PositionChanged -= (EventHandler<double>)d);
+            //TrackingCompleted?.GetInvocationList()?.ToList()?.ForEach(d => TrackingCompleted -= (EventHandler<double>)d);
+        }
         /// <summary>
         /// fires while the user changing the position of the slider
         /// </summary>
-        public event EventHandler<double> PositionChanged;
+        public event EventHandler<double> PositionChanged
+        {
+            add { _positionChangedEvents.Subscribe(this,value); }
+            remove { _positionChangedEvents.Unsubscribe(value); }
+        }
 
         /// <summary>
         /// fires after the user has finished changing the position of the slider
         /// </summary>
-        public event EventHandler<double> TrackingCompleted;
+        public event EventHandler<double> TrackingCompleted
+        {
+            add { _trackingCompletedEvents.Subscribe(this,value); }
+            remove { _trackingCompletedEvents.Unsubscribe(value); }
+        }
 
         #endregion
     }

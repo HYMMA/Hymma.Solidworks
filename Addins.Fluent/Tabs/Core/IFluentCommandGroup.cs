@@ -52,10 +52,10 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// <param name="bitmap"></param>
         IFluentCommandGroup WithIcon(Bitmap bitmap);
 
-/// <summary>
-/// registers this command group into solidworks UI
-/// </summary>
-/// <returns></returns>
+        /// <summary>
+        /// registers this command group into solidworks UI
+        /// </summary>
+        /// <returns></returns>
         IFluentCommandTab SaveCommandGroup();
     }
 }

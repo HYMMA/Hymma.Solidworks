@@ -28,7 +28,7 @@ namespace Hymma.Solidworks.Addins
             this.WindowsControl = wpfControl;
             _keystrokePropagator = new WpfControlKeystrokePropagator(wpfControl);
             Displaying += PmpWpfHost_OnDisplay;
-            Registering += () => SolidworksObject.Height = height;
+            Registering += (s,e) => SolidworksObject.Height = height;
         }
         /// <summary>
         /// constructor
@@ -85,7 +85,7 @@ namespace Hymma.Solidworks.Addins
         public override bool Equals(object obj) => Equals(obj as PmpWpfHost);
 
         ///<inheritdoc/>
-        public override int GetHashCode() => ElementHost.GetHashCode();
+        //public override int GetHashCode() => ElementHost.GetHashCode();
 
         /// <summary>
         /// properly disposes of this object

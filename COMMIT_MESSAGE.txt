@@ -1,0 +1,8 @@
+Harden WinForms/WPF interop in SwPopupWindow
+
+- Marshal all WPF Window operations via Dispatcher to prevent cross-thread crashes
+- Enable modeless keyboard interop for WPF windows launched from WinForms
+- Position WPF window after layout using ActualWidth/ActualHeight; add SourceInitialized hook
+- Fix Thickness ctor order (Left,Top,Right,Bottom) used by positioning logic
+- Fix PopupWinForm.Close() inverted disposal check; dispose deterministically
+- Preserve and restore WindowStartupLocation around Show/ShowDialog

@@ -11,12 +11,12 @@
 		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks</projectUrl>
 		<description>Framework to create Addins for SOLIDWORKS 2018 and later using fluent API.</description>
 		<readme>Readme.md</readme>
-		<releaseNotes>Changed version to 2018.</releaseNotes>
+		<releaseNotes>Fixed numerious memory leaks</releaseNotes>
 		<copyright>HYMMA</copyright>
 		<tags>hymma solidworks cad addin fluent-API</tags>
 		<dependencies>
 			<group targetFramework=".NETFramework4.8" >
-				<dependency id="Hymma.Solidworks.Addins" version="2018.2.3"></dependency>
+				<dependency id="Hymma.Solidworks.Addins" version="2018.3.2"></dependency>
 			</group>
 		</dependencies>
 	</metadata>

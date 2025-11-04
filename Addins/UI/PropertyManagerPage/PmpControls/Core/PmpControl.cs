@@ -2,6 +2,7 @@
 // Licensed under the MIT license
 
 using SolidWorks.Interop.swconst;
+using System.Runtime.InteropServices;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -20,10 +21,20 @@ namespace Hymma.Solidworks.Addins
         public PmpControl(swPropertyManagerPageControlType_e type, string caption = "", string tip = "")
             : base(type, caption, tip)
         {
-            Registering += () =>
-            {
-                SolidworksObject = (T)Control;
-            };
+            Registering += PmpControl_Registering;
+        }
+
+        private void PmpControl_Registering(object sender, System.EventArgs e)
+        {
+            SolidworksObject = (T)Control;
+        }
+
+        /// <summary>
+        /// release solidworks object
+        /// </summary>
+        public void ReleaseSolidworksObject()
+        {
+            Marshal.ReleaseComObject(SolidworksObject);
         }
         #endregion
         ///<inheritdoc/>

@@ -92,45 +92,44 @@ namespace Hymma.Solidworks.Addins
         /// <param name="invertedMask"></param>
         public static void SaveAsPng(Bitmap image, Size size, ref string fullFileName, bool allowPartialOpacity = true, byte opacityThreshold = 255, bool invertedMask = true)
         {
+            // caller owns 'image' — do not dispose it here
+
+            if (image == null) throw new ArgumentNullException(nameof(image));
+
             //check for valid file name . . .
             if (string.IsNullOrEmpty(fullFileName))
                 throw new ArgumentNullException("filename assigned to icon was empty");
 
-            //if the string provided does not have .png ...
             if (!fullFileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
-
-                //add the extension to the file name
                 fullFileName += ".png";
-            
-            if (image == null)
-                throw new ArgumentNullException(nameof(image));
 
-            //get maskImage
             if (!File.Exists(fullFileName))
             {
-                using (image)
+                Bitmap maskImage = null;
+                try
                 {
-
-                    Bitmap maskImage;
-
-                    //if type of image provided is png we simply save it without processing it
+                    // if input is already PNG, create a copy so we can dispose maskImage safely
                     if (image.RawFormat.Equals(ImageFormat.Png))
                     {
-                        maskImage = image;
+                        maskImage = new Bitmap(image);
                     }
                     else
                     {
                         maskImage = GetMaskedImage(image, allowPartialOpacity, opacityThreshold, invertedMask);
                     }
 
-                    using (maskImage)
+                    // guard against invalid dimensions
+                    if (maskImage.Width <= 0 || maskImage.Height <= 0 || size.Width <= 0 || size.Height <= 0)
+                        throw new ArgumentOutOfRangeException("Invalid bitmap dimensions");
+
+                    using (var newSize = new Bitmap(maskImage, size))
                     {
-                        var newSize = new Bitmap(maskImage, size);
-                        using (newSize)
-                        {
-                            newSize.Save(fullFileName, ImageFormat.Png);
-                        }
+                        newSize.Save(fullFileName, ImageFormat.Png);
                     }
+                }
+                finally
+                {
+                    maskImage?.Dispose();
                 }
             }
         }

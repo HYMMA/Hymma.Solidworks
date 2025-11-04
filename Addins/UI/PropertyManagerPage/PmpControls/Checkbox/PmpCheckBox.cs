@@ -1,8 +1,12 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Core;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System;
+using System.Linq;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -30,10 +34,10 @@ namespace Hymma.Solidworks.Addins
             IsChecked = isChecked;
 
             //sync SOLIDWORKS and this
-            Checked += PmpCheckBox_Checked;
+            Checked+= PmpCheckBox_Checked;
         }
 
-        private void PmpCheckBox_Checked(PmpCheckBox pmpCheckBox, bool isChecked)
+        private void PmpCheckBox_Checked(object sender, bool isChecked)
         {
             if (_isChecked != isChecked)
                 _isChecked = isChecked;
@@ -43,7 +47,7 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        internal void CheckedCallback(bool status) => Checked?.Invoke(this, status);
+        internal void CheckedCallback(bool status) => _myEventSource.Raise(this, status);
         #endregion
 
         #region public properties
@@ -66,7 +70,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    Registering += () => { SolidworksObject.Checked = value; };
+                    Registering += (s,e) => { SolidworksObject.Checked = value; };
                     //Checked(value);
                 }
             }
@@ -99,10 +103,24 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region events
+        private readonly WeakEventSource<bool> _myEventSource = new WeakEventSource<bool>();
+        /// <summary>
+        /// unsubscribe from all events
+        /// </summary>
+        public override void UnsubscribeFromEvents()
+        {
+            base.UnsubscribeFromEvents();
+            _myEventSource.ClearHandlers();
+        }
         /// <summary>
         /// SOLIDWORKS will call this once the checkbox is clicked on
         /// </summary>
-        public event PmpCheckBoxCheckedEventHandler Checked;
+        public event EventHandler<bool> Checked
+        {
+            add { _myEventSource.Subscribe(this,value); }
+            remove { _myEventSource.Unsubscribe(value); }
+        }
+
         #endregion
     }
 }

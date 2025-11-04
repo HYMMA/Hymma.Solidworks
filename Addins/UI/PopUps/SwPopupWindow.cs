@@ -3,7 +3,11 @@
 
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
+//using System.Windows.Interop;
+using System.Windows.Forms.Integration;
+
 
 namespace Hymma.Solidworks.Addins.UI.PopUps
 {
@@ -30,7 +34,7 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
     /// <summary>
     ///Allows using a WPF windows directly inside solidworks as a modal or modeless window
     /// </summary>
-    public class PopupWpfWindow
+    public class PopupWpfWindow : IDisposable
     {
         /// <summary>
         /// creates the object to interact with the Window 
@@ -48,6 +52,10 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
             };
 
             disposed = false;
+
+            // Safer initial positioning when modeless: once HWND exists
+            this.wpfWindow.SourceInitialized += (s, e) => PositionWindow(ScreenZones.Center);
+            //this.wpfWindow.Closed += (s, e) => Close();
         }
 
         /// <summary>
@@ -58,14 +66,11 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
             get => wpfWindow.IsVisible;
             set
             {
-                if (value)
+                Safe(() =>
                 {
-                    Show();
-                }
-                else
-                {
-                    wpfWindow.Hide();
-                }
+                    if (value) Show();
+                    else wpfWindow.Hide();
+                });
             }
         }
 
@@ -93,7 +98,7 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
             if (!disposed)
             {
                 disposed = true;
-                wpfWindow.Close();
+                Safe(() => wpfWindow.Close());
             }
         }
 
@@ -102,43 +107,108 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
         /// </summary>
         /// <param name="dock"></param>
         /// <returns></returns>
+        //public bool? ShowDialog(ScreenZones dock = ScreenZones.Center)
+        //{
+        //    var startupLoc = wpfWindow.WindowStartupLocation;
+
+        //    wpfWindow.Loaded += (s, e) =>
+        //    {
+        //        PositionWindow(dock);
+        //    };
+        //    var res = wpfWindow.ShowDialog();
+
+        //    wpfWindow.WindowStartupLocation = startupLoc;
+
+        //    return res;
+        //}
         public bool? ShowDialog(ScreenZones dock = ScreenZones.Center)
         {
-            var startupLoc = wpfWindow.WindowStartupLocation;
-
-            wpfWindow.Loaded += (s, e) =>
+            return Safe(() =>
             {
-                PositionWindow(dock);
-            };
-            var res = wpfWindow.ShowDialog();
+                var startupLoc = wpfWindow.WindowStartupLocation;
 
-            wpfWindow.WindowStartupLocation = startupLoc;
+                void OnLoaded(object s, RoutedEventArgs e)
+                {
+                    wpfWindow.Loaded -= OnLoaded;
+                    PositionWindow(dock);
+                }
+                wpfWindow.Loaded += OnLoaded;
 
-            return res;
+                var res = wpfWindow.ShowDialog();
+                wpfWindow.WindowStartupLocation = startupLoc;
+                return res;
+            });
         }
 
         /// <summary>
         /// shows the window as a modeless window that allows interaction with the rest of the application
         /// </summary>
         /// <param name="dock"></param>
+        //public void Show(ScreenZones dock = ScreenZones.Center)
+        //{
+        //    var startupLoc = wpfWindow.WindowStartupLocation;
+        //    wpfWindow.Show();
+
+        //    PositionWindow(dock);
+        //    wpfWindow.BringIntoView();
+
+        //    wpfWindow.WindowStartupLocation = startupLoc;
+        //}
         public void Show(ScreenZones dock = ScreenZones.Center)
         {
-            var startupLoc = wpfWindow.WindowStartupLocation;
-            wpfWindow.Show();
+            Safe(() =>
+            {
+                var startupLoc = wpfWindow.WindowStartupLocation;
+                // Ensure keyboard routing for modeless WPF under WinForms host
+                ElementHost.EnableModelessKeyboardInterop(wpfWindow);
 
-            PositionWindow(dock);
-            wpfWindow.BringIntoView();
+                wpfWindow.Show();
+                if (wpfWindow.IsLoaded)
+                    PositionWindow(dock);
+                wpfWindow.Activate();
 
-            wpfWindow.WindowStartupLocation = startupLoc;
+                wpfWindow.WindowStartupLocation = startupLoc;
+            });
         }
 
+        //private void PositionWindow(ScreenZones dock)
+        //{
+        //    var pos = PopupHelper.CalculateLocation(m_ParentWnd, dock, true, wpfWindow.Width, wpfWindow.Height,
+        //        new Thickness(wpfWindow.Padding.Left, wpfWindow.Padding.Right, wpfWindow.Padding.Top, wpfWindow.Padding.Bottom));
+        //    wpfWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+        //    wpfWindow.Left = pos.X;
+        //    wpfWindow.Top = pos.Y;
+        //}
         private void PositionWindow(ScreenZones dock)
         {
-            var pos = PopupHelper.CalculateLocation(m_ParentWnd, dock, true, wpfWindow.Width, wpfWindow.Height,
-                new Thickness(wpfWindow.Padding.Left, wpfWindow.Padding.Right, wpfWindow.Padding.Top, wpfWindow.Padding.Bottom));
+            // Prefer ActualWidth/ActualHeight after layout; fallback to Width/Height
+            double w = double.IsNaN(wpfWindow.ActualWidth) || wpfWindow.ActualWidth <= 0 ? wpfWindow.Width : wpfWindow.ActualWidth;
+            double h = double.IsNaN(wpfWindow.ActualHeight) || wpfWindow.ActualHeight <= 0 ? wpfWindow.Height : wpfWindow.ActualHeight;
+
+            // Correct Thickness order: Left, Top, Right, Bottom
+            var pad = new Thickness(
+                        wpfWindow.Padding.Left,
+                        wpfWindow.Padding.Top,
+                        wpfWindow.Padding.Right,
+                        wpfWindow.Padding.Bottom);
+
+            var pos = PopupHelper.CalculateLocation(m_ParentWnd, dock, true, w, h, pad);
             wpfWindow.WindowStartupLocation = WindowStartupLocation.Manual;
             wpfWindow.Left = pos.X;
             wpfWindow.Top = pos.Y;
+        }
+
+        // Run code on the window's Dispatcher for WPF thread safety
+        private void Safe(Action action)
+        {
+            if (wpfWindow.Dispatcher.CheckAccess()) action();
+            else wpfWindow.Dispatcher.Invoke(action);
+        }
+
+        private T Safe<T>(Func<T> func)
+        {
+            if (wpfWindow.Dispatcher.CheckAccess()) return func();
+            else return wpfWindow.Dispatcher.Invoke(func);
         }
     }
 
@@ -196,7 +266,7 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
         /// </summary>
         public void Close()
         {
-            if (isDisposed)
+            if (!isDisposed)
             {
                 isDisposed = true;
                 winForm.Close();

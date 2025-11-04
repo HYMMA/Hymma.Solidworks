@@ -1,9 +1,12 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Core;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
+using System.Linq;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -48,7 +51,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Checked = value;
                 else
-                    Registering += () => { SolidworksObject.Checked = value; };
+                    Registering += (s,e) => { SolidworksObject.Checked = value; };
             }
         }
 
@@ -79,14 +82,32 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        internal void CheckedCallback() => Checked?.Invoke(this, true);
+        internal void CheckedCallback() => _checkedEvents?.Raise(this, true);
         #endregion
 
         #region events
+        readonly WeakEventSource<bool> _checkedEvents = new WeakEventSource<bool>();
+        /// <summary>
+        /// unsubscribe from all events
+        /// </summary>
+        public override void UnsubscribeFromEvents()
+        {
+            base.UnsubscribeFromEvents();
+            _checkedEvents.ClearHandlers();
+            //Checked?.GetInvocationList()?.ToList()?.ForEach(d =>
+            //{
+            //    Checked -= d as EventHandler<bool>;
+            //});
+        }
+
         /// <summary>
         /// SOLIDWORKS will invoke this delegate once the user checks this radio button
         /// </summary>
-        public event EventHandler<bool> Checked;
+        public event EventHandler<bool> Checked
+        {
+            add { _checkedEvents.Subscribe(this,value); }
+            remove { _checkedEvents.Unsubscribe(value); }
+        }
         private bool _maintain;
         #endregion
     }

@@ -1,8 +1,12 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Core;
 using SolidWorks.Interop.swconst;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -25,7 +29,15 @@ namespace Hymma.Solidworks.Addins
         /// <summary>
         /// Determines which item was selected when the user selects a pop-up menu item. 
         /// </summary>
-        public event Action Pressed;
+        public event EventHandler<EventArgs> Pressed { add
+            {
+                _pressedEvents.Subscribe(this,value);
+            }
+            remove
+            {
+                _pressedEvents.Unsubscribe(value);
+            }
+        }
 
         /// <summary>
         ///  When Windows attempts to select or deselected and enable or disable the pop-up menu item, SOLIDWORKS calls this method to get the state of the menu item from the add-in. 
@@ -35,8 +47,16 @@ namespace Hymma.Solidworks.Addins
         /// 1 - Not selected and enabled
         /// 2 - Selected(i.e., checked) and disabled
         /// 3 - Selected and enabled
-        public event Action<int> Updated;
-        
+        public event EventHandler<int> Updated { add
+            {
+                _updatedEvents.Subscribe(this,value);
+            }
+            remove
+            {
+                _updatedEvents.Unsubscribe(value);
+            }
+        }
+
         /// <summary>
         /// item text in the menu
         /// </summary>
@@ -58,8 +78,21 @@ namespace Hymma.Solidworks.Addins
         public int Id { get;internal set; }
 
         #region call backs
-        internal void UpdatedCallback(int u) => Updated?.Invoke(u);
-        internal void PressedCallback() => Pressed?.Invoke();
+        readonly WeakEventSource<int> _updatedEvents = new WeakEventSource<int>();
+        readonly WeakEventSource<EventArgs> _pressedEvents = new WeakEventSource<EventArgs>();
+        internal void UpdatedCallback(int u) => _updatedEvents?.Raise(this,u);
+        internal void PressedCallback() => _pressedEvents?.Raise(this,EventArgs.Empty);
+
+        /// <summary>
+        /// Unsubscribes all events
+        /// </summary>
+        public void UnsubscribeFromEvents()
+        {
+            _pressedEvents.ClearHandlers();
+            _updatedEvents.ClearHandlers();
+            //Updated?.GetInvocationList()?.ToList()?.ForEach(d=> Updated -= (Action<int>)d);
+            //Pressed?.GetInvocationList()?.ToList()?.ForEach(d => Pressed -= (Action)d);
+        }
         #endregion
     }
 }

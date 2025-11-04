@@ -1,8 +1,12 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Core;
 using SolidWorks.Interop.swconst;
 using System;
+using System.Linq;
+using System.Web.Compilation;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -25,14 +29,32 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region call backs
-        internal void ClickedCallback() => Clicked?.Invoke(this, EventArgs.Empty);
+        //internal void ClickedCallback() => Clicked?.Raise(this, EventArgs.Empty);
+        internal void ClickedCallback() => _clickedEvents.Raise(this, EventArgs.Empty);
         #endregion
 
         #region events
+        private readonly WeakEventSource<EventArgs> _clickedEvents = new WeakEventSource<EventArgs>();
+
         /// <summary>
         /// invoked when this button is clicked
         /// </summary>
-        public event EventHandler Clicked;
+        public event EventHandler<EventArgs> Clicked
+        {
+            add { _clickedEvents.Subscribe(this,value); }
+            remove { _clickedEvents.Unsubscribe(value); }
+        }
+
+        /// <summary>
+        /// Unsubscribe from all events 
+        /// </summary>
+        public override void UnsubscribeFromEvents()
+        {
+            base.UnsubscribeFromEvents();
+            _clickedEvents.ClearHandlers();
+            //_clickedEvents.ClearHandlers();
+        }
+
         #endregion
     }
 }

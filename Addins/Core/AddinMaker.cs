@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -86,8 +87,7 @@ namespace Hymma.Solidworks.Addins
         {
             for (int i = 0; i < propertyManagerPages.Count(); i++)
             {
-                propertyManagerPages[i].Close(false);
-                propertyManagerPages[i] = null;
+                propertyManagerPages[i].Release();
             }
         }
 
@@ -114,7 +114,8 @@ namespace Hymma.Solidworks.Addins
         public bool DisconnectFromSW()
         {
             //fire event
-            OnExit?.Invoke(this, new OnConnectToSwEventArgs { Solidworks = Solidworks, Cookie = _addinUi.Id });
+            _onExitEvents?.Raise(this, new OnConnectToSwEventArgs { Solidworks = Solidworks, Cookie = _addinUi.Id });
+            _onExitEvents.ClearHandlers();
             RemoveCmdTabs(_addinUi.CommandTabs);
             RemovePMPs(_addinUi.PropertyManagerPages);
             //DetachSwEvents();
@@ -125,6 +126,7 @@ namespace Hymma.Solidworks.Addins
 
             Marshal.ReleaseComObject(Solidworks);
             Solidworks = null;
+
 
 
             //The addin _must_ call GC.Collect() here in order to retrieve all managed code pointers 
@@ -146,7 +148,8 @@ namespace Hymma.Solidworks.Addins
         public bool ConnectToSW(object ThisSW, int Cookie)
         {
             //fire event
-            OnStart?.Invoke(this, new OnConnectToSwEventArgs { Solidworks = (ISldWorks)ThisSW, Cookie = Cookie });
+            _onStartEvents?.Raise(this, new OnConnectToSwEventArgs { Solidworks = (ISldWorks)ThisSW, Cookie = Cookie });
+            _onStartEvents.ClearHandlers();
 
             Solidworks = (ISldWorks)ThisSW;
             _addinUi = GetUserInterFace();
@@ -164,6 +167,13 @@ namespace Hymma.Solidworks.Addins
 
             #endregion
 
+            //first collect all the bitmaps we created during registering the addin
+            //the framework has already called Dispose() on them but GC might not collect them
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             return true;
         }
 
@@ -197,15 +207,28 @@ namespace Hymma.Solidworks.Addins
 
         #region Events
 
+        readonly WeakEventSource<OnConnectToSwEventArgs> _onStartEvents = new WeakEventSource<OnConnectToSwEventArgs>();
+        readonly WeakEventSource<OnConnectToSwEventArgs> _onExitEvents = new WeakEventSource<OnConnectToSwEventArgs>();
         /// <summary>
         /// Events that fires when your add-in connects to solidworks
         /// </summary>
-        public event EventHandler<OnConnectToSwEventArgs> OnStart;
+        public event EventHandler<OnConnectToSwEventArgs> OnStart
+        {
+            add=>
+                _onStartEvents.Subscribe(this,value);
+            remove=>
+                _onStartEvents.Unsubscribe(value);
+        }
 
         /// <summary>
         /// event that fires when user unloads the addin (example when user unchecked the addin from the list of addins)
         /// </summary>
-        public event EventHandler<OnConnectToSwEventArgs> OnExit;
+        public event EventHandler<OnConnectToSwEventArgs> OnExit { 
+            add=>
+                _onExitEvents.Subscribe(this,value);
+            remove=>
+                _onExitEvents.Unsubscribe(value);
+        }
         #endregion
 
         /// <summary>

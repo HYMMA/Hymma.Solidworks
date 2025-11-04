@@ -69,7 +69,7 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="doThis">void to invoke</param>
         /// <returns></returns>
-        IPmpUiModelFluent OnAfterClose(Action<PmpUiModel, PmpCloseReason> doThis);
+        IPmpUiModelFluent OnAfterClose(EventHandler<PmpCloseEventArgs> doThis);
 
         /// <summary>
         ///Processes a keystroke that occurred on this PropertyManager page
@@ -83,14 +83,14 @@ namespace Hymma.Solidworks.Addins.Fluent
         /// </summary>
         /// <param name="doThis"></param>
         /// <returns></returns>
-        IPmpUiModelFluent OnClosing(Action<PmpUiModel, PmpCloseReason> doThis);
+        IPmpUiModelFluent OnClosing(EventHandler<PmpCloseEventArgs> doThis);
 
         /// <summary>
         /// action to take after the property manager page is activated
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-        IPmpUiModelFluent OnAfterActivation(Action<PmpUiModel> action);
+        IPmpUiModelFluent OnAfterActivation(EventHandler<EventArgs> action);
 
         /// <summary>
         ///Sets the cursor after a selection is made in the SOLIDWORKS graphics area.

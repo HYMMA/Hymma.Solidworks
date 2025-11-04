@@ -7,6 +7,7 @@ using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -107,16 +108,17 @@ namespace Hymma.Solidworks.Addins
             SolidworksObject.IgnoreValue[row.Id] = row.IgnoreValue;
             SolidworksObject.SetTargetPoint(row.Id, row.Target.Item1, row.Target.Item2, row.Target.Item3);
 
-            row.OnTargetChanged += (id, target) =>
+            row.OnTargetChanged += (s, e) =>
             {
-                SolidworksObject.SetTargetPoint(id, target.Item1, target.Item2, target.Item3);
+                SolidworksObject.SetTargetPoint(e.RowId, e.NewTarget.Item1, e.NewTarget.Item2, e.NewTarget.Item3);
             };
 
             //when Value property of the row is changed this gets called
             row.OnValueChanged += (sender, newValue) =>
             {
+                var r = sender as CalloutRow;
                 //assign the value to solidworks callout object
-                SolidworksObject.Value[sender.Id] = newValue;
+                SolidworksObject.Value[r.Id] = newValue;
             };
             _rows.Add(row);
         }
@@ -164,7 +166,7 @@ namespace Hymma.Solidworks.Addins
         public bool HasTextBox { get => SolidworksObject.TextBox; set => SolidworksObject.TextBox = value; }
 
         /// <summary>
-        /// Gets or sets the type of connection at the target point for this callout.
+        /// Gets or sets the type of connection at the e point for this callout.
         /// </summary>
         public swCalloutTargetStyle_e TargetStyle { get => (swCalloutTargetStyle_e)SolidworksObject.TargetStyle; set => SolidworksObject.TargetStyle = (int)value; }
 
@@ -220,6 +222,14 @@ namespace Hymma.Solidworks.Addins
         public bool LeaderStatus(bool visible, bool multiple)
         {
             return SolidworksObject.SetLeader(visible, multiple);
+        }
+
+        /// <summary>
+        /// release solidworks object
+        /// </summary>
+        public void ReleaseSolidworksObject()
+        {
+            Marshal.ReleaseComObject(SolidworksObject);
         }
         #endregion
     }

@@ -1,12 +1,15 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Core;
 using Hymma.Solidworks.Addins.Utilities.DotNet;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -93,7 +96,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.Top = value;
                 else
-                    Registering += () => { Control.Top = (short)(value / GraphicsHelper.YDpiScale); };
+                    Registering += (s, e) => { Control.Top = (short)(value ); };
             }
         }
 
@@ -113,7 +116,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.Enabled = value;
                 else
-                    Registering += () => { Control.Enabled = value; };
+                    Registering += (s, e) => { Control.Enabled = value; };
             }
         }
 
@@ -134,7 +137,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.Visible = value;
                 else
-                    Registering += () => { Control.Visible = value; };
+                    Registering += (s, e) => { Control.Visible = value; };
             }
         }
 
@@ -153,7 +156,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.OptionsForResize = ((int)value);
                 else
-                    Registering += () => { Control.OptionsForResize = ((int)value); };
+                    Registering += (s, e) => { Control.OptionsForResize = ((int)value); };
             }
         }
 
@@ -172,7 +175,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.Left = value;
                 else
-                    Registering += () => { Control.Left = (short)(value / GraphicsHelper.XDpiScale); };
+                    Registering += (s, e) => { Control.Left =(value) ; };
             }
         }
 
@@ -189,7 +192,7 @@ namespace Hymma.Solidworks.Addins
                 if (Control != null)
                     Control.Width = value;
                 else
-                    Registering += () => { Control.Width = (short)(value / GraphicsHelper.XDpiScale); };
+                    Registering += (s, e) => { Control.Width = value; };
             }
         }
         #endregion
@@ -209,19 +212,21 @@ namespace Hymma.Solidworks.Addins
             _visible = Control.Visible;
             _enabled = Control.Enabled;
             //we raise this event here to give multiple controls set-up their initial state. some of the properties of a controller has to be set prior a property manager page is displayed or after it's closed
-            Registering?.Invoke();
+            RegisteringCallback();
+            //Registering?.Raise();
 
             //the registering list of delegates happens once only ( when user loads the addin)
             // we don't need to keep these in memory
-            var list = Registering?.GetInvocationList();
-            if (list != null)
-            {
-                for (int i = 0; i < list.Length; i++)
-                {
-                    var action = list[i] as Action;
-                    Registering -= action;
-                }
-            }
+            _registeringEventSource?.ClearHandlers();
+            //var list = Registering?.GetInvocationList();
+            //if (list != null)
+            //{
+            //    for (int i = 0; i < list.Length; i++)
+            //    {
+            //        var action = list[i] as Action;
+            //        Registering -= action;
+            //    }
+            //}
 
         }
 
@@ -241,13 +246,18 @@ namespace Hymma.Solidworks.Addins
             if (Control != null)
                 SetPictureLabelForControl(bitmap, fileName);
             else
-                Registering += () => { SetPictureLabelForControl(bitmap, fileName); };
+                Registering += (s, e) => { SetPictureLabelForControl(bitmap, fileName); };
+
         }
+
         private void SetPictureLabelForControl(Bitmap bitmap, string fileName)
         {
-            var fullFileName = Path.Combine(SharedIconsDir.CreateSubdirectory(Id.ToString()).FullName, fileName);
-            MaskedBitmap.SaveAsPng(bitmap, new Size(18, 18), ref fullFileName);
-            Control.SetPictureLabelByName(fullFileName, "");
+            using (bitmap)
+            {
+                var fullFileName = Path.Combine(SharedIconsDir.CreateSubdirectory(Id.ToString()).FullName, fileName);
+                MaskedBitmap.SaveAsPng(bitmap, new Size(18, 18), ref fullFileName);
+                Control.SetPictureLabelByName(fullFileName, "");
+            }
         }
 
         /// <summary>
@@ -262,7 +272,7 @@ namespace Hymma.Solidworks.Addins
             if (Control != null)
                 ShowBubbleTooltipForControl(title, message, bitmap, fileName);
             else
-                Registering += () => { ShowBubbleTooltipForControl(title, message, bitmap, fileName); };
+                Registering += (s, e) => { ShowBubbleTooltipForControl(title, message, bitmap, fileName); };
         }
 
         private void ShowBubbleTooltipForControl(string title, string message, Bitmap bitmap, string fileName)
@@ -283,43 +293,102 @@ namespace Hymma.Solidworks.Addins
         /// will be called just before this property manager page is displayed inside solidworks 
         /// </summary>
         ///<inheritdoc/>
+        internal virtual void RegisteringCallback()
+        {
+            _registeringEventSource?.Raise(this, EventArgs.Empty);
+
+            //we need it once
+            _registeringEventSource.ClearHandlers();
+        }
         internal virtual void DisplayingCallback()
         {
-            Displaying?.Invoke(this, new PmpControlDisplayingEventArgs(Control));
+            _displayingEventSource?.Raise(this, new PmpControlDisplayingEventArgs(Control));
         }
 
         internal virtual void GainedFocusCallback()
         {
-            GainedFocus?.Invoke(this, EventArgs.Empty);
+            //GainedFocus?.Raise(this, EventArgs.Empty);
+            _gainedFocusEventSource?.Raise(this, EventArgs.Empty);
         }
 
         internal virtual void LostFocusCallback()
         {
-            LostFocus?.Invoke(this, EventArgs.Empty);
+            //LostFocus?.Raise(this, EventArgs.Empty);
+            _lostFocusEventSource.Raise(this, EventArgs.Empty);
         }
+
+        /// <summary>
+        /// Unsubscribes all event handlers from this control events
+        /// </summary>
+        public virtual void UnsubscribeFromEvents()
+        {
+            _displayingEventSource?.ClearHandlers();
+            _gainedFocusEventSource?.ClearHandlers();
+            _lostFocusEventSource?.ClearHandlers();
+            _registeringEventSource?.ClearHandlers();
+            //Displaying?.GetInvocationList()?.ToList().ForEach(d =>
+            //{
+            //    Displaying -= (d as PmpControlDisplayingEventHandler);
+            //});
+            //LostFocus?.GetInvocationList()?.ToList().ForEach(d =>
+            //{
+            //    LostFocus -= (d as EventHandler);
+            //});
+            //GainedFocus?.GetInvocationList()?.ToList().ForEach(d =>
+            //{
+            //    GainedFocus -= (d as EventHandler);
+            //});
+            //Registering?.GetInvocationList()?.ToList().ForEach(d =>
+            //{
+            //    Registering -= (d as Action);
+            //});
+        }
+
 
         #endregion
 
         #region events
+        private readonly WeakEventSource<PmpControlDisplayingEventArgs> _displayingEventSource = new WeakEventSource<PmpControlDisplayingEventArgs>();
+
+        private readonly WeakEventSource<EventArgs> _gainedFocusEventSource = new WeakEventSource<EventArgs>();
+        private readonly WeakEventSource<EventArgs> _lostFocusEventSource = new WeakEventSource<EventArgs>();
+        private readonly WeakEventSource<EventArgs> _registeringEventSource = new WeakEventSource<EventArgs>();
+
         /// <summary>
         /// fired when this controller is registered in a property manager page which is when the add-in is loaded. Either when solidworks starts or when user re-loads the addin
         /// </summary>
-        internal event Action Registering;
+        internal event EventHandler<EventArgs> Registering
+        {
+            add { _registeringEventSource.Subscribe(this,value); }
+            remove { _registeringEventSource.Unsubscribe(value); }
+        }
 
         /// <summary>
         /// fired a moment before property manager page is displayed
         /// </summary>
-        public event PmpControlDisplayingEventHandler Displaying;
+        public event EventHandler<PmpControlDisplayingEventArgs> Displaying
+        {
+            add { _displayingEventSource.Subscribe(this,value); }
+            remove { _displayingEventSource.Unsubscribe(value); }
+        }
 
         /// <summary>
         /// fired when user starts interacting with this control, such as start of typing in a text box
         /// </summary>
-        public event EventHandler GainedFocus;
+        public event EventHandler<EventArgs> GainedFocus
+        {
+            add { _gainedFocusEventSource.Subscribe(this,value); }
+            remove { _gainedFocusEventSource.Unsubscribe(value); }
+        }
 
         /// <summary>
         /// fires when user browses away from this control
         /// </summary>
-        public event EventHandler LostFocus;
+        public event EventHandler<EventArgs> LostFocus
+        {
+            add { _lostFocusEventSource.Subscribe(this,value); }
+            remove { _lostFocusEventSource.Unsubscribe(value); }
+        }
         #endregion
     }
 }

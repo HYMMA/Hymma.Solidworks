@@ -22,7 +22,7 @@ namespace Hymma.Solidworks.Addins.UI
         /// <param name="tip">a tip for the controller</param>
         public PmpWinForm(int height, string caption = "", string tip = "") : base(SolidWorks.Interop.swconst.swPropertyManagerPageControlType_e.swControlType_WindowFromHandle, caption, tip)
         {
-            Registering += () => SolidworksObject.Height = height;
+            Registering += (s,e) => SolidworksObject.Height = height;
             Displaying += (s, d) =>
             {
                 //user needs to create the dotnet control at every display

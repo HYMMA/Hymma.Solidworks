@@ -2,11 +2,14 @@
 // Licensed under the MIT license
 
 //using Hymma.Solidworks.Extensions;
+using Hymma.Solidworks.Addins.Core;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -88,7 +91,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Visible = _visible;
                 else
-                    Registering += () => SolidworksObject.Visible = _visible;
+                    Registering += (s, e) => SolidworksObject.Visible = _visible;
             }
         }
 
@@ -104,7 +107,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.Caption = _caption;
                 else
-                    Registering += () => SolidworksObject.Caption = _caption;
+                    Registering += (s, e) => SolidworksObject.Caption = _caption;
             }
         }
 
@@ -127,7 +130,7 @@ namespace Hymma.Solidworks.Addins
                 }
                 else
                 {
-                    Registering += () => SolidworksObject.Expanded = _isExpanded;
+                    Registering += (s, e) => SolidworksObject.Expanded = _isExpanded;
                 }
             }
         }
@@ -173,7 +176,7 @@ namespace Hymma.Solidworks.Addins
                 if (SolidworksObject != null)
                     SolidworksObject.BackgroundColor = (int)value;
                 else
-                    Registering += () => SolidworksObject.BackgroundColor = ((int)value);
+                    Registering += (s, e) => SolidworksObject.BackgroundColor = ((int)value);
             }
         }
 
@@ -210,15 +213,16 @@ namespace Hymma.Solidworks.Addins
         {
             //the registering list of delegates happens once only ( when user loads the addin)
             // we don't need to keep these in memory
-            var list = Registering?.GetInvocationList();
-            if (list != null)
-            {
-                for (int i = 0; i < list.Length; i++)
-                {
-                    var action = list[i] as Action;
-                    Registering -= action;
-                }
-            }
+            _regesteringEvents.ClearHandlers();
+            //var list = Registering?.GetInvocationList();
+            //if (list != null)
+            //{
+            //    for (int i = 0; i < list.Length; i++)
+            //    {
+            //        var action = list[i] as Action;
+            //        Registering -= action;
+            //    }
+            //}
         }
         /// <summary>
         /// registers this group into a property manager page
@@ -228,7 +232,7 @@ namespace Hymma.Solidworks.Addins
         {
             SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPage.AddGroupBox(Id, Caption, ((int)_options));
             RegisterControls();
-            Registering?.Invoke();
+            _regesteringEvents?.Raise(this, EventArgs.Empty);
             DisposeRegisterEventHanders();
         }
 
@@ -240,28 +244,43 @@ namespace Hymma.Solidworks.Addins
         {
             SolidworksObject = (IPropertyManagerPageGroup)propertyManagerPageTab.AddGroupBox(Id, Caption, ((int)_options));
             RegisterControls();
-            Registering?.Invoke();
+            _regesteringEvents?.Raise(this, EventArgs.Empty);
             DisposeRegisterEventHanders();
         }
 
         #endregion
 
         #region events
+        WeakEventSource<EventArgs> _regesteringEvents = new WeakEventSource<EventArgs>();
+        WeakEventSource<EventArgs> _displayingEvents = new WeakEventSource<EventArgs>();
+        WeakEventSource<bool> _expandedEvents = new WeakEventSource<bool>();
         /// <summary>
         /// invoked once this group is registers into solidworks
         /// </summary>
-        public event Action Registering; 
+        public event EventHandler<EventArgs> Registering
+        {
+            add { _regesteringEvents.Subscribe(this, value); }
+            remove { _regesteringEvents.Unsubscribe(value); }
+        }
 
         /// <summary>
         /// an event that gets called right before this pmpGroup is displayed
         /// </summary>
-        public event EventHandler Displaying;
+        public event EventHandler<EventArgs> Displaying
+        {
+            add { _displayingEvents.Subscribe(this, value); }
+            remove { _displayingEvents.Unsubscribe(value); }
+        }
 
         /// <summary>
         /// method to invoke when user expands a group <br/>
         /// this delegate requires a bool variable to indicate the IsExpanded status of the group
         /// </summary>
-        public event EventHandler<bool> Expanded;
+        public event EventHandler<bool> Expanded
+        {
+            add { _expandedEvents.Subscribe(this, value); }
+            remove { _expandedEvents.Unsubscribe(value); }
+        }
 
 
         #endregion
@@ -269,12 +288,68 @@ namespace Hymma.Solidworks.Addins
         #region call backs
         internal void GroupExpand(bool e)
         {
-            Expanded?.Invoke(this, e);
+            _expandedEvents.Raise(this, e);
+        }
+
+        /// <summary>
+        /// Unsusbcribe all event handlers from events
+        /// </summary>
+        public virtual void UnsubscribeFromEvents()
+        {
+            _displayingEvents.ClearHandlers();
+            _expandedEvents.ClearHandlers();
+            _regesteringEvents.ClearHandlers();
+            if (Controls != null)
+            {
+                foreach (var item in Controls)
+                {
+                    item.UnsubscribeFromEvents();
+                }
+            }
+            //Displaying?.GetInvocationList()?.ToList().ForEach(d =>
+            //{
+            //    Displaying -= (d as EventHandler);
+            //});
+            //Expanded?.GetInvocationList()?.ToList().ForEach(d =>
+            //{
+            //    Expanded -= (d as EventHandler<bool>);
+            //});
+            //Registering?.GetInvocationList()?.ToList().ForEach(d =>
+            //{
+            //    Registering -= (d as Action);
+            //});
         }
         internal void Display()
         {
+            //invoke displaying for all controls inside this group
             Controls.ForEach(c => c.DisplayingCallback());
-            Displaying?.Invoke(this, EventArgs.Empty);
+
+
+            //invoke displaying for this group
+            _displayingEvents?.Raise(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// reease solidowrks object
+        /// </summary>
+        public void ReleaseSolidworksObject()
+        {
+            Marshal.ReleaseComObject(SolidworksObject);
+            if (Controls != null)
+            {
+                foreach (var item in Controls)
+                {
+                    if (item is IReleaseSolidworksObject p)
+                    {
+                        p.ReleaseSolidworksObject();
+                    }
+                    if (item is IDisposable d)
+                    {
+                        d.Dispose();
+                    }
+                }
+            }
+            Controls = null;
         }
         #endregion
     }

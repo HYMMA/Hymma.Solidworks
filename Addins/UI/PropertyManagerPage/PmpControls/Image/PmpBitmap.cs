@@ -2,6 +2,7 @@
 // Licensed under the MIT license
 
 using SolidWorks.Interop.sldworks;
+using System;
 using System.Drawing;
 using System.IO;
 
@@ -36,12 +37,12 @@ namespace Hymma.Solidworks.Addins
             Displaying += PmpBitmap_OnDisplay;
         }
 
-        private void PmpBitmap_OnDisplay(IPmpControl sender, PmpControlDisplayingEventArgs eventArgs)
+        private void PmpBitmap_OnDisplay(object sender, PmpControlDisplayingEventArgs eventArgs)
         {
             eventArgs.OptionsForResize = (int)_resizeStyles;
         }
 
-        private void PmpBitmap_OnRegister()
+        private void PmpBitmap_OnRegister(object s, EventArgs e)
         {
             UpdatePicture(_bitmap, _filename, _opacity);
         }

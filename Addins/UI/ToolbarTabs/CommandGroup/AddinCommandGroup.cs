@@ -9,6 +9,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Media.Animation;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -112,6 +113,12 @@ namespace Hymma.Solidworks.Addins
 
                     //convert all these icons into strips of standard sizes
                     _commandIcons = GetCommandGroupIconStrips(iconBitmaps, "commandsIcons").ToArray();
+
+                    //after this step we won't need the bitmaps, so dispose them
+                    for (int i = 0; i < Commands.Count(); i++)
+                    {
+                        Commands.ElementAt(i).IconBitmap?.Dispose();
+                    }
                 }
 
                 CheckIconsExist(_commandIcons);
@@ -132,6 +139,9 @@ namespace Hymma.Solidworks.Addins
                     //Get main icon in all sizes
                     //NOTE: because main icon is actually one image we will end up just resizing it
                     _groupIcons = GetCommandGroupIconStrips(new[] { MainIconBitmap }, "mainGroupIcon").ToArray();
+
+                    //we won't need the main icon bitmap anymore
+                    MainIconBitmap?.Dispose();
                 }
 
                 CheckIconsExist(_groupIcons);
@@ -156,7 +166,6 @@ namespace Hymma.Solidworks.Addins
             Bitmap[] images = new Bitmap[bitmaps.Length];
             try
             {
-
                 // Get size
                 int width = stripeHeight * bitmaps.Length;
                 int height = stripeHeight;
@@ -167,7 +176,6 @@ namespace Hymma.Solidworks.Addins
                 // Get a graphics object from the image so we can draw on it
                 using (var g = Graphics.FromImage(finalImage))
                 {
-
                     // Set background color
                     g.Clear(Color.Transparent);
 
@@ -177,23 +185,20 @@ namespace Hymma.Solidworks.Addins
                     {
                         var file = bitmaps[i];
                         // Read this image
-                        var bitmap = new Bitmap(file);
-                        images[i] = bitmap;
+                        using (var bitmap = new Bitmap(file))
+                        {
+                            images[i] = bitmap;
 
-                        // Scale it to the sprite size
-                        var scaleFactor = (float)stripeHeight / Math.Max(bitmap.Width, bitmap.Height);
+                            // Scale it to the sprite size
+                            var scaleFactor = (float)stripeHeight / Math.Max(bitmap.Width, bitmap.Height);
 
-
-                        // Draw it onto the new image
-                        g.DrawImage(bitmap, new Rectangle(offset, 0, (int)(scaleFactor * bitmap.Width), (int)(scaleFactor * bitmap.Height)));
-
+                            // Draw it onto the new image
+                            g.DrawImage(bitmap, new Rectangle(offset, 0, (int)(scaleFactor * bitmap.Width), (int)(scaleFactor * bitmap.Height)));
+                        }
                         // Move offset to next position
                         offset += stripeHeight;
-
-                    };
+                    }
                 }
-
-
                 // Return the final image
                 return finalImage;
             }
@@ -265,7 +270,8 @@ namespace Hymma.Solidworks.Addins
                         throw;
                     }
                 }
-            };
+            }
+            ;
             return stripes;
         }
     }

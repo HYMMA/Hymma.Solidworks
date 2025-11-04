@@ -1,9 +1,12 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.Core;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using WeakEvent;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -81,7 +84,7 @@ namespace Hymma.Solidworks.Addins
 
                 else
                 {
-                    Registering += () => SolidworksObject.Checked = _isChecked;
+                    Registering += (s,e) => SolidworksObject.Checked = _isChecked;
                 }
             }
         }
@@ -93,13 +96,32 @@ namespace Hymma.Solidworks.Addins
                 control.Visible=status;
                 control.Enabled=status;
             }
-            Checked?.Invoke(this, status);
+            _checkedEvents?.Raise(this, status);
         }
 
+        private readonly WeakEventSource<bool> _checkedEvents = new WeakEventSource<bool>();
+        
         /// <summary>
         /// method to invoke when user checks a group <br/>
         /// this delegate requires a boolean variable to indicate the IsChecked status of the group
         /// </summary>
-        public event EventHandler<bool> Checked;
+        public event EventHandler<bool> Checked
+        {
+            add { _checkedEvents.Subscribe(this,value); }
+            remove { _checkedEvents.Unsubscribe(value); }
+        }
+
+        /// <summary>
+        /// unsubscribe from all events
+        /// </summary>
+        public override void UnsubscribeFromEvents()
+        {
+            base.UnsubscribeFromEvents();
+            _checkedEvents.ClearHandlers();
+            //Checked?.GetInvocationList()?.ToList().ForEach(d =>
+            //{
+            //    Checked -= (EventHandler<bool>)d;
+            //});
+        }
     }
 }

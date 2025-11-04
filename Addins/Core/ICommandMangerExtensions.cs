@@ -4,6 +4,7 @@
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 namespace Hymma.Solidworks.Addins.Core
