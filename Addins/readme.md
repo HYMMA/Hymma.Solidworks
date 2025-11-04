@@ -50,3 +50,6 @@ At this stage you could build your project and register the addin to COM. To con
 
  We strongly recommend you clone this repo and open the project and then browse to `QRify` project. This project uses the `Hymma.Solidworks.Addins` to make a sample addin. It is heavily commented and demostrates how UI elements are defined.
 Additionally, we have created an SVG file of the *PlantUML* diagrams for all the types in this package. You can find instructions under the `classDiagrams` folder :open_file_folder: to eaither re-compile them or simply download the file.
+
+## Version 2018.3.2
+There were some **breaking changes** in version 2018.3.2. Which were neccessary to fix memory leaks caused by _events_ and _Bitmaps_. The event signatures have changed to `(object sender, EventArgs e)` and in some cases custom `EventArgs` is used.
