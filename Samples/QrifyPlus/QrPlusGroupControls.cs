@@ -119,13 +119,13 @@ namespace QrifyPlus
         }
 
         //call back
-        private void drawingPropertyNames_Displaying(IPmpControl sender, PmpControlDisplayingEventArgs eventArgs)
+        private void drawingPropertyNames_Displaying(object sender, PmpControlDisplayingEventArgs eventArgs)
         {
-            //this would be the drawing document, Note that this addin is available in a drawing only
-            ModelDoc2 drawing = sender.ActiveDoc;
-
             //cast sender to the actual type
             var textList = sender as PmpComboBox;
+
+            //this would be the drawing document, Note that this addin is available in a drawing only
+            ModelDoc2 drawing = textList.ActiveDoc;
 
             //clear the content
             textList.Clear();
