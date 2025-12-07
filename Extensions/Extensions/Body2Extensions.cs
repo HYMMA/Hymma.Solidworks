@@ -9,15 +9,60 @@ using System.Linq;
 namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
-    /// extensions for <see cref="Body2"/>
+    /// Extension methods for <see cref="Body2"/> objects providing operations for
+    /// solid bodies, sheet metal, and weldments.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// These extensions provide convenient methods for working with SolidWorks bodies:
+    /// </para>
+    /// <list type="bullet">
+    ///   <item><description>Feature extraction by name or type</description></item>
+    ///   <item><description>Sheet metal operations (flat patterns, bend lines, sizes)</description></item>
+    ///   <item><description>Weldment operations (cut lists, properties)</description></item>
+    ///   <item><description>Face and mass property queries</description></item>
+    /// </list>
+    /// </remarks>
+    /// <example>
+    /// <para>Working with sheet metal bodies:</para>
+    /// <code>
+    /// Body2 body = part.GetBodies()[0] as Body2;
+    ///
+    /// if (body.IsSheetMetal())
+    /// {
+    ///     // Get flat pattern
+    ///     Feature flatPattern = body.GetFlatPattern();
+    ///
+    ///     // Get dimensions
+    ///     string[] sizes = body.GetSheetMetalSizes(part, solidworks);
+    ///     string length = sizes[0];
+    ///     string width = sizes[1];
+    ///     string thickness = sizes[2];
+    ///
+    ///     // Get bend lines
+    ///     var bendLines = body.GetBendLinePoints();
+    /// }
+    /// </code>
+    /// </example>
     public static class Body2Extensions
     {
         /// <summary>
-        /// get sheetMetal feature of this body
+        /// Gets the sheet metal feature from this body.
         /// </summary>
-        /// <param name="body"></param>
-        /// <returns></returns>
+        /// <param name="body">The body to query.</param>
+        /// <returns>
+        /// The sheet metal <see cref="Feature"/> if the body is sheet metal; otherwise, <c>null</c>.
+        /// </returns>
+        /// <example>
+        /// <code>
+        /// Feature smFeature = body.GetSheetMetalFeature();
+        /// if (smFeature != null)
+        /// {
+        ///     SheetMetalFeatureData smData = smFeature.GetDefinition() as SheetMetalFeatureData;
+        ///     double thickness = smData.Thickness;
+        /// }
+        /// </code>
+        /// </example>
         public static Feature GetSheetMetalFeature(this Body2 body)
         {
             if (!body.IsSheetMetal()) return null;

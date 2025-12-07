@@ -1,0 +1,12 @@
+- name: Getting Started
+  href: getting-started.md
+- name: Fluent API Guide
+  href: fluent-api.md
+- name: Extensions Reference
+  href: extensions.md
+- name: Samples
+  items:
+    - name: QRify
+      href: samples/qrify.md
+    - name: QRify+
+      href: samples/qrifyplus.md

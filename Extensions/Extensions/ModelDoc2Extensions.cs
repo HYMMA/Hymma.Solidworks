@@ -7,16 +7,63 @@ using SolidWorks.Interop.swconst;
 namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
-    /// extensions for a <see cref="ModelDoc2"/> object
+    /// Extension methods for <see cref="ModelDoc2"/> objects providing common operations
+    /// for parts, assemblies, and drawings.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// These extensions simplify common SolidWorks API operations such as:
+    /// </para>
+    /// <list type="bullet">
+    ///   <item><description>Configuration management</description></item>
+    ///   <item><description>Graphics performance optimization (freeze/unfreeze)</description></item>
+    ///   <item><description>Custom property access</description></item>
+    ///   <item><description>Mass properties retrieval</description></item>
+    ///   <item><description>Unit conversions</description></item>
+    /// </list>
+    /// </remarks>
+    /// <example>
+    /// <para>Common usage patterns:</para>
+    /// <code>
+    /// ModelDoc2 model = solidworks.ActiveDoc as ModelDoc2;
+    ///
+    /// // Switch configuration
+    /// model.ActivateConfiguration("Config2");
+    ///
+    /// // Get custom property
+    /// string partNumber = model.GetCustomProperty("PartNumber");
+    ///
+    /// // Optimize performance for batch operations
+    /// model.Freeze();
+    /// try
+    /// {
+    ///     // Perform many operations...
+    /// }
+    /// finally
+    /// {
+    ///     model.UnFreeze();
+    /// }
+    /// </code>
+    /// </example>
     public static class ModelDoc2Extensions
     {
         /// <summary>
-        /// switch to a new a model configuration
+        /// Activates (switches to) a specified configuration in the model.
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="configurationName">new configuration</param>
-        /// <returns></returns> 
+        /// <param name="model">The model document.</param>
+        /// <param name="configurationName">The name of the configuration to activate.</param>
+        /// <returns>
+        /// <c>true</c> if the configuration was successfully activated or is already active;
+        /// <c>false</c> if the configuration could not be activated.
+        /// </returns>
+        /// <example>
+        /// <code>
+        /// if (model.ActivateConfiguration("Machined"))
+        /// {
+        ///     // Configuration is now active, proceed with operations
+        /// }
+        /// </code>
+        /// </example>
         public static bool ActivateConfiguration(this ModelDoc2 model, string configurationName)
         {
             //activate the configuration
@@ -27,9 +74,37 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// freeze graphics in a model, to increase processing power
+        /// Freezes graphics updates and feature tree to improve performance during batch operations.
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">The model document to freeze.</param>
+        /// <remarks>
+        /// <para>
+        /// Freezing disables graphics updates and feature tree refreshes, which can significantly
+        /// improve performance when performing many operations in sequence.
+        /// </para>
+        /// <para>
+        /// <b>Important:</b> Always call <see cref="UnFreeze"/> in a finally block to ensure
+        /// the UI is restored even if an exception occurs.
+        /// </para>
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// model.Freeze();
+        /// try
+        /// {
+        ///     // Perform batch operations (add features, modify dimensions, etc.)
+        ///     for (int i = 0; i &lt; 100; i++)
+        ///     {
+        ///         // Operations here run much faster with graphics frozen
+        ///     }
+        /// }
+        /// finally
+        /// {
+        ///     model.UnFreeze();
+        /// }
+        /// </code>
+        /// </example>
+        /// <seealso cref="UnFreeze"/>
         public static void Freeze(this ModelDoc2 model)
         {
             var modelView = model.ActiveView as ModelView;
@@ -39,9 +114,14 @@ namespace Hymma.Solidworks.Extensions
         }
 
         /// <summary>
-        /// UN-freeze graphics in a model
+        /// Restores graphics updates and feature tree after a <see cref="Freeze"/> operation.
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">The model document to unfreeze.</param>
+        /// <remarks>
+        /// Call this method after completing batch operations to restore normal UI behavior.
+        /// The graphics view will be refreshed automatically.
+        /// </remarks>
+        /// <seealso cref="Freeze"/>
         public static void UnFreeze(this ModelDoc2 model)
         {
             var modelView = model.ActiveView as ModelView;

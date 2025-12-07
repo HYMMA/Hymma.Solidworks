@@ -7,15 +7,61 @@ using System.Collections.Generic;
 namespace Hymma.Solidworks.Extensions
 {
     /// <summary>
-    /// extension to <see cref="Face2"/>
+    /// Extension methods for <see cref="Face2"/> objects providing geometric operations
+    /// and face analysis utilities.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// These extensions simplify working with faces in SolidWorks:
+    /// </para>
+    /// <list type="bullet">
+    ///   <item><description>Get edge vertex points</description></item>
+    ///   <item><description>Calculate face centroid</description></item>
+    ///   <item><description>Check if face is planar</description></item>
+    ///   <item><description>Find tangent faces (same normal direction)</description></item>
+    ///   <item><description>Assign names to faces</description></item>
+    /// </list>
+    /// </remarks>
+    /// <example>
+    /// <para>Common face operations:</para>
+    /// <code>
+    /// Face2 face = selectedFace as Face2;
+    ///
+    /// // Get centroid for annotation placement
+    /// double[] center = face.GetCentroid();
+    ///
+    /// // Check surface type
+    /// if (face.IsPlanar())
+    /// {
+    ///     // Find all connected tangent faces (coplanar faces)
+    ///     var tangentFaces = face.GetTangentFaces();
+    ///     double totalArea = face.GetArea();
+    ///     foreach (Face2 tf in tangentFaces)
+    ///     {
+    ///         totalArea += tf.GetArea();
+    ///     }
+    /// }
+    /// </code>
+    /// </example>
     public static class Face2Extensions
     {
         /// <summary>
-        /// get the points on a face edges
+        /// Gets all unique vertex points from the face's edges.
         /// </summary>
-        /// <param name="face"></param>
-        /// <returns></returns>
+        /// <param name="face">The face to get points from.</param>
+        /// <returns>
+        /// A list of double arrays, each containing [X, Y, Z] coordinates in meters.
+        /// Curved edges (circles, splines) that have no distinct vertices are skipped.
+        /// </returns>
+        /// <example>
+        /// <code>
+        /// List&lt;double[]&gt; points = face.GetPoints();
+        /// foreach (var point in points)
+        /// {
+        ///     Console.WriteLine($"X: {point[0]}, Y: {point[1]}, Z: {point[2]}");
+        /// }
+        /// </code>
+        /// </example>
         public static List<double[]> GetPoints(this Face2 face)
         {
             var edges = (object[])face.GetEdges();
