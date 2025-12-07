@@ -92,6 +92,32 @@
     <Compile Include="SldWorks\ModelDoc2EqualityComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SldWorks\SolidworksManager.cs" />
+    <!-- Feature Extraction -->
+    <Compile Include="FeatureExtraction\FeatureDataBase.cs" />
+    <Compile Include="FeatureExtraction\ExtrusionFeatureData.cs" />
+    <Compile Include="FeatureExtraction\FilletChamferFeatureData.cs" />
+    <Compile Include="FeatureExtraction\RevolveFeatureData.cs" />
+    <Compile Include="FeatureExtraction\LoftSweepFeatureData.cs" />
+    <Compile Include="FeatureExtraction\SheetMetalFeatureData.cs" />
+    <Compile Include="FeatureExtraction\HoleFeatureData.cs" />
+    <Compile Include="FeatureExtraction\PatternFeatureData.cs" />
+    <Compile Include="FeatureExtraction\WeldmentFeatureData.cs" />
+    <Compile Include="FeatureExtraction\MiscFeatureData.cs" />
+    <Compile Include="FeatureExtraction\IFeatureExtractor.cs" />
+    <Compile Include="FeatureExtraction\FeatureExtractorBase.cs" />
+    <Compile Include="FeatureExtraction\FeatureExtractionManager.cs" />
+    <Compile Include="FeatureExtraction\FeatureExtractionResult.cs" />
+    <Compile Include="FeatureExtraction\PartDocFeatureExtensions.cs" />
+    <Compile Include="FeatureExtraction\AssemblyDocFeatureExtensions.cs" />
+    <!-- Feature Extractors -->
+    <Compile Include="FeatureExtraction\Extractors\ExtrusionExtractor.cs" />
+    <Compile Include="FeatureExtraction\Extractors\FilletChamferExtractor.cs" />
+    <Compile Include="FeatureExtraction\Extractors\RevolveExtractor.cs" />
+    <Compile Include="FeatureExtraction\Extractors\LoftSweepExtractor.cs" />
+    <Compile Include="FeatureExtraction\Extractors\SheetMetalExtractor.cs" />
+    <Compile Include="FeatureExtraction\Extractors\HoleExtractor.cs" />
+    <Compile Include="FeatureExtraction\Extractors\PatternExtractor.cs" />
+    <Compile Include="FeatureExtraction\Extractors\MiscExtractor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="nugetSpec.nuspec" />

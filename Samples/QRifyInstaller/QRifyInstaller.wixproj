@@ -9,14 +9,16 @@
     <PackageReference Include="WixToolset.Util.wixext" Version="4.0.5" />
   </ItemGroup>
   <PropertyGroup>
-    <BuildVersion>0</BuildVersion>
+    <!-- InstallerVersion: MSI-compatible version (Major.Minor.Build, each < 256/65536) -->
+    <!-- This is separate from AssemblyVersion which uses 2018.x.x format -->
+    <InstallerVersion>1.0.0</InstallerVersion>
     <AddinGuid>{2EB85AF6-DB51-46FB-B955-D4A7708DA315}</AddinGuid>
     <HarvestGenerateGuidsNow>True</HarvestGenerateGuidsNow>
     <HarvestAutoGenerateGuids>False</HarvestAutoGenerateGuids>
     <Platforms>x64</Platforms>
   </PropertyGroup>
   <PropertyGroup>
-    <DefineConstants>Version=$(BuildVersion);AddinGuid=$(AddinGuid)</DefineConstants>
+    <DefineConstants>Version=$(InstallerVersion);AddinGuid=$(AddinGuid)</DefineConstants>
   </PropertyGroup>
   <!-- Harvest items that do not need to be com registered-->
   <ItemGroup>

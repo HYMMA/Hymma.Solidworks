@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__csharp__csharp_set_workspace",
+      "Bash(\"/c/Program Files (x86)/Microsoft Visual Studio/2022/Professional/MSBuild/Current/Bin/MSBuild.exe\" Hymma.Solidworks.Extensions.csproj /t:Build /p:Configuration=Release)",
+      "Bash(\"/c/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/MSBuild.exe\" Hymma.Solidworks.Extensions.csproj /t:Build /p:Configuration=Release)",
+      "Bash(\"/c/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/MSBuild.exe\" \"Hymma.Solidworks.Extensions.csproj\" -t:Build -p:Configuration=Release)",
+      "Bash(hugo server:*)",
+      "Bash(npx tailwindcss:*)",
+      "Skill(frontend-design)",
+      "Bash(nuget restore:*)",
+      "Bash(msbuild:*)",
+      "Bash(\"/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" \"C:/Users/Ashra/source/repos/Hymma.Solidworks/hymma.solidworks.sln\" -restore -nologo -p:Configuration=Release -p:RestorePackagesConfig=true -p:BuildVersion=2018.0.1 \"-p:AddinGuid={2EB85AF6-DB51-46FB-B955-D4A7708DA315}\" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -p:CreateNugetPackage=true)",
+      "Bash(\"/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" \"C:/Users/Ashra/source/repos/Hymma.Solidworks/hymma.solidworks.sln\" -restore -nologo -p:Configuration=Release -p:RestorePackagesConfig=true -p:BuildVersion=2018.0.1 \"-p:AddinGuid={2EB85AF6-DB51-46FB-B955-D4A7708DA315}\" -p:IncludeSymbols=false -p:CreateNugetPackage=true)",
+      "Bash(\"/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\":*)",
+      "Bash(\"/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" \"C:/Users/Ashra/source/repos/Hymma.Solidworks/hymma.solidworks.sln\" -restore -nologo -p:Configuration=Release -p:RestorePackagesConfig=true -p:BuildVersion=2018.0.1 -p:InstallerVersion=1.0.1 \"-p:AddinGuid={2EB85AF6-DB51-46FB-B955-D4A7708DA315}\" -p:IncludeSymbols=false -p:CreateNugetPackage=false -t:Build)",
+      "Bash(docfx --version:*)",
+      "Bash(dotnet tool list:*)",
+      "Bash(dotnet tool install:*)",
+      "Bash(git clone:*)",
+      "Bash(~/.dotnet/tools/docfx docfx.json --serve)",
+      "Bash(ls:*)",
+      "Bash(curl:*)",
+      "Bash(~/.dotnet/tools/docfx template export modern -o /tmp/docfx-templates)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd XML documentation and DocFX docs for Extensions\n\n- Add comprehensive XML doc comments to Face2Extensions, Body2Extensions, ModelDoc2Extensions\n- Add DocFX documentation site with Microsoft-style tabulated API reference\n- Add custom template with member summary tables\n- Bump Extensions version to 2018.1.5.0\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(git commit:*)",
+      "Bash(gh run watch:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

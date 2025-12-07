@@ -16,8 +16,57 @@ using WeakEvent;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// registers an <see cref="Addins.AddinUserInterface"/> into SolidWORKS 
+    /// Base class for creating SolidWorks add-ins. Inherit from this class and override
+    /// <see cref="GetUserInterFace"/> to define your add-in's user interface.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This class handles COM registration, connection to SolidWorks, and lifecycle management
+    /// of your add-in. You must decorate your derived class with the following attributes:
+    /// </para>
+    /// <list type="bullet">
+    ///   <item><description><see cref="AddinAttribute"/> - Defines add-in metadata (title, description, icon)</description></item>
+    ///   <item><description><see cref="GuidAttribute"/> - Unique identifier for COM registration</description></item>
+    ///   <item><description><see cref="ComVisibleAttribute"/> - Must be set to <c>true</c></description></item>
+    /// </list>
+    /// </remarks>
+    /// <example>
+    /// <para>Basic add-in implementation:</para>
+    /// <code>
+    /// [Addin(title: "My Add-in",
+    ///        AddinIcon = "icon.png",
+    ///        Description = "My SolidWorks add-in",
+    ///        LoadAtStartup = true)]
+    /// [ComVisible(true)]
+    /// [Guid("YOUR-GUID-HERE")]
+    /// public class MyAddin : AddinMaker
+    /// {
+    ///     private ISldWorks _solidworks;
+    ///
+    ///     public MyAddin()
+    ///     {
+    ///         // Subscribe to lifecycle events
+    ///         OnStart += (sender, e) => _solidworks = e.Solidworks;
+    ///         OnExit += (sender, e) => { /* cleanup */ };
+    ///     }
+    ///
+    ///     public override AddinUserInterface GetUserInterFace()
+    ///     {
+    ///         return new AddinUserInterface
+    ///         {
+    ///             CommandTabs = new List&lt;AddinCommandTab&gt; { /* your tabs */ },
+    ///             IconsRootDir = new DirectoryInfo(@"C:\MyAddin\Icons")
+    ///         };
+    ///     }
+    ///
+    ///     // Callback methods must be public and defined in this class
+    ///     public void MyButtonCallback() { /* handle click */ }
+    ///     public int MyEnableMethod() => _solidworks?.ActiveDoc != null ? 1 : 0;
+    /// }
+    /// </code>
+    /// </example>
+    /// <seealso cref="AddinUserInterface"/>
+    /// <seealso cref="AddinAttribute"/>
     [ComVisible(true)]
     public abstract class AddinMaker : ISwAddin
     {
@@ -197,6 +246,32 @@ namespace Hymma.Solidworks.Addins
             {
                 foreach (var tab in commandTabs)
                 {
+                    ////validate commands
+                    //foreach (var command in tab.CommandGroup.Commands)
+                    //{
+                    //    //if it is a spacer, skip
+                    //    if (string.IsNullOrEmpty(command.EnableMethod) || string.IsNullOrEmpty(command.CallBackFunction))
+                    //        continue;
+
+                    //    var enableMethod = this.GetType().GetMethod(command.EnableMethod);
+                    //    var callBackFunction = this.GetType().GetMethod(command.CallBackFunction);
+                    //    if (enableMethod.ReturnType != typeof(int))
+                    //    {
+                    //        throw new Exception($"Enable method '{command.EnableMethod}' must return int but it is returning {enableMethod.ReturnType}");
+                    //    }
+                    //    if (!enableMethod.IsPublic)
+                    //    {
+                    //        throw new Exception($"Enable method '{command.EnableMethod}' must be public");
+                    //    }
+                    //    if(callBackFunction.ReturnType != typeof(void))
+                    //    {
+                    //        throw new Exception($"Callback function '{command.CallBackFunction}' must be void");
+                    //    }
+                    //    if (!callBackFunction.IsPublic)
+                    //    {
+                    //        throw new Exception($"Callback function '{command.CallBackFunction}' must be public");
+                    //    }
+                    //}
                     _commandManager.Register(tab.CommandGroup);
                     _commandManager.Register(tab);
                 }
@@ -210,31 +285,128 @@ namespace Hymma.Solidworks.Addins
         readonly WeakEventSource<OnConnectToSwEventArgs> _onStartEvents = new WeakEventSource<OnConnectToSwEventArgs>();
         readonly WeakEventSource<OnConnectToSwEventArgs> _onExitEvents = new WeakEventSource<OnConnectToSwEventArgs>();
         /// <summary>
-        /// Events that fires when your add-in connects to solidworks
+        /// Occurs when the add-in successfully connects to SolidWorks.
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This is the recommended place to obtain the <see cref="ISldWorks"/> reference
+        /// and perform any initialization that requires SolidWorks to be available.
+        /// </para>
+        /// <para>
+        /// The event uses weak references to prevent memory leaks. Handlers are automatically
+        /// cleared after the event fires.
+        /// </para>
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// public class MyAddin : AddinMaker
+        /// {
+        ///     private ISldWorks _solidworks;
+        ///
+        ///     public MyAddin()
+        ///     {
+        ///         OnStart += (sender, e) =>
+        ///         {
+        ///             _solidworks = e.Solidworks;
+        ///             // Initialize resources, load settings, etc.
+        ///         };
+        ///     }
+        /// }
+        /// </code>
+        /// </example>
         public event EventHandler<OnConnectToSwEventArgs> OnStart
         {
-            add=>
-                _onStartEvents.Subscribe(this,value);
-            remove=>
+            add =>
+                _onStartEvents.Subscribe(this, value);
+            remove =>
                 _onStartEvents.Unsubscribe(value);
         }
 
         /// <summary>
-        /// event that fires when user unloads the addin (example when user unchecked the addin from the list of addins)
+        /// Occurs when the add-in is being unloaded from SolidWorks.
         /// </summary>
-        public event EventHandler<OnConnectToSwEventArgs> OnExit { 
-            add=>
-                _onExitEvents.Subscribe(this,value);
-            remove=>
+        /// <remarks>
+        /// <para>
+        /// This event fires when the user disables the add-in (unchecks it in Tools → Add-Ins)
+        /// or when SolidWorks is closing. Use this event to clean up resources, save settings,
+        /// and release any COM objects.
+        /// </para>
+        /// <para>
+        /// The event uses weak references to prevent memory leaks. Handlers are automatically
+        /// cleared after the event fires.
+        /// </para>
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// public MyAddin()
+        /// {
+        ///     OnExit += (sender, e) =>
+        ///     {
+        ///         // Save user settings
+        ///         Settings.Save();
+        ///
+        ///         // Clean up resources
+        ///         _myResource?.Dispose();
+        ///     };
+        /// }
+        /// </code>
+        /// </example>
+        public event EventHandler<OnConnectToSwEventArgs> OnExit
+        {
+            add =>
+                _onExitEvents.Subscribe(this, value);
+            remove =>
                 _onExitEvents.Unsubscribe(value);
         }
         #endregion
 
         /// <summary>
-        /// define a the user interface,ex: property manager page, command tabs, etc
+        /// Override this method to define your add-in's user interface including command tabs,
+        /// command groups, and property manager pages.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// An <see cref="AddinUserInterface"/> instance containing all UI elements for your add-in.
+        /// </returns>
+        /// <remarks>
+        /// <para>
+        /// This method is called by SolidWorks during add-in initialization. The returned
+        /// <see cref="AddinUserInterface"/> should contain:
+        /// </para>
+        /// <list type="bullet">
+        ///   <item><description><see cref="AddinUserInterface.CommandTabs"/> - Toolbar tabs with command buttons</description></item>
+        ///   <item><description><see cref="AddinUserInterface.PropertyManagerPages"/> - Property manager page definitions</description></item>
+        ///   <item><description><see cref="AddinUserInterface.IconsRootDir"/> - Directory where icons will be stored</description></item>
+        /// </list>
+        /// <para>
+        /// <b>Important:</b> Callback method names (e.g., <c>EnableMethod</c>, <c>CallBackFunction</c>)
+        /// must reference public methods defined in your add-in class.
+        /// </para>
+        /// </remarks>
+        /// <example>
+        /// <para>Simple implementation:</para>
+        /// <code>
+        /// public override AddinUserInterface GetUserInterFace()
+        /// {
+        ///     return new AddinUserInterface
+        ///     {
+        ///         CommandTabs = new List&lt;AddinCommandTab&gt;
+        ///         {
+        ///             new MyCommandTab()
+        ///         },
+        ///         PropertyManagerPages = new List&lt;PropertyManagerPageX64&gt;
+        ///         {
+        ///             new MyPropertyManagerPage(_solidworks)
+        ///         },
+        ///         IconsRootDir = new DirectoryInfo(
+        ///             Path.Combine(Environment.GetFolderPath(
+        ///                 Environment.SpecialFolder.LocalApplicationData), "MyAddinIcons"))
+        ///     };
+        /// }
+        /// </code>
+        /// </example>
+        /// <seealso cref="AddinUserInterface"/>
+        /// <seealso cref="AddinCommandTab"/>
+        /// <seealso cref="PropertyManagerPageX64"/>
         public abstract AddinUserInterface GetUserInterFace();
     }
 }

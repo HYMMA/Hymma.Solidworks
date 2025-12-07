@@ -12,8 +12,65 @@ using WeakEvent;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// a SolidWORKS selection box 
+    /// A selection box control for SolidWorks property manager pages that allows users
+    /// to select entities (faces, edges, bodies, etc.) from the graphics area.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Selection boxes are the primary way to capture user selections in SolidWorks add-ins.
+    /// They support filtering by entity type, single or multiple selection, and various
+    /// display styles.
+    /// </para>
+    /// <para>
+    /// Key features:
+    /// </para>
+    /// <list type="bullet">
+    ///   <item><description>Filter selections by type (faces, edges, bodies, components, etc.)</description></item>
+    ///   <item><description>Support for single or multiple selections</description></item>
+    ///   <item><description>Right-click context menu items via <see cref="PopUpMenuItems"/></description></item>
+    ///   <item><description>Callout support for displaying information near selections</description></item>
+    ///   <item><description>Events for selection changes, validation, and focus changes</description></item>
+    /// </list>
+    /// </remarks>
+    /// <example>
+    /// <para>Creating a selection box for faces:</para>
+    /// <code>
+    /// var faceSelector = new PmpSelectionBox(
+    ///     filters: new[] { swSelectType_e.swSelFACES },
+    ///     style: SelectionBoxStyles.Default,
+    ///     singleItemOnly: false,
+    ///     height: 60,
+    ///     tip: "Select faces to process");
+    ///
+    /// faceSelector.ListChanged += (sender, args) =>
+    /// {
+    ///     Console.WriteLine($"Selection count: {args.Count}");
+    /// };
+    ///
+    /// // Validate selections before accepting
+    /// faceSelector.SelectionSubmitted += (sender, args) =>
+    /// {
+    ///     var face = args.Selection as IFace2;
+    ///     return face != null &amp;&amp; face.IGetArea() > 0.001;
+    /// };
+    /// </code>
+    /// </example>
+    /// <example>
+    /// <para>Selection box with context menu:</para>
+    /// <code>
+    /// var selector = new PmpSelectionBox(new[] { swSelectType_e.swSelDRAWINGVIEWS })
+    /// {
+    ///     PopUpMenuItems = new List&lt;PopUpMenuItem&gt;
+    ///     {
+    ///         new PopUpMenuItem("Select All", "Select all views", swDocumentTypes_e.swDocDRAWING),
+    ///         new PopUpMenuItem("Clear", "Clear selection", swDocumentTypes_e.swDocDRAWING)
+    ///     }
+    /// };
+    /// </code>
+    /// </example>
+    /// <seealso cref="PmpGroup"/>
+    /// <seealso cref="SelectionBoxStyles"/>
+    /// <seealso cref="CalloutModel"/>
     public class PmpSelectionBox : PmpControl<IPropertyManagerPageSelectionbox>
     {
         #region private fields

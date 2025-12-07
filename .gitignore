@@ -353,3 +353,8 @@ healthchecksdb
 /ConsoleApp1/Program.cs
 /ConsoleApp1/Properties
 /ConsoleApp1/Properties/AssemblyInfo.cs
+
+# DocFX generated files
+docs/_site/
+docs/api/*.yml
+docs/api/.manifest

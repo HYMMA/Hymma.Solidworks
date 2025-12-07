@@ -11,8 +11,42 @@ using WeakEvent;
 namespace Hymma.Solidworks.Addins
 {
     /// <summary>
-    /// a class to represent a text box inside a property manager page in solidworks
+    /// A text box control for SolidWorks property manager pages.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Text boxes allow users to enter and edit text values. They can be styled as single-line
+    /// or multi-line, and support various formatting options.
+    /// </para>
+    /// <para>
+    /// Use the <see cref="TypedInto"/> event to respond to text changes in real-time.
+    /// </para>
+    /// </remarks>
+    /// <example>
+    /// <para>Creating a text box with initial value:</para>
+    /// <code>
+    /// var textBox = new PmpTextBox("Enter your text here", "Tooltip help text");
+    /// textBox.TypedInto += (sender, newText) =>
+    /// {
+    ///     Console.WriteLine($"User typed: {newText}");
+    /// };
+    ///
+    /// // Add to a group
+    /// group.AddControls(new List&lt;IPmpControl&gt; { textBox });
+    /// </code>
+    /// </example>
+    /// <example>
+    /// <para>Creating a multi-line text box:</para>
+    /// <code>
+    /// var multiLineTextBox = new PmpTextBox("Default text")
+    /// {
+    ///     Style = TexTBoxStyles.Multiline,
+    ///     Height = 100
+    /// };
+    /// </code>
+    /// </example>
+    /// <seealso cref="PmpGroup"/>
+    /// <seealso cref="TexTBoxStyles"/>
     public class PmpTextBox : PmpTextBase<PropertyManagerPageTextbox>
     {
         #region fields
@@ -24,11 +58,21 @@ namespace Hymma.Solidworks.Addins
         #region constructor
 
         /// <summary>
-        /// make a text box for a property manager page in soldiworks
+        /// Creates a new text box control for a property manager page.
         /// </summary>
-        /// <param name="initialValue">initial value for this text box once generated in a property manager page</param>
-        /// <param name="tip">a tip for this text box</param>
-        public PmpTextBox(string initialValue = "",string tip="") : base(swPropertyManagerPageControlType_e.swControlType_Textbox,tip:tip)
+        /// <param name="initialValue">The initial text displayed in the text box. Defaults to empty string.</param>
+        /// <param name="tip">Tooltip text displayed when hovering over the control.</param>
+        /// <example>
+        /// <code>
+        /// // Simple text box
+        /// var nameBox = new PmpTextBox("John Doe", "Enter your name");
+        ///
+        /// // Text box with event handler
+        /// var urlBox = new PmpTextBox("https://", "Enter URL");
+        /// urlBox.TypedInto += (s, text) => ValidateUrl(text);
+        /// </code>
+        /// </example>
+        public PmpTextBox(string initialValue = "", string tip = "") : base(swPropertyManagerPageControlType_e.swControlType_Textbox, tip: tip)
         {
             Value = initialValue;
         }
@@ -114,11 +158,34 @@ namespace Hymma.Solidworks.Addins
             //TypedInto?.GetInvocationList()?.ToList()?.ForEach(d => TypedInto -= (EventHandler<string>)d);
         }
         /// <summary>
-        /// fires when text box is changed
+        /// Occurs when the user types into or modifies the text box content.
         /// </summary>
-        ///<remarks>works only when defined before <see cref="PmpGroup.AddControl(IPmpControl)"/></remarks>
-        public event EventHandler<string> TypedInto { 
-            add { _editEventSource.Subscribe(this,value); } 
+        /// <remarks>
+        /// <para>
+        /// This event fires each time the text changes, allowing real-time validation
+        /// or processing of user input.
+        /// </para>
+        /// <para>
+        /// <b>Important:</b> Subscribe to this event before adding the control to a group
+        /// via <see cref="PmpGroup.AddControls"/>.
+        /// </para>
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// var textBox = new PmpTextBox("Enter value");
+        /// textBox.TypedInto += (sender, newText) =>
+        /// {
+        ///     // Validate input
+        ///     if (string.IsNullOrEmpty(newText))
+        ///     {
+        ///         ShowWarning("Value cannot be empty");
+        ///     }
+        /// };
+        /// </code>
+        /// </example>
+        public event EventHandler<string> TypedInto
+        {
+            add { _editEventSource.Subscribe(this, value); }
             remove { _editEventSource.Unsubscribe(value); }
         }
         #endregion
