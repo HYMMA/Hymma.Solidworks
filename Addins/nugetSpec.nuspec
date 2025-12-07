@@ -13,13 +13,13 @@
 		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks</projectUrl>
 		<description>Framework to create Addins for SOLIDWORKS and later.</description>
 		<readme>readme.md</readme>
-		<releaseNotes>changed the dependencies</releaseNotes>
+		<releaseNotes>Fixed package to not include SolidWorks interop DLLs (use Hymma.Solidworks.Interop dependency instead)</releaseNotes>
 		<copyright>HYMMA</copyright>
 		<tags>cad solidworks addin hymma</tags>
 		<dependencies>
 			<group targetFramework=".NETFramework4.8" >
 				<dependency id="Hymma.Solidworks.Interop"
-							version="2018.3.3"></dependency>
+							version="2018.3.4"></dependency>
 			</group>
 		</dependencies>
 	</metadata>
@@ -30,11 +30,11 @@
 			  target=""/>
 		<file src="tools\**"
 			  target="tools"/>
-		<file src="bin\Release\*.dll"
+		<file src="bin\Release\Hymma.Solidworks.Addins.dll"
 			  target="lib\net48"/>
-		<file src="bin\Release\*.xml"
+		<file src="bin\Release\Hymma.Solidworks.Addins.xml"
 			  target="lib\net48"/>
-		<file src="bin\Release\*.pdb"
+		<file src="bin\Release\Hymma.Solidworks.Addins.pdb"
 			  target="lib\net48"/>
 	</files>
 </package>

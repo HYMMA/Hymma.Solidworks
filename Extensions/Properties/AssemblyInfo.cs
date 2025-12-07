@@ -1,4 +1,4 @@
-﻿// Copyright (C) HYMMA All rights reserved.
+// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
 using System.Reflection;
@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HYMMA")]
 [assembly: AssemblyProduct("Solidworks extensions")]
-[assembly: AssemblyCopyright("Copyright ©  2024")]
+[assembly: AssemblyCopyright("Copyright �  2024")]
 [assembly: AssemblyTrademark("HYMMA")]
 [assembly: AssemblyCulture("")]
 
@@ -33,6 +33,6 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2018.3.3.0")]
-[assembly: AssemblyFileVersion("2018.3.3.0")]
+// [assembly: AssemblyVersion("2018.3.4.0")]
+[assembly: AssemblyVersion("2018.3.4.0")]
+[assembly: AssemblyFileVersion("2018.3.4.0")]

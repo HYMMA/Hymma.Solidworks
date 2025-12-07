@@ -11,12 +11,12 @@
 		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks</projectUrl>
 		<description>Framework to create Addins for SOLIDWORKS 2018 and later using fluent API.</description>
 		<readme>Readme.md</readme>
-		<releaseNotes>Fixed numerious memory leaks</releaseNotes>
+		<releaseNotes>Fixed package to not include SolidWorks interop DLLs (use Hymma.Solidworks.Interop dependency instead)</releaseNotes>
 		<copyright>HYMMA</copyright>
 		<tags>hymma solidworks cad addin fluent-API</tags>
 		<dependencies>
 			<group targetFramework=".NETFramework4.8" >
-				<dependency id="Hymma.Solidworks.Addins" version="2018.3.3"></dependency>
+				<dependency id="Hymma.Solidworks.Addins" version="2018.3.4"></dependency>
 			</group>
 		</dependencies>
 	</metadata>
@@ -24,8 +24,8 @@
 		<file src="Readme.md" target=""/>
 		<file src="..\nugetIcon.png" target=""/>
 		<file src="tools\**" target="tools"/>
-		<file src="bin\Release\*.dll" target="lib\net48"/>
-		<file src="bin\Release\*.xml" target="lib\net48"/>
-		<file src="bin\Release\*.pdb" target="lib\net48"/>
+		<file src="bin\Release\Hymma.Solidworks.Addins.Fluent.dll" target="lib\net48"/>
+		<file src="bin\Release\Hymma.Solidworks.Addins.Fluent.xml" target="lib\net48"/>
+		<file src="bin\Release\Hymma.Solidworks.Addins.Fluent.pdb" target="lib\net48"/>
 	</files>
 </package>

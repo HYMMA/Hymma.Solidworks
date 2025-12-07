@@ -11,19 +11,19 @@
 		<icon>nugetIcon.png</icon>
 		<projectUrl>https://github.com/HYMMA/Hymma.Solidworks</projectUrl>
 		<description>Extension and helper methods for SOLIDWORKS</description>
-		<releaseNotes>Update to 2018</releaseNotes>
+		<releaseNotes>Fixed package to not include SolidWorks interop DLLs (use Hymma.Solidworks.Interop dependency instead)</releaseNotes>
 		<tags>cad solidworks hymma</tags>
 		<dependencies>
 			<group targetFramework=".NETFramework4.8" >
-				<dependency id="Hymma.Solidworks.Interop" version="2018.3.3"></dependency>
+				<dependency id="Hymma.Solidworks.Interop" version="2018.3.4"></dependency>
 			</group>
 		</dependencies>
 	</metadata>
 	<files>
 		<file src="..\nugetIcon.png" target=""/>
 		<file src="tools\**" target="tools"/>
-		<file src="bin\Release\*.xml" target="lib\net48"/>
-		<file src="bin\Release\*.dll" target="lib\net48"/>
-		<file src="bin\Release\*.pdb" target="lib\net48"/>
+		<file src="bin\Release\Hymma.Solidworks.Extensions.dll" target="lib\net48"/>
+		<file src="bin\Release\Hymma.Solidworks.Extensions.xml" target="lib\net48"/>
+		<file src="bin\Release\Hymma.Solidworks.Extensions.pdb" target="lib\net48"/>
 	</files>
 </package>
