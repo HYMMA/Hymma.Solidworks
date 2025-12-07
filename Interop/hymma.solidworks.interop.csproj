@@ -41,6 +41,10 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Hymma.solidworks.interop.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <!-- Disable symbol package for Interop - it wraps SolidWorks DLLs without source code -->
+    <ExcludeSymbolPackage>true</ExcludeSymbolPackage>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

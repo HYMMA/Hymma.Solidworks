@@ -18,10 +18,10 @@
 		<MakeDir Condition="!Exists('..\nugets')" Directories="..\nugets">
 			<Output TaskParameter="DirectoriesCreated" PropertyName="NugetDirectoryAbsolute" />
         </MakeDir>
-		<Exec Condition="'$(IncludeSymbols)'=='false' or '$(SymbolPackageFormat)'==''"
+		<Exec Condition="'$(IncludeSymbols)'=='false' or '$(SymbolPackageFormat)'=='' or '$(ExcludeSymbolPackage)'=='true'"
 			  Command="nuget pack nugetSpec.nuspec -OutputDirectory $(NugetDirectoryAbsolute) -Version %(MyAssemblyIdentities.Version) -Properties Configuration=Release" />
-		
-		<Exec Condition="'$(IncludeSymbols)'=='true' AND '$(SymbolPackageFormat)'=='snupkg'" 
+
+		<Exec Condition="'$(IncludeSymbols)'=='true' AND '$(SymbolPackageFormat)'=='snupkg' AND '$(ExcludeSymbolPackage)'!='true'"
 			  Command="nuget pack nugetSpec.nuspec -OutputDirectory $(NugetDirectoryAbsolute)  -Version %(MyAssemblyIdentities.Version) -Properties Configuration=Release -Symbols -SymbolPackageFormat snupkg"/>
 		<Message Text="--------------NUGET PACK----------------" />
 		<!-- new line in console -->
