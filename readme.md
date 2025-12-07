@@ -116,10 +116,10 @@ public class MyAddin : AddinBase
 
 This repo includes two sample add-ins to help you get started:
 
-- **[QRify](./QRify)** - Built with `Hymma.Solidworks.Addins`
+- **[QRify](./Samples/QRify)** - Built with `Hymma.Solidworks.Addins`
   - Converts text to QR code and copies to clipboard
 
-- **[QRify+](./QRifyPlus)** - Built with `Hymma.Solidworks.Addins.Fluent`
+- **[QRify+](./Samples/QrifyPlus)** - Built with `Hymma.Solidworks.Addins.Fluent`
   - Converts custom property values to QR codes with suffix support
 
 Both samples are free for commercial use and include `.snk` files for immediate building after cloning.
@@ -128,7 +128,6 @@ Both samples are free for commercial use and include `.snk` files for immediate 
 
 - [Addins Framework Guide](./Addins/README.md)
 - [Fluent API Guide](./Addins.Fluent/README.md)
-- [Extension Methods Reference](./Extensions/README.md)
 - [API Documentation](https://hymma.github.io/Hymma.Solidworks/) *(coming soon)*
 
 ## Contributing
