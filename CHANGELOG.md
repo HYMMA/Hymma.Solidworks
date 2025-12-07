@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2018.3.4] - 2025-12-08
+
+### Fixed
+- Fixed nuspec files to not include SolidWorks interop DLLs in Addins, Addins.Fluent, and Extensions packages
+- SolidWorks interop DLLs should only be provided by the Hymma.Solidworks.Interop package
+- Added init.ps1 to Interop package to ensure EmbedInteropTypes=false is set on every VS solution load
 ## [2018.3.3] - 2025-12-08
 
 ### Changed
@@ -45,7 +51,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - QRify sample add-in
 - QRifyPlus sample add-in
 
-[Unreleased]: https://github.com/HYMMA/Hymma.Solidworks/compare/v2018.3.3...HEAD
+[Unreleased]: https://github.com/HYMMA/Hymma.Solidworks/compare/v2018.3.4...HEAD
+[2018.3.4]: https://github.com/HYMMA/Hymma.Solidworks/compare/v2018.3.3...v2018.3.4
 [2018.3.3]: https://github.com/HYMMA/Hymma.Solidworks/compare/v2018.3.2...v2018.3.3
 [2018.3.2]: https://github.com/HYMMA/Hymma.Solidworks/compare/v1.0.0...v2018.3.2
 [1.0.0]: https://github.com/HYMMA/Hymma.Solidworks/releases/tag/v1.0.0
