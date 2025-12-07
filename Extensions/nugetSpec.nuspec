@@ -15,7 +15,7 @@
 		<tags>cad solidworks hymma</tags>
 		<dependencies>
 			<group targetFramework=".NETFramework4.8" >
-				<dependency id="Hymma.Solidworks.Interop" version="2018.1.4"></dependency>
+				<dependency id="Hymma.Solidworks.Interop" version="2018.3.3"></dependency>
 			</group>
 		</dependencies>
 	</metadata>

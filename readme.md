@@ -128,7 +128,8 @@ Both samples are free for commercial use and include `.snk` files for immediate 
 
 - [Addins Framework Guide](./Addins/README.md)
 - [Fluent API Guide](./Addins.Fluent/README.md)
-- [API Documentation](https://hymma.github.io/Hymma.Solidworks/) *(coming soon)*
+- [API Documentation](https://hymma.github.io/Hymma.Solidworks/)
+- [Changelog](./CHANGELOG.md)
 
 ## Contributing
 

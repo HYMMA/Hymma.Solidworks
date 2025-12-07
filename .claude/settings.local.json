@@ -28,7 +28,12 @@
       "Bash(gh run list:*)",
       "Bash(gh run view:*)",
       "Bash(git commit:*)",
-      "Bash(gh run watch:*)"
+      "Bash(gh run watch:*)",
+      "Bash(\"/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" \"C:/Users/Ashra/source/repos/Hymma.Solidworks/hymma.solidworks.sln\" -restore -nologo -p:Configuration=Release -p:RestorePackagesConfig=true -p:BuildVersion=2018.0.1 \"-p:AddinGuid={2EB85AF6-DB51-46FB-B955-D4A7708DA315}\" -p:IncludeSymbols=false -p:CreateNugetPackage=true -t:Build)",
+      "Bash(\"/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" \"C:/Users/Ashra/source/repos/cadshiftforsolidworks/CadShift.sln\" -p:Configuration=Release -m -nologo)",
+      "Bash(\"/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" Hymma.CadShift.Solidworks/Hymma.CadShfit.Solidworks.csproj -t:Build -p:Configuration=Release -v:detailed)",
+      "Bash(\"/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" Hymma.CadShift.Solidworks.CommonUi/Hymma.CadShfit.Solidworks.CommonUi.csproj -t:Build -p:Configuration=Release)",
+      "Bash(\"/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" Interop/hymma.solidworks.interop.csproj -t:Build -p:Configuration=Release -p:CreateNugetPackage=true -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg)"
     ],
     "deny": [],
     "ask": []

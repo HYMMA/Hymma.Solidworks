@@ -7,12 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2018.3.3] - 2025-12-08
+
+### Changed
+- Unified all package versions to 2018.3.3
+- Moved NuGet packaging from MSBuild to GitHub Actions workflow
+- Workflow now automatically sets assembly versions and dependency versions from git tag
+- Fixed GitHub Pages documentation build (PowerShell escaping issue)
+
+### Removed
+- Removed Hymma.Packing.targets MSBuild file (packaging now handled by CI/CD)
+
+### Fixed
+- Fixed Interop NuGet package symbol build failure
+
+## [2018.3.2] - 2025-12-07
+
 ### Added
 - Comprehensive README with badges, quickstart guide, and compatibility table
 - CONTRIBUTING.md with contribution guidelines
 - CODE_OF_CONDUCT.md
 - SECURITY.md with vulnerability reporting process
 - Issue and PR templates
+- QrifyPlus sample README
 
 ### Changed
 - Enhanced CI/CD workflow
@@ -28,5 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - QRify sample add-in
 - QRifyPlus sample add-in
 
-[Unreleased]: https://github.com/HYMMA/Hymma.Solidworks/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/HYMMA/Hymma.Solidworks/compare/v2018.3.3...HEAD
+[2018.3.3]: https://github.com/HYMMA/Hymma.Solidworks/compare/v2018.3.2...v2018.3.3
+[2018.3.2]: https://github.com/HYMMA/Hymma.Solidworks/compare/v1.0.0...v2018.3.2
 [1.0.0]: https://github.com/HYMMA/Hymma.Solidworks/releases/tag/v1.0.0

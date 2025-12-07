@@ -52,7 +52,7 @@ jobs:
         run: nuget restore hymma.solidworks.sln
 
       - name: Build solution (for XML docs)
-        run: msbuild hymma.solidworks.sln -p:Configuration=Release -p:GenerateDocumentationFile=true -p:DocumentationFile=bin\Release\$(AssemblyName).xml -nologo -v:minimal
+        run: msbuild hymma.solidworks.sln -p:Configuration=Release -p:GenerateDocumentationFile=true '-p:DocumentationFile=bin\Release\$(AssemblyName).xml' -nologo -v:minimal
 
       - name: Build documentation
         working-directory: docs

@@ -63,23 +63,78 @@ jobs:
           Write-Host "Development build - Assembly version: 2018.0.0, MSI version: 1.0.0"
         }
 
-    - name: Build libraries and NuGet packages
+    - name: Update AssemblyInfo versions
+      run: |
+        $version = "${{ steps.version.outputs.VERSION }}"
+        $assemblyVersion = "$version.0"  # 2018.3.3 -> 2018.3.3.0
+
+        $assemblyInfoFiles = @(
+          "Interop\Properties\AssemblyInfo.cs",
+          "Extensions\Properties\AssemblyInfo.cs",
+          "Addins\Properties\AssemblyInfo.cs",
+          "Addins.Fluent\Properties\AssemblyInfo.cs"
+        )
+
+        foreach ($file in $assemblyInfoFiles) {
+          Write-Host "Updating $file to version $assemblyVersion"
+          $content = Get-Content $file -Raw
+          $content = $content -replace 'AssemblyVersion\("[^"]+"\)', "AssemblyVersion(`"$assemblyVersion`")"
+          $content = $content -replace 'AssemblyFileVersion\("[^"]+"\)', "AssemblyFileVersion(`"$assemblyVersion`")"
+          Set-Content $file -Value $content -NoNewline
+        }
+
+    - name: Build solution
       run: |
         msbuild hymma.solidworks.sln -restore -nologo `
           -p:Configuration=Release `
           -p:RestorePackagesConfig=true `
-          -p:BuildVersion=${{ steps.version.outputs.VERSION }} `
           -p:InstallerVersion=${{ steps.version.outputs.MSI_VERSION }} `
-          -p:AddinGuid='{2EB85AF6-DB51-46FB-B955-D4A7708DA315}' `
-          -p:IncludeSymbols=true `
-          -p:SymbolPackageFormat=snupkg `
-          -p:CreateNugetPackage=true
+          -p:AddinGuid='{2EB85AF6-DB51-46FB-B955-D4A7708DA315}'
 
     - name: Setup VSTest.console.exe
       uses: darenm/Setup-VSTest@v1.3
 
     - name: Run tests
       run: vstest.console.exe /TestCaseFilter:"TestCategory=Framework" ${{github.workspace}}\UnitTestProject\bin\Release\UnitTestProject.dll
+
+    - name: Create NuGet packages
+      run: |
+        $version = "${{ steps.version.outputs.VERSION }}"
+        $nugetDir = "${{ env.NugetDirectory }}"
+
+        # Create nugets directory
+        New-Item -ItemType Directory -Force -Path $nugetDir | Out-Null
+
+        # Package order matters for dependencies:
+        # 1. Interop (no dependencies)
+        # 2. Extensions (depends on Interop)
+        # 3. Addins (depends on Interop)
+        # 4. Addins.Fluent (depends on Addins)
+
+        $packages = @(
+          @{ Path = "Interop"; Nuspec = "nugetSpec.nuspec"; Symbols = $false },
+          @{ Path = "Extensions"; Nuspec = "nugetSpec.nuspec"; Symbols = $true },
+          @{ Path = "Addins"; Nuspec = "nugetSpec.nuspec"; Symbols = $true },
+          @{ Path = "Addins.Fluent"; Nuspec = "nugetSpec.nuspec"; Symbols = $true }
+        )
+
+        foreach ($pkg in $packages) {
+          $nuspecPath = Join-Path $pkg.Path $pkg.Nuspec
+          Write-Host "Packing $nuspecPath with version $version"
+
+          # Update dependency versions in nuspec to match current version
+          $nuspecContent = Get-Content $nuspecPath -Raw
+          $nuspecContent = $nuspecContent -replace 'id="Hymma\.Solidworks\.(Interop|Addins|Extensions)"(\s+)version="[^"]+"', "id=`"Hymma.Solidworks.`$1`"`$2version=`"$version`""
+          Set-Content $nuspecPath -Value $nuspecContent -NoNewline
+
+          Push-Location $pkg.Path
+          if ($pkg.Symbols) {
+            nuget pack $pkg.Nuspec -OutputDirectory $nugetDir -Version $version -Properties Configuration=Release -Symbols -SymbolPackageFormat snupkg
+          } else {
+            nuget pack $pkg.Nuspec -OutputDirectory $nugetDir -Version $version -Properties Configuration=Release
+          }
+          Pop-Location
+        }
 
     - name: Save NuGet packages
       uses: actions/upload-artifact@v4
