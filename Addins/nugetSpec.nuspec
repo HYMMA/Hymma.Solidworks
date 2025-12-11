@@ -19,7 +19,7 @@
 		<dependencies>
 			<group targetFramework=".NETFramework4.8" >
 				<dependency id="Hymma.Solidworks.Interop"
-							version="2018.3.4"></dependency>
+							version="2018.3.5"></dependency>
 			</group>
 		</dependencies>
 	</metadata>

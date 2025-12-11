@@ -33,7 +33,12 @@
       "Bash(\"/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" \"C:/Users/Ashra/source/repos/cadshiftforsolidworks/CadShift.sln\" -p:Configuration=Release -m -nologo)",
       "Bash(\"/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" Hymma.CadShift.Solidworks/Hymma.CadShfit.Solidworks.csproj -t:Build -p:Configuration=Release -v:detailed)",
       "Bash(\"/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" Hymma.CadShift.Solidworks.CommonUi/Hymma.CadShfit.Solidworks.CommonUi.csproj -t:Build -p:Configuration=Release)",
-      "Bash(\"/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" Interop/hymma.solidworks.interop.csproj -t:Build -p:Configuration=Release -p:CreateNugetPackage=true -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg)"
+      "Bash(\"/c/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe\" Interop/hymma.solidworks.interop.csproj -t:Build -p:Configuration=Release -p:CreateNugetPackage=true -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg)",
+      "Bash(git tag:*)",
+      "Bash(git push:*)",
+      "Bash(gh api:*)",
+      "Bash(gh repo view:*)",
+      "WebFetch(domain:hymma.net)"
     ],
     "deny": [],
     "ask": []
