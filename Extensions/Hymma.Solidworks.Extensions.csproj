@@ -136,10 +136,15 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Interop\hymma.solidworks.interop.csproj">
-      <Project>{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}</Project>
-      <Name>Hymma.Solidworks.Interop</Name>
-    </ProjectReference>
+    <Reference Include="SolidWorks.Interop.sldworks">
+      <HintPath>..\References\SolidWorks.Interop.sldworks.dll</HintPath>
+    </Reference>
+    <Reference Include="SolidWorks.Interop.swconst">
+      <HintPath>..\References\SolidWorks.Interop.swconst.dll</HintPath>
+    </Reference>
+    <Reference Include="SolidWorks.Interop.swpublished">
+      <HintPath>..\References\SolidWorks.Interop.swpublished.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
