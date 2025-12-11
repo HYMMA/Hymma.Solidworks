@@ -53,15 +53,6 @@
       <HintPath>..\packages\Microsoft.VisualStudio.Interop.17.10.40170\lib\net472\Microsoft.VisualStudio.Interop.dll</HintPath>
     </Reference>
     <Reference Include="netstandard" />
-    <Reference Include="SolidWorks.Interop.sldworks">
-      <HintPath>..\packages\Hymma.Solidworks.Interop.2018.3.5\lib\net48\SolidWorks.Interop.sldworks.dll</HintPath>
-    </Reference>
-    <Reference Include="SolidWorks.Interop.swconst">
-      <HintPath>..\packages\Hymma.Solidworks.Interop.2018.3.5\lib\net48\SolidWorks.Interop.swconst.dll</HintPath>
-    </Reference>
-    <Reference Include="SolidWorks.Interop.swpublished">
-      <HintPath>..\packages\Hymma.Solidworks.Interop.2018.3.5\lib\net48\SolidWorks.Interop.swpublished.dll</HintPath>
-    </Reference>
     <Reference Include="stdole, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\stdole.17.10.40170\lib\net472\stdole.dll</HintPath>
     </Reference>
@@ -144,5 +135,11 @@
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Interop\hymma.solidworks.interop.csproj">
+      <Project>{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}</Project>
+      <Name>Hymma.Solidworks.Interop</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -47,15 +47,6 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="SolidWorks.Interop.sldworks">
-      <HintPath>..\packages\Hymma.Solidworks.Interop.2018.3.5\lib\net48\SolidWorks.Interop.sldworks.dll</HintPath>
-    </Reference>
-    <Reference Include="SolidWorks.Interop.swconst">
-      <HintPath>..\packages\Hymma.Solidworks.Interop.2018.3.5\lib\net48\SolidWorks.Interop.swconst.dll</HintPath>
-    </Reference>
-    <Reference Include="SolidWorks.Interop.swpublished">
-      <HintPath>..\packages\Hymma.Solidworks.Interop.2018.3.5\lib\net48\SolidWorks.Interop.swpublished.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -222,6 +213,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Interop\hymma.solidworks.interop.csproj">
+      <Project>{C5B3E4AB-D50E-414D-9FF3-BBCE066B0BBC}</Project>
+      <Name>Hymma.Solidworks.Interop</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
