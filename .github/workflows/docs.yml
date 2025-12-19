@@ -25,12 +25,12 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Checkout docfx-gitbook-template
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: HYMMA/docfx-gitbook-template
           path: docs/templates/gitbook
