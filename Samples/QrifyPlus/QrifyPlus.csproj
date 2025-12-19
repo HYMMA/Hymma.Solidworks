@@ -149,4 +149,7 @@
     <None Include="Resources\box.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"%windir%\Microsoft.NET\Framework64\v4.0.30319\RegAsm.exe" "$(TargetPath)" /codebase</PostBuildEvent>
+  </PropertyGroup>
 </Project>
