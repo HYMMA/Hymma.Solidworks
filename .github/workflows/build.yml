@@ -137,13 +137,13 @@ jobs:
         }
 
     - name: Save NuGet packages
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
          name: nugets
          path: ${{ env.NuGetDirectory}}/*.*nupkg
 
     - name: Save sample installer
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
          name: sample-installer
          path: ${{ github.workspace }}\Samples\QRifyInstaller\bin\x64\Release\**\*.msi
