@@ -3,6 +3,9 @@
 
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
+using System;
+using System.Drawing;
+using System.IO;
 
 namespace Hymma.Solidworks.Extensions
 {
@@ -71,6 +74,56 @@ namespace Hymma.Solidworks.Extensions
             if (activeConfiguration != configurationName && !model.ShowConfiguration2(configurationName))
                 return false;
             return true;
+        }
+
+        /// <summary>
+        /// Renders the active view to a bitmap using SOLIDWORKS image export.
+        /// </summary>
+        /// <param name="model">The active model document.</param>
+        /// <returns>A bitmap containing the rendered view.</returns>
+        /// <remarks>
+        /// This uses the current active view and therefore reflects real model colors/materials.
+        /// The model must be open for accurate rendering.
+        /// </remarks>
+        public static Bitmap RenderActiveViewToBitmap(this ModelDoc2 model)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            var docPath = model.GetPathName();
+            var name = string.IsNullOrWhiteSpace(docPath) ? "model" : Path.GetFileNameWithoutExtension(docPath);
+            var tempPath = Path.Combine(Path.GetTempPath(), $"{name}_{Guid.NewGuid():N}.png");
+
+            int errors = 0;
+            int warnings = 0;
+            object data = null;
+            try
+            {
+                // Normalize view before capture
+                model.ShowNamedView2("*Isometric", (int)swStandardViews_e.swIsometricView);
+                model.ViewZoomtofit2();
+
+                var saved = model.Extension.SaveAs(
+                    tempPath,
+                    (int)swSaveAsVersion_e.swSaveAsCurrentVersion,
+                    (int)swSaveAsOptions_e.swSaveAsOptions_Silent,
+                    data,
+                    ref errors,
+                    ref warnings);
+
+                if (!saved || !File.Exists(tempPath))
+                    throw new InvalidOperationException($"Could not render view for {name}. SaveAs errors={errors}, warnings={warnings}.");
+
+                using (var image = Image.FromFile(tempPath))
+                {
+                    return new Bitmap(image);
+                }
+            }
+            finally
+            {
+                if (File.Exists(tempPath))
+                    File.Delete(tempPath);
+            }
         }
 
         /// <summary>

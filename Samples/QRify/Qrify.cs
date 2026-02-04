@@ -3,15 +3,19 @@
 
 using Hymma.Solidworks.Addins;
 using Hymma.Solidworks.Addins.Helpers;
+using Hymma.Solidworks.Extensions;
 using QRCoder;
 using QRify.Logging;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
@@ -19,6 +23,17 @@ using Environment = System.Environment;
 
 namespace QRify
 {
+    internal static class Gdi32
+    {
+        [DllImport("gdi32.dll")]
+        internal static extern bool DeleteObject(IntPtr hObject);
+
+#if DEBUG
+        [DllImport("user32.dll")]
+        internal static extern int GetGuiResources(IntPtr hProcess, int uiFlags);
+#endif
+    }
+
     //It is not mandatory to make this class partial, but in future releases we might use code generators to bypass some of SolidWORKS API restrictions
     //AddinIcon could be a resx file or an Embedded Resource one 
     [Addin(title: "QRify",
@@ -77,6 +92,159 @@ namespace QRify
                 pmpFactory.Show();
             }
         }
+
+        /// <summary>
+        /// Enables the preview extraction command for part and assembly documents that have been saved.
+        /// </summary>
+        public int EnablePreviewExtraction()
+        {
+            // Diagnostic: always enable so we can verify the callback is invoked.
+            return SolidWorks.CommandInProgress ? 0 : 1;
+        }
+
+        /// <summary>
+        /// Enables the rendered preview extraction command for part and assembly documents.
+        /// </summary>
+        public int EnableRenderedPreviewExtraction()
+        {
+            return SolidWorks.CommandInProgress ? 0 : 1;
+        }
+
+        /// <summary>
+        /// Extracts the preview bitmap for the active part/assembly and saves it to LocalAppData.
+        /// </summary>
+        public void ExtractActiveModelPreviewToClipboard()
+        {
+#if DEBUG
+            var diagEnabled = string.Equals(Environment.GetEnvironmentVariable("QRIFY_PREVIEW_DIAG"), "1", StringComparison.Ordinal);
+            var gdiBefore = diagEnabled ? GetGdiObjectCount() : 0;
+            var handlesBefore = diagEnabled ? Process.GetCurrentProcess().HandleCount : 0;
+#endif
+            SolidWorks.SendMsgToUser("QRify: preview command invoked.");
+            var modelDoc = SolidWorks.ActiveDoc as ModelDoc2;
+            if (modelDoc == null)
+                return;
+
+            var isPart = SolidWorks.ActiveDoc is PartDoc;
+            var isAssembly = SolidWorks.ActiveDoc is AssemblyDoc;
+            if (!isPart && !isAssembly)
+            {
+                SolidWorks.SendMsgToUser("Preview extraction only works for part and assembly documents.");
+                return;
+            }
+
+            var path = modelDoc.GetPathName();
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                SolidWorks.SendMsgToUser("Please save the document before extracting its preview.");
+                return;
+            }
+
+            var configurationName = modelDoc.ConfigurationManager?.ActiveConfiguration?.Name ?? string.Empty;
+
+            try
+            {
+                using (var previewBitmap = SolidWorks.ExtractPreviewImage(path, configurationName))
+                {
+                    var savedPath = SavePreviewToLocalAppData(path, configurationName, previewBitmap);
+                    SolidWorks.SendMsgToUser($"Preview saved to: {savedPath}");
+                }
+            }
+            catch (Exception ex)
+            {
+                SolidWorks.SendMsgToUser($"Could not extract preview: {ex.Message}");
+            }
+#if DEBUG
+            if (diagEnabled)
+            {
+                var gdiAfter = GetGdiObjectCount();
+                var handlesAfter = Process.GetCurrentProcess().HandleCount;
+                SolidWorks.SendMsgToUser($"QRify diag: GDI {gdiBefore}->{gdiAfter}, Handles {handlesBefore}->{handlesAfter}");
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Renders the active view and saves it to LocalAppData with real model colors.
+        /// </summary>
+        public void ExtractActiveModelRenderedPreviewToClipboard()
+        {
+            SolidWorks.SendMsgToUser("QRify: rendered preview command invoked.");
+            var modelDoc = SolidWorks.ActiveDoc as ModelDoc2;
+            if (modelDoc == null)
+                return;
+
+            var isPart = SolidWorks.ActiveDoc is PartDoc;
+            var isAssembly = SolidWorks.ActiveDoc is AssemblyDoc;
+            if (!isPart && !isAssembly)
+            {
+                SolidWorks.SendMsgToUser("Rendered preview only works for part and assembly documents.");
+                return;
+            }
+
+            var path = modelDoc.GetPathName();
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                SolidWorks.SendMsgToUser("Please save the document before extracting its rendered preview.");
+                return;
+            }
+
+            var configurationName = modelDoc.ConfigurationManager?.ActiveConfiguration?.Name ?? string.Empty;
+
+            try
+            {
+                using (var renderedBitmap = modelDoc.RenderActiveViewToBitmap())
+                {
+                    var savedPath = SavePreviewToLocalAppData(path, configurationName, renderedBitmap);
+                    SolidWorks.SendMsgToUser($"Rendered preview saved to: {savedPath}");
+                }
+            }
+            catch (Exception ex)
+            {
+                SolidWorks.SendMsgToUser($"Could not render preview: {ex.Message}");
+            }
+        }
+
+        private static string SavePreviewToLocalAppData(string modelPath, string configurationName, Bitmap previewBitmap)
+        {
+            var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var previewsDir = Path.Combine(localAppData, "QrifyPreviews");
+            Directory.CreateDirectory(previewsDir);
+
+            var modelName = Path.GetFileNameWithoutExtension(modelPath);
+            var safeConfig = string.IsNullOrWhiteSpace(configurationName)
+                ? "default"
+                : MakeSafeFileName(configurationName);
+
+            var fileName = $"{modelName}_{safeConfig}_{DateTime.Now:yyyyMMdd_HHmmss}.png";
+            var fullPath = Path.Combine(previewsDir, fileName);
+
+            previewBitmap.Save(fullPath, ImageFormat.Png);
+            return fullPath;
+        }
+
+        private static string MakeSafeFileName(string value)
+        {
+            var invalidChars = Path.GetInvalidFileNameChars();
+            var chars = value.ToCharArray();
+            for (int i = 0; i < chars.Length; i++)
+            {
+                if (Array.IndexOf(invalidChars, chars[i]) >= 0)
+                    chars[i] = '_';
+            }
+
+            return new string(chars);
+        }
+
+#if DEBUG
+        private static int GetGdiObjectCount()
+        {
+            using (var process = Process.GetCurrentProcess())
+            {
+                return Gdi32.GetGuiResources(process.Handle, 0);
+            }
+        }
+#endif
         #endregion
     }
 
@@ -121,8 +289,17 @@ namespace QRify
             var qrImage = ArtQRCodeHelper.GetQRCode(value, 5, System.Drawing.Color.Black, System.Drawing.Color.White, System.Drawing.Color.Gray, QRCodeGenerator.ECCLevel.L);
             using (qrImage)
             {
-                var src = Imaging.CreateBitmapSourceFromHBitmap(qrImage.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                Clipboard.SetImage(src);
+                var hBitmap = qrImage.GetHbitmap();
+                try
+                {
+                    var src = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                    src.Freeze();
+                    Clipboard.SetImage(src);
+                }
+                finally
+                {
+                    Gdi32.DeleteObject(hBitmap);
+                }
                 //src = null;
             }
         }
@@ -208,6 +385,7 @@ namespace QRify
         {
             this.CommandTabTextType = ((int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow);
             this.IconBitmap = Properties.Resources.qrify;
+            this.UserId = 1;
 
             //Restrictions imposed by SolidWORKS API:
             //These two methods must be defined in the addin class (addin class inherits from AddinMaker.cs)
@@ -228,6 +406,7 @@ namespace QRify
         {
             this.CommandTabTextType = ((int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow);
             this.IconBitmap = Properties.Resources.info;
+            this.UserId = 2;
 
             this.EnableMethod = "EnablePropertyMangagerPage";
             this.CallBackFunction = "ShowQrifyPropertyManagerPage";
@@ -237,16 +416,50 @@ namespace QRify
             Name = "Qrify Helps";
         }
     }
+    public class QrCommandExtractPreview : AddinCommand
+    {
+        public QrCommandExtractPreview()
+        {
+            CommandTabTextType = (int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow;
+            IconBitmap = Properties.Resources.info;
+            UserId = 3;
+
+            EnableMethod = nameof(Qrify.EnablePreviewExtraction);
+            CallBackFunction = nameof(Qrify.ExtractActiveModelPreviewToClipboard);
+
+            Name = "Copy Preview";
+            HintString = "Copy the active part/assembly preview to the clipboard";
+            ToolTip = Name;
+        }
+    }
+    public class QrCommandExtractRenderedPreview : AddinCommand
+    {
+        public QrCommandExtractRenderedPreview()
+        {
+            CommandTabTextType = (int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow;
+            IconBitmap = Properties.Resources.info;
+            UserId = 4;
+
+            EnableMethod = nameof(Qrify.EnableRenderedPreviewExtraction);
+            CallBackFunction = nameof(Qrify.ExtractActiveModelRenderedPreviewToClipboard);
+
+            Name = "Copy Rendered Preview";
+            HintString = "Render the active view and save it to LocalAppData";
+            ToolTip = Name;
+        }
+    }
     public class QrCommandGroup : AddinCommandGroup
     {
-        public QrCommandGroup() : base(0,
-                                       new List<AddinCommand>() { new QrCommand(), new QrCommandHelp() },
+        public QrCommandGroup() : base(2,
+                                       new List<AddinCommand>() { new QrCommand(), new QrCommandHelp(), new QrCommandExtractPreview(), new QrCommandExtractRenderedPreview() },
                                        "Title for Qrify command group",
                                        "Description for Qrify",
                                        "make QR codes",
                                        "Tooltip",
                                        Properties.Resources.qrify)
         {
+            // Force SOLIDWORKS to rebuild the tab/commands instead of keeping cached ones.
+            IgnorePrevious = true;
             //this.Commands = new List<QrCommand>() { new QrCommand() };
             //this.Title = "Title for QRify command group";
             //this.Description = "QRify command group";
@@ -259,7 +472,7 @@ namespace QRify
     {
         public QrTab()
         {
-            DocTypes = new[] { swDocumentTypes_e.swDocDRAWING };
+            DocTypes = new[] { swDocumentTypes_e.swDocDRAWING, swDocumentTypes_e.swDocPART, swDocumentTypes_e.swDocASSEMBLY };
             Title = "QRify";
             CommandGroup = new QrCommandGroup();
         }

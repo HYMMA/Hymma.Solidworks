@@ -12,12 +12,19 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+using System.Runtime.InteropServices;
 
 namespace QrifyPlus
 {
     //this class could be inside a different library
     public class QrPlusGroupControls : PmpGroup
     {
+        private static class NativeMethods
+        {
+            [DllImport("gdi32.dll")]
+            internal static extern bool DeleteObject(IntPtr hObject);
+        }
+
         public QrPlusGroupControls()
         {
             GenerateControlsForTheGroup();
@@ -113,8 +120,17 @@ namespace QrifyPlus
             var qrImage = ArtQRCodeHelper.GetQRCode(value, 5, System.Drawing.Color.Black, System.Drawing.Color.White, System.Drawing.Color.Gray, QRCodeGenerator.ECCLevel.L);
             using (qrImage)
             {
-                var src = Imaging.CreateBitmapSourceFromHBitmap(qrImage.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                Clipboard.SetImage(src);
+                var hBitmap = qrImage.GetHbitmap();
+                try
+                {
+                    var src = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                    src.Freeze();
+                    Clipboard.SetImage(src);
+                }
+                finally
+                {
+                    NativeMethods.DeleteObject(hBitmap);
+                }
             }
         }
 

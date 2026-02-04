@@ -8,6 +8,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Runtime.InteropServices;
 
 namespace Hymma.Solidworks.Extensions
 {
@@ -16,6 +17,9 @@ namespace Hymma.Solidworks.Extensions
     /// </summary>
     public static class SldWorksExtensions
     {
+        [DllImport("gdi32.dll")]
+        private static extern bool DeleteObject(IntPtr hObject);
+
         /// <summary>
         /// get the preview thumbnail of the path provided. regardless the file is open or not.
         /// </summary>
@@ -36,7 +40,69 @@ namespace Hymma.Solidworks.Extensions
 
             if (!(img is stdole.StdPicture pic))
                 throw new Exception($"Could not get preview of {path}.");
-            return Bitmap.FromHbitmap((IntPtr)pic.Handle);
+
+            var hBitmap = (IntPtr)pic.Handle;
+            try
+            {
+                using (var temp = Image.FromHbitmap(hBitmap))
+                {
+                    return new Bitmap(temp);
+                }
+            }
+            finally
+            {
+                DeleteObject(hBitmap);
+            }
+        }
+
+        /// <summary>
+        /// Extracts the preview thumbnail for a part or assembly file using a temporary bitmap file.
+        /// This works for both in-process add-ins and out-of-process applications.
+        /// </summary>
+        /// <param name="solidworks">The SolidWorks application instance.</param>
+        /// <param name="path">Full path to a .sldprt or .sldasm file.</param>
+        /// <param name="configuration">Configuration name to use when generating the preview.</param>
+        /// <returns>A <see cref="Bitmap"/> containing the preview image.</returns>
+        /// <exception cref="FileNotFoundException">Thrown when <paramref name="path"/> does not exist.</exception>
+        /// <exception cref="NotSupportedException">Thrown when the file is not a part or assembly.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when SolidWorks cannot generate a preview.</exception>
+        public static Bitmap ExtractPreviewImage(this ISldWorks solidworks, string path, string configuration)
+        {
+            if (!File.Exists(path))
+                throw new FileNotFoundException(path);
+
+            var extension = Path.GetExtension(path)?.ToLowerInvariant();
+            if (extension != ".sldprt" && extension != ".sldasm")
+                throw new NotSupportedException("Preview extraction is only supported for part and assembly documents.");
+
+            var tempBitmapPath = Path.Combine(
+                Path.GetTempPath(),
+                $"{Path.GetFileNameWithoutExtension(path)}_{Guid.NewGuid():N}.bmp");
+
+            try
+            {
+                var configName = configuration ?? string.Empty;
+                var generated = solidworks.GetPreviewBitmapFile(path, configName, tempBitmapPath);
+                if (!generated || !File.Exists(tempBitmapPath))
+                {
+                    // Some documents/configurations fail when a specific configuration name is provided.
+                    // Fall back to an empty configuration name.
+                    generated = solidworks.GetPreviewBitmapFile(path, string.Empty, tempBitmapPath);
+                }
+                if (!generated || !File.Exists(tempBitmapPath))
+                    throw new InvalidOperationException($"Could not extract preview of {path}.");
+
+                using (var image = Image.FromFile(tempBitmapPath))
+                {
+                    // Clone the image so the temporary file can be deleted immediately.
+                    return new Bitmap(image);
+                }
+            }
+            finally
+            {
+                if (File.Exists(tempBitmapPath))
+                    File.Delete(tempBitmapPath);
+            }
         }
 
         /// <summary>
