@@ -82,6 +82,12 @@
     <Compile Include="Core\OnConnectToSwEventArgs.cs" />
     <Compile Include="Core\SysColor.cs" />
     <Compile Include="Core\WeakEventSource.cs" />
+    <Compile Include="UI\ContextMenus\ContextMenuContext.cs" />
+    <Compile Include="UI\ContextMenus\ContextMenuDefinition.cs" />
+    <Compile Include="UI\ContextMenus\ContextMenuItem.cs" />
+    <Compile Include="UI\ContextMenus\ContextMenuRegistrar.cs" />
+    <Compile Include="UI\ContextMenus\ContextMenuRouter.cs" />
+    <Compile Include="UI\ContextMenus\ContextMenuTarget.cs" />
     <Compile Include="UI\PopUps\ISldWorksExtensions.cs" />
     <Compile Include="UI\PopUps\ScreenZones.cs" />
     <Compile Include="UI\PopUps\PopupHelper.cs" />

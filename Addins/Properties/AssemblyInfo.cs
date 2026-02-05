@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("HYMMA")]
 [assembly: AssemblyProduct("Hymma.Solidworks.Addins")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
+[assembly: AssemblyCopyright("Copyright ï¿½  2021")]
 [assembly: AssemblyTrademark("HYMMA")]
 [assembly: AssemblyCulture("")]
 
@@ -23,6 +23,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to RegisteryHelper
 [assembly: Guid("86b8e368-880d-4169-ba19-60a84d3f6fb3")]
+
 
 // Version information for an assembly consists of the following four values:
 //
@@ -36,3 +37,10 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("2018.3.4.0")]
 [assembly: AssemblyVersion("2018.3.4.0")]
 [assembly: AssemblyFileVersion("2018.3.4.0")]
+
+
+
+
+
+
+

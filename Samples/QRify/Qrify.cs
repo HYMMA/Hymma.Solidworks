@@ -3,6 +3,7 @@
 
 using Hymma.Solidworks.Addins;
 using Hymma.Solidworks.Addins.Helpers;
+using Hymma.Solidworks.Addins.ContextMenus;
 using Hymma.Solidworks.Extensions;
 using QRCoder;
 using QRify.Logging;
@@ -47,6 +48,8 @@ namespace QRify
         public Qrify()
         {
             base.OnStart += Qrify_OnStart;
+            base.OnUiReady += Qrify_OnUiReady;
+            base.OnExit += Qrify_OnExit;
         }
 
         private void Qrify_OnStart(object sender, OnConnectToSwEventArgs e)
@@ -54,7 +57,20 @@ namespace QRify
             this.SolidWorks = e.Solidworks;
         }
 
+        private void Qrify_OnUiReady(object sender, OnConnectToSwEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("QRify: OnUiReady fired");
+            RegisterContextMenus();
+        }
+
+        private void Qrify_OnExit(object sender, OnConnectToSwEventArgs e)
+        {
+            _contextMenus?.Dispose();
+            _contextMenus = null;
+        }
+
         private PropertyManagerPageBase pmpFactory;
+        private ContextMenuRegistrar _contextMenus;
 
         public ISldWorks SolidWorks { get; private set; }
 
@@ -63,6 +79,121 @@ namespace QRify
             var ui = new QrifyUserInterface(this.SolidWorks);
             pmpFactory = ui.PmpFactory;
             return ui;
+        }
+
+        private void RegisterContextMenus()
+        {
+            System.Diagnostics.Debug.WriteLine("QRify: RegisterContextMenus start");
+            _contextMenus = ContextMenuRegistrar.Create(this);
+
+            // Command group for graphics area selections (faces, edges, vertices)
+            var graphicsGroup = new AddinCommandGroup
+            {
+                Title = "QRify Graphics",
+                Commands = new[]
+                {
+                    new AddinCommand(
+                        "Show Geometry Info",
+                        "Show geometry type and details",
+                        "Show geometry type and details",
+                        Properties.Resources.info,  // info icon for graphics
+                        nameof(ShowSelectionInfoFromContextMenu),
+                        0,
+                        (int)swCommandItemType_e.swMenuItem,
+                        1,
+                        nameof(EnableSelectionInfoFromContextMenu))
+                }
+            };
+
+            // Register for faces, edges, vertices in graphics area
+            _contextMenus.Register(graphicsGroup,
+                ContextMenuTarget.Faces,
+                ContextMenuTarget.Edges,
+                ContextMenuTarget.Vertices);
+
+            // Command group for feature tree selections
+            var featureGroup = new AddinCommandGroup
+            {
+                Title = "QRify Features",
+                Commands = new[]
+                {
+                    new AddinCommand(
+                        "Show Feature Info",
+                        "Show feature type and name",
+                        "Show feature type and name",
+                        Properties.Resources.qrify,  // qrify icon for features
+                        nameof(ShowSelectionInfoFromContextMenu),
+                        0,
+                        (int)swCommandItemType_e.swMenuItem,
+                        2,
+                        nameof(EnableSelectionInfoFromContextMenu))
+                }
+            };
+
+            // Register for features in the design tree
+            _contextMenus.Register(featureGroup,
+                ContextMenuTarget.Features,
+                ContextMenuTarget.FeatureTreeItems,
+                ContextMenuTarget.SketchProfiles);
+
+            // Command group for sketch elements
+            var sketchGroup = new AddinCommandGroup
+            {
+                Title = "QRify Sketch",
+                Commands = new[]
+                {
+                    new AddinCommand(
+                        "Show Sketch Info",
+                        "Show sketch element details",
+                        "Show sketch element details",
+                        Properties.Resources.hymma,  // hymma icon for sketches
+                        nameof(ShowSelectionInfoFromContextMenu),
+                        0,
+                        (int)swCommandItemType_e.swMenuItem,
+                        3,
+                        nameof(EnableSelectionInfoFromContextMenu))
+                }
+            };
+
+            // Register for sketch segments and points
+            _contextMenus.Register(sketchGroup,
+                ContextMenuTarget.SketchSegments,
+                ContextMenuTarget.SketchPoints);
+        }
+
+        private static string GetSelectionName(object selection)
+        {
+            switch (selection)
+            {
+                case Feature feature:
+                    return $"\"{feature.Name}\"";
+                case Sketch sketch:
+                    return "\"Sketch\"";
+                case SketchSegment sketchSegment:
+                    return $"\"{sketchSegment.GetType()}\"";
+                case SketchPoint sketchPoint:
+                    return $"({sketchPoint.X:0.###}, {sketchPoint.Y:0.###}, {sketchPoint.Z:0.###})";
+                default:
+                    return string.Empty;
+            }
+        }
+
+        public void ShowSelectionInfoFromContextMenu()
+        {
+            var modelDoc = SolidWorks?.ActiveDoc as ModelDoc2;
+            var selectionMgr = modelDoc?.SelectionManager as SelectionMgr;
+            if (selectionMgr == null)
+                return;
+
+            var type = (swSelectType_e)selectionMgr.GetSelectedObjectType3(1, -1);
+            var selected = selectionMgr.GetSelectedObject6(1, -1);
+            var name = GetSelectionName(selected);
+            SolidWorks.SendMsgToUser($"Selection: {type} {name}".Trim());
+        }
+
+        public int EnableSelectionInfoFromContextMenu()
+        {
+            return SolidWorks?.ActiveDoc != null ? 1 : 0;
         }
 
 

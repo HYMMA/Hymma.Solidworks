@@ -1,6 +1,7 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
+using Hymma.Solidworks.Addins.ContextMenus;
 using Hymma.Solidworks.Addins.Core;
 using Hymma.Solidworks.Addins.Helpers;
 using Hymma.Solidworks.Addins.Utilities.DotNet;
@@ -87,6 +88,8 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         private AddinUserInterface _addinUi;
 
+        private readonly ContextMenuRouter _contextMenuRouter = new ContextMenuRouter();
+
         #endregion
 
         /// <summary>
@@ -102,6 +105,14 @@ namespace Hymma.Solidworks.Addins
         /// SolidWORKS object
         /// </summary>
         internal ISldWorks Solidworks { get; set; }
+
+        internal CommandManager CommandManager => _commandManager;
+
+        internal ContextMenuRouter ContextMenuRouter => _contextMenuRouter;
+
+        internal int AddinId => _addinUi?.Id ?? 0;
+
+        internal System.IO.DirectoryInfo IconsRootDir => _addinUi?.IconsRootDir;
 
         #endregion
 
@@ -167,6 +178,7 @@ namespace Hymma.Solidworks.Addins
             _onExitEvents.ClearHandlers();
             RemoveCmdTabs(_addinUi.CommandTabs);
             RemovePMPs(_addinUi.PropertyManagerPages);
+            _contextMenuRouter.Clear();
             //DetachSwEvents();
             //DetachEventsFromAllDocuments();
 
@@ -196,11 +208,10 @@ namespace Hymma.Solidworks.Addins
         /// <returns></returns>
         public bool ConnectToSW(object ThisSW, int Cookie)
         {
-            //fire event
-            _onStartEvents?.Raise(this, new OnConnectToSwEventArgs { Solidworks = (ISldWorks)ThisSW, Cookie = Cookie });
-            _onStartEvents.ClearHandlers();
-
             Solidworks = (ISldWorks)ThisSW;
+            //fire event
+            _onStartEvents?.Raise(this, new OnConnectToSwEventArgs { Solidworks = Solidworks, Cookie = Cookie });
+            _onStartEvents.ClearHandlers();
             _addinUi = GetUserInterFace();
             _addinUi.Id = Cookie;
 
@@ -210,11 +221,17 @@ namespace Hymma.Solidworks.Addins
             #region Setup the Command Manager and add commands
             _commandManager = Solidworks.GetCommandManager(Cookie);
 
+            //fire event (command manager is now available)
+            _onStartEvents?.Raise(this, new OnConnectToSwEventArgs { Solidworks = Solidworks, Cookie = Cookie });
+            _onStartEvents.ClearHandlers();
+
             AddinIcons.CreateSubDirForUiItems(_addinUi);
             AddCommands(_addinUi.CommandTabs);
             AddPropertyManagerPages(_addinUi.PropertyManagerPages);
 
             #endregion
+            _onUiReadyEvents?.Raise(this, new OnConnectToSwEventArgs { Solidworks = Solidworks, Cookie = Cookie });
+            _onUiReadyEvents.ClearHandlers();
 
             //first collect all the bitmaps we created during registering the addin
             //the framework has already called Dispose() on them but GC might not collect them
@@ -284,6 +301,7 @@ namespace Hymma.Solidworks.Addins
 
         readonly WeakEventSource<OnConnectToSwEventArgs> _onStartEvents = new WeakEventSource<OnConnectToSwEventArgs>();
         readonly WeakEventSource<OnConnectToSwEventArgs> _onExitEvents = new WeakEventSource<OnConnectToSwEventArgs>();
+        readonly WeakEventSource<OnConnectToSwEventArgs> _onUiReadyEvents = new WeakEventSource<OnConnectToSwEventArgs>();
         /// <summary>
         /// Occurs when the add-in successfully connects to SolidWorks.
         /// </summary>
@@ -358,6 +376,17 @@ namespace Hymma.Solidworks.Addins
             remove =>
                 _onExitEvents.Unsubscribe(value);
         }
+
+        /// <summary>
+        /// Occurs after command groups and property manager pages are registered.
+        /// </summary>
+        public event EventHandler<OnConnectToSwEventArgs> OnUiReady
+        {
+            add =>
+                _onUiReadyEvents.Subscribe(this, value);
+            remove =>
+                _onUiReadyEvents.Unsubscribe(value);
+        }
         #endregion
 
         /// <summary>
@@ -408,5 +437,21 @@ namespace Hymma.Solidworks.Addins
         /// <seealso cref="AddinCommandTab"/>
         /// <seealso cref="PropertyManagerPageX64"/>
         public abstract AddinUserInterface GetUserInterFace();
+
+        /// <summary>
+        /// Routes context menu callbacks to registered handlers.
+        /// </summary>
+        public void ContextMenuCommand(string token)
+        {
+            _contextMenuRouter.Execute(token, Solidworks);
+        }
+
+        /// <summary>
+        /// Routes context menu enable checks to registered predicates.
+        /// </summary>
+        public int ContextMenuEnable(string token)
+        {
+            return _contextMenuRouter.Enable(token, Solidworks);
+        }
     }
 }

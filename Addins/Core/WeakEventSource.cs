@@ -51,11 +51,7 @@ namespace WeakEvent
             //        _delegateKeepAlive.Remove(handler.Target);
             //    }
             //}
-            if (_handlers != null)
-            {
-                _handlers.Clear();
-                _handlers = null;
-            }
+            _handlers.Clear();
         }
         public void Unsubscribe(EventHandler<TEventArgs> handler)
         {
@@ -76,7 +72,7 @@ namespace WeakEvent
             if (sender is null)
                 return;
 
-            foreach (var handler in _handlers)
+            foreach (var handler in _handlers.ToArray())
             {
                 if (handler != null)
                 {

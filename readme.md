@@ -124,6 +124,53 @@ This repo includes two sample add-ins to help you get started:
 
 Both samples are free for commercial use and include `.snk` files for immediate building after cloning.
 
+## Context Menus
+
+SolidWorks context menus are the right-click menus that appear for specific selection types (features, faces, edges, sketch segments, etc.). The helper API in `Hymma.Solidworks.Addins` lets you register your own items for those selection types and wire callbacks with selection-based predicates.
+
+### Quick Example
+
+```csharp
+using Hymma.Solidworks.Addins.ContextMenus;
+
+var registrar = ContextMenuRegistrar.Create(this, e.Cookie);
+var menu = new ContextMenuDefinition(
+    "My Feature Menu",
+    new[] { ContextMenuTarget.Features },
+    new[]
+    {
+        new ContextMenuItem(
+            "Inspect Feature",
+            ctx => { /* handle click */ },
+            ctx => ctx.SelectionCount > 0)
+    });
+
+registrar.Register(menu);
+```
+
+See `examples/context-menus/README.md` for two full examples (features + sketch segments).
+
+### Limitations
+
+- You cannot modify built-in SolidWorks menu items; you can only add your own.
+- Context menu callbacks must be registered after the add-in has access to `ICommandManager`.
+- Context menus are selection-type specific; the right selection must exist before right-click.
+
+### Best Practices
+
+- Register context menus during add-in connect (`OnStart`) and dispose them on disconnect (`OnExit`).
+- Keep predicates fast and avoid heavy work on the UI thread.
+- Use selection-based predicates to enable/disable menu items rather than doing work in callbacks.
+
+### Context Menu Not Showing?
+
+- Confirm registration happens after `ICommandManager` is available.
+- Verify the selection type matches (feature vs face vs edge, etc.).
+- Ensure your add-in is loaded and not disabled.
+- Check for command ID/callback mismatches and duplicate registrations.
+- Ensure you are targeting x64 if SolidWorks is x64.
+- Ensure something is selected before right-clicking.
+
 ## Documentation
 
 - [Addins Framework Guide](./Addins/README.md)
