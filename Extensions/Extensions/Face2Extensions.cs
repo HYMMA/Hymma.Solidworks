@@ -144,7 +144,9 @@ namespace Hymma.Solidworks.Extensions
                 var coEdges = (object[])loop.GetCoEdges();
                 foreach (CoEdge coEdge in coEdges)
                 {
-                    CoEdge partner = (CoEdge)coEdge.GetPartner();
+                    CoEdge partner = coEdge.GetPartner() as CoEdge;
+                    if (partner == null)
+                        continue; // Open edge (boundary of surface body) — no partner face
                     var coEdgeNormal = GetFaceNormalAtMidCoEdge(coEdge);
                     var partnerNormal = GetFaceNormalAtMidCoEdge(partner);
                     
