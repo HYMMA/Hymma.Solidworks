@@ -36,7 +36,8 @@ namespace Hymma.Solidworks.Addins.ContextMenus
         private static readonly HashSet<swSelectType_e> DebugSelectionTypeFilter = new HashSet<swSelectType_e>
         {
             swSelectType_e.swSelFACES,
-            swSelectType_e.swSelBODYFEATURES
+            swSelectType_e.swSelBODYFEATURES,
+            swSelectType_e.swSelSKETCHSEGS
         };
 #endif
 

@@ -15,6 +15,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Windows;
@@ -59,7 +60,18 @@ namespace QRify
 
         private void Qrify_OnUiReady(object sender, OnConnectToSwEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("QRify: OnUiReady fired");
+            System.Diagnostics.Debug.WriteLine($"QRify: OnUiReady fired, group UserId={_commandGroup?.UserId}");
+
+            // Diagnostic: confirm each command was registered with a valid SolidWorks ID
+            if (_commandGroup != null)
+            {
+                foreach (var cmd in _commandGroup.Commands)
+                {
+                    System.Diagnostics.Debug.WriteLine(
+                        $"  cmd UserId={cmd.UserId} Name='{cmd.Name}' Index={cmd.Index} SolidworksId={cmd.SolidworksId}");
+                }
+            }
+
             RegisterContextMenus();
         }
 
@@ -71,6 +83,7 @@ namespace QRify
 
         private PropertyManagerPageBase pmpFactory;
         private ContextMenuRegistrar _contextMenus;
+        private QrCommandGroup _commandGroup;
 
         public ISldWorks SolidWorks { get; private set; }
 
@@ -78,6 +91,7 @@ namespace QRify
         {
             var ui = new QrifyUserInterface(this.SolidWorks);
             pmpFactory = ui.PmpFactory;
+            _commandGroup = (QrCommandGroup)ui.QrTab.CommandGroup;
             return ui;
         }
 
@@ -239,6 +253,71 @@ namespace QRify
         public int EnableRenderedPreviewExtraction()
         {
             return SolidWorks.CommandInProgress ? 0 : 1;
+        }
+
+        /// <summary>
+        /// Enables the component type check command.
+        /// </summary>
+        public int EnableCheckComponentType()
+        {
+            return SolidWorks.CommandInProgress ? 0 : 1;
+        }
+
+        /// <summary>
+        /// Reports the toolbox / library status of every selected component.
+        /// </summary>
+        public void CheckSelectedComponentType()
+        {
+            var modelDoc = SolidWorks?.ActiveDoc as ModelDoc2;
+            var selMgr = modelDoc?.SelectionManager as SelectionMgr;
+            if (selMgr == null)
+            {
+                SolidWorks.SendMsgToUser("No active assembly document.");
+                return;
+            }
+
+            int count = selMgr.GetSelectedObjectCount2(-1);
+            if (count == 0)
+            {
+                SolidWorks.SendMsgToUser("Select one or more components in the assembly first.");
+                return;
+            }
+
+            var lines = new System.Text.StringBuilder();
+            for (int i = 1; i <= count; i++)
+            {
+                var type = (swSelectType_e)selMgr.GetSelectedObjectType3(i, -1);
+                if (type != swSelectType_e.swSelCOMPONENTS)
+                    continue;
+
+                var component = selMgr.GetSelectedObject6(i, -1) as Component2;
+                if (component == null)
+                    continue;
+
+                var name = component.Name2;
+                if (component.IsToolbox())
+                {
+                    var toolboxType = component.GetToolboxType();
+                    var label = toolboxType == swToolBoxPartType_e.swToolboxCopiedPart
+                        ? "Toolbox (copied)"
+                        : "Toolbox (standard)";
+                    lines.AppendLine($"{name}: {label}");
+                }
+                else if (component.IsLibraryPart())
+                {
+                    lines.AppendLine($"{name}: Library part");
+                }
+                else
+                {
+                    lines.AppendLine($"{name}: Regular part/assembly");
+                }
+            }
+
+            var message = lines.Length > 0
+                ? lines.ToString().TrimEnd()
+                : "No component selections found in the current selection set.";
+
+            SolidWorks.SendMsgToUser(message);
         }
 
         /// <summary>
@@ -579,10 +658,27 @@ namespace QRify
             ToolTip = Name;
         }
     }
+    public class QrCommandCheckComponentType : AddinCommand
+    {
+        public QrCommandCheckComponentType()
+        {
+            CommandTabTextType = (int)swCommandTabButtonTextDisplay_e.swCommandTabButton_TextBelow;
+            IconBitmap = Properties.Resources.info;
+            UserId = 5;
+
+            EnableMethod = nameof(Qrify.EnableCheckComponentType);
+            CallBackFunction = nameof(Qrify.CheckSelectedComponentType);
+
+            Name = "Check Component Type";
+            HintString = "Report toolbox or library status of selected assembly components";
+            ToolTip = Name;
+        }
+    }
+
     public class QrCommandGroup : AddinCommandGroup
     {
-        public QrCommandGroup() : base(2,
-                                       new List<AddinCommand>() { new QrCommand(), new QrCommandHelp(), new QrCommandExtractPreview(), new QrCommandExtractRenderedPreview() },
+        public QrCommandGroup() : base(3,
+                                       new List<AddinCommand>() { new QrCommand(), new QrCommandHelp(), new QrCommandExtractPreview(), new QrCommandExtractRenderedPreview(), new QrCommandCheckComponentType() },
                                        "Title for Qrify command group",
                                        "Description for Qrify",
                                        "make QR codes",
@@ -611,11 +707,12 @@ namespace QRify
     public class QrifyUserInterface : AddinUserInterface
     {
         public QrPropertyManagerPage PmpFactory { get; }
+        public QrTab QrTab { get; }
         public QrifyUserInterface(ISldWorks sldWorks)
         {
-
             PmpFactory = new QrPropertyManagerPage(sldWorks);
-            CommandTabs = new List<AddinCommandTab>() { new QrTab() };
+            QrTab = new QrTab();
+            CommandTabs = new List<AddinCommandTab>() { QrTab };
             var localappdata = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             IconsRootDir = new DirectoryInfo(Path.Combine(localappdata, "QrifyIcons"));
             this.PropertyManagerPages = new List<PropertyManagerPageX64> { PmpFactory };

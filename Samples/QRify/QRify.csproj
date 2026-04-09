@@ -46,23 +46,22 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <RegisterForComInterop>true</RegisterForComInterop>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
-    <PostBuildEvent>"%WINDIR%\\Microsoft.NET\\Framework64\\v4.0.30319\\RegAsm.exe" "$(MSBuildProjectDirectory)\\bin\\x64\\$(Configuration)\\QRify.dll" /codebase</PostBuildEvent>
+    <PostBuildEvent>"%WINDIR%\\Microsoft.NET\\Framework64\\v4.0.30319\\RegAsm.exe" "$(MSBuildProjectDirectory)\\bin\\x64\\$(Configuration)\\QRify.dll" /codebase /tlb</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <DocumentationFile>bin\Release\QRify.xml</DocumentationFile>
     <Optimize>true</Optimize>
-    <RegisterForComInterop>true</RegisterForComInterop>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
+    <PostBuildEvent>"%WINDIR%\\Microsoft.NET\\Framework64\\v4.0.30319\\RegAsm.exe" "$(MSBuildProjectDirectory)\\bin\\x64\\$(Configuration)\\QRify.dll" /codebase /tlb</PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
