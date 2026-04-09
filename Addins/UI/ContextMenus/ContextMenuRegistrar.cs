@@ -376,7 +376,7 @@ namespace Hymma.Solidworks.Addins.ContextMenus
                 unchecked
                 {
                     var hash = 17;
-                    hash = (hash * 31) + _selectionType.GetHashCode();
+                    hash = (hash * 31) + ((int)_selectionType).GetHashCode();
                     hash = (hash * 31) + StringComparer.OrdinalIgnoreCase.GetHashCode(_title);
                     return hash;
                 }

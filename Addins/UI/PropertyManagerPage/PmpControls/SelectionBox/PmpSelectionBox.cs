@@ -139,7 +139,7 @@ namespace Hymma.Solidworks.Addins
             // this is not available in SolidWORKS 2018 and earlier
             //SolidworksObject.EnableSelectIdenticalComponents = _enableSelectIdenticalComponents;
             SolidworksObject.Height = _height;
-            SolidworksObject.SetSelectionFilters(_filters.Cast<int>().ToArray());
+            SolidworksObject.SetSelectionFilters(_filters.Select(f => (int)f).ToArray());
             //Mark = AddinConstants.GetNextSelBoxMark();
 
             if (PopUpMenuItems != null)
@@ -167,7 +167,7 @@ namespace Hymma.Solidworks.Addins
                 return true;
             }
 
-            bool res = false; ;
+            bool res = true;
             foreach (var item in _selectionSubmittedEvents)
             {
                 res &= item.Invoke(this, new PmpSelectionBoxSelectionSubmittedEventArgs(selection, selectType, tag));
@@ -413,14 +413,14 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region events
-        readonly WeakEventSource<EventArgs> _focusChangedEvents = new WeakEventSource<EventArgs>();
-        readonly WeakEventSource<EventArgs> _callOutCreatedEvents = new WeakEventSource<EventArgs>();
-        readonly WeakEventSource<EventArgs> _callOutDestroyedEvents = new WeakEventSource<EventArgs>();
-        readonly WeakEventSource<PmpSelectionBoxListChangedEventArgs> _listChangedEvents = new WeakEventSource<PmpSelectionBoxListChangedEventArgs>();
+        readonly EventSource<EventArgs> _focusChangedEvents = new EventSource<EventArgs>();
+        readonly EventSource<EventArgs> _callOutCreatedEvents = new EventSource<EventArgs>();
+        readonly EventSource<EventArgs> _callOutDestroyedEvents = new EventSource<EventArgs>();
+        readonly EventSource<PmpSelectionBoxListChangedEventArgs> _listChangedEvents = new EventSource<PmpSelectionBoxListChangedEventArgs>();
 
         List<PmpSelectionBoxSelectionSubmittedEventHandler> _selectionSubmittedEvents = new List<PmpSelectionBoxSelectionSubmittedEventHandler>();
 
-        readonly WeakEventSource<PmpSelectionBoxDisplayingEventArgs> _displayingEvents = new WeakEventSource<PmpSelectionBoxDisplayingEventArgs>();
+        readonly EventSource<PmpSelectionBoxDisplayingEventArgs> _displayingEvents = new EventSource<PmpSelectionBoxDisplayingEventArgs>();
         /// <summary>
         /// Unsubscribes all event handlers from this selection box
         /// </summary>

@@ -99,7 +99,7 @@ namespace Hymma.Solidworks.Addins
             _checkedEvents?.Raise(this, status);
         }
 
-        private readonly WeakEventSource<bool> _checkedEvents = new WeakEventSource<bool>();
+        private readonly EventSource<bool> _checkedEvents = new EventSource<bool>();
         
         /// <summary>
         /// method to invoke when user checks a group <br/>

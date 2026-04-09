@@ -223,8 +223,8 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region events
-        readonly WeakEventSource<double> _positionChangedEvents = new WeakEventSource<double>();
-        readonly WeakEventSource<double> _trackingCompletedEvents = new WeakEventSource<double>();
+        readonly EventSource<double> _positionChangedEvents = new EventSource<double>();
+        readonly EventSource<double> _trackingCompletedEvents = new EventSource<double>();
         /// <summary>
         /// unsubscribes from all events
         /// </summary>

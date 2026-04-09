@@ -45,9 +45,9 @@ namespace Hymma.Solidworks.Extensions
             
             return obj.GetPathName().GetHashCode() ^
                         obj.ReferencedConfiguration.GetHashCode() ^
-                        obj.IsEnvelope().ToString().GetHashCode() ^
-                        obj.IsSuppressed().ToString().GetHashCode() ^
-                        obj.ExcludeFromBOM.ToString().GetHashCode();
+                        (obj.IsEnvelope() ? 1 : 0) ^
+                        (obj.IsSuppressed() ? 2 : 0) ^
+                        (obj.ExcludeFromBOM ? 4 : 0);
         }
     }
 }

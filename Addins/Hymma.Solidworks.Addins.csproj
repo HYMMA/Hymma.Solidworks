@@ -81,7 +81,7 @@
     <Compile Include="Core\IWrapSolidworksObject.cs" />
     <Compile Include="Core\OnConnectToSwEventArgs.cs" />
     <Compile Include="Core\SysColor.cs" />
-    <Compile Include="Core\WeakEventSource.cs" />
+    <Compile Include="Core\EventSource.cs" />
     <Compile Include="UI\ContextMenus\ContextMenuContext.cs" />
     <Compile Include="UI\ContextMenus\ContextMenuDefinition.cs" />
     <Compile Include="UI\ContextMenus\ContextMenuItem.cs" />

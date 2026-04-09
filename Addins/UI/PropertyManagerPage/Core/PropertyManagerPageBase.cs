@@ -69,14 +69,7 @@ namespace Hymma.Solidworks.Addins
             if (propertyManagerPage != null && errors == (int)swPropertyManagerPageStatus_e.swPropertyManagerPage_Okay)
             {
                 //add controls
-                try
-                {
-                    UiModel.RegisteringCallBack(propertyManagerPage);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                UiModel.RegisteringCallBack(propertyManagerPage);
             }
         }
 
@@ -129,7 +122,7 @@ namespace Hymma.Solidworks.Addins
 #if DEBUG
                 System.Diagnostics.Debug.WriteLine(e.Message);
 #endif
-                throw e;
+                throw;
             }
         }
     }

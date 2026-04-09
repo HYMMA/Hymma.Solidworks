@@ -10,8 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows.Controls;
 using WeakEvent;
 using Environment = System.Environment;
 
@@ -24,20 +22,20 @@ namespace Hymma.Solidworks.Addins
     {
         private PmpCloseReason closeReason;
 
-        readonly WeakEventSource<bool> helpClickedSrc = new WeakEventSource<bool>();
-        readonly WeakEventSource<EventArgs> afterActivationSrc = new WeakEventSource<EventArgs>();
+        readonly EventSource<bool> helpClickedSrc = new EventSource<bool>();
+        readonly EventSource<EventArgs> afterActivationSrc = new EventSource<EventArgs>();
 
-        readonly WeakEventSource<PmpCloseEventArgs> afterCloseSrc = new WeakEventSource<PmpCloseEventArgs>();
-        readonly WeakEventSource<PmpCloseEventArgs> closingSrc = new WeakEventSource<PmpCloseEventArgs>();
-        readonly WeakEventSource<bool> previousPageClickedSrc = new WeakEventSource<bool>();
-        readonly WeakEventSource<bool> nextPageClickedSrc = new WeakEventSource<bool>();
-        readonly WeakEventSource<bool> previewSrc = new WeakEventSource<bool>();
-        readonly WeakEventSource<EventArgs> whatsNewClickedSrc = new WeakEventSource<EventArgs>();
-        readonly WeakEventSource<EventArgs> undoClickedSrc = new WeakEventSource<EventArgs>();
-        readonly WeakEventSource<EventArgs> redoClickedSrc = new WeakEventSource<EventArgs>();
-        readonly WeakEventSource<EventArgs> registeringSrc = new WeakEventSource<EventArgs>();
-        readonly WeakEventSource<PmpTabClickedEventArgs> tabClickedSrc = new WeakEventSource<PmpTabClickedEventArgs>();
-        readonly WeakEventSource<PmpKeyStrokeEventArgs> keyStrokeSrc = new WeakEventSource<PmpKeyStrokeEventArgs>();
+        readonly EventSource<PmpCloseEventArgs> afterCloseSrc = new EventSource<PmpCloseEventArgs>();
+        readonly EventSource<PmpCloseEventArgs> closingSrc = new EventSource<PmpCloseEventArgs>();
+        readonly EventSource<bool> previousPageClickedSrc = new EventSource<bool>();
+        readonly EventSource<bool> nextPageClickedSrc = new EventSource<bool>();
+        readonly EventSource<bool> previewSrc = new EventSource<bool>();
+        readonly EventSource<EventArgs> whatsNewClickedSrc = new EventSource<EventArgs>();
+        readonly EventSource<EventArgs> undoClickedSrc = new EventSource<EventArgs>();
+        readonly EventSource<EventArgs> redoClickedSrc = new EventSource<EventArgs>();
+        readonly EventSource<EventArgs> registeringSrc = new EventSource<EventArgs>();
+        readonly EventSource<PmpTabClickedEventArgs> tabClickedSrc = new EventSource<PmpTabClickedEventArgs>();
+        readonly EventSource<PmpKeyStrokeEventArgs> keyStrokeSrc = new EventSource<PmpKeyStrokeEventArgs>();
         #region default constructor
 
         /// <summary>
@@ -81,9 +79,9 @@ namespace Hymma.Solidworks.Addins
                     {
                         icon.Save(iconName);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
-                        throw e;
+                        throw;
                     }
                 }
             }
@@ -92,7 +90,7 @@ namespace Hymma.Solidworks.Addins
 
         internal void UpdateOptions()
         {
-            if (keyStrokeSrc != null && !Options.HasFlag(PmpOptions.HandleKeystrokes))
+            if (keyStrokeSrc != null && (Options & PmpOptions.HandleKeystrokes) == 0)
                 Options |= PmpOptions.HandleKeystrokes;
         }
 
@@ -323,9 +321,9 @@ namespace Hymma.Solidworks.Addins
         internal void ClosingCallBack(int reason) { closingSrc.Raise(this, new PmpCloseEventArgs((PmpCloseReason)reason)); }
         internal bool PreviousPageClickedCallBack()
         {
-            if (!previewSrc.HasHandlers())
+            if (!previousPageClickedSrc.HasHandlers())
                 return false;
-            previewSrc.Raise(this, true);
+            previousPageClickedSrc.Raise(this, true);
             return true;
         }
         internal bool TabbedClickedCallBack(int id)
@@ -400,12 +398,11 @@ namespace Hymma.Solidworks.Addins
             }
 
             //register the controls in a group
-            void RegisterControls(IEnumerable<IPmpControl> controls)
+            void RegisterControls(IList<IPmpControl> controls)
             {
-
-                for (int j = 0; j < controls.Count(); j++)
+                for (int j = 0; j < controls.Count; j++)
                 {
-                    var control = controls.ElementAt(j);
+                    var control = controls[j];
 
                     //add to list
                     AllControls.Add(control);

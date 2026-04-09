@@ -147,7 +147,7 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region events
-        readonly WeakEventSource<string> _editEventSource = new WeakEventSource<string>();
+        readonly EventSource<string> _editEventSource = new EventSource<string>();
         /// <summary>
         /// unsubscribe from events
         /// </summary>

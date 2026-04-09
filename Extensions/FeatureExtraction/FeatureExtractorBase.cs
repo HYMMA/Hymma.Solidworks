@@ -4,6 +4,7 @@
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Hymma.Solidworks.Extensions.FeatureExtraction
 {
@@ -125,9 +126,13 @@ namespace Hymma.Solidworks.Extensions.FeatureExtraction
                         typeName == "3DProfileFeature" ||
                         typeName.Contains("Sketch"))
                     {
-                        return sketch.Name;
+                        var name = sketch.Name;
+                        Marshal.ReleaseComObject(sketch);
+                        return name;
                     }
+                    var prev = sketch;
                     sketch = sketch.GetNextSubFeature() as IFeature;
+                    Marshal.ReleaseComObject(prev);
                 }
             }
             catch

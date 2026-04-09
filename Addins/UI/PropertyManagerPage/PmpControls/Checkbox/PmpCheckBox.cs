@@ -103,7 +103,7 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region events
-        private readonly WeakEventSource<bool> _myEventSource = new WeakEventSource<bool>();
+        private readonly EventSource<bool> _myEventSource = new EventSource<bool>();
         /// <summary>
         /// unsubscribe from all events
         /// </summary>

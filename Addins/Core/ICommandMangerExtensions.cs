@@ -171,12 +171,12 @@ namespace Hymma.Solidworks.Addins.Core
                 #endregion
 
                 #region Add tab boxes
-                var groups = tab.CommandGroup.Commands.GroupBy(cmd => cmd.BoxId);
+                var groups = tab.CommandGroup.Commands.GroupBy(cmd => cmd.BoxId).ToList();
 
-                CommandTabBox[] tabBoxes = new CommandTabBox[groups.Count()];
-                for (int i = 0; i < groups.Count(); i++)
+                CommandTabBox[] tabBoxes = new CommandTabBox[groups.Count];
+                for (int i = 0; i < groups.Count; i++)
                 {
-                    var commandBox = groups.ElementAt(i);
+                    var commandBox = groups[i];
                     //add a command box
                     tabBoxes[i] = swCmdTab.AddCommandTabBox();
                     //get commands but exclude the dummy one we added to represent spacer

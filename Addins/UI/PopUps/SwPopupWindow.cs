@@ -216,7 +216,7 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
     /// <summary>
     /// allows using a WinFORM directly inside solidworks as a modal or modeless window
     /// </summary>
-    public class PopupWinForm
+    public class PopupWinForm : IDisposable
     {
         private readonly Form winForm;
         private readonly IWin32Window solidworksFrame;
@@ -254,23 +254,24 @@ namespace Hymma.Solidworks.Addins.UI.PopUps
         }
 
         /// <summary>
-        /// closes the window and disposes of the unmanaged resources
+        /// Closes the window and disposes of the underlying Form.
         /// </summary>
         public void Dispose()
-        {
-            Close();
-        }
-
-        /// <summary>
-        /// closes the window and disposes of the unmanaged resources
-        /// </summary>
-        public void Close()
         {
             if (!isDisposed)
             {
                 isDisposed = true;
                 winForm.Close();
+                winForm.Dispose();
             }
+        }
+
+        /// <summary>
+        /// Closes the window and releases resources.
+        /// </summary>
+        public void Close()
+        {
+            Dispose();
         }
 
         /// <summary>

@@ -270,8 +270,8 @@ namespace Hymma.Solidworks.Addins
 
         #region events
 
-        private readonly WeakEventSource<string> _editEventSource = new WeakEventSource<string>();
-        private readonly WeakEventSource<int> _selectionEventSource = new WeakEventSource<int>();
+        private readonly EventSource<string> _editEventSource = new EventSource<string>();
+        private readonly EventSource<int> _selectionEventSource = new EventSource<int>();
         /// <summary>
         /// Unsubscribes all event handlers from events
         /// </summary>

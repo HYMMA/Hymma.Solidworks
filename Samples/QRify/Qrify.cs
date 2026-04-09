@@ -599,8 +599,8 @@ namespace QRify
 
             //Restrictions imposed by SolidWORKS API:
             //These two methods must be defined in the addin class (addin class inherits from AddinMaker.cs)
-            this.EnableMethod = "EnablePropertyMangagerPage";
-            this.CallBackFunction = "ShowQrifyPropertyManagerPage";
+            this.EnableMethod = nameof(Qrify.EnablePropertyManagerPage);
+            this.CallBackFunction = nameof(Qrify.ShowQrifyPropertyManagerPage);
 
             this.Name = "QRify";
             this.HintString = "Get QR code";
@@ -618,8 +618,8 @@ namespace QRify
             this.IconBitmap = Properties.Resources.info;
             this.UserId = 2;
 
-            this.EnableMethod = "EnablePropertyMangagerPage";
-            this.CallBackFunction = "ShowQrifyPropertyManagerPage";
+            this.EnableMethod = nameof(Qrify.EnablePropertyManagerPage);
+            this.CallBackFunction = nameof(Qrify.ShowQrifyPropertyManagerPage);
 
             ToolTip = "Help for Qrify";
             HintString = "How to get help!";

@@ -40,7 +40,7 @@ namespace Hymma.Solidworks.Extensions
             var diff = Math.Abs(v1 - v2);
 
             //based on wire cutting which has 1E-5(m) percision
-            return Math.Round(diff, (5)) == 0;
+            return Math.Round(diff, digits) == 0;
         }
 
         /// <summary>

@@ -111,8 +111,8 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region events
-        readonly WeakEventSource<EventArgs> _displayingEvents = new WeakEventSource<EventArgs>();
-        readonly WeakEventSource<EventArgs> _clickedEvents = new WeakEventSource<EventArgs>();
+        readonly EventSource<EventArgs> _displayingEvents = new EventSource<EventArgs>();
+        readonly EventSource<EventArgs> _clickedEvents = new EventSource<EventArgs>();
         /// <summary>
         /// unsubscribe all event handlers from this tab
         /// </summary>

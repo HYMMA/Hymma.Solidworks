@@ -211,11 +211,11 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region events
-        private readonly WeakEventSource<string> _txtChangedEvents = new WeakEventSource<string>();
-        private readonly WeakEventSource<string> _selectionChangedEvents = new WeakEventSource<string>();
-        private readonly WeakEventSource<double> _changingEvents = new WeakEventSource<double>();
-        private readonly WeakEventSource<double> _trackingCompletedEvents = new WeakEventSource<double>();
-        private readonly WeakEventSource<PmpNumberBoxDisplayingEventArgs> _displayingEvents = new WeakEventSource<PmpNumberBoxDisplayingEventArgs>();
+        private readonly EventSource<string> _txtChangedEvents = new EventSource<string>();
+        private readonly EventSource<string> _selectionChangedEvents = new EventSource<string>();
+        private readonly EventSource<double> _changingEvents = new EventSource<double>();
+        private readonly EventSource<double> _trackingCompletedEvents = new EventSource<double>();
+        private readonly EventSource<PmpNumberBoxDisplayingEventArgs> _displayingEvents = new EventSource<PmpNumberBoxDisplayingEventArgs>();
 
         /// <summary>
         /// Unsubscribes all event handlers from this control events

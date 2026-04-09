@@ -71,6 +71,7 @@ namespace Hymma.Solidworks.Addins
                 {
                     MaskedBitmap.SaveAsPng(bitmap, bitmap.Size, ref fullFileName, true, opacity);
                 }
+                _bitmap = null;
             }
             SolidworksObject.SetBitmapByName(fullFileName, "");
         }

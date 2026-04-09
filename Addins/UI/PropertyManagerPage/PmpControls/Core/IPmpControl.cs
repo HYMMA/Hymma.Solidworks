@@ -348,11 +348,11 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region events
-        private readonly WeakEventSource<PmpControlDisplayingEventArgs> _displayingEventSource = new WeakEventSource<PmpControlDisplayingEventArgs>();
+        private readonly EventSource<PmpControlDisplayingEventArgs> _displayingEventSource = new EventSource<PmpControlDisplayingEventArgs>();
 
-        private readonly WeakEventSource<EventArgs> _gainedFocusEventSource = new WeakEventSource<EventArgs>();
-        private readonly WeakEventSource<EventArgs> _lostFocusEventSource = new WeakEventSource<EventArgs>();
-        private readonly WeakEventSource<EventArgs> _registeringEventSource = new WeakEventSource<EventArgs>();
+        private readonly EventSource<EventArgs> _gainedFocusEventSource = new EventSource<EventArgs>();
+        private readonly EventSource<EventArgs> _lostFocusEventSource = new EventSource<EventArgs>();
+        private readonly EventSource<EventArgs> _registeringEventSource = new EventSource<EventArgs>();
 
         /// <summary>
         /// fired when this controller is registered in a property manager page which is when the add-in is loaded. Either when solidworks starts or when user re-loads the addin

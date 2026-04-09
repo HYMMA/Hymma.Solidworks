@@ -19,8 +19,8 @@ namespace Hymma.Solidworks.Addins
         private bool _rowIsInactive;
         private bool _ignored;
         private Tuple<double, double, double> _target;
-        private readonly WeakEventSource<CalloutRowTargetChangedEventArgs> targetChangedSource = new WeakEventSource<CalloutRowTargetChangedEventArgs>();
-        private readonly WeakEventSource<string> valueChangedSource = new WeakEventSource<string>();
+        private readonly EventSource<CalloutRowTargetChangedEventArgs> targetChangedSource = new EventSource<CalloutRowTargetChangedEventArgs>();
+        private readonly EventSource<string> valueChangedSource = new EventSource<string>();
         /// <summary>
         /// constructor
         /// </summary>

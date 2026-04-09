@@ -303,13 +303,14 @@ namespace Hymma.Solidworks.Addins
         {
             //get selection box
             PmpSelectionBox selectionBox = UiModel.GetControl(Id) as PmpSelectionBox;
+            if (selectionBox == null) return;
 
             //update the cursor if user has assigned value to it
             if (selectionBox.CursorStyle != PmpCursorStyles.None)
                 UiModel.SetCursor(selectionBox.CursorStyle);
 
             //invoke delegate
-            selectionBox?.ListChangedCallback(Count);
+            selectionBox.ListChangedCallback(Count);
         }
 
         /// <summary>
@@ -443,16 +444,7 @@ namespace Hymma.Solidworks.Addins
         public void OnGainedFocus(int Id)
         {
             var control = UiModel.GetControl(Id);
-            try
-            {
-
-                control?.GainedFocusCallback();
-            }
-            catch (Exception e)
-            {
-
-                throw e;
-            }
+            control?.GainedFocusCallback();
         }
 
         /// <summary>
@@ -462,14 +454,7 @@ namespace Hymma.Solidworks.Addins
         public void OnLostFocus(int Id)
         {
             var control = UiModel.GetControl(Id);
-            try
-            {
-                control?.LostFocusCallback();
-            }
-            catch (Exception )
-            {
-                throw;
-            }
+            control?.LostFocusCallback();
         }
 
         /// <summary>

@@ -9,7 +9,6 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Windows.Media.Animation;
 
 namespace Hymma.Solidworks.Addins
 {
@@ -258,17 +257,10 @@ namespace Hymma.Solidworks.Addins
 
                 using (combinedImage)
                 {
-                    try
-                    {
-                        var sb = new StringBuilder(filenamePrepend);
-                        sb.Append(size).Append(".png");
-                        stripes[i] = Path.Combine(IconsDir.FullName, sb.ToString());
-                        combinedImage.Save(stripes[i], ImageFormat.Png);
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
+                    var sb = new StringBuilder(filenamePrepend);
+                    sb.Append(size).Append(".png");
+                    stripes[i] = Path.Combine(IconsDir.FullName, sb.ToString());
+                    combinedImage.Save(stripes[i], ImageFormat.Png);
                 }
             }
             ;

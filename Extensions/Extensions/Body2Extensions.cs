@@ -5,6 +5,7 @@ using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Hymma.Solidworks.Extensions
 {
@@ -84,12 +85,16 @@ namespace Hymma.Solidworks.Extensions
         /// <returns></returns>
         public static Feature GetFeatureByName(this Body2 body, string name, bool ExcludeSuppressed = true)
         {
-            //feature names should be unique in solidworks 
+            //feature names should be unique in solidworks
             //so we always get one object in return
             foreach (Feature feature in (object[])body.GetFeatures())
             {
                 if (feature.Name == name)
+                {
+                    if (ExcludeSuppressed && feature.IsSuppressed())
+                        continue;
                     return feature;
+                }
             }
             return null;
         }
@@ -196,15 +201,15 @@ namespace Hymma.Solidworks.Extensions
         public static Face2 GetWidestFace(this Body2 body)
         {
             object[] faces = (object[])body.GetFaces();
-            var areas = new List<double>(new double[] { 0 });
+            double maxArea = 0;
             Face2 biggest = default(Face2);
             foreach (Face2 face in faces)
             {
                 if (face == null) continue;
                 var area = face.GetArea();
-                if (area > areas.Last())
+                if (area > maxArea)
                 {
-                    areas.Add(area);
+                    maxArea = area;
                     biggest = face;
                 }
             }
@@ -232,7 +237,7 @@ namespace Hymma.Solidworks.Extensions
         public static Feature GetCutListFolder(this Body2 body, PartDoc part, SldWorks solidwork)
         {
             //if this body is neither sheetMetal nor weldment return null
-            if (!body.IsSheetMetal() || !body.IsWeldment()) return null;
+            if (!body.IsSheetMetal() && !body.IsWeldment()) return null;
             Feature feature = (Feature)part.FirstFeature();
             while (feature != null)
             {
@@ -247,7 +252,10 @@ namespace Hymma.Solidworks.Extensions
                             return feature;
                     }
                 }
+                var prev = feature;
                 feature = feature.GetNextFeature() as Feature;
+                if (prev != null)
+                    Marshal.ReleaseComObject(prev);
             }
             return null;
         }
@@ -335,7 +343,10 @@ namespace Hymma.Solidworks.Extensions
                     default:
                         break;
                 }
+                var prevSub = swSubFeat;
                 swSubFeat = (Feature)swSubFeat.GetNextSubFeature();
+                if (prevSub != null)
+                    Marshal.ReleaseComObject(prevSub);
             }
             return points;
         }
@@ -381,7 +392,10 @@ namespace Hymma.Solidworks.Extensions
                     default:
                         break;
                 }
+                var prevSub = swSubFeat;
                 swSubFeat = (Feature)swSubFeat.GetNextSubFeature();
+                if (prevSub != null)
+                    Marshal.ReleaseComObject(prevSub);
             }
             return new double[6] { points.Min(p => p.X), points.Min(p => p.Y), points.Min(p => p.Z), points.Max(p => p.X), points.Max(p => p.Y), points.Max(p => p.Z) };
         }

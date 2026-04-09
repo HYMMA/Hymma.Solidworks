@@ -1,22 +1,13 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
-using SolidWorks.Interop.swconst;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
 
 namespace WeakEvent 
 {
-    internal sealed class WeakEventSource<TEventArgs>
+    internal sealed class EventSource<TEventArgs>
     {
         private List<EventHandler<TEventArgs>> _handlers = new List<EventHandler<TEventArgs>>();
 

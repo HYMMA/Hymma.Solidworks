@@ -78,8 +78,8 @@ namespace Hymma.Solidworks.Addins
         public int Id { get;internal set; }
 
         #region call backs
-        readonly WeakEventSource<int> _updatedEvents = new WeakEventSource<int>();
-        readonly WeakEventSource<EventArgs> _pressedEvents = new WeakEventSource<EventArgs>();
+        readonly EventSource<int> _updatedEvents = new EventSource<int>();
+        readonly EventSource<EventArgs> _pressedEvents = new EventSource<EventArgs>();
         internal void UpdatedCallback(int u) => _updatedEvents?.Raise(this,u);
         internal void PressedCallback() => _pressedEvents?.Raise(this,EventArgs.Empty);
 

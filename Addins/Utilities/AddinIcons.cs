@@ -51,16 +51,21 @@ namespace Hymma.Solidworks.Addins
         {
             var a = Assembly.GetAssembly(t);
             var r = new ResourceManager(resxName, a);
-            ResourceSet set = r.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
-
-            foreach (System.Collections.DictionaryEntry entry in set)
+            using (var set = r.GetResourceSet(CultureInfo.CurrentUICulture, true, true))
             {
-                if (string.Equals(entry.Key.ToString(), imageName, StringComparison.OrdinalIgnoreCase))
+                if (set == null)
+                    return null;
+
+                foreach (System.Collections.DictionaryEntry entry in set)
                 {
-                    return entry.Value as Bitmap;
+                    if (string.Equals(entry.Key.ToString(), imageName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Clone the bitmap so it survives disposal of the ResourceSet
+                        var original = entry.Value as Bitmap;
+                        return original != null ? new Bitmap(original) : null;
+                    }
                 }
             }
-            //log.Warning($"image {imageName} did not exist in {resxName}");
             return null;
         }
 
@@ -143,13 +148,14 @@ namespace Hymma.Solidworks.Addins
         {
         
             var pmpTitles = addinUi.PropertyManagerPages.Select(p => p.UiModel.Title)
-                                                          .Select(t => PathHelpers.RemoveInvalidFileNameChars(t));
+                                                          .Select(t => PathHelpers.RemoveInvalidFileNameChars(t))
+                                                          .ToList();
             if (!AreUnique(pmpTitles))
             {
                 for (int i = 0; i < addinUi.PropertyManagerPages.Count; i++)
                 {
                     var pmp = addinUi.PropertyManagerPages[i];
-                    var sub = "pmp" + pmpTitles.ElementAt(i) + i;
+                    var sub = "pmp" + pmpTitles[i] + i;
                     pmp.UiModel.IconDir = addinUi.IconsRootDir.CreateSubdirectory(sub);
                 }
             }
@@ -158,7 +164,7 @@ namespace Hymma.Solidworks.Addins
                 for (int i = 0; i < addinUi.PropertyManagerPages.Count; i++)
                 {
                     var pmp = addinUi.PropertyManagerPages[i];
-                    var sub = "pmp" + pmpTitles.ElementAt(i);
+                    var sub = "pmp" + pmpTitles[i];
                     pmp.UiModel.IconDir = addinUi.IconsRootDir.CreateSubdirectory(sub);
                 }
             }
@@ -174,7 +180,8 @@ namespace Hymma.Solidworks.Addins
         {
             
             var tabTitles = addinUi.CommandTabs.Select(p => p.Title)
-                                                          .Select(t => PathHelpers.RemoveInvalidFileNameChars(t));
+                                                          .Select(t => PathHelpers.RemoveInvalidFileNameChars(t))
+                                                          .ToList();
             if (!AreUnique(tabTitles))
             {
                 for (int i = 0; i < addinUi.CommandTabs.Count; i++)
@@ -209,10 +216,10 @@ namespace Hymma.Solidworks.Addins
             CreatePropertyManagerPageIconsDir(addinUi);
         }
 
-        static bool AreUnique(IEnumerable<string> validTitles)
+        static bool AreUnique(IList<string> validTitles)
         {
             var set = new HashSet<string>(validTitles);
-            return set.Count == validTitles.Count();
+            return set.Count == validTitles.Count;
         }
 
 

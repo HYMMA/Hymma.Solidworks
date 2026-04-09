@@ -8,7 +8,6 @@ using Hymma.Solidworks.Addins.Utilities.DotNet;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swpublished;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -78,12 +77,7 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         protected CommandManager _commandManager;
 
-        /// <summary>
-        /// a collection of documents and their associated events
-        /// </summary>
-        protected Hashtable documentsEventsRepo;
-
-        /// <summary>
+            /// <summary>
         /// construct the data model for this addin here
         /// </summary>
         private AddinUserInterface _addinUi;
@@ -145,20 +139,10 @@ namespace Hymma.Solidworks.Addins
         /// </summary>
         private void RemovePMPs(List<PropertyManagerPageX64> propertyManagerPages)
         {
-            for (int i = 0; i < propertyManagerPages.Count(); i++)
+            for (int i = 0; i < propertyManagerPages.Count; i++)
             {
                 propertyManagerPages[i].Release();
             }
-        }
-
-        private void DetachEventsFromAllDocuments()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void DetachSwEvents()
-        {
-            throw new NotImplementedException();
         }
 
         private void RemoveCmdTabs(IEnumerable<AddinCommandTab> commandTabs)
@@ -209,9 +193,6 @@ namespace Hymma.Solidworks.Addins
         public bool ConnectToSW(object ThisSW, int Cookie)
         {
             Solidworks = (ISldWorks)ThisSW;
-            //fire event
-            _onStartEvents?.Raise(this, new OnConnectToSwEventArgs { Solidworks = Solidworks, Cookie = Cookie });
-            _onStartEvents.ClearHandlers();
             _addinUi = GetUserInterFace();
             _addinUi.Id = Cookie;
 
@@ -259,49 +240,19 @@ namespace Hymma.Solidworks.Addins
         /// <returns></returns>
         public void AddCommands(IEnumerable<AddinCommandTab> commandTabs)
         {
-            try
+            foreach (var tab in commandTabs)
             {
-                foreach (var tab in commandTabs)
-                {
-                    ////validate commands
-                    //foreach (var command in tab.CommandGroup.Commands)
-                    //{
-                    //    //if it is a spacer, skip
-                    //    if (string.IsNullOrEmpty(command.EnableMethod) || string.IsNullOrEmpty(command.CallBackFunction))
-                    //        continue;
-
-                    //    var enableMethod = this.GetType().GetMethod(command.EnableMethod);
-                    //    var callBackFunction = this.GetType().GetMethod(command.CallBackFunction);
-                    //    if (enableMethod.ReturnType != typeof(int))
-                    //    {
-                    //        throw new Exception($"Enable method '{command.EnableMethod}' must return int but it is returning {enableMethod.ReturnType}");
-                    //    }
-                    //    if (!enableMethod.IsPublic)
-                    //    {
-                    //        throw new Exception($"Enable method '{command.EnableMethod}' must be public");
-                    //    }
-                    //    if(callBackFunction.ReturnType != typeof(void))
-                    //    {
-                    //        throw new Exception($"Callback function '{command.CallBackFunction}' must be void");
-                    //    }
-                    //    if (!callBackFunction.IsPublic)
-                    //    {
-                    //        throw new Exception($"Callback function '{command.CallBackFunction}' must be public");
-                    //    }
-                    //}
-                    _commandManager.Register(tab.CommandGroup);
-                    _commandManager.Register(tab);
-                }
+                _commandManager.Register(tab.CommandGroup);
+                _commandManager.Register(tab);
             }
-            catch (Exception) { throw; }
         }
         #endregion
 
         #region Events
 
-        readonly WeakEventSource<OnConnectToSwEventArgs> _onStartEvents = new WeakEventSource<OnConnectToSwEventArgs>();
-        readonly WeakEventSource<OnConnectToSwEventArgs> _onExitEvents = new WeakEventSource<OnConnectToSwEventArgs>();
-        readonly WeakEventSource<OnConnectToSwEventArgs> _onUiReadyEvents = new WeakEventSource<OnConnectToSwEventArgs>();
+        readonly EventSource<OnConnectToSwEventArgs> _onStartEvents = new EventSource<OnConnectToSwEventArgs>();
+        readonly EventSource<OnConnectToSwEventArgs> _onExitEvents = new EventSource<OnConnectToSwEventArgs>();
+        readonly EventSource<OnConnectToSwEventArgs> _onUiReadyEvents = new EventSource<OnConnectToSwEventArgs>();
         /// <summary>
         /// Occurs when the add-in successfully connects to SolidWorks.
         /// </summary>
@@ -311,8 +262,7 @@ namespace Hymma.Solidworks.Addins
         /// and perform any initialization that requires SolidWorks to be available.
         /// </para>
         /// <para>
-        /// The event uses weak references to prevent memory leaks. Handlers are automatically
-        /// cleared after the event fires.
+        /// Handlers are automatically cleared after the event fires.
         /// </para>
         /// </remarks>
         /// <example>
@@ -350,8 +300,7 @@ namespace Hymma.Solidworks.Addins
         /// and release any COM objects.
         /// </para>
         /// <para>
-        /// The event uses weak references to prevent memory leaks. Handlers are automatically
-        /// cleared after the event fires.
+        /// Handlers are automatically cleared after the event fires.
         /// </para>
         /// </remarks>
         /// <example>

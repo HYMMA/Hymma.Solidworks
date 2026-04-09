@@ -198,7 +198,7 @@ namespace Hymma.Solidworks.Addins
             _displayingEvents?.Raise(this, new PmpLabelDisplayingEventArgs(this));
         }
         #endregion
-        private readonly WeakEventSource<PmpLabelDisplayingEventArgs> _displayingEvents= new WeakEventSource<PmpLabelDisplayingEventArgs>();
+        private readonly EventSource<PmpLabelDisplayingEventArgs> _displayingEvents= new EventSource<PmpLabelDisplayingEventArgs>();
         /// <summary>
         /// unsubscribes all event handlers
         /// </summary>

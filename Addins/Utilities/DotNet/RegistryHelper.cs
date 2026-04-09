@@ -26,27 +26,31 @@ namespace Hymma.Solidworks.Addins.Helpers
                 //on development machines these registry values will be set during compile time via regasm.exe, visual studio will take care of that
                 var addinAttribute = type.TryGetAttribute<AddinAttribute>(false);
                 string key = "SOFTWARE\\SolidWorks\\Addins\\{" + type.GUID.ToString() + "}";
-                RegistryKey addinKey = Registry.LocalMachine.CreateSubKey(key);
-                addinKey.SetValue(null, 0);
+                using (RegistryKey addinKey = Registry.LocalMachine.CreateSubKey(key))
+                {
+                    addinKey.SetValue(null, 0);
+                    addinKey.SetValue("Description", addinAttribute.Description);
+                    addinKey.SetValue("Title", addinAttribute.Title);
 
-                addinKey.SetValue("Description", addinAttribute.Description);
-                addinKey.SetValue("Title", addinAttribute.Title);
+                    var icon = AddinIcons.GetAddinIcon(type);
+                    using (icon)
+                    {
+                        var localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                        var path = Path.Combine(localAppDataFolder, addinAttribute.Title+"_Addin_Icon");
+                        var addinIconFileName = AddinIcons.SaveAsStandardSize(icon, path, addinAttribute.Title);
+                        addinKey.SetValue("Icon Path", addinIconFileName);
+                    }
+                }
 
                 key = "Software\\SolidWorks\\AddInsStartup\\{" + type.GUID.ToString() + "}";
-                RegistryKey addinStartUpKey = Registry.CurrentUser.CreateSubKey(key);
-                addinStartUpKey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
-
-                var icon = AddinIcons.GetAddinIcon(type);
-                using (icon)
+                using (RegistryKey addinStartUpKey = Registry.CurrentUser.CreateSubKey(key))
                 {
-                    var localAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                    var path = Path.Combine(localAppDataFolder, addinAttribute.Title+"_Addin_Icon");
-                    var addinIconFileName = AddinIcons.SaveAsStandardSize(icon, path, addinAttribute.Title);
-                    addinKey.SetValue("Icon Path", addinIconFileName);
+                    addinStartUpKey.SetValue(null, Convert.ToInt32(addinAttribute.LoadAtStartup), RegistryValueKind.DWord);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"Failed to register SolidWorks add-in: {ex.Message}");
             }
         }
 
@@ -64,8 +68,9 @@ namespace Hymma.Solidworks.Addins.Helpers
                 key = "Software\\SolidWorks\\AddInsStartup\\{" + type.GUID.ToString() + "}";
                 Registry.CurrentUser.DeleteSubKey(key);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"Failed to unregister SolidWorks add-in: {ex.Message}");
             }
         }
     }

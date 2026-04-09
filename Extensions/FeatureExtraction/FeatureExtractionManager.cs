@@ -5,6 +5,7 @@ using Hymma.Solidworks.Extensions.FeatureExtraction.Extractors;
 using SolidWorks.Interop.sldworks;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Hymma.Solidworks.Extensions.FeatureExtraction
 {
@@ -215,7 +216,9 @@ namespace Hymma.Solidworks.Extensions.FeatureExtraction
                 // Skip system features if requested
                 if (!includeSystemFeatures && IsSystemFeature(typeName))
                 {
+                    var skip = feature;
                     feature = feature.IGetNextFeature();
+                    Marshal.ReleaseComObject(skip);
                     continue;
                 }
 
@@ -225,7 +228,9 @@ namespace Hymma.Solidworks.Extensions.FeatureExtraction
                     result.Add(data);
                 }
 
+                var prev = feature;
                 feature = feature.IGetNextFeature();
+                Marshal.ReleaseComObject(prev);
             }
 
             return result;

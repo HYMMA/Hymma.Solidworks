@@ -189,21 +189,21 @@ namespace Hymma.Solidworks.Addins
             //any following option without this value set are considered part of the group; the next option with this value set indicates the start of a new option group
             //we assume all the radio buttons in a PMPGroup are members of a group so we assign a value of 1 to the first one
             //get all radio buttons ...
-            var groupOptions = Controls.Where(c => c.Type == swPropertyManagerPageControlType_e.swControlType_Option).Cast<PmpRadioButton>();
+            var groupOptions = Controls.Where(c => c.Type == swPropertyManagerPageControlType_e.swControlType_Option).Cast<PmpRadioButton>().ToList();
 
-            if (groupOptions.Count() > 0)
+            if (groupOptions.Count > 0)
             {
-                groupOptions.ElementAt(0).SolidworksObject.Style = 1;
+                groupOptions[0].SolidworksObject.Style = 1;
 
-                //if the checked radio button should maintain its state 
+                //if the checked radio button should maintain its state
                 //across different sessions of the property manager page
                 //the rest of the radio buttons should do the same which means the rest of them
                 //stay un-checked in the next run
                 if (groupOptions.Any(c => c.MaintainState))
                 {
-                    for (int j = 0; j < groupOptions.Count(); j++)
+                    for (int j = 0; j < groupOptions.Count; j++)
                     {
-                        groupOptions.ElementAt(j).MaintainState = true;
+                        groupOptions[j].MaintainState = true;
                     }
                 }
             }
@@ -251,9 +251,9 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region events
-        WeakEventSource<EventArgs> _regesteringEvents = new WeakEventSource<EventArgs>();
-        WeakEventSource<EventArgs> _displayingEvents = new WeakEventSource<EventArgs>();
-        WeakEventSource<bool> _expandedEvents = new WeakEventSource<bool>();
+        EventSource<EventArgs> _regesteringEvents = new EventSource<EventArgs>();
+        EventSource<EventArgs> _displayingEvents = new EventSource<EventArgs>();
+        EventSource<bool> _expandedEvents = new EventSource<bool>();
         /// <summary>
         /// invoked once this group is registers into solidworks
         /// </summary>

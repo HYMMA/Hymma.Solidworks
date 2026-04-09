@@ -34,7 +34,7 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region events
-        private readonly WeakEventSource<EventArgs> _clickedEvents = new WeakEventSource<EventArgs>();
+        private readonly EventSource<EventArgs> _clickedEvents = new EventSource<EventArgs>();
 
         /// <summary>
         /// invoked when this button is clicked

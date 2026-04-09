@@ -4,6 +4,7 @@
 using SolidWorks.Interop.sldworks;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Hymma.Solidworks.Extensions
 {
@@ -26,7 +27,9 @@ namespace Hymma.Solidworks.Extensions
             {
                 if (feature.GetTypeName2() == "BomFeat")
                     listOfBom.Add(feature.GetSpecificFeature2());
+                var prev = feature;
                 feature = feature.GetNextFeature() as Feature;
+                Marshal.ReleaseComObject(prev);
             }
             return listOfBom;
         }

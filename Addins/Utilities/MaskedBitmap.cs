@@ -188,15 +188,19 @@ namespace Hymma.Solidworks.Addins
         {
             if (original == null)
                 throw new ArgumentNullException(nameof(original));
-            var maskImage = GetImageMask(original, allowPartialOpacity, opacityThreshold, invertedMask);
-            if (original.Width != maskImage.Width || original.Height != maskImage.Height)
+
+            Bitmap maskImage = null;
+            Bitmap maskedImage = null;
+            try
             {
-                throw new ArgumentOutOfRangeException("Error: mask and image must have the same size");
-            }
-            else
-            {
+                maskImage = GetImageMask(original, allowPartialOpacity, opacityThreshold, invertedMask);
+                if (original.Width != maskImage.Width || original.Height != maskImage.Height)
+                {
+                    throw new ArgumentOutOfRangeException("Error: mask and image must have the same size");
+                }
+
                 //allocate the Masked image in ARGB format
-                var maskedImage = Create32bppImageAndClearAlpha(original);
+                maskedImage = Create32bppImageAndClearAlpha(original);
 
                 BitmapData bmpData1 = maskedImage.LockBits(new Rectangle(0, 0, maskedImage.Width, maskedImage.Height), System.Drawing.Imaging.ImageLockMode.ReadWrite, maskedImage.PixelFormat);
                 byte[] maskedImageRGBAData = new byte[bmpData1.Stride * bmpData1.Height];
@@ -210,16 +214,23 @@ namespace Hymma.Solidworks.Addins
                 for (int i = 0; i + 2 < maskedImageRGBAData.Length; i += 4)
                 {
                     maskedImageRGBAData[i + 3] = maskImageRGBAData[i];
-
                 }
                 Marshal.Copy(maskedImageRGBAData, 0, bmpData1.Scan0, maskedImageRGBAData.Length);
                 maskedImage.UnlockBits(bmpData1);
                 maskImage.UnlockBits(bmpData2);
-                return maskedImage;
+
+                var result = maskedImage;
+                maskedImage = null; // prevent disposal — caller owns it
+                return result;
+            }
+            finally
+            {
+                maskImage?.Dispose();
+                maskedImage?.Dispose();
             }
         }
 
-        //converts a 24bpp bitmap to another that supports alpha layer whith 32bpp 
+        //converts a 24bpp bitmap to another that supports alpha layer whith 32bpp
         static Bitmap Create32bppImageAndClearAlpha(Bitmap tmpImage)
         {
             // declare the new image that will be returned by the function
@@ -227,23 +238,24 @@ namespace Hymma.Solidworks.Addins
 
             // create a graphics instance to draw the original image in the new one
             Rectangle rect = new Rectangle(0, 0, tmpImage.Width, tmpImage.Height);
-            Graphics g = Graphics.FromImage(returnedImage);
 
-            // create an image attribe to force a clearing of the alpha layer
-            ImageAttributes imageAttributes = new ImageAttributes();
-            float[][] colorMatrixElements = {
-                        new float[] {1,0,0,0,0},
-                        new float[] {0,1,0,0,0},
-                        new float[] {0,0,1,0,0},
-                        new float[] {0,0,0,0,0},
-                        new float[] {0,0,0,1,1}};
+            // create an image attribute to force a clearing of the alpha layer
+            using (var g = Graphics.FromImage(returnedImage))
+            using (var imageAttributes = new ImageAttributes())
+            {
+                float[][] colorMatrixElements = {
+                            new float[] {1,0,0,0,0},
+                            new float[] {0,1,0,0,0},
+                            new float[] {0,0,1,0,0},
+                            new float[] {0,0,0,0,0},
+                            new float[] {0,0,0,1,1}};
 
-            ColorMatrix colorMatrix = new ColorMatrix(colorMatrixElements);
-            imageAttributes.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+                ColorMatrix colorMatrix = new ColorMatrix(colorMatrixElements);
+                imageAttributes.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
-            // draw the original image 
-            g.DrawImage(tmpImage, rect, 0, 0, tmpImage.Width, tmpImage.Height, GraphicsUnit.Pixel, imageAttributes);
-            g.Dispose();
+                // draw the original image
+                g.DrawImage(tmpImage, rect, 0, 0, tmpImage.Width, tmpImage.Height, GraphicsUnit.Pixel, imageAttributes);
+            }
             return returnedImage;
         }
     }

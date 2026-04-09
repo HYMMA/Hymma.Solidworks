@@ -1,13 +1,11 @@
 ﻿// Copyright (C) HYMMA All rights reserved.
 // Licensed under the MIT license
 
-using EnvDTE;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 using System;
 using System.Drawing;
 using System.IO;
-using System.Net;
 using System.Runtime.InteropServices;
 
 namespace Hymma.Solidworks.Extensions
@@ -260,10 +258,6 @@ namespace Hymma.Solidworks.Extensions
             try
             {
                 action.Invoke();
-            }
-            catch (Exception)
-            {
-                throw;
             }
             finally
             {

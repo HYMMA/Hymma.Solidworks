@@ -40,15 +40,14 @@ namespace Hymma.Solidworks.Addins
             {
                 _commandGroup = value;
 
-                var groups = _commandGroup.Commands.GroupBy(c => c.BoxId);
+                var groups = _commandGroup.Commands.GroupBy(c => c.BoxId).ToList();
                 var commandsWithSpacers = new List<AddinCommand>();
-                for (int i = 0; i < groups.Count(); i++)
+                for (int i = 0; i < groups.Count; i++)
                 {
-                    var group = groups.ElementAt(i);
-                    commandsWithSpacers.AddRange(group.Select(cmd => cmd));
+                    commandsWithSpacers.AddRange(groups[i]);
 
                     //except for the last group ...
-                    if (i + 1 < groups.Count())
+                    if (i + 1 < groups.Count)
 
                         //add a dummy command to indicate spacer
                         commandsWithSpacers.Add(new AddinCommand() { UserId = -1, IconBitmap = new Bitmap(128, 128), Index = -1, SolidworksId = -1 });

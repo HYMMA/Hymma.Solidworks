@@ -3,6 +3,7 @@
 
 using SolidWorks.Interop.sldworks;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Hymma.Solidworks.Extensions
 {
@@ -96,10 +97,16 @@ namespace Hymma.Solidworks.Extensions
             double centerU = (vUvBounds[0] + vUvBounds[1]) / 2;
             double centerV = (vUvBounds[2] + vUvBounds[3]) / 2;
             var swSurf = face.GetSurface() as Surface;
-
-            var vEvalRes = swSurf.Evaluate(centerU, centerV, 0, 0) as double[];
-            double[] point = new double[3] { vEvalRes[0], vEvalRes[1], vEvalRes[2] };
-            return point;
+            try
+            {
+                var vEvalRes = swSurf.Evaluate(centerU, centerV, 0, 0) as double[];
+                double[] point = new double[3] { vEvalRes[0], vEvalRes[1], vEvalRes[2] };
+                return point;
+            }
+            finally
+            {
+                if (swSurf != null) Marshal.ReleaseComObject(swSurf);
+            }
         }
 
         /// <summary>
@@ -110,7 +117,14 @@ namespace Hymma.Solidworks.Extensions
         public static bool IsPlanar(this Face2 face)
         {
             Surface surface = (Surface)face.GetSurface();
-            return surface.IsPlane();
+            try
+            {
+                return surface.IsPlane();
+            }
+            finally
+            {
+                if (surface != null) Marshal.ReleaseComObject(surface);
+            }
         }
 
         /// <summary>
@@ -149,14 +163,16 @@ namespace Hymma.Solidworks.Extensions
                         continue; // Open edge (boundary of surface body) — no partner face
                     var coEdgeNormal = GetFaceNormalAtMidCoEdge(coEdge);
                     var partnerNormal = GetFaceNormalAtMidCoEdge(partner);
-                    
+
                     //get faces whose normal at middle of co-edge are equal
-                    if (Mathematics.AlmostEqual(coEdgeNormal,partnerNormal,digits))
+                    if (Mathematics.AlmostEqual(coEdgeNormal, partnerNormal, digits))
                     {
                         Loop2 partnerLoop = (Loop2)partner.GetLoop();
                         Face2 partnerFace = (Face2)partnerLoop.GetFace();
                         faces.Add(partnerFace);
+                        Marshal.ReleaseComObject(partnerLoop);
                     }
+                    Marshal.ReleaseComObject(partner);
                 }
             }
             return faces;
@@ -167,36 +183,21 @@ namespace Hymma.Solidworks.Extensions
         {
             //should be called so solidworks gets the curve (from solidworks API help)
             Edge edge = coEdge.GetEdge() as Edge;
-            _ = edge?.GetCurve();
-            //The return value format is an array of 10 doubles:
-            //retval[0]  X startpoint
-            //retval[1]  Y startpoint
-            //retval[2]  Z startpoint
-            //retval[3]  X endpoint
-            //retval[4]  Y endpoint
-            //retval[5]  Z endpoint
-            //retval[6]  startParam
-            //retval[7]  endParam
-            //retval[8]  sense(Not used)
-            //retval[9]  curve type(Not used)
+            Curve curve = edge?.GetCurve() as Curve;
+
             double[] varParams = (double[])coEdge.GetCurveParams();
             double middleOfCoEdge = (varParams[6] + varParams[7]) / 2;
-            // Get the location of the middle of the co-edge
             double[] midCoEdgeCoord = (double[])coEdge.Evaluate2(middleOfCoEdge, 1);
-            
-            //obtain the surface that contains coEdge
-            // Check for the sense of the face
+
             Loop2 loop = (Loop2)coEdge.GetLoop();
             Face2 face = (Face2)loop.GetFace();
             Surface surface = (Surface)face.GetSurface();
             bool bFaceSenseReversed = face.FaceInSurfaceSense();
-           
-            //cureveParameters contains the normal vector at provided points (midpoint of edge)
-            varParams = surface.EvaluateAtPoint(midCoEdgeCoord[0], midCoEdgeCoord[1], midCoEdgeCoord[2]) as double[] ;
+
+            varParams = surface.EvaluateAtPoint(midCoEdgeCoord[0], midCoEdgeCoord[1], midCoEdgeCoord[2]) as double[];
             double[] dblNormal = new double[3];
-            if(bFaceSenseReversed)
+            if (bFaceSenseReversed)
             {
-                // Negate the surface normal as it is opposite from the face normal
                 dblNormal[0] = -varParams[0];
                 dblNormal[1] = -varParams[1];
                 dblNormal[2] = -varParams[2];
@@ -207,6 +208,14 @@ namespace Hymma.Solidworks.Extensions
                 dblNormal[1] = varParams[1];
                 dblNormal[2] = varParams[2];
             }
+
+            // Release intermediate COM objects
+            if (surface != null) Marshal.ReleaseComObject(surface);
+            if (face != null) Marshal.ReleaseComObject(face);
+            if (loop != null) Marshal.ReleaseComObject(loop);
+            if (curve != null) Marshal.ReleaseComObject(curve);
+            if (edge != null) Marshal.ReleaseComObject(edge);
+
             return dblNormal;
         }
     }

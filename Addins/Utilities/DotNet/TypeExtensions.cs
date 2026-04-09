@@ -28,9 +28,7 @@ namespace Hymma.Solidworks.Addins
                     return attr as T;
                 }
             }
-            var e = new ArgumentNullException($"Could not find attribute in type {type}");
-            //log.Error(e);
-            throw e;
+            throw new ArgumentNullException($"Could not find attribute in type {type}");
         }
 
         /// <summary>

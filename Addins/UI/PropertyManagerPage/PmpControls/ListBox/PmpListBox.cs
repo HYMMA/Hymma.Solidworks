@@ -173,10 +173,10 @@ namespace Hymma.Solidworks.Addins
         #endregion
 
         #region events
-        private readonly WeakEventSource<Tuple<double,double,double>> _rightClickEvents = new WeakEventSource<Tuple<double,double,double>>();
+        private readonly EventSource<Tuple<double,double,double>> _rightClickEvents = new EventSource<Tuple<double,double,double>>();
 
-        private readonly WeakEventSource<int> _selectionChangedEvents = new WeakEventSource<int>();
-        private readonly WeakEventSource<PmpListboxDisplayingEventArgs> _displayingEvents = new WeakEventSource<PmpListboxDisplayingEventArgs>();
+        private readonly EventSource<int> _selectionChangedEvents = new EventSource<int>();
+        private readonly EventSource<PmpListboxDisplayingEventArgs> _displayingEvents = new EventSource<PmpListboxDisplayingEventArgs>();
 
         /// <summary>
         /// Unsubscribes all event handlers from events fired by this control.

@@ -34,30 +34,18 @@ namespace Hymma.Solidworks.Extensions
         {
             switch (newUnit.ToLower())
             {
-                case "mm":
-                    return length * 1000;
-                case "cm":
-                    return length * 100;
-                case "m":
-                    return length;
-                case "in":
-                    return length * 1000 / 25.4;
-                case "ft":
-                    return length * 3.28084;
-                case "ft-in":
-                    return length * 1000 / 25.4;
-                case "angstrom":
-                    return length * 1E-10;
-                case "nm":
-                    return length * 1E-9;
-                case "micro-m":
-                    return length * 1E-6;
-                case "mil":
-                    return length / 25.4;
-                case "uin":
-                    return length;
-                default:
-                    return length;
+                case "mm":       return ConvertLength(length, swLengthUnit_e.swMM);
+                case "cm":       return ConvertLength(length, swLengthUnit_e.swCM);
+                case "m":        return ConvertLength(length, swLengthUnit_e.swMETER);
+                case "in":       return ConvertLength(length, swLengthUnit_e.swINCHES);
+                case "ft":       return ConvertLength(length, swLengthUnit_e.swFEET);
+                case "ft-in":    return ConvertLength(length, swLengthUnit_e.swFEETINCHES);
+                case "angstrom": return ConvertLength(length, swLengthUnit_e.swANGSTROM);
+                case "nm":       return ConvertLength(length, swLengthUnit_e.swNANOMETER);
+                case "micro-m":  return ConvertLength(length, swLengthUnit_e.swMICRON);
+                case "mil":      return ConvertLength(length, swLengthUnit_e.swMIL);
+                case "uin":      return ConvertLength(length, swLengthUnit_e.swUIN);
+                default:         return length;
             }
         }
 
