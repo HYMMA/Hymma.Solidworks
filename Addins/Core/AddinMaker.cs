@@ -100,6 +100,17 @@ namespace Hymma.Solidworks.Addins
         {
             GraphicsHelper.SaveDpiScaleInMemory();
         }
+
+        /// <summary>
+        /// Routes framework connect-failure logs to a Windows Event Log <paramref name="source"/>
+        /// (in <paramref name="logName"/>, default "Application") in addition to the connect log file,
+        /// so a silent <c>ConnectToSW</c> failure reaches an Event-Log-based telemetry pipeline. The
+        /// source must already be registered (e.g. by your installer); the framework never creates it.
+        /// Call this from your add-in constructor — it must run before <c>ConnectToSW</c>. Passing a
+        /// null/empty source disables Event Log routing. Never throws.
+        /// </summary>
+        public static void ConfigureConnectLogEventSource(string source, string logName = "Application")
+            => BootLog.ConfigureEventLog(source, logName);
         #region Public Properties
 
         /// <summary>
