@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DummySolidworks.cs" />
+    <Compile Include="ConnectLifecycleTests.cs" />
     <Compile Include="ContextMenus\ContextMenuRouterTests.cs" />
     <Compile Include="Extensions\SldWorksExtensionsTests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

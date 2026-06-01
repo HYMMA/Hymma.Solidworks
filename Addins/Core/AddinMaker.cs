@@ -6,6 +6,7 @@ using Hymma.Solidworks.Addins.Core;
 using Hymma.Solidworks.Addins.Helpers;
 using Hymma.Solidworks.Addins.Utilities.DotNet;
 using SolidWorks.Interop.sldworks;
+using SolidWorks.Interop.swconst;
 using SolidWorks.Interop.swpublished;
 using System;
 using System.Collections.Generic;
@@ -83,6 +84,12 @@ namespace Hymma.Solidworks.Addins
         private AddinUserInterface _addinUi;
 
         private readonly ContextMenuRouter _contextMenuRouter = new ContextMenuRouter();
+
+        /// <summary>
+        /// Name of the <see cref="ConnectToSW"/> phase currently executing, so the connect error
+        /// boundary can report exactly which stage failed.
+        /// </summary>
+        private string _connectPhase;
 
         #endregion
 
@@ -192,36 +199,105 @@ namespace Hymma.Solidworks.Addins
         /// <returns></returns>
         public bool ConnectToSW(object ThisSW, int Cookie)
         {
-            Solidworks = (ISldWorks)ThisSW;
-            _addinUi = GetUserInterFace();
-            _addinUi.Id = Cookie;
+            BootLog.Init();
+            BootLog.Info($"[{GetType().Name}] ConnectToSW starting (cookie={Cookie})");
+            try
+            {
+                Solidworks = (ISldWorks)ThisSW;
 
-            //Setup callbacks
-            Solidworks.SetAddinCallbackInfo2(0, this, _addinUi.Id);
+                //Fire OnStart BEFORE building the UI. Consumers use OnStart to capture the
+                //Solidworks object and initialize runtime state (license, services) that their
+                //GetUserInterFace() implementation depends on to build license-gated UI.
+                //GetUserInterFace() must never run before OnStart, otherwise that state is null
+                //and throws. Enforced by ConnectToSW_RaisesOnStart_BeforeGetUserInterFace test.
+                RunPhase("OnStart", () =>
+                {
+                    _onStartEvents?.Raise(this, new OnConnectToSwEventArgs { Solidworks = Solidworks, Cookie = Cookie });
+                    _onStartEvents.ClearHandlers();
+                });
 
-            #region Setup the Command Manager and add commands
-            _commandManager = Solidworks.GetCommandManager(Cookie);
+                RunPhase("GetUserInterFace", () =>
+                {
+                    _addinUi = GetUserInterFace();
+                    _addinUi.Id = Cookie;
+                });
 
-            //fire event (command manager is now available)
-            _onStartEvents?.Raise(this, new OnConnectToSwEventArgs { Solidworks = Solidworks, Cookie = Cookie });
-            _onStartEvents.ClearHandlers();
+                RunPhase("SetupCallbacks", () =>
+                {
+                    Solidworks.SetAddinCallbackInfo2(0, this, _addinUi.Id);
+                    _commandManager = Solidworks.GetCommandManager(Cookie);
+                });
 
-            AddinIcons.CreateSubDirForUiItems(_addinUi);
-            AddCommands(_addinUi.CommandTabs);
-            AddPropertyManagerPages(_addinUi.PropertyManagerPages);
+                RunPhase("AddCommands", () =>
+                {
+                    AddinIcons.CreateSubDirForUiItems(_addinUi);
+                    AddCommands(_addinUi.CommandTabs);
+                    AddPropertyManagerPages(_addinUi.PropertyManagerPages);
+                });
 
-            #endregion
-            _onUiReadyEvents?.Raise(this, new OnConnectToSwEventArgs { Solidworks = Solidworks, Cookie = Cookie });
-            _onUiReadyEvents.ClearHandlers();
+                RunPhase("OnUiReady", () =>
+                {
+                    _onUiReadyEvents?.Raise(this, new OnConnectToSwEventArgs { Solidworks = Solidworks, Cookie = Cookie });
+                    _onUiReadyEvents.ClearHandlers();
+                });
 
-            //first collect all the bitmaps we created during registering the addin
-            //the framework has already called Dispose() on them but GC might not collect them
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
+                //first collect all the bitmaps we created during registering the addin
+                //the framework has already called Dispose() on them but GC might not collect them
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
 
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-            return true;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                BootLog.Info($"[{GetType().Name}] ConnectToSW completed successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                //Error boundary. Without this, a consumer exception here crosses the COM boundary
+                //into native SOLIDWORKS, which swallows it and silently unchecks the add-in with no
+                //dialog and no log. Instead we record it, surface it to the developer, and fail clean.
+                BootLog.Error($"[{GetType().Name}] ConnectToSW FAILED in phase '{_connectPhase}'", ex);
+                ShowConnectError(ex);
+#if DEBUG
+                if (System.Diagnostics.Debugger.IsAttached)
+                    System.Diagnostics.Debugger.Break();
+#endif
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Runs one named phase of <see cref="ConnectToSW"/>, recording its start and finish to
+        /// <see cref="BootLog"/> and tracking <see cref="_connectPhase"/> so the connect error
+        /// boundary can report exactly which stage failed.
+        /// </summary>
+        private void RunPhase(string phase, Action action)
+        {
+            _connectPhase = phase;
+            BootLog.Info($"[{GetType().Name}] phase '{phase}' started");
+            action();
+            BootLog.Info($"[{GetType().Name}] phase '{phase}' completed");
+        }
+
+        /// <summary>
+        /// Surfaces a connect failure to the developer through SOLIDWORKS. Never throws &#8212; the
+        /// error reporter must not be able to mask the original failure.
+        /// </summary>
+        private void ShowConnectError(Exception ex)
+        {
+            try
+            {
+                Solidworks?.SendMsgToUser2(
+                    $"The '{GetType().Name}' add-in failed to load during phase '{_connectPhase}'.\n\n" +
+                    $"{ex.GetType().Name}: {ex.Message}\n\nSee {BootLog.LogPath} for the full stack trace.",
+                    (int)swMessageBoxIcon_e.swMbWarning,
+                    (int)swMessageBoxBtn_e.swMbOk);
+            }
+            catch
+            {
+                // Never let the error reporter throw.
+            }
         }
 
         private void AddPropertyManagerPages(List<PropertyManagerPageX64> propertyManagerPages)

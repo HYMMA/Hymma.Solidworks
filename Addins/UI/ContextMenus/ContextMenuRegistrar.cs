@@ -32,14 +32,6 @@ namespace Hymma.Solidworks.Addins.ContextMenus
         private int _menuIdCounter = 1;
         private bool _disposed;
         private readonly DirectoryInfo _iconsRootDir;
-#if DEBUG
-        private static readonly HashSet<swSelectType_e> DebugSelectionTypeFilter = new HashSet<swSelectType_e>
-        {
-            swSelectType_e.swSelFACES,
-            swSelectType_e.swSelBODYFEATURES,
-            swSelectType_e.swSelSKETCHSEGS
-        };
-#endif
 
         private static readonly swDocumentTypes_e[] DefaultDocTypes = new[]
         {
@@ -310,11 +302,11 @@ namespace Hymma.Solidworks.Addins.ContextMenus
 
         private static bool IsSelectionTypeEnabled(swSelectType_e selectionType)
         {
-#if DEBUG
-            return DebugSelectionTypeFilter.Contains(selectionType);
-#else
+            // All registered selection types are enabled in every configuration.
+            // (A previous Debug-only allow-list silently dropped Edges/Components
+            // in Debug builds, which broke graphics-area context menus during
+            // development; removed so Debug matches Release.)
             return true;
-#endif
         }
 
         /// <summary>

@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\AddinUserInterface.cs" />
+    <Compile Include="Core\BootLog.cs" />
     <Compile Include="Core\AddinAttribute.cs" />
     <Compile Include="Core\ICommandMangerExtensions.cs" />
     <Compile Include="Core\IWrapSolidworksObject.cs" />
