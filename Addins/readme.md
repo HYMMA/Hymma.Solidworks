@@ -51,5 +51,78 @@ At this stage you could build your project and register the addin to COM. To con
  We strongly recommend you clone this repo and open the project and then browse to `QRify` project. This project uses the `Hymma.Solidworks.Addins` to make a sample addin. It is heavily commented and demostrates how UI elements are defined.
 Additionally, we have created an SVG file of the *PlantUML* diagrams for all the types in this package. You can find instructions under the `classDiagrams` folder :open_file_folder: to eaither re-compile them or simply download the file.
 
+## Framework Logging
+
+### Why a separate boot log?
+
+When an exception escapes `ConnectToSW` it crosses the COM boundary into native SOLIDWORKS, which silently unchecks the add-in — no dialog, no user notification. Any logging you initialise inside `ConnectToSW` may never even run. The framework owns a **BootLog** that is initialised at the very start of `ConnectToSW`, before any consumer code executes, so connect/disconnect failures are always captured.
+
+### The connect log file
+
+Every run appends to a daily rolling file:
+
+```
+%LOCALAPPDATA%\Hymma.Solidworks\ConnectLogs\connect-yyyyMMdd.log
+```
+
+Each line is `yyyy-MM-dd HH:mm:ss.fff [INF|ERR] message` followed by the full exception if one occurred. The file is always written; no configuration is required.
+
+### Routing failures to the Windows Event Log
+
+If you already have an Event Log–based telemetry pipeline you can ask the framework to also write `ERR` entries there:
+
+```csharp
+[Guid("...")]
+[ComVisible(true)]
+[Addin(title: "My Addin", ...)]
+public class MyAddin : AddinMaker
+{
+    public MyAddin() : base()
+    {
+        // Call this BEFORE ConnectToSW (i.e. from the constructor).
+        // The source must already be registered by your installer.
+        ConfigureConnectLogEventSource("My Addin Event Source", "Application");
+    }
+}
+```
+
+`ConfigureConnectLogEventSource` is a static method on `AddinMaker`. Passing `null` or an empty string disables Event Log routing. The framework **never creates the source** — your installer must register it.
+
+### Registering the Event Log source (installer)
+
+Register the source once during installation. With PowerShell (run as admin):
+
+```powershell
+New-EventLog -LogName Application -Source "My Addin Event Source"
+```
+
+With a WiX installer use a `util:EventSource` element:
+
+```xml
+<util:EventSource Log="Application" Name="My Addin Event Source" />
+```
+
+Without a registered source the Event Log write is silently skipped; the file log always has the entry regardless.
+
+### Forwarding to a telemetry service
+
+A Windows Service (or any process) can poll the Application Event Log and forward entries upstream. Filter on your source name and on CLR/OS fault sources (`.NET Runtime`, `Application Error`) that mention your assemblies — those capture load-time deaths that occur before even the framework logger runs:
+
+```csharp
+const string SOURCE = "My Addin Event Source";
+
+using var log = new EventLog("Application");
+foreach (EventLogEntry entry in log.Entries)
+{
+    bool isMine = entry.Source == SOURCE;
+    bool isClrFault = !isMine
+        && new[] { ".NET Runtime", "Application Error" }.Contains(entry.Source)
+        && (entry.Message?.Contains("MyAddin", StringComparison.OrdinalIgnoreCase) ?? false);
+
+    if (!isMine && !isClrFault) continue;
+    // forward entry.Message / entry.EntryType to your pipeline
+}
+```
+
 ## Version 2018.3.2
 There were some **breaking changes** in version 2018.3.2. Which were neccessary to fix memory leaks caused by _events_ and _Bitmaps_. The event signatures have changed to `(object sender, EventArgs e)` and in some cases custom `EventArgs` is used.
