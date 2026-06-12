@@ -171,6 +171,14 @@ See `examples/context-menus/README.md` for two full examples (features + sketch 
 - Ensure you are targeting x64 if SolidWorks is x64.
 - Ensure something is selected before right-clicking.
 
+## Who is Using
+
+<a href="https://cadshift.com">
+  <img src="https://static.cadshift.com/images/logo.png" alt="CADshift" height="60" />
+</a>
+
+[**CADshift**](https://cadshift.com) — productivity add-in for SOLIDWORKS, built entirely on this framework.
+
 ## Documentation
 
 - [Addins Framework Guide](./Addins/README.md)
