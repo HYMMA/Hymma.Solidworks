@@ -174,7 +174,7 @@ See `examples/context-menus/README.md` for two full examples (features + sketch 
 ## Who is Using
 
 <a href="https://cadshift.com">
-  <img src="https://static.cadshift.com/images/logo.png" alt="CADshift" height="60" />
+  <img src="https://cadshift.com/apple-touch-icon.png" alt="CADshift" height="60" />
 </a>
 
 [**CADshift**](https://cadshift.com) — productivity add-in for SOLIDWORKS, built entirely on this framework.
